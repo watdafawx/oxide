@@ -1,0 +1,23 @@
+title = "A box for any type"
+summary = "Make a generic Pair<T> and add methods only some types get."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["generics", "structs", "impl"]
+
+[[objectives]]
+test = "new_and_swap"
+label = "Pair::new and swap() work for any T"
+[[objectives]]
+test = "larger_picks_bigger"
+label = "larger() returns a reference to the bigger field"
+[[objectives]]
+test = "describe_larger_formats_text"
+label = "describe_larger() prints \"The larger is <x>\""
+
+[[hints]]
+text = "`new` is a plain struct literal: `Pair { first, second }`. `swap` builds a new `Pair` with the fields crossed."
+[[hints]]
+text = "`larger`: `if self.first >= self.second { &self.first } else { &self.second }`."
+[[hints]]
+text = "`describe_larger`: `format!(\"The larger is {}\", self.larger())`. It works because this impl block needs `Display` and `PartialOrd`."

@@ -1,0 +1,26 @@
+title = "A zoo of shapes"
+summary = "Store different types in one Vec with Box<dyn Trait>."
+kind = "exercise"
+xp = 60
+minutes = 10
+tags = ["trait-objects", "dyn", "box"]
+
+[[objectives]]
+test = "shapes_report_area"
+label = "Circle and Rect implement area()"
+[[objectives]]
+test = "make_shapes_builds_mixed_vec"
+label = "make_shapes() returns a circle and a rect in one Vec"
+[[objectives]]
+test = "total_area_sums_boxed_shapes"
+label = "total_area adds up a slice of Box<dyn Shape>"
+[[objectives]]
+test = "describe_takes_a_reference"
+label = "describe(&dyn Shape) returns \"<name> with area <n.n>\""
+
+[[hints]]
+text = "Circle area is `std::f64::consts::PI * self.r * self.r`. Rect area is `self.w * self.h`."
+[[hints]]
+text = "`vec![Box::new(Circle { r: 1.0 }), Box::new(Rect { w: 2.0, h: 3.0 })]`. The return type tells Rust to treat each Box as `Box<dyn Shape>`."
+[[hints]]
+text = "`total_area`: `shapes.iter().map(|s| s.area()).sum()`. `describe`: `format!(\"{} with area {:.1}\", shape.name(), shape.area())`."

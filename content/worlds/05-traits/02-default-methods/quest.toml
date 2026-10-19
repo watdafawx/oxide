@@ -1,0 +1,23 @@
+title = "Methods that come free"
+summary = "Give a trait method a default body, then override it for one type."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["traits", "default-methods"]
+
+[[objectives]]
+test = "default_greet_uses_name"
+label = "Default greet() returns \"Hello, <name>!\""
+[[objectives]]
+test = "shout_builds_on_greet"
+label = "Default shout() is greet() in uppercase"
+[[objectives]]
+test = "parrot_overrides_greet"
+label = "Parrot overrides greet() with its own line"
+
+[[hints]]
+text = "In a default body you can call the trait's other methods: `self.name()`."
+[[hints]]
+text = "`shout` is `self.greet().to_uppercase()`. It calls whichever `greet` the type ended up with."
+[[hints]]
+text = "Parrot: `format!(\"Squawk! {} wants a cracker!\", self.name())`."

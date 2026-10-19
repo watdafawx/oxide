@@ -1,0 +1,16 @@
+title = "Static vs dynamic dispatch"
+summary = "Generics copy code per type, dyn looks it up at runtime. Know which to pick."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["generics", "dyn", "dispatch"]
+
+[[quiz]]
+question = "What does the compiler do with `fn show<T: Describe>(x: &T)` when you call it with a Dog and a Robot?"
+choices = ["Generates one copy of the function per type (monomorphisation), so calls are resolved at compile time", "Generates one function that looks up the method in a table at runtime", "Refuses: a function can only take one type"]
+answer = 0
+
+[[quiz]]
+question = "You want one `Vec` holding a Circle, a Rect and a Triangle, all `Shape`. What do you need?"
+choices = ["Vec<T> where T: Shape", "Vec<Box<dyn Shape>>", "Vec<impl Shape>"]
+answer = 1

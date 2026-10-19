@@ -1,0 +1,26 @@
+title = "impl Trait, the short way"
+summary = "Take and return impl Trait, including closures."
+kind = "exercise"
+xp = 40
+minutes = 8
+tags = ["impl-trait", "closures", "iterators"]
+
+[[objectives]]
+test = "shout_accepts_anything_displayable"
+label = "shout takes any impl Display"
+[[objectives]]
+test = "evens_returns_an_iterator"
+label = "evens returns an impl Iterator of even numbers"
+[[objectives]]
+test = "adder_returns_closure"
+label = "adder(n) returns a closure that adds n"
+[[objectives]]
+test = "compose_chains_closures"
+label = "compose(f, g) runs f then g"
+
+[[hints]]
+text = "`shout`: `format!(\"{}!\", x.to_string().to_uppercase())`. `evens`: `(0..limit).filter(|n| n % 2 == 0)`."
+[[hints]]
+text = "`adder`: `move |x| x + n`. The `move` keeps `n` alive inside the closure."
+[[hints]]
+text = "`compose`: `move |x| g(f(x))`."

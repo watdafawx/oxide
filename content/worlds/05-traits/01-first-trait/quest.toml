@@ -1,0 +1,18 @@
+title = "Same verb, different types"
+summary = "Define a trait and implement it for two structs."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["traits"]
+
+[[objectives]]
+test = "dog_describes_itself"
+label = "Dog::describe() returns \"Rex the dog\""
+[[objectives]]
+test = "robot_describes_itself"
+label = "Robot::describe() returns \"robot #7\""
+
+[[hints]]
+text = "Inside `impl Describe for Dog { ... }` the method body can use `self.name`."
+[[hints]]
+text = "Use `format!(\"{} the dog\", self.name)`. For the robot: `format!(\"robot #{}\", self.id)`."
