@@ -1,0 +1,21 @@
+title = "All the mods, one total"
+summary = "Flatten mod lists from several instances, fold downloads into a total, and find the top mod safely."
+
+[[objectives]]
+test = "flattensModsFromAllInstances"
+label = "allMods turns one mod list per instance into a single list"
+[[objectives]]
+test = "reducesDownloadsToTotal"
+label = "totalDownloads folds every mod's downloads into one number with reduce"
+[[objectives]]
+test = "mostDownloadedOfNoModsIsEmpty"
+label = "mostDownloaded returns an Optional: the top mod, or empty for no mods"
+
+[[hints]]
+text = "allMods: each instance's list becomes a stream, and `flatMap` glues them together: `instances.stream().flatMap(List::stream).toList()`"
+[[hints]]
+text = "totalDownloads: first take the numbers, `.map(Mod::downloads)`, then `.reduce(0, Integer::sum)`. It starts at 0 and adds each number in."
+[[hints]]
+text = "Why start at 0? It is the identity for addition, so a pack with no mods totals 0."
+[[hints]]
+text = "mostDownloaded: `mods.stream().max(Comparator.comparingInt(Mod::downloads))` returns an `Optional<Mod>`. Empty stream, empty Optional."

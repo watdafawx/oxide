@@ -1,0 +1,18 @@
+title = "Read-only collections"
+summary = "List.of is read-only, and List.copyOf makes a snapshot that later changes cannot touch."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["immutable", "list-of"]
+
+[[objectives]]
+test = "listOfIsReadOnly"
+label = "readOnlyDays returns a list that throws when you add to it"
+[[objectives]]
+test = "copyOfDetaches"
+label = "snapshot copies a list so later changes to the original do not show up"
+
+[[hints]]
+text = "`List.of(\"Mon\", \"Tue\", \"Wed\")` makes a read-only list. Return it directly."
+[[hints]]
+text = "snapshot: `return List.copyOf(source);` It copies the elements, so the copy no longer follows the original."

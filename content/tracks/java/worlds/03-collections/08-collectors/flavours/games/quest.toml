@@ -1,0 +1,23 @@
+title = "Group the pack and write the report"
+summary = "Group mods by loader, count them, join names into a report line, and split outdated from current."
+
+[[objectives]]
+test = "groupsModsByLoader"
+label = "groupByLoader and countByLoader bucket mods by loader"
+[[objectives]]
+test = "joinsModNamesIntoReport"
+label = "report turns mods into \"[Sodium, Iris Shaders]\""
+[[objectives]]
+test = "partitionsOutdatedAndCurrent"
+label = "partitionByOutdated splits mods into outdated (true) and current (false)"
+
+[[hints]]
+text = "All of these end the stream with `.collect(Collectors....)`. `import static java.util.stream.Collectors.*;` keeps it short."
+[[hints]]
+text = "groupByLoader: `mods.stream().collect(groupingBy(Mod::loader))`"
+[[hints]]
+text = "countByLoader: give `groupingBy` a second argument, a downstream collector: `groupingBy(Mod::loader, counting())`"
+[[hints]]
+text = "report: first `.map(Mod::name)` so you have Strings, then `.collect(joining(\", \", \"[\", \"]\"))` (separator, prefix, suffix)."
+[[hints]]
+text = "partitionByOutdated: `mods.stream().collect(partitioningBy(m -> !m.version().equals(latest.get(m.id()))))` gives a Map<Boolean, List<Mod>> with both keys always present."

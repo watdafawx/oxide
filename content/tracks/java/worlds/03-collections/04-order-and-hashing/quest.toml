@@ -1,0 +1,21 @@
+title = "Who keeps the order?"
+summary = "HashMap, LinkedHashMap and TreeMap iterate in different orders. Know which promise you get."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["map", "hashing"]
+
+[[quiz]]
+question = "You put keys into a `HashMap` and loop over it. What order do the keys come out in?"
+choices = ["Insertion order", "No promised order: never rely on it", "Sorted order"]
+answer = 1
+
+[[quiz]]
+question = "You need a map that loops in the order you inserted the entries. Which one?"
+choices = ["LinkedHashMap", "HashMap", "TreeMap"]
+answer = 0
+
+[[quiz]]
+question = "Two keys are `equals`. What must be true of their `hashCode()`?"
+choices = ["They must be equal too", "Nothing: the two are unrelated", "They must differ"]
+answer = 0

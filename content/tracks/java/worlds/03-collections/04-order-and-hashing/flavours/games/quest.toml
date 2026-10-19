@@ -1,0 +1,17 @@
+title = "Who keeps the pack order?"
+summary = "HashMap, LinkedHashMap and TreeMap iterate in different orders. Know which promise you get."
+
+[[quiz]]
+question = "You keep a `HashMap<String, Mod>` of installed mods and loop over it to print the pack. What order do the mod ids come out in?"
+choices = ["Install order", "No promised order: never rely on it", "Alphabetical"]
+answer = 1
+
+[[quiz]]
+question = "Your update report must list mods in the order they appear in the pack file. Which map keeps that?"
+choices = ["LinkedHashMap", "HashMap", "TreeMap"]
+answer = 0
+
+[[quiz]]
+question = "Two mod ids are `equals`. What must be true of their `hashCode()`?"
+choices = ["They must be equal too", "Nothing: the two are unrelated", "They must differ"]
+answer = 0

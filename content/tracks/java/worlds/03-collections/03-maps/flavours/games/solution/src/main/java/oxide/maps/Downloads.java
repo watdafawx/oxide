@@ -1,0 +1,26 @@
+package oxide.maps;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Downloads {
+    /** How many downloads each mod id got. */
+    public static Map<String, Integer> countDownloads(List<String> log) {
+        Map<String, Integer> counts = new HashMap<>();
+        for (String id : log) {
+            counts.merge(id, 1, Integer::sum);
+        }
+        return counts;
+    }
+
+    /** First letter to the mod names starting with it, in input order. */
+    public static Map<Character, List<String>> indexByLetter(List<String> modNames) {
+        Map<Character, List<String>> index = new HashMap<>();
+        for (String name : modNames) {
+            index.computeIfAbsent(name.charAt(0), k -> new ArrayList<>()).add(name);
+        }
+        return index;
+    }
+}

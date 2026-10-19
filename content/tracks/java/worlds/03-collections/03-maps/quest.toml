@@ -1,0 +1,22 @@
+title = "Maps: key to value"
+summary = "Count words with merge, and group words by first letter with computeIfAbsent."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["map", "hashmap"]
+
+[[objectives]]
+test = "countsWords"
+label = "countWords returns how often each word appears"
+[[objectives]]
+test = "computeIfAbsentGroupsByFirstLetter"
+label = "groupByFirstLetter maps each first letter to its words, in input order"
+
+[[hints]]
+text = "`Map<String, Integer> counts = new HashMap<>();` then loop over the words."
+[[hints]]
+text = "Old way: `counts.put(w, counts.getOrDefault(w, 0) + 1);`"
+[[hints]]
+text = "Better: `counts.merge(w, 1, Integer::sum);` (put 1 if absent, otherwise combine old and new with `sum`)."
+[[hints]]
+text = "groupByFirstLetter: `Map<Character, List<String>> groups = new HashMap<>();` and per word `groups.computeIfAbsent(w.charAt(0), k -> new ArrayList<>()).add(w);`"

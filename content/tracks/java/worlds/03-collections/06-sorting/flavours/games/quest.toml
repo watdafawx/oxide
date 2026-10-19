@@ -1,0 +1,18 @@
+title = "Sort the mod list"
+summary = "Sort mods by loader then name, and by downloads high to low, with Comparator.comparing."
+
+[[objectives]]
+test = "sortsModsByLoaderThenName"
+label = "byLoaderThenName groups by loader, then A-Z by name"
+[[objectives]]
+test = "sortsModsByDownloadsDescending"
+label = "byDownloadsDescending puts the most downloaded mod first"
+
+[[hints]]
+text = "Never sort the caller's list. Copy it first: `List<Mod> copy = new ArrayList<>(mods);` then `copy.sort(...)`."
+[[hints]]
+text = "`Comparator.comparing(Mod::loader)` orders by loader."
+[[hints]]
+text = "Add the tie-break with `.thenComparing(Mod::name)`."
+[[hints]]
+text = "Downloads: `Comparator.comparingInt(Mod::downloads).reversed()` flips the order to high-to-low."

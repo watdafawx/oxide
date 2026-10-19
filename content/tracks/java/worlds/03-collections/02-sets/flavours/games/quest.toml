@@ -1,0 +1,13 @@
+title = "Enchantments, once each"
+summary = "Turn a repeated enchantment line into a set of distinct ids."
+
+[[objectives]]
+test = "uniqueEnchantmentsDropsDuplicates"
+label = "uniqueEnchantments returns each lowercase enchantment id once"
+
+[[hints]]
+text = "Lowercase first so \"Mending\" and \"mending\" match: `line.toLowerCase()`."
+[[hints]]
+text = "`split(\" \")` gives a `String[]`. `Arrays.asList(array)` turns it into a list."
+[[hints]]
+text = "`return new HashSet<>(Arrays.asList(line.toLowerCase().split(\" \")));` The set drops the repeats for you."

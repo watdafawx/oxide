@@ -1,0 +1,27 @@
+title = "Collectors: group, count, join"
+summary = "End a stream with groupingBy, counting, joining and partitioningBy."
+kind = "exercise"
+xp = 65
+minutes = 12
+tags = ["stream", "collectors"]
+
+[[objectives]]
+test = "groupsByLength"
+label = "groupByLength and countByLength bucket words by their length"
+[[objectives]]
+test = "joinsWithCommas"
+label = "joinWithCommas turns words into \"[a, b, c]\""
+[[objectives]]
+test = "partitionsPassFail"
+label = "partitionPassFail splits scores into pass (50 or more) and fail"
+
+[[hints]]
+text = "All of these end the stream with `.collect(Collectors....)`. `import static java.util.stream.Collectors.*;` keeps it short."
+[[hints]]
+text = "groupByLength: `words.stream().collect(groupingBy(String::length))`"
+[[hints]]
+text = "countByLength: give `groupingBy` a second argument, a downstream collector: `groupingBy(String::length, counting())`"
+[[hints]]
+text = "joinWithCommas: `words.stream().collect(joining(\", \", \"[\", \"]\"))` (separator, prefix, suffix). It needs a stream of Strings."
+[[hints]]
+text = "partitionPassFail: `scores.stream().collect(partitioningBy(s -> s >= 50))` gives a Map<Boolean, List<Integer>> with both keys always present."

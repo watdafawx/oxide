@@ -1,0 +1,31 @@
+package oxide.log_analyzer;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class LogAnalyzer {
+    /** "10:15:30 ERROR db Connection refused" into time, level, source and message. */
+    public static LogLine parse(String line) {
+        throw new UnsupportedOperationException("TODO: split(\" \", 4) and build a LogLine");
+    }
+
+    /** Level to how many lines have it. */
+    public static Map<String, Long> countsPerLevel(List<LogLine> lines) {
+        throw new UnsupportedOperationException("TODO: groupingBy level with counting()");
+    }
+
+    /** The n sources with the most lines: highest count first, ties A-Z. */
+    public static List<String> topSources(List<LogLine> lines, int n) {
+        throw new UnsupportedOperationException("TODO: count per source, sort the entries by count descending then name, limit(n)");
+    }
+
+    /** "HH:mm" to the number of ERROR lines in that minute, in time order. */
+    public static Map<String, Long> errorsPerMinute(List<LogLine> lines) {
+        throw new UnsupportedOperationException("TODO: filter ERROR, then groupingBy the first 5 characters of the time into a TreeMap");
+    }
+}

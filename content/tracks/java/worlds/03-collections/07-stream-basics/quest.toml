@@ -1,0 +1,22 @@
+title = "Your first stream"
+summary = "Filter, map and collect a list in one pipeline, then add numbers with mapToInt."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["stream", "filter", "map"]
+
+[[objectives]]
+test = "filtersEvenSquares"
+label = "evenSquares keeps the even numbers and squares them"
+[[objectives]]
+test = "sumsWithMapToInt"
+label = "totalLength adds up the lengths of all words"
+
+[[hints]]
+text = "Start from the list: `nums.stream()`. End with `.toList()`."
+[[hints]]
+text = "`.filter(n -> n % 2 == 0)` keeps evens, `.map(n -> n * n)` squares them."
+[[hints]]
+text = "evenSquares: `return nums.stream().filter(n -> n % 2 == 0).map(n -> n * n).toList();`"
+[[hints]]
+text = "totalLength: turn each word into an int with `.mapToInt(String::length)` and finish with `.sum()`."
