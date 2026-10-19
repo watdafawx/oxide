@@ -1,4 +1,6 @@
-A derive macro reads a struct or enum and writes an `impl` for it. You are building `#[derive(Hello)]`, which adds `fn hello(&self) -> String`.
+**Why now:** every block type in the chunk indexer needs the same boilerplate `impl`, and a derive macro writes it from the struct.
+
+A derive macro reads a struct or enum and writes an `impl` for it. You build `#[derive(Hello)]`, which adds `fn hello(&self) -> String`.
 
 The recipe has three steps:
 

@@ -1,3 +1,5 @@
+**Why now:** the chunk indexer's queue of pending chunks must live in a fixed array with no heap, which is the `no_std` ring buffer you build here.
+
 `#![no_std]` drops the standard library. No `Vec`, no `String`, no heap, no OS. What is left is **`core`**: `Option`, `Result`, slices, arrays, iterators, `Copy`. That is all a microcontroller or a kernel has, and a wasm module is happiest with it too.
 
 - `core::` replaces `std::` for what exists in both (`core::cmp`, `core::fmt`).
@@ -7,7 +9,7 @@
 ```rust
 #![no_std]
 
-pub struct Stack<const N: usize> {
+pub struct ChunkQueue<const N: usize> {
     items: [u8; N],
     len: usize,
 }

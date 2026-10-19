@@ -1,3 +1,5 @@
+**Why now:** the boss is a slow chunk indexer, and this is the loop you use to find what makes it slow instead of guessing.
+
 Most slow programs are slow in one or two places, and they are rarely the ones you guess. **Measure first, then change one thing, then measure again.**
 
 The loop:

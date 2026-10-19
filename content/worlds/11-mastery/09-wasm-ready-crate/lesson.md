@@ -1,4 +1,6 @@
-WebAssembly lets Rust run in a browser. Your crate can serve both worlds: plain `cargo test` on your machine, and a `.wasm` file for JavaScript.
+**Why now:** the chunk indexer should also run in a browser map viewer, so its core crate must build for wasm without giving up plain `cargo test`.
+
+WebAssembly lets Rust run in a browser. One crate can serve both: `cargo test` on your machine and a `.wasm` file for JavaScript.
 
 Three pieces make that work:
 
@@ -8,8 +10,8 @@ Three pieces make that work:
 
 ```rust
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]
-pub fn add(a: u32, b: u32) -> u32 {
-    a + b
+pub fn chunk_index(x: u32, z: u32) -> u32 {
+    x + z * 16
 }
 ```
 

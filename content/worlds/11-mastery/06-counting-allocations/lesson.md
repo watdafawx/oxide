@@ -1,4 +1,6 @@
-Allocation is usually the first cost to check in slow Rust code. You can count it exactly with a **global allocator** wrapper.
+**Why now:** before you speed up the chunk indexer you must know how many allocations it makes per chunk, and a counting allocator tells you exactly.
+
+You can count allocations exactly with a **global allocator** wrapper.
 
 `#[global_allocator]` replaces the program's allocator. Yours forwards to `System` and bumps a counter first. Test code can then ask "how many times did this closure allocate?".
 

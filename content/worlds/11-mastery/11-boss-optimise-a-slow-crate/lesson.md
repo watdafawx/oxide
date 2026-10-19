@@ -1,4 +1,6 @@
-You get a small text index that is **correct and slow**. Your job is to make it fast without changing what it does, and to prove it with counts instead of stopwatches.
+**Why now:** this is the finished chunk indexer fight: a correct but slow index you make fast, proven by counts instead of stopwatches.
+
+You get a small index that is **correct and slow**. Your job is to make it fast without changing what it does, and to prove it with counts instead of stopwatches.
 
 What you have, from this world:
 

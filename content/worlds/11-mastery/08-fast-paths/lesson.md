@@ -1,4 +1,6 @@
-Four small habits remove most of the waste in everyday Rust. Each one is a measurable change, so this quest counts instead of timing.
+**Why now:** the slow chunk indexer wastes work in four ordinary ways, and these four habits remove most of it.
+
+Each habit is a measurable change, so this quest counts instead of timing.
 
 - **`Vec::with_capacity(n)`**: when you know how many items are coming, reserve once instead of growing in steps.
 - **No `clone()` in a loop**: hold a reference (`&T`) while you search, clone the winner once.
@@ -7,8 +9,8 @@ Four small habits remove most of the waste in everyday Rust. Each one is a measu
 
 ```rust
 let mut counts: HashMap<&str, u32> = HashMap::new();
-for word in text.split_whitespace() {
-    *counts.entry(word).or_default() += 1;   // one lookup per word
+for block in palette.split_whitespace() {
+    *counts.entry(block).or_default() += 1;  // one lookup per block name
 }
 ```
 

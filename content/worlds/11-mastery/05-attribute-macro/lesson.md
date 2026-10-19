@@ -1,4 +1,6 @@
-An attribute macro gets the item it sits on and returns whatever should replace it. That makes it the tool for wrapping: logging, timing, retries, call counts.
+**Why now:** you want to know how often the chunk indexer calls each function, and an attribute macro adds the counter without touching the function body.
+
+An attribute macro gets the item it sits on and returns what replaces it, which makes it the tool for wrapping: logging, timing, call counts.
 
 `#[proc_macro_attribute]` functions take two token streams: the attribute's own arguments, and the item. Parse the item with `syn::ItemFn` (needs syn's `full` feature) and rebuild it around the original body.
 

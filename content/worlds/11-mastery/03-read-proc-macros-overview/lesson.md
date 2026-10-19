@@ -1,3 +1,5 @@
+**Why now:** the chunk indexer's block registry and its timing hooks are written with proc macros like `#[derive]`, so you need the map before you write one.
+
 `macro_rules!` matches patterns. A **procedural macro** is a Rust function that receives your code as tokens and returns new tokens. That is how `serde`, `clap` and `tokio::main` work.
 
 Three kinds:

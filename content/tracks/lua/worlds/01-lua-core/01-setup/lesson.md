@@ -1,3 +1,5 @@
+**Why now:** you build a Factorio recipe calculator across this world, and every quest runs in the same Lua that Factorio embeds, so what works here works in a mod.
+
 Lua quests have no compiler and nothing to install: Oxide runs them in a **built-in Lua 5.2**, the same version Factorio embeds.
 
 A quest workspace looks like this:
