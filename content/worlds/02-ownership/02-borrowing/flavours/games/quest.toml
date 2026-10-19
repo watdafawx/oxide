@@ -1,0 +1,19 @@
+title = "Peek at the player list"
+summary = "Pass the roster to a function with & so the console keeps it."
+
+[[objectives]]
+test = "count_items_counts"
+label = "count_players(&roster) returns how many players are online"
+[[objectives]]
+test = "total_chars_adds_lengths"
+label = "total_chars(&roster) adds up the length of every player name"
+[[objectives]]
+test = "bag_is_still_usable_after_borrowing"
+label = "The console can keep using the roster after both calls"
+
+[[hints]]
+text = "The parameter is `roster: &Roster`: you can read through it as if it were the Roster itself. `roster.players` works."
+[[hints]]
+text = "For the count, `roster.players.len()` is all you need."
+[[hints]]
+text = "For total_chars, loop over `&roster.players` (or use `.iter()`) and add up each `name.len()`."

@@ -1,0 +1,16 @@
+title = "The log eats your line"
+summary = "A chat line moved into the log is gone. Fix the code that forgot."
+
+[[objectives]]
+test = "length_and_name_returns_both"
+label = "length_and_name() compiles and returns (14, \"<Ferris> hello\")"
+[[objectives]]
+test = "shout_both_returns_both"
+label = "shout_both() compiles and returns (\"GG EVERYONE\", \"gg everyone\")"
+
+[[hints]]
+text = "Read the compiler error: `borrow of moved value`. The line went into the function, so it's gone from the caller."
+[[hints]]
+text = "Give the function its own copy and keep yours: `.clone()` makes a second String."
+[[hints]]
+text = "`log_length(line.clone())` and `broadcast(original.clone())`: the clones are moved, the originals stay."

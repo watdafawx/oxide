@@ -1,0 +1,19 @@
+title = "Slice the command line"
+summary = "Borrow just part of a command line or a log with a range."
+
+[[objectives]]
+test = "first_word_stops_at_space"
+label = "command_name(\"kick Steve griefing\") returns \"kick\" (whole line if no space)"
+[[objectives]]
+test = "middle_drops_both_ends"
+label = "trim_edges drops the header and footer of a log dump (empty if 2 lines or fewer)"
+[[objectives]]
+test = "last_three_takes_the_tail"
+label = "recent_lines returns the last 3 chat lines (or all if fewer)"
+
+[[hints]]
+text = "`line.find(' ')` gives `Some(index)` of the first space. A slice of the part before it is `&line[..index]`."
+[[hints]]
+text = "trim_edges: if `lines.len() <= 2` return `&[]`, otherwise `&lines[1..lines.len() - 1]`."
+[[hints]]
+text = "recent_lines: the start is `log.len().saturating_sub(3)` (never goes below 0), then `&log[start..]`."

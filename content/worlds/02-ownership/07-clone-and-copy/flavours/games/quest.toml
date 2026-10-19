@@ -1,0 +1,16 @@
+title = "Player ids and positions"
+summary = "Derive Clone for explicit copies and Copy for types that never move."
+
+[[objectives]]
+test = "two_labels_clones"
+label = "duplicate_player(&player) returns two equal copies (Player needs Clone)"
+[[objectives]]
+test = "mirror_returns_point_twice"
+label = "spawn_and_home(pos) returns (pos, pos) (BlockPos needs Copy)"
+
+[[hints]]
+text = "Edit the `#[derive(...)]` line above `Player`: add `Clone`. Then `player.clone()` works."
+[[hints]]
+text = "`Copy` requires `Clone` too: derive both on `BlockPos`. Then you can use `pos` twice."
+[[hints]]
+text = "`vec![player.clone(), player.clone()]` and `(pos, pos)`."

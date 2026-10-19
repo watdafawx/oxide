@@ -1,0 +1,19 @@
+title = "Chat lines: String or &str?"
+summary = "Owned text or borrowed text? Pick the right one for each console parameter."
+
+[[objectives]]
+test = "greet_takes_literals_and_strings"
+label = "welcome works with a literal AND with &String"
+[[objectives]]
+test = "into_owned_outlives_source"
+label = "chat_line returns a String that lives on after the typed text is gone"
+[[objectives]]
+test = "rank_owned_matches_on_as_str"
+label = "permission_level matches the role with .as_str()"
+
+[[hints]]
+text = "`format!(\"Welcome, {name}!\")` builds a new String from the borrowed text."
+[[hints]]
+text = "`text.to_string()` copies borrowed text into a new owned String."
+[[hints]]
+text = "`match role.as_str() { \"owner\" => ..., \"op\" => ..., _ => ... }`"

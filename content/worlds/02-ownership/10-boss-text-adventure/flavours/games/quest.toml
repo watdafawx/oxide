@@ -1,0 +1,38 @@
+title = "Boss: the server console"
+summary = "Players, a stash, and commands that change the server: borrow and mutate the console state without a single clone."
+
+[[objectives]]
+test = "room_name_borrows_from_world"
+label = "Server::player_name(i) returns the player's name as a &str"
+[[objectives]]
+test = "describe_shows_room_and_exits"
+label = "list() prints every player and their x,y,z position"
+[[objectives]]
+test = "describe_lists_items_when_present"
+label = "list() adds [items: ...] only for players who hold something"
+[[objectives]]
+test = "go_moves_the_player"
+label = "tp(\"Steve\", pos) moves the player and returns their name"
+[[objectives]]
+test = "go_blocked_keeps_player_in_place"
+label = "tp of an unknown player returns Err and nobody moves"
+[[objectives]]
+test = "take_moves_item_to_inventory"
+label = "give(\"Steve\", \"diamond\") removes the item from the stash and adds it to the inventory"
+[[objectives]]
+test = "take_missing_item_is_an_error"
+label = "give of something that isn't in the stash returns Err and changes nothing"
+[[objectives]]
+test = "run_plays_a_whole_script"
+label = "run(&[...]) plays console lines (list, tp, give, kick) on a fresh server and returns one line per command"
+
+[[hints]]
+text = "Read-only methods take `&self`, methods that change the server take `&mut self`. Check each signature before you write the body."
+[[hints]]
+text = "Don't clone players. `self.server.players.iter()` borrows them; read what you need from each `p`."
+[[hints]]
+text = "tp: `self.server.players.iter_mut().find(|p| p.name == name)` gives `Option<&mut Player>`. Set `p.pos = to`, then return `Ok(p.name.as_str())`."
+[[hints]]
+text = "give: `stash.iter().position(|i| i == item)` finds the index, `stash.remove(pos)` gives you the owned String to push onto the inventory. Players and stash are different fields, so borrowing both at once is fine."
+[[hints]]
+text = "run: `line.split_whitespace().collect::<Vec<&str>>()` then `match words.as_slice() { [\"kick\", name] => ..., [\"tp\", name, x, y, z] => ..., _ => ... }`."

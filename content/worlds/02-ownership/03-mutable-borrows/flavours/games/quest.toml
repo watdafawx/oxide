@@ -1,0 +1,19 @@
+title = "Kick, rename, tag"
+summary = "&mut lets a command edit the server's data. Only one writer at a time."
+
+[[objectives]]
+test = "add_exclaim_appends"
+label = "tag_as_op(&mut name) appends \" [OP]\" to the caller's String"
+[[objectives]]
+test = "push_twice_adds_two"
+label = "queue_twice(&mut queue, cmd) pushes the command onto the queue two times"
+[[objectives]]
+test = "move_last_between_vecs"
+label = "kick_last(&mut online, &mut kicked) moves the last player from one list to the other"
+
+[[hints]]
+text = "`name.push_str(\" [OP]\")` works directly on a `&mut String`: no `*` needed for method calls."
+[[hints]]
+text = "`queue.push(command.to_string())` twice. The Vec owns Strings, so turn the `&str` into one."
+[[hints]]
+text = "`online.pop()` returns an `Option<String>`: `if let Some(player) = online.pop() { kicked.push(player); }`"

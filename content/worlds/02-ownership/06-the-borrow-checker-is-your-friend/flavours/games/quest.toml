@@ -1,0 +1,16 @@
+title = "The borrow checker guards the server"
+summary = "Read six lines of console code and say which one moves and which ones borrow."
+
+[[quiz]]
+question = "In the lesson's example, which line moves the chat line out of `log`?"
+choices = ["let c = &log;", "let e = log;", "println!(\"{c} {d}\");"]
+answer = 1
+
+[[quiz]]
+question = "With `let mut online = Vec::<String>::new();`, which pair of lines compiles?"
+choices = [
+  "let r1 = &mut online; let r2 = &mut online; r1.push(\"Steve\".to_string());",
+  "let r1 = &online; let r2 = &online; println!(\"{} {}\", r1.len(), r2.len());",
+  "let r = &mut online; let t = &online; r.push(\"Steve\".to_string());",
+]
+answer = 1
