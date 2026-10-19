@@ -1,0 +1,19 @@
+title = "A mods-enabled counter you can test"
+summary = "Keep state and logic in a view model, draw it with egui, and test the screen without opening a window."
+
+[[objectives]]
+test = "model_enables_and_disables_mods"
+label = "increment, decrement (never below 0), reset and label() work without any UI"
+[[objectives]]
+test = "plus_button_enables_one_more_mod"
+label = "clicking the + button makes the label read Mods enabled: 1"
+[[objectives]]
+test = "reset_button_disables_every_mod"
+label = "the Reset button sets the counter back to 0"
+
+[[hints]]
+text = "`self.count = self.count.saturating_sub(1);` never goes below 0 for a `u32`."
+[[hints]]
+text = "In `ui`: `if ui.button(\"+\").clicked() { self.increment(); }` and `ui.label(self.label())`. Put `-`, the label and `+` inside `ui.horizontal(|ui| { ... })`."
+[[hints]]
+text = "`label()` returns `format!(\"Mods enabled: {}\", self.count)`. The tests find widgets by that exact text."

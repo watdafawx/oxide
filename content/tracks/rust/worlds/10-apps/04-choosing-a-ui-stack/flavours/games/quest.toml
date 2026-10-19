@@ -1,0 +1,20 @@
+title = "Read: pick a UI stack for the mod manager"
+summary = "egui, GPUI or a webview: what each stack gives your mod manager and what it costs."
+
+[[quiz]]
+question = "What is the real difference between egui (immediate mode) and GPUI (retained mode)?"
+choices = [
+  "egui describes the whole UI again from your state every frame; GPUI keeps view objects alive and re-renders a view when it is told its state changed",
+  "egui draws with HTML and CSS; GPUI draws with native widgets",
+  "egui keeps a tree of widget objects you update with setters; GPUI has no state at all",
+]
+answer = 0
+
+[[quiz]]
+question = "You already have a polished Svelte launcher UI and want a desktop mod manager, with Rust doing the files and database work. Which stack fits?"
+choices = [
+  "egui, because immediate mode is faster to port",
+  "Tauri: the webview shows your Svelte app and Rust commands do the native work",
+  "GPUI, because it renders Svelte components on the GPU",
+]
+answer = 1

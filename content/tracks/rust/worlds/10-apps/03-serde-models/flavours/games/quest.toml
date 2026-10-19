@@ -1,0 +1,22 @@
+title = "Save a modpack profile as JSON"
+summary = "Derive Serialize and Deserialize so a ModpackProfile round-trips with JSON, and old saves still load."
+
+[[objectives]]
+test = "profile_serializes_with_the_api_field_names"
+label = "to_json(&profile) produces the fields the UI expects"
+[[objectives]]
+test = "profile_round_trips_through_json"
+label = "from_json(to_json(p)) gives back an equal ModpackProfile"
+[[objectives]]
+test = "an_old_save_with_missing_fields_still_loads"
+label = "an old save with only {\"mod_count\": 120} still loads"
+[[objectives]]
+test = "mod_status_is_lowercase_in_json"
+label = "ModStatus::NotInstalled becomes \"notinstalled\""
+
+[[hints]]
+text = "Add `#[derive(Serialize, Deserialize)]` to the structs. `serde_json::to_string(profile)` and `serde_json::from_str(json)` do the work."
+[[hints]]
+text = "`#[serde(default)]` on a struct fills any missing field from `Default`. `LauncherSettings` needs a `Default` that gives loader \"fabric\", auto_update true, keep_versions 3."
+[[hints]]
+text = "`#[serde(rename_all = \"lowercase\")]` on the enum turns `NotInstalled` into `\"notinstalled\"`."

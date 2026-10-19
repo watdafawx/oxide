@@ -1,0 +1,20 @@
+title = "Read: shipping the mod manager"
+summary = "Release profile, where the app keeps its data, and what a user actually installs."
+
+[[quiz]]
+question = "You want a smaller, faster release binary of the mod manager and don't mind a longer build. Which Cargo.toml section does that?"
+choices = [
+  "[profile.release] with lto = true, codegen-units = 1 and strip = true",
+  "[dependencies] with every crate set to default-features = false",
+  "[profile.dev] with opt-level = 0",
+]
+answer = 0
+
+[[quiz]]
+question = "Where should the mod manager keep the user's mod database and settings?"
+choices = [
+  "Next to the executable, so the app stays portable",
+  "In the OS app-data directory (for example %APPDATA% on Windows), found with a crate like dirs",
+  "In the current working directory, wherever the app was launched from",
+]
+answer = 1
