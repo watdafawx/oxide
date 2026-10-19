@@ -3,8 +3,7 @@
 Servers hang. A good downloader never waits forever and can be told to stop.
 
 - **`timeout(dur, fut).await`** returns `Ok(value)` if the future finishes in time, `Err(Elapsed)` if not. The future is dropped (cancelled) on timeout.
-- **`select!`** waits on several futures and runs the branch of the **first** one to finish. The others are dropped.
-- A classic use: `select!` between "the work" and "a cancel signal".
+- **`select!`** waits on several futures and runs the branch of the **first** one to finish. The others are dropped. A classic use: "the work" against a cancel signal.
 
 ```rust
 use std::time::Duration;

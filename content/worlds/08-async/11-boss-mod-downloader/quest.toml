@@ -31,8 +31,14 @@ test = "cancel_stops_midway_and_leaves_no_partials"
 label = "Cancelling stops download_all quickly and leaves no .part files"
 
 [[hints]]
-text = "Order of work: `Entry::url` (trim the trailing `/` of base, then add path) -> `fetch_manifest` (`reqwest::get(..).await?.error_for_status()?.json::<Vec<Entry>>().await?`) -> `download_one` (`bytes().await?`, write `name.part`, `tokio::fs::rename` to `name`) -> `download_with_retry` (match on the first result, use the given `is_server_error`)."
+text = "Work in objective order; each stage uses the one before. The first is a one-liner: `Entry::url` trims a trailing `/` from the base and adds the path."
+[[hints]]
+text = "`fetch_manifest`: `reqwest::get(..).await?.error_for_status()?.json::<Vec<Entry>>().await?`. `download_one`: `bytes().await?`, write `name.part`, and only then `tokio::fs::rename` it to `name`, so a half-written file is never mistaken for a real one."
+[[hints]]
+text = "`download_with_retry`: `match` the first `download_one` result, and use the given `is_server_error` to decide whether to try once more. A 404 returns its error straight away."
 [[hints]]
 text = "`download_all`: create a `Semaphore::new(max_concurrent)` in an `Arc`. For each entry `JoinSet::spawn` a task that does `let _permit = sem.acquire_owned().await?;` then `download_with_retry` and returns the name. Clone the client, base and dir into each task first. Then loop on `set.join_next().await`: count `done += 1` and `progress.send((name, done, total)).await`."
 [[hints]]
-text = "Cancel: loop with `tokio::select! { _ = token.cancelled() => { set.abort_all(); remove_partials(dir).await; return Err(\"cancelled\".into()); } next = set.join_next() => ... }`. `res??` unwraps the JoinError and then your own Result. `verify`: `!std::fs::metadata(dir.join(&e.name)).is_ok_and(|m| m.len() == e.size)`."
+text = "`verify`: a file is bad when `!std::fs::metadata(dir.join(&e.name)).is_ok_and(|m| m.len() == e.size)`. Collect the bad names."
+[[hints]]
+text = "Cancel: loop with `tokio::select! { _ = token.cancelled() => { set.abort_all(); remove_partials(dir).await; return Err(\"cancelled\".into()); } next = set.join_next() => ... }`. `res??` unwraps the JoinError and then your own Result."

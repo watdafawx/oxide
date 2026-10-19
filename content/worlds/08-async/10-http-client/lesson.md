@@ -19,6 +19,8 @@ async fn latest_version(url: &str) -> Result<String, reqwest::Error> {
 
 Tests here never touch the internet: they start a tiny HTTP server on `127.0.0.1` inside the test and point your function at it.
 
+**First build:** reqwest and serde_json add a few minutes to the first compile. Later runs take seconds.
+
 ## Your turn
 
 In `src/lib.rs`:
