@@ -1,0 +1,11 @@
+-- The text of mod/info.json for the Kit Mod.
+return [[
+{
+  "name": "kit-mod",
+  "version": "0.1.0",
+  "title": "Kit Mod",
+  "author": "you",
+  "factorio_version": "2.0",
+  "dependencies": ["base >= 2.0.0"]
+}
+]]

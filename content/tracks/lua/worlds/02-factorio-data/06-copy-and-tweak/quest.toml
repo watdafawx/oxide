@@ -1,0 +1,23 @@
+title = "Copy and tweak"
+summary = "Clone a vanilla item and recipe with table.deepcopy without touching the original."
+kind = "exercise"
+xp = 60
+minutes = 10
+tags = ["deepcopy", "tables", "references"]
+
+[[objectives]]
+test = "copy_is_independent"
+label = "kit-gear and its recipe are new tables, not the vanilla ones"
+[[objectives]]
+test = "original_is_untouched"
+label = "iron-gear-wheel (item and recipe) is exactly as vanilla left it"
+[[objectives]]
+test = "new_name_is_unique"
+label = "one new kit-gear item and recipe; no prototype was overwritten"
+
+[[hints]]
+text = "`local item = table.deepcopy(data.raw.item[\"iron-gear-wheel\"])` makes a full copy; edit the copy, then `data:extend({ item })`."
+[[hints]]
+text = "Copy the recipe too and change `name`, `ingredients[1].amount` (4 iron plates) and `results[1].name` on the copy."
+[[hints]]
+text = "Without deepcopy, `local item = data.raw.item[...]` is the same table under a second name: editing it edits vanilla."

@@ -1,0 +1,23 @@
+title = "Your first item"
+summary = "Register kit-alloy with data:extend: name, icon, stack size, subgroup."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["items", "data-extend"]
+
+[[objectives]]
+test = "item_is_registered"
+label = "data.raw.item[\"kit-alloy\"] exists, in the intermediate-product subgroup, with an order"
+[[objectives]]
+test = "item_has_mandatory_fields"
+label = "the item passes the mandatory-field check (type, name, stack_size, icon)"
+[[objectives]]
+test = "stack_size_is_set"
+label = "a stack holds 100 kit-alloy"
+
+[[hints]]
+text = "Inside the table passed to `data:extend` add `icon = \"__base__/graphics/icons/iron-plate.png\"` and `stack_size = 100`."
+[[hints]]
+text = "`subgroup` is the name of an `item-subgroup` (the section of the inventory where it shows). Use `\"intermediate-product\"`. `order` is a sort string, for example `\"z[kit-alloy]\"`."
+[[hints]]
+text = "The error message names the missing field: read it, it tells you which line to add."

@@ -1,0 +1,23 @@
+title = "info.json: the mod's ID card"
+summary = "Write the metadata Factorio reads before it loads anything else."
+kind = "exercise"
+xp = 35
+minutes = 6
+tags = ["info-json", "metadata"]
+
+[[objectives]]
+test = "has_required_fields"
+label = "name \"kit-mod\", a version like 0.1.0, a title and an author are set"
+[[objectives]]
+test = "factorio_version_is_2_0"
+label = "factorio_version is \"2.0\" (two numbers only)"
+[[objectives]]
+test = "depends_on_base"
+label = "dependencies lists base >= 2.0.0 and the whole file lints clean"
+
+[[hints]]
+text = "The four mandatory fields are `name`, `version`, `title` and `author`. `version` is three numbers: `\"0.1.0\"`."
+[[hints]]
+text = "`factorio_version` is a string with exactly two numbers: `\"2.0\"`. Leave it out and Factorio assumes the ancient \"0.12\"."
+[[hints]]
+text = "`\"dependencies\": [\"base >= 2.0.0\"]`: a name, then an operator and a version. Prefixes such as `?` (optional) go in front."
