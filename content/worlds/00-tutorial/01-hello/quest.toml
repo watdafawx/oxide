@@ -1,0 +1,16 @@
+title = "Say hello"
+summary = "Write one function and watch the tick turn green."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["functions", "strings"]
+requires = []
+
+[[objectives]]
+test = "greets_by_name"
+label = "greeting(\"Ferris\") returns \"Hello, Ferris!\""
+
+[[hints]]
+text = "`format!` builds a String the same way `println!` prints one: `format!(\"Hi {name}\")`."
+[[hints]]
+text = "Replace `todo!()` with `format!(\"Hello, {name}!\")`."

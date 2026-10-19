@@ -1,0 +1,18 @@
+title = "Boss: name tag"
+summary = "Two functions, two objectives. Your first boss."
+kind = "boss"
+xp = 100
+minutes = 5
+tags = ["functions", "strings", "integers"]
+
+[[objectives]]
+test = "shouts_the_name"
+label = "shout(\"ferris\") returns \"FERRIS\""
+[[objectives]]
+test = "tag_shows_name_and_level"
+label = "name_tag(\"ferris\", 3) returns \"[FERRIS] Lv 3\""
+
+[[hints]]
+text = "`str` has a method that returns an uppercase `String`. Type `name.` in your editor and look at the completions."
+[[hints]]
+text = "`name_tag` can call `shout`. Numbers go into `format!` just like text: `format!(\"Lv {level}\")`."

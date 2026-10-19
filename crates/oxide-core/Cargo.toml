@@ -1,0 +1,24 @@
+[package]
+name = "oxide-core"
+description = "Content model, grader, workspace and progress engine for Oxide"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+log.workspace = true
+rusqlite = { version = "0.37", features = ["bundled"] }
+notify = "8"
+notify-debouncer-mini = "0.6"
+directories = "6"
+regex = "1"
+chrono = "0.4"
+
+[dev-dependencies]
+tempfile = "3"

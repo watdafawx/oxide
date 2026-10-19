@@ -1,0 +1,11 @@
+[package]
+name = "content-check"
+description = "Validates every quest: schema, graph, starter builds, solution passes"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+oxide-core.workspace = true

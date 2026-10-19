@@ -1,0 +1,13 @@
+title = "Read the red"
+summary = "A test fails. Read what it says, fix the number."
+kind = "exercise"
+xp = 20
+minutes = 2
+tags = ["tests", "reading-errors"]
+
+[[objectives]]
+test = "answer_is_right"
+label = "answer() returns what the test expects"
+
+[[hints]]
+text = "Click the failed objective: the test prints `left` (what you returned) and `right` (what it wanted)."
