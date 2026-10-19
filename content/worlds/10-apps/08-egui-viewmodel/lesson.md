@@ -24,6 +24,8 @@ assert_eq!(*harness.state(), 1);
 
 `get_by_label` panics when nothing matches, so a missing label fails the test with a clear message.
 
+**First build:** this quest compiles egui and egui_kittest (about 2-4 min the first time). Later runs take seconds.
+
 ## Your turn
 
 In `src/lib.rs`, on `Counter`:

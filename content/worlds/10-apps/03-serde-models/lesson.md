@@ -27,7 +27,7 @@ Old save files lack newer fields. `#[serde(default)]` on the struct keeps them l
 
 ## Your turn
 
-In `src/lib.rs` (the shapes follow `Profile` in the Oxide API docs):
+In `src/lib.rs` (the shapes are the ones Oxide's UI gets from its engine):
 
 - Derive `Serialize` and `Deserialize` on `Settings` and `Profile`, and `#[serde(default)]` on `Profile`.
 - Make `ObjectiveStatus` serialise as `"passed"`, `"failed"`, `"notrun"`.

@@ -28,8 +28,14 @@ test = "escape_returns_home"
 label = "Esc on the quest screen goes back to Home (and refreshes it from the Api)"
 
 [[hints]]
-text = "Start with the plain functions `xp_fraction` and `passed_count`; guard `xp_for_next == 0` and `.clamp(0.0, 1.0)`. Then the state methods: `start` stores `self.api.start_quest(id)` in `self.detail` and flips `self.screen`; `run_checks` stores `outcome.result` in `self.last`, and for `Some(completion)` sets `self.toast` (when `xp_awarded > 0`) and `self.level_up` (when the level rose)."
+text = "Start with the plain functions `xp_fraction` and `passed_count`: no UI needed. Guard `xp_for_next == 0` and `.clamp(0.0, 1.0)`."
 [[hints]]
-text = "`home_ui`: `ui.heading`, `ui.label(format!(..))`, `ui.add(egui::ProgressBar::new(xp_fraction(..)))`, then `match &self.home.next` for the card. Don't call `self.start(..)` inside the match (it borrows `self.home`): keep the clicked id in a local `Option<String>` and call `self.start` after the match. `quest_ui` has the same trap: clone the title and objectives out of `self.detail` first."
+text = "The state methods: `start` stores `self.api.start_quest(id)` in `self.detail` and flips `self.screen`; `run_checks` stores `outcome.result` in `self.last`, and for `Some(completion)` sets `self.toast` (when `xp_awarded > 0`) and `self.level_up` (when the level rose)."
 [[hints]]
-text = "`level_up_modal`: `let response = egui::Modal::new(egui::Id::unique(\"level_up\")).show(ctx, |ui| { ui.heading(\"Level up!\"); ... if ui.button(\"Continue\").clicked() { close = true; } });` then `if close || response.should_close() { self.level_up = None; }`. Esc is `ui.input(|i| i.key_pressed(egui::Key::Escape))`; ignore it while `self.level_up` is open."
+text = "`home_ui`: `ui.heading`, `ui.label(format!(..))`, `ui.add(egui::ProgressBar::new(xp_fraction(..)))`, then `match &self.home.next` for the card. The Start button needs a click handler."
+[[hints]]
+text = "Don't call `self.start(..)` inside that match (it borrows `self.home`): keep the clicked id in a local `Option<String>` and call `self.start` after the match. `quest_ui` has the same trap: clone the title and objectives out of `self.detail` first."
+[[hints]]
+text = "`level_up_modal`: `let response = egui::Modal::new(egui::Id::unique(\"level_up\")).show(ctx, |ui| { ui.heading(\"Level up!\"); ... if ui.button(\"Continue\").clicked() { close = true; } });` then `if close || response.should_close() { self.level_up = None; }`."
+[[hints]]
+text = "Esc is `ui.input(|i| i.key_pressed(egui::Key::Escape))`; ignore it while `self.level_up` is open, and refresh `self.home` from the Api when you go back."

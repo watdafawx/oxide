@@ -20,7 +20,7 @@ fn builder<R: tauri::Runtime>(b: tauri::Builder<R>) -> tauri::Builder<R> {
 }
 ```
 
-This lib has no window and no `tauri.conf.json`, so it compiles and tests in seconds. `build_app` and the mock test are done for you.
+This lib has no window and no `tauri.conf.json`, so once tauri itself is built (the first build compiles a large dependency tree, about 3-6 min) it tests in seconds. `build_app` and the mock test are done for you.
 
 ## Your turn
 
