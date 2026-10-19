@@ -33,3 +33,17 @@ app data dir (`%APPDATA%/com.micha.oxide` on Windows).
 cargo run -p content-check -- --fast     # catalog only
 cargo run -p content-check               # builds every starter and solution
 ```
+
+## Drive it from an agent (MCP)
+
+Debug builds (and `oxide --mcp`) serve an MCP server on `http://127.0.0.1:47811/mcp`;
+`.mcp.json` registers it for Claude Code. Tools: `page` (route, text, interactive elements),
+`click`, `type`, `navigate`, `invoke` (any command in docs/API.md), `eval`, `screenshot`,
+`events` and `wait_event` (the app's emitted events, so a test can save a file and wait for
+`check:result`). Shell helper:
+
+```
+python scripts/mcp.py page
+python scripts/mcp.py click '{"text": "Start"}'
+python scripts/mcp.py wait_event '{"name": "check:result", "after": 3}'
+```

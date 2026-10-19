@@ -28,5 +28,17 @@ anyhow.workspace = true
 chrono = "0.4"
 log = "0.4"
 env_logger = "0.11"
+tiny_http = "0.12"
+png = "0.17"
+base64 = "0.22"
+
+[target.'cfg(windows)'.dependencies]
+# Window screenshots for the MCP server (the version Tauri already links).
+windows = { version = "0.62", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_Storage_Xps",
+    "Win32_UI_WindowsAndMessaging",
+] }
 
 

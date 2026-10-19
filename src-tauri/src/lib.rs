@@ -1,5 +1,7 @@
 //! Tauri commands and events over `oxide_core`. The contract is `docs/API.md`.
 
+mod mcp;
+
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -12,6 +14,7 @@ use oxide_core::grader::{self, CheckResult};
 use oxide_core::progress::{Completion, Profile, Progress, Settings, ACHIEVEMENTS};
 use oxide_core::{watcher, workspace};
 use serde::Serialize;
+use serde_json::Value;
 use tauri::{AppHandle, Emitter, Manager, State};
 
 type CmdResult<T> = Result<T, String>;
@@ -119,9 +122,17 @@ impl AppState {
     }
 }
 
+/// Emit to the UI and log it for the MCP `events` tool.
+fn emit<T: Serialize + Clone>(app: &AppHandle, name: &str, payload: T) {
+    if let Some(m) = app.try_state::<mcp::Mcp>() {
+        m.record(name, serde_json::to_value(&payload).unwrap_or(Value::Null));
+    }
+    let _ = app.emit(name, payload);
+}
+
 fn emit_profile(app: &AppHandle, state: &AppState) {
     if let Ok(p) = state.profile_now() {
-        let _ = app.emit("profile:changed", p);
+        emit(app, "profile:changed", p);
     }
 }
 
@@ -132,7 +143,7 @@ fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(Che
     if !dir.join("Cargo.toml").exists() {
         return Err("start the quest first".into());
     }
-    let _ = app.emit("check:started", serde_json::json!({ "quest_id": quest_id }));
+    emit(app, "check:started", serde_json::json!({ "quest_id": quest_id }));
 
     let result = grader::run(&dir, &state.target_dir, &quest.objectives).map_err(err)?;
     let now = Local::now();
@@ -152,7 +163,8 @@ fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(Che
     };
 
     state.last_checks.lock().unwrap().insert(quest_id.to_string(), result.clone());
-    let _ = app.emit(
+    emit(
+        app,
         "check:result",
         CheckEvent { quest_id: quest_id.to_string(), result: result.clone(), completion: completion.clone() },
     );
@@ -332,7 +344,7 @@ fn start_focus(app: AppHandle, state: State<AppState>, id: Option<String>, minut
             }
             let elapsed = started.elapsed().as_secs();
             let remaining_s = total_s.saturating_sub(elapsed);
-            let _ = app2.emit("focus:tick", FocusTick { remaining_s, total_s, quest_id: id.clone() });
+            emit(&app2, "focus:tick", FocusTick { remaining_s, total_s, quest_id: id.clone() });
             if remaining_s == 0 {
                 let state = app2.state::<AppState>();
                 let mut focus = state.focus.lock().unwrap();
@@ -340,7 +352,7 @@ fn start_focus(app: AppHandle, state: State<AppState>, id: Option<String>, minut
                     let _ = state.progress.lock().unwrap().finish_focus(session, true);
                     *focus = None;
                 }
-                let _ = app2.emit("focus:done", serde_json::json!({ "quest_id": id }));
+                emit(&app2, "focus:done", serde_json::json!({ "quest_id": id }));
                 return;
             }
             std::thread::sleep(Duration::from_secs(1));
@@ -385,6 +397,13 @@ fn content_dir(app: &AppHandle) -> PathBuf {
     if let Some(p) = std::env::var_os("OXIDE_CONTENT") {
         return PathBuf::from(p);
     }
+    // Dev builds read the repo, not the resource copy tauri dev made at build time.
+    if cfg!(debug_assertions) {
+        let repo = oxide_core::repo_content_dir();
+        if repo.join("worlds").is_dir() {
+            return repo;
+        }
+    }
     if let Ok(res) = app.path().resource_dir() {
         let bundled = res.join("content");
         if bundled.join("worlds").is_dir() {
@@ -411,6 +430,13 @@ pub fn run() {
             let quests_root = workspace::root();
             std::fs::create_dir_all(&quests_root)?;
             let target_dir = grader::shared_target_dir(&quests_root);
+
+            app.manage(mcp::Mcp::default());
+            if mcp::enabled() {
+                if let Err(e) = mcp::start(handle.clone(), mcp::port()) {
+                    log::warn!("{e:#}");
+                }
+            }
 
             app.manage(AppState {
                 catalog,
@@ -441,6 +467,7 @@ pub fn run() {
             get_settings,
             set_settings,
             active_dates,
+            mcp::mcp_reply,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
