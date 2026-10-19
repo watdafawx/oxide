@@ -1,15 +1,17 @@
+**Why now:** the hasher's "37 / 200 files done" counter is a single number, so an atomic does the job without any lock.
+
 For a plain counter or flag, a `Mutex` is overkill. **Atomics** (`AtomicUsize`, `AtomicBool`, ...) let many threads change one number safely using a single CPU instruction. No lock, no guard, no deadlock.
 
 ```rust
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-static HITS: AtomicUsize = AtomicUsize::new(0);   // a global needs no Mutex
+static FILES_DONE: AtomicUsize = AtomicUsize::new(0);   // a global needs no Mutex
 
-let before = HITS.fetch_add(1, Ordering::Relaxed); // returns the OLD value
-let now = HITS.load(Ordering::Relaxed);
+let before = FILES_DONE.fetch_add(1, Ordering::Relaxed); // returns the OLD value
+let now = FILES_DONE.load(Ordering::Relaxed);
 
 // "set to 10 only if it is still 0":
-let _ = HITS.compare_exchange(0, 10, Ordering::SeqCst, Ordering::SeqCst);
+let _ = FILES_DONE.compare_exchange(0, 10, Ordering::SeqCst, Ordering::SeqCst);
 ```
 
 - Methods take `&self`, so you can share an atomic by `&` (scoped threads, `static`) or `Arc`.

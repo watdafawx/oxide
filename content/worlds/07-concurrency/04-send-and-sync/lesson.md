@@ -1,3 +1,5 @@
+**Why now:** the hasher shares a progress counter and a results list between workers; `Send` and `Sync` are why the compiler accepts `Arc<Mutex<..>>` there and rejects `Rc`.
+
 Rust stops data races at **compile time**. It does it with two traits you almost never write by hand: `Send` and `Sync`.
 
 - **`Send`**: ownership of a `T` can be moved to another thread. `thread::spawn` requires it for everything the closure captures.

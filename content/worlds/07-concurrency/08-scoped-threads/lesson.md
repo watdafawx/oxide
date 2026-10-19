@@ -1,21 +1,23 @@
+**Why now:** the hasher can hash slices of one big file list without cloning it into an `Arc`, because scoped threads may borrow it.
+
 `thread::spawn` demands `'static` data, so you had to `move` or `Arc` everything. **`thread::scope`** removes that: all its threads are **joined before the scope returns**, so they can safely borrow from the surrounding function.
 
 ```rust
 use std::thread;
 
-let words = vec!["tea", "coffee", "milk"];
+let jars = vec!["sodium.jar", "lithium.jar", "iris.jar"];
 let mut longest = 0;
 
 thread::scope(|s| {
     s.spawn(|| {
-        println!("{} words, borrowed, not moved", words.len());
+        println!("{} jars, borrowed, not moved", jars.len());
     });
     s.spawn(|| {
-        longest = words.iter().map(|w| w.len()).max().unwrap_or(0);
+        longest = jars.iter().map(|j| j.len()).max().unwrap_or(0);
     });
 });                              // both threads are joined here
 
-println!("{longest}");           // 6
+println!("{longest}");           // 11
 ```
 
 - `s.spawn(|| ...)` closures may borrow locals. Shared `&` borrows can overlap; a `&mut` must be the only one.

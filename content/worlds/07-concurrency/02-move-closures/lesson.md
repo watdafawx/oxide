@@ -1,18 +1,20 @@
+**Why now:** the hasher hands each worker a list of jar names, and the thread must own that list because the function that built it returns first.
+
 `thread::spawn` cannot know when your function returns, so the thread might still run after your local variables are gone. Rust refuses to let it **borrow** them.
 
 ```rust
 use std::thread;
 
-let tags = vec![String::from("a"), String::from("b")];
+let jars = vec![String::from("sodium.jar"), String::from("iris.jar")];
 
 // Does not compile: "closure may outlive the current function"
-// let h = thread::spawn(|| println!("{}", tags.len()));
+// let h = thread::spawn(|| println!("{}", jars.len()));
 
-let h = thread::spawn(move || {      // move: the closure now OWNS tags
-    println!("{}", tags.len());
+let h = thread::spawn(move || {      // move: the closure now OWNS jars
+    println!("{}", jars.len());
 });
 h.join().unwrap();
-// println!("{:?}", tags);           // error: tags was moved into the thread
+// println!("{:?}", jars);           // error: jars was moved into the thread
 ```
 
 - **`move`** makes the closure take ownership of every variable it uses.

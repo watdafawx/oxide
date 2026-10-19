@@ -1,10 +1,12 @@
+**Why now:** your mod folder hasher must not freeze while it reads 200 jars, so each hash job needs its own thread.
+
 Every app that stays responsive while it works (downloads, hashing, syncing) runs work on a **second thread**. `thread::spawn` starts one.
 
 ```rust
 use std::thread;
 
 let handle = thread::spawn(|| {
-    println!("hello from another thread");
+    println!("hashing sodium.jar");
     21 * 2                       // the closure's value is the thread's result
 });
 

@@ -1,16 +1,18 @@
+**Why now:** the hasher's workers all report into one shared log; a `Mutex` makes sure they take turns writing it.
+
 Threads that share data need a rule: one at a time. A **`Mutex<T>`** is that rule. The data lives *inside* the mutex, so you cannot touch it without locking.
 
 ```rust
 use std::sync::Mutex;
 
-let name = Mutex::new(String::from("hi"));
+let log = Mutex::new(String::from("hashed: "));
 
 {
-    let mut guard = name.lock().unwrap();  // blocks until the lock is free
-    guard.push('!');                       // guard acts like &mut String
+    let mut guard = log.lock().unwrap();   // blocks until the lock is free
+    guard.push_str("sodium.jar");          // guard acts like &mut String
 }                                          // guard dropped here: unlocked
 
-println!("{}", name.lock().unwrap());      // hi!
+println!("{}", log.lock().unwrap());       // hashed: sodium.jar
 ```
 
 - `lock()` returns a **guard**. The lock is held as long as the guard lives, and released when it is dropped. Keep guards short-lived.

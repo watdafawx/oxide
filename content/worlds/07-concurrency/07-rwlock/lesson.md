@@ -1,17 +1,19 @@
+**Why now:** the hasher keeps a table of already-seen hashes that every worker reads for each file and only sometimes updates; `RwLock` lets all the readers in at once.
+
 A `Mutex` lets one thread in at a time, even if all of them only read. **`RwLock<T>`** is smarter: any number of **readers** together, or exactly **one writer** alone. Good for config that is read constantly and changed rarely.
 
 ```rust
 use std::sync::RwLock;
 
-let scores = RwLock::new(vec![10, 20]);
+let seen = RwLock::new(vec![0xa1, 0xb2]);
 
 {
-    let a = scores.read().unwrap();      // shared access
-    let b = scores.read().unwrap();      // a second reader is fine
+    let a = seen.read().unwrap();      // shared access
+    let b = seen.read().unwrap();      // a second reader is fine
     println!("{} {}", a.len(), b.len());
 }                                        // both guards dropped
 
-scores.write().unwrap().push(30);        // exclusive access
+seen.write().unwrap().push(0xc3);        // exclusive access
 ```
 
 - `read()` / `write()` block until allowed. They return guards, same poisoning story as `Mutex`.

@@ -1,14 +1,16 @@
+**Why now:** once the hasher works with hand-built threads, rayon turns the same "hash every jar" loop into one `par_iter()` call.
+
 Doing the splitting, spawning, joining and merging by hand gets old. **rayon** is a crate that does it for you: keep your iterator chain, swap one word, and the work runs on a pool of threads (one per CPU core).
 
 ```rust
 use rayon::prelude::*;
 
-let names = vec!["ada", "grace", "linus"];
+let jars = vec!["sodium.jar", "lithium.jar", "iris.jar"];
 
-let lengths: Vec<usize> = names
+let lengths: Vec<usize> = jars
     .par_iter()                      // was: .iter()
-    .map(|n| n.len())
-    .collect();                      // order is preserved: [3, 5, 5]
+    .map(|j| j.len())
+    .collect();                      // order is preserved: [10, 11, 8]
 
 let total: usize = (1..=100_u32)
     .into_par_iter()                 // was: .into_iter()

@@ -1,3 +1,5 @@
+**Why now:** each worker thread has to send its `(file, hash)` result back to the main thread, and a channel is the pipe the hasher uses for that.
+
 A **channel** moves values from one thread to another without sharing memory: threads talk, they don't touch each other's data. It is how a background job reports progress to the UI.
 
 ```rust
@@ -6,9 +8,9 @@ use std::thread;
 
 let (tx, rx) = mpsc::channel();          // Sender, Receiver
 
-for id in 0..3 {
+for file_id in 0..3 {
     let tx = tx.clone();                 // mpsc = multi producer, single consumer
-    thread::spawn(move || tx.send(id).unwrap());
+    thread::spawn(move || tx.send(file_id).unwrap());
 }
 drop(tx);                                // drop the original sender
 

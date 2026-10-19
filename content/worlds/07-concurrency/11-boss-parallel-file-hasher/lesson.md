@@ -1,3 +1,5 @@
+**Why now:** this is the finished mod folder hasher: threads, channels, an atomic progress counter and rayon from this world, in one tool.
+
 You are building the core of a checksum tool: point it at a folder, get one hash per file, fast. It uses everything in this world.
 
 **The pieces**

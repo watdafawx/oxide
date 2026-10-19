@@ -1,22 +1,24 @@
+**Why now:** threads that each own a clone of one shared total are how the hasher adds up "bytes hashed so far" from every worker.
+
 A `Mutex` alone has one owner, but each spawned thread needs to own something. **`Arc<Mutex<T>>`** fixes both: `Arc` gives every thread an owner, `Mutex` makes the changes safe. It is `Rc<RefCell<T>>` for threads.
 
 ```rust
 use std::sync::{Arc, Mutex};
 use std::thread;
 
-let total = Arc::new(Mutex::new(0.0_f64));
+let total = Arc::new(Mutex::new(0_u64));
 let mut handles = Vec::new();
 
-for price in [9.5, 20.0, 4.5] {
+for jar_bytes in [9_500, 20_000, 4_500] {
     let total = Arc::clone(&total);          // one clone per thread
     handles.push(thread::spawn(move || {
-        *total.lock().unwrap() += price;
+        *total.lock().unwrap() += jar_bytes;
     }));
 }
 for h in handles {
     h.join().unwrap();                       // wait for all of them
 }
-println!("{}", total.lock().unwrap());       // 34
+println!("{}", total.lock().unwrap());       // 34000
 ```
 
 - Clone the `Arc` **before** `spawn` and move the clone in. Shadowing the name keeps it tidy.
