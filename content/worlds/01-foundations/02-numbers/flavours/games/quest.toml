@@ -2,13 +2,13 @@ title = "Stack sizes have types"
 summary = "Why a stack count is a u32: integer types, f64, `as` casts and overflow."
 
 [[objectives]]
-test = "average_keeps_the_fraction"
+test = "average_stack_keeps_the_half"
 label = "average_stack(3, 4) is 3.5, not 3"
 [[objectives]]
-test = "low_byte_truncates"
+test = "slot_byte_keeps_low_byte"
 label = "slot_byte(300) casts to u8 and gives 44"
 [[objectives]]
-test = "wrap_add_wraps_around"
+test = "wrap_count_wraps_past_255"
 label = "wrap_count(250, 10) wraps to 4 instead of panicking"
 
 [[hints]]

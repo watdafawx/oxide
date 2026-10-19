@@ -134,20 +134,20 @@ mod tests {
     }
 
     #[test]
-    fn new_game_starts_with_zero_attempts() {
+    fn calculator_starts_with_no_recipes() {
         let calc = Calculator::new();
         assert_eq!(calc.recipe_count(), 0);
     }
 
     #[test]
-    fn guess_reports_too_low_and_too_high() {
+    fn find_recipe_knows_crafted_items() {
         let calc = book();
         assert_eq!(calc.find_recipe("stick").map(|r| r.yields), Some(4));
         assert!(calc.find_recipe("log").is_none(), "logs are raw: no recipe");
     }
 
     #[test]
-    fn guess_reports_correct() {
+    fn batches_needed_rounds_up() {
         let calc = book();
         assert_eq!(calc.batches_needed("plank", 1), 1);
         assert_eq!(calc.batches_needed("plank", 4), 1);
@@ -156,7 +156,7 @@ mod tests {
     }
 
     #[test]
-    fn attempts_are_counted() {
+    fn raw_totals_walks_the_recipe_tree() {
         let calc = book();
         assert_eq!(
             calc.raw_totals("torch", 8),
@@ -168,7 +168,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_guess_accepts_numbers() {
+    fn parse_recipe_accepts_a_recipe_line() {
         assert_eq!(
             parse_recipe("torch x4 = coal x1, stick x1"),
             Ok(recipe("torch", 4, &[("coal", 1), ("stick", 1)]))
@@ -181,7 +181,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_guess_rejects_bad_input() {
+    fn parse_recipe_rejects_nonsense() {
         assert_eq!(parse_recipe("pizza"), Err("'pizza' is not a recipe".to_string()));
         assert!(parse_recipe("stick x0 = plank x1").is_err(), "a recipe yields at least 1");
         assert!(parse_recipe("stick x4 = plank").is_err(), "ingredients need a count");
@@ -190,7 +190,7 @@ mod tests {
     }
 
     #[test]
-    fn play_reports_each_guess() {
+    fn run_turns_console_lines_into_messages() {
         let out = run(&[
             "stick x4 = plank x2",
             "plank x4 = log x1",
@@ -214,7 +214,7 @@ mod tests {
     }
 
     #[test]
-    fn play_stops_after_correct_guess() {
+    fn run_stops_at_quit() {
         let one = run(&["stick x4 = plank x2", "quit", "plank x4 = log x1"]);
         assert_eq!(one, vec!["Learned stick", "Bye! 1 recipe learned"], "singular, and stop");
         let two = run(&["stick x4 = plank x2", "plank x4 = log x1", "quit", "need 1 stick"]);

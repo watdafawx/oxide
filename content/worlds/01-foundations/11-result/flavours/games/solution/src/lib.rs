@@ -25,7 +25,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn safe_divide_returns_result() {
+    fn validate_stack_rejects_over_64() {
         assert_eq!(validate_stack(32), Ok(32));
         assert_eq!(validate_stack(64), Ok(64), "exactly 64 is a full stack, not an error");
         assert_eq!(
@@ -35,13 +35,13 @@ mod tests {
     }
 
     #[test]
-    fn describe_division_matches_result() {
+    fn describe_stack_reports_ok_and_err() {
         assert_eq!(describe_stack(32), "stack of 32 is fine");
         assert_eq!(describe_stack(100), "error: 100 is over the stack limit of 64");
     }
 
     #[test]
-    fn port_from_config_uses_expect() {
+    fn max_stack_from_config_parses_text() {
         assert_eq!(max_stack_from_config("64"), 64);
         assert_eq!(max_stack_from_config("16"), 16);
     }

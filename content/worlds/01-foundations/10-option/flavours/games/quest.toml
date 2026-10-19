@@ -2,13 +2,13 @@ title = "Recipe lookup"
 summary = "Option, unwrap_or and map: handling \"no such recipe\" without null."
 
 [[objectives]]
-test = "half_is_none_for_odd"
+test = "recipe_output_is_none_for_unknown_items"
 label = "recipe_output gives Some(count) for known recipes and None for the rest"
 [[objectives]]
-test = "half_or_zero_falls_back"
+test = "output_or_zero_defaults_to_nothing"
 label = "output_or_zero uses unwrap_or(0)"
 [[objectives]]
-test = "half_plus_one_maps_inside"
+test = "double_batch_maps_inside_some"
 label = "double_batch uses map to change the value inside Some"
 
 [[hints]]

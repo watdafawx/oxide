@@ -1,4 +1,4 @@
-**Why now:** this is the finished calculator. Everything from this world goes into one small program: a **struct** (`Recipe`), an **enum**-style decision, **match**, **Option** (recipe lookup), **Result** (parsing a recipe line), and a **loop** that drives it all. Give it "8 torches" and it tells you the raw coal and logs to gather.
+**Why now:** this is the finished calculator. Everything from this world goes into one small program: a **struct** (`Recipe`), **match**, **Option** (recipe lookup), **Result** (parsing a recipe line), and a **loop** that drives it all. Give it "8 torches" and it tells you the raw coal and logs to gather.
 
 The calculator logic is separate from typing, so tests can drive it with a script. No terminal needed.
 
@@ -17,7 +17,7 @@ run(&["plank x4 = log x1", "pizza", "need 5 plank", "quit"]);
 
 - A recipe line is `output xN = ingredient xN, ingredient xN`. `parse_part` and `parse_need` are given.
 - A **raw** item has no recipe. A **crafted** item needs `ceil(wanted / yields)` crafts, and each craft needs every ingredient (which may be crafted too: that is the tree).
-- `raw_totals` is recursive: `expand` calls itself for each ingredient. `totals.entry(name).or_insert(0)` gives a counter you can add to.
+- `raw_totals` is **recursive**: a function may call itself. `expand(torch)` calls `expand(stick)` and `expand(coal)`, and an item with no recipe is where it stops (the `None` arm). `totals.entry(name).or_insert(0)` gives a counter you can add to.
 - Bad lines print their error but change nothing.
 - `quit` stops the run: "1 recipe learned", but "2 recipes learned".
 

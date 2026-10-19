@@ -22,18 +22,18 @@ mod tests {
     use super::*;
 
     #[test]
-    fn first_and_last_picks_ends() {
+    fn hotbar_ends_picks_first_and_last() {
         assert_eq!(hotbar_ends(&[4, 5, 6, 7]), (4, 7));
         assert_eq!(hotbar_ends(&[9]), (9, 9), "one slot is both first and last");
     }
 
     #[test]
-    fn swap_pair_flips_order() {
+    fn swap_slots_flips_order() {
         assert_eq!(swap_slots((1, 2)), (2, 1));
     }
 
     #[test]
-    fn sum_three_adds_array() {
+    fn crafting_row_totals_three_slots() {
         assert_eq!(row_total([1, 2, 3]), 6);
         assert_eq!(row_total([64, 0, 16]), 80);
     }

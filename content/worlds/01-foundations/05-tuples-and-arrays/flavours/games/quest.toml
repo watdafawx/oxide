@@ -2,13 +2,13 @@ title = "Hotbar and crafting rows"
 summary = "Tuples, arrays, indexing and destructuring."
 
 [[objectives]]
-test = "first_and_last_picks_ends"
+test = "hotbar_ends_picks_first_and_last"
 label = "hotbar_ends returns the first and last slot as a tuple"
 [[objectives]]
-test = "swap_pair_flips_order"
+test = "swap_slots_flips_order"
 label = "swap_slots destructures and swaps"
 [[objectives]]
-test = "sum_three_adds_array"
+test = "crafting_row_totals_three_slots"
 label = "row_total adds the items of a [u32; 3] crafting row"
 
 [[hints]]

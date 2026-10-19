@@ -28,28 +28,28 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_starts_at_full_health() {
+    fn cobblestone_stack_starts_full() {
         let stack = ItemStack::new("cobblestone");
         assert_eq!(stack.count, 64);
         assert_eq!(stack.name, "cobblestone");
     }
 
     #[test]
-    fn take_hit_lowers_hp() {
+    fn taking_items_shrinks_the_stack() {
         let mut stack = ItemStack::new("cobblestone");
         stack.take(30);
         assert_eq!(stack.count, 34);
     }
 
     #[test]
-    fn hp_never_goes_below_zero() {
+    fn stack_count_stops_at_zero() {
         let mut stack = ItemStack::new("cobblestone");
         stack.take(250);
         assert_eq!(stack.count, 0, "count is a u32, so it must stop at 0");
     }
 
     #[test]
-    fn is_alive_checks_hp() {
+    fn has_items_only_while_count_positive() {
         let mut stack = ItemStack::new("cobblestone");
         assert!(stack.has_items(), "a fresh stack has items");
         stack.take(64);

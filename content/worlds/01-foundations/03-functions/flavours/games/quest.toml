@@ -2,13 +2,13 @@ title = "Count the inventory"
 summary = "Parameters, return types, and why there is no `return` here."
 
 [[objectives]]
-test = "square_multiplies"
+test = "grid_slots_is_side_squared"
 label = "grid_slots(side) returns side * side"
 [[objectives]]
-test = "area_multiplies_sides"
+test = "item_count_multiplies_stacks_by_size"
 label = "item_count(stacks, size) returns stacks * size"
 [[objectives]]
-test = "summary_reuses_area"
+test = "inventory_line_reuses_item_count"
 label = "inventory_line(3, 64) returns \"3x64 = 192\" by calling item_count"
 
 [[hints]]

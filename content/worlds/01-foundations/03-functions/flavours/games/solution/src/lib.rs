@@ -19,19 +19,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn square_multiplies() {
+    fn grid_slots_is_side_squared() {
         assert_eq!(grid_slots(3), 9, "the crafting table is 3x3");
         assert_eq!(grid_slots(2), 4, "the inventory grid is 2x2");
     }
 
     #[test]
-    fn area_multiplies_sides() {
+    fn item_count_multiplies_stacks_by_size() {
         assert_eq!(item_count(3, 64), 192);
         assert_eq!(item_count(0, 64), 0);
     }
 
     #[test]
-    fn summary_reuses_area() {
+    fn inventory_line_reuses_item_count() {
         assert_eq!(inventory_line(3, 64), "3x64 = 192");
         assert_eq!(inventory_line(2, 16), "2x16 = 32");
     }

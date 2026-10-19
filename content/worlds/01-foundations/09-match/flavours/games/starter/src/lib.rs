@@ -34,7 +34,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn grades_use_ranges() {
+    fn rarity_follows_enchant_ranges() {
         assert_eq!(rarity(0), "common");
         assert_eq!(rarity(2), "uncommon");
         assert_eq!(rarity(3), "rare");
@@ -42,7 +42,7 @@ mod tests {
     }
 
     #[test]
-    fn describe_number_uses_guards() {
+    fn stack_state_guards_corrupt_empty_full_partial() {
         assert_eq!(stack_state(-4), "corrupt");
         assert_eq!(stack_state(0), "empty");
         assert_eq!(stack_state(64), "full");
@@ -51,7 +51,7 @@ mod tests {
     }
 
     #[test]
-    fn apply_moves_the_position() {
+    fn every_stack_action_is_handled() {
         assert_eq!(apply(&StackAction::Add { amount: 5 }, 10), 15);
         assert_eq!(apply(&StackAction::Remove { amount: 3 }, 10), 7);
         assert_eq!(apply(&StackAction::Remove { amount: 30 }, 10), 0, "never below 0");
@@ -60,7 +60,7 @@ mod tests {
     }
 
     #[test]
-    fn say_text_uses_if_let() {
+    fn new_name_is_pulled_out_with_if_let() {
         assert_eq!(new_name(&StackAction::Rename("Excalibur".to_string())), "Excalibur");
         assert_eq!(new_name(&StackAction::Inspect), "");
     }

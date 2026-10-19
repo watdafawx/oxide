@@ -18,19 +18,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn average_keeps_the_fraction() {
+    fn average_stack_keeps_the_half() {
         assert_eq!(average_stack(3, 4), 3.5);
         assert_eq!(average_stack(10, 20), 15.0);
     }
 
     #[test]
-    fn low_byte_truncates() {
+    fn slot_byte_keeps_low_byte() {
         assert_eq!(slot_byte(300), 44, "300 does not fit in a u8; only the low 8 bits stay");
         assert_eq!(slot_byte(65), 65);
     }
 
     #[test]
-    fn wrap_add_wraps_around() {
+    fn wrap_count_wraps_past_255() {
         assert_eq!(wrap_count(250, 10), 4, "250 + 10 = 260, which wraps past 255 to 4");
         assert_eq!(wrap_count(1, 2), 3);
     }

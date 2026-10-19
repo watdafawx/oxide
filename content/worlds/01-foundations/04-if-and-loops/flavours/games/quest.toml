@@ -1,18 +1,15 @@
 title = "Branch and repeat"
-summary = "if as an expression, for/while/loop, ranges and break with a value."
+summary = "if as an expression, for and while loops, ranges."
 
 [[objectives]]
-test = "fizzbuzz_words"
+test = "slot_label_names_full_empty_or_count"
 label = "slot_label picks Full, Empty or the count"
 [[objectives]]
-test = "sum_to_adds_range"
+test = "staircase_needs_one_through_n_blocks"
 label = "staircase_blocks(n) adds 1 through n with a for loop"
 [[objectives]]
-test = "collatz_counts_steps"
+test = "swings_to_break_counts_until_block_gone"
 label = "swings_to_break loops with while until the block is gone"
-[[objectives]]
-test = "first_square_over_breaks_with_value"
-label = "stacks_to_hold uses loop and `break value`"
 
 [[hints]]
 text = "`if` is an expression: `if count == 64 { \"Full\".to_string() } else if ... { ... } else { count.to_string() }`."
@@ -20,5 +17,3 @@ text = "`if` is an expression: `if count == 64 { \"Full\".to_string() } else if 
 text = "`for i in 1..=steps` includes `steps`. `1..steps` stops one short."
 [[hints]]
 text = "`while block_hp > 0 { block_hp -= damage; swings += 1; }`, then return `swings`."
-[[hints]]
-text = "`loop { if n * 64 >= items { break n; } n += 1; }` returns what you break with."

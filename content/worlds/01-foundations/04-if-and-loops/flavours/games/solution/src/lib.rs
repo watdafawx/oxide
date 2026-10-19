@@ -30,23 +30,12 @@ pub fn swings_to_break(mut block_hp: i32, damage: i32) -> u32 {
     swings
 }
 
-/// Smallest number of 64-item stacks (starting at 1) that holds `items`.
-pub fn stacks_to_hold(items: u32) -> u32 {
-    let mut n = 1;
-    loop {
-        if n * 64 >= items {
-            break n;
-        }
-        n += 1;
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn fizzbuzz_words() {
+    fn slot_label_names_full_empty_or_count() {
         assert_eq!(slot_label(64), "Full");
         assert_eq!(slot_label(0), "Empty");
         assert_eq!(slot_label(7), "7");
@@ -54,21 +43,14 @@ mod tests {
     }
 
     #[test]
-    fn sum_to_adds_range() {
+    fn staircase_needs_one_through_n_blocks() {
         assert_eq!(staircase_blocks(4), 10);
         assert_eq!(staircase_blocks(0), 0, "an empty range adds nothing");
     }
 
     #[test]
-    fn collatz_counts_steps() {
+    fn swings_to_break_counts_until_block_gone() {
         assert_eq!(swings_to_break(10, 3), 4);
         assert_eq!(swings_to_break(0, 3), 0, "already broken, no swings");
-    }
-
-    #[test]
-    fn first_square_over_breaks_with_value() {
-        assert_eq!(stacks_to_hold(65), 2, "64 fits one stack, 65 needs a second");
-        assert_eq!(stacks_to_hold(200), 4);
-        assert_eq!(stacks_to_hold(64), 1);
     }
 }

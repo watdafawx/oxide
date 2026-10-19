@@ -2,28 +2,28 @@ title = "Boss: crafting calculator"
 summary = "Finish the calculator: raw material totals for a whole crafting tree, driven by scripted input."
 
 [[objectives]]
-test = "new_game_starts_with_zero_attempts"
+test = "calculator_starts_with_no_recipes"
 label = "Calculator::new() starts with 0 recipes"
 [[objectives]]
-test = "guess_reports_too_low_and_too_high"
+test = "find_recipe_knows_crafted_items"
 label = "find_recipe returns Some for a crafted item and None for a raw one"
 [[objectives]]
-test = "guess_reports_correct"
+test = "batches_needed_rounds_up"
 label = "batches_needed rounds up: 5 planks need 2 crafts"
 [[objectives]]
-test = "attempts_are_counted"
+test = "raw_totals_walks_the_recipe_tree"
 label = "raw_totals walks the tree: 8 torches need coal x2 and log x1"
 [[objectives]]
-test = "parse_guess_accepts_numbers"
+test = "parse_recipe_accepts_a_recipe_line"
 label = "parse_recipe(\"stick x4 = plank x2\") is Ok(Recipe { .. })"
 [[objectives]]
-test = "parse_guess_rejects_bad_input"
+test = "parse_recipe_rejects_nonsense"
 label = "parse_recipe(\"pizza\") is Err(\"'pizza' is not a recipe\")"
 [[objectives]]
-test = "play_reports_each_guess"
+test = "run_turns_console_lines_into_messages"
 label = "run turns scripted lines into messages; bad lines change nothing"
 [[objectives]]
-test = "play_stops_after_correct_guess"
+test = "run_stops_at_quit"
 label = "run stops at quit and says \"1 recipe\" in the singular"
 
 [[hints]]

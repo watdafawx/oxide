@@ -24,13 +24,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn circle_area_uses_pi() {
+    fn tool_uses_equal_durability() {
         let uses = ItemKind::Tool(250).uses();
         assert_eq!(uses, 250, "a tool gives as many uses as its durability, got {uses}");
     }
 
     #[test]
-    fn rect_and_square_areas() {
+    fn food_and_block_have_uses() {
         let food = ItemKind::Food { servings: 3 }.uses();
         let block = ItemKind::Block { hardness: 2 }.uses();
         assert_eq!(food, 3, "Food with 3 servings should give 3 uses, got {food}");
@@ -38,7 +38,7 @@ mod tests {
     }
 
     #[test]
-    fn names_describe_each_variant() {
+    fn item_kind_names_are_block_tool_food() {
         assert_eq!(ItemKind::Block { hardness: 1 }.name(), "block");
         assert_eq!(ItemKind::Tool(10).name(), "tool");
         assert_eq!(ItemKind::Food { servings: 1 }.name(), "food");

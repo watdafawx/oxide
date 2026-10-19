@@ -22,20 +22,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn half_is_none_for_odd() {
+    fn recipe_output_is_none_for_unknown_items() {
         assert_eq!(recipe_output("planks"), Some(4));
         assert_eq!(recipe_output("diamond_pickaxe"), Some(1));
         assert_eq!(recipe_output("bedrock"), None, "nobody can craft bedrock");
     }
 
     #[test]
-    fn half_or_zero_falls_back() {
+    fn output_or_zero_defaults_to_nothing() {
         assert_eq!(output_or_zero("torch"), 4);
         assert_eq!(output_or_zero("bedrock"), 0);
     }
 
     #[test]
-    fn half_plus_one_maps_inside() {
+    fn double_batch_maps_inside_some() {
         assert_eq!(double_batch("planks"), Some(8));
         assert_eq!(double_batch("bedrock"), None, "no recipe stays no recipe");
     }

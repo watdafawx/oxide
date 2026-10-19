@@ -2,13 +2,13 @@ title = "Block, tool or food"
 summary = "Enums whose variants carry data, plus methods on them."
 
 [[objectives]]
-test = "circle_area_uses_pi"
+test = "tool_uses_equal_durability"
 label = "ItemKind::Tool(durability).uses() is the durability"
 [[objectives]]
-test = "rect_and_square_areas"
+test = "food_and_block_have_uses"
 label = "Food and Block uses work too"
 [[objectives]]
-test = "names_describe_each_variant"
+test = "item_kind_names_are_block_tool_food"
 label = "name() returns \"block\", \"tool\" or \"food\""
 
 [[hints]]

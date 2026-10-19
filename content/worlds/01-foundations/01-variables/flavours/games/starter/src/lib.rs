@@ -16,12 +16,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn bonus_is_added_to_score() {
+    fn stack_after_pickup_adds_five() {
         assert_eq!(stack_after_pickup(), 15, "10 items + 5 picked up");
     }
 
     #[test]
-    fn trimmed_len_ignores_spaces() {
+    fn item_name_len_ignores_padding() {
         assert_eq!(item_name_len("  oak_log  "), 7);
         assert_eq!(item_name_len("cobblestone"), 11);
     }

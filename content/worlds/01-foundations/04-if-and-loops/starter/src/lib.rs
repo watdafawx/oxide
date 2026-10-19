@@ -17,12 +17,6 @@ pub fn collatz_steps(mut n: i64) -> u32 {
     todo!()
 }
 
-/// Smallest n (starting at 1) whose square is bigger than `limit`.
-pub fn first_square_over(limit: u32) -> u32 {
-    // TODO: `loop` with `break n;`
-    todo!()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,11 +39,5 @@ mod tests {
     fn collatz_counts_steps() {
         assert_eq!(collatz_steps(6), 8);
         assert_eq!(collatz_steps(1), 0, "already at 1");
-    }
-
-    #[test]
-    fn first_square_over_breaks_with_value() {
-        assert_eq!(first_square_over(50), 8, "8 * 8 = 64 is the first square over 50");
-        assert_eq!(first_square_over(0), 1);
     }
 }

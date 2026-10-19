@@ -2,13 +2,13 @@ title = "Reject a bad stack"
 summary = "Result, matching on Err, expect, and returning Result from your own function."
 
 [[objectives]]
-test = "safe_divide_returns_result"
+test = "validate_stack_rejects_over_64"
 label = "validate_stack returns Ok(count) or Err for a stack over 64"
 [[objectives]]
-test = "describe_division_matches_result"
+test = "describe_stack_reports_ok_and_err"
 label = "describe_stack uses match on Ok and Err"
 [[objectives]]
-test = "port_from_config_uses_expect"
+test = "max_stack_from_config_parses_text"
 label = "max_stack_from_config parses text and uses expect"
 
 [[hints]]
