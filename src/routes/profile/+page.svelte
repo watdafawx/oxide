@@ -5,7 +5,7 @@
   import type { Settings } from "$lib/types";
 
   let dates = $state<Set<string>>(new Set());
-  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "" });
+  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games" });
   let saved = $state(false);
   let dirty = $state(false);
 
@@ -24,6 +24,20 @@
       dirty = false;
       saved = true;
       setTimeout(() => (saved = false), 1800);
+    } catch (e) {
+      app.error(e);
+    }
+  }
+
+  let flavours = $state<string[]>(["games", "plain"]);
+  $effect(() => { api.listFlavours().then((f) => (flavours = f)).catch(() => {}); });
+  const flavourLabel = (f: string) => (f === "games" ? "Game" : f === "plain" ? "Plain" : f);
+  async function setFlavour(f: string) {
+    if (!app.profile || f === app.profile.settings.flavour) return;
+    try {
+      await api.setSettings({ ...app.profile.settings, flavour: f });
+      app.profile = await api.getProfile();
+      form.flavour = f;
     } catch (e) {
       app.error(e);
     }
@@ -127,6 +141,15 @@
         <input class="rounded-xl border border-line bg-bg px-4 py-2.5 font-mono" bind:value={form.editor} placeholder="code" />
         <span class="text-sm text-dim">Run with the quest folder as its argument.</span>
       </label>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-semibold">Style</span>
+        <div class="flex w-fit gap-1 rounded-xl border border-line bg-bg p-1" data-testid="flavour">
+          {#each flavours as f}
+            <button type="button" class="rounded-lg px-4 py-1.5 font-medium {app.profile?.settings.flavour === f ? 'bg-rust text-black' : 'text-dim hover:text-ink'}" onclick={() => setFlavour(f)}>{flavourLabel(f)}</button>
+          {/each}
+        </div>
+        <span class="text-sm text-dim">Game tells a story around each quest. Plain is just the lesson. Applies right away.</span>
+      </div>
       <label class="flex items-center gap-3">
         <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sound} />
         <span class="font-semibold">Sound</span>

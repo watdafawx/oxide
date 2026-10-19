@@ -11,6 +11,7 @@ type NoArgs = Record<string, never>;
 
 export interface Commands {
   home: { args: NoArgs; ret: Home };
+  list_flavours: { args: NoArgs; ret: string[] };
   list_tracks: { args: NoArgs; ret: Track[] };
   list_worlds: { args: { track?: string }; ret: World[] };
   get_quest: { args: { id: string }; ret: QuestDetail };
@@ -56,6 +57,7 @@ export async function listen<K extends keyof EventMap>(name: K, cb: (payload: Ev
 const E: NoArgs = {};
 export const api = {
   home: () => call("home", E),
+  listFlavours: () => call("list_flavours", E),
   listTracks: () => call("list_tracks", E),
   listWorlds: (track?: string) => call("list_worlds", track ? { track } : {}),
   getQuest: (id: string) => call("get_quest", { id }),

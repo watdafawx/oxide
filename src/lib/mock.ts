@@ -24,7 +24,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 type QuestInit = Partial<Quest> & Pick<Quest, "title" | "summary" | "kind" | "xp" | "minutes">;
 function q(world: string, index: number, slug: string, p: QuestInit): Quest {
   const track_id = world.split("/")[0];
-  return { id: `${world}/${slug}`, track_id, runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], ...p };
+  return { id: `${world}/${slug}`, track_id, flavour: "games", runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], ...p };
 }
 const obj = (test: string, label: string) => ({ test, label });
 
@@ -123,10 +123,15 @@ const worlds: World[] = [
   { id: L, track_id: "lua", index: 1, slug: "lua-core", title: "Lua Core", blurb: "Functions, tables and loops.", quests: [] },
 ];
 worlds.forEach((w) => (w.quests = quests.filter((x) => x.world_id === w.id)));
+// "plain" flavour: same quest, no game story
+const plainTitles: Record<string, string> = { [`${T}/01-hello`]: "Write your first function" };
+const skin = (x: Quest): Quest => (state.settings.flavour === "plain"
+  ? { ...x, flavour: "plain", title: plainTitles[x.id] ?? x.title }
+  : { ...x, flavour: "games" });
 const byId = (id: string) => {
   const x = quests.find((z) => z.id === id);
   if (!x) throw new Error(`unknown quest ${id}`);
-  return x;
+  return skin(x);
 };
 
 const achievements: Achievement[] = [
@@ -158,7 +163,7 @@ const state = {
   completed: [] as string[],
   started: [] as string[],
   achievements: ["streak-3"] as string[],
-  settings: { editor: "code", sound: true, focus_minutes: 25, track: "rust" },
+  settings: { editor: "code", sound: true, focus_minutes: 25, track: "rust", flavour: "games" },
   hints: {} as Record<string, number>,
   attempts: {} as Record<string, number>,
   last: {} as Record<string, CheckResult | null>,
@@ -276,12 +281,14 @@ export const mockHandlers: MockHandlers = {
     const started = mine.find((x) => state.started.includes(x.id)) ?? null;
     const next = open.find((x) => x.id !== started?.id) ?? null;
     const alt = open.filter((x) => x.id !== next?.id && x.id !== started?.id)[0] ?? null;
-    return { track, next: next ?? started, alternate: alt, profile: profile(), resume: next ? started : null };
+    const s = (x: Quest | null) => (x ? skin(x) : null);
+    return { track, next: s(next ?? started), alternate: s(alt), profile: profile(), resume: next ? s(started) : null };
   },
+  async list_flavours() { return ["plain", "games"]; },
   async list_tracks() { return tracks; },
   async list_worlds({ track }) {
     const t = track || state.settings.track || tracks[0].id;
-    return worlds.filter((w) => w.track_id === t);
+    return worlds.filter((w) => w.track_id === t).map((w) => ({ ...w, quests: w.quests.map(skin) }));
   },
   async get_quest({ id }) { return detail(id); },
   async start_quest({ id }) {

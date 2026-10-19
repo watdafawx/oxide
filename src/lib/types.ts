@@ -11,6 +11,7 @@ export interface Quiz { question: string; choices: string[]; answer: number }
 export interface Quest {
   id: string;
   track_id: string;
+  flavour: string;
   world_id: string;
   runner: Runner;
   index: number;
@@ -29,7 +30,7 @@ export interface Quest {
 
 export interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
-export interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string }
+export interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string; flavour: string }
 
 export interface Profile {
   xp: number;

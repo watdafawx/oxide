@@ -10,6 +10,7 @@
 
   $effect(() => {
     void app.profile?.completed.length;
+    void app.profile?.settings.flavour;
     const t = app.track?.id;
     api.listWorlds(t).then((w) => { worlds = w; loaded = true; }).catch((e) => app.error(e));
   });

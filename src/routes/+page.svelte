@@ -19,6 +19,7 @@
   $effect(() => {
     void app.profile?.completed.length; // refresh when progress changes
     void app.profile?.settings.track; // ...or the track switches
+    void app.profile?.settings.flavour;
     void load();
   });
 

@@ -17,6 +17,7 @@
 
   $effect(() => {
     const qid = id;
+    void app.profile?.settings.flavour;
     detail = null;
     expanded = {};
     answers = [];
