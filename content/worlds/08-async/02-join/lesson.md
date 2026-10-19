@@ -25,7 +25,8 @@ async fn both() -> (u32, u32) {
 
 ## Your turn
 
-In `src/lib.rs` (`slow_double` is given):
+In `src/lib.rs` (`slow_double` and `greet` are given):
 
+- `greet_twice`: `.await` `greet(name)` two times, one after the other, and join the results with a space. This is the sequential version to compare with.
 - `double_both`: run `slow_double(a)` and `slow_double(b)` with `join!`.
 - `sum_of_both`: same, but return the sum.

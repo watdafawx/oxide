@@ -1,10 +1,13 @@
 title = "Do two things at once"
 summary = "tokio::join! runs futures side by side instead of one after another."
 kind = "exercise"
-xp = 40
-minutes = 6
+xp = 45
+minutes = 8
 tags = ["async", "join", "concurrency"]
 
+[[objectives]]
+test = "greet_twice_awaits_both"
+label = "greet_twice awaits two greetings in sequence and joins them"
 [[objectives]]
 test = "double_both_returns_both_results"
 label = "double_both(a, b) returns both doubled numbers"
@@ -15,6 +18,8 @@ label = "Both slow calls overlap in time (about 300 ms, not 600 ms)"
 test = "sum_of_both_adds_results"
 label = "sum_of_both joins the two calls and adds the results"
 
+[[hints]]
+text = "`greet_twice` is the slow way on purpose: `let a = greet(name).await;`, then the same again, then `format!(\"{a} {b}\")`."
 [[hints]]
 text = "`let (x, y) = tokio::join!(slow_double(a), slow_double(b));` with no `.await` on each future inside the macro."
 [[hints]]

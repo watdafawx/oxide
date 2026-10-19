@@ -7,6 +7,18 @@ pub async fn slow_double(n: u32) -> u32 {
     n * 2
 }
 
+/// "Hello, Alex!" for name = "Alex". Given.
+pub async fn greet(name: &str) -> String {
+    format!("Hello, {name}!")
+}
+
+/// Two greetings one after the other, joined by a space: "Hello, Alex! Hello, Alex!"
+pub async fn greet_twice(name: &str) -> String {
+    let first = greet(name).await;
+    let second = greet(name).await;
+    format!("{first} {second}")
+}
+
 /// Returns (a doubled, b doubled). Both waits must overlap.
 pub async fn double_both(a: u32, b: u32) -> (u32, u32) {
     tokio::join!(slow_double(a), slow_double(b))
@@ -43,6 +55,11 @@ mod tests {
             took < Duration::from_millis(520),
             "took {took:?}: the two waits ran one after another, use join!"
         );
+    }
+
+    #[tokio::test]
+    async fn greet_twice_awaits_both() {
+        assert_eq!(greet_twice("Sam").await, "Hello, Sam! Hello, Sam!");
     }
 
     #[tokio::test]

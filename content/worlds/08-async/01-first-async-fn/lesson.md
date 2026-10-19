@@ -20,10 +20,11 @@ async fn main() {
 
 No `.await`, no work. Forget it and the compiler warns you.
 
+**First build:** this quest downloads and compiles tokio (about 1-2 min the first time). Later runs take seconds.
+
 ## Your turn
 
 In `src/lib.rs`:
 
 - `greet`: return `"Hello, <name>!"`.
 - `add_async`: return `a + b`.
-- `greet_twice`: `.await` `greet(name)` two times and join them with a space.
