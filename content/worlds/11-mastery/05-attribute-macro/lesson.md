@@ -23,9 +23,7 @@ Your `#[timed]` also generates a global counter per function. `#[timed] fn ping(
 
 - `static PING_CALLS: AtomicUsize` (uppercase name + `_CALLS`),
 - `pub fn ping_calls() -> usize` that reads it,
-- `fn ping()` with a `fetch_add(1)` before the original body.
-
-`format_ident!` builds those new names for you.
+- `fn ping()` with a `fetch_add(1)` before the original body. `format_ident!` builds those new names for you.
 
 ## Your turn
 

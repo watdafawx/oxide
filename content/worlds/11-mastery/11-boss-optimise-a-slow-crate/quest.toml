@@ -31,8 +31,14 @@ test = "big_document_stays_under_the_op_budget"
 label = "50,000 lines: build, 20 searches and top_words stay under the op budget"
 
 [[hints]]
-text = "Run the tests first: three already pass, so you know the behaviour you must keep. The slow part is `entries: Vec<(Word, Vec<usize>)>`, which is searched with a linear scan for every single word. Replace it with a `HashMap<String, ...>`."
+text = "Run the tests first: three already pass, so you know the behaviour you must keep. Then go in order: the op caps (the data structure), the allocation caps (the buffers), the big document last."
 [[hints]]
-text = "Store per word both the line list and an occurrence count. In `build`, keep one `String` buffer: `buf.clear(); buf.extend(token.chars().flat_map(char::to_lowercase));`. Look up with `map.get_mut(buf.as_str())` (no allocation) and only `insert(buf.clone(), ...)` for a new word. Push a line number only if it is not already the last one."
+text = "The slow part is `entries: Vec<(Word, Vec<usize>)>`, which is searched with a linear scan for every single word. Replace it with a `HashMap<String, ...>` and the op caps drop."
+[[hints]]
+text = "Store per word both the line list and an occurrence count. In `build`, keep one `String` buffer: `buf.clear(); buf.extend(token.chars().flat_map(char::to_lowercase));`."
+[[hints]]
+text = "Look up with `map.get_mut(buf.as_str())` (no allocation) and only `insert(buf.clone(), ...)` for a new word. Push a line number only if it is not already the last one."
 [[hints]]
 text = "`top_words`: collect `Vec<(&String, usize)>` of references, `sort_unstable_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)))`, then `take(n)` and clone just those. `sort_unstable` does not allocate a scratch buffer, `sort` does."
+[[hints]]
+text = "Still over the big-document budget? Look for a `clone()` or `to_string()` per token in `build`, or a `Vec<String>` you sort instead of references."
