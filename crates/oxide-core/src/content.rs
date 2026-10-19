@@ -34,7 +34,7 @@ pub enum Runner {
     Cargo,
     /// `tests.lua` in an embedded Lua 5.2, see `lua.rs`.
     Lua,
-    /// `gradlew test` with JUnit XML. Not built yet.
+    /// `gradlew test` with JUnit XML, see `gradle.rs`.
     Gradle,
 }
 
@@ -48,12 +48,25 @@ impl Runner {
         }
     }
 
+    /// Other files that count as the marker (a Gradle build may be Groovy).
+    pub fn alt_marker(self) -> Option<&'static str> {
+        match self {
+            Runner::Gradle => Some("build.gradle"),
+            _ => None,
+        }
+    }
+
+    /// Whether `dir` holds this runner's project.
+    pub fn is_project(self, dir: &Path) -> bool {
+        dir.join(self.marker()).is_file() || self.alt_marker().is_some_and(|m| dir.join(m).is_file())
+    }
+
     /// The file every starter/solution (and workspace) must have.
     pub fn marker(self) -> &'static str {
         match self {
             Runner::Cargo => "Cargo.toml",
             Runner::Lua => "tests.lua",
-            Runner::Gradle => "settings.gradle.kts",
+            Runner::Gradle => "build.gradle.kts",
         }
     }
 }
@@ -101,6 +114,8 @@ struct QuestToml {
     starter_fails_to_compile: bool,
     /// Defaults to the track's runner.
     runner: Option<Runner>,
+    /// JDK major version for the gradle runner; overrides the track's.
+    jdk: Option<u32>,
 }
 
 /// Overrides a flavour may give in its `quest.toml`; tests must stay the same.
@@ -145,6 +160,8 @@ pub struct Quest {
     pub summary: String,
     pub kind: QuestKind,
     pub runner: Runner,
+    /// JDK major version (gradle runner); quest overrides track, `None` = the engine default.
+    pub jdk: Option<u32>,
     pub xp: u32,
     pub minutes: u32,
     pub tags: Vec<String>,
@@ -217,6 +234,8 @@ struct TrackToml {
     blurb: String,
     #[serde(default)]
     runner: Runner,
+    /// JDK major version for gradle quests: 21 or 25.
+    jdk: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -225,6 +244,7 @@ pub struct Track {
     pub title: String,
     pub blurb: String,
     pub runner: Runner,
+    pub jdk: Option<u32>,
     pub dir: PathBuf,
     pub lib_dir: Option<PathBuf>,
 }
@@ -342,7 +362,7 @@ pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
             };
             let lib_dir = Some(tdir.join("lib")).filter(|p| p.is_dir());
             specs.push((
-                Track { id, title: meta.title, blurb: meta.blurb, runner: meta.runner, dir: tdir.clone(), lib_dir },
+                Track { id, title: meta.title, blurb: meta.blurb, runner: meta.runner, jdk: meta.jdk, dir: tdir.clone(), lib_dir },
                 tdir.join("worlds"),
             ));
         }
@@ -355,6 +375,7 @@ pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
                 title: "Rust".into(),
                 blurb: "From hello world to shipping real apps.".into(),
                 runner: Runner::Cargo,
+                jdk: None,
                 dir: content_dir.to_path_buf(),
                 lib_dir: None,
             },
@@ -431,6 +452,12 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
     if t.title.trim().is_empty() {
         errs.push(at("title is empty"));
     }
+    if t.jdk.is_some_and(|j| !matches!(j, 21 | 25)) {
+        errs.push(at("jdk must be 21 or 25"));
+    }
+    if track.jdk.is_some_and(|j| !matches!(j, 21 | 25)) {
+        errs.push(format!("{}: jdk must be 21 or 25", track.dir.join("track.toml").display()));
+    }
     if t.minutes == 0 {
         errs.push(at("minutes must be > 0"));
     }
@@ -443,7 +470,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
                 errs.push(at("exercise/boss needs at least one [[objectives]]"));
             }
             for sub in ["starter", "solution"] {
-                if !dir.join(sub).join(runner.marker()).is_file() {
+                if !runner.is_project(&dir.join(sub)) {
                     errs.push(format!("{}: {sub}/{} missing", dir.display(), runner.marker()));
                 }
             }
@@ -490,6 +517,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
         summary: t.summary,
         kind: t.kind,
         runner,
+        jdk: t.jdk.or(track.jdk),
         xp: t.xp,
         minutes: t.minutes,
         tags: t.tags,
@@ -537,7 +565,7 @@ fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<S
         let is_project = matches!(plain.kind, QuestKind::Exercise | QuestKind::Boss);
         if is_project {
             for sub in ["starter", "solution"] {
-                if !vdir.join(sub).join(runner.marker()).is_file() {
+                if !runner.is_project(&vdir.join(sub)) {
                     errs.push(at(&format!("{sub}/{} missing (a flavour of a project quest ships its own code)", runner.marker())));
                 }
             }
