@@ -1,0 +1,19 @@
+title = "One function, any mob"
+summary = "Write generic functions over T: Entity: strongest, roster and total health."
+
+[[objectives]]
+test = "largest_works_for_many_types"
+label = "strongest finds the healthiest zombie, creeper or villager"
+[[objectives]]
+test = "show_all_joins_with_commas"
+label = "roster lists mob names separated by \", \""
+[[objectives]]
+test = "count_matching_counts_equal_items"
+label = "total_health adds up the health of every mob"
+
+[[hints]]
+text = "`strongest`: start with `let mut best = &mobs[0];`, loop over `mobs`, and replace `best` when `m.health() > best.health()`."
+[[hints]]
+text = "`roster`: map every mob to `m.name()`, collect into a `Vec<String>`, then `.join(\", \")`."
+[[hints]]
+text = "`total_health`: `mobs.iter().map(|m| m.health()).sum()`."

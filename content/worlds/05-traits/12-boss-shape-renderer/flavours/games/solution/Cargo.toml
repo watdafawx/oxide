@@ -1,0 +1,6 @@
+[package]
+name = "trait_boss_shape_renderer"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

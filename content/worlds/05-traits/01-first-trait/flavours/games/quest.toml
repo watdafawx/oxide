@@ -1,0 +1,14 @@
+title = "Every mob has a describe()"
+summary = "Define the Entity trait and implement it for a zombie and a creeper."
+
+[[objectives]]
+test = "dog_describes_itself"
+label = "Zombie::describe() returns \"Steve the zombie\""
+[[objectives]]
+test = "robot_describes_itself"
+label = "Creeper::describe() returns \"creeper (fuse 30)\""
+
+[[hints]]
+text = "Inside `impl Entity for Zombie { ... }` the method body can use `self.name`."
+[[hints]]
+text = "Use `format!(\"{} the zombie\", self.name)`. For the creeper: `format!(\"creeper (fuse {})\", self.fuse)`."

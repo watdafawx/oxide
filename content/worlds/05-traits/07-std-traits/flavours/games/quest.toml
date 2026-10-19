@@ -1,0 +1,22 @@
+title = "The traits every ChunkPos needs"
+summary = "Derive Debug, Clone, PartialEq, Default. Implement Display and From for ChunkPos."
+
+[[objectives]]
+test = "debug_and_equality_derive"
+label = "ChunkPos prints with {:?} and compares with =="
+[[objectives]]
+test = "clone_and_default_derive"
+label = "ChunkPos can be cloned and has a Default (the origin)"
+[[objectives]]
+test = "display_formats_player"
+label = "Display prints \"[3, -2]\""
+[[objectives]]
+test = "from_str_builds_player"
+label = "ChunkPos::from((3, -2)) builds the chunk"
+
+[[hints]]
+text = "Put `#[derive(Debug, Clone, PartialEq, Default)]` on the line above `pub struct ChunkPos`."
+[[hints]]
+text = "Then the helpers are one-liners: `format!(\"{p:?}\")`, `a == b`, `p.clone()`, `ChunkPos::default()`."
+[[hints]]
+text = "Display: `write!(f, \"[{}, {}]\", self.x, self.z)`. From: `ChunkPos { x: xz.0, z: xz.1 }`."

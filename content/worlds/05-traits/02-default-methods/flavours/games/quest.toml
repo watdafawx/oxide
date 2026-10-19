@@ -1,0 +1,19 @@
+title = "Peaceful unless told otherwise"
+summary = "Give Entity default methods, then override them for the zombie."
+
+[[objectives]]
+test = "default_greet_uses_name"
+label = "Default announce() says \"A wild <name> appears!\" and is_hostile() is false"
+[[objectives]]
+test = "shout_builds_on_greet"
+label = "Default alert() is announce() in uppercase"
+[[objectives]]
+test = "parrot_overrides_greet"
+label = "Zombie overrides announce() and is_hostile()"
+
+[[hints]]
+text = "In a default body you can call the other methods of the trait: `self.name()`."
+[[hints]]
+text = "`alert` is `self.announce().to_uppercase()`. It calls whichever `announce` the mob ended up with."
+[[hints]]
+text = "Zombie: `format!(\"{} groans at you!\", self.name())`, and `is_hostile` returns `true`."

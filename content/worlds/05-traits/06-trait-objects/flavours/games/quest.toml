@@ -1,0 +1,22 @@
+title = "One mob list, every kind"
+summary = "Store zombies and creepers in one Vec<Box<dyn Entity>> for the tick loop."
+
+[[objectives]]
+test = "shapes_report_area"
+label = "Zombie and Creeper implement health()"
+[[objectives]]
+test = "make_shapes_builds_mixed_vec"
+label = "spawn_wave() returns a zombie and a creeper in one Vec"
+[[objectives]]
+test = "total_area_sums_boxed_shapes"
+label = "total_health adds up a slice of Box<dyn Entity>"
+[[objectives]]
+test = "describe_takes_a_reference"
+label = "describe(&dyn Entity) returns \"<name> with <n> hp\""
+
+[[hints]]
+text = "Both `health` methods just return `self.hp`."
+[[hints]]
+text = "`vec![Box::new(Zombie { hp: 20 }), Box::new(Creeper { hp: 15 })]`. The return type tells Rust to treat each Box as `Box<dyn Entity>`."
+[[hints]]
+text = "`total_health`: `world.iter().map(|mob| mob.health()).sum()`. `describe`: `format!(\"{} with {} hp\", mob.name(), mob.health())`."

@@ -1,0 +1,22 @@
+title = "Make + work on Vec3"
+summary = "Implement Add, Neg, Mul and PartialOrd so positions and velocities read like maths."
+
+[[objectives]]
+test = "add_vectors"
+label = "Vec3 + Vec3 adds each component (position + velocity)"
+[[objectives]]
+test = "negate_vector"
+label = "-Vec3 flips all three components"
+[[objectives]]
+test = "scale_by_number"
+label = "Vec3 * f64 scales all three components"
+[[objectives]]
+test = "vectors_compare_by_length"
+label = "a < b compares vector lengths (who is closer?)"
+
+[[hints]]
+text = "`Add` has `type Output = Vec3;` and `fn add(self, other: Vec3) -> Vec3`. Build `Vec3::new(self.x + other.x, ...)`."
+[[hints]]
+text = "`Neg`: `Vec3::new(-self.x, -self.y, -self.z)`. `Mul<f64>`: multiply all three fields by `k`."
+[[hints]]
+text = "`partial_cmp`: compare squared lengths, `self.len_sq().partial_cmp(&other.len_sq())`. The helper `len_sq` is given."

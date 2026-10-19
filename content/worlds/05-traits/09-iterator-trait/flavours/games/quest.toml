@@ -1,0 +1,19 @@
+title = "Walk every chunk in a radius"
+summary = "Implement Iterator for ChunksInRadius and get filter, map and sum for free."
+
+[[objectives]]
+test = "counts_down_to_one"
+label = "ChunksInRadius::new(1) yields the 9 chunks around the origin, then stops"
+[[objectives]]
+test = "evens_only"
+label = "ore_chunks(1) collects the chunks where x + z is even"
+[[objectives]]
+test = "sum_of_squares_of_countdown"
+label = "total_distance_sq(1) is 12"
+
+[[hints]]
+text = "`next`: if `self.x > self.radius` return `None`. Otherwise save the current `ChunkPos`, step `z` (wrap to `-radius` and bump `x` at the end of a row), and return `Some(saved)`."
+[[hints]]
+text = "Once `next` works, `ChunksInRadius::new(r)` is a normal iterator: `.filter(|c| (c.x + c.z).rem_euclid(2) == 0).collect()`."
+[[hints]]
+text = "`total_distance_sq`: `ChunksInRadius::new(radius).map(|c| c.x * c.x + c.z * c.z).sum()`."
