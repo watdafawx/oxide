@@ -1,0 +1,17 @@
+title = "Reading red"
+summary = "A failing check tells you exactly what the server bot got wrong."
+
+[[quiz]]
+question = "In `expected: 20` / `but was: 0`, what did YOUR code return?"
+choices = ["20", "0", "Nothing"]
+answer = 1
+
+[[quiz]]
+question = "Where does the failure tell you which test line failed?"
+choices = ["In the Gradle version", "In the `file:line` after the assertion text", "It never does"]
+answer = 1
+
+[[quiz]]
+question = "A red objective says `UnsupportedOperationException: TODO`. What does it mean?"
+choices = ["The server crashed", "That part of your bot is not written yet", "The test is wrong"]
+answer = 1

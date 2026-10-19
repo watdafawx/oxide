@@ -1,0 +1,12 @@
+title = "Status bot online"
+summary = "Your bot's first message: say it is alive."
+
+[[objectives]]
+test = "botAnnouncesItself"
+label = "greeting() returns \"Status bot online!\""
+
+[[hints]]
+text = "A method ends with `return something;`. Right now it returns `null`, which means \"nothing\"."
+
+[[hints]]
+text = "Text goes in double quotes: `return \"Status bot online!\";`"

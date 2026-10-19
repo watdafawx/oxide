@@ -1,0 +1,21 @@
+title = "Project layout"
+summary = "Where code, tests and settings live in a Gradle project."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["setup", "gradle"]
+
+[[quiz]]
+question = "Where do the classes YOU write go?"
+choices = ["src/main/java", "src/test/java", "build/"]
+answer = 0
+
+[[quiz]]
+question = "Where do the tests that grade you live?"
+choices = ["src/main/java", "src/test/java", "gradle/wrapper"]
+answer = 1
+
+[[quiz]]
+question = "What is the `build/` folder?"
+choices = ["Your source code", "Generated output; Gradle recreates it, never edit it", "The JDK"]
+answer = 1

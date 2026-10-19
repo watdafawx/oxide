@@ -1,0 +1,26 @@
+title = "main and args"
+summary = "Programs start in main(String[] args). Use the first argument, or a default."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["setup", "main", "arrays"]
+
+[[objectives]]
+test = "bannerUsesFirstArg"
+label = "banner([\"Ada\"]) returns \"Hello, Ada!\""
+
+[[objectives]]
+test = "bannerDefaultsWithoutArgs"
+label = "banner([]) returns \"Hello, Oxide!\""
+
+[[hints]]
+text = "`args.length` tells you how many arguments came in. Check it before you touch `args[0]`."
+
+[[hints]]
+text = "Handle the empty case first: `if (args.length == 0) { return \"Hello, Oxide!\"; }`"
+
+[[hints]]
+text = "Otherwise use the first one: `args[0]` is the first argument (counting starts at 0)."
+
+[[hints]]
+text = "`return \"Hello, \" + args[0] + \"!\";` after the `if`."

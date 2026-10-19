@@ -1,0 +1,16 @@
+title = "Hello, Oxide"
+summary = "Make greeting() return \"Hello, Oxide!\": your first green tick."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["setup", "strings"]
+
+[[objectives]]
+test = "greetingSaysHello"
+label = "greeting() returns \"Hello, Oxide!\""
+
+[[hints]]
+text = "A method ends with `return something;`. Right now it returns `null`, which means \"nothing\"."
+
+[[hints]]
+text = "Text goes in double quotes: `return \"Hello, Oxide!\";`"

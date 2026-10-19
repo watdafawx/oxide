@@ -1,0 +1,22 @@
+title = "What's a JDK?"
+summary = "The three Java tools you will meet today, and the 90-second first build."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["setup", "jdk"]
+requires = []
+
+[[quiz]]
+question = "Which tool turns your `.java` source into bytecode?"
+choices = ["java", "javac", "gradlew"]
+answer = 1
+
+[[quiz]]
+question = "You want to write and build Java. What must be installed?"
+choices = ["A JRE", "A JDK", "Only a browser"]
+answer = 1
+
+[[quiz]]
+question = "Why does every Oxide quest ship a `gradlew` file?"
+choices = ["So everyone builds with the exact same Gradle version", "It is the compiler", "It replaces the JDK"]
+answer = 0

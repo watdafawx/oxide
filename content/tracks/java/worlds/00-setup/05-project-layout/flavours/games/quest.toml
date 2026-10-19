@@ -1,0 +1,17 @@
+title = "Project layout"
+summary = "Where the bot's code, tests and settings live."
+
+[[quiz]]
+question = "Where do the classes YOU write for the bot go?"
+choices = ["src/main/java", "src/test/java", "build/"]
+answer = 0
+
+[[quiz]]
+question = "Where do the tests that grade you live?"
+choices = ["src/main/java", "src/test/java", "gradle/wrapper"]
+answer = 1
+
+[[quiz]]
+question = "What is the `build/` folder?"
+choices = ["Your bot's source code", "Generated output; Gradle recreates it, never edit it", "The Minecraft server"]
+answer = 1

@@ -1,0 +1,17 @@
+title = "What's a JDK?"
+summary = "The tools behind your Minecraft server, and the 90-second first build."
+
+[[quiz]]
+question = "Your server's start script runs `java -jar server.jar`. Which tool is that?"
+choices = ["javac", "java, the JVM launcher", "gradlew"]
+answer = 1
+
+[[quiz]]
+question = "You want to write a plugin for your server and build it. What must be installed?"
+choices = ["A JRE", "A JDK", "Only the Minecraft launcher"]
+answer = 1
+
+[[quiz]]
+question = "Why does every Oxide quest ship a `gradlew` file?"
+choices = ["So every plugin builds with the exact same Gradle version", "It is the Minecraft server", "It replaces the JDK"]
+answer = 0

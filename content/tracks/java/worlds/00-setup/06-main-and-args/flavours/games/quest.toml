@@ -1,0 +1,22 @@
+title = "Pick the server"
+summary = "Run the bot as `java StatusCommand <server>`: read the address, default to localhost."
+
+[[objectives]]
+test = "headerUsesFirstArgAsServer"
+label = "header([\"play.example.net\"]) returns \"Status of play.example.net\""
+
+[[objectives]]
+test = "headerDefaultsToLocalhost"
+label = "header([]) returns \"Status of localhost\""
+
+[[hints]]
+text = "`args.length` tells you how many arguments came in. Check it before you touch `args[0]`."
+
+[[hints]]
+text = "Handle the empty case first: `if (args.length == 0) { return \"Status of localhost\"; }`"
+
+[[hints]]
+text = "Otherwise the server address is `args[0]` (counting starts at 0)."
+
+[[hints]]
+text = "`return \"Status of \" + args[0];` after the `if`."

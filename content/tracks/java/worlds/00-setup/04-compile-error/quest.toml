@@ -1,0 +1,23 @@
+title = "Fix the compile error"
+summary = "javac says exactly what is wrong. Fix a missing semicolon and a type mismatch."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["setup", "compiler"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "compilesAndAddsTwoNumbers"
+label = "Sum compiles and add(2, 3) returns 5"
+
+[[hints]]
+text = "Read the first error: it names the file and line, and `^` points at the spot. It says `';' expected`."
+
+[[hints]]
+text = "Add the missing `;` at the end of the `String total = a + b` line. Save and read the next error."
+
+[[hints]]
+text = "Now javac complains it cannot convert `int` to `String`. `a + b` is a number, so the variable should be an `int`."
+
+[[hints]]
+text = "Final line: `int total = a + b;`"

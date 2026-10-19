@@ -1,0 +1,26 @@
+title = "Printing and formatting"
+summary = "Print a line with printf and format a number with String.format."
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["setup", "printf", "strings"]
+
+[[objectives]]
+test = "printsGreetingLine"
+label = "printGreeting(out, \"Ada\") prints \"Hello, Ada!\" and a newline"
+
+[[objectives]]
+test = "formatsPriceWithTwoDecimals"
+label = "formatPrice(12.5) returns \"$12.50\""
+
+[[hints]]
+text = "Print to the stream you are given, not `System.out`: `out.printf(...)`. That is how the test captures the output."
+
+[[hints]]
+text = "`%s` is a slot for text and `%n` is a newline: `out.printf(\"Hello, %s!%n\", name);`"
+
+[[hints]]
+text = "`String.format` builds text with the same slots instead of printing. `%.2f` means a decimal with 2 digits after the point."
+
+[[hints]]
+text = "`return String.format(Locale.ROOT, \"$%.2f\", price);`"

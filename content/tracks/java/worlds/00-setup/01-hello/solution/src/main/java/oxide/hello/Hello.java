@@ -1,8 +1,0 @@
-package oxide.hello;
-
-public class Hello {
-    /** Returns "Hello, <name>!". */
-    public static String greets(String name) {
-        return "Hello, " + name + "!";
-    }
-}

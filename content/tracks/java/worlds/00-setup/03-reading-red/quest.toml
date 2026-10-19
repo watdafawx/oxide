@@ -1,0 +1,21 @@
+title = "Reading red"
+summary = "A failing test tells you exactly what to fix. Learn to read it."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["setup", "tests"]
+
+[[quiz]]
+question = "In `expected: \"Hello, Ada!\"` / `but was: \"Hello, Ada\"`, what did YOUR code return?"
+choices = ["\"Hello, Ada!\"", "\"Hello, Ada\"", "Nothing"]
+answer = 1
+
+[[quiz]]
+question = "Where does the failure tell you which test line failed?"
+choices = ["In the Gradle version", "In the `file:line` after the assertion text", "It never does"]
+answer = 1
+
+[[quiz]]
+question = "A red objective says `UnsupportedOperationException: TODO`. What does it mean?"
+choices = ["Java is broken", "That part is not written yet", "The test is wrong"]
+answer = 1

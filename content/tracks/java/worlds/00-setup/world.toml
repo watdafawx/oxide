@@ -1,2 +1,3 @@
 title = "Setup"
-blurb = "Toolchain works, first green tick."
+blurb = "Toolchain works, first green tick, and you can read the red."
+project = "Server status bot"

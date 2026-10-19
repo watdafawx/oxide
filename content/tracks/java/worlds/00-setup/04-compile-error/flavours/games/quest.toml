@@ -1,0 +1,18 @@
+title = "Fix the compile error"
+summary = "Your player counter will not build. Fix a missing semicolon and a type mismatch."
+
+[[objectives]]
+test = "totalOnlineAddsBothServers"
+label = "Players compiles and totalOnline(3, 4) returns 7"
+
+[[hints]]
+text = "Read the first error: it names the file and line, and `^` points at the spot. It says `';' expected`."
+
+[[hints]]
+text = "Add the missing `;` at the end of the `String total = survival + creative` line. Save and read the next error."
+
+[[hints]]
+text = "Now javac complains it cannot convert `int` to `String`. Player counts are numbers, so the variable should be an `int`."
+
+[[hints]]
+text = "Final line: `int total = survival + creative;`"
