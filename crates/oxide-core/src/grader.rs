@@ -226,11 +226,11 @@ fn parse_failure_outputs(stdout: &str) -> Vec<(String, String)> {
             if let Some(cur) = current.take() {
                 out.push(cur);
             }
-        } else if let Some((_, buf)) = current.as_mut() {
-            if !line.starts_with("note: run with `RUST_BACKTRACE=1`") {
-                buf.push_str(line);
-                buf.push('\n');
-            }
+        } else if let Some((_, buf)) = current.as_mut()
+            && !line.starts_with("note: run with `RUST_BACKTRACE=1`")
+        {
+            buf.push_str(line);
+            buf.push('\n');
         }
     }
     if let Some(cur) = current.take() {
