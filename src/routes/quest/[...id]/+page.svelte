@@ -3,7 +3,9 @@
   import { api } from "$lib/api";
   import { app } from "$lib/store.svelte";
   import { renderMarkdown } from "$lib/markdown";
+  import QuestScene from "$lib/components/QuestScene.svelte";
   import { kindClass, kindLabel, mmss } from "$lib/ui";
+  import { tick } from "svelte";
   import type { CheckResult, ObjectiveResult, QuestDetail } from "$lib/types";
 
   const id = $derived(page.params.id ?? "");
@@ -27,7 +29,7 @@
 
   const q = $derived(detail?.quest ?? null);
   const check = $derived(app.checks[id]);
-  const running = $derived(check?.running ?? false);
+  const checking = $derived(check?.running ?? false);
   const result = $derived<CheckResult | null>(check?.result ?? detail?.last_check ?? null);
   const started = $derived(!!detail?.workspace);
   const done = $derived(detail?.completed ?? false);
@@ -43,6 +45,8 @@
   const rows = $derived<ObjectiveResult[]>(
     result?.objectives ?? (q?.objectives ?? []).map((o) => ({ ...o, status: "notrun" as const, output: null })),
   );
+  // a cleared quest shows its finished scene even when no check result is loaded
+  const sceneRows = $derived<ObjectiveResult[]>(done ? rows.map((r) => ({ ...r, status: "passed" as const })) : rows);
   const errors = $derived(result && !result.compiled ? result.diagnostics : []);
   const passedCount = $derived(rows.filter((r) => r.status === "passed").length);
 
@@ -86,6 +90,37 @@
     if (c.first_time) app.celebrate(c);
   });
 
+  // ---- run pane ----
+  const run = $derived(app.runs[id]);
+  const running = $derived(run?.running ?? false);
+  let consoleEl = $state<HTMLElement | null>(null);
+  let panelEl = $state<HTMLElement | null>(null);
+  let stdin = $state("");
+  const runProgram = async () => {
+    app.startRun(id);
+    stdin = "";
+    await tick();
+    panelEl?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    try {
+      await api.runProgram(id);
+    } catch (e) {
+      app.runs[id].running = false;
+      app.error(e);
+    }
+  };
+  const stopProgram = () => api.stopProgram().catch((e) => app.error(e));
+  async function sendInput() {
+    const text = stdin;
+    stdin = "";
+    app.runLine(id, { stream: "input", line: text });
+    try { await api.runInput(text); } catch (e) { app.error(e); }
+  }
+  $effect(() => {
+    void run?.lines.length;
+    if (consoleEl) consoleEl.scrollTop = consoleEl.scrollHeight;
+  });
+  const lineClass = { stdout: "text-ink", stderr: "text-dim", system: "text-rust-hi", input: "text-ok" } as const;
+
   const hintsShown = $derived(q ? q.hints.slice(0, detail?.hints_used ?? 0) : []);
   const quizReady = $derived(!!q && q.quiz.length > 0 && q.quiz.every((_, i) => answers[i] !== undefined));
   const icon = { passed: "✓", failed: "✕", notrun: "•" } as const;
@@ -106,6 +141,24 @@
       </div>
       <h1 class="mb-6 text-4xl font-extrabold">{q.title}</h1>
       <div class="prose-ox text-lg">{@html lesson}</div>
+
+      {#if run}
+        <section bind:this={panelEl} class="mt-10 overflow-hidden rounded-2xl border border-line bg-[#0d0c0b]" data-testid="console">
+          <header class="flex items-center justify-between border-b border-line px-4 py-2">
+            <h2 class="text-sm font-bold text-dim">Console{#if running}<span class="ml-2 inline-block h-2 w-2 animate-pulse rounded-full bg-ok"></span>{/if}</h2>
+            <button class="btn btn-ghost !rounded-lg !px-3 !py-1 text-sm" disabled={!running} onclick={stopProgram} data-testid="stop">Stop</button>
+          </header>
+          <div bind:this={consoleEl} class="max-h-80 min-h-32 overflow-auto px-4 py-3 font-mono text-sm leading-relaxed" data-testid="console-lines">
+            {#each run.lines as l}
+              <div class="whitespace-pre-wrap break-words {lineClass[l.stream]}">{l.stream === "input" ? "› " : ""}{l.line}</div>
+            {/each}
+          </div>
+          <form class="flex items-center gap-2 border-t border-line px-4 py-2 font-mono text-sm" onsubmit={(e) => { e.preventDefault(); if (running) sendInput(); }}>
+            <span class="text-ok">›</span>
+            <input class="min-w-0 flex-1 bg-transparent text-ink outline-none placeholder:text-dim/50 disabled:opacity-40" placeholder={running ? "type a line, press Enter" : "program not running"} disabled={!running} bind:value={stdin} data-testid="stdin" autocomplete="off" spellcheck="false" />
+          </form>
+        </section>
+      {/if}
     </article>
 
     <!-- side panel -->
@@ -139,8 +192,11 @@
             <div class="flex flex-col gap-2">
               <button class="btn btn-primary w-full" disabled={busy} onclick={openEditor}>Open in editor</button>
               <div class="flex gap-2">
-                <button class="btn btn-ghost flex-1" disabled={busy || running} onclick={runChecks}>Run checks</button>
-                <button class="btn btn-ghost" disabled={busy || running} onclick={reset}>Reset</button>
+                <button class="btn btn-ghost flex-1" disabled={busy || checking} onclick={runChecks}>Run checks</button>
+                {#if detail.has_program}
+                  <button class="btn btn-ghost flex-1" disabled={busy || running} onclick={runProgram} data-testid="run">{running ? "Running…" : "Run"}</button>
+                {/if}
+                <button class="btn btn-ghost" disabled={busy || checking || running} onclick={reset}>Reset</button>
               </div>
             </div>
             <div class="mt-3 flex items-center gap-2 text-xs text-dim">
@@ -150,6 +206,10 @@
           {/if}
         </section>
 
+        {#if q.flavour === "games" && rows.length}
+          <QuestScene quest={q} objectives={sceneRows} />
+        {/if}
+
         {#if started}
           <section class="rounded-2xl border border-line bg-panel p-5" data-testid="objectives">
             <div class="mb-3 flex items-center justify-between">
@@ -157,7 +217,7 @@
               <span class="text-sm text-dim tabular-nums">{passedCount}/{rows.length}</span>
             </div>
 
-            {#if running}
+            {#if checking}
               <div class="mb-3 flex items-center gap-3 rounded-xl border border-amber-300/40 bg-amber-300/10 px-4 py-2 text-amber-200" data-testid="checking">
                 <span class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-amber-300 border-t-transparent"></span>
                 Checking…
@@ -175,7 +235,7 @@
 
             <ul class="flex flex-col gap-2">
               {#each rows as r, i (r.test + (check?.tick ?? 0))}
-                <li class="rounded-xl border {tone[r.status]} {running ? 'opacity-60' : ''}" data-status={r.status}>
+                <li class="rounded-xl border {tone[r.status]} {checking ? 'opacity-60' : ''}" data-status={r.status}>
                   <button
                     class="flex w-full items-start gap-3 px-3 py-2.5 text-left {r.status === 'failed' && r.output ? 'cursor-pointer' : 'cursor-default'}"
                     onclick={() => r.output && (expanded[r.test] = !expanded[r.test])}

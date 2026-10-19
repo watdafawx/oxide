@@ -34,6 +34,7 @@ const tracks: Track[] = [
 ];
 
 const T = "rust/00-tutorial", F = "rust/01-foundations", O = "rust/02-ownership", L = "lua/01-lua-core";
+const C = "rust/03-collections", E = "rust/04-errors", TR = "rust/05-traits", SP = "rust/06-smart-pointers";
 const quests: Quest[] = [
   q(T, 1, "01-hello", { title: "Say hello", summary: "Write one function and watch the tick turn green.", kind: "exercise", xp: 30, minutes: 3,
     tags: ["functions", "strings"], objectives: [obj("greets_by_name", 'greeting("Ferris") returns "Hello, Ferris!"')],
@@ -70,6 +71,18 @@ const quests: Quest[] = [
     tags: ["structs", "ownership"], requires: [`${O}/02-borrowing`],
     objectives: [obj("push_pop", "push then pop returns the item"), obj("peek_borrows", "peek returns a reference"), obj("empty_pop", "pop on empty is None")],
     hints: [{ text: "`Vec` already does the hard part." }] }),
+  q(C, 1, "01-inventory", { title: "Fill the inventory", summary: "A Vec of item stacks, counted with a HashMap.", kind: "exercise", xp: 60, minutes: 10,
+    tags: ["vec", "hashmap"], requires: [`${O}/03-boss-stack`],
+    objectives: [obj("add_item", "add() puts a stack in the first free slot"), obj("count_items", "count() totals one item across stacks"), obj("sort_by_rarity", "sorted by rarity, rarest first"), obj("loot_roll", "a loot table roll lands in the inventory")] }),
+  q(E, 1, "01-load-manifest", { title: "Load the manifest", summary: "Parse a mod list with ? and a ManifestError.", kind: "exercise", xp: 60, minutes: 10,
+    tags: ["result", "errors"], requires: [`${C}/01-inventory`],
+    objectives: [obj("parses_line", "a good line gives a Mod"), obj("bad_version", "a bad version is a ManifestError"), obj("missing_name", "a missing name is reported, not a panic"), obj("loads_all", "load() returns every mod"), obj("reports_first_error", "load() stops at the first error")] }),
+  q(TR, 1, "01-entities", { title: "Spawn some mobs", summary: "An Entity trait with a zombie, a creeper and more.", kind: "exercise", xp: 70, minutes: 12,
+    tags: ["traits"], requires: [`${E}/01-load-manifest`],
+    objectives: [obj("zombie_hits", "Zombie deals 3 damage"), obj("creeper_blows", "Creeper explodes once"), obj("villager_trades", "Villager never attacks"), obj("skeleton_shoots", "Skeleton shoots from range"), obj("pig_oinks", "Pig has 10 health")] }),
+  q(SP, 1, "01-machines", { title: "Link the machines", summary: "Machines share belts through Rc<RefCell<Machine>>.", kind: "exercise", xp: 80, minutes: 15,
+    tags: ["rc", "refcell"], requires: [`${TR}/01-entities`],
+    objectives: [obj("miner_outputs", "the miner pushes ore onto its belt"), obj("belt_links", "a belt links two machines"), obj("smelter_runs", "the smelter turns ore into plates"), obj("back_link_weak", "back-links are Weak, no cycle leak"), obj("assembler_runs", "the assembler builds from two inputs"), obj("throughput", "the line moves 12 items per second")] }),
   q(L, 1, "01-hello-lua", { title: "Print and return", summary: "Your first Lua function: build a string and return it.", kind: "exercise", xp: 30, minutes: 3,
     tags: ["functions", "strings"], objectives: [obj("greets", 'greet("Ada") returns "Hello, Ada!"')],
     hints: [{ text: "Lua joins strings with `..`: `\"Hi \" .. name`." }] }),
@@ -120,6 +133,10 @@ const worlds: World[] = [
   { id: T, track_id: "rust", index: 0, slug: "tutorial", title: "Tutorial", blurb: "How Oxide works in ten minutes.", quests: [] },
   { id: F, track_id: "rust", index: 1, slug: "foundations", title: "Foundations", blurb: "Variables, functions, control flow.", quests: [] },
   { id: O, track_id: "rust", index: 2, slug: "ownership", title: "Ownership", blurb: "The idea that makes Rust Rust.", quests: [] },
+  { id: C, track_id: "rust", index: 3, slug: "collections", title: "Collections", blurb: "Inventory and loot.", quests: [] },
+  { id: E, track_id: "rust", index: 4, slug: "errors", title: "Errors and Modules", blurb: "A modpack manifest loader.", quests: [] },
+  { id: TR, track_id: "rust", index: 5, slug: "traits", title: "Traits and Generics", blurb: "An entity system.", quests: [] },
+  { id: SP, track_id: "rust", index: 6, slug: "smart-pointers", title: "Smart Pointers", blurb: "A machine graph.", quests: [] },
   { id: L, track_id: "lua", index: 1, slug: "lua-core", title: "Lua Core", blurb: "Functions, tables and loops.", quests: [] },
 ];
 worlds.forEach((w) => (w.quests = quests.filter((x) => x.world_id === w.id)));
@@ -192,6 +209,7 @@ function detail(id: string): QuestDetail {
     workspace: started ? `C:\\Users\\you\\oxide-quests\\${id.replaceAll("/", "\\")}` : null,
     hints_used: state.hints[id] ?? 0, attempts: state.attempts[id] ?? 0,
     completed: state.completed.includes(id), last_check: state.last[id] ?? null,
+    has_program: qq.kind === "boss",
   };
 }
 
@@ -246,7 +264,7 @@ function grade(qq: Quest, mode: Mode): CheckResult {
     };
   }
   const objectives: ObjectiveResult[] = qq.objectives.map((o, i) => {
-    const pass = mode === "pass" || (mode === "partial" && i === 0);
+    const pass = mode === "pass" || (mode === "partial" && i < Math.ceil(qq.objectives.length / 2));
     return {
       ...o, status: pass ? "passed" : "failed",
       output: pass ? null : `thread '${o.test}' panicked at src/lib.rs:12:5:\nassertion \`left == right\` failed\n  left: 41\n right: 42\nnote: run with \`RUST_BACKTRACE=1\``,
@@ -270,6 +288,34 @@ async function runCycle(id: string): Promise<CheckResult> {
   const completion = result.ok ? complete(qq, n === 1) : null;
   emit("check:result", { quest_id: id, result, completion });
   return result;
+}
+
+// ---------- fake program run ----------
+const run = { timers: [] as ReturnType<typeof setTimeout>[], id: "", live: false };
+function endRun(code: number | null) {
+  if (!run.live) return;
+  run.live = false;
+  run.timers.forEach(clearTimeout);
+  run.timers = [];
+  emit("run:done", { quest_id: run.id, code });
+}
+function startRun(id: string) {
+  endRun(null);
+  run.id = id;
+  run.live = true;
+  const out = (stream: "stdout" | "stderr" | "system", line: string, at: number) =>
+    run.timers.push(setTimeout(() => run.live && emit("run:output", { quest_id: id, stream, line }), at));
+  const lua = byId(id).runner === "lua";
+  out("system", lua ? "lua src/main.lua" : "cargo run", 0);
+  if (!lua) {
+    out("stderr", "   Compiling quest v0.1.0", 150);
+    out("stderr", "    Finished `dev` profile in 0.8s", 600);
+  }
+  out("stdout", "Welcome to the guessing game!", 800);
+  out("stdout", "I'm thinking of a number between 1 and 100.", 1100);
+  out("stdout", "Type a guess:", 1500);
+  // waits for input; gives up after 8 s
+  run.timers.push(setTimeout(() => endRun(0), 8000));
 }
 
 // ---------- handlers ----------
@@ -342,6 +388,14 @@ export const mockHandlers: MockHandlers = {
     return 1;
   },
   async stop_focus() { if (state.focusTimer) clearInterval(state.focusTimer); state.focusTimer = null; },
+  async run_program({ id }) { startRun(id); },
+  async run_input({ text }) {
+    if (!run.live) throw new Error("Nothing is running.");
+    const id = run.id;
+    run.timers.push(setTimeout(() => emit("run:output", { quest_id: id, stream: "stdout", line: `You guessed: ${text}` }), 150));
+    run.timers.push(setTimeout(() => { emit("run:output", { quest_id: id, stream: "stdout", line: "Too low. Bye!" }); endRun(0); }, 400));
+  },
+  async stop_program() { endRun(null); },
   async get_settings() { return { ...state.settings }; },
   async set_settings({ settings }) { state.settings = { ...settings }; pushProfile(); return { ...state.settings }; },
   async active_dates() { return dates; },
