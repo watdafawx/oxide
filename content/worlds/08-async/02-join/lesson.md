@@ -1,4 +1,6 @@
-Downloading five files one after another takes five times as long as downloading them together. **`tokio::join!`** starts several futures and waits until all are done.
+**Why now:** the downloader must fetch every jar of a modpack together, not one after another; `join!` is the first step to that.
+
+Five downloads one after another take five times as long as together. **`tokio::join!`** starts several futures and waits until all are done.
 
 - `a.await; b.await;` runs them **in sequence**: total time = a + b.
 - `join!(a, b)` runs them **together**: total time = the slower one.
@@ -9,13 +11,13 @@ Downloading five files one after another takes five times as long as downloading
 use std::time::Duration;
 use tokio::time::sleep;
 
-async fn wait_and_return(n: u32) -> u32 {
+async fn fetch_jar(id: u32) -> u32 {
     sleep(Duration::from_millis(100)).await; // wait without blocking the thread
-    n
+    id
 }
 
 async fn both() -> (u32, u32) {
-    tokio::join!(wait_and_return(1), wait_and_return(2)) // ~100 ms total
+    tokio::join!(fetch_jar(1), fetch_jar(2)) // ~100 ms total
 }
 ```
 

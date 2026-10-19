@@ -1,4 +1,6 @@
-A download task needs to tell the UI "file 3 done". Tasks should not share variables for that; they send **messages** through a channel.
+**Why now:** the downloader's UI shows "3 / 10 mods done", so each download task sends its result down a channel instead of touching shared state.
+
+Tasks should not share variables to report progress; they send **messages** through a channel.
 
 - `let (tx, mut rx) = mpsc::channel(8);` makes a **bounded** queue of 8. If it is full, `tx.send(x).await` waits: free backpressure.
 - **m**ultiple **p**roducers: `tx.clone()` gives every task its own sender. One receiver.
@@ -8,14 +10,14 @@ A download task needs to tell the UI "file 3 done". Tasks should not share varia
 use tokio::sync::mpsc;
 
 let (tx, mut rx) = mpsc::channel::<u32>(8);
-for i in 0..3 {
+for file_id in 0..3 {
     let tx = tx.clone();
-    tokio::spawn(async move { tx.send(i).await.unwrap(); });
+    tokio::spawn(async move { tx.send(file_id).await.unwrap(); });
 }
 drop(tx); // our own sender must go too, or the loop never ends
 
 while let Some(n) = rx.recv().await {
-    println!("got {n}");
+    println!("file {n} done");
 }
 ```
 

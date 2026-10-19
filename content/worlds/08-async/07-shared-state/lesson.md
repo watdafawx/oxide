@@ -1,4 +1,6 @@
-Several tasks need the same data (a download counter, a cache of mod metadata). Wrap it: **`Arc<Mutex<T>>`**. `Arc` shares ownership across tasks, `Mutex` lets one task at a time change it.
+**Why now:** the downloader's "files done" counter and its cache of mod metadata are read and written by many tasks at once, so they sit behind an `Arc<Mutex>`.
+
+Wrap shared data: **`Arc<Mutex<T>>`**. `Arc` shares ownership across tasks, `Mutex` lets one task at a time change it.
 
 Two Mutexes exist:
 
@@ -10,14 +12,14 @@ Two Mutexes exist:
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-let total = Arc::new(Mutex::new(0u32));
-let t = Arc::clone(&total);
+let done = Arc::new(Mutex::new(0u32));
+let t = Arc::clone(&done);
 let h = tokio::spawn(async move {
     let mut guard = t.lock().await; // wait for our turn
     *guard += 1;
 }); // guard dropped here: lock released
 h.await.unwrap();
-assert_eq!(*total.lock().await, 1);
+assert_eq!(*done.lock().await, 1);
 ```
 
 Keep locks short. Holding one across a slow call makes every other task queue behind it.

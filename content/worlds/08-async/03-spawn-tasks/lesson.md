@@ -1,3 +1,5 @@
+**Why now:** a download should keep going in the background while the downloader starts the next one; `tokio::spawn` is how each jar gets its own task.
+
 `join!` waits for a fixed set of futures. **`tokio::spawn`** starts a **task**: work that runs on its own, in the background, while you do something else.
 
 - `spawn` takes a future and returns a **`JoinHandle<T>`** immediately.

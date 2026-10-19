@@ -1,22 +1,24 @@
-Two facts explain most async bugs. Read once.
+**Why now:** the downloader's two nastiest bugs are a download that never starts and a download that freezes every other one; both come from these two facts.
+
+Read once.
 
 **1. Futures are lazy.**
-Calling `fetch()` does not fetch anything. It builds a future: a paused state machine. The runtime **polls** it when you `.await` it (or `spawn` it, or put it in `join!`). Never polled, never run.
+Calling `download_jar()` does not fetch anything. It builds a future: a paused state machine. The runtime **polls** it when you `.await` it (or `spawn` it, or put it in `join!`). Never polled, never run.
 
 **2. Waiting must not block.**
 An async runtime has a few worker threads, each juggling many tasks. A task gives its thread back at every `.await`. If you call something that **blocks** (like `std::thread::sleep`, a big loop, a sync file read), the thread is stuck and every other task on it stalls.
 
 ```rust
-async fn good() {
+async fn download_ok() {
     tokio::time::sleep(Duration::from_secs(1)).await; // thread is free meanwhile
 }
 
-async fn bad() {
+async fn download_frozen() {
     std::thread::sleep(Duration::from_secs(1)); // thread frozen, nothing else runs there
 }
 
-async fn forgot() {
-    good(); // warning: unused future. Nothing happens!
+async fn download_forgot() {
+    download_ok(); // warning: unused future. Nothing happens!
 }
 ```
 

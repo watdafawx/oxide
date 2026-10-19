@@ -1,4 +1,6 @@
-Time to build the heart of a mod manager: given a server address, download every file of a modpack, fast, safely, and cancellably. Everything you need was in this world.
+**Why now:** this is the finished mod downloader: a modpack manifest in, every file out, concurrent, retried, verified and cancellable.
+
+Given a server address, download every file of a modpack, fast, safely, and cancellably. Everything you need was in this world.
 
 The test server (in `src/lib.rs`, read it if you are curious) runs on `127.0.0.1` and serves:
 

@@ -1,4 +1,6 @@
-The user hits Cancel, or closes the app. Every download task must stop, cleanly. Dropping a future cancels it, but background tasks you **spawned** keep running unless you tell them.
+**Why now:** when the user hits Cancel on the downloader, every spawned download task must stop and be awaited, not just dropped.
+
+Dropping a future cancels it, but background tasks you **spawned** keep running unless you tell them.
 
 - **`CancellationToken`** (crate `tokio-util`) is a shared stop button. Clone it into each task.
 - `token.cancel()` presses it. `token.cancelled().await` completes once it is pressed.

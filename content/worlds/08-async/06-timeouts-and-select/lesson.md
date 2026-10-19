@@ -1,4 +1,6 @@
-Servers hang. A good app never waits forever, and a good app can be told to stop.
+**Why now:** mod servers hang, so the downloader gives every download a deadline and a Cancel button; `timeout` and `select!` are both.
+
+Servers hang. A good downloader never waits forever and can be told to stop.
 
 - **`timeout(dur, fut).await`** returns `Ok(value)` if the future finishes in time, `Err(Elapsed)` if not. The future is dropped (cancelled) on timeout.
 - **`select!`** waits on several futures and runs the branch of the **first** one to finish. The others are dropped.
@@ -8,12 +10,12 @@ Servers hang. A good app never waits forever, and a good app can be told to stop
 use std::time::Duration;
 use tokio::time::{sleep, timeout};
 
-async fn slow() -> u32 {
+async fn slow_download() -> u32 {
     sleep(Duration::from_secs(10)).await;
     1
 }
 
-let r = timeout(Duration::from_millis(50), slow()).await;
+let r = timeout(Duration::from_millis(50), slow_download()).await;
 assert!(r.is_err()); // gave up after 50 ms
 
 let msg = tokio::select! {

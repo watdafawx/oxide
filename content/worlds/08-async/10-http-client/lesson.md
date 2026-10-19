@@ -1,4 +1,6 @@
-Your mod manager will ask a server "which versions of this mod exist?" and get JSON back. **reqwest** is the usual async HTTP client.
+**Why now:** the downloader's first job is asking a mod server "which versions exist?" and reading JSON back, and `reqwest` is the client for it.
+
+**reqwest** is the usual async HTTP client.
 
 - `reqwest::get(url).await?` sends a GET and gives a `Response`.
 - A `404` or `500` is **not** an error by default. `response.error_for_status()?` turns it into one.
@@ -8,10 +10,10 @@ Your mod manager will ask a server "which versions of this mod exist?" and get J
 ```rust
 use serde_json::Value;
 
-async fn ip(url: &str) -> Result<String, reqwest::Error> {
+async fn latest_version(url: &str) -> Result<String, reqwest::Error> {
     let resp = reqwest::get(url).await?.error_for_status()?;
     let v: Value = resp.json().await?;
-    Ok(v["origin"].as_str().unwrap_or("?").to_string())
+    Ok(v["version"].as_str().unwrap_or("?").to_string())
 }
 ```
 

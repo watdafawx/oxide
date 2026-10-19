@@ -1,4 +1,6 @@
-A `Vec` has all its items now. A **stream** gives them one at a time, with `.await` between: lines arriving from a socket, events from a server, chunks of a download.
+**Why now:** a modpack download arrives chunk by chunk, so the downloader reads it as a stream instead of waiting for a whole `Vec`.
+
+A `Vec` has all its items now. A **stream** gives them one at a time, with `.await` between: chunks of a download, events from a server.
 
 - A stream is an **async iterator**: `stream.next().await` returns `Some(item)` or `None`.
 - Import **`StreamExt`** (from the `futures` crate) to get `map`, `filter`, `take`, `fold`, `collect`, ...
@@ -9,12 +11,12 @@ A `Vec` has all its items now. A **stream** gives them one at a time, with `.awa
 use futures::{stream, StreamExt};
 use futures::future::ready;
 
-let words = stream::iter(vec!["a", "bb", "ccc"]);
-let long: Vec<usize> = words
-    .filter(|w| ready(w.len() > 1))
+let mods = stream::iter(vec!["jei", "sodium", "iris"]);
+let long: Vec<usize> = mods
+    .filter(|w| ready(w.len() > 3))
     .map(|w| w.len())
     .collect()
-    .await; // [2, 3]
+    .await; // [6, 4]
 ```
 
 Like iterators, streams are lazy: nothing happens until you `collect`, `fold` or loop over them.
