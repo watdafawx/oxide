@@ -1,4 +1,6 @@
-Real APIs read the URL, read a JSON body, remember things between requests, and say how it went with a **status code**. axum does each of those with an **extractor**: a function parameter that pulls something out of the request.
+**Why now:** the mod API must take a JSON mod in a request, remember it, and answer with the right status; each of those is an axum extractor.
+
+axum reads the URL, a JSON body and shared state with **extractors**: a function parameter that pulls something out of the request.
 
 - `Path<T>` reads `/hello/{name}` segments.
 - `Json<T>` parses the body (needs `Deserialize`). The same `Json<T>` as a *return value* writes JSON (needs `Serialize`).

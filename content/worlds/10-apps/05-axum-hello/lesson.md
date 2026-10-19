@@ -1,4 +1,6 @@
-Hopper-style apps, Oxide and your own tools all end up needing a small web API. **axum** is the standard Rust way to write one, and it is built from pieces you already know: functions and traits.
+**Why now:** the mod database needs an HTTP API so a UI (or a script) can list and add mods, and `axum` is the Rust way to write one.
+
+**axum** is the standard Rust way to write one, and it is built from pieces you already know: functions and traits.
 
 - A **handler** is an `async fn` that returns anything implementing `IntoResponse`: a `&str`, a `String`, a `StatusCode`, `Json<T>`, a tuple of those.
 - A **Router** maps paths and methods to handlers: `Router::new().route("/health", get(health))`.
@@ -8,12 +10,12 @@ Hopper-style apps, Oxide and your own tools all end up needing a small web API. 
 ```rust
 use axum::{Router, routing::get};
 
-async fn ping() -> &'static str {
-    "pong"
+async fn version() -> &'static str {
+    "0.1.0"
 }
 
 fn app() -> Router {
-    Router::new().route("/ping", get(ping))
+    Router::new().route("/version", get(version))
 }
 ```
 

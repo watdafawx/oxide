@@ -1,3 +1,5 @@
+**Why now:** the mod manager needs screens, and in egui a screen is your struct drawn every frame, which makes it testable without a window.
+
 In egui there is no widget tree to keep in sync: your struct is the state and `ui()` draws it again every frame. That makes screens easy to test **without a window**.
 
 - Keep logic in plain methods (`increment`, `label`). Test those like any Rust function.

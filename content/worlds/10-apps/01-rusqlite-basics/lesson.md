@@ -1,4 +1,6 @@
-Hopper keeps your mods in SQLite. **rusqlite** is the crate that talks to it, and the whole API fits on one screen.
+**Why now:** the mod database starts as one table of mods, and `rusqlite` is how Rust creates it, fills it and reads it back.
+
+**rusqlite** is the crate that talks to SQLite, and the whole API fits on one screen.
 
 - `Connection::open_in_memory()` makes a database that lives in RAM. Perfect for tests; `Connection::open(path)` is the file version.
 - `conn.execute(sql, params)` runs a statement that returns no rows and gives back how many rows it changed.
@@ -9,11 +11,11 @@ Hopper keeps your mods in SQLite. **rusqlite** is the crate that talks to it, an
 use rusqlite::{params, Connection};
 
 let conn = Connection::open_in_memory()?;
-conn.execute("CREATE TABLE pet (id INTEGER PRIMARY KEY, name TEXT NOT NULL)", [])?;
-conn.execute("INSERT INTO pet (name) VALUES (?1)", params!["Rex"])?;
+conn.execute("CREATE TABLE mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL)", [])?;
+conn.execute("INSERT INTO mods (name) VALUES (?1)", params!["sodium"])?;
 
 let id = conn.last_insert_rowid();
-let name: String = conn.query_row("SELECT name FROM pet WHERE id = ?1", params![id], |r| r.get(0))?;
+let name: String = conn.query_row("SELECT name FROM mods WHERE id = ?1", params![id], |r| r.get(0))?;
 ```
 
 SQLite has no bool type: store `0` / `1`. rusqlite converts `bool` for you.

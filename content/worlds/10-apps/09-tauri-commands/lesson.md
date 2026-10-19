@@ -1,4 +1,6 @@
-A Tauri app is a web UI that calls Rust **commands**. That is exactly how Oxide's screens talk to its engine. The trick to keeping this testable: put the logic in plain functions and make each command a **thin wrapper**.
+**Why now:** Oxide itself is a Tauri app, so its mod and XP logic reaches the UI as `#[tauri::command]` wrappers around plain, testable functions.
+
+A Tauri app is a web UI that calls Rust **commands**. The trick to keeping this testable: put the logic in plain functions and make each command a **thin wrapper**.
 
 - `#[tauri::command]` turns a function into something the UI can `invoke("name", { args })`. Arguments and the return value go through serde.
 - Shared state is registered once with `.manage(Mutex::new(AppState::default()))` and injected as a parameter: `state: tauri::State<'_, Mutex<AppState>>`.

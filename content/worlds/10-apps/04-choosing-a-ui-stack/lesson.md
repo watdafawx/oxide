@@ -1,3 +1,5 @@
+**Why now:** before you build the mod manager's screens you pick the tool for them, and that decision depends on where the UI lives and how it updates.
+
 Three Rust-friendly ways to put a window on screen. They differ in **where the UI lives** and **how it updates**. Pick by what you already have and how big the app is.
 
 | | egui | GPUI | Tauri |

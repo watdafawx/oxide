@@ -1,11 +1,13 @@
-Hopper has to open a database written by last month's version and still work. That takes two tools: **transactions** and **migrations**.
+**Why now:** the mod database has to open last month's file and still work, and adding a thousand mods in one go must be fast; transactions and migrations do both.
+
+Two tools: **transactions** and **migrations**.
 
 A **transaction** makes several statements one unit: all of them land, or none. It is also much faster than autocommitting every insert.
 
 ```rust
 let tx = conn.transaction()?;      // needs `&mut Connection`
-tx.execute("INSERT INTO t (x) VALUES (1)", [])?;
-tx.execute("INSERT INTO t (x) VALUES (2)", [])?;
+tx.execute("INSERT INTO mods (name) VALUES ('sodium')", [])?;
+tx.execute("INSERT INTO mods (name) VALUES ('iris')", [])?;
 tx.commit()?;                      // drop without commit = rollback
 ```
 

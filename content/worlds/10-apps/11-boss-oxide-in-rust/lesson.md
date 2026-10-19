@@ -1,4 +1,6 @@
-Final boss: rebuild the heart of **Oxide itself** in Rust. Home screen, quest screen, XP bar, level-up modal, all in egui, all tested without a window.
+**Why now:** this is the finished mod database front end and Oxide's own home and quest screens, rebuilt in Rust and tested without a window.
+
+Rebuild the heart of **Oxide itself** in Rust. Home screen, quest screen, XP bar, level-up modal, all in egui, all tested without a window.
 
 The shapes (`Home`, `Quest`, `QuestDetail`, `CheckResult`, `Completion`, `Profile`) are the ones Oxide's UI gets from its engine, trimmed to what this screen needs. They derive serde, so they round-trip with JSON like the real thing.
 

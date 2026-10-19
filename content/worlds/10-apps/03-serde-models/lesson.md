@@ -1,4 +1,6 @@
-Oxide's UI and its engine talk in JSON. **serde** turns your structs into JSON and back, and you write almost none of that code yourself.
+**Why now:** the mod database and Oxide's UI trade mods and progress as JSON, and `serde` turns your structs into that JSON and back.
+
+**serde** turns your structs into JSON and back, and you write almost none of that code yourself.
 
 - Add `#[derive(Serialize, Deserialize)]` and the struct can be converted to and from any format.
 - `serde_json::to_string(&value)` gives a `String`; `serde_json::from_str::<T>(&text)` parses one. Both return a `Result`.

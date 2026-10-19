@@ -1,4 +1,6 @@
-This is the shape of every small backend: HTTP handlers on top, a database underneath. The only new problem is **sharing one connection** between handlers that may run on different threads.
+**Why now:** this joins the mod database to the mod API: handlers on top that add, list and delete mods in SQLite underneath.
+
+The only new problem is **sharing one connection** between handlers that may run on different threads.
 
 - `rusqlite::Connection` is `Send` but not `Sync`, so put it behind a mutex: `Arc<Mutex<Connection>>`.
 - `State<Db>` clones the `Arc` into each handler; `db.lock().unwrap()` gives you the connection for as long as the guard lives.

@@ -1,4 +1,6 @@
-An app nobody can install is a demo. Four things turn your project into something you can hand to a friend.
+**Why now:** a mod manager nobody can install is a demo, so before the boss you learn how Oxide gets from `cargo run` to something a friend can double-click.
+
+Four things turn your project into something you can hand to a friend.
 
 **1. Build with `--release`.** Debug builds are 10 to 50 times slower. Tune the release profile once:
 
