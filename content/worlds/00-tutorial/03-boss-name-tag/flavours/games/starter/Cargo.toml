@@ -1,0 +1,11 @@
+[package]
+name = "name_tag"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[[bin]]
+name = "name_tag"
+path = "src/main.rs"
+test = false

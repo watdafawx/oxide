@@ -1,0 +1,9 @@
+title = "Read the red"
+summary = "A test fails. Read what it says, fix the number."
+
+[[objectives]]
+test = "name_limit_is_sixteen"
+label = "max_name_len() returns what the test expects"
+
+[[hints]]
+text = "Click the failed objective: the test prints `left` (what you returned) and `right` (what it wanted)."

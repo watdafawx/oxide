@@ -153,6 +153,10 @@ Identical to starter with the TODOs filled. `cargo test` green, `cargo clippy` c
 
 First quest of a world: under 5 minutes. A world is 6-12 quests + boss. Every third quest or so, lower the XP and the minutes: an easy win keeps the streak alive.
 
+**Tutorial exception.** `00-tutorial` is outside these ranges on purpose: `02-fix-it` is 20 xp / 2 min,
+and the boss `03-boss-name-tag` is 100 xp / 5 min / 2 objectives. The tutorial teaches the edit-save-green loop,
+so it must be finishable in ten minutes. Both flavours of these quests stay on the "name tag for a player" spine.
+
 ## Checking
 
 ```
