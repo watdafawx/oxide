@@ -1,0 +1,24 @@
+title = "The unsafe contract"
+summary = "What unsafe really unlocks, and who is on the hook when you use it."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["unsafe", "safety"]
+
+[[quiz]]
+question = "What does an `unsafe` block let you do that safe Rust does not?"
+choices = [
+  "Turn off the borrow checker and type checker inside the block",
+  "Do five extra things, like dereferencing a raw pointer or calling an unsafe fn; everything else is still checked",
+  "Skip bounds checks and overflow checks on all code in the function",
+]
+answer = 1
+
+[[quiz]]
+question = "You write a safe function that uses an unsafe block inside. Who must make sure the unsafe operation is valid?"
+choices = [
+  "The caller of the safe function, by reading the docs",
+  "The compiler, because the function is not marked unsafe",
+  "You, the author: the safe function must be impossible to misuse into undefined behavior",
+]
+answer = 2

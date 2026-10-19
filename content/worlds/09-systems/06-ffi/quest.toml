@@ -1,0 +1,26 @@
+title = "Call into C"
+summary = "Declare strlen and abs from the C runtime and hide them behind safe functions."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["ffi", "unsafe", "cstring"]
+
+[[objectives]]
+test = "abs_calls_c_runtime"
+label = "c_abs(n) calls the C abs function"
+[[objectives]]
+test = "strlen_wrapper_counts_bytes"
+label = "c_strlen(&str) returns the C string length"
+[[objectives]]
+test = "strlen_rejects_interior_nul"
+label = "c_strlen returns None for a string containing a NUL byte"
+[[objectives]]
+test = "cstr_converts_back_to_string"
+label = "from_c reads a C string pointer into a Rust String"
+
+[[hints]]
+text = "Functions in `unsafe extern \"C\"` are unsafe to call: wrap the call in `unsafe { abs(n) }` with a `// SAFETY:` comment."
+[[hints]]
+text = "`CString::new(s).ok()?` makes a NUL-terminated copy (it fails if `s` has a NUL inside). Pass `c.as_ptr()` to `strlen`."
+[[hints]]
+text = "`from_c`: `CStr::from_ptr(ptr).to_string_lossy().into_owned()` inside `unsafe`."

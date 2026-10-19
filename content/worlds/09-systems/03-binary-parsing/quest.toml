@@ -1,0 +1,26 @@
+title = "Parse a binary header"
+summary = "Walk a byte slice with a cursor and turn 8 bytes into a struct, or an error."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["parsing", "bytes", "result"]
+
+[[objectives]]
+test = "cursor_reads_in_order"
+label = "u8, u16_be and u32_be read from the cursor and move it forward"
+[[objectives]]
+test = "short_read_is_error"
+label = "Reading past the end gives Err(UnexpectedEof) and does not move the cursor"
+[[objectives]]
+test = "parse_header_reads_fields"
+label = "parse_header turns 8 bytes into a Header"
+[[objectives]]
+test = "parse_header_short_input_errors"
+label = "parse_header on fewer than 8 bytes is an Err, not a panic"
+
+[[hints]]
+text = "Everything is built on `take(n)`: check `self.data.len() - self.pos >= n`, return the sub-slice, then advance `pos`."
+[[hints]]
+text = "`u16_be`: `let b = self.take(2)?; Ok(u16::from_be_bytes([b[0], b[1]]))`. `u8` takes 1 byte. `u32_be` takes 4."
+[[hints]]
+text = "`parse_header`: make a `Cursor::new(data)` and read the fields in order with `?`: version (u8), flags (u8), id (u16), length (u32)."

@@ -1,0 +1,23 @@
+title = "Flip bits"
+summary = "Masks, shifts and popcount: pack flags and colors into one integer."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["bits", "masks", "shifts"]
+
+[[objectives]]
+test = "flags_set_clear_and_test"
+label = "set_flag, clear_flag and has_flag work on a u8 of permission bits"
+[[objectives]]
+test = "rgb_packs_into_u32"
+label = "pack_rgb / unpack_rgb move three bytes in and out of one u32"
+[[objectives]]
+test = "counts_set_bits"
+label = "count_set_bits returns how many bits are 1"
+
+[[hints]]
+text = "Set a bit with `|`, clear it with `& !flag`, test it with `& flag != 0`."
+[[hints]]
+text = "`pack_rgb`: shift red left 16, green left 8, then OR them together. `unpack_rgb`: shift right, then cast `as u8` (the cast drops the high bits)."
+[[hints]]
+text = "`value.count_ones()` is built in. `has_flag`: `value & flag != 0`. `clear_flag`: `value & !flag`."

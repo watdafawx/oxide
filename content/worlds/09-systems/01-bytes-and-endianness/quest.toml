@@ -1,0 +1,23 @@
+title = "Bytes, small end first"
+summary = "Turn a u32 into bytes and back, in little-endian and big-endian order."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["bytes", "endianness", "slices"]
+
+[[objectives]]
+test = "encodes_both_endians"
+label = "to_le / to_be return the 4 bytes of a u32 in the right order"
+[[objectives]]
+test = "decodes_from_slices"
+label = "read_u32_le / read_u32_be read the first 4 bytes of a slice"
+[[objectives]]
+test = "short_slice_gives_none"
+label = "A slice shorter than 4 bytes gives None (no panic)"
+
+[[hints]]
+text = "`n.to_le_bytes()` and `n.to_be_bytes()` do the encoding for you."
+[[hints]]
+text = "`bytes.get(..4)?` gives `&[u8]` of length 4, or `None` if the slice is too short."
+[[hints]]
+text = "`let arr: [u8; 4] = bytes.get(..4)?.try_into().ok()?;` then `Some(u32::from_le_bytes(arr))`. The _be version is the same with `from_be_bytes`."

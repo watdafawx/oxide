@@ -1,0 +1,26 @@
+title = "VarInt: small numbers, few bytes"
+summary = "Encode and decode Minecraft's variable-length integers, 7 bits at a time."
+kind = "exercise"
+xp = 70
+minutes = 12
+tags = ["varint", "bits", "protocol"]
+
+[[objectives]]
+test = "encodes_known_values"
+label = "encode_varint gives the exact bytes from the Minecraft protocol table"
+[[objectives]]
+test = "decodes_value_and_length"
+label = "decode_varint returns (value, bytes used) and ignores bytes after it"
+[[objectives]]
+test = "round_trips_edge_values"
+label = "decode(encode(x)) == x for 0, 127, 128, i32::MAX, -1 and i32::MIN"
+[[objectives]]
+test = "malformed_input_errors"
+label = "More than 5 bytes is TooLong; running out of bytes is Truncated"
+
+[[hints]]
+text = "Encode: take the low 7 bits (`v & 0x7f`), shift `v >>= 7`. If more is left, set the top bit of the byte (`| 0x80`). Loop until nothing is left. Work on `value as u32` so negatives shift in zeros."
+[[hints]]
+text = "Decode: for each byte at index `i`, `result |= ((b & 0x7f) as u32) << (7 * i)`. If `b & 0x80 == 0` you are done: return `(result as i32, i + 1)`."
+[[hints]]
+text = "In decode, if `i >= 5` before processing a byte, return `Err(TooLong)`. If the loop ends without an end byte, return `Err(Truncated)`."
