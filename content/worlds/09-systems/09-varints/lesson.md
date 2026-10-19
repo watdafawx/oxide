@@ -12,19 +12,21 @@ The recipe (LEB128):
 // 300 = 0b1_0010_1100  ->  groups: 0101100 (0x2c), 0000010 (0x02)
 // byte 1: 0x2c | 0x80 = 0xac   (more to come)
 // byte 2: 0x02                 (last)
-fn encode(value: i32) -> Vec<u8> {
-    let mut v = value as u32;     // negatives become 5-byte values
-    let mut out = Vec::new();
-    loop {
-        let mut byte = (v & 0x7f) as u8;
-        v >>= 7;
-        if v != 0 { byte |= 0x80; }
-        out.push(byte);
-        if v == 0 { return out; }
+
+// Just the splitting, no flag bits yet: how many 7-bit groups does `v` need?
+fn groups(mut v: u32) -> usize {
+    let mut n = 1;
+    while v >= 0x80 {   // more than 7 bits left
+        v >>= 7;        // drop the lowest group
+        n += 1;
     }
+    n
 }
-assert_eq!(encode(300), vec![0xac, 0x02]);
+assert_eq!(groups(127), 1);
+assert_eq!(groups(300), 2);
 ```
+
+Your loop does the same walk, but pushes each group's low 7 bits and sets `0x80` on every byte except the last.
 
 - `127` is `[0x7f]`, `128` is `[0x80, 0x01]`, `-1` is `[0xff, 0xff, 0xff, 0xff, 0x0f]`.
 - A VarInt is **at most 5 bytes**. A 6th continuation byte means a broken or hostile packet: reject it, never loop forever.
@@ -34,5 +36,5 @@ assert_eq!(encode(300), vec![0xac, 0x02]);
 
 In `src/lib.rs`:
 
-- `encode_varint`: the loop above, appending to a `Vec`.
+- `encode_varint`: walk the 7-bit groups as in `groups`, appending each byte (flag bit set on all but the last) to a `Vec`.
 - `decode_varint`: the reverse. Returns `Err(VarIntError::TooLong)` or `Err(VarIntError::Truncated)` on bad input.
