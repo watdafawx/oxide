@@ -1,5 +1,5 @@
 title = "One file per module"
-summary = "Move manifest and resolver into src/manifest.rs and src/resolver.rs and wire them with mod."
+summary = "Wire src/manifest.rs and src/resolver.rs into the crate with mod."
 
 [[objectives]]
 test = "parse_mod_line_splits_name_and_version"

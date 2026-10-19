@@ -1,0 +1,18 @@
+title = "Fold and max_by_key"
+summary = "Carry a value through a list with fold, and pick the biggest item."
+kind = "exercise"
+xp = 40
+minutes = 7
+tags = ["iterators", "fold", "max_by_key"]
+
+[[objectives]]
+test = "fold_builds_a_total"
+label = "after_discounts folds a price through each percent off"
+[[objectives]]
+test = "max_by_key_picks_longest"
+label = "longest_word returns the longest word, or None if empty"
+
+[[hints]]
+text = "`fold(start, |acc, item| next_acc)`: the closure returns the new running value. Start from `price`."
+[[hints]]
+text = "`percents.iter().fold(price, |p, off| p * (1.0 - off / 100.0))`. And `words.iter().max_by_key(|w| w.len())`."

@@ -1,5 +1,5 @@
-title = "Find, check, fold your drops"
-summary = "find, position, any, all, fold and max_by_key: answers from an inventory."
+title = "Find and check your drops"
+summary = "find, position, any and all: quick answers from an inventory."
 
 [[objectives]]
 test = "first_stack_over_and_slot_of_search"
@@ -7,16 +7,8 @@ label = "first_stack_over uses find and slot_of uses position"
 [[objectives]]
 test = "fragile_tool_and_full_stacks_checks"
 label = "has_fragile_tool uses any and all_full_stacks uses all"
-[[objectives]]
-test = "armor_reduces_damage_step_by_step"
-label = "damage_after_armor folds a hit through each armor reduction"
-[[objectives]]
-test = "biggest_stack_has_most_items"
-label = "biggest_stack returns the stack with the most items, or None if empty"
 
 [[hints]]
 text = "`stacks.iter().copied().find(|n| *n > limit)` gives `Option<u32>`. For the slot: `items.iter().position(|n| n == name)` (compare `n.as_str() == name`)."
 [[hints]]
 text = "`any` and `all` take a closure and return `bool`: `durability.iter().any(|d| *d <= 1)`."
-[[hints]]
-text = "`fold(start, |acc, item| new_acc)`: `reductions.iter().fold(damage, |d, off| d * (1.0 - off / 100.0))`. And `stacks.iter().max_by_key(|s| s.count)`."

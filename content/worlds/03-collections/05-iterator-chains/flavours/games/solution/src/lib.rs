@@ -1,29 +1,29 @@
 /// One line of a loot table: what drops, how rare it is (0 = common, 3 = legendary)
 /// and how heavily it is weighted when the game rolls.
 #[derive(Debug, Clone, PartialEq)]
-pub struct Drop {
+pub struct DropEntry {
     pub item: String,
     pub rarity: u8,
     pub weight: u32,
 }
 
 /// The item names a table can drop, in order: [bone, arrow] and so on.
-pub fn drop_names(table: &[Drop]) -> Vec<String> {
+pub fn drop_names(table: &[DropEntry]) -> Vec<String> {
     table.iter().map(|d| d.item.clone()).collect()
 }
 
 /// Only the drops with `rarity >= min_rarity`.
-pub fn rare_drops(table: &[Drop], min_rarity: u8) -> Vec<&Drop> {
+pub fn rare_drops(table: &[DropEntry], min_rarity: u8) -> Vec<&DropEntry> {
     table.iter().filter(|d| d.rarity >= min_rarity).collect()
 }
 
 /// The sum of every weight: the number the game rolls against.
-pub fn total_weight(table: &[Drop]) -> u32 {
+pub fn total_weight(table: &[DropEntry]) -> u32 {
     table.iter().map(|d| d.weight).sum()
 }
 
 /// How many drops have a weight of at least `min_weight`?
-pub fn count_common(table: &[Drop], min_weight: u32) -> usize {
+pub fn count_common(table: &[DropEntry], min_weight: u32) -> usize {
     table.iter().filter(|d| d.weight >= min_weight).count()
 }
 
@@ -31,15 +31,15 @@ pub fn count_common(table: &[Drop], min_weight: u32) -> usize {
 mod tests {
     use super::*;
 
-    fn entry(item: &str, rarity: u8, weight: u32) -> Drop {
-        Drop {
+    fn entry(item: &str, rarity: u8, weight: u32) -> DropEntry {
+        DropEntry {
             item: item.to_string(),
             rarity,
             weight,
         }
     }
 
-    fn zombie_table() -> Vec<Drop> {
+    fn zombie_table() -> Vec<DropEntry> {
         vec![
             entry("rotten_flesh", 0, 50),
             entry("bone", 0, 30),

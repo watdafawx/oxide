@@ -1,9 +1,9 @@
-title = "Find, check, fold"
-summary = "find, position, any, all, fold and max_by_key: answers from a list."
+title = "Find and check"
+summary = "find, position, any and all: quick answers from a list."
 kind = "exercise"
-xp = 70
-minutes = 12
-tags = ["iterators", "find", "fold", "any", "all"]
+xp = 45
+minutes = 8
+tags = ["iterators", "find", "any", "all"]
 
 [[objectives]]
 test = "find_and_position_search"
@@ -11,16 +11,8 @@ label = "first_over uses find and index_of uses position"
 [[objectives]]
 test = "any_and_all_check"
 label = "has_negative uses any and all_passing uses all"
-[[objectives]]
-test = "fold_builds_a_total"
-label = "after_discounts folds a price through each percent off"
-[[objectives]]
-test = "max_by_key_picks_longest"
-label = "longest_word returns the longest word, or None if empty"
 
 [[hints]]
 text = "`numbers.iter().copied().find(|n| *n > limit)` gives `Option<i32>`. For the index: `names.iter().position(|n| n == name)` (compare `n.as_str() == name`)."
 [[hints]]
 text = "`any` and `all` take a closure and return `bool`: `numbers.iter().any(|n| *n < 0)`."
-[[hints]]
-text = "`fold(start, |acc, item| new_acc)`: `percents.iter().fold(price, |p, off| p * (1.0 - off / 100.0))`. And `words.iter().max_by_key(|w| w.len())`."

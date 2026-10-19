@@ -1,5 +1,5 @@
 title = "One file per module"
-summary = "Move modules into src/parser.rs and src/report.rs and wire them with mod."
+summary = "Wire src/parser.rs and src/report.rs into the crate with mod."
 kind = "exercise"
 xp = 45
 minutes = 8

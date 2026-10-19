@@ -31,4 +31,14 @@ text = "Start small: `ModList::new()` is `Self::default()`. Then `add`: the next
 [[hints]]
 text = "`toggle`: `self.mods.iter_mut().find(|m| m.id == id).ok_or(ModError::NotFound(id))?` gives you the mod to flip."
 [[hints]]
-text = "`parse_command`: `split_once(' ').unwrap_or((input, \"\"))` gives verb and rest. `\"toggle\" => rest.parse().map(Command::Toggle).map_err(|_| ...)`. For `load`, match on `e.kind() == std::io::ErrorKind::NotFound`."
+text = "`parse_command`: `let input = input.trim();` then `split_once(' ').unwrap_or((input, \"\"))` gives verb and rest. `match verb { \"add\" => ..., \"toggle\" => ..., \"list\" => ..., _ => Err(ModError::BadCommand(input.to_string())) }`."
+[[hints]]
+text = "`add` needs a non-empty `rest`. `toggle` parses a number: `rest.parse().map(Command::Toggle).map_err(|_| ModError::BadCommand(input.to_string()))`."
+[[hints]]
+text = "`load`: `match std::fs::read_to_string(path) { Ok(text) => text, Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(ModList::new()), Err(e) => return Err(e).with_context(|| ...) }`."
+[[hints]]
+text = "Still in `load`: `text.lines().enumerate()`, then `parse_line(line).with_context(|| format!(\"line {}\", i + 1))` for each, collected into `Result<Vec<ModEntry>>` with `?`."
+[[hints]]
+text = "`save`: `self.mods.iter().map(format_line).collect::<Vec<_>>().join(\"\\n\")`, then `std::fs::write(path, text)` with the `with_context` from the TODO."
+[[hints]]
+text = "`run`: `match cmd { Command::Add(name) => Ok(format!(\"added {}\", list.add(&name))), Command::Toggle(id) => { list.toggle(id)?; Ok(format!(\"toggled {id}\")) } Command::List => ... }`."

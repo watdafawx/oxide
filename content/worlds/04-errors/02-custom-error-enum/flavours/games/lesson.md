@@ -22,7 +22,7 @@ impl std::error::Error for JarError {}
 - **`impl std::error::Error`** marks your type as an error. It can be empty: `Debug` + `Display` are all it needs.
 - With that, your type works with `?`, `Box<dyn Error>` and every library.
 
-A manifest line looks like `sodium@5 fabric`: mod name, `@`, version number, then the loader.
+A manifest line looks like `sodium@5 fabric`: mod name, `@`, version number, then the loader. The valid loaders are `fabric`, `forge` and `neoforge` (the `Loader` enum); any other word is `UnknownLoader`.
 
 ## Your turn
 

@@ -35,4 +35,14 @@ text = "Start small: `Store::new()` is `Self::default()`. Then `add`: the next i
 [[hints]]
 text = "`toggle`: `self.todos.iter_mut().find(|t| t.id == id).ok_or(TodoError::NotFound(id))?` gives you the todo to flip."
 [[hints]]
-text = "`parse_command`: `split_once(' ').unwrap_or((input, \"\"))` gives verb and rest. `\"done\" => rest.parse().map(Command::Done).map_err(|_| ...)`. For `load`, match on `e.kind() == std::io::ErrorKind::NotFound`."
+text = "`parse_command`: `let input = input.trim();` then `split_once(' ').unwrap_or((input, \"\"))` gives verb and rest. `match verb { \"add\" => ..., \"done\" => ..., \"list\" => ..., _ => Err(TodoError::BadCommand(input.to_string())) }`."
+[[hints]]
+text = "`add` needs non-empty `rest`. `done` parses a number: `rest.parse().map(Command::Done).map_err(|_| TodoError::BadCommand(input.to_string()))`."
+[[hints]]
+text = "`load`: `match std::fs::read_to_string(path) { Ok(text) => text, Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(Store::new()), Err(e) => return Err(e).with_context(|| ...) }`."
+[[hints]]
+text = "Still in `load`: `text.lines().enumerate()`, then `parse_line(line).with_context(|| format!(\"line {}\", i + 1))` for each, collected into `Result<Vec<Todo>>` with `?`."
+[[hints]]
+text = "`save`: `self.todos.iter().map(format_line).collect::<Vec<_>>().join(\"\\n\")`, then `std::fs::write(path, text)` with the `with_context` from the TODO."
+[[hints]]
+text = "`run`: `match cmd { Command::Add(text) => Ok(format!(\"added {}\", store.add(&text))), Command::Done(id) => { store.toggle(id)?; Ok(format!(\"done {id}\")) } Command::List => ... }`."
