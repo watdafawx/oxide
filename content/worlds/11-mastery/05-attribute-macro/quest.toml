@@ -1,0 +1,23 @@
+title = "Count calls with #[timed]"
+summary = "An attribute macro that wraps a function and counts how often it runs."
+kind = "exercise"
+xp = 70
+minutes = 14
+tags = ["macros", "proc-macro", "attributes"]
+
+[[objectives]]
+test = "counts_each_call"
+label = "name_calls() returns how many times name() ran"
+[[objectives]]
+test = "counts_are_per_function"
+label = "Every function gets its own counter"
+[[objectives]]
+test = "keeps_behaviour_and_counts"
+label = "The function still returns its normal result"
+
+[[hints]]
+text = "Edit `timed_macro/src/lib.rs`. Inside `quote!` add `static #counter: AtomicUsize = AtomicUsize::new(0);` (use the full path `::std::sync::atomic::AtomicUsize`)."
+[[hints]]
+text = "The `{name}_calls()` stub returns 0. Make it return `#counter.load(::std::sync::atomic::Ordering::SeqCst)`."
+[[hints]]
+text = "Add `#counter.fetch_add(1, ::std::sync::atomic::Ordering::SeqCst);` as the first line inside the rewritten function body, before `#block`."

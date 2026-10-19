@@ -1,0 +1,26 @@
+title = "Fast paths"
+summary = "Four cheap fixes: with_capacity, no clone in a loop, the entry API, &str over String."
+kind = "exercise"
+xp = 75
+minutes = 15
+tags = ["performance", "allocation", "hashmap", "clone"]
+
+[[objectives]]
+test = "word_count_uses_one_operation_per_word"
+label = "word_count does one Counter operation per word (use entry)"
+[[objectives]]
+test = "longest_clones_at_most_once"
+label = "longest clones at most one Name"
+[[objectives]]
+test = "squares_allocate_once"
+label = "squares makes at most 1 allocation"
+[[objectives]]
+test = "count_long_words_does_not_allocate"
+label = "count_long_words makes 0 allocations"
+
+[[hints]]
+text = "All four functions already give the right answer. The tests count extra work: `Counter` operations, `Name` clones, allocations. Fix one function at a time."
+[[hints]]
+text = "`word_count`: `counter.entry(word.to_string())` finds or creates the slot in one operation. `.or_default()` gives you `&mut u32`, so `*slot += 1`. `longest`: keep a `&Name`, clone once at the end. `squares`: `Vec::with_capacity(n)`. `count_long_words`: no `collect`, no `String`."
+[[hints]]
+text = "`longest`: `names.iter().max_by_key(|n| n.0.len()).cloned()`. `count_long_words`: `text.split_whitespace().filter(|w| w.len() >= min_len).count()`."

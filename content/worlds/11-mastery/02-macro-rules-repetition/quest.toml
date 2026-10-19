@@ -1,0 +1,23 @@
+title = "Macros that repeat"
+summary = "Take any number of arguments with `$(...),*` and recurse for `max!`."
+kind = "exercise"
+xp = 50
+minutes = 10
+tags = ["macros", "macro_rules", "repetition"]
+
+[[objectives]]
+test = "vec_of_strings_converts_each"
+label = "vec_of_strings![\"a\", \"b\"] gives a Vec<String>"
+[[objectives]]
+test = "vec_of_strings_allows_empty_and_trailing_comma"
+label = "vec_of_strings![] is empty and a trailing comma is fine"
+[[objectives]]
+test = "max_of_many_arguments"
+label = "max!(a, b, c, ...) returns the biggest argument"
+
+[[hints]]
+text = "Repeat a pattern with `$( $s:expr ),*`: zero or more expressions separated by commas. Expand it with `$( ... ),*` too."
+[[hints]]
+text = "`vec![$($s.to_string()),*]` handles `vec_of_strings!`. Allow a trailing comma by ending the pattern with `$(,)?`."
+[[hints]]
+text = "`max!` has two arms. One argument: `($x:expr) => { $x }`. Several: `($x:expr, $($rest:expr),+) => { ::std::cmp::max($x, max!($($rest),+)) }`."

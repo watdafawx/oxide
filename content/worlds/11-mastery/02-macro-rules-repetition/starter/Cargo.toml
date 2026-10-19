@@ -1,0 +1,6 @@
+[package]
+name = "master_macro_repetition"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

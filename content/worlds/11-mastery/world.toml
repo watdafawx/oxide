@@ -1,0 +1,2 @@
+title = "Mastery"
+blurb = "Write your own macros, count every allocation, and ship a crate that is fast, no_std and wasm-ready."
