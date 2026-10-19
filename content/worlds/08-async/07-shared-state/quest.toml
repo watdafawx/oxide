@@ -4,6 +4,7 @@ kind = "exercise"
 xp = 60
 minutes = 12
 tags = ["async", "mutex", "rwlock", "arc"]
+requires = ["08-async/06-which-future-wins"]
 
 [[objectives]]
 test = "counter_reaches_the_full_total"

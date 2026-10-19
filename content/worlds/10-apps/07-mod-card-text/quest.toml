@@ -1,0 +1,19 @@
+title = "Mod card text"
+summary = "Turn mod rows into the text lines the egui screen will draw. A quick win."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["strings", "formatting"]
+requires = ["10-apps/07-axum-sqlite-crud"]
+
+[[objectives]]
+test = "mod_line_shows_a_checkbox"
+label = "mod_line gives \"[x] name\" for enabled mods and \"[ ] name\" for disabled ones"
+[[objectives]]
+test = "summary_counts_enabled_mods"
+label = "mods_summary gives \"2 of 3 mods enabled\""
+
+[[hints]]
+text = "`if enabled { \"[x]\" } else { \"[ ]\" }` picks the box; `format!(\"{mark} {name}\")` joins it."
+[[hints]]
+text = "`mods_summary`: count with `mods.iter().filter(|(_, on)| *on).count()`, then `format!(\"{on} of {} mods enabled\", mods.len())`."

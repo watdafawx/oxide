@@ -4,6 +4,7 @@ kind = "exercise"
 xp = 70
 minutes = 12
 tags = ["egui", "kittest", "ui", "testing"]
+requires = ["10-apps/07-mod-card-text"]
 
 [[objectives]]
 test = "model_counts_up_and_down"

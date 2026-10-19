@@ -4,6 +4,7 @@ kind = "exercise"
 xp = 60
 minutes = 12
 tags = ["allocator", "performance", "vec", "string"]
+requires = ["11-mastery/05-block-registry"]
 
 [[objectives]]
 test = "join_words_allocates_once"
