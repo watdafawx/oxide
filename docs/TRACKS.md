@@ -105,7 +105,7 @@ NeoForge + Fabric 1.21.1).
 
 | track | doc | worlds | quests | XP | first engine need |
 |---|---|---|---|---|---|
-| Rust | `content/worlds` (00-06 done) | 12 planned, 7 done | 68 done of ~110 | 5,210 so far | none |
+| Rust | `content/worlds` (00-06 done) | 12 planned, 7 done | 69 done of ~110 | 5,015 so far | none |
 | Java | `docs/tracks/java.md` | 10 | 103 | 8,175 | gradle runner, JUnit XML |
 | NeoForge + Architectury | `docs/tracks/neoforge.md` | 12 | 116 | 9,550 | per-world workspace, `pre` tasks, GameTest parse |
 | Fabric | `docs/tracks/fabric.md` | 7 | 61 | 4,820 | same as NeoForge |
