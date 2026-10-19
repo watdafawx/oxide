@@ -31,7 +31,7 @@ text = "Start with `Aabb`: `area` is `self.w * self.h`, `name` is `\"box\".to_st
 [[hints]]
 text = "Cylinder (top-down circle): `contains` is `dx * dx + dy * dy <= r * r`. Wedge (right angle at x, y): with `dx = px - x` and `dy = py - y`, it contains the point when `dx >= 0.0 && dy >= 0.0 && dx / base + dy / height <= 1.0`."
 [[hints]]
-text = "`render`: for each row `y` in `0..h`, build a `String` over `x` in `0..w`. Test the centre `(x as f64 + 0.5, y as f64 + 0.5)` with `hitboxes.iter().any(|b| b.contains(px, py))`. Join the rows with `\"\n\"`."
+text = "`render`: for each row `y` in `0..h`, build a `String` over `x` in `0..w`. Test the centre `(x as f64 + 0.5, y as f64 + 0.5)` with `hitboxes.iter().any(|b| b.contains(px, py))`. Join the rows with `\"\\n\"`."
 [[hints]]
 text = "Generic helpers: `hitboxes.iter().map(|b| b.area()).sum()`, `hitboxes.iter().max_by(|a, b| a.area().total_cmp(&b.area()))`, `hitboxes.sort_by(|a, b| a.area().total_cmp(&b.area()))`."
 [[hints]]

@@ -2,8 +2,8 @@ use std::fmt::Display;
 
 pub trait Mob {
     const ID: &str;
-    type Drop;
-    fn loot(&self) -> Self::Drop;
+    type Loot;
+    fn loot(&self) -> Self::Loot;
 }
 
 /// `looting` is the level of the Looting enchantment on the sword.
@@ -18,7 +18,7 @@ pub struct Creeper {
 impl Mob for Zombie {
     // TODO: set ID to "zombie"
     const ID: &str = "";
-    type Drop = u32;
+    type Loot = u32;
 
     fn loot(&self) -> u32 {
         // TODO: rotten flesh dropped: 2 plus the looting level
@@ -29,7 +29,7 @@ impl Mob for Zombie {
 impl Mob for Creeper {
     // TODO: set ID to "creeper"
     const ID: &str = "";
-    type Drop = String;
+    type Loot = String;
 
     fn loot(&self) -> String {
         // TODO: "head" when charged, otherwise "gunpowder"
@@ -41,7 +41,7 @@ impl Mob for Creeper {
 pub fn label<M>(mob: &M) -> String
 where
     M: Mob,
-    M::Drop: Display,
+    M::Loot: Display,
 {
     // TODO: format M::ID and mob.loot()
     String::new()

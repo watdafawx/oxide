@@ -1,5 +1,5 @@
 title = "What a mob drops, and what it is called"
-summary = "Use an associated type Drop and an associated const ID on a Mob trait."
+summary = "Use an associated type Loot and an associated const ID on a Mob trait."
 
 [[objectives]]
 test = "zombie_loot_is_rotten_flesh_count"

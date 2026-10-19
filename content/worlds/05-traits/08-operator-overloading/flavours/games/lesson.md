@@ -1,7 +1,7 @@
 **Why now:** every mob has a position and a velocity, and `pos = pos + velocity * dt` should read like that, not `pos.add(velocity.scale(dt))`. `a + b` is not magic: it calls `a.add(b)` from the **`Add` trait**. Implement the trait and `Vec3` gets the operator.
 
 ```rust
-use std::ops::{Add, Neg};
+use std::ops::{Add, Mul};
 use std::cmp::Ordering;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -12,9 +12,9 @@ impl Add for Step {
     fn add(self, other: Step) -> Step { Step { dx: self.dx + other.dx } }
 }
 
-impl Neg for Step {
+impl Mul<i32> for Step {                      // right-hand side is an i32, not a Step
     type Output = Step;
-    fn neg(self) -> Step { Step { dx: -self.dx } }
+    fn mul(self, k: i32) -> Step { Step { dx: self.dx * k } }
 }
 
 impl PartialOrd for Step {                    // powers <, >, <=, >=
@@ -22,11 +22,11 @@ impl PartialOrd for Step {                    // powers <, >, <=, >=
         self.dx.partial_cmp(&other.dx)
     }
 }
-// Step { dx: 1 } + Step { dx: 2 } == Step { dx: 3 },  -Step { dx: 4 } == Step { dx: -4 }
+// Step { dx: 1 } + Step { dx: 2 } == Step { dx: 3 },  Step { dx: 2 } * 3 == Step { dx: 6 }
 ```
 
 - Each operator has a trait in `std::ops`: `Add`, `Sub`, `Mul`, `Neg`...
-- `Mul<f64>` means "multiply by an `f64`": the right-hand type is the generic.
+- `Mul<f64>` means "multiply by an `f64`": the right-hand type is the generic. `Neg` is the same shape with one operand: `fn neg(self) -> Self::Output`.
 - `PartialOrd` needs `PartialEq` too (derive it).
 
 ## Your turn
