@@ -1,0 +1,19 @@
+title = "Inserter handle and power-down"
+summary = "Make an inserter handle act like the machine it controls, and log a power-down when an inserter dies."
+
+[[objectives]]
+test = "deref_gives_inner_value"
+label = "*InserterHandle::new(x) gives x, and &InserterHandle<String> works as &str"
+[[objectives]]
+test = "drop_logs_name"
+label = "Dropping an Inserter pushes \"power down <name>\" onto the log"
+[[objectives]]
+test = "early_release_drops_before_work"
+label = "hot_swap powers the inserter down first, then logs \"place new inserter\""
+
+[[hints]]
+text = "`deref` returns a reference to the inside: `&self.0`."
+[[hints]]
+text = "In `drop`: `self.log.push(format!(\"power down {}\", self.name));`"
+[[hints]]
+text = "`let i = Inserter::new(\"inserter-1\", log); drop(i); log.push(...)`. The explicit `drop(i)` must come before you use `log` again."

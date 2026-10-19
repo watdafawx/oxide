@@ -1,0 +1,19 @@
+title = "One recipe, many assemblers"
+summary = "Rc lets many assemblers hold one Recipe. Rc::clone only bumps a counter."
+
+[[objectives]]
+test = "share_returns_another_handle"
+label = "share_recipe(&rc) gives another assembler the same Recipe"
+[[objectives]]
+test = "owner_count_reports_strong_count"
+label = "assembler_count(&rc) reports how many assemblers use the recipe"
+[[objectives]]
+test = "count_inside_and_after_tracks_drops"
+label = "A temporary assembler raises the count, then lowers it again"
+
+[[hints]]
+text = "`Rc::clone(recipe)` copies the pointer, not the Recipe."
+[[hints]]
+text = "`Rc::strong_count(recipe)` returns the number of owners."
+[[hints]]
+text = "Make the extra owner inside a `{ ... }` block so it is dropped at the closing brace, then read the count again."

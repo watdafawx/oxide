@@ -1,0 +1,31 @@
+title = "Boss: Tech-tree editor"
+summary = "Build the engine of a tech-tree editor: add, move, remove and render technologies with their prerequisites."
+
+[[objectives]]
+test = "new_doc_has_root_title"
+label = "name(0) is the starting tech; unknown ids give None"
+[[objectives]]
+test = "add_returns_fresh_ids"
+label = "add(prerequisite, name) returns a new id each time, None for an unknown prerequisite"
+[[objectives]]
+test = "path_lists_ancestors"
+label = "path(id) lists the techs to research, from the starting tech down to this one"
+[[objectives]]
+test = "render_indents_children"
+label = "render() prints the tech tree, two spaces of indent per level"
+[[objectives]]
+test = "remove_deletes_subtree"
+label = "remove(id) deletes the tech and everything that depends on it (never the starting tech)"
+[[objectives]]
+test = "move_node_reparents"
+label = "reparent(id, new_prerequisite) re-attaches the tech and its dependants"
+[[objectives]]
+test = "move_refuses_cycles"
+label = "reparent refuses to make a tech depend on itself or on one of its own dependants"
+
+[[hints]]
+text = "Plan: `techs: HashMap<u32, Rc<RefCell<Tech>>>` finds a tech by id. Each tech's `unlocks` own it downward, `prerequisite` is a `Weak` pointing up. Start with `name`: `self.techs.get(&id).map(|t| t.borrow().name.clone())`."
+[[hints]]
+text = "`path`: start at the tech, push its name, then `upgrade()` the prerequisite and repeat. Reverse at the end. `render`: a recursive helper `fn render_tech(tech: &Rc<RefCell<Tech>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`."
+[[hints]]
+text = "`remove`/`reparent`: first detach from the old prerequisite with `unlocks.retain(|c| !Rc::ptr_eq(c, &tech))`. To remove a subtree, collect every tech below it, then `self.techs.retain` the ones that are not in that list. For the cycle check, walk up from the target with `prerequisite.upgrade()` and refuse if you meet the tech being moved."

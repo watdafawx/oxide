@@ -1,0 +1,19 @@
+title = "Belt segments in a Box"
+summary = "A belt that continues into another belt needs a Box to have a size."
+
+[[objectives]]
+test = "prepend_puts_new_head_in_front"
+label = "extend(belt, items) returns a longer belt with a new segment at the front"
+[[objectives]]
+test = "sum_adds_every_element"
+label = "total_items(&belt) adds up the items on every segment"
+[[objectives]]
+test = "len_counts_elements"
+label = "segment_count(&belt) counts the segments"
+
+[[hints]]
+text = "`Segment(items, Box::new(belt))` builds a longer belt. `Box::new` puts the old belt on the heap."
+[[hints]]
+text = "`total_items` and `segment_count` are recursive: `match belt { Segment(n, rest) => ..., End => 0 }`."
+[[hints]]
+text = "`Segment(n, rest) => n + total_items(rest)`. `rest` is a `&Box<Belt>`, which derefs to `&Belt` for you."

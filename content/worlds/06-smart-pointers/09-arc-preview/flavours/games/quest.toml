@@ -1,0 +1,14 @@
+title = "Recipe list on two threads"
+summary = "Share a read-only recipe list between two threads. Concurrency proper comes in world 07."
+
+[[objectives]]
+test = "parallel_sum_adds_everything"
+label = "total_cost splits the recipes across two threads and adds the halves"
+[[objectives]]
+test = "parallel_sum_handles_tiny_inputs"
+label = "An empty list and a one-recipe list work too"
+
+[[hints]]
+text = "`let recipes = Arc::new(recipes);` then `let a = Arc::clone(&recipes);` for each thread."
+[[hints]]
+text = "`thread::spawn(move || a[..mid].iter().map(|r| r.cost).sum::<u32>())` returns a handle. `handle.join().unwrap()` is the result."
