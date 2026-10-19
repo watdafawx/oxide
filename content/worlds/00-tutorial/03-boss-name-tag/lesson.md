@@ -13,3 +13,5 @@ Functions can call other functions. Build small pieces, then compose them.
 
 - `shout(name)` returns the name in uppercase.
 - `name_tag(name, level)` returns `[NAME] Lv N`, using `shout`.
+
+Press Run to play it.
