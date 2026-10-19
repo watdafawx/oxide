@@ -34,3 +34,5 @@ In `src/lib.rs`, fill in every `todo!()` (the serde types, `Api`, `OxideApp::new
 - `xp_fraction`, `passed_count`
 - `start`, `run_checks`, `go_home`
 - `home_ui`, `quest_ui`, `level_up_modal`
+
+Press Run to play it.
