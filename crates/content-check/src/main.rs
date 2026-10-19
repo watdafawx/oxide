@@ -50,6 +50,8 @@ fn main() -> ExitCode {
 
     // Cargo keys path packages by name+version only, so starter and solution (same name)
     // would share one stale binary in a single target dir. Two dirs, deps still shared per dir.
+    // Flavours share names with the plain quest too (and cargo hashes path packages by relative
+    // path), so each flavour also gets its own subdir.
     let target_root = std::env::temp_dir().join("oxide-content-check-target");
     let target_starter = target_root.join("starter");
     let target_solution = target_root.join("solution");
@@ -89,7 +91,7 @@ fn main() -> ExitCode {
         let label = if q.flavour == "plain" { q.id.clone() } else { format!("{} [{}]", q.id, q.flavour) };
         let mut bad = Vec::new();
 
-        let starter_run = grader::run_quest(q, &q.starter_dir(), &target_starter);
+        let starter_run = grader::run_quest(q, &q.starter_dir(), &target_starter.join(&q.flavour));
         clean_gradle(q);
         match starter_run {
             Ok(r) => {
@@ -116,7 +118,7 @@ fn main() -> ExitCode {
             Err(e) => bad.push(format!("starter: {e:#}")),
         }
 
-        let solution_run = grader::run_quest(q, &q.solution_dir(), &target_solution);
+        let solution_run = grader::run_quest(q, &q.solution_dir(), &target_solution.join(&q.flavour));
         clean_gradle(q);
         match solution_run {
             Ok(r) => {
