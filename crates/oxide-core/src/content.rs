@@ -59,6 +59,9 @@ struct QuestToml {
     hints: Vec<Hint>,
     #[serde(default)]
     quiz: Vec<Quiz>,
+    /// The point of the quest is a compile error in the starter (borrow checker lessons).
+    #[serde(default)]
+    starter_fails_to_compile: bool,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -77,6 +80,7 @@ pub struct Quest {
     pub objectives: Vec<Objective>,
     pub hints: Vec<Hint>,
     pub quiz: Vec<Quiz>,
+    pub starter_fails_to_compile: bool,
     pub dir: PathBuf,
 }
 
@@ -273,6 +277,7 @@ fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Que
         objectives: t.objectives,
         hints: t.hints,
         quiz: t.quiz,
+        starter_fails_to_compile: t.starter_fails_to_compile,
         dir: dir.to_path_buf(),
     };
     (Some(quest), errs)

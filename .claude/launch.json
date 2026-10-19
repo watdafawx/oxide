@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "oxide-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "dev"
+      ],
+      "port": 1420
+    },
+    {
+      "name": "oxide-tauri",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "tauri",
+        "dev"
+      ],
+      "port": 1420
+    }
+  ]
+}

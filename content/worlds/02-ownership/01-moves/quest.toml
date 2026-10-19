@@ -1,6 +1,7 @@
 title = "Moves"
 summary = "A String has one owner. Hand it over and it's gone: fix the code that forgot."
 kind = "exercise"
+starter_fails_to_compile = true
 xp = 40
 minutes = 6
 tags = ["ownership", "move", "clone"]

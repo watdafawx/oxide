@@ -32,6 +32,7 @@ kind = "exercise"      # exercise | boss | read
 xp = 50                # exercise 30-80, boss 300-500, read 15
 minutes = 10           # honest estimate for a beginner; shown on the card, used for the speedrun badge
 tags = ["borrowing"]
+# starter_fails_to_compile = true        # only when the lesson is about a compile error
 # requires = ["02-ownership/02-moves"]   # omit = previous quest (first quest of a world = last of the previous world)
 #                                        # requires = [] = no prerequisite
 
@@ -67,7 +68,7 @@ Tone: direct, no fluff, no "in this lesson we will". Use `you`. A reader with AD
 
 - A normal cargo project. `Cargo.toml` `name` = the quest slug with underscores, **unique across the whole catalog** (all quests share one build cache; prefix with the world slug if it clashes), `edition = "2024"`, and an empty `[workspace]` table at the end (keeps it out of the repo workspace). No `Cargo.lock`.
 - Prefer a `lib.rs` with `#[cfg(test)] mod tests` at the bottom, or `tests/*.rs`. Binaries are fine for boss quests; test them through a lib.
-- It **must compile** as shipped. Fill-in spots are `todo!()` or a wrong value, with a `// TODO:` comment saying what to write. Tests then fail at runtime, so the objectives list shows red ticks, not a wall of compiler errors. Exception: quests whose point is a compile error (borrow checker); say so in the lesson.
+- It **must compile** as shipped. Fill-in spots are `todo!()` or a wrong value, with a `// TODO:` comment saying what to write. Tests then fail at runtime, so the objectives list shows red ticks, not a wall of compiler errors. Exception: quests whose point is a compile error (borrow checker): set `starter_fails_to_compile = true` in quest.toml and say so in the lesson.
 - Tests are the spec. Every objective test name must exist. Test names describe behaviour (`greet_returns_hello_name`), not `test1`.
 - Keep test output helpful: `assert_eq!` over `assert!`, and a message when it is not obvious.
 - No external crates unless the quest is about them. When needed, pin a version that exists on crates.io and matches what the solution uses.

@@ -81,7 +81,11 @@ fn main() -> ExitCode {
 
         match grader::run(&q.starter_dir(), &target_starter, &q.objectives) {
             Ok(r) => {
-                if !r.compiled {
+                if q.starter_fails_to_compile {
+                    if r.compiled {
+                        bad.push("starter compiles but quest.toml says starter_fails_to_compile".into());
+                    }
+                } else if !r.compiled {
                     bad.push("starter does not compile".to_string());
                     for d in r.diagnostics.iter().filter(|d| d.level == "error").take(3) {
                         bad.push(format!("    {}", d.rendered.lines().next().unwrap_or("")));
