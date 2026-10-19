@@ -533,7 +533,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
 }
 
 /// `flavours/<name>/`: lesson.md required; starter/solution required for project quests;
-/// objective tests must match the plain quest in order (labels may differ).
+/// objectives must have the plain quest's count and order (test names and labels may differ).
 fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<String>) -> Vec<Variant> {
     let fdir = dir.join("flavours");
     if !fdir.is_dir() {
@@ -570,14 +570,12 @@ fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<S
                 }
             }
         }
-        if !vt.objectives.is_empty() {
-            let plain_tests: Vec<&str> = plain.objectives.iter().map(|o| o.test.as_str()).collect();
-            let mine: Vec<&str> = vt.objectives.iter().map(|o| o.test.as_str()).collect();
-            if plain_tests != mine {
-                errs.push(at(&format!(
-                    "objective tests must match the plain quest in order: plain {plain_tests:?}, flavour {mine:?}"
-                )));
-            }
+        if !vt.objectives.is_empty() && vt.objectives.len() != plain.objectives.len() {
+            errs.push(at(&format!(
+                "a flavour has as many objectives as the plain quest, in the same order: plain {}, flavour {}",
+                plain.objectives.len(),
+                vt.objectives.len()
+            )));
         }
         if !vt.quiz.is_empty() && vt.quiz.len() != plain.quiz.len() {
             errs.push(at("quiz must have as many questions as the plain quest"));
@@ -807,10 +805,13 @@ mod tests {
         assert_eq!(p.flavour, "plain");
         assert_eq!(p.title, "T");
 
-        // A flavour with a different test name is rejected.
+        // A flavour may rename its tests, but not change how many objectives there are.
         write(&f.join("quest.toml"), "[[objectives]]\ntest = \"other\"\nlabel = \"x\"\n");
+        let renamed = load(root).unwrap();
+        assert_eq!(renamed.quest("rust/00-tutorial/01-hello").unwrap().resolved("games").objectives[0].test, "other");
+        write(&f.join("quest.toml"), "[[objectives]]\ntest = \"a\"\nlabel = \"x\"\n[[objectives]]\ntest = \"b\"\nlabel = \"y\"\n");
         let err = load(root).unwrap_err().to_string();
-        assert!(err.contains("objective tests must match"), "{err}");
+        assert!(err.contains("as many objectives"), "{err}");
     }
 
     #[test]

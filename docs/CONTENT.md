@@ -33,14 +33,16 @@ short real-world "why now"). It may carry a **games** flavour beside it:
 01-hello/
   quest.toml, lesson.md, starter/, solution/     plain
   flavours/games/
-    quest.toml      optional: title, summary, [[objectives]] (same `test` names, new labels), [[hints]], [[quiz]]
+    quest.toml      optional: title, summary, [[objectives]] (same count and order; this flavour's own test names and labels), [[hints]], [[quiz]]
     lesson.md       required
     starter/        required for exercise/boss: the game-named code
     solution/       required for exercise/boss
 ```
 
-- Objective **test names and order are identical** in every flavour; only labels, names,
-  lesson and story differ. That keeps one map, one progress record, one XP value.
+- Every flavour has the **same number of objectives in the same order** (objective N is the
+  same step in every story); test names, labels, code names, lesson and story are the
+  flavour's own, so a games test is `pickaxe_needs_three_ingots`, never `circle_area_uses_pi`.
+  Progress is per quest, so one map, one progress record, one XP value.
 - The learner picks the flavour in settings (`games` by default); a quest without that flavour
   shows plain. Switching mid-quest keeps the workspace; Reset copies the current flavour.
 - content-check builds and runs every flavour's starter and solution.
