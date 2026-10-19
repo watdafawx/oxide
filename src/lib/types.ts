@@ -80,6 +80,7 @@ export interface QuestDetail {
   attempts: number;
   completed: boolean;
   last_check: CheckResult | null;
+  has_program: boolean;
 }
 
 export interface Home {
@@ -96,10 +97,16 @@ export interface CheckResultEvent { quest_id: string; result: CheckResult; compl
 export interface FocusTick { remaining_s: number; total_s: number; quest_id: string }
 export interface FocusDone { quest_id: string }
 
+export type RunStream = "stdout" | "stderr" | "system";
+export interface RunOutput { quest_id: string; stream: RunStream; line: string }
+export interface RunDone { quest_id: string; code: number | null }
+
 export interface EventMap {
   "check:started": CheckStarted;
   "check:result": CheckResultEvent;
   "profile:changed": Profile;
   "focus:tick": FocusTick;
   "focus:done": FocusDone;
+  "run:output": RunOutput;
+  "run:done": RunDone;
 }

@@ -1,8 +1,11 @@
 import { api, listen } from "./api";
 import { ding } from "./sound";
-import type { Achievement, CheckResult, Completion, Profile, Quest, Track, World } from "./types";
+import type { Achievement, CheckResult, Completion, Profile, Quest, RunStream, Track, World } from "./types";
 
 export interface CheckState { running: boolean; result: CheckResult | null; tick: number }
+export interface ConsoleLine { stream: RunStream | "input"; line: string }
+export interface RunState { running: boolean; lines: ConsoleLine[]; code: number | null | undefined }
+const MAX_LINES = 2000;
 export interface Toast { id: number; kind: "error" | "info"; text: string }
 
 class App {
@@ -14,6 +17,8 @@ class App {
   tracks = $state<Track[]>([]);
   /** worlds of every track, keyed by track id; static, used for cross-track lookups */
   catalog = $state<Record<string, World[]>>({});
+  /** program console per quest id (Run on the quest page) */
+  runs = $state<Record<string, RunState>>({});
   trackMenu = $state(false);
   celebration = $state<Completion | null>(null);
   private started = false;
@@ -37,6 +42,14 @@ class App {
       this.toast("info", "Focus session done. Nice.");
       this.ding("level");
     });
+    await listen("run:output", ({ quest_id, stream, line }) => this.runLine(quest_id, { stream, line }));
+    await listen("run:done", ({ quest_id, code }) => {
+      const r = this.runs[quest_id];
+      if (!r) return;
+      r.running = false;
+      r.code = code;
+      this.runLine(quest_id, { stream: "system", line: code === null ? "stopped" : `exited with code ${code}` });
+    });
     try {
       [this.profile, this.achievements, this.tracks] = await Promise.all([api.getProfile(), api.listAchievements(), api.listTracks()]);
       const all = await Promise.all(this.tracks.map((t) => api.listWorlds(t.id)));
@@ -44,6 +57,17 @@ class App {
     } catch (e) {
       this.error(e);
     }
+  }
+
+  /** clear the console and mark the program as running */
+  startRun(id: string) {
+    this.runs[id] = { running: true, lines: [], code: undefined };
+  }
+  runLine(id: string, l: ConsoleLine) {
+    const r = this.runs[id];
+    if (!r) return;
+    r.lines.push(l);
+    if (r.lines.length > MAX_LINES) r.lines.splice(0, r.lines.length - MAX_LINES);
   }
 
   /** active track: settings.track, "" = first */

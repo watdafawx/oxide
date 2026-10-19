@@ -25,6 +25,9 @@ export interface Commands {
   list_achievements: { args: NoArgs; ret: Achievement[] };
   start_focus: { args: { id?: string; minutes: number }; ret: number };
   stop_focus: { args: { completed: boolean }; ret: void };
+  run_program: { args: { id: string }; ret: void };
+  run_input: { args: { text: string }; ret: void };
+  stop_program: { args: NoArgs; ret: void };
   get_settings: { args: NoArgs; ret: Settings };
   set_settings: { args: { settings: Settings }; ret: Settings };
   active_dates: { args: NoArgs; ret: string[] };
@@ -71,6 +74,9 @@ export const api = {
   listAchievements: () => call("list_achievements", E),
   startFocus: (minutes: number, id?: string) => call("start_focus", { id, minutes }),
   stopFocus: (completed: boolean) => call("stop_focus", { completed }),
+  runProgram: (id: string) => call("run_program", { id }),
+  runInput: (text: string) => call("run_input", { text }),
+  stopProgram: () => call("stop_program", E),
   getSettings: () => call("get_settings", E),
   setSettings: (settings: Settings) => call("set_settings", { settings }),
   activeDates: () => call("active_dates", E),
