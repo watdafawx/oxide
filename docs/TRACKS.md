@@ -153,6 +153,8 @@ NeoForge + Fabric 1.21.1).
 | NeoForge + Architectury | `docs/tracks/neoforge.md` | 12 | 116 | 9,550 | per-world workspace, `pre` tasks, GameTest parse |
 | Fabric | `docs/tracks/fabric.md` | 7 | 61 | 4,820 | same as NeoForge |
 | Lua + Factorio | `docs/tracks/lua.md` | 5 | 54 | 4,445 | embedded Lua, test harness, Factorio mock |
+| Java 25 + Boot 4 (delta) | `docs/tracks/java-25.md` | 5 | 33 | 2,995 | JDK 25 (Temurin 25.0.4), Boot 4.1.1, `track.toml` jdk |
+| NeoForge latest (delta) | `docs/tracks/neoforge-latest.md` | 12 | 69 | 7,260 | Minecraft 26.3 + NeoForge 26.3.0.94, JDK 25; re-cut each Minecraft release |
 
 Decisions on the planners' open questions:
 
