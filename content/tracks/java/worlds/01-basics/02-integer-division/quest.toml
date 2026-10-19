@@ -1,0 +1,19 @@
+title = "Integer division"
+summary = "Split with / and %, then cast to get the fraction back."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["operators"]
+
+[[objectives]]
+test = "dividesWithRemainder"
+label = "divmod gives quotient and remainder; ratio keeps the fraction"
+
+[[hints]]
+text = "`/` on two ints throws the fraction away; `%` gives what was left over: `17 / 5` is 3, `17 % 5` is 2."
+
+[[hints]]
+text = "`return new int[] {a / b, a % b};` for `divmod`."
+
+[[hints]]
+text = "For `ratio`, cast one side first: `(double) a / b`."

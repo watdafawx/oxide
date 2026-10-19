@@ -1,0 +1,23 @@
+title = "Loops"
+summary = "for, while and enhanced for: add up numbers, count letters."
+kind = "exercise"
+xp = 50
+minutes = 10
+tags = ["control-flow", "loops"]
+
+[[objectives]]
+test = "sumToAddsInclusive"
+label = "sumTo(n) adds 1 through n, n included"
+
+[[objectives]]
+test = "countVowelsIgnoresCase"
+label = "countVowels counts a, e, i, o, u in either case"
+
+[[hints]]
+text = "`sumTo`: `int total = 0; for (int i = 1; i <= n; i++) { total += i; } return total;`. Note `<=`: n is included."
+
+[[hints]]
+text = "`countVowels`: loop over `text.toCharArray()` with `for (char c : ...)`."
+
+[[hints]]
+text = "Lower-case once: `\"aeiou\".indexOf(Character.toLowerCase(c)) >= 0` is true for a vowel."

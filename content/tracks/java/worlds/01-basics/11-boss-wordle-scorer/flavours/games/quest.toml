@@ -1,0 +1,36 @@
+title = "Boss: Codeword command"
+summary = "Add !guess to the status bot: score a codeword guess and reply with an emoji row."
+
+[[objectives]]
+test = "exactCodewordIsAllGreen"
+label = "score returns GGGGG when the guess is the secret"
+
+[[objectives]]
+test = "misplacedLetterIsYellow"
+label = "a letter in the word but in the wrong place is Y, a missing letter is ."
+
+[[objectives]]
+test = "repeatedLetterIsScoredOnce"
+label = "a repeated letter is only Y as many times as the secret has it"
+
+[[objectives]]
+test = "replyRendersEmojiRow"
+label = "reply builds the chat line: player name plus the emoji row"
+
+[[hints]]
+text = "Start with the easy win: if `guess.equals(secret)`, return `\"GGGGG\"`. That alone turns the first objective green."
+
+[[hints]]
+text = "For the general case, make a `char[] result` of five `'.'` (`Arrays.fill`). First pass: for every position `i`, if `guess.charAt(i) == secret.charAt(i)`, set `result[i] = 'G'`."
+
+[[hints]]
+text = "Yellow needs to know which secret letters are still *unclaimed*. Make `int[] unclaimed = new int[26]` and, in the first pass, count every secret letter that was **not** green: `unclaimed[secret.charAt(i) - 'a']++`."
+
+[[hints]]
+text = "Second pass over the guess: for every position that is not green, if `unclaimed[guess.charAt(i) - 'a'] > 0` the letter is yellow: set `'Y'` and decrement that count."
+
+[[hints]]
+text = "Why two passes? Greens must claim their letters first. In \"pearl\" vs \"eerie\" the second `e` is green, so the other `e`s find nothing left and stay gray."
+
+[[hints]]
+text = "`render` maps `'G'`, `'Y'` and anything else to `GREEN`, `YELLOW`, `GRAY` (constants are in the starter). `reply` is two calls: `render(score(secret, guess))`, then `player + \": \" + row`."

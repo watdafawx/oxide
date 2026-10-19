@@ -1,0 +1,27 @@
+title = "Strings"
+summary = "Strings never change; reverse one, test a palindrome, and compare with equals."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["strings"]
+
+[[objectives]]
+test = "reversesText"
+label = "reverse returns the characters in the opposite order"
+
+[[objectives]]
+test = "palindromeIgnoresCaseAndSpaces"
+label = "isPalindrome ignores case and spaces"
+
+[[objectives]]
+test = "equalsComparesContent"
+label = "sameText compares content, not identity"
+
+[[hints]]
+text = "`reverse`: `new StringBuilder(text).reverse().toString()` is the short way. A loop from `length() - 1` down to 0 works too."
+
+[[hints]]
+text = "`isPalindrome`: build a cleaned copy with `text.replace(\" \", \"\").toLowerCase()`, then compare it with its own reverse (use `equals`)."
+
+[[hints]]
+text = "`sameText`: `a.equals(b)`. `==` asks \"same object?\", `equals` asks \"same characters?\"."

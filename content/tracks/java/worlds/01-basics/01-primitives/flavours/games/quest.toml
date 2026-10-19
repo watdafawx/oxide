@@ -1,0 +1,19 @@
+title = "Player counts and big totals"
+summary = "Add player counts as ints, then total player-seconds without overflow."
+
+[[objectives]]
+test = "playerCountWrapsPastIntMax"
+label = "addPlayers adds two ints and wraps past Integer.MAX_VALUE"
+
+[[objectives]]
+test = "playerSecondsFitInLong"
+label = "playerSeconds returns the true product as a long"
+
+[[hints]]
+text = "`addPlayers` is just `a + b`. The wrap-around is Java's, not yours."
+
+[[hints]]
+text = "In `playerSeconds`, `players * seconds` multiplies as `int` first. Widen one side before the `*`."
+
+[[hints]]
+text = "`return (long) players * seconds;`"

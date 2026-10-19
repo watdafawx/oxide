@@ -1,0 +1,23 @@
+title = "Numbers that wrap"
+summary = "int overflows silently; long does not. Fix a sum that quietly goes wrong."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["types", "overflow"]
+
+[[objectives]]
+test = "intOverflowWraps"
+label = "addInts adds two ints and wraps past Integer.MAX_VALUE"
+
+[[objectives]]
+test = "longAvoidsOverflow"
+label = "addAsLong returns the true sum as a long"
+
+[[hints]]
+text = "`addInts` is just `a + b`. The wrap-around happens on its own, you do not code it."
+
+[[hints]]
+text = "In `addAsLong`, `a + b` is added as `int` first and only then widened. Widen one side before the `+`."
+
+[[hints]]
+text = "`return (long) a + b;`"

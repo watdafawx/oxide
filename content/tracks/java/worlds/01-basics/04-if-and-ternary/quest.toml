@@ -1,0 +1,23 @@
+title = "If, else and ?:"
+summary = "Branch with if/else and the ternary: keep a number in range, find its sign."
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["control-flow"]
+
+[[objectives]]
+test = "clampKeepsInRange"
+label = "clamp returns lo below the range, hi above it, and the value inside it"
+
+[[objectives]]
+test = "signOfReturnsMinusOneZeroOne"
+label = "signOf returns -1, 0 or 1"
+
+[[hints]]
+text = "`clamp`: if the value is below `lo` return `lo`; if above `hi` return `hi`; otherwise return the value."
+
+[[hints]]
+text = "`return v < lo ? lo : (v > hi ? hi : v);` is the one-line form."
+
+[[hints]]
+text = "`signOf`: `if (n < 0) return -1;` then `if (n > 0) return 1;` then `return 0;`."

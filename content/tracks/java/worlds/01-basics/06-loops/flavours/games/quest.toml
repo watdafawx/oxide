@@ -1,0 +1,19 @@
+title = "Ramp-up and color codes"
+summary = "Loop to total a growing player count, and to count color codes in a MOTD."
+
+[[objectives]]
+test = "playerMinutesAddsInclusive"
+label = "playerMinutes(minutes) adds 1 through minutes, the last minute included"
+
+[[objectives]]
+test = "countsColorCodesInMotd"
+label = "countColorCodes counts every section sign in a MOTD"
+
+[[hints]]
+text = "`playerMinutes`: `int total = 0; for (int m = 1; m <= minutes; m++) { total += m; } return total;`. Note `<=`: the last minute counts."
+
+[[hints]]
+text = "`countColorCodes`: loop over `motd.toCharArray()` with `for (char c : ...)`."
+
+[[hints]]
+text = "The color-code character is `'\\u00a7'` (a section sign). Compare with `c == '\\u00a7'` and `count++`."

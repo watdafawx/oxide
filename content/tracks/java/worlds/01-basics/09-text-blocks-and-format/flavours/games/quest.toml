@@ -1,0 +1,22 @@
+title = "Status table and JSON"
+summary = "Print the server table with StringBuilder and the status JSON with a text block."
+
+[[objectives]]
+test = "buildsServerTableWithStringBuilder"
+label = "table builds one formatted row per server, joined with newlines"
+
+[[objectives]]
+test = "statusJsonKeepsIndent"
+label = "statusJson returns an indented JSON text block with the values filled in"
+
+[[hints]]
+text = "`table`: make a `StringBuilder`, loop with an index `i`, and `append(String.format(\"%-8s|%3d\\n\", servers[i], players[i]))`. Return `sb.toString()`."
+
+[[hints]]
+text = "`%-8s` pads text to 8 characters on the right, `%3d` right-aligns an int in 3 characters."
+
+[[hints]]
+text = "`statusJson`: a text block starts with `\"\"\"` and a newline. Put `%s` and `%d` inside, end with `\"\"\".formatted(status, playerCount)`."
+
+[[hints]]
+text = "The closing `\"\"\"` on its own line decides how much indentation is stripped, and adds the final newline."

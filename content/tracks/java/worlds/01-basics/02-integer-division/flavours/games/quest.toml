@@ -1,0 +1,15 @@
+title = "Pages of players"
+summary = "Split the online list into pages and report how full the server is."
+
+[[objectives]]
+test = "splitsPlayersIntoPagesWithLeftover"
+label = "pagesAndLeftover gives full pages and the players left over; fillRatio keeps the fraction"
+
+[[hints]]
+text = "`/` on two ints throws the fraction away; `%` gives what was left over: 17 players at 5 per page is 3 pages and 2 left."
+
+[[hints]]
+text = "`return new int[] {players / perPage, players % perPage};`"
+
+[[hints]]
+text = "For `fillRatio`, cast one side first: `(double) players / capacity`."
