@@ -38,6 +38,8 @@ The JSON looks like:
 - `parse_status` (+ `flatten_text`): JSON with `serde_json`.
 - `ping`: connect, send both packets, read the reply, parse it. Set timeouts.
 
+Press Run to play it.
+
 ## Afterwards: try it on your server
 
 Add `src/main.rs`:
