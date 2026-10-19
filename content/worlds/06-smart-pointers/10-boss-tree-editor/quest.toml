@@ -1,0 +1,35 @@
+title = "Boss: Tree editor"
+summary = "Build the engine of an outliner: add, move, remove and render a tree of notes."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["rc", "refcell", "weak", "hashmap", "boss"]
+
+[[objectives]]
+test = "new_doc_has_root_title"
+label = "text(0) is the root's title; unknown ids give None"
+[[objectives]]
+test = "add_returns_fresh_ids"
+label = "add(parent, text) returns a new id each time, None for an unknown parent"
+[[objectives]]
+test = "path_lists_ancestors"
+label = "path(id) lists texts from the root down to the node"
+[[objectives]]
+test = "render_indents_children"
+label = "render() prints the tree, two spaces of indent per level"
+[[objectives]]
+test = "remove_deletes_subtree"
+label = "remove(id) deletes the node and everything below it (never the root)"
+[[objectives]]
+test = "move_node_reparents"
+label = "move_node(id, new_parent) re-attaches the node and its subtree"
+[[objectives]]
+test = "move_refuses_cycles"
+label = "move_node refuses to move a node under itself or its descendants"
+
+[[hints]]
+text = "Plan: `nodes: HashMap<u32, Rc<RefCell<Node>>>` finds a node by id. Each node's `children` own it downward, `parent` is a `Weak` pointing up. Start with `text`: `self.nodes.get(&id).map(|n| n.borrow().text.clone())`."
+[[hints]]
+text = "`path`: start at the node, push its text, then `upgrade()` the parent and repeat. Reverse at the end. `render`: a recursive helper `fn render_node(node: &Rc<RefCell<Node>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`."
+[[hints]]
+text = "`remove`/`move_node`: first detach from the old parent with `children.retain(|c| !Rc::ptr_eq(c, &node))`. To remove a subtree, collect every node below it, then `self.nodes.retain` the ones that are not in that list. For the cycle check, walk up from the target with `parent.upgrade()` and refuse if you meet the node being moved."

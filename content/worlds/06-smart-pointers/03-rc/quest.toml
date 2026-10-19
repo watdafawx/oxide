@@ -1,0 +1,23 @@
+title = "Share with Rc"
+summary = "Rc lets several owners hold one value. Rc::clone only bumps a counter."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rc", "shared-ownership"]
+
+[[objectives]]
+test = "share_returns_another_handle"
+label = "share(&rc) returns a second owner of the same String"
+[[objectives]]
+test = "owner_count_reports_strong_count"
+label = "owner_count(&rc) reports how many owners exist"
+[[objectives]]
+test = "count_inside_and_after_tracks_drops"
+label = "A temporary owner raises the count, then lowers it again"
+
+[[hints]]
+text = "`Rc::clone(shared)` copies the pointer, not the String."
+[[hints]]
+text = "`Rc::strong_count(rc)` returns the number of owners."
+[[hints]]
+text = "Make the extra owner inside a `{ ... }` block so it is dropped at the closing brace, then read the count again."

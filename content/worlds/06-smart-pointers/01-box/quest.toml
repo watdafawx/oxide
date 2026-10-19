@@ -1,0 +1,23 @@
+title = "Box it up"
+summary = "A list that contains itself needs a Box to have a size."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["box", "heap", "enums"]
+
+[[objectives]]
+test = "prepend_puts_new_head_in_front"
+label = "prepend(list, x) returns a new list with x at the front"
+[[objectives]]
+test = "sum_adds_every_element"
+label = "sum(&list) adds up all the i32s"
+[[objectives]]
+test = "len_counts_elements"
+label = "len(&list) counts the Cons cells"
+
+[[hints]]
+text = "`Cons(x, Box::new(list))` builds a bigger list. `Box::new` puts a value on the heap."
+[[hints]]
+text = "`sum` and `len` are recursive: `match list { Cons(v, rest) => ..., Nil => 0 }`."
+[[hints]]
+text = "`Cons(v, rest) => v + sum(rest)`. `rest` is a `&Box<List>`, which derefs to `&List` for you."

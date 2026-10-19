@@ -1,0 +1,23 @@
+title = "Deref and Drop"
+summary = "Make your own pointer act like a reference, and run code when a value dies."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["deref", "drop", "raii"]
+
+[[objectives]]
+test = "deref_gives_inner_value"
+label = "*MyBox::new(x) gives x, and &MyBox<String> works as &str"
+[[objectives]]
+test = "drop_logs_name"
+label = "Dropping a Guard pushes \"drop <name>\" onto the log"
+[[objectives]]
+test = "early_release_drops_before_work"
+label = "early_release drops its Guard first, then logs \"work\""
+
+[[hints]]
+text = "`deref` returns a reference to the inside: `&self.0`."
+[[hints]]
+text = "In `drop`: `self.log.push(format!(\"drop {}\", self.name));`"
+[[hints]]
+text = "`let g = Guard::new(\"a\", log); drop(g); log.push(\"work\".to_string());` The explicit `drop(g)` must come before you use `log` again."

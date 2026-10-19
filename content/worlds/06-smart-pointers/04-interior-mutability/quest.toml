@@ -1,0 +1,24 @@
+title = "Changing through a shared ref"
+summary = "Cell and RefCell let you mutate behind &. The borrow rules move to runtime."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["refcell", "cell", "interior-mutability"]
+
+[[quiz]]
+question = "What is the difference between Cell<T> and RefCell<T>?"
+choices = [
+  "Cell<T> hands out references to its inside, RefCell<T> only copies values",
+  "Cell<T> moves values in and out with get/set, RefCell<T> lends &T / &mut T that are checked at runtime",
+  "Both check the borrow rules at compile time",
+]
+answer = 1
+
+[[quiz]]
+question = "A RefCell is already borrowed by a live borrow_mut(). You call borrow_mut() on it again. What happens?"
+choices = [
+  "It does not compile",
+  "The second call waits until the first one ends",
+  "It panics at runtime (try_borrow_mut would return Err instead)",
+]
+answer = 2

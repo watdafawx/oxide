@@ -1,0 +1,23 @@
+title = "RefCell: mutate behind &"
+summary = "Change a counter and a list through an immutable reference."
+kind = "exercise"
+xp = 55
+minutes = 9
+tags = ["refcell", "interior-mutability"]
+
+[[objectives]]
+test = "hit_counts_through_shared_ref"
+label = "Counter::hit(&self) increments even though self is not mut"
+[[objectives]]
+test = "add_item_mutates_in_place"
+label = "add_item(&RefCell<Vec<String>>, item) pushes onto the list"
+[[objectives]]
+test = "is_locked_detects_active_borrow"
+label = "is_locked is true only while a borrow is alive (use try_borrow_mut)"
+
+[[hints]]
+text = "`*self.hits.borrow_mut() += 1;` gives you `&mut u32` for one statement."
+[[hints]]
+text = "`list.borrow_mut().push(item.to_string());`"
+[[hints]]
+text = "`cell.try_borrow_mut().is_err()` is true exactly when someone else holds a borrow."

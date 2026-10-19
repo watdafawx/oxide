@@ -1,0 +1,2 @@
+title = "Smart pointers"
+blurb = "Box, Rc, RefCell, Weak, Cow and Arc: put values on the heap, share them, and change them safely."

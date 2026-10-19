@@ -1,0 +1,72 @@
+use std::cell::RefCell;
+
+/// Counts hits. `hit` takes &self, so the count lives in a RefCell.
+pub struct Counter {
+    hits: RefCell<u32>,
+}
+
+impl Counter {
+    pub fn new() -> Counter {
+        Counter {
+            hits: RefCell::new(0),
+        }
+    }
+
+    pub fn hit(&self) {
+        // TODO: add 1 to the number inside the RefCell
+        todo!()
+    }
+
+    pub fn get(&self) -> u32 {
+        *self.hits.borrow()
+    }
+}
+
+impl Default for Counter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+/// Appends `item` to the list behind the RefCell.
+pub fn add_item(list: &RefCell<Vec<String>>, item: &str) {
+    // TODO: borrow_mut() the list and push item.to_string()
+    todo!()
+}
+
+/// True if `cell` is currently borrowed so that a borrow_mut() would panic.
+pub fn is_locked(cell: &RefCell<i32>) -> bool {
+    // TODO: try_borrow_mut() returns Err when the cell is already borrowed
+    todo!()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hit_counts_through_shared_ref() {
+        let c = Counter::new();
+        let r = &c;
+        r.hit();
+        r.hit();
+        assert_eq!(c.get(), 2);
+    }
+
+    #[test]
+    fn add_item_mutates_in_place() {
+        let list = RefCell::new(vec![String::from("a")]);
+        add_item(&list, "b");
+        assert_eq!(*list.borrow(), vec!["a", "b"]);
+    }
+
+    #[test]
+    fn is_locked_detects_active_borrow() {
+        let cell = RefCell::new(1);
+        assert!(!is_locked(&cell), "a free cell is not locked");
+        let reader = cell.borrow();
+        assert!(is_locked(&cell), "a live borrow() locks out borrow_mut()");
+        drop(reader);
+        assert!(!is_locked(&cell), "dropping the borrow unlocks it");
+    }
+}
