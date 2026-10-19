@@ -23,3 +23,5 @@ Tests run `hash_all` on a helper thread with a 10 s limit, so a channel you forg
 ## Your turn
 
 In `src/lib.rs`, replace each `todo!()`: `Progress`, `fnv1a`, `walk`, `hash_all_tracked` (the real pool), `hash_all`, `hash_all_rayon`, `report`. `hash_file` is given. Delete the `#![allow(...)]` line at the top when you are done.
+
+Press Run to play it.

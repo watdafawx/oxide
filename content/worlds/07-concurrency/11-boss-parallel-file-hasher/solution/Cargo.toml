@@ -7,3 +7,8 @@ edition = "2024"
 rayon = "1.10"
 
 [workspace]
+
+[[bin]]
+name = "conc_boss_hasher"
+path = "src/main.rs"
+test = false
