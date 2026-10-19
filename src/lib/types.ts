@@ -97,7 +97,7 @@ export interface CheckResultEvent { quest_id: string; result: CheckResult; compl
 export interface FocusTick { remaining_s: number; total_s: number; quest_id: string }
 export interface FocusDone { quest_id: string }
 
-export type RunStream = "stdout" | "stderr" | "system";
+export type RunStream = "stdout" | "stderr" | "system" | "build";
 export interface RunOutput { quest_id: string; stream: RunStream; line: string }
 export interface RunDone { quest_id: string; code: number | null }
 

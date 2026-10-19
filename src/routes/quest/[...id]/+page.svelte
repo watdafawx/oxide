@@ -98,6 +98,7 @@
   let stdin = $state("");
   const runProgram = async () => {
     app.startRun(id);
+    openBuild = {};
     stdin = "";
     await tick();
     panelEl?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -119,7 +120,19 @@
     void run?.lines.length;
     if (consoleEl) consoleEl.scrollTop = consoleEl.scrollHeight;
   });
-  const lineClass = { stdout: "text-ink", stderr: "text-dim", system: "text-rust-hi", input: "text-ok" } as const;
+  let openBuild = $state<Record<number, boolean>>({});
+  /** consecutive "build" lines fold into one collapsible row */
+  const consoleRows = $derived.by(() => {
+    const out: ({ kind: "line"; l: { stream: keyof typeof lineClass; line: string } } | { kind: "build"; at: number; lines: string[] })[] = [];
+    (run?.lines ?? []).forEach((l, i) => {
+      const last = out[out.length - 1];
+      if (l.stream !== "build") out.push({ kind: "line", l });
+      else if (last?.kind === "build") last.lines.push(l.line);
+      else out.push({ kind: "build", at: i, lines: [l.line] });
+    });
+    return out;
+  });
+  const lineClass = { build: "text-dim", stdout: "text-ink", stderr: "text-dim", system: "text-rust-hi", input: "text-ok" } as const;
 
   const hintsShown = $derived(q ? q.hints.slice(0, detail?.hints_used ?? 0) : []);
   const quizReady = $derived(!!q && q.quiz.length > 0 && q.quiz.every((_, i) => answers[i] !== undefined));
@@ -149,8 +162,17 @@
             <button class="btn btn-ghost !rounded-lg !px-3 !py-1 text-sm" disabled={!running} onclick={stopProgram} data-testid="stop">Stop</button>
           </header>
           <div bind:this={consoleEl} class="max-h-80 min-h-32 overflow-auto px-4 py-3 font-mono text-sm leading-relaxed" data-testid="console-lines">
-            {#each run.lines as l}
-              <div class="whitespace-pre-wrap break-words {lineClass[l.stream]}">{l.stream === "input" ? "› " : ""}{l.line}</div>
+            {#each consoleRows as r}
+              {#if r.kind === "build"}
+                <button class="block w-full text-left text-dim/80 hover:text-dim" data-testid="build-fold" onclick={() => (openBuild[r.at] = !openBuild[r.at])}>
+                  {openBuild[r.at] ? "▾" : "▸"} build output ({r.lines.length} {r.lines.length === 1 ? "line" : "lines"})
+                </button>
+                {#if openBuild[r.at]}
+                  {#each r.lines as bl}<div class="whitespace-pre-wrap break-words pl-4 text-dim/70">{bl}</div>{/each}
+                {/if}
+              {:else}
+                <div class="whitespace-pre-wrap break-words {lineClass[r.l.stream]}">{r.l.stream === "input" ? "› " : ""}{r.l.line}</div>
+              {/if}
             {/each}
           </div>
           <form class="flex items-center gap-2 border-t border-line px-4 py-2 font-mono text-sm" onsubmit={(e) => { e.preventDefault(); if (running) sendInput(); }}>

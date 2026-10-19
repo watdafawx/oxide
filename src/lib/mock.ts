@@ -303,13 +303,15 @@ function startRun(id: string) {
   endRun(null);
   run.id = id;
   run.live = true;
-  const out = (stream: "stdout" | "stderr" | "system", line: string, at: number) =>
+  const out = (stream: "stdout" | "stderr" | "system" | "build", line: string, at: number) =>
     run.timers.push(setTimeout(() => run.live && emit("run:output", { quest_id: id, stream, line }), at));
   const lua = byId(id).runner === "lua";
   out("system", lua ? "lua src/main.lua" : "cargo run", 0);
   if (!lua) {
-    out("stderr", "   Compiling quest v0.1.0", 150);
-    out("stderr", "    Finished `dev` profile in 0.8s", 600);
+    out("build", "   Compiling quest v0.1.0", 150);
+    out("build", "warning: unused variable: `x`", 300);
+    out("build", "    Finished `dev` profile in 0.8s", 600);
+    out("stderr", "(debug) seed = 7", 900);
   }
   out("stdout", "Welcome to the guessing game!", 800);
   out("stdout", "I'm thinking of a number between 1 and 100.", 1100);
