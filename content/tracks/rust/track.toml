@@ -1,0 +1,3 @@
+title = "Rust"
+blurb = "From hello world to shipping real apps."
+runner = "cargo"

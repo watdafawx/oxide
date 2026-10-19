@@ -3,9 +3,9 @@ import type { MockHandlers } from "./api";
 import type {
   Achievement, CheckResult, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, Track, World,
 } from "./types";
-import helloLesson from "../../content/worlds/00-tutorial/01-hello/lesson.md?raw";
-import fixLesson from "../../content/worlds/00-tutorial/02-fix-it/lesson.md?raw";
-import bossLesson from "../../content/worlds/00-tutorial/03-boss-name-tag/lesson.md?raw";
+import helloLesson from "../../content/tracks/rust/worlds/00-tutorial/01-hello/lesson.md?raw";
+import fixLesson from "../../content/tracks/rust/worlds/00-tutorial/02-fix-it/lesson.md?raw";
+import bossLesson from "../../content/tracks/rust/worlds/00-tutorial/03-boss-name-tag/lesson.md?raw";
 
 // ---------- event bus ----------
 type Cb = (p: never) => void;

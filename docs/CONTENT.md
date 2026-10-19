@@ -46,7 +46,7 @@ short real-world "why now"). It may carry a **games** flavour beside it:
 - The learner picks the flavour in settings (`games` by default); a quest without that flavour
   shows plain. Switching mid-quest keeps the workspace; Reset copies the current flavour.
 - content-check builds and runs every flavour's starter and solution.
-- Worked example: `content/worlds/00-tutorial/01-hello/flavours/games`.
+- Worked example: `content/tracks/rust/worlds/00-tutorial/01-hello/flavours/games`.
 
 ## Layout
 
@@ -68,7 +68,7 @@ content/tracks/<track>/worlds/
 
 - Folder names are `NN-slug`: two-digit index, lowercase slug, `a-z0-9-` only.
 - Quest id = `<track>/<world folder>/<quest folder>`, e.g. `rust/01-foundations/03-functions`. In `requires`, a two-segment id (`01-foundations/03-functions`) means "in my own track"; use three segments to require a quest from another track (`java/02-oop/05-records`).
-- The Rust track still lives at `content/worlds/` (read as track `rust`) until the content sessions finish; the engine accepts both layouts.
+- The Rust track lives at `content/tracks/rust/`. The engine still reads a bare `content/worlds/` as track `rust` (legacy fallback, ignored once `tracks/rust` exists).
 - Order in the UI = folder order. The boss is the last quest of its world.
 
 ## quest.toml

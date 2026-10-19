@@ -13,8 +13,8 @@ content/tracks/<track>/track.toml          title, blurb, runner, toolchain notes
 content/tracks/<track>/worlds/<NN-world>/<NN-quest>/   quest.toml, lesson.md, starter/, solution/
 ```
 
-Rust moves from `content/worlds` to `content/tracks/rust/worlds` once the current content sessions
-finish (ids become `rust/01-foundations/03-functions`; no learner progress exists yet).
+Rust lives at `content/tracks/rust/worlds` (ids `rust/01-foundations/03-functions`). A bare `content/worlds` is
+still read as the `rust` track when no `tracks/rust` exists.
 Quest ids: `<track>/<world>/<quest>`. `requires` may cross tracks (Minecraft requires Java basics).
 
 ## Runners (engine: `oxide-core/src/grader/`)
@@ -148,7 +148,7 @@ NeoForge + Fabric 1.21.1).
 
 | track | doc | worlds | quests | XP | first engine need |
 |---|---|---|---|---|---|
-| Rust | `content/worlds` (00-06 done) | 12 planned, 7 done | 69 done of ~110 | 5,015 so far | none |
+| Rust | `content/tracks/rust` (00-06 done) | 12 planned, 7 done | 69 done of ~110 | 5,015 so far | none |
 | Java | `docs/tracks/java.md` | 10 | 103 | 8,175 | gradle runner, JUnit XML |
 | NeoForge + Architectury | `docs/tracks/neoforge.md` | 12 | 116 | 9,550 | per-world workspace, `pre` tasks, GameTest parse |
 | Fabric | `docs/tracks/fabric.md` | 7 | 61 | 4,820 | same as NeoForge |

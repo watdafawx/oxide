@@ -14,8 +14,13 @@ fn tutorial_hello_red_then_green() {
     let tmp = tempfile::tempdir().unwrap();
     let content_dir = tmp.path().join("content");
     workspace::copy_dir(
-        &oxide_core::repo_content_dir().join("worlds/00-tutorial"),
-        &content_dir.join("worlds/00-tutorial"),
+        &oxide_core::repo_content_dir().join("tracks/rust/worlds/00-tutorial"),
+        &content_dir.join("tracks/rust/worlds/00-tutorial"),
+    )
+    .unwrap();
+    std::fs::copy(
+        oxide_core::repo_content_dir().join("tracks/rust/track.toml"),
+        content_dir.join("tracks/rust/track.toml"),
     )
     .unwrap();
     let catalog = content::load(&content_dir).expect("catalog loads");

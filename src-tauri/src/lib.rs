@@ -475,13 +475,13 @@ fn content_dir(app: &AppHandle) -> PathBuf {
     // Dev builds read the repo, not the resource copy tauri dev made at build time.
     if cfg!(debug_assertions) {
         let repo = oxide_core::repo_content_dir();
-        if repo.join("worlds").is_dir() {
+        if repo.join("tracks").is_dir() {
             return repo;
         }
     }
     if let Ok(res) = app.path().resource_dir() {
         let bundled = res.join("content");
-        if bundled.join("worlds").is_dir() {
+        if bundled.join("tracks").is_dir() {
             return bundled;
         }
     }
@@ -492,6 +492,14 @@ fn content_dir(app: &AppHandle) -> PathBuf {
 pub fn run() {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
     tauri::Builder::default()
+        // A second launch focuses the running window instead of opening another instance.
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            if let Some(w) = app.get_webview_window("main") {
+                let _ = w.unminimize();
+                let _ = w.show();
+                let _ = w.set_focus();
+            }
+        }))
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             let handle = app.handle().clone();

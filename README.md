@@ -13,7 +13,7 @@ own UI to Rust.
 | `crates/content-check` | validates every quest (schema, starter builds, solution passes) |
 | `src-tauri` | Tauri 2 commands and events over the engine |
 | `src` | SvelteKit UI (static adapter, SPA) |
-| `content/worlds` | the quests |
+| `content/tracks` | the quests, one folder per track (`rust`, `java`, `lua`, ...) |
 | `docs/CONTENT.md` | how to write a quest |
 | `docs/API.md` | UI ↔ core contract |
 
@@ -26,6 +26,33 @@ pnpm tauri dev
 
 Quests are copied to `~/oxide-quests/` (override with `OXIDE_QUESTS`). Progress lives in the
 app data dir (`%APPDATA%/com.micha.oxide` on Windows).
+
+## Build
+
+```
+pnpm tauri build
+```
+
+Outputs (workspace target dir, not committed):
+
+| file | size |
+|---|---|
+| `target/release/bundle/nsis/Oxide_0.1.0_x64-setup.exe` | 3.4 MiB |
+| `target/release/bundle/msi/Oxide_0.1.0_x64_en-US.msi` | 5.9 MiB |
+
+`src-tauri/build.rs` stages `content/tracks` into `src-tauri/bundle-content/` (skipping `target`, `build`,
+`.gradle`, `node_modules`) and the bundle ships that copy as `content/tracks`. Release builds read the
+bundled copy; debug builds read the repo. `OXIDE_CONTENT` overrides both. A second launch focuses the
+running window (single-instance plugin).
+
+Smoke test: install the NSIS build to a scratch dir, run `oxide.exe --mcp`, then
+`python scripts/mcp.py invoke '{"command":"list_tracks"}'` and start/check `rust/00-tutorial/01-hello`.
+
+Runtime requirements on the learner's machine:
+- Rust track: a Rust toolchain (`cargo` on PATH).
+- Java tracks: JDK 21 (found automatically; Java 25 tracks need JDK 25).
+- Lua: nothing.
+- An editor command for "open in editor" (e.g. `code`), set in the app's settings.
 
 ## Check content
 

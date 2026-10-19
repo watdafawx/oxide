@@ -1,6 +1,6 @@
 //! Oxide core: everything the app does that is not a window.
 //!
-//! - [`content`]: load the quest catalog from `content/worlds`.
+//! - [`content`]: load the quest catalog from `content/tracks`.
 //! - [`workspace`]: the learner's copy of a quest and the editor that opens it.
 //! - [`grader`]: run `cargo test` in a workspace and map tests to objectives.
 //! - [`lua`]: the same for Lua quests, in an embedded Lua 5.2.
