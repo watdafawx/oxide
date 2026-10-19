@@ -1,19 +1,11 @@
-title = "Inserter handle and power-down"
-summary = "Make an inserter handle act like the machine it controls, and log a power-down when an inserter dies."
+title = "Inserter handle"
+summary = "Make an inserter handle act like the machine it controls."
 
 [[objectives]]
 test = "handle_derefs_to_inserter_value"
 label = "*InserterHandle::new(x) gives x, and &InserterHandle<String> works as &str"
-[[objectives]]
-test = "inserter_logs_power_down"
-label = "Dropping an Inserter pushes \"power down <name>\" onto the log"
-[[objectives]]
-test = "hot_swap_powers_down_first"
-label = "hot_swap powers the inserter down first, then logs \"place new inserter\""
 
 [[hints]]
 text = "`deref` returns a reference to the inside: `&self.0`."
 [[hints]]
-text = "In `drop`: `self.log.push(format!(\"power down {}\", self.name));`"
-[[hints]]
-text = "`let i = Inserter::new(\"inserter-1\", log); drop(i); log.push(...)`. The explicit `drop(i)` must come before you use `log` again."
+text = "The handle is a tuple struct, so the wrapped machine is field `0`. Take a reference to it."

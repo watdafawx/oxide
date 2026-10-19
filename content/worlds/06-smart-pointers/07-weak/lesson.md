@@ -9,7 +9,7 @@ let parent = Rc::new(String::from("p"));
 let weak: Weak<String> = Rc::downgrade(&parent);
 
 println!("{:?}", weak.upgrade()); // Some("p")
-drop(parent);
+drop(parent);                    // drop(x) ends a value early
 println!("{:?}", weak.upgrade()); // None
 ```
 

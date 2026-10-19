@@ -1,0 +1,16 @@
+title = "Power-down on drop"
+summary = "Log a power-down when an inserter dies, and swap one out early."
+
+[[objectives]]
+test = "inserter_logs_power_down"
+label = "Dropping an Inserter pushes \"power down <name>\" onto the log"
+[[objectives]]
+test = "hot_swap_powers_down_first"
+label = "hot_swap powers the inserter down first, then logs \"place new inserter\""
+
+[[hints]]
+text = "In `drop`: `self.log.push(format!(\"power down {}\", self.name));`"
+[[hints]]
+text = "For `hot_swap`: make the Inserter with `Inserter::new(\"inserter-1\", log)`. The log is borrowed by the Inserter until it dies."
+[[hints]]
+text = "`let i = Inserter::new(\"inserter-1\", log); drop(i); log.push(...)`. The explicit `drop(i)` must come before you use `log` again."

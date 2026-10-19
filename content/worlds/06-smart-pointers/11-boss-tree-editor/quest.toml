@@ -30,6 +30,14 @@ label = "move_node refuses to move a node under itself or its descendants"
 [[hints]]
 text = "Plan: `nodes: HashMap<u32, Rc<RefCell<Node>>>` finds a node by id. Each node's `children` own it downward, `parent` is a `Weak` pointing up. Start with `text`: `self.nodes.get(&id).map(|n| n.borrow().text.clone())`."
 [[hints]]
-text = "`path`: start at the node, push its text, then `upgrade()` the parent and repeat. Reverse at the end. `render`: a recursive helper `fn render_node(node: &Rc<RefCell<Node>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`."
+text = "`add(parent, text)`: look the parent up (None if unknown), take `self.next_id` and bump it, build the `Node` with `parent: Rc::downgrade(&parent_rc)`, push a clone of the new `Rc` onto the parent's `children`, and insert it into `self.nodes`."
 [[hints]]
-text = "`remove`/`move_node`: first detach from the old parent with `children.retain(|c| !Rc::ptr_eq(c, &node))`. To remove a subtree, collect every node below it, then `self.nodes.retain` the ones that are not in that list. For the cycle check, walk up from the target with `parent.upgrade()` and refuse if you meet the node being moved."
+text = "`path`: start at the node, push its text, then `upgrade()` the parent and repeat. Reverse at the end."
+[[hints]]
+text = "`render`: a recursive helper `fn render_node(node: &Rc<RefCell<Node>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`, then call it for each child with `depth + 1`."
+[[hints]]
+text = "`remove`: refuse the root and unknown ids. Detach from the old parent first: `children.retain(|c| !Rc::ptr_eq(c, &node))`."
+[[hints]]
+text = "Still in `remove`: collect the id of every node below the one you remove, then `self.nodes.retain` the ones that are not in that list."
+[[hints]]
+text = "`move_node`: for the cycle check, walk up from the new parent with `parent.upgrade()` and refuse if you meet the node being moved. Then detach it from the old parent, push it onto the new parent's `children`, and point its `parent` at the new one with `Rc::downgrade`."

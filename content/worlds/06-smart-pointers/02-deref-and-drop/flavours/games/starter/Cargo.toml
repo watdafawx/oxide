@@ -1,5 +1,5 @@
 [package]
-name = "ptr_deref_drop"
+name = "ptr_deref"
 version = "0.1.0"
 edition = "2024"
 

@@ -1,4 +1,4 @@
-Smart pointers are structs that act like pointers. Two traits make that work: **`Deref`** (`*x` and auto-coercion) and **`Drop`** (cleanup code).
+Smart pointers are structs that act like pointers. **`Deref`** is the trait that makes `*x` work on them, and lets `&MyBox<String>` be used where a `&str` is expected (auto-coercion).
 
 ```rust
 use std::ops::Deref;
@@ -12,26 +12,14 @@ impl Deref for Wrapper {
     }
 }
 
-struct Noisy;
-impl Drop for Noisy {
-    fn drop(&mut self) {
-        println!("bye");
-    }
-}
-
 let w = Wrapper(String::from("hi"));
 println!("{}", w.len()); // method found through Deref
 ```
 
 - `Deref` lets `&Wrapper` coerce to `&String`, then to `&str`.
-- `drop` runs automatically when a value goes out of scope, in reverse order of creation.
-- You never call `.drop()` yourself. To end a value early use **`drop(x)`**, the free function.
-- A value holding a `&mut` keeps it borrowed until the value is dropped.
+- `*w` is sugar for `*w.deref()`.
+- `type Target` says what the pointer points at.
 
 ## Your turn
 
-In `src/lib.rs`:
-
-- Implement `Deref for MyBox<T>`.
-- Fill in `Drop for Guard`: push `"drop <name>"` onto the log.
-- Write `early_release`: make a `Guard`, drop it explicitly, *then* push `"work"`.
+- In `src/lib.rs`, implement `Deref for MyBox<T>`.

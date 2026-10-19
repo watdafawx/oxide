@@ -1,4 +1,4 @@
-**Why now:** a modpack's tech tree gets rearranged constantly: add "Fast inserter" under Logistics, move Electronics under Automation, delete a branch. Time to build the engine behind that editor with everything in this world: `Rc`, `RefCell`, `Weak`.
+**Why now:** a factory's tech tree gets rearranged constantly: add "Fast inserter" under Logistics, move Electronics under Automation, delete a branch. Time to build the engine behind that editor with everything in this world: `Rc`, `RefCell`, `Weak`.
 
 The design:
 

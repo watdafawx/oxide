@@ -26,6 +26,14 @@ label = "reparent refuses to make a tech depend on itself or on one of its own d
 [[hints]]
 text = "Plan: `techs: HashMap<u32, Rc<RefCell<Tech>>>` finds a tech by id. Each tech's `unlocks` own it downward, `prerequisite` is a `Weak` pointing up. Start with `name`: `self.techs.get(&id).map(|t| t.borrow().name.clone())`."
 [[hints]]
-text = "`path`: start at the tech, push its name, then `upgrade()` the prerequisite and repeat. Reverse at the end. `render`: a recursive helper `fn render_tech(tech: &Rc<RefCell<Tech>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`."
+text = "`add(prerequisite, name)`: look the prerequisite up (None if unknown), take `self.next_id` and bump it, build the `Tech` with `prerequisite: Rc::downgrade(&pre_rc)`, push a clone of the new `Rc` onto the prerequisite's `unlocks`, and insert it into `self.techs`."
 [[hints]]
-text = "`remove`/`reparent`: first detach from the old prerequisite with `unlocks.retain(|c| !Rc::ptr_eq(c, &tech))`. To remove a subtree, collect every tech below it, then `self.techs.retain` the ones that are not in that list. For the cycle check, walk up from the target with `prerequisite.upgrade()` and refuse if you meet the tech being moved."
+text = "`path`: start at the tech, push its name, then `upgrade()` the prerequisite and repeat. Reverse at the end."
+[[hints]]
+text = "`render`: a recursive helper `fn render_tech(tech: &Rc<RefCell<Tech>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`, then call it for each unlock with `depth + 1`."
+[[hints]]
+text = "`remove`: refuse the starting tech and unknown ids. Detach from the old prerequisite first: `unlocks.retain(|c| !Rc::ptr_eq(c, &tech))`."
+[[hints]]
+text = "Still in `remove`: collect the id of every tech below the one you remove, then `self.techs.retain` the ones that are not in that list."
+[[hints]]
+text = "`reparent`: for the cycle check, walk up from the new prerequisite with `prerequisite.upgrade()` and refuse if you meet the tech being moved. Then detach it from the old prerequisite, push it onto the new one's `unlocks`, and point its `prerequisite` at the new one with `Rc::downgrade`."
