@@ -28,3 +28,5 @@ In `src/lib.rs`:
 - `build`: no allocation per token, no scan per token.
 - `search`: one lookup.
 - `top_words`: sort references and clone only the `n` results.
+
+Press Run to play it.
