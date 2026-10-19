@@ -26,3 +26,5 @@ The rules:
 ## Your turn
 
 In `src/lib.rs` implement `name`, `add`, `path`, `render`, `remove` and `reparent`. `TechTree::new` is done. The first objective is a two-minute win: start there.
+
+Press Run to play it.

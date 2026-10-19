@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
+
+[[bin]]
+name = "ptr_boss_tree_editor"
+path = "src/main.rs"
+test = false

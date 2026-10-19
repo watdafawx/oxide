@@ -26,3 +26,5 @@ The rules:
 ## Your turn
 
 In `src/lib.rs` implement `text`, `add`, `path`, `render`, `remove` and `move_node`. `Doc::new` is done. The first objective is a two-minute win: start there.
+
+Press Run to play it.
