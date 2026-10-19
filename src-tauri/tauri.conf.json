@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "oxide",
+  "productName": "Oxide",
   "version": "0.1.0",
   "identifier": "com.micha.oxide",
   "build": {
@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "oxide",
-        "width": 800,
-        "height": 600
+        "title": "Oxide",
+        "width": 1200,
+        "height": 820,
+        "minWidth": 900,
+        "minHeight": 600
       }
     ],
     "security": {
@@ -30,6 +32,9 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "resources": {
+      "../content/worlds": "content/worlds"
+    }
   }
 }

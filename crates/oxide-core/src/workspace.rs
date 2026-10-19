@@ -68,7 +68,9 @@ pub fn open_in_editor(dir: &Path, editor: &str) -> Result<()> {
     Ok(())
 }
 
-/// Recursive copy, skipping `target/` and lock files.
+/// Recursive copy, skipping `target/` and lock files. Copied files get a fresh
+/// mtime: `fs::copy` keeps the source's on Windows, and cargo would then reuse a
+/// build made from the previous contents of the same path.
 pub fn copy_dir(src: &Path, dst: &Path) -> std::io::Result<()> {
     fs::create_dir_all(dst)?;
     for entry in fs::read_dir(src)? {
@@ -84,6 +86,7 @@ pub fn copy_dir(src: &Path, dst: &Path) -> std::io::Result<()> {
             copy_dir(&from, &to)?;
         } else {
             fs::copy(&from, &to)?;
+            fs::File::options().write(true).open(&to)?.set_modified(std::time::SystemTime::now())?;
         }
     }
     Ok(())

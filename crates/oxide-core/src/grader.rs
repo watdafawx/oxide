@@ -132,20 +132,19 @@ pub fn parse(stdout: &str, stderr: &str, exit_ok: bool, objectives: &[Objective]
 
     for line in stdout.lines() {
         if line.starts_with('{') {
-            if let Ok(m) = serde_json::from_str::<CargoMsg>(line) {
-                if m.reason == "compiler-message"
-                    && let Some(msg) = m.message
-                    && (msg.level == "error" || msg.level == "warning")
-                {
-                    let primary = msg.spans.iter().find(|s| s.is_primary);
-                    diagnostics.push(Diagnostic {
-                        level: msg.level,
-                        message: msg.message,
-                        rendered: msg.rendered.unwrap_or_default(),
-                        file: primary.map(|s| s.file_name.clone()),
-                        line: primary.map(|s| s.line_start),
-                    });
-                }
+            if let Ok(m) = serde_json::from_str::<CargoMsg>(line)
+                && m.reason == "compiler-message"
+                && let Some(msg) = m.message
+                && (msg.level == "error" || msg.level == "warning")
+            {
+                let primary = msg.spans.iter().find(|s| s.is_primary);
+                diagnostics.push(Diagnostic {
+                    level: msg.level,
+                    message: msg.message,
+                    rendered: msg.rendered.unwrap_or_default(),
+                    file: primary.map(|s| s.file_name.clone()),
+                    line: primary.map(|s| s.line_start),
+                });
             }
         } else if let Some(c) = test_line.captures(line) {
             results.push((c[1].to_string(), &c[2] == "ok"));

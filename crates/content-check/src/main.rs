@@ -4,6 +4,7 @@
 //! - quest.toml valid, lesson present, requires resolve (via `oxide_core::content::load`)
 //! - starter compiles and every objective test exists (and fails or passes; it must *run*)
 //! - solution passes every objective
+//!
 //! `--fast` skips the cargo runs and only checks the catalog.
 
 use std::path::PathBuf;
@@ -63,12 +64,12 @@ fn main() -> ExitCode {
         starter and solution package names differ", q.id);
             failures += 1;
         }
-        if let Some(name) = starter_name {
-            if let Some(other) = names.insert(name.clone(), q.id.clone()) {
-                println!("  FAIL  {}
+        if let Some(name) = starter_name
+            && let Some(other) = names.insert(name.clone(), q.id.clone())
+        {
+            println!("  FAIL  {}
         package name `{name}` already used by {other}", q.id);
-                failures += 1;
-            }
+            failures += 1;
         }
     }
     for q in quests {
