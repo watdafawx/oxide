@@ -24,3 +24,5 @@ play(7, &["3", "pizza", "7"]);
 - Open `src/lib.rs`. `Outcome` and `Game` are given.
 - Do the objectives top to bottom: `new`, `guess`, `attempts`, `parse_guess`, then `play`.
 - The first objective is one line. Take the win, then keep going.
+
+Press Run to play it.

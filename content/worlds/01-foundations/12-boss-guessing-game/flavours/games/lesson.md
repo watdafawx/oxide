@@ -26,3 +26,5 @@ run(&["plank x4 = log x1", "pizza", "need 5 plank", "quit"]);
 - Open `src/lib.rs`. `Recipe`, `Calculator`, `parse_part` and `parse_need` are given.
 - Do the objectives top to bottom: `new`, `find_recipe`, `batches_needed`, `expand`, `parse_recipe`, then `run`.
 - The first objective is one line. Take the win, then keep going.
+
+Press Run to play it.

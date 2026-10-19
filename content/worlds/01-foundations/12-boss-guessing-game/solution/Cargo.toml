@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
+
+[[bin]]
+name = "found_guessing_game"
+path = "src/main.rs"
+test = false
