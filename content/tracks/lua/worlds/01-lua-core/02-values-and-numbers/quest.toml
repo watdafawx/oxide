@@ -1,0 +1,21 @@
+title = "Values and numbers"
+summary = "nil and false are the only falsy values; every number is a float."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["values", "numbers", "strings"]
+
+[[objectives]]
+test = "only_nil_and_false_are_falsy"
+label = "is_falsy(v) is true only for nil and false"
+[[objectives]]
+test = "halves_and_floors_correctly"
+label = "half(n) divides, floor_half(n) rounds down"
+[[objectives]]
+test = "formats_whole_numbers"
+label = "whole(n) formats a float like 5 as \"5\", not \"5.0\""
+
+[[hints]]
+text = "In Lua, `0` and `\"\"` are truthy. Only `nil` and `false` are not: `return v == nil or v == false`."
+[[hints]]
+text = "`math.floor(n / 2)` rounds down. `string.format(\"%d\", n)` prints a whole float without a decimal point."

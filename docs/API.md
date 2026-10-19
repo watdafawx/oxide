@@ -8,14 +8,19 @@ Enums serialise as lowercase strings.
 
 ```ts
 type QuestKind = "exercise" | "boss" | "read";
+type Runner = "cargo" | "lua" | "gradle";
+
+interface Track { id: string; title: string; blurb: string; runner: Runner }
 
 interface Objective { test: string; label: string }
 interface Hint { text: string }
 interface Quiz { question: string; choices: string[]; answer: number }
 
 interface Quest {
-  id: string;            // "01-foundations/03-functions"
-  world_id: string;
+  id: string;            // "rust/01-foundations/03-functions" (track/world/quest)
+  track_id: string;
+  world_id: string;      // "rust/01-foundations"
+  runner: Runner;
   index: number;
   slug: string;
   title: string;
@@ -30,9 +35,9 @@ interface Quest {
   quiz: Quiz[];
 }
 
-interface World { id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
+interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
-interface Settings { editor: string; sound: boolean; focus_minutes: number }
+interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string /* active track id, "" = first */ }
 
 interface Profile {
   xp: number;
@@ -85,7 +90,8 @@ interface QuestDetail {
 }
 
 interface Home {
-  next: Quest | null;         // the one card
+  track: Track;               // the active track (settings.track)
+  next: Quest | null;         // the one card, within the active track
   alternate: Quest | null;    // one other available quest
   profile: Profile;
   resume: Quest | null;       // a started-but-unfinished quest, if any
@@ -96,8 +102,9 @@ interface Home {
 
 | command | args | returns | notes |
 |---|---|---|---|
-| `home` | | `Home` | everything the home screen needs in one call |
-| `list_worlds` | | `World[]` | for the map |
+| `home` | | `Home` | everything the home screen needs in one call, for the active track |
+| `list_tracks` | | `Track[]` | for the track pill |
+| `list_worlds` | `{ track?: string }` | `World[]` | for the map; omitted = active track |
 | `get_quest` | `{ id }` | `QuestDetail` | |
 | `start_quest` | `{ id }` | `QuestDetail` | copies starter, records start, opens editor, starts the watcher |
 | `open_editor` | `{ id }` | `void` | re-open without resetting |
@@ -109,7 +116,7 @@ interface Home {
 | `list_achievements` | | `Achievement[]` | static list with titles |
 | `start_focus` | `{ id?: string, minutes }` | `number` | session id; engine emits `focus:tick` |
 | `stop_focus` | `{ completed: boolean }` | `void` | |
-| `get_settings` / `set_settings` | `{ settings }` | `Settings` | |
+| `get_settings` / `set_settings` | `{ settings }` | `Settings` | switching track = `set_settings` with a new `track`, then reload `home` |
 | `active_dates` | | `string[]` | `YYYY-MM-DD`, for the streak calendar |
 
 Errors: commands reject with a string message. Show it in a toast, no stack traces.

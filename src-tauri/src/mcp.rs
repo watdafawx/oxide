@@ -371,7 +371,7 @@ fn screenshot(app: &AppHandle) -> Result<(u32, u32, String), String> {
         }
         (w as u32, h as u32, buf)
     };
-    for p in buf.chunks_exact_mut(4) {
+    for p in buf.as_chunks_mut::<4>().0 {
         p.swap(0, 2);
         p[3] = 255;
     }

@@ -6,7 +6,9 @@ A quest is a folder. The engine (`crates/oxide-core/src/content.rs`) enforces ev
 ## Layout
 
 ```
-content/worlds/
+content/tracks/<track>/track.toml   title, blurb, runner = "cargo" | "lua" | "gradle"
+content/tracks/<track>/lib/         (optional) modules on every Lua quest's require path
+content/tracks/<track>/worlds/
   01-foundations/
     world.toml               title = "Foundations"  blurb = "one sentence"
     01-variables/
@@ -20,7 +22,8 @@ content/worlds/
 ```
 
 - Folder names are `NN-slug`: two-digit index, lowercase slug, `a-z0-9-` only.
-- Quest id = `<world folder>/<quest folder>`, e.g. `01-foundations/03-functions`. That is what `requires` uses.
+- Quest id = `<track>/<world folder>/<quest folder>`, e.g. `rust/01-foundations/03-functions`. In `requires`, a two-segment id (`01-foundations/03-functions`) means "in my own track"; use three segments to require a quest from another track (`java/02-oop/05-records`).
+- The Rust track still lives at `content/worlds/` (read as track `rust`) until the content sessions finish; the engine accepts both layouts.
 - Order in the UI = folder order. The boss is the last quest of its world.
 
 ## quest.toml
@@ -32,6 +35,7 @@ kind = "exercise"      # exercise | boss | read
 xp = 50                # exercise 30-80, boss 300-500, read 15
 minutes = 10           # honest estimate for a beginner; shown on the card, used for the speedrun badge
 tags = ["borrowing"]
+# runner = "lua"                         # defaults to the track's runner
 # starter_fails_to_compile = true        # only when the lesson is about a compile error
 # requires = ["02-ownership/02-moves"]   # omit = previous quest (first quest of a world = last of the previous world)
 #                                        # requires = [] = no prerequisite
@@ -74,6 +78,21 @@ Tone: direct, no fluff, no "in this lesson we will". Use `you`. A reader with AD
 - No external crates unless the quest is about them. When needed, pin a version that exists on crates.io and matches what the solution uses.
 - The learner edits `src/`. Don't put logic in tests they are meant to change.
 
+## Lua quests (`runner = "lua"`)
+
+```
+starter/
+  tests.lua        the spec; `local t = require("oxide.test")`, one `t.test(name, fn)` per objective
+  src/<name>.lua   what the learner edits; `require("<name>")` in tests.lua
+solution/          same, green
+```
+
+- Runs in an embedded Lua 5.2 (Factorio's version): no integers, `goto`, `table.unpack`. No `io`, no `os.exit`, 5 s limit per run.
+- `require` resolves `src/<name>.lua`, then `<name>.lua` in the quest root, then the track's `lib/`.
+- Harness asserts: `t.eq`, `t.ne`, `t.deep_eq`, `t.truthy`, `t.falsy`, `t.is_nil`, `t.near`, `t.is_type`, `t.contains`, `t.raises(fn, pattern?)`, `t.skip(reason)`; all take an optional trailing message. `t.group("prefix_", fn)` prefixes test names.
+- The starter's functions return `nil` or a wrong value with a `-- TODO:` comment; the file must load without a syntax error so objectives show red ticks, not "could not run".
+- Worked example: `content/tracks/lua/worlds/01-lua-core/03-arrays`.
+
 ## solution/
 
 Identical to starter with the TODOs filled. `cargo test` green, `cargo clippy` clean. content-check runs both.
@@ -92,6 +111,7 @@ First quest of a world: under 5 minutes. A world is 6-12 quests + boss. Every th
 
 ```
 cargo run -p content-check -- --fast           # catalog only, instant
-cargo run -p content-check -- 01-foundations   # builds starters + solutions for one world
+cargo run -p content-check -- 01-foundations   # one world (prefix of the id, with or without the track)
+cargo run -p content-check -- lua/             # one track
 cargo run -p content-check                     # everything
 ```

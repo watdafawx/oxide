@@ -12,7 +12,7 @@ use anyhow::{Context, Result};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 
-use crate::content::Objective;
+use crate::content::{Objective, Quest, Runner};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -74,6 +74,23 @@ fn cargo(workspace: &Path, target_dir: &Path) -> Command {
         c.creation_flags(0x0800_0000); // CREATE_NO_WINDOW
     }
     c
+}
+
+/// Grade a quest's workspace with its runner.
+pub fn run_quest(quest: &Quest, workspace: &Path, target_dir: &Path) -> Result<CheckResult> {
+    match quest.runner {
+        Runner::Cargo => run(workspace, target_dir, &quest.objectives),
+        Runner::Lua => crate::lua::run(workspace, quest.lib_dir.as_deref(), &quest.objectives),
+        Runner::Gradle => anyhow::bail!("the gradle runner is not built yet"),
+    }
+}
+
+/// Whether the "clean" bonus applies: cargo runs clippy; other runners have no linter yet.
+pub fn clean_for(quest: &Quest, workspace: &Path, target_dir: &Path) -> bool {
+    match quest.runner {
+        Runner::Cargo => clippy_clean(workspace, target_dir).unwrap_or(false),
+        _ => false,
+    }
 }
 
 /// Run the tests in `workspace` and grade `objectives`.
@@ -159,7 +176,7 @@ pub fn parse(stdout: &str, stderr: &str, exit_ok: bool, objectives: &[Objective]
     if compile_failed && diagnostics.iter().all(|d| d.level != "error") {
         diagnostics.push(Diagnostic {
             level: "error".into(),
-            message: "cargo failed".into(),
+            message: "the tests could not run".into(),
             rendered: tail(stderr, 2000),
             file: None,
             line: None,

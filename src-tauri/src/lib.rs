@@ -9,7 +9,7 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use chrono::Local;
-use oxide_core::content::{Catalog, Quest, QuestKind};
+use oxide_core::content::{Catalog, Quest, QuestKind, Track};
 use oxide_core::grader::{self, CheckResult};
 use oxide_core::progress::{Completion, Profile, Progress, Settings, ACHIEVEMENTS};
 use oxide_core::{watcher, workspace};
@@ -55,6 +55,7 @@ struct QuestDetail {
 
 #[derive(Serialize)]
 struct Home {
+    track: Track,
     next: Option<Quest>,
     alternate: Option<Quest>,
     profile: Profile,
@@ -100,7 +101,7 @@ impl AppState {
         let lesson = quest.lesson().map_err(err)?;
         let run = self.progress.lock().unwrap().run(id).map_err(err)?;
         let dir = workspace::dir_for(&self.quests_root, id);
-        let workspace = (quest.has_project() && dir.join("Cargo.toml").exists())
+        let workspace = (quest.has_project() && dir.join(quest.runner.marker()).exists())
             .then(|| dir.to_string_lossy().into_owned());
         Ok(QuestDetail {
             quest: quest.clone(),
@@ -111,6 +112,15 @@ impl AppState {
             completed: run.as_ref().is_some_and(|r| r.completed_at.is_some()),
             last_check: self.last_checks.lock().unwrap().get(id).cloned(),
         })
+    }
+
+    /// The track the learner is on: `settings.track`, else the first one.
+    fn active_track(&self) -> CmdResult<&Track> {
+        let wanted = self.progress.lock().unwrap().settings().map_err(err)?.track;
+        self.catalog
+            .track(&wanted)
+            .or_else(|| self.catalog.tracks.first())
+            .ok_or_else(|| "no tracks in the catalog".to_string())
     }
 
     fn focus_active_for(&self, quest_id: &str) -> bool {
@@ -140,15 +150,15 @@ fn emit_profile(app: &AppHandle, state: &AppState) {
 fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(CheckResult, Option<Completion>)> {
     let quest = state.quest(quest_id)?;
     let dir = workspace::dir_for(&state.quests_root, quest_id);
-    if !dir.join("Cargo.toml").exists() {
+    if !dir.join(quest.runner.marker()).exists() {
         return Err("start the quest first".into());
     }
     emit(app, "check:started", serde_json::json!({ "quest_id": quest_id }));
 
-    let result = grader::run(&dir, &state.target_dir, &quest.objectives).map_err(err)?;
+    let result = grader::run_quest(quest, &dir, &state.target_dir).map_err(err)?;
     let now = Local::now();
     let completion = if result.ok {
-        let clean = grader::clippy_clean(&dir, &state.target_dir).unwrap_or(false);
+        let clean = grader::clean_for(quest, &dir, &state.target_dir);
         let focus = state.focus_active_for(quest_id);
         let c = state
             .progress
@@ -201,9 +211,10 @@ fn check_from_watcher(app: AppHandle, quest_id: String) {
 
 fn watch_quest(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<()> {
     let dir = workspace::dir_for(&state.quests_root, quest_id);
+    let exts = state.quest(quest_id)?.runner.extensions();
     let app2 = app.clone();
     let id = quest_id.to_string();
-    let handle = watcher::watch(&dir, Duration::from_millis(400), move || {
+    let handle = watcher::watch(&dir, Duration::from_millis(400), exts, move || {
         check_from_watcher(app2.clone(), id.clone());
     })
     .map_err(err)?;
@@ -216,10 +227,18 @@ fn watch_quest(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(
 #[tauri::command]
 fn home(state: State<AppState>) -> CmdResult<Home> {
     let profile = state.profile_now()?;
+    let track = state.active_track()?.clone();
     let completed: HashSet<String> = profile.completed.iter().cloned().collect();
-    let available = state.catalog.available(&completed);
-    let resume = profile.started.iter().rev().find_map(|id| state.catalog.quest(id)).cloned();
+    let available = state.catalog.available_in(&track.id, &completed);
+    let resume = profile
+        .started
+        .iter()
+        .rev()
+        .find_map(|id| state.catalog.quest(id))
+        .filter(|q| q.track_id == track.id)
+        .cloned();
     Ok(Home {
+        track,
         next: available.first().map(|q| (*q).clone()),
         alternate: available.get(1).map(|q| (*q).clone()),
         profile,
@@ -228,8 +247,18 @@ fn home(state: State<AppState>) -> CmdResult<Home> {
 }
 
 #[tauri::command]
-fn list_worlds(state: State<AppState>) -> Vec<oxide_core::World> {
-    state.catalog.worlds.clone()
+fn list_tracks(state: State<AppState>) -> Vec<Track> {
+    state.catalog.tracks.clone()
+}
+
+/// Worlds of one track; `track` omitted = the active track.
+#[tauri::command]
+fn list_worlds(state: State<AppState>, track: Option<String>) -> CmdResult<Vec<oxide_core::World>> {
+    let id = match track {
+        Some(t) => t,
+        None => state.active_track()?.id.clone(),
+    };
+    Ok(state.catalog.worlds_of(&id).cloned().collect())
 }
 
 #[tauri::command]
@@ -258,7 +287,7 @@ fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
 #[tauri::command]
 fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
     let dir = workspace::dir_for(&state.quests_root, &id);
-    if !dir.join("Cargo.toml").exists() {
+    if !dir.join(state.quest(&id)?.runner.marker()).exists() {
         return Err("start the quest first".into());
     }
     let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
@@ -432,10 +461,10 @@ pub fn run() {
             let target_dir = grader::shared_target_dir(&quests_root);
 
             app.manage(mcp::Mcp::default());
-            if mcp::enabled() {
-                if let Err(e) = mcp::start(handle.clone(), mcp::port()) {
-                    log::warn!("{e:#}");
-                }
+            if mcp::enabled()
+                && let Err(e) = mcp::start(handle.clone(), mcp::port())
+            {
+                log::warn!("{e:#}");
             }
 
             app.manage(AppState {
@@ -452,6 +481,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             home,
+            list_tracks,
             list_worlds,
             get_quest,
             start_quest,

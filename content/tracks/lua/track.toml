@@ -1,0 +1,3 @@
+title = "Lua"
+blurb = "Lua from scratch, then Factorio mods."
+runner = "lua"

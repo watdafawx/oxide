@@ -19,7 +19,7 @@ fn tutorial_hello_red_then_green() {
     )
     .unwrap();
     let catalog = content::load(&content_dir).expect("catalog loads");
-    let quest = catalog.quest("00-tutorial/01-hello").expect("tutorial quest exists");
+    let quest = catalog.quest("rust/00-tutorial/01-hello").expect("tutorial quest exists");
 
     let root = tmp.path().join("quests");
     let root = root.as_path();
@@ -32,7 +32,7 @@ fn tutorial_hello_red_then_green() {
     assert!(dir.join("src/lib.rs").is_file());
 
     // Red: starter compiles, objective fails at runtime with the todo!() panic.
-    let red = grader::run(&dir, &target, &quest.objectives).unwrap();
+    let red = grader::run_quest(quest, &dir, &target).unwrap();
     assert!(red.compiled, "starter must compile: {:?}", red.diagnostics);
     assert!(!red.ok);
     assert_eq!(red.objectives[0].status, ObjectiveStatus::Failed);
@@ -41,7 +41,7 @@ fn tutorial_hello_red_then_green() {
 
     // Green: drop the solution in, like the learner saving the right code.
     workspace::copy_dir(&quest.solution_dir(), &dir).unwrap();
-    let green = grader::run(&dir, &target, &quest.objectives).unwrap();
+    let green = grader::run_quest(quest, &dir, &target).unwrap();
     assert!(green.ok, "{}", green.raw_tail);
     let clean = grader::clippy_clean(&dir, &target).unwrap();
     assert!(clean);
@@ -60,5 +60,5 @@ fn tutorial_hello_red_then_green() {
     // The next quest unlocks.
     let done: HashSet<String> = profile.completed.iter().cloned().collect();
     let next = catalog.available(&done);
-    assert_eq!(next[0].id, "00-tutorial/02-fix-it");
+    assert_eq!(next[0].id, "rust/00-tutorial/02-fix-it");
 }

@@ -10,7 +10,7 @@
 use std::path::PathBuf;
 use std::process::ExitCode;
 
-use oxide_core::content::QuestKind;
+use oxide_core::content::{QuestKind, Runner};
 use oxide_core::grader::{self, ObjectiveStatus};
 
 fn main() -> ExitCode {
@@ -28,12 +28,17 @@ fn main() -> ExitCode {
             return ExitCode::FAILURE;
         }
     };
+    // A prefix matches the full id (`rust/01-foundations`) or the id inside its track (`01-foundations`).
     let quests: Vec<_> = catalog
         .quests()
-        .filter(|q| prefixes.is_empty() || prefixes.iter().any(|p| q.id.starts_with(p.as_str())))
+        .filter(|q| {
+            prefixes.is_empty()
+                || prefixes.iter().any(|p| q.id.starts_with(p.as_str()) || q.local_id().starts_with(p.as_str()))
+        })
         .collect();
     println!(
-        "catalog ok: {} worlds, {} quests, {} XP total ({} selected)",
+        "catalog ok: {} tracks, {} worlds, {} quests, {} XP total ({} selected)",
+        catalog.tracks.len(),
         catalog.worlds.len(),
         catalog.quests().count(),
         catalog.total_xp(),
@@ -54,7 +59,7 @@ fn main() -> ExitCode {
     let mut names: std::collections::HashMap<String, String> = std::collections::HashMap::new();
     let mut failures = 0;
     for q in &quests {
-        if q.kind == QuestKind::Read {
+        if q.kind == QuestKind::Read || q.runner != Runner::Cargo {
             continue;
         }
         let starter_name = package_name(&q.starter_dir());
@@ -77,9 +82,13 @@ fn main() -> ExitCode {
             println!("  read  {}", q.id);
             continue;
         }
+        if q.runner == Runner::Gradle {
+            println!("  skip  {} (gradle runner not built yet)", q.id);
+            continue;
+        }
         let mut bad = Vec::new();
 
-        match grader::run(&q.starter_dir(), &target_starter, &q.objectives) {
+        match grader::run_quest(q, &q.starter_dir(), &target_starter) {
             Ok(r) => {
                 if q.starter_fails_to_compile {
                     if r.compiled {
@@ -104,7 +113,7 @@ fn main() -> ExitCode {
             Err(e) => bad.push(format!("starter: {e:#}")),
         }
 
-        match grader::run(&q.solution_dir(), &target_solution, &q.objectives) {
+        match grader::run_quest(q, &q.solution_dir(), &target_solution) {
             Ok(r) => {
                 if !r.ok {
                     bad.push("solution does not pass".into());

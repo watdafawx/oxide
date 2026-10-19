@@ -54,11 +54,14 @@ pub struct Settings {
     pub editor: String,
     pub sound: bool,
     pub focus_minutes: u32,
+    /// Active track id; empty = the catalog's first track.
+    #[serde(default)]
+    pub track: String,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { editor: "code".into(), sound: true, focus_minutes: 25 }
+        Self { editor: "code".into(), sound: true, focus_minutes: 25, track: String::new() }
     }
 }
 
@@ -411,19 +414,21 @@ impl Progress {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::content::{Objective, World};
+    use crate::content::{Objective, Runner, World};
     use chrono::TimeZone;
     use std::path::PathBuf;
 
     fn quest(world: &str, n: u32, kind: QuestKind, xp: u32) -> Quest {
         Quest {
             id: format!("{world}/{n:02}-q"),
+            track_id: "rust".into(),
             world_id: world.into(),
             index: n,
             slug: "q".into(),
             title: "Q".into(),
             summary: String::new(),
             kind,
+            runner: Runner::Cargo,
             xp,
             minutes: 10,
             tags: vec![],
@@ -433,13 +438,16 @@ mod tests {
             quiz: vec![],
             starter_fails_to_compile: false,
             dir: PathBuf::new(),
+            lib_dir: None,
         }
     }
 
     fn catalog() -> Catalog {
         Catalog {
+            tracks: vec![],
             worlds: vec![World {
                 id: "00-w".into(),
+                track_id: "rust".into(),
                 index: 0,
                 slug: "w".into(),
                 title: "W".into(),
@@ -510,7 +518,7 @@ mod tests {
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 1);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
-        let s = Settings { editor: "zed".into(), sound: false, focus_minutes: 15 };
+        let s = Settings { editor: "zed".into(), sound: false, focus_minutes: 15, track: "lua".into() };
         p.set_settings(&s).unwrap();
         assert_eq!(p.settings().unwrap().editor, "zed");
     }

@@ -11,13 +11,18 @@ use notify_debouncer_mini::{DebounceEventResult, Debouncer, new_debouncer};
 pub type Handle = Debouncer<notify::RecommendedWatcher>;
 
 /// Call `on_change` (on a background thread) after `debounce` of quiet following
-/// any write under `dir`, ignoring `target/`.
-pub fn watch(dir: &Path, debounce: Duration, on_change: impl Fn() + Send + 'static) -> Result<Handle> {
+/// a write to a file with one of `extensions` under `dir`, ignoring `target/` and `build/`.
+pub fn watch(
+    dir: &Path,
+    debounce: Duration,
+    extensions: &'static [&'static str],
+    on_change: impl Fn() + Send + 'static,
+) -> Result<Handle> {
     let mut debouncer = new_debouncer(debounce, move |res: DebounceEventResult| {
         if let Ok(events) = res {
             let relevant = events.iter().any(|e| {
-                !e.path.components().any(|c| c.as_os_str() == "target")
-                    && e.path.extension().is_some_and(|x| x == "rs" || x == "toml")
+                !e.path.components().any(|c| c.as_os_str() == "target" || c.as_os_str() == "build" || c.as_os_str() == ".gradle")
+                    && e.path.extension().and_then(|x| x.to_str()).is_some_and(|x| extensions.contains(&x))
             });
             if relevant {
                 on_change();
@@ -37,7 +42,7 @@ mod tests {
     fn fires_on_rs_write() {
         let tmp = tempfile::tempdir().unwrap();
         let (tx, rx) = mpsc::channel();
-        let _h = watch(tmp.path(), Duration::from_millis(100), move || {
+        let _h = watch(tmp.path(), Duration::from_millis(100), &["rs"], move || {
             let _ = tx.send(());
         })
         .unwrap();

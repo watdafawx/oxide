@@ -1,0 +1,16 @@
+title = "How Lua quests work"
+summary = "Two files, one loop: edit src/, save, watch the ticks."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["setup"]
+requires = []
+
+[[quiz]]
+question = "Which file do you edit in a Lua quest?"
+choices = ["tests.lua", "the files under src/", "lesson.md"]
+answer = 1
+[[quiz]]
+question = "Oxide runs Lua 5.2. Why that version?"
+choices = ["It is the newest", "It is what Factorio runs", "5.4 has no tables"]
+answer = 1

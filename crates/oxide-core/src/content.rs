@@ -1,6 +1,8 @@
-//! The quest catalog: `content/worlds/<NN-slug>/<NN-slug>/quest.toml`.
+//! The quest catalog: `content/tracks/<track>/worlds/<NN-slug>/<NN-slug>/quest.toml`.
 //!
-//! A quest's id is its path under `worlds/`, e.g. `01-foundations/03-functions`.
+//! A quest's id is `<track>/<world>/<quest>`, e.g. `rust/01-foundations/03-functions`.
+//! `requires` entries with two segments are relative to the quest's own track.
+//! The legacy layout `content/worlds/...` (no `tracks/`) is read as the `rust` track.
 //! See `docs/CONTENT.md` for the authoring rules this module enforces.
 
 use std::collections::{HashMap, HashSet};
@@ -19,6 +21,39 @@ pub enum QuestKind {
     Boss,
     /// Lesson only; done when the quiz is answered.
     Read,
+}
+
+/// How a quest's workspace is graded.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum Runner {
+    /// `cargo test` in the workspace.
+    #[default]
+    Cargo,
+    /// `tests.lua` in an embedded Lua 5.2, see `lua.rs`.
+    Lua,
+    /// `gradlew test` with JUnit XML. Not built yet.
+    Gradle,
+}
+
+impl Runner {
+    /// File extensions whose saves trigger a re-check.
+    pub fn extensions(self) -> &'static [&'static str] {
+        match self {
+            Runner::Cargo => &["rs", "toml"],
+            Runner::Lua => &["lua", "json", "cfg"],
+            Runner::Gradle => &["java", "kt", "kts", "gradle", "json", "toml", "properties"],
+        }
+    }
+
+    /// The file every starter/solution (and workspace) must have.
+    pub fn marker(self) -> &'static str {
+        match self {
+            Runner::Cargo => "Cargo.toml",
+            Runner::Lua => "tests.lua",
+            Runner::Gradle => "settings.gradle.kts",
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -51,7 +86,7 @@ struct QuestToml {
     minutes: u32,
     #[serde(default)]
     tags: Vec<String>,
-    /// Omitted = the previous quest in the world (or the previous world's last quest).
+    /// Omitted = the previous quest in the track (or the previous world's last quest).
     requires: Option<Vec<String>>,
     #[serde(default)]
     objectives: Vec<Objective>,
@@ -62,17 +97,21 @@ struct QuestToml {
     /// The point of the quest is a compile error in the starter (borrow checker lessons).
     #[serde(default)]
     starter_fails_to_compile: bool,
+    /// Defaults to the track's runner.
+    runner: Option<Runner>,
 }
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Quest {
     pub id: String,
+    pub track_id: String,
     pub world_id: String,
     pub index: u32,
     pub slug: String,
     pub title: String,
     pub summary: String,
     pub kind: QuestKind,
+    pub runner: Runner,
     pub xp: u32,
     pub minutes: u32,
     pub tags: Vec<String>,
@@ -82,6 +121,8 @@ pub struct Quest {
     pub quiz: Vec<Quiz>,
     pub starter_fails_to_compile: bool,
     pub dir: PathBuf,
+    /// The track's `lib/` folder (Lua mocks and helpers), if it has one.
+    pub lib_dir: Option<PathBuf>,
 }
 
 impl Quest {
@@ -97,6 +138,29 @@ impl Quest {
     pub fn has_project(&self) -> bool {
         matches!(self.kind, QuestKind::Exercise | QuestKind::Boss)
     }
+    /// The id without the track: `01-foundations/03-functions`.
+    pub fn local_id(&self) -> &str {
+        self.id.split_once('/').map(|(_, rest)| rest).unwrap_or(&self.id)
+    }
+}
+
+#[derive(Debug, Deserialize)]
+struct TrackToml {
+    title: String,
+    #[serde(default)]
+    blurb: String,
+    #[serde(default)]
+    runner: Runner,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct Track {
+    pub id: String,
+    pub title: String,
+    pub blurb: String,
+    pub runner: Runner,
+    pub dir: PathBuf,
+    pub lib_dir: Option<PathBuf>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -108,7 +172,9 @@ struct WorldToml {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct World {
+    /// `<track>/<NN-slug>`
     pub id: String,
+    pub track_id: String,
     pub index: u32,
     pub slug: String,
     pub title: String,
@@ -118,6 +184,7 @@ pub struct World {
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct Catalog {
+    pub tracks: Vec<Track>,
     pub worlds: Vec<World>,
 }
 
@@ -134,6 +201,14 @@ impl Catalog {
         self.worlds.iter().find(|w| w.id == id)
     }
 
+    pub fn track(&self, id: &str) -> Option<&Track> {
+        self.tracks.iter().find(|t| t.id == id)
+    }
+
+    pub fn worlds_of<'a>(&'a self, track_id: &'a str) -> impl Iterator<Item = &'a World> + 'a {
+        self.worlds.iter().filter(move |w| w.track_id == track_id)
+    }
+
     /// Quests the learner can start now: not done, every requirement done.
     /// In catalog order, so `[0]` is "the next quest".
     pub fn available<'a>(&'a self, completed: &HashSet<String>) -> Vec<&'a Quest> {
@@ -141,6 +216,11 @@ impl Catalog {
             .filter(|q| !completed.contains(&q.id))
             .filter(|q| q.requires.iter().all(|r| completed.contains(r)))
             .collect()
+    }
+
+    /// `available` limited to one track.
+    pub fn available_in<'a>(&'a self, track_id: &str, completed: &HashSet<String>) -> Vec<&'a Quest> {
+        self.available(completed).into_iter().filter(|q| q.track_id == track_id).collect()
     }
 
     pub fn total_xp(&self) -> u32 {
@@ -162,52 +242,107 @@ impl fmt::Display for Problems {
 }
 impl std::error::Error for Problems {}
 
-/// Load and validate the catalog under `content_dir` (the folder holding `worlds/`).
+/// Load and validate the catalog under `content_dir` (the folder holding `tracks/` or `worlds/`).
 pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
     let mut problems = Vec::new();
-    let worlds_dir = content_dir.join("worlds");
+    let mut tracks = Vec::new();
     let mut worlds = Vec::new();
 
-    for wdir in sorted_dirs(&worlds_dir, &mut problems) {
-        let Some((index, slug)) = split_index(&wdir) else {
-            problems.push(format!("{}: folder must be named NN-slug", wdir.display()));
-            continue;
-        };
-        let world_id = format!("{index:02}-{slug}");
-        let meta: WorldToml = match read_toml(&wdir.join("world.toml")) {
-            Ok(m) => m,
-            Err(e) => {
-                problems.push(e);
+    // (track, the folder holding its worlds)
+    let mut specs: Vec<(Track, PathBuf)> = Vec::new();
+    let tracks_dir = content_dir.join("tracks");
+    if tracks_dir.is_dir() {
+        for tdir in sorted_dirs(&tracks_dir, &mut problems) {
+            let id = tdir.file_name().and_then(|n| n.to_str()).unwrap_or("").to_string();
+            if id.is_empty() || !id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-') {
+                problems.push(format!("{}: track folder must be lowercase a-z0-9-", tdir.display()));
                 continue;
             }
-        };
-        let mut quests = Vec::new();
-        for qdir in sorted_dirs(&wdir, &mut problems) {
-            let Some((qindex, qslug)) = split_index(&qdir) else {
-                problems.push(format!("{}: folder must be named NN-slug", qdir.display()));
-                continue;
+            let meta: TrackToml = match read_toml(&tdir.join("track.toml")) {
+                Ok(m) => m,
+                Err(e) => {
+                    problems.push(e);
+                    continue;
+                }
             };
-            let (q, errs) = load_quest(&qdir, &world_id, qindex, &qslug);
-            problems.extend(errs);
-            if let Some(q) = q {
-                quests.push(q);
-            }
+            let lib_dir = Some(tdir.join("lib")).filter(|p| p.is_dir());
+            specs.push((
+                Track { id, title: meta.title, blurb: meta.blurb, runner: meta.runner, dir: tdir.clone(), lib_dir },
+                tdir.join("worlds"),
+            ));
         }
-        worlds.push(World { id: world_id, index, slug, title: meta.title, blurb: meta.blurb, quests });
+    }
+    let legacy = content_dir.join("worlds");
+    if legacy.is_dir() && !specs.iter().any(|(t, _)| t.id == "rust") {
+        specs.push((
+            Track {
+                id: "rust".into(),
+                title: "Rust".into(),
+                blurb: "From hello world to shipping real apps.".into(),
+                runner: Runner::Cargo,
+                dir: content_dir.to_path_buf(),
+                lib_dir: None,
+            },
+            legacy,
+        ));
+    }
+    if specs.is_empty() {
+        problems.push(format!("{}: no tracks/ or worlds/ folder", content_dir.display()));
     }
 
-    fill_implicit_requires(&mut worlds);
+    for (track, worlds_dir) in specs {
+        let mut track_worlds = Vec::new();
+        for wdir in sorted_dirs(&worlds_dir, &mut problems) {
+            let Some((index, slug)) = split_index(&wdir) else {
+                problems.push(format!("{}: folder must be named NN-slug", wdir.display()));
+                continue;
+            };
+            let world_id = format!("{}/{index:02}-{slug}", track.id);
+            let meta: WorldToml = match read_toml(&wdir.join("world.toml")) {
+                Ok(m) => m,
+                Err(e) => {
+                    problems.push(e);
+                    continue;
+                }
+            };
+            let mut quests = Vec::new();
+            for qdir in sorted_dirs(&wdir, &mut problems) {
+                let Some((qindex, qslug)) = split_index(&qdir) else {
+                    problems.push(format!("{}: folder must be named NN-slug", qdir.display()));
+                    continue;
+                };
+                let (q, errs) = load_quest(&qdir, &track, &world_id, qindex, &qslug);
+                problems.extend(errs);
+                if let Some(q) = q {
+                    quests.push(q);
+                }
+            }
+            track_worlds.push(World {
+                id: world_id,
+                track_id: track.id.clone(),
+                index,
+                slug,
+                title: meta.title,
+                blurb: meta.blurb,
+                quests,
+            });
+        }
+        fill_implicit_requires(&mut track_worlds);
+        worlds.extend(track_worlds);
+        tracks.push(track);
+    }
+
     validate_graph(&worlds, &mut problems);
 
     if problems.is_empty() {
-        Ok(Catalog { worlds })
+        Ok(Catalog { tracks, worlds })
     } else {
         Err(Problems(problems))
     }
 }
 
 /// The quest (if quest.toml parsed at all) plus every problem found in it.
-fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Quest>, Vec<String>) {
+fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str) -> (Option<Quest>, Vec<String>) {
     let id = format!("{world_id}/{index:02}-{slug}");
     let toml_path = dir.join("quest.toml");
     let t: QuestToml = match read_toml(&toml_path) {
@@ -216,6 +351,7 @@ fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Que
     };
     let mut errs = Vec::new();
     let at = |msg: &str| format!("{}: {msg}", toml_path.display());
+    let runner = t.runner.unwrap_or(track.runner);
 
     if t.title.trim().is_empty() {
         errs.push(at("title is empty"));
@@ -232,8 +368,8 @@ fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Que
                 errs.push(at("exercise/boss needs at least one [[objectives]]"));
             }
             for sub in ["starter", "solution"] {
-                if !dir.join(sub).join("Cargo.toml").is_file() {
-                    errs.push(format!("{}: {sub}/Cargo.toml missing", dir.display()));
+                if !dir.join(sub).join(runner.marker()).is_file() {
+                    errs.push(format!("{}: {sub}/{} missing", dir.display(), runner.marker()));
                 }
             }
             let mut seen = HashSet::new();
@@ -258,18 +394,24 @@ fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Que
         }
     }
     // `requires` omitted (not `[]`) = chain to the previous quest.
+    // Two-segment ids are relative to this track.
     let requires = match t.requires {
-        Some(r) => r,
+        Some(r) => r
+            .into_iter()
+            .map(|r| if r.matches('/').count() == 1 { format!("{}/{r}", track.id) } else { r })
+            .collect(),
         None => vec![IMPLICIT.to_string()],
     };
     let quest = Quest {
         id,
+        track_id: track.id.clone(),
         world_id: world_id.to_string(),
         index,
         slug: slug.to_string(),
         title: t.title,
         summary: t.summary,
         kind: t.kind,
+        runner,
         xp: t.xp,
         minutes: t.minutes,
         tags: t.tags,
@@ -279,13 +421,14 @@ fn load_quest(dir: &Path, world_id: &str, index: u32, slug: &str) -> (Option<Que
         quiz: t.quiz,
         starter_fails_to_compile: t.starter_fails_to_compile,
         dir: dir.to_path_buf(),
+        lib_dir: track.lib_dir.clone(),
     };
     (Some(quest), errs)
 }
 
 const IMPLICIT: &str = "<previous>";
 
-/// `requires` omitted → previous quest in the world; first quest → last quest of the previous world.
+/// `requires` omitted → previous quest in the track; first quest → last quest of the previous world.
 fn fill_implicit_requires(worlds: &mut [World]) {
     let mut prev: Option<String> = None;
     for w in worlds.iter_mut() {
@@ -353,7 +496,7 @@ fn sorted_dirs(dir: &Path, problems: &mut Vec<String>) -> Vec<PathBuf> {
             for e in rd.flatten() {
                 let p = e.path();
                 let name = p.file_name().and_then(|n| n.to_str()).unwrap_or("");
-                if p.is_dir() && !name.starts_with('.') && name != "starter" && name != "solution" {
+                if p.is_dir() && !name.starts_with('.') && !matches!(name, "starter" | "solution" | "lib" | "worlds") {
                     out.push(p);
                 }
             }
@@ -384,8 +527,8 @@ mod tests {
         fs::write(p, s).unwrap();
     }
 
-    fn quest(root: &Path, world: &str, q: &str, extra: &str) {
-        let d = root.join("worlds").join(world).join(q);
+    fn quest(worlds_root: &Path, world: &str, q: &str, extra: &str, marker: &str) {
+        let d = worlds_root.join(world).join(q);
         write(
             &d.join("quest.toml"),
             &format!(
@@ -393,44 +536,87 @@ mod tests {
             ),
         );
         write(&d.join("lesson.md"), "# hi");
-        write(&d.join("starter/Cargo.toml"), "[package]");
-        write(&d.join("solution/Cargo.toml"), "[package]");
+        write(&d.join("starter").join(marker), "x");
+        write(&d.join("solution").join(marker), "x");
     }
 
     #[test]
-    fn implicit_chain_and_available() {
+    fn legacy_layout_is_the_rust_track() {
         let tmp = tempfile::tempdir().unwrap();
         let root = tmp.path();
-        write(&root.join("worlds/00-tutorial/world.toml"), "title = \"Tutorial\"");
-        write(&root.join("worlds/01-basics/world.toml"), "title = \"Basics\"");
-        quest(root, "00-tutorial", "01-hello", "");
-        quest(root, "00-tutorial", "02-loop", "");
-        quest(root, "01-basics", "01-vars", "");
-        quest(root, "01-basics", "02-free", "requires = []");
+        let w = root.join("worlds");
+        write(&w.join("00-tutorial/world.toml"), "title = \"Tutorial\"");
+        write(&w.join("01-basics/world.toml"), "title = \"Basics\"");
+        quest(&w, "00-tutorial", "01-hello", "", "Cargo.toml");
+        quest(&w, "00-tutorial", "02-loop", "", "Cargo.toml");
+        quest(&w, "01-basics", "01-vars", "", "Cargo.toml");
+        quest(&w, "01-basics", "02-free", "requires = []", "Cargo.toml");
+        quest(&w, "01-basics", "03-rel", "requires = [\"00-tutorial/01-hello\"]", "Cargo.toml");
 
         let cat = load(root).unwrap();
+        assert_eq!(cat.tracks.len(), 1);
+        assert_eq!(cat.tracks[0].id, "rust");
         let ids: Vec<_> = cat.quests().map(|q| q.id.clone()).collect();
-        assert_eq!(ids, ["00-tutorial/01-hello", "00-tutorial/02-loop", "01-basics/01-vars", "01-basics/02-free"]);
-        assert_eq!(cat.quest("00-tutorial/01-hello").unwrap().requires, Vec::<String>::new());
-        assert_eq!(cat.quest("00-tutorial/02-loop").unwrap().requires, ["00-tutorial/01-hello"]);
-        assert_eq!(cat.quest("01-basics/01-vars").unwrap().requires, ["00-tutorial/02-loop"]);
-        assert!(cat.quest("01-basics/02-free").unwrap().requires.is_empty());
+        assert_eq!(
+            ids,
+            [
+                "rust/00-tutorial/01-hello",
+                "rust/00-tutorial/02-loop",
+                "rust/01-basics/01-vars",
+                "rust/01-basics/02-free",
+                "rust/01-basics/03-rel"
+            ]
+        );
+        assert_eq!(cat.quest("rust/00-tutorial/01-hello").unwrap().requires, Vec::<String>::new());
+        assert_eq!(cat.quest("rust/00-tutorial/02-loop").unwrap().requires, ["rust/00-tutorial/01-hello"]);
+        assert_eq!(cat.quest("rust/01-basics/01-vars").unwrap().requires, ["rust/00-tutorial/02-loop"]);
+        assert!(cat.quest("rust/01-basics/02-free").unwrap().requires.is_empty());
+        assert_eq!(cat.quest("rust/01-basics/03-rel").unwrap().requires, ["rust/00-tutorial/01-hello"]);
+        assert_eq!(cat.quest("rust/01-basics/03-rel").unwrap().local_id(), "01-basics/03-rel");
 
         let done = HashSet::new();
         let avail: Vec<_> = cat.available(&done).iter().map(|q| q.id.as_str()).collect();
-        assert_eq!(avail, ["00-tutorial/01-hello", "01-basics/02-free"]);
+        assert_eq!(avail, ["rust/00-tutorial/01-hello", "rust/01-basics/02-free"]);
+    }
+
+    #[test]
+    fn tracks_layout_with_runner_and_cross_track_requires() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        write(&root.join("tracks/lua/track.toml"), "title = \"Lua\"\nrunner = \"lua\"");
+        write(&root.join("tracks/lua/lib/mock.lua"), "return {}");
+        write(&root.join("tracks/rust/track.toml"), "title = \"Rust\"");
+        let lw = root.join("tracks/lua/worlds");
+        let rw = root.join("tracks/rust/worlds");
+        write(&lw.join("01-core/world.toml"), "title = \"Core\"");
+        write(&rw.join("00-tutorial/world.toml"), "title = \"Tutorial\"");
+        quest(&rw, "00-tutorial", "01-hello", "", "Cargo.toml");
+        quest(&lw, "01-core", "01-values", "requires = [\"rust/00-tutorial/01-hello\"]", "tests.lua");
+        quest(&lw, "01-core", "02-tables", "", "tests.lua");
+
+        let cat = load(root).unwrap();
+        assert_eq!(cat.tracks.iter().map(|t| t.id.as_str()).collect::<Vec<_>>(), ["lua", "rust"]);
+        let q = cat.quest("lua/01-core/01-values").unwrap();
+        assert_eq!(q.runner, Runner::Lua);
+        assert!(q.lib_dir.is_some());
+        assert_eq!(q.requires, ["rust/00-tutorial/01-hello"]);
+        assert_eq!(cat.quest("lua/01-core/02-tables").unwrap().requires, ["lua/01-core/01-values"]);
+        let done: HashSet<String> = ["rust/00-tutorial/01-hello".to_string()].into();
+        let avail: Vec<_> = cat.available_in("lua", &done).iter().map(|q| q.id.as_str()).collect();
+        assert_eq!(avail, ["lua/01-core/01-values"]);
     }
 
     #[test]
     fn reports_bad_requires_and_missing_files() {
         let tmp = tempfile::tempdir().unwrap();
         let root = tmp.path();
-        write(&root.join("worlds/00-tutorial/world.toml"), "title = \"Tutorial\"");
-        quest(root, "00-tutorial", "01-hello", "requires = [\"nope/01-x\"]");
-        fs::remove_file(root.join("worlds/00-tutorial/01-hello/lesson.md")).unwrap();
+        let w = root.join("worlds");
+        write(&w.join("00-tutorial/world.toml"), "title = \"Tutorial\"");
+        quest(&w, "00-tutorial", "01-hello", "requires = [\"nope/01-x\"]", "Cargo.toml");
+        fs::remove_file(w.join("00-tutorial/01-hello/lesson.md")).unwrap();
         let err = load(root).unwrap_err();
         let text = err.to_string();
         assert!(text.contains("lesson.md missing"), "{text}");
-        assert!(text.contains("requires unknown quest"), "{text}");
+        assert!(text.contains("requires unknown quest `rust/nope/01-x`"), "{text}");
     }
 }
