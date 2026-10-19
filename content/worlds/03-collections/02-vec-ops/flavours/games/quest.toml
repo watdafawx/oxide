@@ -2,16 +2,16 @@ title = "Inventory tricks"
 summary = "Shift items to the hotbar, tidy loot, check for an elytra and trash small stacks."
 
 [[objectives]]
-test = "move_to_front_removes_then_inserts"
+test = "move_to_hotbar_puts_item_first"
 label = "move_to_hotbar takes the item in a slot and puts it first"
 [[objectives]]
-test = "sorted_unique_sorts_and_dedups"
+test = "tidy_loot_sorts_and_dedups"
 label = "tidy_loot returns item names sorted with no repeats"
 [[objectives]]
-test = "has_admin_uses_contains"
+test = "has_elytra_checks_inventory"
 label = "has_elytra checks the inventory for \"elytra\""
 [[objectives]]
-test = "drop_short_uses_retain"
+test = "drop_small_stacks_keeps_big_ones"
 label = "drop_small_stacks removes stacks smaller than min_count"
 
 [[hints]]

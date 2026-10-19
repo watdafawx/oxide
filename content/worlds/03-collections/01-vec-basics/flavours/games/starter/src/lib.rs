@@ -23,19 +23,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn podium_pushes_two_more() {
+    fn starter_kit_adds_bread_and_torch() {
         assert_eq!(starter_kit(), vec!["wooden_sword", "bread", "torch"]);
     }
 
     #[test]
-    fn third_uses_get() {
+    fn third_slot_is_none_on_short_hotbar() {
         assert_eq!(third_slot(&["sword", "bow", "torch", "bread"]), Some("torch"));
         assert_eq!(third_slot(&["sword", "bow"]), None, "two items means no third slot");
         assert_eq!(third_slot(&[]), None);
     }
 
     #[test]
-    fn sum_all_loops_over_the_vec() {
+    fn total_items_adds_every_stack() {
         assert_eq!(total_items(&[64, 16, 3, 1]), 84);
         assert_eq!(total_items(&[1, 1, 62]), 64);
         assert_eq!(total_items(&[]), 0);

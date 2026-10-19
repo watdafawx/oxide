@@ -2,28 +2,28 @@ title = "Boss: Modpack stats"
 summary = "Parse a modpack's mod list (CSV) and answer questions about it with iterator chains."
 
 [[objectives]]
-test = "row_total_multiplies_price_by_qty"
+test = "mod_size_kb_is_mb_times_1024"
 label = "Mod::size_kb is size_mb times 1024"
 [[objectives]]
-test = "parse_line_reads_fields_and_rejects_bad_ones"
+test = "parse_mod_reads_fields_and_rejects_bad_ones"
 label = "parse_mod reads one line into a Mod, or says what is wrong"
 [[objectives]]
-test = "parse_rows_skips_header_and_blanks"
+test = "parse_modlist_skips_header_and_blanks"
 label = "parse_modlist skips the header and blank lines and returns every Mod"
 [[objectives]]
-test = "parse_rows_reports_line_number"
+test = "parse_modlist_reports_line_number"
 label = "parse_modlist fails with \"line N: ...\" for the first bad line"
 [[objectives]]
-test = "total_by_category_sums_per_category"
+test = "downloads_by_loader_sums_per_loader"
 label = "downloads_by_loader sums downloads per loader, sorted by name"
 [[objectives]]
-test = "top_n_picks_biggest_totals"
+test = "top_n_picks_most_downloaded"
 label = "top_n returns the n most downloaded mods, biggest first"
 [[objectives]]
-test = "cheapest_in_filters_a_category"
+test = "smallest_in_filters_a_loader"
 label = "smallest_in returns the smallest mod of a loader by size_mb, or None"
 [[objectives]]
-test = "report_aligns_columns"
+test = "report_aligns_mod_columns"
 label = "report prints a header, one aligned line per mod, and a footer"
 
 [[hints]]

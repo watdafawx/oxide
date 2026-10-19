@@ -2,16 +2,16 @@ title = "Closures: custom loot rules"
 summary = "Capture a bonus, pass a rule to a function, return a closure with impl Fn."
 
 [[objectives]]
-test = "make_adder_captures_n"
+test = "looting_bonus_is_captured"
 label = "make_looting returns a closure that adds the bonus to a drop count"
 [[objectives]]
-test = "apply_twice_calls_f_twice"
+test = "upgrade_twice_applies_two_upgrades"
 label = "upgrade_twice applies the upgrade two times"
 [[objectives]]
-test = "count_matching_uses_predicate"
+test = "count_stacks_where_uses_the_rule"
 label = "count_stacks_where counts stacks where the rule returns true"
 [[objectives]]
-test = "above_limit_captures_limit"
+test = "stacks_over_captures_the_limit"
 label = "stacks_over keeps stack sizes over a limit it captures"
 
 [[hints]]

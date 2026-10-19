@@ -57,7 +57,7 @@ mod tests {
     }
 
     #[test]
-    fn find_and_position_search() {
+    fn first_stack_over_and_slot_of_search() {
         assert_eq!(first_stack_over(&[4, 8, 15, 16], 10), Some(15));
         assert_eq!(first_stack_over(&[4, 8], 10), None);
         let items = strings(&["sword", "bow", "torch"]);
@@ -66,7 +66,7 @@ mod tests {
     }
 
     #[test]
-    fn any_and_all_check() {
+    fn fragile_tool_and_full_stacks_checks() {
         assert!(has_fragile_tool(&[30, 1, 12]));
         assert!(!has_fragile_tool(&[30, 2, 12]));
         assert!(all_full_stacks(&[64, 64, 70], 64));
@@ -75,14 +75,14 @@ mod tests {
     }
 
     #[test]
-    fn fold_builds_a_total() {
+    fn armor_reduces_damage_step_by_step() {
         let got = damage_after_armor(200.0, &[10.0, 50.0]);
         assert!((got - 90.0).abs() < 1e-9, "expected 90.0, got {got}");
         assert!((damage_after_armor(8.0, &[]) - 8.0).abs() < 1e-9, "no armor, full damage");
     }
 
     #[test]
-    fn max_by_key_picks_longest() {
+    fn biggest_stack_has_most_items() {
         let stacks = vec![stack("arrow", 24), stack("cobblestone", 64), stack("torch", 9)];
         assert_eq!(biggest_stack(&stacks), Some(&stacks[1]));
         assert_eq!(biggest_stack(&[]), None);

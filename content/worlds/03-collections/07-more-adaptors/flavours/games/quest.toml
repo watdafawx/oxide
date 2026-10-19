@@ -2,16 +2,16 @@ title = "Hotbar adaptors"
 summary = "enumerate, zip, skip, take and windows over hotbar slots and chest pages."
 
 [[objectives]]
-test = "numbered_uses_enumerate"
+test = "hotbar_labels_are_numbered"
 label = "hotbar_labels turns [\"sword\", \"bow\"] into [\"[1] sword\", \"[2] bow\"]"
 [[objectives]]
-test = "dot_product_zips_two_slices"
+test = "loot_value_pairs_counts_with_prices"
 label = "loot_value multiplies each count by its price and sums them"
 [[objectives]]
-test = "page_skips_then_takes"
+test = "chest_page_skips_then_takes"
 label = "chest_page returns one page of chest items using skip and take"
 [[objectives]]
-test = "count_rises_uses_windows"
+test = "count_upgrades_compares_neighbours"
 label = "count_upgrades counts steps where the next slot has a higher tier"
 
 [[hints]]

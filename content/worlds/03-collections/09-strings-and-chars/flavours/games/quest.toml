@@ -2,16 +2,16 @@ title = "Item ids as text"
 summary = "Split minecraft:diamond_sword, parse stack counts, join chest lists and align a table."
 
 [[objectives]]
-test = "parse_numbers_splits_trims_parses"
+test = "parse_counts_skips_bad_entries"
 label = "parse_counts turns \"64, 16, x, 8\" into [64, 16, 8]"
 [[objectives]]
-test = "count_vowels_walks_chars"
+test = "display_name_title_cases_item_ids"
 label = "display_name turns minecraft:diamond_sword into Diamond Sword"
 [[objectives]]
-test = "join_sorted_joins_with_commas"
+test = "chest_summary_sorts_and_joins"
 label = "chest_summary sorts the items and joins them with \", \""
 [[objectives]]
-test = "table_row_pads_columns"
+test = "inventory_row_aligns_name_and_count"
 label = "inventory_row pads the name left-aligned and the count right-aligned"
 
 [[hints]]

@@ -2,16 +2,16 @@ title = "Find, check, fold your drops"
 summary = "find, position, any, all, fold and max_by_key: answers from an inventory."
 
 [[objectives]]
-test = "find_and_position_search"
+test = "first_stack_over_and_slot_of_search"
 label = "first_stack_over uses find and slot_of uses position"
 [[objectives]]
-test = "any_and_all_check"
+test = "fragile_tool_and_full_stacks_checks"
 label = "has_fragile_tool uses any and all_full_stacks uses all"
 [[objectives]]
-test = "fold_builds_a_total"
+test = "armor_reduces_damage_step_by_step"
 label = "damage_after_armor folds a hit through each armor reduction"
 [[objectives]]
-test = "max_by_key_picks_longest"
+test = "biggest_stack_has_most_items"
 label = "biggest_stack returns the stack with the most items, or None if empty"
 
 [[hints]]

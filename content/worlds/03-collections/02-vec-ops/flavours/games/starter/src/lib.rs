@@ -45,7 +45,7 @@ mod tests {
     }
 
     #[test]
-    fn move_to_front_removes_then_inserts() {
+    fn move_to_hotbar_puts_item_first() {
         let mut inventory = strings(&["sword", "bow", "pickaxe"]);
         move_to_hotbar(&mut inventory, 2);
         assert_eq!(inventory, strings(&["pickaxe", "sword", "bow"]));
@@ -54,7 +54,7 @@ mod tests {
     }
 
     #[test]
-    fn sorted_unique_sorts_and_dedups() {
+    fn tidy_loot_sorts_and_dedups() {
         assert_eq!(
             tidy_loot(strings(&["bone", "arrow", "bone", "string", "arrow"])),
             strings(&["arrow", "bone", "string"])
@@ -63,13 +63,13 @@ mod tests {
     }
 
     #[test]
-    fn has_admin_uses_contains() {
+    fn has_elytra_checks_inventory() {
         assert!(has_elytra(&strings(&["dirt", "elytra"])));
         assert!(!has_elytra(&strings(&["dirt", "elytra_wing"])));
     }
 
     #[test]
-    fn drop_short_uses_retain() {
+    fn drop_small_stacks_keeps_big_ones() {
         let mut stacks = vec![stack("dirt", 1), stack("iron_ingot", 12), stack("flint", 2), stack("bread", 5)];
         drop_small_stacks(&mut stacks, 3);
         assert_eq!(stacks, vec![stack("iron_ingot", 12), stack("bread", 5)]);

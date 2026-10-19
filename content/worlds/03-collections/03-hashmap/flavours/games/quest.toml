@@ -2,13 +2,13 @@ title = "HashMap: the chest index"
 summary = "Look up villager prices, index a chest by item name, and count drops with entry().or_insert()."
 
 [[objectives]]
-test = "price_of_uses_get"
+test = "trade_price_finds_known_items"
 label = "trade_price returns Some(emeralds) for a known item, None otherwise"
 [[objectives]]
-test = "stock_map_inserts_pairs"
+test = "chest_index_maps_items_to_counts"
 label = "chest_index builds a HashMap from item names and counts"
 [[objectives]]
-test = "count_words_counts_each_word"
+test = "count_drops_tallies_kill_log"
 label = "count_drops counts how often each item appears in a kill log"
 
 [[hints]]

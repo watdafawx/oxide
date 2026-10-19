@@ -24,7 +24,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn price_of_uses_get() {
+    fn trade_price_finds_known_items() {
         let mut prices = HashMap::new();
         prices.insert("bread".to_string(), 1);
         assert_eq!(trade_price(&prices, "bread"), Some(1));
@@ -32,7 +32,7 @@ mod tests {
     }
 
     #[test]
-    fn stock_map_inserts_pairs() {
+    fn chest_index_maps_items_to_counts() {
         let index = chest_index(&["diamond", "coal"], &[3, 40]);
         assert_eq!(index.len(), 2);
         assert_eq!(index.get("diamond"), Some(&3));
@@ -40,7 +40,7 @@ mod tests {
     }
 
     #[test]
-    fn count_words_counts_each_word() {
+    fn count_drops_tallies_kill_log() {
         let counts = count_drops("bone flesh bone arrow bone");
         assert_eq!(counts.get("bone"), Some(&3), "bone dropped 3 times");
         assert_eq!(counts.get("flesh"), Some(&1));

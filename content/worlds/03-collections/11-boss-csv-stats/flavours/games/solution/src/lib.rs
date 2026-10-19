@@ -121,13 +121,13 @@ mod tests {
     }
 
     #[test]
-    fn row_total_multiplies_price_by_qty() {
+    fn mod_size_kb_is_mb_times_1024() {
         assert_eq!(modded("jei", "neoforge", 1, 1.5).size_kb(), 1536.0);
         assert_eq!(modded("empty", "fabric", 1, 0.0).size_kb(), 0.0);
     }
 
     #[test]
-    fn parse_line_reads_fields_and_rejects_bad_ones() {
+    fn parse_mod_reads_fields_and_rejects_bad_ones() {
         assert_eq!(
             parse_mod("sodium, fabric ,9000, 1.2"),
             Ok(modded("sodium", "fabric", 9000, 1.2)),
@@ -144,7 +144,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_rows_skips_header_and_blanks() {
+    fn parse_modlist_skips_header_and_blanks() {
         assert_eq!(parse_modlist(CSV), Ok(sample()));
         let with_blanks = "name,loader,downloads,size_mb\n\nsodium,fabric,9000,1.2\n   \n";
         assert_eq!(parse_modlist(with_blanks), Ok(vec![modded("sodium", "fabric", 9000, 1.2)]));
@@ -152,7 +152,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_rows_reports_line_number() {
+    fn parse_modlist_reports_line_number() {
         let bad = "name,loader,downloads,size_mb\n\nsodium,fabric,lots,1\nlithium,fabric,5,1\n";
         let e = parse_modlist(bad).unwrap_err();
         assert!(e.starts_with("line 3:"), "blank lines count; got: {e}");
@@ -163,7 +163,7 @@ mod tests {
     }
 
     #[test]
-    fn total_by_category_sums_per_category() {
+    fn downloads_by_loader_sums_per_loader() {
         let totals = downloads_by_loader(&sample());
         assert_eq!(totals.get("fabric"), Some(&16000));
         assert_eq!(totals.get("neoforge"), Some(&20000));
@@ -173,7 +173,7 @@ mod tests {
     }
 
     #[test]
-    fn top_n_picks_biggest_totals() {
+    fn top_n_picks_most_downloaded() {
         let mods = sample();
         let names: Vec<&str> = top_n(&mods, 2).iter().map(|m| m.name.as_str()).collect();
         assert_eq!(names, vec!["jei", "sodium"]);
@@ -182,7 +182,7 @@ mod tests {
     }
 
     #[test]
-    fn cheapest_in_filters_a_category() {
+    fn smallest_in_filters_a_loader() {
         let mods = sample();
         assert_eq!(smallest_in(&mods, "fabric").map(|m| m.name.as_str()), Some("lithium"));
         assert_eq!(smallest_in(&mods, "neoforge").map(|m| m.name.as_str()), Some("jei"));
@@ -190,7 +190,7 @@ mod tests {
     }
 
     #[test]
-    fn report_aligns_columns() {
+    fn report_aligns_mod_columns() {
         let mods = vec![modded("sodium", "fabric", 9000, 1.2), modded("create", "neoforge", 8000, 20.0)];
         let expected = "\
 name       loader    downloads size_mb

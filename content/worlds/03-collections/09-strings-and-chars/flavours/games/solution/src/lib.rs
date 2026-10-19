@@ -39,27 +39,27 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_numbers_splits_trims_parses() {
+    fn parse_counts_skips_bad_entries() {
         assert_eq!(parse_counts("64, 16, x, 8"), vec![64, 16, 8]);
         assert_eq!(parse_counts(" 7 "), vec![7]);
         assert_eq!(parse_counts(""), Vec::<u32>::new());
     }
 
     #[test]
-    fn count_vowels_walks_chars() {
+    fn display_name_title_cases_item_ids() {
         assert_eq!(display_name("minecraft:diamond_sword"), "Diamond Sword");
         assert_eq!(display_name("minecraft:oak_log"), "Oak Log");
         assert_eq!(display_name("stone"), "Stone", "no namespace is fine");
     }
 
     #[test]
-    fn join_sorted_joins_with_commas() {
+    fn chest_summary_sorts_and_joins() {
         assert_eq!(chest_summary(&["torch", "bow", "arrow"]), "arrow, bow, torch");
         assert_eq!(chest_summary(&[]), "");
     }
 
     #[test]
-    fn table_row_pads_columns() {
+    fn inventory_row_aligns_name_and_count() {
         assert_eq!(inventory_row("diamond", 12), "diamond       12");
         assert_eq!(inventory_row("torch", 3), "torch          3");
     }

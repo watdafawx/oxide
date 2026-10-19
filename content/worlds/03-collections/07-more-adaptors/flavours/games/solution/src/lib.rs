@@ -34,19 +34,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn numbered_uses_enumerate() {
+    fn hotbar_labels_are_numbered() {
         assert_eq!(hotbar_labels(&["sword", "bow"]), vec!["[1] sword", "[2] bow"]);
         assert_eq!(hotbar_labels(&[]), Vec::<String>::new());
     }
 
     #[test]
-    fn dot_product_zips_two_slices() {
+    fn loot_value_pairs_counts_with_prices() {
         assert_eq!(loot_value(&[2, 3, 1], &[10, 5, 100]), 135);
         assert_eq!(loot_value(&[1, 2, 3], &[10, 10]), 30, "stops at the shorter slice");
     }
 
     #[test]
-    fn page_skips_then_takes() {
+    fn chest_page_skips_then_takes() {
         let items = ["a", "b", "c", "d", "e"];
         assert_eq!(chest_page(&items, 0, 2), vec!["a", "b"]);
         assert_eq!(chest_page(&items, 1, 2), vec!["c", "d"]);
@@ -55,7 +55,7 @@ mod tests {
     }
 
     #[test]
-    fn count_rises_uses_windows() {
+    fn count_upgrades_compares_neighbours() {
         assert_eq!(count_upgrades(&[1, 3, 2, 4]), 2);
         assert_eq!(count_upgrades(&[4, 3, 2]), 0);
         assert_eq!(count_upgrades(&[7]), 0);

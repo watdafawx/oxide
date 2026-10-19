@@ -29,27 +29,27 @@ mod tests {
     use super::*;
 
     #[test]
-    fn make_adder_captures_n() {
+    fn looting_bonus_is_captured() {
         let looting_ii = make_looting(2);
         assert_eq!(looting_ii(3), 5);
         assert_eq!(make_looting(0)(7), 7);
     }
 
     #[test]
-    fn apply_twice_calls_f_twice() {
+    fn upgrade_twice_applies_two_upgrades() {
         assert_eq!(upgrade_twice(|n| n * 3, 2), 18);
         assert_eq!(upgrade_twice(|n| n + 1, 0), 2);
     }
 
     #[test]
-    fn count_matching_uses_predicate() {
+    fn count_stacks_where_uses_the_rule() {
         assert_eq!(count_stacks_where(&[1, 2, 3, 4, 5], |n| n > 2), 3);
         assert_eq!(count_stacks_where(&[1, 2, 3, 4, 5], |n| n % 2 == 0), 2);
         assert_eq!(count_stacks_where(&[], |_| true), 0);
     }
 
     #[test]
-    fn above_limit_captures_limit() {
+    fn stacks_over_captures_the_limit() {
         assert_eq!(stacks_over(&[1, 5, 64], 4), vec![5, 64]);
         assert_eq!(stacks_over(&[1, 5, 64], 64), Vec::<u32>::new());
         assert_eq!(stacks_over(&[1, 5, 64], 0), vec![1, 5, 64]);

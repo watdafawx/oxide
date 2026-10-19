@@ -49,7 +49,7 @@ mod tests {
     }
 
     #[test]
-    fn squares_maps_each_number() {
+    fn drop_names_maps_to_item_names() {
         assert_eq!(
             drop_names(&zombie_table()),
             vec!["rotten_flesh", "bone", "iron_ingot", "diamond"]
@@ -58,7 +58,7 @@ mod tests {
     }
 
     #[test]
-    fn evens_filters() {
+    fn rare_drops_keeps_rare_ones() {
         let table = zombie_table();
         let rare: Vec<&str> = rare_drops(&table, 1).iter().map(|d| d.item.as_str()).collect();
         assert_eq!(rare, vec!["iron_ingot", "diamond"]);
@@ -67,13 +67,13 @@ mod tests {
     }
 
     #[test]
-    fn total_length_sums_lengths() {
+    fn total_weight_sums_drops() {
         assert_eq!(total_weight(&zombie_table()), 92);
         assert_eq!(total_weight(&[]), 0);
     }
 
     #[test]
-    fn count_long_counts_filtered() {
+    fn count_common_filters_by_weight() {
         let table = zombie_table();
         assert_eq!(count_common(&table, 10), 3);
         assert_eq!(count_common(&table, 1), 4);

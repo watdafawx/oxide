@@ -2,13 +2,13 @@ title = "Inventory: a list that grows"
 summary = "Fill a hotbar with push, read slots with get, and add up your stacks."
 
 [[objectives]]
-test = "podium_pushes_two_more"
+test = "starter_kit_adds_bread_and_torch"
 label = "starter_kit starts with a wooden sword and pushes bread and a torch"
 [[objectives]]
-test = "third_uses_get"
+test = "third_slot_is_none_on_short_hotbar"
 label = "third_slot returns Some(item) or None when the hotbar is too short"
 [[objectives]]
-test = "sum_all_loops_over_the_vec"
+test = "total_items_adds_every_stack"
 label = "total_items adds up every stack count using a for loop"
 
 [[hints]]

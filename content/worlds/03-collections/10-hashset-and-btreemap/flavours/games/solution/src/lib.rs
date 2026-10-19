@@ -29,13 +29,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn unique_count_uses_a_set() {
+    fn distinct_enchants_ignores_repeats() {
         assert_eq!(distinct_enchants(&["sharpness", "sharpness", "unbreaking"]), 2);
         assert_eq!(distinct_enchants(&[]), 0);
     }
 
     #[test]
-    fn common_uses_intersection() {
+    fn shared_enchants_are_on_both_items() {
         assert_eq!(
             shared_enchants(&["sharpness", "unbreaking", "mending"], &["unbreaking", "mending", "fortune"]),
             vec!["mending", "unbreaking"]
@@ -44,7 +44,7 @@ mod tests {
     }
 
     #[test]
-    fn letter_counts_are_sorted() {
+    fn sorted_inventory_lists_a_to_z() {
         let inventory = sorted_inventory(&["torch", "bread", "torch", "apple", "torch"]);
         assert_eq!(inventory.get("torch"), Some(&3));
         assert_eq!(inventory.get("bread"), Some(&1));
