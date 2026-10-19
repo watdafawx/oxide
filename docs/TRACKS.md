@@ -47,6 +47,33 @@ Watcher: extensions per runner (`rs,toml` / `java,kt,kts,gradle,json,toml` / `lu
   wrapper runs, Factorio path optional) and shows what will be downloaded.
 - `requires` across tracks shows as "needs Java › Basics" on the locked card.
 
+## Project spines (learn by building, 2026-10-19)
+
+Rule from `docs/CONTENT.md`: a world is one game-flavoured project that grows; concepts arrive
+when a feature needs them. Spines for the Rust worlds (content sessions re-cut the quests
+around these; concepts covered stay the same):
+
+| world | project | what grows quest by quest |
+|---|---|---|
+| 00 Tutorial | Name tag for a player | greeting, a fix, a tag with level |
+| 01 Foundations | Crafting calculator | stack sizes (`u32`), item structs, item kinds (enum), rarity (match), recipe lookup (Option), parsing a recipe line (Result); boss: raw-material totals for a crafting tree |
+| 02 Ownership | Server console | chat lines as `String` vs `&str`, borrowing the player list, slicing args, a `Command<'a>` borrowing the line; boss: a console state machine (tp, give, kick) |
+| 03 Collections | Inventory and loot | `Vec` inventory, `HashMap` item counts, iterator chains over loot tables, closures for sort-by-rarity; boss: modpack mod-list stats from CSV |
+| 04 Errors & Modules | Modpack manifest loader | `?` on parse, `ManifestError`, `From` for version errors, thiserror/anyhow, modules `manifest/` `resolver/`; boss: mod list manager with file persistence |
+| 05 Traits & Generics | Entity system | `Entity` trait (zombie, creeper, villager), `Inventory<T: Item>`, `Vec3` operators, `Iterator` for chunk coords, `dyn Entity` lists; boss: ASCII hitbox renderer |
+| 06 Smart pointers | Machine graph | belts and inserters as `Rc<RefCell<Machine>>`, `Weak` back-links, `Cow` item names; boss: tech-tree editor |
+| 07 Concurrency | Mod folder hasher | threads over jar files, channels for results, `Arc<Mutex>` progress, rayon; boss: parallel mods-folder hasher |
+| 08 Async | Mod downloader | tokio, concurrent downloads with a semaphore, retries, cancellation; boss: the downloader |
+| 09 Systems | Server pinger | bytes, VarInts, the Server List Ping protocol over TCP; boss: ping a real server |
+| 10 Apps | Mod database and Oxide itself | rusqlite mod DB, axum API, egui screens; boss: port Oxide's UI to Rust |
+| 11 Mastery | Chunk indexer | macros for block registries, allocation counting, no_std ring buffer; boss: make a slow chunk indexer fast |
+
+Other tracks follow the same rule: Java worlds build a Minecraft server status bot, a modpack
+updater and a Discord bot (not "OOP" then "Collections"); Minecraft worlds are mods by
+construction; Lua core builds a Factorio recipe calculator before touching the real API.
+The track plans in `docs/tracks/*.md` keep their concept checklists; content sessions re-cut
+quests around the spine named in their brief.
+
 ## Track skeletons
 
 The planning sessions turn each into 8-12 quests per world with objectives, minutes and XP.

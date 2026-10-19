@@ -3,6 +3,27 @@
 A quest is a folder. The engine (`crates/oxide-core/src/content.rs`) enforces everything below;
 `cargo run -p content-check` tells you what you got wrong.
 
+## Project first (the rule that matters most)
+
+The learner has ADHD and gets hooked by building things for games, not by "this is an int".
+So a world is **one project that grows**, quest by quest, and a concept shows up only because the
+next feature needs it. The reader should always know what they are building and why this
+quest's idea is the tool for it.
+
+- `world.toml` names the project (`project = "Crafting calculator"`), and every quest adds a
+  visible feature to it. The boss ships the finished thing.
+- The lesson opens with **Why now**: one or two sentences tying the concept to the feature.
+  "A stack holds 0 to 64 items, never -3: that is why stack sizes are `u32`, not `i32`."
+- Function and type names come from the project, never from textbooks: `stack_size`,
+  `Recipe`, `Inventory`, `Entity`, `ChunkPos`, `Command`, not `add`, `Foo`, `greet`.
+- Tests read like features: `crafting_a_pickaxe_needs_three_ingots`, not `test_struct`.
+- Game flavour is the user's own: Minecraft (mods, servers, modpacks), Factorio (belts,
+  recipes, techs), launchers and download tools. Pick one spine per world and stay in it.
+- Reads (quizzes) stay short and also use the project's vocabulary.
+
+Project spines per track are listed in `docs/TRACKS.md`; a content session uses the spine
+its brief names.
+
 ## Layout
 
 ```
@@ -62,7 +83,8 @@ Rules: exercise/boss need `objectives`, `starter/`, `solution/`. Read quests nee
 
 Markdown, rendered inside the app, one screen. Shape:
 
-1. One sentence on why this matters (what app feature it unlocks).
+1. **Why now**: one or two sentences tying the concept to the feature you are adding to the
+   world's project (see "Project first").
 2. The idea, in 3-6 short paragraphs or bullets. One runnable example in a ```rust block.
 3. `## Your turn` — what to do in the starter, in 2-4 bullets, naming the file and function.
 
