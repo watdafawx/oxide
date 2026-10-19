@@ -1,7 +1,7 @@
 // Fake backend for `pnpm dev` in a plain browser. Exercises every command and event.
 import type { MockHandlers } from "./api";
 import type {
-  Achievement, CheckResult, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, World,
+  Achievement, CheckResult, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, Track, World,
 } from "./types";
 import helloLesson from "../../content/worlds/00-tutorial/01-hello/lesson.md?raw";
 import fixLesson from "../../content/worlds/00-tutorial/02-fix-it/lesson.md?raw";
@@ -23,11 +23,17 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 // ---------- catalog ----------
 type QuestInit = Partial<Quest> & Pick<Quest, "title" | "summary" | "kind" | "xp" | "minutes">;
 function q(world: string, index: number, slug: string, p: QuestInit): Quest {
-  return { id: `${world}/${slug}`, world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], ...p };
+  const track_id = world.split("/")[0];
+  return { id: `${world}/${slug}`, track_id, runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], ...p };
 }
 const obj = (test: string, label: string) => ({ test, label });
 
-const T = "00-tutorial", F = "01-foundations", O = "02-ownership";
+const tracks: Track[] = [
+  { id: "rust", title: "Rust", blurb: "Systems programming with ownership, traits and fearless concurrency.", runner: "cargo" },
+  { id: "lua", title: "Lua", blurb: "Small, fast scripting. Great for mods and game logic.", runner: "lua" },
+];
+
+const T = "rust/00-tutorial", F = "rust/01-foundations", O = "rust/02-ownership", L = "lua/01-lua-core";
 const quests: Quest[] = [
   q(T, 1, "01-hello", { title: "Say hello", summary: "Write one function and watch the tick turn green.", kind: "exercise", xp: 30, minutes: 3,
     tags: ["functions", "strings"], objectives: [obj("greets_by_name", 'greeting("Ferris") returns "Hello, Ferris!"')],
@@ -64,6 +70,17 @@ const quests: Quest[] = [
     tags: ["structs", "ownership"], requires: [`${O}/02-borrowing`],
     objectives: [obj("push_pop", "push then pop returns the item"), obj("peek_borrows", "peek returns a reference"), obj("empty_pop", "pop on empty is None")],
     hints: [{ text: "`Vec` already does the hard part." }] }),
+  q(L, 1, "01-hello-lua", { title: "Print and return", summary: "Your first Lua function: build a string and return it.", kind: "exercise", xp: 30, minutes: 3,
+    tags: ["functions", "strings"], objectives: [obj("greets", 'greet("Ada") returns "Hello, Ada!"')],
+    hints: [{ text: "Lua joins strings with `..`: `\"Hi \" .. name`." }] }),
+  q(L, 2, "02-tables", { title: "Tables are everything", summary: "Arrays and dictionaries are the same thing in Lua.", kind: "exercise", xp: 40, minutes: 6,
+    tags: ["tables"], requires: [`${L}/01-hello-lua`],
+    objectives: [obj("sum_works", "sum({1, 2, 3}) returns 6"), obj("keys_work", "count_keys({a = 1, b = 2}) returns 2")],
+    hints: [{ text: "`#t` is the length of an array-style table." }, { text: "Loop with `for k, v in pairs(t) do`." }] }),
+  q(L, 3, "03-arrays", { title: "Arrays start at 1", summary: "Index from one, map and filter by hand.", kind: "exercise", xp: 40, minutes: 8,
+    tags: ["tables", "loops"], requires: [`${L}/02-tables`, `${F}/02-functions`],
+    objectives: [obj("map_works", "map(double, {1, 2}) returns {2, 4}"), obj("filter_works", "filter(is_even, {1, 2, 3, 4}) returns {2, 4}")],
+    hints: [{ text: "`table.insert(out, v)` appends." }] }),
 ];
 
 const lessons: Record<string, string> = {
@@ -71,7 +88,19 @@ const lessons: Record<string, string> = {
   [`${T}/02-fix-it`]: fixLesson,
   [`${T}/03-boss-name-tag`]: bossLesson,
 };
-const fallbackLesson = (qq: Quest) => `${qq.summary}
+const fallbackLesson = (qq: Quest) => qq.runner === "lua" ? `${qq.summary}
+
+\`\`\`lua
+local name = "Ada"
+print("Hello, " .. name .. "!")
+\`\`\`
+
+## Your turn
+
+- Open \`src/solution.lua\`.
+- \`tests.lua\` is the spec.
+- Make the objectives on the right go green.
+` : `${qq.summary}
 
 \`\`\`rust
 fn main() {
@@ -88,9 +117,10 @@ fn main() {
 `;
 
 const worlds: World[] = [
-  { id: T, index: 0, slug: "tutorial", title: "Tutorial", blurb: "How Oxide works in ten minutes.", quests: [] },
-  { id: F, index: 1, slug: "foundations", title: "Foundations", blurb: "Variables, functions, control flow.", quests: [] },
-  { id: O, index: 2, slug: "ownership", title: "Ownership", blurb: "The idea that makes Rust Rust.", quests: [] },
+  { id: T, track_id: "rust", index: 0, slug: "tutorial", title: "Tutorial", blurb: "How Oxide works in ten minutes.", quests: [] },
+  { id: F, track_id: "rust", index: 1, slug: "foundations", title: "Foundations", blurb: "Variables, functions, control flow.", quests: [] },
+  { id: O, track_id: "rust", index: 2, slug: "ownership", title: "Ownership", blurb: "The idea that makes Rust Rust.", quests: [] },
+  { id: L, track_id: "lua", index: 1, slug: "lua-core", title: "Lua Core", blurb: "Functions, tables and loops.", quests: [] },
 ];
 worlds.forEach((w) => (w.quests = quests.filter((x) => x.world_id === w.id)));
 const byId = (id: string) => {
@@ -128,7 +158,7 @@ const state = {
   completed: [] as string[],
   started: [] as string[],
   achievements: ["streak-3"] as string[],
-  settings: { editor: "code", sound: true, focus_minutes: 25 },
+  settings: { editor: "code", sound: true, focus_minutes: 25, track: "rust" },
   hints: {} as Record<string, number>,
   attempts: {} as Record<string, number>,
   last: {} as Record<string, CheckResult | null>,
@@ -154,7 +184,7 @@ function detail(id: string): QuestDetail {
   const started = state.started.includes(id) || state.completed.includes(id);
   return {
     quest: qq, lesson: lessons[id] ?? fallbackLesson(qq),
-    workspace: started ? `C:\\Users\\you\\oxide-quests\\${id.replace("/", "\\")}` : null,
+    workspace: started ? `C:\\Users\\you\\oxide-quests\\${id.replaceAll("/", "\\")}` : null,
     hints_used: state.hints[id] ?? 0, attempts: state.attempts[id] ?? 0,
     completed: state.completed.includes(id), last_check: state.last[id] ?? null,
   };
@@ -187,6 +217,16 @@ function complete(qq: Quest, clean: boolean): Completion {
 type Mode = "fail" | "compile" | "partial" | "pass";
 function grade(qq: Quest, mode: Mode): CheckResult {
   const dur = 900 + Math.round(Math.random() * 1400);
+  if (mode === "compile" && qq.runner === "lua") {
+    return {
+      ok: false, compiled: false, duration_ms: dur, other_failures: [], raw_tail: "lua: error",
+      objectives: qq.objectives.map((o) => ({ ...o, status: "notrun", output: null })),
+      diagnostics: [{
+        level: "error", message: "attempt to concatenate a nil value (local 'name')", file: "src/solution.lua", line: 3,
+        rendered: "lua: src/solution.lua:3: attempt to concatenate a nil value (local 'name')\nstack traceback:\n\tsrc/solution.lua:3: in function 'greet'\n\ttests.lua:5: in main chunk",
+      }],
+    };
+  }
   if (mode === "compile") {
     return {
       ok: false, compiled: false, duration_ms: dur, other_failures: [], raw_tail: "error: could not compile",
@@ -230,13 +270,19 @@ async function runCycle(id: string): Promise<CheckResult> {
 // ---------- handlers ----------
 export const mockHandlers: MockHandlers = {
   async home() {
-    const open = quests.filter((x) => !state.completed.includes(x.id) && unlocked(x));
-    const started = quests.find((x) => state.started.includes(x.id)) ?? null;
+    const track = tracks.find((t) => t.id === state.settings.track) ?? tracks[0];
+    const mine = quests.filter((x) => x.track_id === track.id);
+    const open = mine.filter((x) => !state.completed.includes(x.id) && unlocked(x));
+    const started = mine.find((x) => state.started.includes(x.id)) ?? null;
     const next = open.find((x) => x.id !== started?.id) ?? null;
     const alt = open.filter((x) => x.id !== next?.id && x.id !== started?.id)[0] ?? null;
-    return { next: next ?? started, alternate: alt, profile: profile(), resume: next ? started : null };
+    return { track, next: next ?? started, alternate: alt, profile: profile(), resume: next ? started : null };
   },
-  async list_worlds() { return worlds; },
+  async list_tracks() { return tracks; },
+  async list_worlds({ track }) {
+    const t = track || state.settings.track || tracks[0].id;
+    return worlds.filter((w) => w.track_id === t);
+  },
   async get_quest({ id }) { return detail(id); },
   async start_quest({ id }) {
     const qq = byId(id);

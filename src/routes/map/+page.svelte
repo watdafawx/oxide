@@ -10,7 +10,8 @@
 
   $effect(() => {
     void app.profile?.completed.length;
-    api.listWorlds().then((w) => { worlds = w; loaded = true; }).catch((e) => app.error(e));
+    const t = app.track?.id;
+    api.listWorlds(t).then((w) => { worlds = w; loaded = true; }).catch((e) => app.error(e));
   });
 
   type NodeState = "locked" | "available" | "started" | "done";
@@ -22,7 +23,12 @@
     return p.started.includes(q.id) ? "started" : "available";
   }
   const done = (w: World) => w.quests.filter((q) => app.profile?.completed.includes(q.id)).length;
-  const title = (q: Quest) => `${q.title} (${kindLabel[q.kind]}, +${q.xp} XP)`;
+  function title(q: Quest) {
+    const base = `${q.title} (${kindLabel[q.kind]}, +${q.xp} XP)`;
+    const p = app.profile;
+    const foreign = p ? q.requires.find((r) => !p.completed.includes(r) && r.split("/")[0] !== q.track_id) : undefined;
+    return foreign ? `${base}. Needs ${app.questPath(foreign)} (other track)` : base;
+  }
 
   const ring: Record<NodeState, string> = {
     locked: "border-line bg-panel text-dim/50 cursor-not-allowed",
@@ -34,7 +40,7 @@
 </script>
 
 <div class="mx-auto max-w-3xl px-6 py-10">
-  <h1 class="mb-8 text-3xl font-extrabold">Map</h1>
+  <h1 class="mb-8 text-3xl font-extrabold">Map{#if app.track}<span class="ml-3 text-xl font-bold text-dim">{app.track.title}</span>{/if}</h1>
   {#if !loaded}
     <div class="h-48 animate-pulse rounded-2xl bg-panel"></div>
   {/if}

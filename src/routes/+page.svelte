@@ -18,7 +18,21 @@
   }
   $effect(() => {
     void app.profile?.completed.length; // refresh when progress changes
+    void app.profile?.settings.track; // ...or the track switches
     void load();
+  });
+
+  // Nothing available: find the requirement that blocks the active track.
+  const blocker = $derived.by(() => {
+    const p = app.profile;
+    if (!home || home.next || !p) return null;
+    for (const w of app.catalog[home.track.id] ?? [])
+      for (const q of w.quests) {
+        if (p.completed.includes(q.id)) continue;
+        const missing = q.requires.find((r) => !p.completed.includes(r));
+        if (missing) return { quest: q, missing };
+      }
+    return null;
   });
 
   async function start(id: string) {
@@ -40,6 +54,7 @@
   {#if home?.next}
     {@const q = home.next}
     <section class="rounded-3xl border border-line bg-panel p-8 shadow-xl" data-testid="next-card">
+      <div class="mb-1 text-xs font-semibold tracking-wide text-dim uppercase" data-testid="next-track">{home.track.title}</div>
       <div class="mb-4 flex items-center gap-3 text-sm">
         <span class="rounded-full border px-3 py-0.5 font-semibold {kindClass[q.kind]}">{kindLabel[q.kind]}</span>
         <span class="text-dim">{q.minutes} min</span>
@@ -60,6 +75,14 @@
         <span>Continue <b>{home.resume.title}</b></span><span class="text-rust-hi">→</span>
       </a>
     {/if}
+  {:else if home && blocker}
+    <section class="rounded-3xl border border-line bg-panel p-10 text-center" data-testid="blocked">
+      <div class="text-xs font-semibold tracking-wide text-dim uppercase">{home.track.title}</div>
+      <div class="mt-3 text-6xl">🔒</div>
+      <h1 class="mt-4 text-3xl font-extrabold">Not unlocked yet</h1>
+      <p class="mt-2 text-dim">{blocker.quest.title} needs another quest first.</p>
+      <a href="/quest/{blocker.missing}" class="btn btn-primary btn-lg mt-6">Needs {app.questPath(blocker.missing)} →</a>
+    </section>
   {:else if home}
     <section class="rounded-3xl border border-line bg-panel p-10 text-center">
       <div class="text-6xl">🏁</div>

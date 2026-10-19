@@ -1,5 +1,8 @@
 // Mirrors docs/API.md. Keep in sync with crates/oxide-core.
 export type QuestKind = "exercise" | "boss" | "read";
+export type Runner = "cargo" | "lua" | "gradle";
+
+export interface Track { id: string; title: string; blurb: string; runner: Runner }
 
 export interface Objective { test: string; label: string }
 export interface Hint { text: string }
@@ -7,7 +10,9 @@ export interface Quiz { question: string; choices: string[]; answer: number }
 
 export interface Quest {
   id: string;
+  track_id: string;
   world_id: string;
+  runner: Runner;
   index: number;
   slug: string;
   title: string;
@@ -22,9 +27,9 @@ export interface Quest {
   quiz: Quiz[];
 }
 
-export interface World { id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
+export interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
-export interface Settings { editor: string; sound: boolean; focus_minutes: number }
+export interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string }
 
 export interface Profile {
   xp: number;
@@ -77,6 +82,7 @@ export interface QuestDetail {
 }
 
 export interface Home {
+  track: Track;
   next: Quest | null;
   alternate: Quest | null;
   profile: Profile;

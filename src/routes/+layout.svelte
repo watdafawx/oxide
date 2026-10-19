@@ -22,11 +22,19 @@
   const active = (href: string) => (href === "/" ? page.url.pathname === "/" || page.url.pathname.startsWith("/quest") : page.url.pathname.startsWith(href));
 
   function onKey(e: KeyboardEvent) {
+    const el = e.target as HTMLElement | null;
+    const typing = !!el && (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName));
+    if (e.key === "t" && !e.ctrlKey && !e.metaKey && !e.altKey && !typing && app.tracks.length) {
+      e.preventDefault();
+      app.trackMenu = !app.trackMenu;
+      return;
+    }
+    if (e.key === "Escape" && app.trackMenu) { app.trackMenu = false; return; }
     if (e.key === "Escape" && page.url.pathname.startsWith("/quest") && !app.celebration) void goto("/");
   }
 </script>
 
-<svelte:window onkeydown={onKey} />
+<svelte:window onkeydown={onKey} onclick={(e) => { if (app.trackMenu && !(e.target as HTMLElement).closest("[data-track-menu]")) app.trackMenu = false; }} />
 
 <div class="flex h-screen flex-col">
   <header class="flex items-center gap-2 border-b border-line bg-panel px-6 py-3">
@@ -37,6 +45,32 @@
       {/each}
     </nav>
     <div class="ml-auto flex items-center gap-3">
+      {#if app.track}
+        {@const cur = app.track}
+        <div class="relative" data-track-menu>
+          <button
+            class="flex items-center gap-2 rounded-full border border-line bg-panel-2 px-3 py-1 text-sm font-semibold hover:border-rust/50"
+            aria-haspopup="menu" aria-expanded={app.trackMenu} data-testid="track-pill"
+            onclick={() => (app.trackMenu = !app.trackMenu)}
+          >
+            {cur.title} <span class="text-dim">▾</span><kbd class="rounded border border-line px-1 text-xs text-dim">t</kbd>
+          </button>
+          {#if app.trackMenu}
+            <div class="pop absolute right-0 z-40 mt-2 w-72 rounded-2xl border border-line bg-panel p-2 shadow-xl" role="menu" data-testid="track-menu">
+              {#each app.tracks as t (t.id)}
+                <button
+                  role="menuitem"
+                  class="flex w-full flex-col rounded-xl px-3 py-2 text-left hover:bg-panel-2 {t.id === cur.id ? 'bg-panel-2' : ''}"
+                  onclick={() => app.switchTrack(t.id)}
+                >
+                  <span class="flex items-center justify-between font-semibold">{t.title}{#if t.id === cur.id}<span class="text-rust-hi">✓</span>{/if}</span>
+                  <span class="text-sm text-dim">{t.blurb}</span>
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
       {#if app.focus}
         <a href={app.focus.quest_id ? `/quest/${app.focus.quest_id}` : "/"} class="rounded-full border border-rust/40 bg-rust/10 px-3 py-1 font-mono text-sm text-rust-hi">
           ⏱ {mmss(app.focus.remaining)}

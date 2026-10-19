@@ -5,7 +5,7 @@
   import type { Settings } from "$lib/types";
 
   let dates = $state<Set<string>>(new Set());
-  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25 });
+  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "" });
   let saved = $state(false);
   let dirty = $state(false);
 
@@ -50,12 +50,35 @@
     return cols;
   });
   const p = $derived(app.profile);
+  // The engine has no per-track XP field: sum quest xp from the catalog.
+  const trackXp = $derived(
+    app.tracks.map((t) => {
+      const qs = (app.catalog[t.id] ?? []).flatMap((w) => w.quests);
+      const total = qs.reduce((n, x) => n + x.xp, 0);
+      const earned = qs.filter((x) => p?.completed.includes(x.id)).reduce((n, x) => n + x.xp, 0);
+      return { track: t, earned, total, pct: total ? (earned / total) * 100 : 0 };
+    }),
+  );
   const stats = $derived(p ? [["Level", p.level], ["Total XP", p.xp], ["Best streak", `${p.best_streak}d`]] : []);
 </script>
 
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-10">
   <h1 class="text-3xl font-extrabold">Profile</h1>
   <XpBar />
+
+  {#if trackXp.length}
+    <div class="-mt-4 flex flex-col gap-2 px-5" data-testid="track-xp">
+      {#each trackXp as t (t.track.id)}
+        <div class="flex items-center gap-3 text-xs text-dim">
+          <span class="w-12 shrink-0 font-semibold text-ink">{t.track.title}</span>
+          <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-panel-2">
+            <div class="h-full rounded-full bg-rust transition-all duration-700" style="width:{t.pct}%"></div>
+          </div>
+          <span class="w-20 shrink-0 text-right tabular-nums">{t.earned} / {t.total} XP</span>
+        </div>
+      {/each}
+    </div>
+  {/if}
 
   <div class="grid grid-cols-3 gap-4 text-center">
     {#each stats as [label, v]}

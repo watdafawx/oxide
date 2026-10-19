@@ -1,6 +1,6 @@
 import { api, listen } from "./api";
 import { ding } from "./sound";
-import type { Achievement, CheckResult, Completion, Profile } from "./types";
+import type { Achievement, CheckResult, Completion, Profile, Quest, Track, World } from "./types";
 
 export interface CheckState { running: boolean; result: CheckResult | null; tick: number }
 export interface Toast { id: number; kind: "error" | "info"; text: string }
@@ -11,6 +11,10 @@ class App {
   checks = $state<Record<string, CheckState>>({});
   focus = $state<{ remaining: number; total: number; quest_id: string } | null>(null);
   toasts = $state<Toast[]>([]);
+  tracks = $state<Track[]>([]);
+  /** worlds of every track, keyed by track id; static, used for cross-track lookups */
+  catalog = $state<Record<string, World[]>>({});
+  trackMenu = $state(false);
   celebration = $state<Completion | null>(null);
   private started = false;
   private tid = 0;
@@ -34,10 +38,43 @@ class App {
       this.ding("level");
     });
     try {
-      [this.profile, this.achievements] = await Promise.all([api.getProfile(), api.listAchievements()]);
+      [this.profile, this.achievements, this.tracks] = await Promise.all([api.getProfile(), api.listAchievements(), api.listTracks()]);
+      const all = await Promise.all(this.tracks.map((t) => api.listWorlds(t.id)));
+      this.tracks.forEach((t, i) => (this.catalog[t.id] = all[i]));
     } catch (e) {
       this.error(e);
     }
+  }
+
+  /** active track: settings.track, "" = first */
+  get track(): Track | null {
+    const id = this.profile?.settings.track;
+    return this.tracks.find((t) => t.id === id) ?? this.tracks[0] ?? null;
+  }
+
+  async switchTrack(id: string) {
+    this.trackMenu = false;
+    if (!this.profile || id === this.track?.id) return;
+    try {
+      await api.setSettings({ ...this.profile.settings, track: id });
+      this.profile = await api.getProfile();
+    } catch (e) {
+      this.error(e);
+    }
+  }
+
+  quest(id: string): Quest | null {
+    for (const ws of Object.values(this.catalog)) for (const w of ws) for (const q of w.quests) if (q.id === id) return q;
+    return null;
+  }
+
+  /** "Rust › Foundations › Functions" */
+  questPath(id: string): string {
+    const q = this.quest(id);
+    if (!q) return id;
+    const t = this.tracks.find((x) => x.id === q.track_id)?.title ?? q.track_id;
+    const w = this.catalog[q.track_id]?.find((x) => x.id === q.world_id)?.title ?? q.world_id;
+    return `${t} › ${w} › ${q.title}`;
   }
 
   ding(kind: "ok" | "level" = "ok") {

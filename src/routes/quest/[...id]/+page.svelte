@@ -192,11 +192,10 @@
 
             {#if result}
               <div class="mt-3 text-xs text-dim">
-                {result.ok ? "All green" : result.compiled ? "Some tests failing" : "Doesn't compile"} · {(result.duration_ms / 1000).toFixed(1)}s
+                {result.ok ? "All green" : result.compiled ? "Some tests failing" : q.runner === "lua" ? "Script error" : "Doesn't compile"} · {(result.duration_ms / 1000).toFixed(1)}s
               </div>
-            {:else if !running}
-              <div class="mt-3 text-xs text-dim">Save a file in your editor and checks run automatically.</div>
             {/if}
+            <div class="mt-3 text-xs text-dim" data-testid="help">{q.runner === "lua" ? "Edit src/*.lua, tests.lua is the spec. Save and checks run automatically." : "Edit src/lib.rs, save, and checks run automatically."}</div>
           </section>
         {/if}
       {/if}

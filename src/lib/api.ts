@@ -1,7 +1,7 @@
 // Typed wrappers over Tauri commands/events (docs/API.md).
 // Without Tauri (plain `pnpm dev`) everything is routed to ./mock.
 import type {
-  Achievement, CheckResult, Completion, EventMap, Home, Profile, QuestDetail, Settings, World,
+  Achievement, CheckResult, Completion, EventMap, Home, Profile, QuestDetail, Settings, Track, World,
 } from "./types";
 import { mockHandlers, mockListen } from "./mock";
 
@@ -11,7 +11,8 @@ type NoArgs = Record<string, never>;
 
 export interface Commands {
   home: { args: NoArgs; ret: Home };
-  list_worlds: { args: NoArgs; ret: World[] };
+  list_tracks: { args: NoArgs; ret: Track[] };
+  list_worlds: { args: { track?: string }; ret: World[] };
   get_quest: { args: { id: string }; ret: QuestDetail };
   start_quest: { args: { id: string }; ret: QuestDetail };
   open_editor: { args: { id: string }; ret: void };
@@ -55,7 +56,8 @@ export async function listen<K extends keyof EventMap>(name: K, cb: (payload: Ev
 const E: NoArgs = {};
 export const api = {
   home: () => call("home", E),
-  listWorlds: () => call("list_worlds", E),
+  listTracks: () => call("list_tracks", E),
+  listWorlds: (track?: string) => call("list_worlds", track ? { track } : {}),
   getQuest: (id: string) => call("get_quest", { id }),
   startQuest: (id: string) => call("start_quest", { id }),
   openEditor: (id: string) => call("open_editor", { id }),
