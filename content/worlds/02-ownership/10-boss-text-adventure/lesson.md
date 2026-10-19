@@ -25,3 +25,5 @@ Text formats are in the objective labels and the tests. Read the failing asserti
 
 - Open `src/lib.rs`. `Game::demo()` and the types are done. Replace each `todo!()`, top to bottom, one objective at a time.
 - `run` builds a fresh `Game::demo()` and plays each command: `look`, `go <dir>`, `take <item>`, anything else is "Unknown command: ...".
+
+Press Run to play it.
