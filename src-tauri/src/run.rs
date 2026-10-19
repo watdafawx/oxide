@@ -20,7 +20,7 @@ pub struct Running {
 #[derive(Serialize, Clone)]
 struct OutputEvent<'a> {
     quest_id: &'a str,
-    /// `stdout` | `stderr` | `system`
+    /// `stdout` | `stderr` | `build` (stderr before the program's first stdout line) | `system`
     stream: &'a str,
     line: &'a str,
 }
@@ -96,13 +96,25 @@ fn start_cargo(
     let id = quest.id.clone();
     emit_line(app, &id, "system", "$ cargo run");
 
+    // Until the program prints its first stdout line, stderr is cargo/rustc build
+    // output (warnings from `todo!()` stubs): tagged `build` so the UI can fold it.
+    let program_started = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
     for (stream, pipe) in [("stdout", stdout.map(|p| Box::new(p) as Box<dyn std::io::Read + Send>)), ("stderr", stderr.map(|p| Box::new(p) as Box<dyn std::io::Read + Send>))] {
         if let Some(pipe) = pipe {
             let app = app.clone();
             let id = id.clone();
+            let started = program_started.clone();
             std::thread::spawn(move || {
                 for line in BufReader::new(pipe).lines().map_while(Result::ok) {
-                    emit_line(&app, &id, stream, &line);
+                    let tag = match stream {
+                        "stdout" => {
+                            started.store(true, std::sync::atomic::Ordering::Relaxed);
+                            "stdout"
+                        }
+                        _ if !started.load(std::sync::atomic::Ordering::Relaxed) => "build",
+                        _ => "stderr",
+                    };
+                    emit_line(&app, &id, tag, &line);
                 }
             });
         }

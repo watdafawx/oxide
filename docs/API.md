@@ -140,7 +140,7 @@ Errors: commands reject with a string message. Show it in a toast, no stack trac
 | `profile:changed` | `Profile` | after any XP/streak/achievement change |
 | `focus:tick` | `{ remaining_s, total_s, quest_id }` | once a second while a focus timer runs |
 | `focus:done` | `{ quest_id }` | timer hit zero |
-| `run:output` | `{ quest_id, stream: "stdout" \| "stderr" \| "system", line }` | one line of program output (`system` = the command itself) |
+| `run:output` | `{ quest_id, stream: "stdout" \| "stderr" \| "build" \| "system", line }` | one line of program output (`system` = the command itself; `build` = cargo/rustc output before the program's first stdout line, fold it) |
 | `run:done` | `{ quest_id, code: number \| null }` | the program exited |
 
 ## Dev without Tauri
