@@ -2,13 +2,13 @@ title = "ManifestError: what can go wrong"
 summary = "An enum for every way a mod line can be broken, with a readable message each."
 
 [[objectives]]
-test = "display_gives_readable_messages"
+test = "manifest_errors_display_clearly"
 label = "Display prints a clear message for each ManifestError"
 [[objectives]]
-test = "parse_age_reports_each_failure"
+test = "parse_mod_line_reports_each_failure"
 label = "parse_mod_line returns MissingMod, BadVersion or UnknownLoader"
 [[objectives]]
-test = "parse_error_works_as_dyn_error"
+test = "manifest_error_works_as_dyn_error"
 label = "ManifestError can be used as a &dyn Error"
 
 [[hints]]

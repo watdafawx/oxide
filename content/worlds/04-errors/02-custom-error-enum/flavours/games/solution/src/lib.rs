@@ -58,7 +58,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn display_gives_readable_messages() {
+    fn manifest_errors_display_clearly() {
         assert_eq!(ManifestError::MissingMod.to_string(), "line has no mod name");
         assert_eq!(
             ManifestError::BadVersion("old".to_string()).to_string(),
@@ -71,7 +71,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_age_reports_each_failure() {
+    fn parse_mod_line_reports_each_failure() {
         assert_eq!(
             parse_mod_line(" sodium@5 fabric "),
             Ok(ModEntry { name: "sodium".to_string(), version: 5, loader: Loader::Fabric })
@@ -89,7 +89,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_error_works_as_dyn_error() {
+    fn manifest_error_works_as_dyn_error() {
         let err = parse_mod_line("").unwrap_err();
         let dynamic: &dyn std::error::Error = &err;
         assert_eq!(dynamic.to_string(), "line has no mod name");

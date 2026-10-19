@@ -2,13 +2,13 @@ title = "Load the manifest file, whatever fails"
 summary = "Box<dyn Error> lets one loader return io errors and parse errors together."
 
 [[objectives]]
-test = "parses_a_valid_pair"
+test = "parse_pack_header_reads_a_pair"
 label = "parse_pack_header(\"3,4.5\") returns (3, 4.5)"
 [[objectives]]
-test = "missing_comma_is_an_error_with_message"
+test = "pack_header_without_comma_says_missing_comma"
 label = "No comma gives an error saying \"missing comma\""
 [[objectives]]
-test = "bad_numbers_convert_into_the_box"
+test = "pack_header_errors_fit_in_the_box"
 label = "ParseIntError, ParseFloatError and io::Error all fit in the Box"
 
 [[hints]]

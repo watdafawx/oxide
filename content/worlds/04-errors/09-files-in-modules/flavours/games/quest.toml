@@ -2,13 +2,13 @@ title = "One file per module"
 summary = "Move manifest and resolver into src/manifest.rs and src/resolver.rs and wire them with mod."
 
 [[objectives]]
-test = "parse_line_splits_name_and_score"
+test = "parse_mod_line_splits_name_and_version"
 label = "manifest::parse_mod_line reads \"name@version\""
 [[objectives]]
-test = "parse_line_rejects_garbage"
+test = "parse_mod_line_rejects_garbage"
 label = "Bad lines give None"
 [[objectives]]
-test = "best_player_picks_the_highest_score"
+test = "newest_mod_picks_the_highest_version"
 label = "resolver::newest_mod uses crate::manifest"
 
 [[hints]]

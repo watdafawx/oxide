@@ -2,28 +2,28 @@ title = "Boss: the mod list manager"
 summary = "A mod list saved to a file, with typed errors inside and anyhow outside."
 
 [[objectives]]
-test = "new_store_is_empty"
+test = "new_mod_list_is_empty"
 label = "ModList::new() starts with no mods"
 [[objectives]]
-test = "add_assigns_increasing_ids"
+test = "add_assigns_increasing_mod_ids"
 label = "add returns ids 1, 2, ... and stores the mods, enabled"
 [[objectives]]
-test = "toggle_flips_done_and_reports_missing_ids"
+test = "toggle_flips_enabled_and_reports_missing_ids"
 label = "toggle enables/disables a mod, unknown id gives ModError::NotFound"
 [[objectives]]
-test = "parse_command_understands_all_three"
+test = "parse_command_reads_add_toggle_list"
 label = "parse_command reads add, toggle and list"
 [[objectives]]
-test = "parse_command_rejects_nonsense"
+test = "parse_command_rejects_bad_input"
 label = "Bad input gives ModError::BadCommand"
 [[objectives]]
-test = "save_then_load_round_trips"
+test = "mod_list_save_and_load_round_trip"
 label = "save writes a file that load reads back identically"
 [[objectives]]
-test = "load_missing_file_gives_empty_store"
+test = "load_missing_mod_list_gives_empty_list"
 label = "load tolerates a mod list file that does not exist yet"
 [[objectives]]
-test = "run_executes_commands"
+test = "run_executes_mod_commands"
 label = "run adds, toggles and lists, and errors keep their ModError"
 
 [[hints]]

@@ -20,19 +20,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_a_valid_pair() {
+    fn parse_pack_header_reads_a_pair() {
         assert_eq!(parse_pack_header("3,4.5").unwrap(), (3, 4.5));
         assert_eq!(parse_pack_header(" 10 , 0.25 ").unwrap(), (10, 0.25));
     }
 
     #[test]
-    fn missing_comma_is_an_error_with_message() {
+    fn pack_header_without_comma_says_missing_comma() {
         let err = parse_pack_header("34").unwrap_err();
         assert_eq!(err.to_string(), "missing comma");
     }
 
     #[test]
-    fn bad_numbers_convert_into_the_box() {
+    fn pack_header_errors_fit_in_the_box() {
         let int_err = parse_pack_header("x,1.0").unwrap_err();
         assert_eq!(int_err.to_string(), "invalid digit found in string");
         let float_err = parse_pack_header("1,y").unwrap_err();

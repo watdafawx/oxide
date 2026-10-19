@@ -19,24 +19,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn valid_port_parses() {
+    fn parse_version_reads_a_number() {
         assert_eq!(parse_version(" 12 ").unwrap(), 12);
     }
 
     #[test]
-    fn bad_port_has_context_message() {
+    fn bad_version_has_context_message() {
         let err = parse_version("latest").unwrap_err();
         assert_eq!(err.to_string(), "version must be a number");
     }
 
     #[test]
-    fn context_keeps_the_original_cause() {
+    fn bad_version_keeps_its_root_cause() {
         let err = parse_version("latest").unwrap_err();
         assert_eq!(err.root_cause().to_string(), "invalid digit found in string");
     }
 
     #[test]
-    fn check_percent_bails_when_out_of_range() {
+    fn check_ram_percent_bails_out_of_range() {
         assert_eq!(check_ram_percent(50).unwrap(), 50);
         assert_eq!(check_ram_percent(0).unwrap(), 0);
         assert_eq!(check_ram_percent(100).unwrap(), 100);

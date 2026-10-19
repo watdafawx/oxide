@@ -23,20 +23,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn missing_key_message_names_the_key() {
+    fn missing_mod_names_the_mod() {
         let err = find_version(&[("sodium", "5")], "lithium").unwrap_err();
         assert_eq!(err.to_string(), "mod not in manifest: lithium");
     }
 
     #[test]
-    fn bad_port_converts_with_from() {
+    fn bad_version_converts_with_from() {
         let err = find_version(&[("sodium", "5x")], "sodium").unwrap_err();
         assert!(matches!(err, ManifestError::BadVersion(_)), "expected BadVersion, got {err:?}");
         assert_eq!(err.to_string(), "version is not a number: invalid digit found in string");
     }
 
     #[test]
-    fn read_port_finds_a_valid_port() {
+    fn find_version_returns_the_number() {
         let pairs = [("sodium", "5"), ("lithium", "12")];
         assert_eq!(find_version(&pairs, "lithium").unwrap(), 12);
     }

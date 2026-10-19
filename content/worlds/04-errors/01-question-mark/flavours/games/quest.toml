@@ -2,13 +2,13 @@ title = "Parse a mod line with ?"
 summary = "Read the numbers in a manifest and bail out early on a bad one."
 
 [[objectives]]
-test = "parse_and_double_doubles_a_number"
+test = "mods_for_client_and_server_doubles_count"
 label = "mods_for_client_and_server(\"21\") returns Ok(42)"
 [[objectives]]
-test = "parse_and_double_passes_the_error_up"
+test = "bad_mod_count_comes_back_as_err"
 label = "A bad mod count comes back as Err, not a crash"
 [[objectives]]
-test = "first_char_upper_uses_question_mark_on_option"
+test = "mod_initial_works_on_option"
 label = "mod_initial works on Option too"
 
 [[hints]]

@@ -17,19 +17,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_and_double_doubles_a_number() {
+    fn mods_for_client_and_server_doubles_count() {
         assert_eq!(mods_for_client_and_server("21"), Ok(42));
         assert_eq!(mods_for_client_and_server("-4"), Ok(-8));
     }
 
     #[test]
-    fn parse_and_double_passes_the_error_up() {
+    fn bad_mod_count_comes_back_as_err() {
         assert!(mods_for_client_and_server("21x").is_err(), "\"21x\" is not a mod count");
         assert!(mods_for_client_and_server("").is_err(), "empty string is not a mod count");
     }
 
     #[test]
-    fn first_char_upper_uses_question_mark_on_option() {
+    fn mod_initial_works_on_option() {
         assert_eq!(mod_initial("sodium"), Some('S'));
         assert_eq!(mod_initial(""), None, "empty name has no first letter");
     }

@@ -35,13 +35,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn from_wraps_the_parse_error() {
+    fn parse_error_wraps_into_bad_version() {
         let parse_err = "x".parse::<u32>().unwrap_err();
         assert_eq!(ManifestError::from(parse_err.clone()), ManifestError::BadVersion(parse_err));
     }
 
     #[test]
-    fn sum_all_stops_at_first_bad_input() {
+    fn pack_fingerprint_stops_at_first_error() {
         assert_eq!(pack_fingerprint(&["1", "2", "3"]), Ok(6));
         assert_eq!(pack_fingerprint(&["1", "500", "x"]), Err(ManifestError::TooNew(500)));
         let parse_err = "x".parse::<u32>().unwrap_err();

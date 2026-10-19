@@ -2,10 +2,10 @@ title = "Version numbers that convert"
 summary = "Teach ? to turn a ParseIntError into a ManifestError."
 
 [[objectives]]
-test = "from_wraps_the_parse_error"
+test = "parse_error_wraps_into_bad_version"
 label = "From<ParseIntError> wraps the error in ManifestError::BadVersion"
 [[objectives]]
-test = "sum_all_stops_at_first_bad_input"
+test = "pack_fingerprint_stops_at_first_error"
 label = "pack_fingerprint uses ? and returns the first error"
 
 [[hints]]

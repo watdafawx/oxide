@@ -107,12 +107,12 @@ mod tests {
     }
 
     #[test]
-    fn new_store_is_empty() {
+    fn new_mod_list_is_empty() {
         assert_eq!(ModList::new().mods().len(), 0);
     }
 
     #[test]
-    fn add_assigns_increasing_ids() {
+    fn add_assigns_increasing_mod_ids() {
         let mut list = ModList::new();
         assert_eq!(list.add("sodium"), 1);
         assert_eq!(list.add("lithium"), 2);
@@ -122,7 +122,7 @@ mod tests {
     }
 
     #[test]
-    fn toggle_flips_done_and_reports_missing_ids() {
+    fn toggle_flips_enabled_and_reports_missing_ids() {
         let mut list = ModList::new();
         let id = list.add("sodium");
         assert_eq!(list.toggle(id), Ok(()));
@@ -133,14 +133,14 @@ mod tests {
     }
 
     #[test]
-    fn parse_command_understands_all_three() {
+    fn parse_command_reads_add_toggle_list() {
         assert_eq!(parse_command("add iris shaders"), Ok(Command::Add("iris shaders".to_string())));
         assert_eq!(parse_command("toggle 3"), Ok(Command::Toggle(3)));
         assert_eq!(parse_command("  list "), Ok(Command::List));
     }
 
     #[test]
-    fn parse_command_rejects_nonsense() {
+    fn parse_command_rejects_bad_input() {
         for bad in ["", "add", "toggle abc", "dance"] {
             assert_eq!(
                 parse_command(bad),
@@ -151,7 +151,7 @@ mod tests {
     }
 
     #[test]
-    fn save_then_load_round_trips() {
+    fn mod_list_save_and_load_round_trip() {
         let path = temp_path("roundtrip");
         let mut list = ModList::new();
         list.add("sodium");
@@ -165,7 +165,7 @@ mod tests {
     }
 
     #[test]
-    fn load_missing_file_gives_empty_store() {
+    fn load_missing_mod_list_gives_empty_list() {
         let path = temp_path("does_not_exist");
         let _ = std::fs::remove_file(&path);
         let list = ModList::load(&path).expect("a missing file is not an error");
@@ -173,7 +173,7 @@ mod tests {
     }
 
     #[test]
-    fn run_executes_commands() {
+    fn run_executes_mod_commands() {
         let mut list = ModList::new();
         assert_eq!(run(&mut list, Command::List).unwrap(), "no mods yet");
         assert_eq!(run(&mut list, Command::Add("sodium".to_string())).unwrap(), "added 1");

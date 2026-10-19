@@ -2,16 +2,16 @@ title = "Modules: manifest and resolver"
 summary = "mod, pub, use, self and super: split the loader into a small module tree."
 
 [[objectives]]
-test = "circle_area_uses_parent_constant"
+test = "size_mb_uses_parent_constant"
 label = "manifest::size_mb reads MB_PER_MOD from its parent with super::"
 [[objectives]]
-test = "square_area_multiplies_sides"
+test = "library_mb_adds_up_mods"
 label = "resolver::library_mb works"
 [[objectives]]
-test = "total_area_adds_both_children"
+test = "total_mb_adds_both_children"
 label = "total_mb calls into its child modules with self::"
 [[objectives]]
-test = "describe_uses_an_imported_function"
+test = "describe_uses_imported_total_mb"
 label = "describe brings total_mb into scope with use"
 
 [[hints]]

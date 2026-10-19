@@ -2,13 +2,13 @@ title = "thiserror: ManifestError without the boilerplate"
 summary = "Derive Display, Error and From with a few attributes."
 
 [[objectives]]
-test = "missing_key_message_names_the_key"
+test = "missing_mod_names_the_mod"
 label = "MissingMod(name) displays \"mod not in manifest: <name>\""
 [[objectives]]
-test = "bad_port_converts_with_from"
+test = "bad_version_converts_with_from"
 label = "A bad version becomes ManifestError::BadVersion via ? and #[from]"
 [[objectives]]
-test = "read_port_finds_a_valid_port"
+test = "find_version_returns_the_number"
 label = "find_version returns the parsed version number"
 
 [[hints]]
