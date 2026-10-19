@@ -1,23 +1,15 @@
 title = "Structs that own, structs that borrow"
 summary = "A struct with String owns its text. A struct with &str needs a lifetime."
 kind = "exercise"
-xp = 65
-minutes = 12
+xp = 40
+minutes = 6
 tags = ["structs", "lifetimes", "ownership"]
 
-[[objectives]]
-test = "owned_outlives_its_source"
-label = "Owned::new copies the name so it outlives the String it came from"
-[[objectives]]
-test = "borrowed_reads_from_source"
-label = "Borrowed::new keeps a reference into the original text"
 [[objectives]]
 test = "as_borrowed_points_into_owned"
 label = "Owned::as_borrowed gives a Borrowed view without copying"
 
 [[hints]]
-text = "Owned stores a `String`, so `name.to_string()` turns the `&str` argument into something it can keep."
-[[hints]]
-text = "Borrowed stores a `&'a str`: just store the argument as it is. No copy, so the source must outlive the struct."
+text = "You are building a `Borrowed` that points into `self`. Look at how the `Borrowed` struct is declared: which fields does it need?"
 [[hints]]
 text = "as_borrowed: `Borrowed { name: &self.name, level: self.level }`. `&self.name` (a `&String`) becomes `&str` automatically."

@@ -2,18 +2,10 @@ title = "Players that own, views that borrow"
 summary = "A Player with a String owns its name. A PlayerRef with &str needs a lifetime."
 
 [[objectives]]
-test = "player_name_outlives_typed_text"
-label = "Player::new copies the name so it outlives the String it came from"
-[[objectives]]
-test = "player_ref_reads_from_console_line"
-label = "PlayerRef::new keeps a reference into the original text"
-[[objectives]]
 test = "view_borrows_from_player"
 label = "Player::view gives a PlayerRef without copying"
 
 [[hints]]
-text = "Player stores a `String`, so `name.to_string()` turns the `&str` argument into something it can keep."
-[[hints]]
-text = "PlayerRef stores a `&'a str`: just store the argument as it is. No copy, so the source must outlive the struct."
+text = "You are building a `PlayerRef` that points into `self`. Look at how the `PlayerRef` struct is declared: which fields does it need?"
 [[hints]]
 text = "view: `PlayerRef { name: &self.name, level: self.level }`. `&self.name` (a `&String`) becomes `&str` automatically."

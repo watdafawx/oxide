@@ -23,7 +23,7 @@ Rules of the fight:
 
 You start with **Steve** at `0,64,0` (empty inventory), **Alex** at `10,70,-3` (holding a `compass`) and a stash with a `diamond` and a `torch`.
 
-Text formats are in the objective labels and the tests. Read the failing assertion for the exact string.
+Exact text formats are in the doc comment above each function in `src/lib.rs`, and in the tests.
 
 ## Your turn
 

@@ -2,20 +2,17 @@ title = "Moves"
 summary = "A String has one owner. Hand it over and it's gone: fix the code that forgot."
 kind = "exercise"
 starter_fails_to_compile = true
-xp = 40
-minutes = 6
+xp = 30
+minutes = 4
 tags = ["ownership", "move", "clone"]
 
 [[objectives]]
 test = "length_and_name_returns_both"
 label = "length_and_name() compiles and returns (6, \"ferris\")"
-[[objectives]]
-test = "shout_both_returns_both"
-label = "shout_both() compiles and returns (\"HELLO\", \"hello\")"
 
 [[hints]]
-text = "Read the compiler error: `borrow of moved value`. The String went into the function, so it's gone from the caller."
+text = "The error names the line that gives the String away. Find the call that takes `name` by value, then ask who still needs `name` afterwards."
 [[hints]]
 text = "Give the function its own copy and keep yours: `.clone()` makes a second String."
 [[hints]]
-text = "`name_length(name.clone())` and `shout(original.clone())`: the clones are moved, the originals stay."
+text = "Half a step: the argument of `name_length` is the part to change. Pass it a copy and leave `name` alone for the tuple."

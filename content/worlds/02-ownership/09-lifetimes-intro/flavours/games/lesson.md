@@ -15,8 +15,7 @@ fn longer<'a>(a: &'a str, b: &'a str) -> &'a str {
 
 Read it as: "the result lives no longer than **both** inputs". That's the whole feature.
 
-- `'a` is just a label (like `T` for types). Any name works; `'a` is the habit.
-- It's a **promise the compiler checks**, not something that makes data live longer.
+- `'a` is just a label (like `T` for types). It's a **promise the compiler checks**, not something that makes data live longer.
 - With one reference in and one out, Rust fills it in for you. Only ambiguous cases need `'a`.
 
 ```rust

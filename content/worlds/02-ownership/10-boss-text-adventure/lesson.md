@@ -19,7 +19,7 @@ Rules of the fight:
 
 Map you start with: **Cellar** (lamp) → north → **Hall** → east → **Library** (key, book).
 
-Text formats are in the objective labels and the tests. Read the failing assertion for the exact string.
+Exact text formats are in the doc comment above each function in `src/lib.rs`, and in the tests.
 
 ## Your turn
 

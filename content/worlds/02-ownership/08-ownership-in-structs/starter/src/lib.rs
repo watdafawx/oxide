@@ -14,8 +14,10 @@ pub struct Borrowed<'a> {
 
 impl Owned {
     pub fn new(name: &str, level: u32) -> Owned {
-        // TODO: store an owned copy of name
-        todo!()
+        Owned {
+            name: name.to_string(),
+            level,
+        }
     }
 
     /// A borrowed view of this Owned: same data, no copying.
@@ -27,8 +29,7 @@ impl Owned {
 
 impl<'a> Borrowed<'a> {
     pub fn new(name: &'a str, level: u32) -> Borrowed<'a> {
-        // TODO: store the reference as it is
-        todo!()
+        Borrowed { name, level }
     }
 }
 

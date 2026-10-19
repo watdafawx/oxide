@@ -14,8 +14,10 @@ pub struct PlayerRef<'a> {
 
 impl Player {
     pub fn new(name: &str, level: u32) -> Player {
-        // TODO: store an owned copy of name
-        todo!()
+        Player {
+            name: name.to_string(),
+            level,
+        }
     }
 
     /// A borrowed view of this player: same data, no copying.
@@ -27,8 +29,7 @@ impl Player {
 
 impl<'a> PlayerRef<'a> {
     pub fn new(name: &'a str, level: u32) -> PlayerRef<'a> {
-        // TODO: store the reference as it is
-        todo!()
+        PlayerRef { name, level }
     }
 }
 

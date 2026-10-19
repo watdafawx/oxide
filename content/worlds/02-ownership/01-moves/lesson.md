@@ -16,4 +16,4 @@ If you need two, ask for a second one on purpose: **`.clone()`** copies the text
 ## Your turn
 
 - Open `src/lib.rs` and read the error under `length_and_name`.
-- Fix `length_and_name` and `shout_both` so the original String is still there at the end.
+- Fix `length_and_name` so the original String is still there at the end.

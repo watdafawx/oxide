@@ -14,9 +14,9 @@ struct PlayerRef<'a> {
 - **Borrowed** is cheap (no copy) but the struct can't outlive the text it points at. Rust needs a name for "how long", so a **lifetime parameter** `'a` appears. Read `PlayerRef<'a>` as "a PlayerRef that is valid for as long as `'a`".
 - The `'a` doesn't change how long anything lives. It only lets the compiler check the promise.
 
-If the lifetime syntax feels like too much, use `String` and move on. The next quest shows the one place you must write it by hand.
+You do not write any lifetimes in this quest: both structs and the `new` functions are given. Your job is to produce a **view** of a `Player`. The next quest shows the one place you must write a lifetime by hand.
 
 ## Your turn
 
-- In `src/lib.rs`, fill in `Player::new`, `PlayerRef::new` and `Player::view`.
-- The lifetimes are already written. Notice `PlayerRef<'_>` in `view`: it ties the view to `&self`.
+- In `src/lib.rs`, fill in `Player::view`. Everything else is written.
+- Notice `PlayerRef<'_>` in its signature: it ties the view to `&self`.
