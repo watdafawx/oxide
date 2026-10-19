@@ -1,0 +1,22 @@
+title = "Raw pointers into the player counts"
+summary = "Read and write through *const / *mut pointers, then wrap them in a safe function."
+
+[[objectives]]
+test = "adds_a_player_through_mut_pointer"
+label = "add_player writes through a *mut i32"
+[[objectives]]
+test = "null_pointer_gives_none"
+label = "player_count_or_none returns None for a null pointer and the value otherwise"
+[[objectives]]
+test = "sums_players_from_raw_parts"
+label = "total_players_raw adds up len counts starting at a *const i32"
+[[objectives]]
+test = "safe_wrapper_totals_a_slice"
+label = "total_players(&[i32]) is a safe function over total_players_raw"
+
+[[hints]]
+text = "Inside `unsafe { ... }` write `*ptr += 1;`. The `// SAFETY:` comment says why the pointer is valid."
+[[hints]]
+text = "`ptr.is_null()` is safe to call. Only the dereference needs `unsafe`."
+[[hints]]
+text = "`std::slice::from_raw_parts(ptr, len)` rebuilds a slice from a pointer and a length. Then `.iter().sum()`. The safe wrapper passes `slice.as_ptr()` and `slice.len()`."

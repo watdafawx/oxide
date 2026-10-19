@@ -1,0 +1,22 @@
+title = "Pack 25565 into three bytes"
+summary = "The Minecraft VarInt: small numbers take few bytes. Encode and decode one for the ping packet."
+
+[[objectives]]
+test = "varint_bytes_match_the_protocol_table"
+label = "encode_varint gives the exact bytes from the Minecraft protocol table"
+[[objectives]]
+test = "decode_returns_value_and_bytes_used"
+label = "decode_varint returns (value, bytes used) and ignores bytes after it"
+[[objectives]]
+test = "edge_values_survive_a_round_trip"
+label = "decode(encode(x)) == x for 0, 127, 128, i32::MAX, -1 and i32::MIN"
+[[objectives]]
+test = "broken_packets_give_errors"
+label = "More than 5 bytes is TooLong; running out of bytes is Truncated"
+
+[[hints]]
+text = "Encode: take the low 7 bits (`v & 0x7f`), shift `v >>= 7`, and set the top bit (`|= 0x80`) when more bytes follow. Start from `value as u32` so negative numbers shift in zeros."
+[[hints]]
+text = "Decode: for byte `i`, `result |= u32::from(b & 0x7f) << (7 * i)`. Stop when the top bit is clear and return `(result as i32, i + 1)`."
+[[hints]]
+text = "Check `i >= 5` before using the byte for `TooLong`. Falling off the end of the loop is `Truncated`."

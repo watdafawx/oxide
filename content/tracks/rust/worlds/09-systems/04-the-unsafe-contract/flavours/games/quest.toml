@@ -1,0 +1,20 @@
+title = "Read: the unsafe contract of a packet buffer"
+summary = "unsafe does five extra things, and when you wrap it in a safe function you promise it can't be misused."
+
+[[quiz]]
+question = "A raw pointer into the pinger's receive buffer needs `unsafe` to dereference. What does an `unsafe` block let you do that safe Rust does not?"
+choices = [
+  "Turn off the borrow checker and type checker inside the block",
+  "Do five extra things, like dereferencing a raw pointer or calling an unsafe fn; everything else is still checked",
+  "Skip bounds checks and overflow checks on all code in the function",
+]
+answer = 1
+
+[[quiz]]
+question = "You write a safe `read_packet(buf: &[u8])` that uses an unsafe block inside. Who must make sure the unsafe operation is valid?"
+choices = [
+  "The caller of the safe function, by reading the docs",
+  "The compiler, because the function is not marked unsafe",
+  "You, the author: the safe function must be impossible to misuse into undefined behavior",
+]
+answer = 2

@@ -1,0 +1,19 @@
+title = "A ping echo server on TCP"
+summary = "Echo bytes back to whoever connects, with one thread per client: the shape of a status server."
+
+[[objectives]]
+test = "echo_ping_answers_until_the_client_hangs_up"
+label = "echo_ping(stream) writes back everything it reads until the client closes"
+[[objectives]]
+test = "send_ping_round_trips_through_the_server"
+label = "send_ping sends bytes and reads the same number back"
+[[objectives]]
+test = "serves_two_players_at_once"
+label = "serve spawns a thread per connection so a quiet client doesn't block the others"
+
+[[hints]]
+text = "Loop: `let n = stream.read(&mut buf)?;` `if n == 0 { return Ok(()) }` (the client closed), else `stream.write_all(&buf[..n])?;`."
+[[hints]]
+text = "`TcpStream::connect(addr)?`, `write_all(msg)?`, then `read_exact(&mut buf)?` into a buffer as long as `msg`."
+[[hints]]
+text = "In `serve`: `listener.accept()` returns `(stream, peer)`. Move the stream into `thread::spawn(move || { let _ = echo_ping(stream); })`, keep the handles, join them at the end."

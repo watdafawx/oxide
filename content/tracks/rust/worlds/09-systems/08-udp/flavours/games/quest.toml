@@ -1,0 +1,19 @@
+title = "UDP status query: fire and forget"
+summary = "Send one datagram to a server and wait for its reply, but give up if nobody answers."
+
+[[objectives]]
+test = "answer_query_replies_in_uppercase"
+label = "answer_query receives one datagram and sends it back in UPPERCASE to the sender"
+[[objectives]]
+test = "send_query_gets_a_reply"
+label = "send_query sends a datagram to the server and returns the reply"
+[[objectives]]
+test = "send_query_gives_up_when_nobody_answers"
+label = "send_query returns an Err instead of hanging when there is no reply"
+
+[[hints]]
+text = "`let (n, from) = socket.recv_from(&mut buf)?;` tells you who sent it. Reply with `socket.send_to(&buf[..n].to_ascii_uppercase(), from)?;`."
+[[hints]]
+text = "Bind a fresh socket with `UdpSocket::bind(\"127.0.0.1:0\")?`, `send_to(msg, server)?`, then `recv_from`."
+[[hints]]
+text = "`socket.set_read_timeout(Some(Duration::from_millis(500)))?` makes `recv_from` return `Err` instead of waiting forever."

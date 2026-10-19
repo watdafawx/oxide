@@ -1,0 +1,22 @@
+title = "Read a packet header from a server reply"
+summary = "A cursor over raw bytes that reads big-endian fields and fails cleanly when the reply is cut short."
+
+[[objectives]]
+test = "cursor_reads_fields_in_order"
+label = "u8, u16_be and u32_be read from the cursor and move it forward"
+[[objectives]]
+test = "short_read_is_an_error"
+label = "Reading past the end gives Err(UnexpectedEof) and does not move the cursor"
+[[objectives]]
+test = "parse_packet_header_reads_fields"
+label = "parse_packet_header turns 8 bytes into a PacketHeader"
+[[objectives]]
+test = "parse_packet_header_short_reply_errors"
+label = "parse_packet_header on fewer than 8 bytes is an Err, not a panic"
+
+[[hints]]
+text = "`take(n)`: if `self.remaining() < n` return `Err(PingError::UnexpectedEof)`. Otherwise slice `&self.data[self.pos..self.pos + n]`, then move `self.pos` forward."
+[[hints]]
+text = "`u16_be`: `let b = self.take(2)?;` then `u16::from_be_bytes([b[0], b[1]])`. The `?` returns the error early."
+[[hints]]
+text = "`parse_packet_header`: make a `PacketCursor`, then fill the struct field by field with `c.u8()?`, `c.u8()?`, `c.u16_be()?`, `c.u32_be()?`."

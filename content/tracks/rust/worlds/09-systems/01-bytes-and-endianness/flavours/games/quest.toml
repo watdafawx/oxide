@@ -1,0 +1,19 @@
+title = "Which byte of the protocol version comes first?"
+summary = "A server answers in bytes, and byte order matters: write and read a u32 both ways."
+
+[[objectives]]
+test = "protocol_encodes_both_byte_orders"
+label = "protocol_to_le / protocol_to_be return the 4 bytes of a u32 in the right order"
+[[objectives]]
+test = "protocol_decodes_from_slices"
+label = "read_protocol_le / read_protocol_be read the first 4 bytes of a slice"
+[[objectives]]
+test = "short_reply_gives_none"
+label = "A reply shorter than 4 bytes gives None (no panic)"
+
+[[hints]]
+text = "`n.to_le_bytes()` and `n.to_be_bytes()` give the four bytes."
+[[hints]]
+text = "`bytes.get(..4)?` is `None` when the slice is too short. `.try_into().ok()?` turns the 4-byte slice into `[u8; 4]`."
+[[hints]]
+text = "`u32::from_le_bytes(array)` and `u32::from_be_bytes(array)` are the reverse."
