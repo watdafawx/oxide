@@ -87,6 +87,13 @@ an objective is green when **all** cases with that method name pass. `@Nested` w
 - Spring worlds: first resolve ~70-90 MB; then standalone MockMvc <1.5 s, `@WebMvcTest` ~2-4 s, `@DataJpaTest` ~3-5 s,
   `@SpringBootTest` ~4-8 s (estimates, measure when building 08).
 
+**Measured on 2026-10-19** (`java/00-setup/01-hello`, JDK 21.0.12, Gradle 9.8.1, via `content-check`, which runs starter then solution = 2 Gradle runs):
+
+- **Cold** (empty `GRADLE_USER_HOME`, wrapper + JUnit/AssertJ downloaded): **88.8 s** for both runs, so ~80 s for the first.
+- **Warm** (cache + daemon up): **6.2 s** for both runs, ~3 s per run including a fresh project configure. Offline mode only kicks in once `caches/modules-2` exists; before that the run resolves online.
+- The runner sets `GRADLE_USER_HOME=<quests_root>/.gradle`, `JAVA_HOME` to the JDK found by `gradle::find_jdk`, and deletes `build/test-results/test` before each run so stale reports never grade a failed build.
+- Gotcha: the Gradle daemon inherits stdout/stderr pipes and outlives the build, so a plain `Command::output()` hangs forever. The runner reads the pipes on threads and stops waiting 1.5 s after `gradlew` exits.
+
 ### What the learner sees
 
 | situation | shown |

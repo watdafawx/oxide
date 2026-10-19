@@ -29,7 +29,7 @@ pub fn dir_for(root: &Path, quest_id: &str) -> PathBuf {
 /// Copy the starter in if the workspace does not exist yet. Idempotent.
 pub fn start(root: &Path, quest: &Quest) -> Result<PathBuf> {
     let dir = dir_for(root, &quest.id);
-    if !dir.join(quest.runner.marker()).exists() {
+    if !quest.runner.is_project(&dir) {
         copy_dir(&quest.starter_dir(), &dir)
             .with_context(|| format!("copying starter for {}", quest.id))?;
     }

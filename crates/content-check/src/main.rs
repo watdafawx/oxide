@@ -82,10 +82,6 @@ fn main() -> ExitCode {
             println!("  read  {}", q.id);
             continue;
         }
-        if q.runner == Runner::Gradle {
-            println!("  skip  {} (gradle runner not built yet)", q.id);
-            continue;
-        }
         // The plain quest, then each flavour (own starter/solution, same tests).
         let mut versions = vec![q.resolved("plain")];
         versions.extend(q.flavours().map(|f| q.resolved(f)));
@@ -93,7 +89,9 @@ fn main() -> ExitCode {
         let label = if q.flavour == "plain" { q.id.clone() } else { format!("{} [{}]", q.id, q.flavour) };
         let mut bad = Vec::new();
 
-        match grader::run_quest(q, &q.starter_dir(), &target_starter) {
+        let starter_run = grader::run_quest(q, &q.starter_dir(), &target_starter);
+        clean_gradle(q);
+        match starter_run {
             Ok(r) => {
                 if q.starter_fails_to_compile {
                     if r.compiled {
@@ -118,7 +116,9 @@ fn main() -> ExitCode {
             Err(e) => bad.push(format!("starter: {e:#}")),
         }
 
-        match grader::run_quest(q, &q.solution_dir(), &target_solution) {
+        let solution_run = grader::run_quest(q, &q.solution_dir(), &target_solution);
+        clean_gradle(q);
+        match solution_run {
             Ok(r) => {
                 if !r.ok {
                     bad.push("solution does not pass".into());
@@ -165,4 +165,15 @@ fn package_name(dir: &std::path::Path) -> Option<String> {
     text.lines()
         .map(str::trim)
         .find_map(|l| l.strip_prefix("name = \"").and_then(|r| r.strip_suffix('"')).map(str::to_string))
+}
+
+/// Gradle builds in-tree; leave no `build/` or `.gradle/` behind in the content folder.
+fn clean_gradle(q: &oxide_core::content::Quest) {
+    if q.runner == Runner::Gradle {
+        for dir in [q.starter_dir(), q.solution_dir()] {
+            for sub in ["build", ".gradle"] {
+                let _ = std::fs::remove_dir_all(dir.join(sub));
+            }
+        }
+    }
 }

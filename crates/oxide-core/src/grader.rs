@@ -81,7 +81,9 @@ pub fn run_quest(quest: &Quest, workspace: &Path, target_dir: &Path) -> Result<C
     match quest.runner {
         Runner::Cargo => run(workspace, target_dir, &quest.objectives),
         Runner::Lua => crate::lua::run(workspace, quest.lib_dir.as_deref(), &quest.objectives),
-        Runner::Gradle => anyhow::bail!("the gradle runner is not built yet"),
+        Runner::Gradle => {
+            crate::gradle::run(workspace, quest.jdk, &crate::gradle::user_home_for(target_dir), &quest.objectives)
+        }
     }
 }
 

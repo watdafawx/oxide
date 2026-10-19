@@ -106,7 +106,7 @@ impl AppState {
         let lesson = quest.lesson().map_err(err)?;
         let run = self.progress.lock().unwrap().run(id).map_err(err)?;
         let dir = workspace::dir_for(&self.quests_root, id);
-        let workspace = (quest.has_project() && dir.join(quest.runner.marker()).exists())
+        let workspace = (quest.has_project() && quest.runner.is_project(&dir))
             .then(|| dir.to_string_lossy().into_owned());
         let has_program = workspace.is_some() && run::has_program(&quest, &dir);
         Ok(QuestDetail {
@@ -163,7 +163,7 @@ fn emit_profile(app: &AppHandle, state: &AppState) {
 fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(CheckResult, Option<Completion>)> {
     let quest = &state.resolve(state.quest(quest_id)?);
     let dir = workspace::dir_for(&state.quests_root, quest_id);
-    if !dir.join(quest.runner.marker()).exists() {
+    if !quest.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
     emit(app, "check:started", serde_json::json!({ "quest_id": quest_id }));
@@ -313,7 +313,7 @@ fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
 #[tauri::command]
 fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
     let dir = workspace::dir_for(&state.quests_root, &id);
-    if !dir.join(state.quest(&id)?.runner.marker()).exists() {
+    if !state.quest(&id)?.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
     let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
@@ -433,7 +433,7 @@ fn stop_focus(state: State<AppState>, completed: bool) -> CmdResult<()> {
 fn run_program(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
     let quest = state.resolve(state.quest(&id)?);
     let dir = workspace::dir_for(&state.quests_root, &id);
-    if !dir.join(quest.runner.marker()).exists() {
+    if !quest.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
     run::start(&app, &state.running, &quest, &dir, &state.target_dir)

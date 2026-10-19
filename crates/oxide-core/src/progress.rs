@@ -438,6 +438,7 @@ mod tests {
             summary: String::new(),
             kind,
             runner: Runner::Cargo,
+            jdk: None,
             xp,
             minutes: 10,
             tags: vec![],

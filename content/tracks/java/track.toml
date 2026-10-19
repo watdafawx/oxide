@@ -1,0 +1,4 @@
+title = "Java"
+blurb = "Build and test real Java, one green tick at a time."
+runner = "gradle"
+jdk = 21

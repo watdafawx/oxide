@@ -8,6 +8,7 @@
 //! - [`progress`]: XP, levels, streaks, achievements in SQLite.
 
 pub mod content;
+pub mod gradle;
 pub mod grader;
 pub mod lua;
 pub mod progress;
