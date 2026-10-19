@@ -57,11 +57,18 @@ pub struct Settings {
     /// Active track id; empty = the catalog's first track.
     #[serde(default)]
     pub track: String,
+    /// How quests are told: `games` (default) or `plain`; falls back to plain per quest.
+    #[serde(default = "default_flavour")]
+    pub flavour: String,
+}
+
+fn default_flavour() -> String {
+    "games".into()
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { editor: "code".into(), sound: true, focus_minutes: 25, track: String::new() }
+        Self { editor: "code".into(), sound: true, focus_minutes: 25, track: String::new(), flavour: default_flavour() }
     }
 }
 
@@ -421,6 +428,8 @@ mod tests {
     fn quest(world: &str, n: u32, kind: QuestKind, xp: u32) -> Quest {
         Quest {
             id: format!("{world}/{n:02}-q"),
+            flavour: "plain".into(),
+            variants: vec![],
             track_id: "rust".into(),
             world_id: world.into(),
             index: n,
@@ -518,7 +527,7 @@ mod tests {
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 1);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
-        let s = Settings { editor: "zed".into(), sound: false, focus_minutes: 15, track: "lua".into() };
+        let s = Settings { editor: "zed".into(), sound: false, focus_minutes: 15, track: "lua".into(), flavour: "plain".into() };
         p.set_settings(&s).unwrap();
         assert_eq!(p.settings().unwrap().editor, "zed");
     }

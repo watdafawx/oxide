@@ -24,6 +24,28 @@ quest's idea is the tool for it.
 Project spines per track are listed in `docs/TRACKS.md`; a content session uses the spine
 its brief names.
 
+### Flavours: the same quest, two stories
+
+Not everyone wants the game. A quest's folder is the **plain** version (textbook names, a
+short real-world "why now"). It may carry a **games** flavour beside it:
+
+```
+01-hello/
+  quest.toml, lesson.md, starter/, solution/     plain
+  flavours/games/
+    quest.toml      optional: title, summary, [[objectives]] (same `test` names, new labels), [[hints]], [[quiz]]
+    lesson.md       required
+    starter/        required for exercise/boss: the game-named code
+    solution/       required for exercise/boss
+```
+
+- Objective **test names and order are identical** in every flavour; only labels, names,
+  lesson and story differ. That keeps one map, one progress record, one XP value.
+- The learner picks the flavour in settings (`games` by default); a quest without that flavour
+  shows plain. Switching mid-quest keeps the workspace; Reset copies the current flavour.
+- content-check builds and runs every flavour's starter and solution.
+- Worked example: `content/worlds/00-tutorial/01-hello/flavours/games`.
+
 ## Layout
 
 ```

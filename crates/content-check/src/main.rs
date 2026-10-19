@@ -86,6 +86,11 @@ fn main() -> ExitCode {
             println!("  skip  {} (gradle runner not built yet)", q.id);
             continue;
         }
+        // The plain quest, then each flavour (own starter/solution, same tests).
+        let mut versions = vec![q.resolved("plain")];
+        versions.extend(q.flavours().map(|f| q.resolved(f)));
+        for q in &versions {
+        let label = if q.flavour == "plain" { q.id.clone() } else { format!("{} [{}]", q.id, q.flavour) };
         let mut bad = Vec::new();
 
         match grader::run_quest(q, &q.starter_dir(), &target_starter) {
@@ -135,13 +140,14 @@ fn main() -> ExitCode {
         }
 
         if bad.is_empty() {
-            println!("  ok    {}", q.id);
+            println!("  ok    {label}");
         } else {
             failures += 1;
-            println!("  FAIL  {}", q.id);
+            println!("  FAIL  {label}");
             for b in bad {
                 println!("        {b}");
             }
+        }
         }
     }
 

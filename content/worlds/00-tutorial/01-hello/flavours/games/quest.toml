@@ -1,0 +1,11 @@
+title = "Welcome message"
+summary = "A player joins your server. Write the chat line."
+
+[[objectives]]
+test = "greets_by_name"
+label = "join_message(\"Ferris\") returns \"Welcome to the server, Ferris!\""
+
+[[hints]]
+text = "`format!` builds a String the same way `println!` prints one: `format!(\"Hi {player}\")`."
+[[hints]]
+text = "Replace `todo!()` with `format!(\"Welcome to the server, {player}!\")`."

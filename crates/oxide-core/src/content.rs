@@ -3,6 +3,8 @@
 //! A quest's id is `<track>/<world>/<quest>`, e.g. `rust/01-foundations/03-functions`.
 //! `requires` entries with two segments are relative to the quest's own track.
 //! The legacy layout `content/worlds/...` (no `tracks/`) is read as the `rust` track.
+//! A quest may carry flavours (`flavours/<name>/`): the same objectives told with a
+//! different story, lesson, names and starter. `plain` is the quest folder itself.
 //! See `docs/CONTENT.md` for the authoring rules this module enforces.
 
 use std::collections::{HashMap, HashSet};
@@ -101,9 +103,40 @@ struct QuestToml {
     runner: Option<Runner>,
 }
 
+/// Overrides a flavour may give in its `quest.toml`; tests must stay the same.
+#[derive(Debug, Deserialize, Default)]
+struct VariantToml {
+    title: Option<String>,
+    summary: Option<String>,
+    #[serde(default)]
+    objectives: Vec<Objective>,
+    #[serde(default)]
+    hints: Vec<Hint>,
+    #[serde(default)]
+    quiz: Vec<Quiz>,
+}
+
+/// One flavour of a quest: `<quest>/flavours/<name>/` with its own lesson and files.
+#[derive(Debug, Clone, Serialize)]
+pub struct Variant {
+    pub flavour: String,
+    pub title: Option<String>,
+    pub summary: Option<String>,
+    pub objectives: Option<Vec<Objective>>,
+    pub hints: Option<Vec<Hint>>,
+    pub quiz: Option<Vec<Quiz>>,
+    pub dir: PathBuf,
+}
+
+pub const PLAIN: &str = "plain";
+
 #[derive(Debug, Clone, Serialize)]
 pub struct Quest {
     pub id: String,
+    /// Which flavour this value tells: `plain`, or a name from `flavours/`.
+    pub flavour: String,
+    /// Other flavours available for this quest (empty once resolved).
+    pub variants: Vec<Variant>,
     pub track_id: String,
     pub world_id: String,
     pub index: u32,
@@ -141,6 +174,39 @@ impl Quest {
     /// The id without the track: `01-foundations/03-functions`.
     pub fn local_id(&self) -> &str {
         self.id.split_once('/').map(|(_, rest)| rest).unwrap_or(&self.id)
+    }
+
+    /// Flavour names this quest offers besides `plain`.
+    pub fn flavours(&self) -> impl Iterator<Item = &str> {
+        self.variants.iter().map(|v| v.flavour.as_str())
+    }
+
+    /// This quest told in `flavour`; the plain quest when it has no such flavour.
+    /// The result has `variants` emptied and `dir` pointing at the flavour's files.
+    pub fn resolved(&self, flavour: &str) -> Quest {
+        let mut q = self.clone();
+        q.variants = Vec::new();
+        let Some(v) = self.variants.iter().find(|v| v.flavour == flavour) else {
+            return q;
+        };
+        q.flavour = v.flavour.clone();
+        q.dir = v.dir.clone();
+        if let Some(t) = &v.title {
+            q.title = t.clone();
+        }
+        if let Some(s) = &v.summary {
+            q.summary = s.clone();
+        }
+        if let Some(o) = &v.objectives {
+            q.objectives = o.clone();
+        }
+        if let Some(h) = &v.hints {
+            q.hints = h.clone();
+        }
+        if let Some(z) = &v.quiz {
+            q.quiz = z.clone();
+        }
+        q
     }
 }
 
@@ -225,6 +291,15 @@ impl Catalog {
 
     pub fn total_xp(&self) -> u32 {
         self.quests().map(|q| q.xp).sum()
+    }
+
+    /// Every flavour name used anywhere, `plain` first.
+    pub fn flavours(&self) -> Vec<String> {
+        let mut names: Vec<String> = self.quests().flat_map(|q| q.flavours()).map(str::to_string).collect();
+        names.sort();
+        names.dedup();
+        names.insert(0, PLAIN.to_string());
+        names
     }
 }
 
@@ -393,6 +468,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
             errs.push(at(&format!("quiz[{i}]: need 2+ choices and answer in range")));
         }
     }
+    let variants = load_variants(dir, &t, runner, &mut errs);
     // `requires` omitted (not `[]`) = chain to the previous quest.
     // Two-segment ids are relative to this track.
     let requires = match t.requires {
@@ -404,6 +480,8 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
     };
     let quest = Quest {
         id,
+        flavour: PLAIN.to_string(),
+        variants,
         track_id: track.id.clone(),
         world_id: world_id.to_string(),
         index,
@@ -424,6 +502,74 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
         lib_dir: track.lib_dir.clone(),
     };
     (Some(quest), errs)
+}
+
+/// `flavours/<name>/`: lesson.md required; starter/solution required for project quests;
+/// objective tests must match the plain quest in order (labels may differ).
+fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<String>) -> Vec<Variant> {
+    let fdir = dir.join("flavours");
+    if !fdir.is_dir() {
+        return Vec::new();
+    }
+    let mut out = Vec::new();
+    for vdir in sorted_dirs(&fdir, errs) {
+        let name = vdir.file_name().and_then(|n| n.to_str()).unwrap_or("").to_string();
+        if name == PLAIN || !name.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-') {
+            errs.push(format!("{}: flavour folder must be lowercase a-z0-9- and not `plain`", vdir.display()));
+            continue;
+        }
+        let at = |msg: &str| format!("{}: {msg}", vdir.display());
+        let toml_path = vdir.join("quest.toml");
+        let vt: VariantToml = if toml_path.is_file() {
+            match read_toml(&toml_path) {
+                Ok(v) => v,
+                Err(e) => {
+                    errs.push(e);
+                    continue;
+                }
+            }
+        } else {
+            VariantToml::default()
+        };
+        if !vdir.join("lesson.md").is_file() {
+            errs.push(at("lesson.md missing"));
+        }
+        let is_project = matches!(plain.kind, QuestKind::Exercise | QuestKind::Boss);
+        if is_project {
+            for sub in ["starter", "solution"] {
+                if !vdir.join(sub).join(runner.marker()).is_file() {
+                    errs.push(at(&format!("{sub}/{} missing (a flavour of a project quest ships its own code)", runner.marker())));
+                }
+            }
+        }
+        if !vt.objectives.is_empty() {
+            let plain_tests: Vec<&str> = plain.objectives.iter().map(|o| o.test.as_str()).collect();
+            let mine: Vec<&str> = vt.objectives.iter().map(|o| o.test.as_str()).collect();
+            if plain_tests != mine {
+                errs.push(at(&format!(
+                    "objective tests must match the plain quest in order: plain {plain_tests:?}, flavour {mine:?}"
+                )));
+            }
+        }
+        if !vt.quiz.is_empty() && vt.quiz.len() != plain.quiz.len() {
+            errs.push(at("quiz must have as many questions as the plain quest"));
+        }
+        for (i, q) in vt.quiz.iter().enumerate() {
+            if q.choices.len() < 2 || q.answer >= q.choices.len() {
+                errs.push(at(&format!("quiz[{i}]: need 2+ choices and answer in range")));
+            }
+        }
+        out.push(Variant {
+            flavour: name,
+            title: vt.title,
+            summary: vt.summary,
+            objectives: (!vt.objectives.is_empty()).then_some(vt.objectives),
+            hints: (!vt.hints.is_empty()).then_some(vt.hints),
+            quiz: (!vt.quiz.is_empty()).then_some(vt.quiz),
+            dir: vdir,
+        });
+    }
+    out
 }
 
 const IMPLICIT: &str = "<previous>";
@@ -496,7 +642,7 @@ fn sorted_dirs(dir: &Path, problems: &mut Vec<String>) -> Vec<PathBuf> {
             for e in rd.flatten() {
                 let p = e.path();
                 let name = p.file_name().and_then(|n| n.to_str()).unwrap_or("");
-                if p.is_dir() && !name.starts_with('.') && !matches!(name, "starter" | "solution" | "lib" | "worlds") {
+                if p.is_dir() && !name.starts_with('.') && !matches!(name, "starter" | "solution" | "lib" | "worlds" | "flavours") {
                     out.push(p);
                 }
             }
@@ -604,6 +750,39 @@ mod tests {
         let done: HashSet<String> = ["rust/00-tutorial/01-hello".to_string()].into();
         let avail: Vec<_> = cat.available_in("lua", &done).iter().map(|q| q.id.as_str()).collect();
         assert_eq!(avail, ["lua/01-core/01-values"]);
+    }
+
+    #[test]
+    fn flavours_overlay_the_plain_quest() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        let w = root.join("worlds");
+        write(&w.join("00-tutorial/world.toml"), "title = \"Tutorial\"");
+        quest(&w, "00-tutorial", "01-hello", "", "Cargo.toml");
+        let f = w.join("00-tutorial/01-hello/flavours/games");
+        write(&f.join("quest.toml"), "title = \"Name tag\"\n[[objectives]]\ntest = \"t\"\nlabel = \"tag shows the name\"\n");
+        write(&f.join("lesson.md"), "# gamey");
+        write(&f.join("starter/Cargo.toml"), "x");
+        write(&f.join("solution/Cargo.toml"), "x");
+        let cat = load(root).unwrap();
+        assert_eq!(cat.flavours(), ["plain", "games"]);
+        let q = cat.quest("rust/00-tutorial/01-hello").unwrap();
+        assert_eq!(q.flavour, "plain");
+        assert_eq!(q.title, "T");
+        let g = q.resolved("games");
+        assert_eq!(g.flavour, "games");
+        assert_eq!(g.title, "Name tag");
+        assert_eq!(g.objectives[0].label, "tag shows the name");
+        assert!(g.starter_dir().ends_with("flavours/games/starter"));
+        assert!(g.variants.is_empty());
+        let p = q.resolved("nope");
+        assert_eq!(p.flavour, "plain");
+        assert_eq!(p.title, "T");
+
+        // A flavour with a different test name is rejected.
+        write(&f.join("quest.toml"), "[[objectives]]\ntest = \"other\"\nlabel = \"x\"\n");
+        let err = load(root).unwrap_err().to_string();
+        assert!(err.contains("objective tests must match"), "{err}");
     }
 
     #[test]

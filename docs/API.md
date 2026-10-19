@@ -18,6 +18,7 @@ interface Quiz { question: string; choices: string[]; answer: number }
 
 interface Quest {
   id: string;            // "rust/01-foundations/03-functions" (track/world/quest)
+  flavour: string;       // "plain" | "games" | ...: the story this value tells (settings.flavour, or plain when the quest has no such flavour)
   track_id: string;
   world_id: string;      // "rust/01-foundations"
   runner: Runner;
@@ -37,7 +38,11 @@ interface Quest {
 
 interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
-interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string /* active track id, "" = first */ }
+interface Settings {
+  editor: string; sound: boolean; focus_minutes: number;
+  track: string;     // active track id, "" = first
+  flavour: string;   // "games" (default) | "plain" | any name from list_flavours
+}
 
 interface Profile {
   xp: number;
@@ -104,6 +109,7 @@ interface Home {
 |---|---|---|---|
 | `home` | | `Home` | everything the home screen needs in one call, for the active track |
 | `list_tracks` | | `Track[]` | for the track pill |
+| `list_flavours` | | `string[]` | `["plain", "games", ...]` for the flavour switch; every quest-returning command already applies `settings.flavour` |
 | `list_worlds` | `{ track?: string }` | `World[]` | for the map; omitted = active track |
 | `get_quest` | `{ id }` | `QuestDetail` | |
 | `start_quest` | `{ id }` | `QuestDetail` | copies starter, records start, opens editor, starts the watcher |

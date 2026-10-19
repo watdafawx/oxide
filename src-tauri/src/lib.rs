@@ -97,14 +97,14 @@ impl AppState {
     }
 
     fn detail(&self, id: &str) -> CmdResult<QuestDetail> {
-        let quest = self.quest(id)?;
+        let quest = self.resolve(self.quest(id)?);
         let lesson = quest.lesson().map_err(err)?;
         let run = self.progress.lock().unwrap().run(id).map_err(err)?;
         let dir = workspace::dir_for(&self.quests_root, id);
         let workspace = (quest.has_project() && dir.join(quest.runner.marker()).exists())
             .then(|| dir.to_string_lossy().into_owned());
         Ok(QuestDetail {
-            quest: quest.clone(),
+            quest,
             lesson,
             workspace,
             hints_used: run.as_ref().map(|r| r.hints_used).unwrap_or(0),
@@ -121,6 +121,12 @@ impl AppState {
             .track(&wanted)
             .or_else(|| self.catalog.tracks.first())
             .ok_or_else(|| "no tracks in the catalog".to_string())
+    }
+
+    /// The quest told in the learner's chosen flavour (plain when it has none).
+    fn resolve(&self, q: &Quest) -> Quest {
+        let flavour = self.progress.lock().unwrap().settings().map(|s| s.flavour).unwrap_or_default();
+        q.resolved(&flavour)
     }
 
     fn focus_active_for(&self, quest_id: &str) -> bool {
@@ -148,7 +154,7 @@ fn emit_profile(app: &AppHandle, state: &AppState) {
 
 /// Run cargo for `quest_id`, award XP on the first green, emit the events. Blocking.
 fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(CheckResult, Option<Completion>)> {
-    let quest = state.quest(quest_id)?;
+    let quest = &state.resolve(state.quest(quest_id)?);
     let dir = workspace::dir_for(&state.quests_root, quest_id);
     if !dir.join(quest.runner.marker()).exists() {
         return Err("start the quest first".into());
@@ -239,10 +245,10 @@ fn home(state: State<AppState>) -> CmdResult<Home> {
         .cloned();
     Ok(Home {
         track,
-        next: available.first().map(|q| (*q).clone()),
-        alternate: available.get(1).map(|q| (*q).clone()),
+        next: available.first().map(|q| state.resolve(q)),
+        alternate: available.get(1).map(|q| state.resolve(q)),
         profile,
-        resume,
+        resume: resume.map(|q| state.resolve(&q)),
     })
 }
 
@@ -258,7 +264,20 @@ fn list_worlds(state: State<AppState>, track: Option<String>) -> CmdResult<Vec<o
         Some(t) => t,
         None => state.active_track()?.id.clone(),
     };
-    Ok(state.catalog.worlds_of(&id).cloned().collect())
+    Ok(state
+        .catalog
+        .worlds_of(&id)
+        .map(|w| {
+            let mut w = w.clone();
+            w.quests = w.quests.iter().map(|q| state.resolve(q)).collect();
+            w
+        })
+        .collect())
+}
+
+#[tauri::command]
+fn list_flavours(state: State<AppState>) -> Vec<String> {
+    state.catalog.flavours()
 }
 
 #[tauri::command]
@@ -268,10 +287,10 @@ fn get_quest(state: State<AppState>, id: String) -> CmdResult<QuestDetail> {
 
 #[tauri::command]
 fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<QuestDetail> {
-    let quest = state.quest(&id)?;
+    let quest = state.resolve(state.quest(&id)?);
     state.progress.lock().unwrap().start_quest(&id, Local::now()).map_err(err)?;
     if quest.has_project() {
-        let dir = workspace::start(&state.quests_root, quest).map_err(err)?;
+        let dir = workspace::start(&state.quests_root, &quest).map_err(err)?;
         let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
         if let Err(e) = workspace::open_in_editor(&dir, &editor) {
             log::warn!("{e:#}");
@@ -301,9 +320,9 @@ fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
 
 #[tauri::command]
 fn reset_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<QuestDetail> {
-    let quest = state.quest(&id)?;
+    let quest = state.resolve(state.quest(&id)?);
     *state.watch.lock().unwrap() = None;
-    workspace::reset(&state.quests_root, quest).map_err(err)?;
+    workspace::reset(&state.quests_root, &quest).map_err(err)?;
     state.last_checks.lock().unwrap().remove(&id);
     watch_quest(&app, &state, &id)?;
     state.detail(&id)
@@ -317,7 +336,7 @@ async fn run_checks(app: AppHandle, state: State<'_, AppState>, id: String) -> C
 
 #[tauri::command]
 fn answer_quiz(app: AppHandle, state: State<AppState>, id: String, answers: Vec<usize>) -> CmdResult<Option<Completion>> {
-    let quest = state.quest(&id)?;
+    let quest = &state.resolve(state.quest(&id)?);
     if quest.kind != QuestKind::Read {
         return Err("not a read quest".into());
     }
@@ -483,6 +502,7 @@ pub fn run() {
             home,
             list_tracks,
             list_worlds,
+            list_flavours,
             get_quest,
             start_quest,
             open_editor,
