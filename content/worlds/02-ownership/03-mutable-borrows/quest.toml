@@ -1,0 +1,23 @@
+title = "Borrow to change"
+summary = "&mut lets a function edit your value. Only one writer at a time."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["borrowing", "mutable", "references"]
+
+[[objectives]]
+test = "add_exclaim_appends"
+label = "add_exclaim(&mut s) appends '!' to the caller's String"
+[[objectives]]
+test = "push_twice_adds_two"
+label = "push_twice(&mut v, x) pushes x onto the Vec two times"
+[[objectives]]
+test = "move_last_between_vecs"
+label = "move_last(&mut from, &mut to) pops from one Vec and pushes to the other"
+
+[[hints]]
+text = "`s.push('!')` works directly on a `&mut String`: no `*` needed for method calls."
+[[hints]]
+text = "`v.push(x)` twice. `x` is an `i32`, which is cheap to reuse."
+[[hints]]
+text = "`from.pop()` returns an `Option<i32>`: `if let Some(x) = from.pop() { to.push(x); }`"

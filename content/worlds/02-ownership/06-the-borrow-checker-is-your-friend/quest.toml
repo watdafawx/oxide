@@ -1,0 +1,20 @@
+title = "The borrow checker is your friend"
+summary = "Read six lines and say which one moves and which ones borrow."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["ownership", "borrowing"]
+
+[[quiz]]
+question = "In the lesson's example, which line moves the String out of `b`?"
+choices = ["let c = &b;", "let e = b;", "println!(\"{c} {d}\");"]
+answer = 1
+
+[[quiz]]
+question = "With `let mut s = String::new();`, which pair of lines compiles?"
+choices = [
+  "let r1 = &mut s; let r2 = &mut s; r1.push('a');",
+  "let r1 = &s; let r2 = &s; println!(\"{r1} {r2}\");",
+  "let r = &mut s; let t = &s; r.push('a');",
+]
+answer = 1

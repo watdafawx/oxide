@@ -1,0 +1,20 @@
+title = "Moves"
+summary = "A String has one owner. Hand it over and it's gone: fix the code that forgot."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["ownership", "move", "clone"]
+
+[[objectives]]
+test = "length_and_name_returns_both"
+label = "length_and_name() compiles and returns (6, \"ferris\")"
+[[objectives]]
+test = "shout_both_returns_both"
+label = "shout_both() compiles and returns (\"HELLO\", \"hello\")"
+
+[[hints]]
+text = "Read the compiler error: `borrow of moved value`. The String went into the function, so it's gone from the caller."
+[[hints]]
+text = "Give the function its own copy and keep yours: `.clone()` makes a second String."
+[[hints]]
+text = "`name_length(name.clone())` and `shout(original.clone())`: the clones are moved, the originals stay."

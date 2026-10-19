@@ -1,0 +1,2 @@
+title = "Ownership"
+blurb = "Every value has one owner: learn to move, borrow and lend without fighting the compiler."

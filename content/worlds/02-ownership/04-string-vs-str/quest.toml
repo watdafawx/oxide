@@ -1,0 +1,23 @@
+title = "String vs &str"
+summary = "Owned text or borrowed text? Pick the right one for each parameter."
+kind = "exercise"
+xp = 35
+minutes = 6
+tags = ["strings", "str", "borrowing"]
+
+[[objectives]]
+test = "greet_takes_literals_and_strings"
+label = "greet works with a literal AND with &String"
+[[objectives]]
+test = "into_owned_outlives_source"
+label = "into_owned returns a String that lives on after the source is gone"
+[[objectives]]
+test = "rank_owned_matches_on_as_str"
+label = "rank_owned matches the name with .as_str()"
+
+[[hints]]
+text = "`format!(\"Hello, {name}!\")` builds a new String from the borrowed text."
+[[hints]]
+text = "`text.to_string()` copies borrowed text into a new owned String."
+[[hints]]
+text = "`match name.as_str() { \"admin\" => ..., \"mod\" => ..., _ => ... }`"

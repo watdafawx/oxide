@@ -1,0 +1,42 @@
+title = "Boss: text adventure"
+summary = "Rooms, a player, an inventory: borrow and mutate the game state without a single clone."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["ownership", "borrowing", "structs", "boss"]
+
+[[objectives]]
+test = "room_name_borrows_from_world"
+label = "World::room_name(i) returns the room's name as a &str"
+[[objectives]]
+test = "describe_shows_room_and_exits"
+label = "describe() prints the room, its description and exits"
+[[objectives]]
+test = "describe_lists_items_when_present"
+label = "describe() adds the items only when the room has some"
+[[objectives]]
+test = "go_moves_the_player"
+label = "go(\"north\") moves the player and returns the new room's name"
+[[objectives]]
+test = "go_blocked_keeps_player_in_place"
+label = "go with no such exit returns Err and the player stays"
+[[objectives]]
+test = "take_moves_item_to_inventory"
+label = "take(\"lamp\") removes the item from the room and adds it to the inventory"
+[[objectives]]
+test = "take_missing_item_is_an_error"
+label = "take of something that isn't here returns Err and changes nothing"
+[[objectives]]
+test = "run_plays_a_whole_script"
+label = "run(&[...]) plays commands on a fresh game and returns one line per command"
+
+[[hints]]
+text = "Read-only methods take `&self`, methods that change the game take `&mut self`. Check each signature before you write the body."
+[[hints]]
+text = "Don't clone rooms. Get a reference with `&self.world.rooms[self.player.room]` and read what you need from it."
+[[hints]]
+text = "go: first find the target index (copy the `usize` out), then set `self.player.room`, and only then return `&self.world.rooms[i].name`."
+[[hints]]
+text = "take: `room.items.iter().position(|i| i == item)` finds the index, `room.items.remove(pos)` gives you the owned String to push onto the inventory."
+[[hints]]
+text = "run: `line.split_once(' ')` splits \"go north\" into (\"go\", \"north\"). Match on the command word."

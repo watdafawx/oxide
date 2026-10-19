@@ -1,0 +1,23 @@
+title = "Slices"
+summary = "Borrow just part of a string or a list with a range."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["slices", "ranges", "borrowing"]
+
+[[objectives]]
+test = "first_word_stops_at_space"
+label = "first_word(\"hello world\") returns \"hello\" (whole text if no space)"
+[[objectives]]
+test = "middle_drops_both_ends"
+label = "middle(&[1, 2, 3, 4]) returns &[2, 3] (empty if 2 or fewer)"
+[[objectives]]
+test = "last_three_takes_the_tail"
+label = "last_three returns the last 3 elements (or all if fewer)"
+
+[[hints]]
+text = "`text.find(' ')` gives `Some(index)` of the first space. A slice of the part before it is `&text[..index]`."
+[[hints]]
+text = "middle: if `nums.len() <= 2` return `&[]`, otherwise `&nums[1..nums.len() - 1]`."
+[[hints]]
+text = "last_three: the start is `nums.len().saturating_sub(3)` (never goes below 0), then `&nums[start..]`."
