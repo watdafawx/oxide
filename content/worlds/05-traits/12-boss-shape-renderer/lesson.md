@@ -22,3 +22,5 @@ Time to put it all together: a tiny renderer that draws shapes as ASCII.
 - Open `src/lib.rs`. Types and signatures are given. Every method is `todo!()`.
 - Work in the order of the objectives. `Rect` first: the first tick is two lines away.
 - Dynamic dispatch for the canvas, static dispatch for the helpers: that is the point.
+
+Press Run to play it.

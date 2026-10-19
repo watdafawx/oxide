@@ -21,3 +21,5 @@
 - Open `src/lib.rs`. Types and signatures are given. Every method is a `TODO`.
 - Work in the order of the objectives. `Aabb` first: the first tick is two lines away.
 - Dynamic dispatch for the canvas, static dispatch for the helpers: that is the point.
+
+Press Run to play it.
