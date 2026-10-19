@@ -1,0 +1,26 @@
+title = "Closures: little functions on the fly"
+summary = "Capture variables, pass closures to functions, return one with impl Fn."
+kind = "exercise"
+xp = 60
+minutes = 10
+tags = ["closures", "impl-fn"]
+
+[[objectives]]
+test = "make_adder_captures_n"
+label = "make_adder returns a closure that adds n"
+[[objectives]]
+test = "apply_twice_calls_f_twice"
+label = "apply_twice calls the closure two times"
+[[objectives]]
+test = "count_matching_uses_predicate"
+label = "count_matching counts items where the closure returns true"
+[[objectives]]
+test = "above_limit_captures_limit"
+label = "above_limit keeps numbers over a limit it captures"
+
+[[hints]]
+text = "`move |x| x + n`. The `move` keyword copies `n` into the closure so it can outlive the function."
+[[hints]]
+text = "`f(f(x))`. `f` is just something you call with parentheses."
+[[hints]]
+text = "`items.iter().filter(|n| is_match(**n)).count()`. `filter` hands you `&&i32` here, so `**n` (or `copied()` first) gets the number. For `above_limit`: `.filter(|n| **n > limit)` captures `limit` automatically."

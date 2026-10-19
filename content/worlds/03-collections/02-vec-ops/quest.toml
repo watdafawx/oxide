@@ -1,0 +1,26 @@
+title = "Vec tricks"
+summary = "Insert, remove, sort, dedup, contains and retain."
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["vec", "sort", "retain"]
+
+[[objectives]]
+test = "move_to_front_removes_then_inserts"
+label = "move_to_front takes the item at an index and puts it first"
+[[objectives]]
+test = "sorted_unique_sorts_and_dedups"
+label = "sorted_unique returns a sorted list with no repeats"
+[[objectives]]
+test = "has_admin_uses_contains"
+label = "has_admin checks the list for \"admin\""
+[[objectives]]
+test = "drop_short_uses_retain"
+label = "drop_short removes words shorter than min_len"
+
+[[hints]]
+text = "`let item = list.remove(index);` returns the removed item. Then `list.insert(0, item);`."
+[[hints]]
+text = "`dedup` only removes **neighbours** that are equal. Sort first: `numbers.sort(); numbers.dedup();`."
+[[hints]]
+text = "`names.contains(&\"admin\".to_string())` compares a `&String`. `retain` takes a closure: `words.retain(|w| w.len() >= min_len);`."

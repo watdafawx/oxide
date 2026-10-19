@@ -1,0 +1,23 @@
+title = "Vec: a list that grows"
+summary = "Push items, read them by index, and loop over them."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["vec", "loops"]
+
+[[objectives]]
+test = "podium_pushes_two_more"
+label = "podium starts with 100 and pushes 80 and 60"
+[[objectives]]
+test = "third_uses_get"
+label = "third returns Some(item) or None when the list is too short"
+[[objectives]]
+test = "sum_all_loops_over_the_vec"
+label = "sum_all adds every number using a for loop"
+
+[[hints]]
+text = "`scores.push(80);` adds to the end. Then return `scores`."
+[[hints]]
+text = "`items.get(2)` returns `Option<&i32>`. Turn it into `Option<i32>` with `.copied()`."
+[[hints]]
+text = "`let mut total = 0; for n in numbers { total += n; } total`. Looping over `&[i32]` gives `&i32`, and `total += n` works with a reference."

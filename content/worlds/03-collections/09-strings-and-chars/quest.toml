@@ -1,0 +1,26 @@
+title = "Text as a list"
+summary = "split, trim, parse, chars, join, and aligned columns with format width."
+kind = "exercise"
+xp = 50
+minutes = 10
+tags = ["strings", "chars", "parse", "format"]
+
+[[objectives]]
+test = "parse_numbers_splits_trims_parses"
+label = "parse_numbers turns \"1, 2, x, 4\" into [1, 2, 4]"
+[[objectives]]
+test = "count_vowels_walks_chars"
+label = "count_vowels counts a, e, i, o, u in any case"
+[[objectives]]
+test = "join_sorted_joins_with_commas"
+label = "join_sorted sorts the words and joins them with \", \""
+[[objectives]]
+test = "table_row_pads_columns"
+label = "table_row pads the name left-aligned and the qty right-aligned"
+
+[[hints]]
+text = "`line.split(',')` yields pieces. Each piece: `s.trim().parse::<i32>()` gives a `Result`; `.ok()` turns it into an `Option`. `filter_map` keeps only the `Some`s."
+[[hints]]
+text = "`text.chars().filter(|c| \"aeiouAEIOU\".contains(*c)).count()`."
+[[hints]]
+text = "Join: `let mut list = words.to_vec(); list.sort(); list.join(\", \")`. Width: `format!(\"{name:<10}{qty:>5}\")`, `<` left-aligns, `>` right-aligns."
