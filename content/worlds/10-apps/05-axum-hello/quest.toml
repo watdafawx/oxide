@@ -1,0 +1,23 @@
+title = "Hello, axum"
+summary = "Build a Router with a /health route and test it without opening a port."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["axum", "http", "tokio"]
+
+[[objectives]]
+test = "health_is_200_ok"
+label = "GET /health answers 200 with the body ok"
+[[objectives]]
+test = "post_to_health_is_405"
+label = "POST /health is refused with 405 Method Not Allowed"
+[[objectives]]
+test = "unknown_path_is_404"
+label = "any other path is 404"
+
+[[hints]]
+text = "A handler is just an async function: `async fn health() -> &'static str { \"ok\" }`."
+[[hints]]
+text = "`Router::new().route(\"/health\", get(health))`. Routes are matched by path, and the `get(...)` part means only GET is allowed."
+[[hints]]
+text = "404 and 405 come for free from the router. You only need the one route and the handler returning \"ok\"."

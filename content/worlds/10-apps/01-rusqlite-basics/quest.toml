@@ -1,0 +1,23 @@
+title = "Your first table"
+summary = "Open an in-memory SQLite database, insert rows and read them back."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rusqlite", "sqlite", "sql"]
+
+[[objectives]]
+test = "open_creates_mods_table"
+label = "open() returns a connection with an empty mods table"
+[[objectives]]
+test = "add_mod_returns_new_id"
+label = "add_mod inserts a row and returns its id"
+[[objectives]]
+test = "list_mods_returns_rows_in_order"
+label = "list_mods reads every row back as a Mod"
+
+[[hints]]
+text = "`Connection::open_in_memory()?` gives you a throwaway database. Then `conn.execute(\"CREATE TABLE ...\", [])?` builds the table."
+[[hints]]
+text = "Insert with `conn.execute(\"INSERT INTO mods (name, enabled) VALUES (?1, 1)\", params![name])?`, then `Ok(conn.last_insert_rowid())`."
+[[hints]]
+text = "`let mut stmt = conn.prepare(\"SELECT id, name, enabled FROM mods ORDER BY id\")?;` then `stmt.query_map([], |row| Ok(Mod { id: row.get(0)?, name: row.get(1)?, enabled: row.get(2)? }))?.collect()`."

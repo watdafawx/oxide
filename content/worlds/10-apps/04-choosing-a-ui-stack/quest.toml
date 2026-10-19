@@ -1,0 +1,24 @@
+title = "Pick a UI stack"
+summary = "egui, GPUI or Tauri: how each one draws, and when to reach for it."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["egui", "gpui", "tauri", "ui"]
+
+[[quiz]]
+question = "What is the real difference between egui (immediate mode) and GPUI (retained mode)?"
+choices = [
+  "egui describes the whole UI again from your state every frame; GPUI keeps view objects alive and re-renders a view when it is told its state changed",
+  "egui draws with HTML and CSS; GPUI draws with native widgets",
+  "egui keeps a tree of widget objects you update with setters; GPUI has no state at all",
+]
+answer = 0
+
+[[quiz]]
+question = "You already have a polished Svelte UI and want a desktop app, with Rust doing the files and database work. Which stack fits?"
+choices = [
+  "egui, because immediate mode is faster to port",
+  "Tauri: the webview shows your Svelte app and Rust commands do the native work",
+  "GPUI, because it renders Svelte components on the GPU",
+]
+answer = 1

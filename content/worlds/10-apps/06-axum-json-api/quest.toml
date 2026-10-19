@@ -1,0 +1,26 @@
+title = "JSON in, JSON out"
+summary = "Read paths and JSON bodies, share a counter through State, and pick status codes."
+kind = "exercise"
+xp = 65
+minutes = 12
+tags = ["axum", "json", "extractors", "state"]
+
+[[objectives]]
+test = "hello_greets_by_name_in_json"
+label = "GET /hello/{name} returns {\"greeting\": \"Hello, name!\"}"
+[[objectives]]
+test = "sum_adds_the_numbers"
+label = "POST /sum with {\"numbers\": [..]} returns {\"total\": n}"
+[[objectives]]
+test = "sum_of_nothing_is_400"
+label = "an empty list answers 400 with {\"error\": ...}"
+[[objectives]]
+test = "bump_counts_across_requests"
+label = "POST /bump returns 201 and the count grows; GET /count sees it"
+
+[[hints]]
+text = "Extractors are parameters: `Path(name): Path<String>` reads the URL, `Json(req): Json<SumRequest>` reads the body, `State(state): State<AppState>` reads the shared state."
+[[hints]]
+text = "Returning `Json(Greeting { greeting: format!(\"Hello, {name}!\") })` sends JSON. For sum, add the numbers with `req.numbers.iter().sum()`; for the error return `Err((StatusCode::BAD_REQUEST, Json(ApiError { error: ... })))`."
+[[hints]]
+text = "`state.count.fetch_add(1, Ordering::SeqCst) + 1` is the new count. `bump` returns `(StatusCode::CREATED, Json(Count { count }))`; `count` uses `state.count.load(Ordering::SeqCst)`."

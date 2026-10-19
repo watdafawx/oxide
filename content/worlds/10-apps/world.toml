@@ -1,0 +1,2 @@
+title = "Apps"
+blurb = "Real app plumbing: SQLite, JSON, web APIs, and egui and Tauri screens, ending with Oxide's own UI in Rust."
