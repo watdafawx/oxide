@@ -1,8 +1,8 @@
 title = "Modules and errors"
 summary = "require, private helpers, error objects, pcall, and catching leaked globals."
 kind = "exercise"
-xp = 35
-minutes = 6
+xp = 50
+minutes = 12
 tags = ["modules", "errors", "pcall"]
 
 [[objectives]]

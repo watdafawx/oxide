@@ -19,8 +19,7 @@ error("oops", 0)                   -- exactly "oops"
 assert(x, "x is missing")          -- error if x is nil/false, else returns x
 ```
 
-- `require` loads a file once and caches what it returns.
-- **Public API = whatever is in the returned table.** Locals stay private.
+- `require` loads a file once and caches what it returns. **Public API = that returned table.** Locals stay private.
 - **Globals leak** when you forget `local`. In Lua 5.2 every chunk runs in `_ENV`, and you can swap it:
 
 ```lua
