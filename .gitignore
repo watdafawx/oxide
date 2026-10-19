@@ -14,3 +14,5 @@ vite.config.ts.timestamp-*
 **/target
 Cargo.lock.bak
 content/**/Cargo.lock
+content/**/build/
+content/**/.gradle/
