@@ -1,0 +1,19 @@
+title = "Hash the folder without cloning it"
+summary = "thread::scope lets workers borrow the jar list: no move, no Arc."
+
+[[objectives]]
+test = "total_size_borrows_both_halves"
+label = "total_size adds up a slice of jar sizes on two scoped threads"
+[[objectives]]
+test = "biggest_jar_joins_inside_the_scope"
+label = "biggest_jar: one scoped thread per chunk of jars, largest size wins"
+[[objectives]]
+test = "hash_into_writes_disjoint_halves"
+label = "hash_into: two threads write hashes into two halves of one &mut slice"
+
+[[hints]]
+text = "`let (left, right) = sizes.split_at(sizes.len() / 2);` then `thread::scope(|s| { s.spawn(|| ...); ... })`."
+[[hints]]
+text = "`jars.chunks(chunk_size)` gives slices that borrow the list. `s.spawn(move || ...)` per chunk, then join each handle inside the scope."
+[[hints]]
+text = "`out.split_at_mut(mid)` gives two `&mut` halves that do not overlap, so each thread can write to its own half. Split `jars` at the same index."

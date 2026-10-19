@@ -1,0 +1,19 @@
+title = "Let rayon split the jars"
+summary = "Turn .iter() into .par_iter() and let a thread pool split the hashing for you."
+
+[[objectives]]
+test = "total_bytes_runs_in_parallel"
+label = "total_bytes: par_iter + map + sum over the jars"
+[[objectives]]
+test = "name_lengths_keep_folder_order"
+label = "name_lengths: par_iter + map + collect keeps the folder order"
+[[objectives]]
+test = "count_lucky_ids_uses_into_par_iter"
+label = "count_lucky_ids: (0..limit).into_par_iter() with filter + count"
+
+[[hints]]
+text = "`jars.par_iter().map(|jar| jar.bytes).sum()`. `use rayon::prelude::*;` is already there."
+[[hints]]
+text = "`par_iter().map(...).collect::<Vec<_>>()` keeps the input order, even though the work is spread over threads."
+[[hints]]
+text = "A range becomes parallel with `(0..limit).into_par_iter()`. Then `.filter(|&id| is_lucky(id)).count()`."

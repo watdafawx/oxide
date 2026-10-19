@@ -1,0 +1,19 @@
+title = "Lock-free job counter"
+summary = "Job ids, a hashed-files counter and a first-failure flag: one CPU instruction instead of a Mutex."
+
+[[objectives]]
+test = "next_job_id_returns_the_previous_value"
+label = "next_job_id adds 1 and returns the id from before"
+[[objectives]]
+test = "count_hashed_never_loses_an_update"
+label = "count_hashed: workers share an AtomicUsize and no increment is lost"
+[[objectives]]
+test = "report_first_failure_has_exactly_one_winner"
+label = "report_first_failure: of many racing workers exactly one gets true"
+
+[[hints]]
+text = "`counter.fetch_add(1, Ordering::Relaxed)` adds and returns the OLD value."
+[[hints]]
+text = "Share the counter with `Arc::new(AtomicUsize::new(0))` and an `Arc::clone` per worker, join them all, then `load`."
+[[hints]]
+text = "`flag.compare_exchange(false, true, Ordering::SeqCst, Ordering::SeqCst)` is `Ok` for exactly one caller. `.is_ok()` turns it into a bool."

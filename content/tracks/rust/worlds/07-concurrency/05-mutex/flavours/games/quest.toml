@@ -1,0 +1,19 @@
+title = "Lock the progress counter"
+summary = "Lock a value so only one worker at a time can change it: the hasher's files-done counter."
+
+[[objectives]]
+test = "mark_hashed_adds_one_under_the_lock"
+label = "mark_hashed locks the Mutex and adds 1 to the files-done counter"
+[[objectives]]
+test = "log_and_take_log_empties_the_log"
+label = "log_line appends, take_log hands over the lines and leaves the log empty"
+[[objectives]]
+test = "hashed_count_even_if_poisoned_recovers_the_value"
+label = "hashed_count_even_if_poisoned still returns the value after a worker panicked while holding the lock"
+
+[[hints]]
+text = "`*done.lock().unwrap() += 1;` The guard derefs to the `u32`."
+[[hints]]
+text = "`std::mem::take(&mut *guard)` swaps in an empty Vec and gives you the old one."
+[[hints]]
+text = "`lock()` returns `Err(PoisonError)` after a panic. `unwrap_or_else(|e| e.into_inner())` still gives you the guard."
