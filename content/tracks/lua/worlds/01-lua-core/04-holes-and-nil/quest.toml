@@ -1,0 +1,28 @@
+title = "Holes and nil"
+summary = "nil in a list breaks `#`. Count, pack and compact around it."
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["tables", "nil", "varargs"]
+
+[[objectives]]
+test = "length_survives_removal"
+label = "remove_slot(inv, i) closes the gap, so #inv shrinks by one"
+[[objectives]]
+test = "counts_trailing_nils_with_select"
+label = "count_args(...) counts every argument, even trailing nils"
+[[objectives]]
+test = "compacts_sparse_list"
+label = "compact(list, n) drops the holes and keeps the order"
+[[objectives]]
+test = "pack_keeps_nils"
+label = "pack_all/unpack_all round-trip nils using an explicit n"
+
+[[hints]]
+text = "`inv[i] = nil` leaves a hole. `table.remove(inv, i)` shifts the rest down and returns the removed value."
+[[hints]]
+text = "`select(\"#\", ...)` is the real argument count. `#{...}` is not: it may stop at the first nil."
+[[hints]]
+text = "Loop `for i = 1, n` (not `ipairs`, which stops at the first nil) and append the non-nil values."
+[[hints]]
+text = "`table.pack(...)` returns a table with an `n` field. `table.unpack(p, 1, p.n)` gives all of them back."

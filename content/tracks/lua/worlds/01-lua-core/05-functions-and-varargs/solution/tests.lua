@@ -1,0 +1,26 @@
+local t = require("oxide.test")
+local f = require("fns")
+
+t.test("returns_min_and_max", function()
+  local lo, hi = f.min_max({3, 1, 4, 1, 5})
+  t.eq(lo, 1, "smallest first")
+  t.eq(hi, 5, "biggest second")
+  t.eq(select("#", f.min_max({7})), 2, "always two values")
+end)
+
+t.test("default_arg_with_or", function()
+  t.eq(f.ingredient_count(nil), 1)
+  t.eq(f.ingredient_count(3), 3)
+end)
+
+t.test("sum_varargs", function()
+  t.eq(f.total(), 0)
+  t.eq(f.total(5), 5)
+  t.eq(f.total(1, 2, 3, 4), 10)
+end)
+
+t.test("keeps_false_argument", function()
+  t.eq(f.option(false, true), false, "false is a real answer")
+  t.eq(f.option(nil, true), true)
+  t.eq(f.option(0, 5), 0, "0 is a real answer too")
+end)

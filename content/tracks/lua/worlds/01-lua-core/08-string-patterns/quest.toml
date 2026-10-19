@@ -1,0 +1,28 @@
+title = "String patterns"
+summary = "find, match, gmatch and gsub: parse a recipe line without a regex library."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["strings", "patterns"]
+
+[[objectives]]
+test = "parses_key_value_line"
+label = "parse_key_value(\"energy = 0.5\") returns \"energy\", \"0.5\""
+[[objectives]]
+test = "splits_on_commas"
+label = "split_commas(\"iron, copper ,coal\") gives trimmed items"
+[[objectives]]
+test = "replaces_with_function"
+label = "double_counts(text) doubles every number in the text"
+[[objectives]]
+test = "escapes_magic_chars"
+label = "escape_pattern(s) makes s safe to use as a literal pattern"
+
+[[hints]]
+text = "Captures return their text: `line:match(\"^%s*([%w_%-]+)%s*=%s*(.-)%s*$\")` gives key and value, or nil if the line has no `=`."
+[[hints]]
+text = "`for item in s:gmatch(\"[^,]+\")` walks the pieces between commas. Trim each with `item:match(\"^%s*(.-)%s*$\")`."
+[[hints]]
+text = "`text:gsub(\"%d+\", function(n) return tonumber(n) * 2 end)` replaces each number. gsub returns two values: wrap the call in parentheses to keep one."
+[[hints]]
+text = "Prefix every magic character with `%`: `s:gsub(\"[%^%$%(%)%%%.%[%]%*%+%-%?]\", \"%%%0\")` (`%0` is the whole match)."

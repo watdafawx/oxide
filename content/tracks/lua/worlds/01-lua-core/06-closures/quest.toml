@@ -1,0 +1,23 @@
+title = "Closures"
+summary = "Functions that remember: counters, factories and a memo cache."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["functions", "closures"]
+
+[[objectives]]
+test = "counter_counts_independently"
+label = "make_counter() gives each caller its own count"
+[[objectives]]
+test = "loop_closures_capture_each_value"
+label = "make_multipliers(n) returns n functions, the i-th multiplies by i"
+[[objectives]]
+test = "memoize_calls_once"
+label = "memoize(fn) runs fn once per distinct argument"
+
+[[hints]]
+text = "Declare `local count = 0` *outside* the returned function, then `count = count + 1; return count` inside it."
+[[hints]]
+text = "In `for i = 1, n`, each round gets its own fresh `i`. Build the list with `fns[i] = function(x) return x * i end`."
+[[hints]]
+text = "Keep `local cache = {}` outside the returned function. Check `cache[x] == nil` before calling `fn(x)`, then store the result."

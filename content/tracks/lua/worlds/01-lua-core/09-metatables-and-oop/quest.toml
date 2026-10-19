@@ -1,0 +1,28 @@
+title = "Metatables and objects"
+summary = "__index, __newindex, __add and __tostring: give tables behaviour."
+kind = "exercise"
+xp = 70
+minutes = 12
+tags = ["metatables", "oop"]
+
+[[objectives]]
+test = "instances_share_methods"
+label = "Position objects share their methods through __index"
+[[objectives]]
+test = "read_only_table_rejects_writes"
+label = "read_only(t) errors with \"read-only\" on any write"
+[[objectives]]
+test = "vector_adds_with_plus"
+label = "position + position builds a new Position via __add"
+[[objectives]]
+test = "tostring_formats_vector"
+label = "tostring(position) gives \"(x, y)\" via __tostring"
+
+[[hints]]
+text = "Set `Position.__index = Position` once, then `setmetatable({x = x, y = y}, Position)` in `new`. Missing keys are looked up in `Position`."
+[[hints]]
+text = "Define methods with a colon: `function Position:manhattan(other)`. The colon adds the hidden first parameter `self`."
+[[hints]]
+text = "`Position.__add = function(a, b) return Position.new(a.x + b.x, a.y + b.y) end` and `Position.__tostring = function(p) ... end`."
+[[hints]]
+text = "For `read_only`, return an empty proxy: `setmetatable({}, {__index = t, __newindex = function() error(\"read-only\", 2) end})`."

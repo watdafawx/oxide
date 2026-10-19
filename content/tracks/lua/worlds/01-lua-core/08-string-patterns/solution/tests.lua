@@ -1,0 +1,33 @@
+local t = require("oxide.test")
+local p = require("recipe_text")
+
+t.test("parses_key_value_line", function()
+  local k, v = p.parse_key_value("energy = 0.5")
+  t.eq(k, "energy")
+  t.eq(v, "0.5")
+  k, v = p.parse_key_value("  name=iron-plate  ")
+  t.eq(k, "name", "spaces around are ignored")
+  t.eq(v, "iron-plate", "hyphens belong to the value")
+  t.is_nil(p.parse_key_value("no equals here"), "no '=' means nil")
+end)
+
+t.test("splits_on_commas", function()
+  t.deep_eq(p.split_commas("iron, copper ,coal"), {"iron", "copper", "coal"})
+  t.deep_eq(p.split_commas("a,,b, ,c"), {"a", "b", "c"}, "empty pieces are skipped")
+  t.deep_eq(p.split_commas(""), {})
+end)
+
+t.test("replaces_with_function", function()
+  t.eq(p.double_counts("2 iron, 5 copper"), "4 iron, 10 copper")
+  t.eq(p.double_counts("no numbers"), "no numbers")
+  t.eq(select("#", p.double_counts("1 a")), 1, "return the string only: wrap gsub in ( )")
+end)
+
+t.test("escapes_magic_chars", function()
+  t.eq(p.escape_pattern("a.b"), "a%.b")
+  t.eq(p.escape_pattern("100%"), "100%%")
+  t.eq(p.escape_pattern("(x)"), "%(x%)")
+  t.eq(select("#", p.escape_pattern("a.b")), 1, "return the string only: wrap gsub in ( )")
+  local name = "iron-plate+"
+  t.eq(("get iron-plate+ now"):find(p.escape_pattern(name)), 5, "now it matches literally")
+end)

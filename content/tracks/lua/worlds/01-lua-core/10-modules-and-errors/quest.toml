@@ -1,0 +1,28 @@
+title = "Modules and errors"
+summary = "require, private helpers, error objects, pcall, and catching leaked globals."
+kind = "exercise"
+xp = 35
+minutes = 6
+tags = ["modules", "errors", "pcall"]
+
+[[objectives]]
+test = "module_exposes_only_public_api"
+label = "registry exposes register and get, and nothing else"
+[[objectives]]
+test = "catches_error_object"
+label = "error_code(fn) returns the code from an error table"
+[[objectives]]
+test = "rethrows_with_context"
+label = "with_context(ctx, fn) prefixes any error with ctx"
+[[objectives]]
+test = "finds_accidental_global"
+label = "find_globals(code) lists globals the code assigns"
+
+[[hints]]
+text = "Anything you attach to the returned table `M` is public. Make `recipes` a `local` above `M` instead of `M.recipes`."
+[[hints]]
+text = "`local ok, err = pcall(fn)`: `ok` is false when fn raised, and `err` is exactly what was passed to `error`. A table survives intact."
+[[hints]]
+text = "`error(ctx .. \": \" .. tostring(err), 0)`: level 0 skips the extra `file:line:` prefix."
+[[hints]]
+text = "Run the code with a fake environment: `load(code, \"chunk\", \"t\", env)` where `env` is `setmetatable({}, {__newindex = function(_, k) ... end})`."

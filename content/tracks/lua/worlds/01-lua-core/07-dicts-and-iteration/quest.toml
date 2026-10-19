@@ -1,0 +1,23 @@
+title = "Dicts and iteration"
+summary = "pairs, safe deletion while looping, and copying nested tables."
+kind = "exercise"
+xp = 35
+minutes = 8
+tags = ["tables", "pairs", "copy"]
+
+[[objectives]]
+test = "counts_words"
+label = "count_words(text) maps each word to how often it appears"
+[[objectives]]
+test = "removes_during_pairs_safely"
+label = "remove_empty(stock) deletes zero entries in place while looping"
+[[objectives]]
+test = "deep_copy_is_independent"
+label = "deep_copy(t) copies nested tables so changes never leak back"
+
+[[hints]]
+text = "`for word in text:gmatch(\"%S+\") do counts[word] = (counts[word] or 0) + 1 end`."
+[[hints]]
+text = "While looping with `pairs`, you may set an *existing* field to `nil`. Adding new keys during the loop is the forbidden part."
+[[hints]]
+text = "Recurse: if `type(v) == \"table\"` copy it with `deep_copy(v)`, otherwise copy the value as is."
