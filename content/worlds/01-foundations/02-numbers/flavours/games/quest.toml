@@ -1,0 +1,19 @@
+title = "Stack sizes have types"
+summary = "Why a stack count is a u32: integer types, f64, `as` casts and overflow."
+
+[[objectives]]
+test = "average_keeps_the_fraction"
+label = "average_stack(3, 4) is 3.5, not 3"
+[[objectives]]
+test = "low_byte_truncates"
+label = "slot_byte(300) casts to u8 and gives 44"
+[[objectives]]
+test = "wrap_add_wraps_around"
+label = "wrap_count(250, 10) wraps to 4 instead of panicking"
+
+[[hints]]
+text = "You cannot mix `i32` and `f64`. Convert first: `a as f64`."
+[[hints]]
+text = "`(a + b) as f64 / 2.0` works. For `slot_byte`, just `id as u8`."
+[[hints]]
+text = "Integers have helper methods for overflow. Try `a.wrapping_add(b)`."

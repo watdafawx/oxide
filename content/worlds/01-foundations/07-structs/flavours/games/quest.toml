@@ -1,0 +1,22 @@
+title = "Build an ItemStack"
+summary = "Structs, impl blocks, methods and a `new` constructor."
+
+[[objectives]]
+test = "new_starts_at_full_health"
+label = "ItemStack::new(\"cobblestone\") holds 64 items"
+[[objectives]]
+test = "take_hit_lowers_hp"
+label = "take removes items from the stack"
+[[objectives]]
+test = "hp_never_goes_below_zero"
+label = "count stops at 0 instead of overflowing"
+[[objectives]]
+test = "is_alive_checks_hp"
+label = "has_items is true only while count > 0"
+
+[[hints]]
+text = "A struct literal: `ItemStack { name: name.to_string(), count: 64 }`."
+[[hints]]
+text = "`&mut self` lets a method change fields: `self.count -= amount`. But `u32` cannot go below 0..."
+[[hints]]
+text = "`self.count = self.count.saturating_sub(amount);` stops at 0."

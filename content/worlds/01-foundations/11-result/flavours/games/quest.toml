@@ -1,0 +1,19 @@
+title = "Reject a bad stack"
+summary = "Result, matching on Err, expect, and returning Result from your own function."
+
+[[objectives]]
+test = "safe_divide_returns_result"
+label = "validate_stack returns Ok(count) or Err for a stack over 64"
+[[objectives]]
+test = "describe_division_matches_result"
+label = "describe_stack uses match on Ok and Err"
+[[objectives]]
+test = "port_from_config_uses_expect"
+label = "max_stack_from_config parses text and uses expect"
+
+[[hints]]
+text = "Return `Err(format!(\"{count} is over the stack limit of 64\"))` when `count > 64`, otherwise `Ok(count)`."
+[[hints]]
+text = "`match validate_stack(count) { Ok(valid) => ..., Err(reason) => ... }`"
+[[hints]]
+text = "`text.parse().expect(\"config max stack must be a number\")` returns the number or panics with your message. The return type tells `parse` what to produce."

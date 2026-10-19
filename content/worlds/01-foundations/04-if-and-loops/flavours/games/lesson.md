@@ -1,0 +1,27 @@
+**Why now:** a calculator has to decide ("is this slot full?") and repeat ("add up every step of the staircase"). Rust gives you both as expressions, so a whole `if` can be the answer.
+
+```rust
+let label = if count == 64 { "full" } else { "room left" };  // if returns a value
+
+let mut total = 0;
+for i in 1..=3 { total += i; }       // 1, 2, 3 (inclusive range)
+
+let mut stacks = 1;
+let enough = loop {                  // loop runs until `break`
+    if stacks * 64 >= 100 { break stacks; }   // ...and `break` can hand back a value
+    stacks += 1;
+};                                   // enough = 2
+
+while total > 0 { total -= 4; }      // while: repeat as long as true
+```
+
+- Conditions are plain `bool`s. No parentheses needed, braces always required.
+- `1..4` is 1,2,3. `1..=4` is 1,2,3,4.
+- `if` and `else` branches must have the **same type** when you use them as a value.
+
+## Your turn
+
+- Open `src/lib.rs`. Four functions, do them in order.
+- `slot_label`: `if / else if` chain returning a `String`.
+- `staircase_blocks`: `for` over a range. `swings_to_break`: `while`.
+- `stacks_to_hold`: `loop` + `break` with a value.

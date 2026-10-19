@@ -1,0 +1,19 @@
+title = "Recipe lookup"
+summary = "Option, unwrap_or and map: handling \"no such recipe\" without null."
+
+[[objectives]]
+test = "half_is_none_for_odd"
+label = "recipe_output gives Some(count) for known recipes and None for the rest"
+[[objectives]]
+test = "half_or_zero_falls_back"
+label = "output_or_zero uses unwrap_or(0)"
+[[objectives]]
+test = "half_plus_one_maps_inside"
+label = "double_batch uses map to change the value inside Some"
+
+[[hints]]
+text = "Return `Some(4)` or `None` from a `match item { ... }`. Both are `Option<u32>`."
+[[hints]]
+text = "`recipe_output(item).unwrap_or(0)` gives the value, or 0 if it was `None`."
+[[hints]]
+text = "`recipe_output(item).map(|n| n * 2)` runs the closure only if there is a value."

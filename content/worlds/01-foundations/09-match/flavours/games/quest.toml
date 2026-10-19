@@ -1,0 +1,22 @@
+title = "Rarity and stack actions"
+summary = "match with ranges and guards, plus if let for one case."
+
+[[objectives]]
+test = "grades_use_ranges"
+label = "rarity(enchants) maps ranges to common, uncommon, rare, epic"
+[[objectives]]
+test = "describe_number_uses_guards"
+label = "stack_state uses guards: corrupt, empty, full, partial"
+[[objectives]]
+test = "apply_moves_the_position"
+label = "apply handles every StackAction variant"
+[[objectives]]
+test = "say_text_uses_if_let"
+label = "new_name pulls the name out with if let"
+
+[[hints]]
+text = "Ranges work in patterns: `1..=2 => \"uncommon\"`. The catch-all arm is `_ => \"epic\"`."
+[[hints]]
+text = "A guard adds a condition to an arm: `n if n < 0 => \"corrupt\"`. Order matters: first match wins."
+[[hints]]
+text = "`if let StackAction::Rename(name) = action { name.clone() } else { String::new() }`."

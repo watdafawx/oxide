@@ -1,0 +1,17 @@
+title = "Block, tool or food"
+summary = "Enums whose variants carry data, plus methods on them."
+
+[[objectives]]
+test = "circle_area_uses_pi"
+label = "ItemKind::Tool(durability).uses() is the durability"
+[[objectives]]
+test = "rect_and_square_areas"
+label = "Food and Block uses work too"
+[[objectives]]
+test = "names_describe_each_variant"
+label = "name() returns \"block\", \"tool\" or \"food\""
+
+[[hints]]
+text = "Inside `impl ItemKind`, `match self { ItemKind::Tool(durability) => ..., ... }` gives you the data of each variant."
+[[hints]]
+text = "`self` is a borrow, so the bound values are references: write `*durability` to get the number. A block with named fields: `ItemKind::Block { .. } => 1`."

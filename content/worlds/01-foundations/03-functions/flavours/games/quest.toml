@@ -1,0 +1,17 @@
+title = "Count the inventory"
+summary = "Parameters, return types, and why there is no `return` here."
+
+[[objectives]]
+test = "square_multiplies"
+label = "grid_slots(side) returns side * side"
+[[objectives]]
+test = "area_multiplies_sides"
+label = "item_count(stacks, size) returns stacks * size"
+[[objectives]]
+test = "summary_reuses_area"
+label = "inventory_line(3, 64) returns \"3x64 = 192\" by calling item_count"
+
+[[hints]]
+text = "Last line, **no semicolon**: `side * side`."
+[[hints]]
+text = "`inventory_line` can call `item_count(stacks, size)` and put the result in `format!(\"{stacks}x{size} = {total}\")`."

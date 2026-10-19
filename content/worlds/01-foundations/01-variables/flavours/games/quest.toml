@@ -1,0 +1,14 @@
+title = "Count the stack"
+summary = "let, mut and shadowing: how Rust keeps an item count."
+
+[[objectives]]
+test = "bonus_is_added_to_score"
+label = "stack_after_pickup() returns 15"
+[[objectives]]
+test = "trimmed_len_ignores_spaces"
+label = "item_name_len shadows `name` with the trimmed version"
+
+[[hints]]
+text = "A plain `let` can never change. Write `let mut stack = 10;` so you can do `stack += 5;`."
+[[hints]]
+text = "For `item_name_len`: `let name = name.trim();` makes a new `name`, then return `name.len()`."
