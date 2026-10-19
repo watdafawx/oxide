@@ -1,0 +1,44 @@
+title = "Boss: bank ledger"
+summary = "Accounts, sealed Transaction records (Deposit, Withdraw, Transfer), an overdraft rule and a statement."
+kind = "boss"
+xp = 400
+minutes = 60
+tags = ["boss", "records", "sealed", "pattern-matching"]
+
+[[objectives]]
+test = "depositIncreasesBalance"
+label = "Depositing raises the balance and is recorded in the history"
+
+[[objectives]]
+test = "overdraftRejected"
+label = "Withdrawing or transferring more than the balance throws OverdraftException and changes nothing"
+
+[[objectives]]
+test = "transferMovesMoneyBothWays"
+label = "A Transfer lowers the sender's balance and raises the receiver's"
+
+[[objectives]]
+test = "statementListsInOrder"
+label = "statement() lists every transaction in order, numbered, then the balance"
+
+[[objectives]]
+test = "sealedSwitchIsExhaustive"
+label = "Transaction is sealed to exactly Deposit, Withdraw and Transfer"
+
+[[hints]]
+text = "Start small: in `Account.apply` write `switch (tx) { case Deposit d -> balance += d.cents(); ... }` and add `tx` to `history` at the end. The first objective only needs the Deposit branch."
+
+[[hints]]
+text = "Withdraw: if `w.cents() > balance` throw `new OverdraftException(...)`, otherwise subtract. Add to `history` only **after** the checks, so a rejected withdrawal leaves no trace."
+
+[[hints]]
+text = "Share the check between Withdraw and Transfer with a small private method, e.g. `private void take(long cents)` that throws on overdraft and subtracts."
+
+[[hints]]
+text = "Transfer: `take(t.cents());` then `t.to().apply(new Deposit(t.cents()));`. The receiver records it as an ordinary deposit."
+
+[[hints]]
+text = "`statement()`: loop over `history` with a counter. Use a switch expression to turn each transaction into text (`\"deposit 100.00\"`, `\"withdraw 30.00\"`, `\"transfer 20.00 to Bob\"`), prefix `\"1. \"`, and finish with `\"balance 50.00\"`. `money(cents)` is already written. Join lines with `\"\\n\"`."
+
+[[hints]]
+text = "Last objective: make `Transaction` `sealed ... permits Deposit, Withdraw, Transfer`. If your `apply` switch has a `default`, delete it: the compiler now checks that you covered every kind."

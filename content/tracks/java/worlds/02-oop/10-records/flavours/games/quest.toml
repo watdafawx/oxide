@@ -1,0 +1,26 @@
+title = "BlockPos as a record"
+summary = "Replace the hand-written BlockPos class with a record: validation, offset(), and equals for free."
+
+[[objectives]]
+test = "blockPosEqualsByValue"
+label = "BlockPos is a record: equal by value, toString shows the fields"
+
+[[objectives]]
+test = "compactConstructorRejectsOutOfWorldY"
+label = "A y outside -64..319 throws IllegalArgumentException"
+
+[[objectives]]
+test = "offsetReturnsMovedCopy"
+label = "offset(dx, dy, dz) returns a new BlockPos and leaves the original alone"
+
+[[hints]]
+text = "Change `public final class BlockPos { ... }` to `public record BlockPos(int x, int y, int z) { ... }` and delete the fields, constructor, accessors, `equals`, `hashCode` and `toString`: the record writes them for you."
+
+[[hints]]
+text = "The compact constructor has no parameter list: `public BlockPos { if (y < -64 || y > 319) throw new IllegalArgumentException(...); }`. It runs before the fields are set."
+
+[[hints]]
+text = "`public BlockPos offset(int dx, int dy, int dz) { return new BlockPos(x + dx, y + dy, z + dz); }`: inside a record you can read the fields directly."
+
+[[hints]]
+text = "Because `offset` goes through the constructor, an offset that leaves the world is rejected for free."

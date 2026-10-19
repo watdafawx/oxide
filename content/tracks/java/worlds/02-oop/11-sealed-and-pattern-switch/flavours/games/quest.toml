@@ -1,0 +1,29 @@
+title = "Events the compiler counts"
+summary = "Seal Event to PlayerJoined, BlockBroken and ItemDropped records, then turn them into chat lines with guards and record patterns."
+
+[[objectives]]
+test = "chatLineForEveryEventType"
+label = "Chat.line handles PlayerJoined, BlockBroken and ItemDropped with no default branch"
+
+[[objectives]]
+test = "emptyDropGetsItsOwnLine"
+label = "Chat.line says \"nothing dropped\" for an ItemDropped with count 0"
+
+[[objectives]]
+test = "recordPatternReadsBlockCoordinates"
+label = "Chat.where unpacks BlockBroken and its BlockPos right in the case label"
+
+[[hints]]
+text = "`line`: `return switch (event) { case PlayerJoined e -> e.player() + \" joined the game\"; case BlockBroken e -> e.player() + \" broke \" + e.block(); case ItemDropped e -> e.count() + \" x \" + e.item() + \" dropped\"; };`"
+
+[[hints]]
+text = "Do not add `default`: `Event` is sealed, so the compiler knows the three cases are all of them."
+
+[[hints]]
+text = "Guard: put `case ItemDropped e when e.count() == 0 -> \"nothing dropped\";` **before** the plain `ItemDropped` case. The other order is a compile error (the first case would swallow the guard)."
+
+[[hints]]
+text = "`where`: `case BlockBroken(String player, String block, BlockPos(int x, int y, int z)) -> x + \" \" + y + \" \" + z;` unpacks the event and the position inside it."
+
+[[hints]]
+text = "`where` can end with `default -> \"nowhere\";` for the other two events. Here `default` is fine: you really do mean \"everything else\"."

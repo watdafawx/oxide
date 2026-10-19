@@ -1,0 +1,26 @@
+title = "Anything that can be hurt"
+summary = "Write a Damageable interface, implement it for Zombie and ArmorStand, and add a default status()."
+
+[[objectives]]
+test = "zombieLosesHealthWhenDamaged"
+label = "Zombie starts at 20 hp and damage(7) leaves 13"
+
+[[objectives]]
+test = "armorStandTakesHalfDamage"
+label = "ArmorStand starts at 6 hp and only takes half the damage"
+
+[[objectives]]
+test = "defaultStatusUsesNameAndHealth"
+label = "status() is \"<name>: <health> hp\", or \"<name>: dead\" at 0 hp, for every Damageable"
+
+[[hints]]
+text = "Zombie: `health = Math.max(0, health - amount);` and `name()` returns `\"Zombie\"`."
+
+[[hints]]
+text = "ArmorStand: the same, but subtract only `amount / 2`. `name()` returns `\"Armor stand\"`."
+
+[[hints]]
+text = "A `default` method has a body inside the interface. Write it once; every implementation inherits it."
+
+[[hints]]
+text = "`if (health() <= 0) return name() + \": dead\"; return name() + \": \" + health() + \" hp\";` in `Damageable.status()`."

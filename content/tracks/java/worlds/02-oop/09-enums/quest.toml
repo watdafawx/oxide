@@ -1,0 +1,30 @@
+title = "A fixed set of choices"
+summary = "Build a TrafficLight enum with fields, a parser and a next() that wraps around."
+kind = "exercise"
+xp = 40
+minutes = 8
+tags = ["enums", "switch"]
+
+[[objectives]]
+test = "enumCarriesFields"
+label = "RED lasts 30 seconds, GREEN 25, YELLOW 5"
+
+[[objectives]]
+test = "valueOfParsesName"
+label = "TrafficLight.parse(\" green \") finds GREEN, and unknown names throw IllegalArgumentException"
+
+[[objectives]]
+test = "nextWrapsAround"
+label = "RED -> GREEN -> YELLOW -> RED, using a switch"
+
+[[hints]]
+text = "Constants carry their numbers in brackets: `RED(30), GREEN(25), YELLOW(5);`"
+
+[[hints]]
+text = "`parse`: `TrafficLight.valueOf(text.trim().toUpperCase(Locale.ROOT))`. `valueOf` already throws IllegalArgumentException for unknown names."
+
+[[hints]]
+text = "`next()` as a switch expression: `return switch (this) { case RED -> GREEN; case GREEN -> YELLOW; case YELLOW -> RED; };`"
+
+[[hints]]
+text = "No `default` needed: the compiler knows all three constants, and adds an error if you forget one."

@@ -1,0 +1,23 @@
+title = "A class with a memory"
+summary = "Build a Counter: a field that remembers, a method that changes it."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["classes", "fields"]
+
+[[objectives]]
+test = "startsAtZero"
+label = "A new Counter reports value() == 0"
+
+[[objectives]]
+test = "incrementAddsOne"
+label = "increment() adds one to value()"
+
+[[hints]]
+text = "`private int count;` is the field: each Counter object has its own copy."
+
+[[hints]]
+text = "`value()` returns the field: `return count;`."
+
+[[hints]]
+text = "`increment()` changes the field: `count++;` (same as `count = count + 1;`)."

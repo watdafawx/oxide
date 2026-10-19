@@ -1,0 +1,22 @@
+title = "A Zombie is a Mob"
+summary = "Extend Mob with Zombie: 20 hp, its own groan, and a describe() built on super."
+
+[[objectives]]
+test = "zombieGroansInsteadOfSilence"
+label = "A Zombie's ambientSound() is \"Rrrgh\""
+
+[[objectives]]
+test = "zombieDescriptionKeepsMobPrefix"
+label = "Zombie.describe() is the Mob text plus \" burns in daylight\", built with super.describe()"
+
+[[hints]]
+text = "Add `@Override public String ambientSound() { return \"Rrrgh\"; }` to `Zombie`."
+
+[[hints]]
+text = "In the constructor the parent needs health too: `super(name, 20);` (zombies have 20 hp)."
+
+[[hints]]
+text = "`Mob.describe()` already builds \"Bob (20 hp)\". In `Zombie`, override `describe()` and start from the parent."
+
+[[hints]]
+text = "`return super.describe() + \" burns in daylight\";`"

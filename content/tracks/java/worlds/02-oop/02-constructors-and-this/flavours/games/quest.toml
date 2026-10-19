@@ -1,0 +1,19 @@
+title = "One item, three constructors"
+summary = "Overload Item's constructors and chain them so name and stack-size rules live in one place."
+
+[[objectives]]
+test = "airIsTheDefaultItem"
+label = "new Item() is \"air\" with a stack size of 64"
+
+[[objectives]]
+test = "shortConstructorReusesFullOne"
+label = "Item(name) goes through the full constructor: lower-case trimmed name, stack size 64, never outside 1-64"
+
+[[hints]]
+text = "`Item()` can be one line: `this(\"air\");`."
+
+[[hints]]
+text = "`Item(String name)` can be one line too: `this(name, 64);`."
+
+[[hints]]
+text = "Put the rules only in the two-argument constructor: `this.name = name.trim().toLowerCase();` and `this.maxStack = Math.max(1, Math.min(64, maxStack));`. The short constructors then get them for free."

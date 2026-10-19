@@ -1,0 +1,22 @@
+title = "Every mob hits its own way"
+summary = "Abstract Mob.attackDamage(), two mob types, and a Wave that sums a mixed list without instanceof."
+
+[[objectives]]
+test = "eachMobTypeDefinesItsOwnDamage"
+label = "Zombie hits for 3, Skeleton for 2 per arrow"
+
+[[objectives]]
+test = "waveAddsUpEveryMobIncludingNewOnes"
+label = "Wave.totalDamage adds up a mixed list, including a mob type it has never seen"
+
+[[hints]]
+text = "`Zombie.attackDamage()` is a flat `3`; `Skeleton.attackDamage()` is `arrows * 2`."
+
+[[hints]]
+text = "`Wave.totalDamage` is a loop: `int sum = 0; for (Mob m : mobs) { sum += m.attackDamage(); } return sum;`"
+
+[[hints]]
+text = "Do not ask `m instanceof Zombie`. Just call `m.attackDamage()`: Java runs the right version for each mob."
+
+[[hints]]
+text = "The test slips in a new mob that Wave has never heard of. Only the loop-and-call version survives that."

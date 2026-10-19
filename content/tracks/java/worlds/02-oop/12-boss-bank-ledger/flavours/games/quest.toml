@@ -1,0 +1,40 @@
+title = "Boss: chest ledger"
+summary = "Chests, sealed Event records (ItemPlaced, ItemTaken, ItemMoved), a not-enough-items rule and an audit report."
+
+[[objectives]]
+test = "placingItemsRaisesCount"
+label = "Placing items raises the count and is recorded in the log"
+
+[[objectives]]
+test = "takingMoreThanStoredIsRejected"
+label = "Taking or moving more than the chest holds throws NotEnoughItemsException and changes nothing"
+
+[[objectives]]
+test = "movingItemsChangesBothChests"
+label = "ItemMoved lowers the source chest and raises the target chest"
+
+[[objectives]]
+test = "reportListsEventsInOrder"
+label = "report() lists every event in order, numbered, then the item total"
+
+[[objectives]]
+test = "eventIsSealedToThreeKinds"
+label = "Event is sealed to exactly ItemPlaced, ItemTaken and ItemMoved"
+
+[[hints]]
+text = "Start small: in `Chest.apply` write `switch (event) { case ItemPlaced p -> items.merge(p.stack().item(), p.stack().count(), Integer::sum); ... }` and add `event` to `log` at the end. The first objective only needs the ItemPlaced branch."
+
+[[hints]]
+text = "ItemTaken: if `count(item) < stack.count()` throw `new NotEnoughItemsException(...)`, otherwise subtract. Add to `log` only **after** the checks, so a rejected take leaves no trace."
+
+[[hints]]
+text = "Share the check between ItemTaken and ItemMoved with a small private method, e.g. `private void take(ItemStack stack)` that throws when there is not enough and subtracts."
+
+[[hints]]
+text = "ItemMoved: `take(m.stack());` then `m.to().apply(new ItemPlaced(m.stack()));`. The target chest records it as an ordinary placement."
+
+[[hints]]
+text = "`report()`: loop over `log` with a counter. Use a switch expression to turn each event into text (`\"placed 64 x cobblestone\"`, `\"took 16 x cobblestone\"`, `\"moved 8 x cobblestone to Storage B\"`), prefix `\"1. \"`, and finish with `\"items: 40\"`. Join lines with `\"\\n\"`."
+
+[[hints]]
+text = "Last objective: make `Event` `sealed ... permits ItemPlaced, ItemTaken, ItemMoved`. If your `apply` switch has a `default`, delete it: the compiler now checks that you covered every kind."

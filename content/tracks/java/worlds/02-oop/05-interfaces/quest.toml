@@ -1,0 +1,30 @@
+title = "One promise, two shapes"
+summary = "Write a Shape interface, implement it twice, and add a default describe()."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["interfaces", "default-methods"]
+
+[[objectives]]
+test = "circleAreaMatchesFormula"
+label = "Circle.area() is pi * r * r"
+
+[[objectives]]
+test = "rectanglePerimeter"
+label = "Rectangle.perimeter() is 2 * (width + height)"
+
+[[objectives]]
+test = "defaultDescribeUsesName"
+label = "describe() is \"<name> with area <rounded area>\" for every Shape"
+
+[[hints]]
+text = "Circle: `return Math.PI * radius * radius;` for area, `\"Circle\"` for name, `2 * Math.PI * radius` for perimeter."
+
+[[hints]]
+text = "Rectangle: area `width * height`, perimeter `2 * (width + height)`, name `\"Rectangle\"`."
+
+[[hints]]
+text = "A `default` method has a body inside the interface. Write it once; every implementation inherits it."
+
+[[hints]]
+text = "`return name() + \" with area \" + Math.round(area());` in `Shape.describe()`: a Rectangle 3 x 4 gives `Rectangle with area 12`."

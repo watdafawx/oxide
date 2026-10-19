@@ -1,0 +1,26 @@
+title = "Rarity, a fixed set of tiers"
+summary = "Build the Rarity enum with colour and drop weight, a parser and an upgrade() that wraps around."
+
+[[objectives]]
+test = "rarityCarriesColorAndWeight"
+label = "RARE is aqua with weight 10, EPIC is light_purple with weight 5"
+
+[[objectives]]
+test = "parseIsCaseInsensitive"
+label = "Rarity.parse(\" epic \") finds EPIC, and unknown names throw IllegalArgumentException"
+
+[[objectives]]
+test = "upgradeWrapsAroundAfterEpic"
+label = "COMMON -> UNCOMMON -> RARE -> EPIC -> COMMON, using a switch"
+
+[[hints]]
+text = "Constants carry their values in brackets: `COMMON(\"white\", 60), UNCOMMON(\"yellow\", 25), RARE(\"aqua\", 10), EPIC(\"light_purple\", 5);`"
+
+[[hints]]
+text = "`parse`: `Rarity.valueOf(text.trim().toUpperCase(Locale.ROOT))`. `valueOf` already throws IllegalArgumentException for unknown names."
+
+[[hints]]
+text = "`upgrade()` as a switch expression: `return switch (this) { case COMMON -> UNCOMMON; case UNCOMMON -> RARE; case RARE -> EPIC; case EPIC -> COMMON; };`"
+
+[[hints]]
+text = "No `default` needed: the compiler knows all four constants, and adds an error if you forget one."

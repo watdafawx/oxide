@@ -1,0 +1,17 @@
+title = "Don't hand out the inventory"
+summary = "Why item fields are private and how getSlots() can leak the real inventory."
+
+[[quiz]]
+question = "`ItemStack` has `private int durability;` and a getter, but no setter. Who can change `durability` from outside the class?"
+choices = ["Any class, with `stack.durability = 0;`", "Only subclasses", "Nobody: only methods of the class itself can"]
+answer = 2
+
+[[quiz]]
+question = "`public List<ItemStack> getSlots() { return slots; }` hands out the real `slots` list. What can a caller do?"
+choices = ["Call `inv.getSlots().clear()` and wipe the inventory behind its back", "Nothing: lists are copied on return in Java", "Only read it, because the field is private"]
+answer = 0
+
+[[quiz]]
+question = "Which version of that getter stops the leak?"
+choices = ["`return (List<ItemStack>) slots;`", "`return slots;` but rename the method", "`return List.copyOf(slots);`"]
+answer = 2

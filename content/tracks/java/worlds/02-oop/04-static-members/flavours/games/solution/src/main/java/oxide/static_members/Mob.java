@@ -1,0 +1,26 @@
+package oxide.static_members;
+
+public class Mob {
+    private static int nextId = 1;
+
+    private final int id;
+    private final String kind;
+
+    private Mob(String kind) {
+        this.kind = kind;
+        this.id = nextId++;
+    }
+
+    /** Spawns a mob. The constructor is private, so this is the only way. */
+    public static Mob spawn(String kind) {
+        return new Mob(kind);
+    }
+
+    public int id() {
+        return id;
+    }
+
+    public String kind() {
+        return kind;
+    }
+}

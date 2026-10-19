@@ -1,0 +1,19 @@
+title = "A stack that remembers"
+summary = "Give ItemStack a count field and a grow() method."
+
+[[objectives]]
+test = "newStackIsEmpty"
+label = "A new ItemStack has count() == 0"
+
+[[objectives]]
+test = "growAddsOne"
+label = "grow() adds one item to the stack"
+
+[[hints]]
+text = "`private int count;` is the field: each ItemStack object has its own copy."
+
+[[hints]]
+text = "`count()` returns the field: `return count;`."
+
+[[hints]]
+text = "`grow()` changes the field: `count++;`."
