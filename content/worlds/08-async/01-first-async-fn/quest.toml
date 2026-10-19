@@ -1,0 +1,23 @@
+title = "Your first async fn"
+summary = "Write an async fn, call it, and .await the result."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["async", "await", "tokio"]
+
+[[objectives]]
+test = "greet_returns_hello_name"
+label = "greet(name) returns \"Hello, <name>!\""
+[[objectives]]
+test = "add_async_sums"
+label = "add_async(a, b) returns a + b"
+[[objectives]]
+test = "greet_twice_awaits_both"
+label = "greet_twice calls greet twice and joins the results"
+
+[[hints]]
+text = "An `async fn` works like a normal fn in its body. `format!(\"Hello, {name}!\")` builds the String."
+[[hints]]
+text = "Calling an async fn gives you a future. Add `.await` to get the value: `let a = greet(name).await;`"
+[[hints]]
+text = "`greet_twice`: await `greet(name)` two times and return `format!(\"{a} {b}\")`."

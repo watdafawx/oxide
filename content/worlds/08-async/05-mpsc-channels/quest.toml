@@ -1,0 +1,23 @@
+title = "Channels: tasks that talk"
+summary = "tokio::sync::mpsc moves messages between tasks. Clone the sender, loop on the receiver."
+kind = "exercise"
+xp = 60
+minutes = 10
+tags = ["async", "mpsc", "channels"]
+
+[[objectives]]
+test = "drain_collects_until_closed"
+label = "drain reads every message until the channel closes"
+[[objectives]]
+test = "gather_receives_from_all_senders"
+label = "gather spawns one worker per id; each sends id * 10"
+[[objectives]]
+test = "gather_ends_with_zero_workers"
+label = "gather finishes (does not hang) when there are no workers"
+
+[[hints]]
+text = "`while let Some(msg) = rx.recv().await { out.push(msg); }` ends when every sender is gone."
+[[hints]]
+text = "Give each worker its own sender: `let tx = tx.clone();` then `tokio::spawn(async move { tx.send(id * 10).await.unwrap(); })`."
+[[hints]]
+text = "The loop only ends when ALL senders are dropped, including your original `tx`. Call `drop(tx)` after the spawn loop."

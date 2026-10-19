@@ -1,0 +1,38 @@
+title = "Boss: Mod downloader"
+summary = "Build the download engine of a mod manager: manifest, parallel downloads, retries, progress, verify, cancel."
+kind = "boss"
+xp = 450
+minutes = 60
+tags = ["async", "reqwest", "semaphore", "mpsc", "cancellation", "boss"]
+
+[[objectives]]
+test = "entry_url_joins_base_and_path"
+label = "Entry::url(base) joins the server address and the file path"
+[[objectives]]
+test = "fetch_manifest_parses_entries"
+label = "fetch_manifest(base) downloads and parses manifest.json"
+[[objectives]]
+test = "download_one_writes_the_file"
+label = "download_one saves the file under dir (via a .part file, then rename)"
+[[objectives]]
+test = "retry_once_on_5xx"
+label = "download_with_retry retries a 5xx once, never retries a 404"
+[[objectives]]
+test = "download_all_fetches_everything_and_reports_progress"
+label = "download_all gets every file and sends (name, done, total) events"
+[[objectives]]
+test = "download_all_respects_max_concurrent"
+label = "Never more than max_concurrent downloads at the same time"
+[[objectives]]
+test = "verify_lists_mismatched_sizes"
+label = "verify lists files that are missing or have the wrong size"
+[[objectives]]
+test = "cancel_stops_midway_and_leaves_no_partials"
+label = "Cancelling stops download_all quickly and leaves no .part files"
+
+[[hints]]
+text = "Order of work: `Entry::url` (trim the trailing `/` of base, then add path) -> `fetch_manifest` (`reqwest::get(..).await?.error_for_status()?.json::<Vec<Entry>>().await?`) -> `download_one` (`bytes().await?`, write `name.part`, `tokio::fs::rename` to `name`) -> `download_with_retry` (match on the first result, use the given `is_server_error`)."
+[[hints]]
+text = "`download_all`: create a `Semaphore::new(max_concurrent)` in an `Arc`. For each entry `JoinSet::spawn` a task that does `let _permit = sem.acquire_owned().await?;` then `download_with_retry` and returns the name. Clone the client, base and dir into each task first. Then loop on `set.join_next().await`: count `done += 1` and `progress.send((name, done, total)).await`."
+[[hints]]
+text = "Cancel: loop with `tokio::select! { _ = token.cancelled() => { set.abort_all(); remove_partials(dir).await; return Err(\"cancelled\".into()); } next = set.join_next() => ... }`. `res??` unwraps the JoinError and then your own Result. `verify`: `!std::fs::metadata(dir.join(&e.name)).is_ok_and(|m| m.len() == e.size)`."

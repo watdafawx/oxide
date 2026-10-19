@@ -1,0 +1,23 @@
+title = "Streams"
+summary = "A stream is an async iterator. Map, filter, take and collect it like a Vec."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["async", "streams", "futures"]
+
+[[objectives]]
+test = "doubled_evens_filters_then_maps"
+label = "doubled_evens keeps even numbers and doubles them"
+[[objectives]]
+test = "first_n_squares_stops_early"
+label = "first_n_squares takes n items from an infinite stream"
+[[objectives]]
+test = "total_length_folds_the_stream"
+label = "total_length adds up word lengths with fold"
+
+[[hints]]
+text = "`stream::iter(nums).filter(|n| ready(n % 2 == 0)).map(|n| n * 2).collect().await` (`ready` is `futures::future::ready`). The type of `collect` comes from the return type."
+[[hints]]
+text = "`stream::iter(1u64..)` never ends. Put `.take(n)` before `.collect()` or it will wait forever."
+[[hints]]
+text = "`fold(0, |acc, w| async move { acc + w.len() }).await`: the closure returns a future, so wrap the result in `async move`."

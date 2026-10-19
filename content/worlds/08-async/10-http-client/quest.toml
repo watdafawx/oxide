@@ -1,0 +1,23 @@
+title = "Fetch JSON over HTTP"
+summary = "Use reqwest to GET a URL, check the status, and parse the JSON body."
+kind = "exercise"
+xp = 70
+minutes = 12
+tags = ["async", "reqwest", "http", "json"]
+
+[[objectives]]
+test = "fetch_json_parses_the_body"
+label = "fetch_json(url) returns the parsed JSON value"
+[[objectives]]
+test = "fetch_json_rejects_http_errors"
+label = "A 404 response becomes an Err, not a JSON value"
+[[objectives]]
+test = "title_of_reads_a_field"
+label = "title_of(url) returns the \"title\" string from the JSON, or None if missing"
+
+[[hints]]
+text = "`reqwest::get(url).await?` sends the request. `.json::<serde_json::Value>().await?` parses the body."
+[[hints]]
+text = "A 404 is still a successful request for reqwest. Call `.error_for_status()?` on the response before reading it."
+[[hints]]
+text = "`title_of`: `let v = fetch_json(url).await?;` then `v[\"title\"].as_str().map(str::to_string)` (indexing a missing key gives `Null`, so `as_str` is `None`)."

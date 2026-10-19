@@ -1,0 +1,23 @@
+title = "Cancel and shut down"
+summary = "A CancellationToken tells many tasks to stop. Select on it, then join the handles."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["async", "cancellation", "tokio-util"]
+
+[[objectives]]
+test = "worker_ticks_then_stops_on_cancel"
+label = "A worker keeps ticking, then returns \"stopped\" after cancel"
+[[objectives]]
+test = "worker_stops_promptly"
+label = "The worker reacts to cancel within milliseconds, even mid-wait"
+[[objectives]]
+test = "shutdown_stops_every_worker"
+label = "shutdown cancels the token and waits for all workers"
+
+[[hints]]
+text = "Loop with `tokio::select! { _ = token.cancelled() => return \"stopped\", _ = sleep(...) => { ticks.fetch_add(1, Ordering::SeqCst); } }`."
+[[hints]]
+text = "`spawn_worker` returns `tokio::spawn(async move { loop { ... } })`. Move the token and the Arc counter into it."
+[[hints]]
+text = "`shutdown`: call `token.cancel()`, then await each handle and count how many returned `\"stopped\"`."

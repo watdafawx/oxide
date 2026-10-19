@@ -1,0 +1,16 @@
+title = "Futures are lazy"
+summary = "Nothing runs until something polls it. Two-minute read."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["async", "futures", "blocking"]
+
+[[quiz]]
+question = "You call an async fn, store the result in a variable, and never .await it. What happens?"
+choices = ["The work still runs in the background", "Nothing runs: a future does nothing until it is polled", "The program panics"]
+answer = 1
+
+[[quiz]]
+question = "Inside an async fn you call std::thread::sleep(Duration::from_secs(5)). What is the problem?"
+choices = ["It does not compile", "It blocks the runtime thread, so other tasks on that thread freeze for 5 seconds", "It is fine, it is the same as tokio::time::sleep"]
+answer = 1
