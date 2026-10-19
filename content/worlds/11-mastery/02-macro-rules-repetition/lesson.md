@@ -21,4 +21,5 @@ assert_eq!(total_blocks!(4, 2, 3), 9);
 In `src/lib.rs`:
 
 - `vec_of_strings!`: turn every argument into a `String`; allow zero arguments and a trailing comma.
+- `hashmap!`: build a `HashMap` and insert the one `$k => $v` pair (the pattern matches the literal `=>`).
 - `max!`: add the recursive arm so it works for any number of arguments.

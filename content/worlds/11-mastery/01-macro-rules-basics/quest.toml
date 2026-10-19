@@ -1,8 +1,8 @@
 title = "Your first macro"
-summary = "Write `square!` and `hashmap!` with one macro_rules arm each."
+summary = "Write `square!`, a macro that evaluates its argument once."
 kind = "exercise"
 xp = 35
-minutes = 5
+minutes = 4
 tags = ["macros", "macro_rules"]
 
 [[objectives]]
@@ -11,13 +11,8 @@ label = "square!(x) gives x * x"
 [[objectives]]
 test = "square_evaluates_once"
 label = "square!(expr) runs the expression a single time"
-[[objectives]]
-test = "hashmap_builds_one_pair"
-label = "hashmap!(k => v) builds a HashMap with that pair"
 
 [[hints]]
 text = "A macro arm is `(pattern) => { expansion };`. The pattern `$x:expr` captures any expression."
 [[hints]]
 text = "`square!(next())` must not call `next()` twice. Bind first: `{ let v = $x; v * v }`."
-[[hints]]
-text = "For `hashmap!`: `{ let mut m = ::std::collections::HashMap::new(); m.insert($k, $v); m }`. The pattern is `($k:expr => $v:expr)`."

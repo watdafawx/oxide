@@ -9,6 +9,16 @@ macro_rules! vec_of_strings {
     }};
 }
 
+/// `hashmap!("a" => 1)` builds a HashMap with one pair.
+#[macro_export]
+macro_rules! hashmap {
+    ($k:expr => $v:expr) => {{
+        // TODO: create a `::std::collections::HashMap`, insert `$k` => `$v`, return it.
+        let _ = ($k, $v);
+        ::std::collections::HashMap::new()
+    }};
+}
+
 /// `max!(3, 9, 2)` is 9.
 #[macro_export]
 macro_rules! max {
@@ -25,6 +35,8 @@ macro_rules! max {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+
     #[test]
     fn vec_of_strings_converts_each() {
         let v = vec_of_strings!["a", "b"];
@@ -37,6 +49,13 @@ mod tests {
         assert!(empty.is_empty());
         let v = vec_of_strings!["x", "y",];
         assert_eq!(v, vec!["x".to_string(), "y".to_string()]);
+    }
+
+    #[test]
+    fn hashmap_builds_one_pair() {
+        let m: HashMap<&str, i32> = hashmap!("a" => 1);
+        assert_eq!(m.len(), 1);
+        assert_eq!(m["a"], 1);
     }
 
     #[test]
