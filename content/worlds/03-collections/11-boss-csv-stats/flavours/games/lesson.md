@@ -25,3 +25,5 @@ let all: Result<Vec<u32>, String> = ["2", "4"].iter().map(|t| half(t)).collect()
 - Open `src/lib.rs`. `Mod` is given. The file lists eight functions with doc comments and examples.
 - Go top to bottom: the first test is a one-liner, and each later one builds on earlier ones.
 - Use iterator chains, not index loops. The doc comments say the exact error and report formats.
+
+Press Run to play it.

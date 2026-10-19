@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
+
+[[bin]]
+name = "coll_boss_csv_stats"
+path = "src/main.rs"
+test = false
