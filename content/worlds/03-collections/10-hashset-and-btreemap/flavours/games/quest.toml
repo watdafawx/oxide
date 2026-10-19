@@ -1,0 +1,19 @@
+title = "Enchant sets and sorted inventories"
+summary = "HashSet for unique enchantments and overlap, BTreeMap for an inventory that prints in order."
+
+[[objectives]]
+test = "unique_count_uses_a_set"
+label = "distinct_enchants counts different enchantments, ignoring repeats"
+[[objectives]]
+test = "common_uses_intersection"
+label = "shared_enchants returns the sorted enchantments present on both items"
+[[objectives]]
+test = "letter_counts_are_sorted"
+label = "sorted_inventory counts items in a BTreeMap, so names come out a to z"
+
+[[hints]]
+text = "`list.iter().collect::<HashSet<_>>().len()`. A set silently ignores duplicates."
+[[hints]]
+text = "Make a `HashSet` of each side: `a.iter().copied().collect::<HashSet<&str>>()`. Then `set_a.intersection(&set_b).copied().collect::<Vec<_>>()`, and `sort()` it since sets have no order."
+[[hints]]
+text = "Same as the drop counter, but `BTreeMap::new()`: `*counts.entry(item.to_string()).or_insert(0) += 1;`."

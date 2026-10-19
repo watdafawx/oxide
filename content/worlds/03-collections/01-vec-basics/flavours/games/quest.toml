@@ -1,0 +1,19 @@
+title = "Inventory: a list that grows"
+summary = "Fill a hotbar with push, read slots with get, and add up your stacks."
+
+[[objectives]]
+test = "podium_pushes_two_more"
+label = "starter_kit starts with a wooden sword and pushes bread and a torch"
+[[objectives]]
+test = "third_uses_get"
+label = "third_slot returns Some(item) or None when the hotbar is too short"
+[[objectives]]
+test = "sum_all_loops_over_the_vec"
+label = "total_items adds up every stack count using a for loop"
+
+[[hints]]
+text = "`kit.push(\"bread\");` adds to the end. Then return `kit`."
+[[hints]]
+text = "`slots.get(2)` returns `Option<&&str>`. Turn it into `Option<&str>` with `.copied()`."
+[[hints]]
+text = "`let mut total = 0; for count in stacks { total += count; } total`. Looping over `&[u32]` gives `&u32`, and `total += count` works with a reference."

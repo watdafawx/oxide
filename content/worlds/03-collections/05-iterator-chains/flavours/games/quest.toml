@@ -1,0 +1,22 @@
+title = "Loot table chains"
+summary = "map, filter, collect, sum and count: turn a loot table into answers without a single mut."
+
+[[objectives]]
+test = "squares_maps_each_number"
+label = "drop_names maps every drop to its item name and collects a Vec"
+[[objectives]]
+test = "evens_filters"
+label = "rare_drops keeps only drops at or above a rarity"
+[[objectives]]
+test = "total_length_sums_lengths"
+label = "total_weight adds up the weight of every drop"
+[[objectives]]
+test = "count_long_counts_filtered"
+label = "count_common counts drops with at least min_weight"
+
+[[hints]]
+text = "`table.iter().map(|d| d.item.clone()).collect()`. The return type `Vec<String>` tells `collect` what to build."
+[[hints]]
+text = "`.iter().filter(|d| d.rarity >= min_rarity).collect()` gives `Vec<&Drop>`: references into the table, no cloning."
+[[hints]]
+text = "Weights: `table.iter().map(|d| d.weight).sum()`. Counting: `table.iter().filter(|d| d.weight >= min_weight).count()`."

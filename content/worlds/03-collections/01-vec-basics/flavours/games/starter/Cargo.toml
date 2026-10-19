@@ -1,0 +1,6 @@
+[package]
+name = "coll_vec_basics"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

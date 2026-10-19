@@ -1,0 +1,22 @@
+title = "Closures: custom loot rules"
+summary = "Capture a bonus, pass a rule to a function, return a closure with impl Fn."
+
+[[objectives]]
+test = "make_adder_captures_n"
+label = "make_looting returns a closure that adds the bonus to a drop count"
+[[objectives]]
+test = "apply_twice_calls_f_twice"
+label = "upgrade_twice applies the upgrade two times"
+[[objectives]]
+test = "count_matching_uses_predicate"
+label = "count_stacks_where counts stacks where the rule returns true"
+[[objectives]]
+test = "above_limit_captures_limit"
+label = "stacks_over keeps stack sizes over a limit it captures"
+
+[[hints]]
+text = "`move |count| count + bonus`. The `move` keyword copies `bonus` into the closure so it can outlive the function."
+[[hints]]
+text = "`upgrade(upgrade(level))`. `upgrade` is just something you call with parentheses."
+[[hints]]
+text = "`stacks.iter().filter(|n| keep(**n)).count()`. `filter` hands you `&&u32` here, so `**n` (or `copied()` first) gets the number. For `stacks_over`: `.filter(|n| **n > limit)` captures `limit` automatically."

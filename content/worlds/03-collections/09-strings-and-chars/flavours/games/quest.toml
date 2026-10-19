@@ -1,0 +1,22 @@
+title = "Item ids as text"
+summary = "Split minecraft:diamond_sword, parse stack counts, join chest lists and align a table."
+
+[[objectives]]
+test = "parse_numbers_splits_trims_parses"
+label = "parse_counts turns \"64, 16, x, 8\" into [64, 16, 8]"
+[[objectives]]
+test = "count_vowels_walks_chars"
+label = "display_name turns minecraft:diamond_sword into Diamond Sword"
+[[objectives]]
+test = "join_sorted_joins_with_commas"
+label = "chest_summary sorts the items and joins them with \", \""
+[[objectives]]
+test = "table_row_pads_columns"
+label = "inventory_row pads the name left-aligned and the count right-aligned"
+
+[[hints]]
+text = "`line.split(',')` yields pieces. Each piece: `s.trim().parse::<u32>()` gives a `Result`; `.ok()` turns it into an `Option`. `filter_map` keeps only the `Some`s."
+[[hints]]
+text = "`id.rsplit(':').next().unwrap_or(id)` drops the namespace. Then `name.split('_')` gives words. To capitalise one: `let mut c = word.chars();` then `c.next()` is the first char (`f.to_uppercase().chain(c).collect::<String>()`). Join the words with `\" \"`."
+[[hints]]
+text = "Join: `let mut list = items.to_vec(); list.sort(); list.join(\", \")`. Width: `format!(\"{name:<12}{count:>4}\")`, `<` left-aligns, `>` right-aligns."

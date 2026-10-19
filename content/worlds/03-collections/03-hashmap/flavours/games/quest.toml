@@ -1,0 +1,19 @@
+title = "HashMap: the chest index"
+summary = "Look up villager prices, index a chest by item name, and count drops with entry().or_insert()."
+
+[[objectives]]
+test = "price_of_uses_get"
+label = "trade_price returns Some(emeralds) for a known item, None otherwise"
+[[objectives]]
+test = "stock_map_inserts_pairs"
+label = "chest_index builds a HashMap from item names and counts"
+[[objectives]]
+test = "count_words_counts_each_word"
+label = "count_drops counts how often each item appears in a kill log"
+
+[[hints]]
+text = "`prices.get(item)` gives `Option<&u32>`. Add `.copied()` to get `Option<u32>`."
+[[hints]]
+text = "`let mut index = HashMap::new();` then `index.insert(item.to_string(), *count);` inside the `for` loop."
+[[hints]]
+text = "`*counts.entry(item.to_string()).or_insert(0) += 1;` — `or_insert` returns a `&mut` to the value, so `*` and `+= 1` bumps it."
