@@ -2,13 +2,13 @@ title = "Peek at the player list"
 summary = "Pass the roster to a function with & so the console keeps it."
 
 [[objectives]]
-test = "count_items_counts"
+test = "count_players_counts_online_names"
 label = "count_players(&roster) returns how many players are online"
 [[objectives]]
-test = "total_chars_adds_lengths"
+test = "total_chars_sums_name_lengths"
 label = "total_chars(&roster) adds up the length of every player name"
 [[objectives]]
-test = "bag_is_still_usable_after_borrowing"
+test = "roster_still_usable_after_borrowing"
 label = "The console can keep using the roster after both calls"
 
 [[hints]]

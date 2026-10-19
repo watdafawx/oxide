@@ -2,10 +2,10 @@ title = "Player ids and positions"
 summary = "Derive Clone for explicit copies and Copy for types that never move."
 
 [[objectives]]
-test = "two_labels_clones"
+test = "duplicate_player_returns_two_copies"
 label = "duplicate_player(&player) returns two equal copies (Player needs Clone)"
 [[objectives]]
-test = "mirror_returns_point_twice"
+test = "spawn_and_home_returns_pos_twice"
 label = "spawn_and_home(pos) returns (pos, pos) (BlockPos needs Copy)"
 
 [[hints]]

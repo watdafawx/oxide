@@ -25,7 +25,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn two_labels_clones() {
+    fn duplicate_player_returns_two_copies() {
         let player = Player { name: "Steve".to_string() };
         let copies = duplicate_player(&player);
         assert_eq!(copies.len(), 2);
@@ -34,7 +34,7 @@ mod tests {
     }
 
     #[test]
-    fn mirror_returns_point_twice() {
+    fn spawn_and_home_returns_pos_twice() {
         let pos = BlockPos { x: 3, y: 64, z: -4 };
         assert_eq!(
             spawn_and_home(pos),

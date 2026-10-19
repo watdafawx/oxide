@@ -2,28 +2,28 @@ title = "Boss: the server console"
 summary = "Players, a stash, and commands that change the server: borrow and mutate the console state without a single clone."
 
 [[objectives]]
-test = "room_name_borrows_from_world"
+test = "player_name_borrows_from_server"
 label = "Server::player_name(i) returns the player's name as a &str"
 [[objectives]]
-test = "describe_shows_room_and_exits"
+test = "list_shows_every_player_position"
 label = "list() prints every player and their x,y,z position"
 [[objectives]]
-test = "describe_lists_items_when_present"
+test = "list_adds_items_only_for_holders"
 label = "list() adds [items: ...] only for players who hold something"
 [[objectives]]
-test = "go_moves_the_player"
+test = "tp_moves_the_player"
 label = "tp(\"Steve\", pos) moves the player and returns their name"
 [[objectives]]
-test = "go_blocked_keeps_player_in_place"
+test = "tp_unknown_player_moves_nobody"
 label = "tp of an unknown player returns Err and nobody moves"
 [[objectives]]
-test = "take_moves_item_to_inventory"
+test = "give_moves_stash_item_to_inventory"
 label = "give(\"Steve\", \"diamond\") removes the item from the stash and adds it to the inventory"
 [[objectives]]
-test = "take_missing_item_is_an_error"
+test = "give_missing_item_is_an_error"
 label = "give of something that isn't in the stash returns Err and changes nothing"
 [[objectives]]
-test = "run_plays_a_whole_script"
+test = "run_plays_a_whole_console_script"
 label = "run(&[...]) plays console lines (list, tp, give, kick) on a fresh server and returns one line per command"
 
 [[hints]]

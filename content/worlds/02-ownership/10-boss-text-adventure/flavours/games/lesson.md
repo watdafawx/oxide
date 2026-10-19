@@ -28,7 +28,7 @@ Text formats are in the objective labels and the tests. Read the failing asserti
 ## Your turn
 
 - Open `src/lib.rs`. `Console::demo()` and the types are done. Replace each `todo!()`, top to bottom, one objective at a time.
-- `kick` has no objective of its own: `run_plays_a_whole_script` covers it at the end.
+- `kick` has no objective of its own: `run_plays_a_whole_console_script` covers it at the end.
 - `run` builds a fresh `Console::demo()` and plays each line: `list`, `tp <name> <x> <y> <z>`, `give <name> <item>`, `kick <name>`, anything else is "Unknown command: ...".
 
 Press Run to play it.

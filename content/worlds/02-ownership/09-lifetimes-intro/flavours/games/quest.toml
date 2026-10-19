@@ -2,13 +2,13 @@ title = "Command<'a> borrows the line"
 summary = "Pick the longer argument of two commands and tell the compiler how long the answer lives."
 
 [[objectives]]
-test = "longest_returns_the_longer"
+test = "longest_arg_picks_longer_argument"
 label = "longest_arg(a, b) returns the longer argument"
 [[objectives]]
-test = "tie_returns_first"
+test = "longest_arg_tie_keeps_first_command"
 label = "On a tie, longest_arg returns the first command's argument"
 [[objectives]]
-test = "result_usable_while_inputs_live"
+test = "argument_usable_while_console_lines_live"
 label = "The result can be used as long as both console lines are alive"
 
 [[hints]]

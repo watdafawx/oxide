@@ -2,13 +2,13 @@ title = "Chat lines: String or &str?"
 summary = "Owned text or borrowed text? Pick the right one for each console parameter."
 
 [[objectives]]
-test = "greet_takes_literals_and_strings"
+test = "welcome_takes_literals_and_strings"
 label = "welcome works with a literal AND with &String"
 [[objectives]]
-test = "into_owned_outlives_source"
+test = "chat_line_outlives_typed_text"
 label = "chat_line returns a String that lives on after the typed text is gone"
 [[objectives]]
-test = "rank_owned_matches_on_as_str"
+test = "permission_level_matches_role_text"
 label = "permission_level matches the role with .as_str()"
 
 [[hints]]

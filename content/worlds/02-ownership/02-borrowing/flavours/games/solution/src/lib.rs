@@ -23,17 +23,17 @@ mod tests {
     }
 
     #[test]
-    fn count_items_counts() {
+    fn count_players_counts_online_names() {
         assert_eq!(count_players(&roster()), 3);
     }
 
     #[test]
-    fn total_chars_adds_lengths() {
+    fn total_chars_sums_name_lengths() {
         assert_eq!(total_chars(&roster()), 12, "steve + alex + bob = 5 + 4 + 3");
     }
 
     #[test]
-    fn bag_is_still_usable_after_borrowing() {
+    fn roster_still_usable_after_borrowing() {
         let r = roster();
         let n = count_players(&r);
         let c = total_chars(&r);

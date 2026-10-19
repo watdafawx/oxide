@@ -21,21 +21,21 @@ mod tests {
     use super::*;
 
     #[test]
-    fn add_exclaim_appends() {
+    fn tag_as_op_appends_tag() {
         let mut name = String::from("steve");
         tag_as_op(&mut name);
         assert_eq!(name, "steve [OP]");
     }
 
     #[test]
-    fn push_twice_adds_two() {
+    fn queue_twice_pushes_command_twice() {
         let mut queue = vec!["list".to_string()];
         queue_twice(&mut queue, "save-all");
         assert_eq!(queue, vec!["list", "save-all", "save-all"]);
     }
 
     #[test]
-    fn move_last_between_vecs() {
+    fn kick_last_moves_player_to_kicked_list() {
         let mut online = vec!["steve".to_string(), "alex".to_string(), "bob".to_string()];
         let mut kicked = vec!["griefer".to_string()];
         kick_last(&mut online, &mut kicked);

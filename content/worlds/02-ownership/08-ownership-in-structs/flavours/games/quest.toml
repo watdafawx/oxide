@@ -2,13 +2,13 @@ title = "Players that own, views that borrow"
 summary = "A Player with a String owns its name. A PlayerRef with &str needs a lifetime."
 
 [[objectives]]
-test = "owned_outlives_its_source"
+test = "player_name_outlives_typed_text"
 label = "Player::new copies the name so it outlives the String it came from"
 [[objectives]]
-test = "borrowed_reads_from_source"
+test = "player_ref_reads_from_console_line"
 label = "PlayerRef::new keeps a reference into the original text"
 [[objectives]]
-test = "as_borrowed_points_into_owned"
+test = "view_borrows_from_player"
 label = "Player::view gives a PlayerRef without copying"
 
 [[hints]]

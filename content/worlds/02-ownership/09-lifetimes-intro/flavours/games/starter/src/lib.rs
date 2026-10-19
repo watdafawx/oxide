@@ -25,7 +25,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn longest_returns_the_longer() {
+    fn longest_arg_picks_longer_argument() {
         let a = Command::parse("kick Bo");
         let b = Command::parse("kick Alexander");
         assert_eq!(longest_arg(a, b), "Alexander");
@@ -33,7 +33,7 @@ mod tests {
     }
 
     #[test]
-    fn tie_returns_first() {
+    fn longest_arg_tie_keeps_first_command() {
         let first = String::from("kick abc");
         let second = String::from("kick xyz");
         let r = longest_arg(Command::parse(&first), Command::parse(&second));
@@ -41,7 +41,7 @@ mod tests {
     }
 
     #[test]
-    fn result_usable_while_inputs_live() {
+    fn argument_usable_while_console_lines_live() {
         let x = String::from("tp Rustacean");
         let y = String::from("tp Crab");
         let r = longest_arg(Command::parse(&x), Command::parse(&y));

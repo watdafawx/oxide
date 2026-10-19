@@ -34,7 +34,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn owned_outlives_its_source() {
+    fn player_name_outlives_typed_text() {
         let player = {
             let typed = String::from("ferris");
             Player::new(&typed, 3)
@@ -44,7 +44,7 @@ mod tests {
     }
 
     #[test]
-    fn borrowed_reads_from_source() {
+    fn player_ref_reads_from_console_line() {
         let text = String::from("ana");
         let view = PlayerRef::new(&text, 7);
         assert_eq!(view.name, "ana");
@@ -53,7 +53,7 @@ mod tests {
     }
 
     #[test]
-    fn as_borrowed_points_into_owned() {
+    fn view_borrows_from_player() {
         let player = Player::new("bo", 2);
         let view = player.view();
         assert_eq!(view, PlayerRef { name: "bo", level: 2 });

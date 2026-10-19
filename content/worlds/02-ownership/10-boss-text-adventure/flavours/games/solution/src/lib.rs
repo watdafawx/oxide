@@ -156,21 +156,21 @@ mod tests {
     use super::*;
 
     #[test]
-    fn room_name_borrows_from_world() {
+    fn player_name_borrows_from_server() {
         let console = Console::demo();
         assert_eq!(console.server.player_name(0), "Steve");
         assert_eq!(console.server.player_name(1), "Alex");
     }
 
     #[test]
-    fn describe_shows_room_and_exits() {
+    fn list_shows_every_player_position() {
         let mut console = Console::demo();
         console.server.players[1].inventory.clear();
         assert_eq!(console.list(), "Steve @ 0,64,0; Alex @ 10,70,-3");
     }
 
     #[test]
-    fn describe_lists_items_when_present() {
+    fn list_adds_items_only_for_holders() {
         let mut console = Console::demo();
         assert_eq!(console.list(), "Steve @ 0,64,0; Alex @ 10,70,-3 [items: compass]");
         console.server.players[0].inventory.push("diamond".to_string());
@@ -181,7 +181,7 @@ mod tests {
     }
 
     #[test]
-    fn go_moves_the_player() {
+    fn tp_moves_the_player() {
         let mut console = Console::demo();
         assert_eq!(console.tp("Steve", BlockPos { x: 5, y: 70, z: 5 }), Ok("Steve"));
         assert_eq!(console.server.players[0].pos, BlockPos { x: 5, y: 70, z: 5 });
@@ -190,7 +190,7 @@ mod tests {
     }
 
     #[test]
-    fn go_blocked_keeps_player_in_place() {
+    fn tp_unknown_player_moves_nobody() {
         let mut console = Console::demo();
         let nowhere = BlockPos { x: 1, y: 1, z: 1 };
         assert_eq!(console.tp("Herobrine", nowhere), Err("No player named Herobrine.".to_string()));
@@ -199,7 +199,7 @@ mod tests {
     }
 
     #[test]
-    fn take_moves_item_to_inventory() {
+    fn give_moves_stash_item_to_inventory() {
         let mut console = Console::demo();
         assert_eq!(console.give("Steve", "diamond"), Ok(()));
         assert_eq!(console.server.players[0].inventory, vec!["diamond".to_string()]);
@@ -207,7 +207,7 @@ mod tests {
     }
 
     #[test]
-    fn take_missing_item_is_an_error() {
+    fn give_missing_item_is_an_error() {
         let mut console = Console::demo();
         assert_eq!(console.give("Steve", "sword"), Err("There is no sword in the stash.".to_string()));
         assert!(console.server.players[0].inventory.is_empty());
@@ -215,7 +215,7 @@ mod tests {
     }
 
     #[test]
-    fn run_plays_a_whole_script() {
+    fn run_plays_a_whole_console_script() {
         let out = run(&[
             "give Steve diamond",
             "tp Steve 5 70 5",

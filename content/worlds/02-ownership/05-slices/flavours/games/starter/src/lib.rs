@@ -21,14 +21,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn first_word_stops_at_space() {
+    fn command_name_stops_at_first_space() {
         assert_eq!(command_name("kick Steve griefing"), "kick");
         assert_eq!(command_name("list"), "list");
         assert_eq!(command_name(""), "");
     }
 
     #[test]
-    fn middle_drops_both_ends() {
+    fn trim_edges_drops_header_and_footer() {
         assert_eq!(
             trim_edges(&["== log ==", "steve joined", "alex left", "== end =="]),
             &["steve joined", "alex left"]
@@ -38,7 +38,7 @@ mod tests {
     }
 
     #[test]
-    fn last_three_takes_the_tail() {
+    fn recent_lines_keeps_last_three() {
         let log: Vec<String> = ["a", "b", "c", "d", "e"].iter().map(|s| s.to_string()).collect();
         assert_eq!(recent_lines(&log), &["c", "d", "e"]);
         let short = vec!["x".to_string(), "y".to_string()];

@@ -2,13 +2,13 @@ title = "Kick, rename, tag"
 summary = "&mut lets a command edit the server's data. Only one writer at a time."
 
 [[objectives]]
-test = "add_exclaim_appends"
+test = "tag_as_op_appends_tag"
 label = "tag_as_op(&mut name) appends \" [OP]\" to the caller's String"
 [[objectives]]
-test = "push_twice_adds_two"
+test = "queue_twice_pushes_command_twice"
 label = "queue_twice(&mut queue, cmd) pushes the command onto the queue two times"
 [[objectives]]
-test = "move_last_between_vecs"
+test = "kick_last_moves_player_to_kicked_list"
 label = "kick_last(&mut online, &mut kicked) moves the last player from one list to the other"
 
 [[hints]]
