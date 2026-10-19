@@ -2,13 +2,13 @@ title = "Inserter handle and power-down"
 summary = "Make an inserter handle act like the machine it controls, and log a power-down when an inserter dies."
 
 [[objectives]]
-test = "deref_gives_inner_value"
+test = "handle_derefs_to_inserter_value"
 label = "*InserterHandle::new(x) gives x, and &InserterHandle<String> works as &str"
 [[objectives]]
-test = "drop_logs_name"
+test = "inserter_logs_power_down"
 label = "Dropping an Inserter pushes \"power down <name>\" onto the log"
 [[objectives]]
-test = "early_release_drops_before_work"
+test = "hot_swap_powers_down_first"
 label = "hot_swap powers the inserter down first, then logs \"place new inserter\""
 
 [[hints]]

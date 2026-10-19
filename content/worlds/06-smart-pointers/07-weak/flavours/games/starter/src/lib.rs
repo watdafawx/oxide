@@ -45,7 +45,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn adopt_links_both_ways() {
+    fn connect_links_pole_and_machine() {
         let pole = new_pole("pole-north");
         let furnace = new_machine("furnace");
         assert_eq!(pole_name(&furnace), None, "a fresh machine has no pole");
@@ -55,7 +55,7 @@ mod tests {
     }
 
     #[test]
-    fn parent_link_is_weak() {
+    fn pole_link_is_weak() {
         let pole = new_pole("pole-north");
         let furnace = new_machine("furnace");
         connect(&pole, &furnace);
@@ -65,7 +65,7 @@ mod tests {
     }
 
     #[test]
-    fn orphan_after_parent_dropped() {
+    fn pole_name_none_after_pole_dropped() {
         let furnace = new_machine("furnace");
         {
             let pole = new_pole("pole-north");

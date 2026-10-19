@@ -2,13 +2,13 @@ title = "One recipe, many assemblers"
 summary = "Rc lets many assemblers hold one Recipe. Rc::clone only bumps a counter."
 
 [[objectives]]
-test = "share_returns_another_handle"
+test = "share_recipe_returns_same_recipe"
 label = "share_recipe(&rc) gives another assembler the same Recipe"
 [[objectives]]
-test = "owner_count_reports_strong_count"
+test = "assembler_count_reports_users"
 label = "assembler_count(&rc) reports how many assemblers use the recipe"
 [[objectives]]
-test = "count_inside_and_after_tracks_drops"
+test = "temporary_assembler_raises_then_lowers_count"
 label = "A temporary assembler raises the count, then lowers it again"
 
 [[hints]]

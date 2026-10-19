@@ -52,7 +52,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn deref_gives_inner_value() {
+    fn handle_derefs_to_inserter_value() {
         let b = InserterHandle::new(40);
         assert_eq!(*b, 40);
         let s = InserterHandle::new(String::from("fast-inserter"));
@@ -60,7 +60,7 @@ mod tests {
     }
 
     #[test]
-    fn drop_logs_name() {
+    fn inserter_logs_power_down() {
         let mut log = Vec::new();
         {
             let _i = Inserter::new("inserter-1", &mut log);
@@ -69,7 +69,7 @@ mod tests {
     }
 
     #[test]
-    fn early_release_drops_before_work() {
+    fn hot_swap_powers_down_first() {
         let mut log = Vec::new();
         hot_swap(&mut log);
         assert_eq!(log, vec!["power down inserter-1", "place new inserter"]);

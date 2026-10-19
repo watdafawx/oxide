@@ -2,25 +2,25 @@ title = "Boss: Tech-tree editor"
 summary = "Build the engine of a tech-tree editor: add, move, remove and render technologies with their prerequisites."
 
 [[objectives]]
-test = "new_doc_has_root_title"
+test = "starting_tech_is_the_root"
 label = "name(0) is the starting tech; unknown ids give None"
 [[objectives]]
-test = "add_returns_fresh_ids"
+test = "add_tech_returns_fresh_ids"
 label = "add(prerequisite, name) returns a new id each time, None for an unknown prerequisite"
 [[objectives]]
-test = "path_lists_ancestors"
+test = "path_lists_prerequisites"
 label = "path(id) lists the techs to research, from the starting tech down to this one"
 [[objectives]]
-test = "render_indents_children"
+test = "render_indents_dependants"
 label = "render() prints the tech tree, two spaces of indent per level"
 [[objectives]]
-test = "remove_deletes_subtree"
+test = "remove_deletes_dependants"
 label = "remove(id) deletes the tech and everything that depends on it (never the starting tech)"
 [[objectives]]
-test = "move_node_reparents"
+test = "reparent_moves_dependants"
 label = "reparent(id, new_prerequisite) re-attaches the tech and its dependants"
 [[objectives]]
-test = "move_refuses_cycles"
+test = "reparent_refuses_cycles"
 label = "reparent refuses to make a tech depend on itself or on one of its own dependants"
 
 [[hints]]

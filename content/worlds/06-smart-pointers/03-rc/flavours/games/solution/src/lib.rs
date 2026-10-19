@@ -39,7 +39,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn share_returns_another_handle() {
+    fn share_recipe_returns_same_recipe() {
         let a = Rc::new(Recipe::new("iron-gear-wheel", 30));
         let b = share_recipe(&a);
         assert!(Rc::ptr_eq(&a, &b), "both assemblers must use the same Recipe");
@@ -47,7 +47,7 @@ mod tests {
     }
 
     #[test]
-    fn owner_count_reports_strong_count() {
+    fn assembler_count_reports_users() {
         let a = Rc::new(Recipe::new("iron-gear-wheel", 30));
         let _b = Rc::clone(&a);
         let _c = Rc::clone(&a);
@@ -55,7 +55,7 @@ mod tests {
     }
 
     #[test]
-    fn count_inside_and_after_tracks_drops() {
+    fn temporary_assembler_raises_then_lowers_count() {
         let a = Rc::new(Recipe::new("iron-gear-wheel", 30));
         assert_eq!(count_with_extra_assembler(&a), (2, 1));
     }

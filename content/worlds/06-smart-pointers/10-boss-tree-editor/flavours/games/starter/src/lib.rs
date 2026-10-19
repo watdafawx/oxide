@@ -90,14 +90,14 @@ mod tests {
     }
 
     #[test]
-    fn new_doc_has_root_title() {
+    fn starting_tech_is_the_root() {
         let tree = TechTree::new("Automation");
         assert_eq!(tree.name(ROOT), Some(String::from("Automation")));
         assert_eq!(tree.name(99), None, "unknown id");
     }
 
     #[test]
-    fn add_returns_fresh_ids() {
+    fn add_tech_returns_fresh_ids() {
         let (mut tree, logistics, fast_inserter, electronics) = sample();
         assert_eq!((logistics, fast_inserter, electronics), (1, 2, 3), "ids count up from 1");
         assert_eq!(tree.name(fast_inserter), Some(String::from("Fast inserter")));
@@ -105,7 +105,7 @@ mod tests {
     }
 
     #[test]
-    fn path_lists_ancestors() {
+    fn path_lists_prerequisites() {
         let (tree, _, fast_inserter, _) = sample();
         assert_eq!(tree.path(fast_inserter), vec!["Automation", "Logistics", "Fast inserter"]);
         assert_eq!(tree.path(ROOT), vec!["Automation"]);
@@ -113,7 +113,7 @@ mod tests {
     }
 
     #[test]
-    fn render_indents_children() {
+    fn render_indents_dependants() {
         let (tree, _, _, _) = sample();
         assert_eq!(
             tree.render(),
@@ -122,7 +122,7 @@ mod tests {
     }
 
     #[test]
-    fn remove_deletes_subtree() {
+    fn remove_deletes_dependants() {
         let (mut tree, logistics, fast_inserter, _) = sample();
         assert!(tree.remove(logistics));
         assert_eq!(tree.render(), "Automation\n  Electronics\n");
@@ -137,7 +137,7 @@ mod tests {
     }
 
     #[test]
-    fn move_node_reparents() {
+    fn reparent_moves_dependants() {
         let (mut tree, _, fast_inserter, electronics) = sample();
         assert!(tree.reparent(fast_inserter, electronics));
         assert_eq!(
@@ -151,7 +151,7 @@ mod tests {
     }
 
     #[test]
-    fn move_refuses_cycles() {
+    fn reparent_refuses_cycles() {
         let (mut tree, logistics, fast_inserter, _) = sample();
         assert!(
             !tree.reparent(logistics, fast_inserter),

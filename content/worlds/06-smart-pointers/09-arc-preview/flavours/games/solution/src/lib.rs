@@ -30,13 +30,13 @@ mod tests {
     }
 
     #[test]
-    fn parallel_sum_adds_everything() {
+    fn total_cost_adds_both_halves() {
         let recipes: Vec<Recipe> = (1..=101).map(recipe).collect();
         assert_eq!(total_cost(recipes), 5151);
     }
 
     #[test]
-    fn parallel_sum_handles_tiny_inputs() {
+    fn total_cost_handles_tiny_lists() {
         assert_eq!(total_cost(Vec::new()), 0, "empty list");
         assert_eq!(total_cost(vec![recipe(7)]), 7, "one recipe");
     }

@@ -35,19 +35,19 @@ mod tests {
     }
 
     #[test]
-    fn prepend_puts_new_head_in_front() {
+    fn extend_puts_new_segment_in_front() {
         let belt = extend(Segment(2, Box::new(End)), 1);
         assert_eq!(belt, Segment(1, Box::new(Segment(2, Box::new(End)))));
     }
 
     #[test]
-    fn sum_adds_every_element() {
+    fn total_items_adds_every_segment() {
         assert_eq!(total_items(&three()), 6);
         assert_eq!(total_items(&End), 0, "an empty belt carries nothing");
     }
 
     #[test]
-    fn len_counts_elements() {
+    fn segment_count_counts_segments() {
         assert_eq!(segment_count(&three()), 3);
         assert_eq!(segment_count(&End), 0, "an empty belt has no segments");
     }

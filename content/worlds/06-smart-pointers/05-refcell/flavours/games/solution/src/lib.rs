@@ -42,7 +42,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn hit_counts_through_shared_ref() {
+    fn swing_counts_through_shared_ref() {
         let i = Inserter::new();
         let r = &i;
         r.swing();
@@ -51,14 +51,14 @@ mod tests {
     }
 
     #[test]
-    fn add_item_mutates_in_place() {
+    fn put_in_chest_pushes_item() {
         let chest = RefCell::new(vec![String::from("iron-plate")]);
         put_in_chest(&chest, "copper-plate");
         assert_eq!(*chest.borrow(), vec!["iron-plate", "copper-plate"]);
     }
 
     #[test]
-    fn is_locked_detects_active_borrow() {
+    fn chest_busy_while_borrowed() {
         let chest = RefCell::new(vec![String::from("iron-plate")]);
         assert!(!chest_busy(&chest), "a free chest is not busy");
         let reader = chest.borrow();

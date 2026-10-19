@@ -2,13 +2,13 @@ title = "Belt segments in a Box"
 summary = "A belt that continues into another belt needs a Box to have a size."
 
 [[objectives]]
-test = "prepend_puts_new_head_in_front"
+test = "extend_puts_new_segment_in_front"
 label = "extend(belt, items) returns a longer belt with a new segment at the front"
 [[objectives]]
-test = "sum_adds_every_element"
+test = "total_items_adds_every_segment"
 label = "total_items(&belt) adds up the items on every segment"
 [[objectives]]
-test = "len_counts_elements"
+test = "segment_count_counts_segments"
 label = "segment_count(&belt) counts the segments"
 
 [[hints]]

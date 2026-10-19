@@ -2,16 +2,16 @@ title = "Assemblers feeding assemblers"
 summary = "Wire machines into a graph that can be shared and edited, then total its throughput."
 
 [[objectives]]
-test = "new_node_is_a_leaf"
+test = "new_assembler_feeds_nothing"
 label = "new_assembler(rate) makes a shared assembler with that rate and nothing downstream"
 [[objectives]]
-test = "add_child_links_parent"
+test = "connect_appends_to_feeds"
 label = "connect(&source, target) appends the target to source.feeds"
 [[objectives]]
-test = "shared_child_changes_show_up"
+test = "rate_change_shows_in_total"
 label = "Changing an assembler's rate through your own handle changes the total"
 [[objectives]]
-test = "total_sums_whole_tree"
+test = "total_throughput_sums_whole_chain"
 label = "total_throughput(&assembler) adds the assembler and everything it feeds"
 
 [[hints]]

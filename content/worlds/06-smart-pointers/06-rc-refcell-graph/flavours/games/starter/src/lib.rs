@@ -30,14 +30,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_node_is_a_leaf() {
+    fn new_assembler_feeds_nothing() {
         let a = new_assembler(5);
         assert_eq!(a.borrow().rate, 5);
         assert_eq!(a.borrow().feeds.len(), 0);
     }
 
     #[test]
-    fn add_child_links_parent() {
+    fn connect_appends_to_feeds() {
         let gears = new_assembler(1);
         connect(&gears, new_assembler(2));
         assert_eq!(gears.borrow().feeds.len(), 1);
@@ -45,7 +45,7 @@ mod tests {
     }
 
     #[test]
-    fn shared_child_changes_show_up() {
+    fn rate_change_shows_in_total() {
         let gears = new_assembler(1);
         let circuits = new_assembler(2);
         connect(&gears, Rc::clone(&circuits));
@@ -58,7 +58,7 @@ mod tests {
     }
 
     #[test]
-    fn total_sums_whole_tree() {
+    fn total_throughput_sums_whole_chain() {
         let gears = new_assembler(1);
         let circuits = new_assembler(2);
         let science = new_assembler(3);

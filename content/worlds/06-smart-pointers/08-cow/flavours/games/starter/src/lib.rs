@@ -12,7 +12,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn clean_input_is_borrowed() {
+    fn prefixed_name_is_borrowed() {
         let out = qualified_name("create:cogwheel", "create");
         assert!(
             matches!(out, Cow::Borrowed(_)),
@@ -21,13 +21,13 @@ mod tests {
     }
 
     #[test]
-    fn tabs_become_single_spaces() {
+    fn bare_name_gets_mod_prefix() {
         assert_eq!(qualified_name("cogwheel", "create"), "create:cogwheel");
         assert_eq!(qualified_name("create:cogwheel", "create"), "create:cogwheel");
     }
 
     #[test]
-    fn changed_input_is_owned() {
+    fn prefixed_bare_name_is_owned() {
         let out = qualified_name("cogwheel", "create");
         assert!(matches!(out, Cow::Owned(_)), "a prefixed name must be Owned");
     }

@@ -2,13 +2,13 @@ title = "Mod-prefixed item names"
 summary = "Item names usually come ready to use. Allocate only when you must add the mod id."
 
 [[objectives]]
-test = "clean_input_is_borrowed"
+test = "prefixed_name_is_borrowed"
 label = "A name that already has a mod id (\"create:cogwheel\") comes back as Cow::Borrowed (no allocation)"
 [[objectives]]
-test = "tabs_become_single_spaces"
+test = "bare_name_gets_mod_prefix"
 label = "A bare name gets the mod id in front: \"cogwheel\" becomes \"create:cogwheel\""
 [[objectives]]
-test = "changed_input_is_owned"
+test = "prefixed_bare_name_is_owned"
 label = "A name that needed the prefix comes back as Cow::Owned"
 
 [[hints]]
