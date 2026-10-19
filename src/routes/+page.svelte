@@ -1,156 +1,73 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/core";
+  import { goto } from "$app/navigation";
+  import { api } from "$lib/api";
+  import { app } from "$lib/store.svelte";
+  import { kindClass, kindLabel } from "$lib/ui";
+  import XpBar from "$lib/components/XpBar.svelte";
+  import type { Home } from "$lib/types";
 
-  let name = $state("");
-  let greetMsg = $state("");
+  let home = $state<Home | null>(null);
+  let starting = $state(false);
 
-  async function greet(event: Event) {
-    event.preventDefault();
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsg = await invoke("greet", { name });
+  async function load() {
+    try {
+      home = await api.home();
+    } catch (e) {
+      app.error(e);
+    }
+  }
+  $effect(() => {
+    void app.profile?.completed.length; // refresh when progress changes
+    void load();
+  });
+
+  async function start(id: string) {
+    starting = true;
+    try {
+      await api.startQuest(id);
+      await goto(`/quest/${id}`);
+    } catch (e) {
+      app.error(e);
+    } finally {
+      starting = false;
+    }
   }
 </script>
 
-<main class="container">
-  <h1>Welcome to Tauri + Svelte</h1>
+<div class="mx-auto flex max-w-2xl flex-col gap-8 px-6 py-10">
+  <XpBar />
 
-  <div class="row">
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte-kit" alt="SvelteKit Logo" />
-    </a>
-  </div>
-  <p>Click on the Tauri, Vite, and SvelteKit logos to learn more.</p>
+  {#if home?.next}
+    {@const q = home.next}
+    <section class="rounded-3xl border border-line bg-panel p-8 shadow-xl" data-testid="next-card">
+      <div class="mb-4 flex items-center gap-3 text-sm">
+        <span class="rounded-full border px-3 py-0.5 font-semibold {kindClass[q.kind]}">{kindLabel[q.kind]}</span>
+        <span class="text-dim">{q.minutes} min</span>
+        <span class="font-bold text-rust-hi">+{q.xp} XP</span>
+      </div>
+      <h1 class="text-4xl leading-tight font-extrabold">{q.title}</h1>
+      <p class="mt-3 text-lg text-dim">{q.summary}</p>
+      <button class="btn btn-primary btn-lg mt-8 w-full" disabled={starting} onclick={() => start(q.id)}>
+        {app.profile?.started.includes(q.id) ? "Continue" : "Start"} →
+      </button>
+    </section>
 
-  <form class="row" onsubmit={greet}>
-    <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button type="submit">Greet</button>
-  </form>
-  <p>{greetMsg}</p>
-</main>
-
-<style>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.svelte-kit:hover {
-  filter: drop-shadow(0 0 2em #ff3e00);
-}
-
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-.container {
-  margin: 0;
-  padding-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  text-align: center;
-}
-
-input,
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
-
-input,
-button {
-  outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
-  }
-
-  a:hover {
-    color: #24c8db;
-  }
-
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
-  }
-  button:active {
-    background-color: #0f0f0f69;
-  }
-}
-
-</style>
+    {#if home.alternate}
+      <a href="/quest/{home.alternate.id}" class="text-center text-dim hover:text-ink">or: <span class="underline">{home.alternate.title}</span></a>
+    {/if}
+    {#if home.resume}
+      <a href="/quest/{home.resume.id}" class="flex items-center justify-between rounded-2xl border border-line bg-panel-2 px-5 py-3 hover:border-rust/50">
+        <span>Continue <b>{home.resume.title}</b></span><span class="text-rust-hi">→</span>
+      </a>
+    {/if}
+  {:else if home}
+    <section class="rounded-3xl border border-line bg-panel p-10 text-center">
+      <div class="text-6xl">🏁</div>
+      <h1 class="mt-4 text-3xl font-extrabold">Nothing left right now</h1>
+      <p class="mt-2 text-dim">You cleared everything that is unlocked. Check the map.</p>
+      <a href="/map" class="btn btn-primary btn-lg mt-6">Open map</a>
+    </section>
+  {:else}
+    <div class="h-72 animate-pulse rounded-3xl bg-panel"></div>
+  {/if}
+</div>
