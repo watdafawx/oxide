@@ -1,0 +1,19 @@
+title = "A stream of download chunks"
+summary = "A Stream is an async iterator: filter, map, take and fold the chunks of a download as they arrive."
+
+[[objectives]]
+test = "big_jars_in_mb_filters_then_maps"
+label = "big_jars_in_mb keeps jars of at least 1024 KB and converts them to MB"
+[[objectives]]
+test = "first_n_chunk_offsets_stops_early"
+label = "first_n_chunk_offsets takes n offsets from an endless stream of chunks"
+[[objectives]]
+test = "total_name_length_folds_the_stream"
+label = "total_name_length adds up the name lengths with fold"
+
+[[hints]]
+text = "`stream::iter(sizes).filter(|kb| ready(*kb >= 1024)).map(|kb| kb / 1024).collect().await` (the filter closure returns a future: `ready(..)`)."
+[[hints]]
+text = "`stream::iter(0u64..)` never ends. Add `.take(n)` before `.collect()`."
+[[hints]]
+text = "`.fold(0, |acc, name| async move { acc + name.len() }).await`."

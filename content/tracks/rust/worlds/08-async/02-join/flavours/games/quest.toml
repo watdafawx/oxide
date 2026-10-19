@@ -1,0 +1,22 @@
+title = "Two downloads at once"
+summary = "Await two downloads one after the other, then overlap them with join!."
+
+[[objectives]]
+test = "queue_twice_awaits_both_lines"
+label = "queue_twice awaits two queue lines in sequence and joins them"
+[[objectives]]
+test = "fetch_both_returns_both_sizes"
+label = "fetch_both(a, b) returns both mods' sizes"
+[[objectives]]
+test = "fetch_both_overlaps_the_waits"
+label = "Both slow fetches overlap in time (about 300 ms, not 600 ms)"
+[[objectives]]
+test = "total_kb_adds_both_sizes"
+label = "total_kb joins the two fetches and adds the sizes"
+
+[[hints]]
+text = "`let first = queue_line(jar).await;` then the second, then `format!(\"{first} {second}\")`."
+[[hints]]
+text = "`tokio::join!(fetch_size(a), fetch_size(b))` runs both futures at once and returns a tuple."
+[[hints]]
+text = "For the total, destructure the tuple: `let (x, y) = tokio::join!(...);` then `x + y`."

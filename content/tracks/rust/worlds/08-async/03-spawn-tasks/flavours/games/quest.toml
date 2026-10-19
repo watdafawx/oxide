@@ -1,0 +1,19 @@
+title = "One task per download"
+summary = "tokio::spawn starts a download as its own task and hands back a handle to wait on."
+
+[[objectives]]
+test = "spawn_fetch_returns_a_handle"
+label = "spawn_fetch(kb) spawns a task that computes the size in bytes (kb * 1024)"
+[[objectives]]
+test = "fetch_all_keeps_the_queue_order"
+label = "fetch_all spawns one task per file and returns results in queue order"
+[[objectives]]
+test = "average_kb_survives_a_panic"
+label = "average_kb returns None when the task panics (zero files)"
+
+[[hints]]
+text = "`tokio::spawn(async move { kb * 1024 })` returns a `JoinHandle<u64>`. Return it as is."
+[[hints]]
+text = "Spawn every task first (`.map(spawn_fetch).collect::<Vec<_>>()`), then `.await.unwrap()` each handle in order."
+[[hints]]
+text = "Awaiting a `JoinHandle` gives a `Result`: `Err` means the task panicked. `.ok()` turns it into an `Option`."

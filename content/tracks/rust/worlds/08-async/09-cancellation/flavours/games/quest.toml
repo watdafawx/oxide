@@ -1,0 +1,19 @@
+title = "Cancel all downloads cleanly"
+summary = "A CancellationToken tells every download worker to stop, and shutdown waits until they have."
+
+[[objectives]]
+test = "worker_downloads_then_stops_on_cancel"
+label = "A download worker keeps fetching chunks, then returns \"stopped\" after cancel"
+[[objectives]]
+test = "worker_stops_promptly"
+label = "The worker reacts to cancel within milliseconds, even mid-wait"
+[[objectives]]
+test = "shutdown_stops_every_download"
+label = "shutdown cancels the token and waits for all workers"
+
+[[hints]]
+text = "`loop { tokio::select! { _ = token.cancelled() => return \"stopped\", _ = sleep(Duration::from_millis(5)) => { chunks.fetch_add(1, Ordering::SeqCst); } } }`"
+[[hints]]
+text = "Spawn it with `tokio::spawn(async move { ... })`. `token` and `chunks` are moved in, so do not borrow them."
+[[hints]]
+text = "`token.cancel()` first, then await each handle and count the ones that returned `\"stopped\"`."
