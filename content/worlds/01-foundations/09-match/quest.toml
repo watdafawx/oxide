@@ -1,0 +1,26 @@
+title = "Exhaustive match"
+summary = "match with ranges and guards, plus if let for one case."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["match", "guards", "if-let"]
+
+[[objectives]]
+test = "grades_use_ranges"
+label = "grade(score) maps ranges to letters"
+[[objectives]]
+test = "describe_number_uses_guards"
+label = "describe_number uses guards: negative, zero, even, odd"
+[[objectives]]
+test = "apply_moves_the_position"
+label = "apply handles every Command variant"
+[[objectives]]
+test = "say_text_uses_if_let"
+label = "say_text pulls the text out with if let"
+
+[[hints]]
+text = "Ranges work in patterns: `90..=100 => 'A'`. The catch-all arm is `_ => 'F'`."
+[[hints]]
+text = "A guard adds a condition to an arm: `n if n < 0 => \"negative\"`. Order matters: first match wins."
+[[hints]]
+text = "`if let Command::Say(text) = cmd { text.clone() } else { String::new() }`."

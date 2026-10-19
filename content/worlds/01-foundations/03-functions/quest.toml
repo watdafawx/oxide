@@ -1,0 +1,21 @@
+title = "Functions return the last line"
+summary = "Parameters, return types, and why there is no `return` here."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["functions", "expressions"]
+
+[[objectives]]
+test = "square_multiplies"
+label = "square(n) returns n * n"
+[[objectives]]
+test = "area_multiplies_sides"
+label = "area(w, h) returns w * h"
+[[objectives]]
+test = "summary_reuses_area"
+label = "summary(3, 4) returns \"3x4 = 12\" by calling area"
+
+[[hints]]
+text = "Last line, **no semicolon**: `n * n`."
+[[hints]]
+text = "`summary` can call `area(w, h)` and put the result in `format!(\"{w}x{h} = {a}\")`."

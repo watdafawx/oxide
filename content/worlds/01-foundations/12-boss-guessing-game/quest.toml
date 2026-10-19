@@ -1,0 +1,40 @@
+title = "Boss: guessing game"
+summary = "Build the logic of a number guessing game, tested with scripted input."
+kind = "boss"
+xp = 300
+minutes = 40
+tags = ["structs", "enums", "match", "result", "boss"]
+
+[[objectives]]
+test = "new_game_starts_with_zero_attempts"
+label = "Game::new(secret) starts with 0 attempts"
+[[objectives]]
+test = "guess_reports_too_low_and_too_high"
+label = "guess returns TooLow / TooHigh"
+[[objectives]]
+test = "guess_reports_correct"
+label = "guess returns Correct for the secret"
+[[objectives]]
+test = "attempts_are_counted"
+label = "every guess adds one attempt"
+[[objectives]]
+test = "parse_guess_accepts_numbers"
+label = "parse_guess(\" 42 \") is Ok(42)"
+[[objectives]]
+test = "parse_guess_rejects_bad_input"
+label = "parse_guess(\"abc\") is Err(\"'abc' is not a number\")"
+[[objectives]]
+test = "play_reports_each_guess"
+label = "play turns scripted input into messages; bad input costs no attempt"
+[[objectives]]
+test = "play_stops_after_correct_guess"
+label = "play stops at the first correct guess and says \"1 attempt\" in the singular"
+
+[[hints]]
+text = "Start with `Game::new`: `Game { secret, attempts: 0 }`. Then `guess`: bump `self.attempts`, then compare with `self.secret` using `if / else if / else` or `match`."
+[[hints]]
+text = "`parse_guess`: `input.trim().parse::<u32>()` gives a `Result`. Turn its error into your message with `.map_err(|_| format!(...))` or a `match`."
+[[hints]]
+text = "`play`: make a `Game` and a `Vec<String>`. `for input in inputs`, `match parse_guess(input)`. On `Ok(n)`, `match game.guess(n)` and push a message. `break` after Correct."
+[[hints]]
+text = "Plural: `let s = if attempts == 1 { \"\" } else { \"s\" };` then `format!(\"Correct! {attempts} attempt{s}\")`."

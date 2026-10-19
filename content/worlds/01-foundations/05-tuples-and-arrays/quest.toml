@@ -1,0 +1,23 @@
+title = "Pairs and rows"
+summary = "Tuples, arrays, indexing and destructuring."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["tuples", "arrays", "destructuring"]
+
+[[objectives]]
+test = "first_and_last_picks_ends"
+label = "first_and_last returns the first and last item as a tuple"
+[[objectives]]
+test = "swap_pair_flips_order"
+label = "swap_pair destructures and swaps"
+[[objectives]]
+test = "sum_three_adds_array"
+label = "sum_three adds the items of a [i32; 3]"
+
+[[hints]]
+text = "The last index is `items.len() - 1`."
+[[hints]]
+text = "`let (a, b) = pair;` splits a tuple. Then return `(b, a)`."
+[[hints]]
+text = "Arrays destructure too: `let [a, b, c] = nums;`."

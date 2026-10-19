@@ -1,0 +1,28 @@
+title = "Branch and repeat"
+summary = "if as an expression, for/while/loop, ranges and break with a value."
+kind = "exercise"
+xp = 65
+minutes = 12
+tags = ["if", "loops", "ranges"]
+
+[[objectives]]
+test = "fizzbuzz_words"
+label = "fizzbuzz picks Fizz, Buzz, FizzBuzz or the number"
+[[objectives]]
+test = "sum_to_adds_range"
+label = "sum_to(n) adds 1 through n with a for loop"
+[[objectives]]
+test = "collatz_counts_steps"
+label = "collatz_steps loops with while until it reaches 1"
+[[objectives]]
+test = "first_square_over_breaks_with_value"
+label = "first_square_over uses loop and `break value`"
+
+[[hints]]
+text = "`if` is an expression: `if n % 3 == 0 { \"Fizz\".to_string() } else { ... }`. Check 15 first."
+[[hints]]
+text = "`for i in 1..=n` includes `n`. `1..n` stops one short."
+[[hints]]
+text = "Collatz: while n != 1, if n is even halve it, otherwise `n = 3 * n + 1`, and count each step."
+[[hints]]
+text = "`loop { if n * n > limit { break n; } n += 1; }` returns what you break with."

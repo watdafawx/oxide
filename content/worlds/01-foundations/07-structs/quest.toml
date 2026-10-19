@@ -1,0 +1,26 @@
+title = "Build a Player"
+summary = "Structs, impl blocks, methods and a `new` constructor."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["structs", "impl", "methods"]
+
+[[objectives]]
+test = "new_starts_at_full_health"
+label = "Player::new(\"mia\") has 100 hp"
+[[objectives]]
+test = "take_hit_lowers_hp"
+label = "take_hit subtracts damage"
+[[objectives]]
+test = "hp_never_goes_below_zero"
+label = "hp stops at 0 instead of overflowing"
+[[objectives]]
+test = "is_alive_checks_hp"
+label = "is_alive is true only while hp > 0"
+
+[[hints]]
+text = "A struct literal: `Player { name: name.to_string(), hp: 100 }`."
+[[hints]]
+text = "`&mut self` lets a method change fields: `self.hp -= damage`. But `u32` can't go below 0..."
+[[hints]]
+text = "`self.hp = self.hp.saturating_sub(damage);` stops at 0."

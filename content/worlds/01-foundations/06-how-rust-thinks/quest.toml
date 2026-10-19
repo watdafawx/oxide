@@ -1,0 +1,16 @@
+title = "How Rust thinks"
+summary = "Compile-time checks, no null, no exceptions. Two-minute read."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["mindset"]
+
+[[quiz]]
+question = "When does Rust catch a type mismatch like adding a String to a number?"
+choices = ["At compile time, before the program runs", "At runtime, when that line executes", "Never, it silently converts"]
+answer = 0
+
+[[quiz]]
+question = "A function might not find what it is looking for. How does Rust express that?"
+choices = ["It returns null", "It throws an exception", "It returns a type that says \"maybe nothing\" (Option)"]
+answer = 2

@@ -1,0 +1,23 @@
+title = "Fail with a reason"
+summary = "Result, matching on Err, expect, and returning Result from your own function."
+kind = "exercise"
+xp = 60
+minutes = 12
+tags = ["result", "errors", "expect"]
+
+[[objectives]]
+test = "safe_divide_returns_result"
+label = "safe_divide returns Ok(quotient) or Err for division by zero"
+[[objectives]]
+test = "describe_division_matches_result"
+label = "describe_division uses match on Ok and Err"
+[[objectives]]
+test = "port_from_config_uses_expect"
+label = "port_from_config parses text and uses expect"
+
+[[hints]]
+text = "Return `Err(\"cannot divide by zero\".to_string())` when `b == 0`, otherwise `Ok(a / b)`."
+[[hints]]
+text = "`match safe_divide(a, b) { Ok(v) => ..., Err(e) => ... }`"
+[[hints]]
+text = "`text.parse().expect(\"config port must be a number\")` returns the number or panics with your message. The return type tells `parse` what to produce."
