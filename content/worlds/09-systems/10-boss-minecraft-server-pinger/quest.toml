@@ -33,6 +33,12 @@ label = "ping(addr) completes the whole conversation with a server on 127.0.0.1"
 [[hints]]
 text = "Order that works: `Packet::encode` -> `status_request` -> `handshake` (the helpers `write_varint` and `write_string` are already written) -> `read_packet` -> `parse_status` -> `ping`. Each objective only needs the ones before it."
 [[hints]]
-text = "`encode`: body = VarInt(id) + payload; output = VarInt(body.len()) + body. `handshake` payload = VarInt(PROTOCOL_VERSION), string(host), `port.to_be_bytes()`, VarInt(1); wrap it in `Packet { id: 0, payload }.encode()`. `read_packet`: read the length with `read_varint`, reject anything outside `1..=MAX_PACKET_LEN`, `read_exact` into a `vec![0; len]`, then read the id from a `Cursor` over that buffer."
+text = "A packet is `[VarInt length][VarInt id][payload]`, and the length counts the id plus the payload. So `encode` builds the body first (id + payload), then puts `body.len()` in front."
 [[hints]]
-text = "`parse_status`: `let v: Value = serde_json::from_str(json)?` (map the error to `invalid(..)`), then `v[\"version\"][\"name\"].as_str()`, `v[\"players\"][\"online\"].as_u64()`, ... with `ok_or_else(|| invalid(\"...\"))?`. `flatten_text` for an object: `text` plus the flattened `extra` items. `ping`: connect with timeouts, `write_all` handshake then status_request, `read_packet`, check `id == 0`, `read_string(&packet.payload)`, `parse_status`."
+text = "`handshake` payload = VarInt(PROTOCOL_VERSION), string(host), `port.to_be_bytes()`, VarInt(1); wrap it in `Packet { id: 0, payload }.encode()`. `status_request` is `Packet { id: 0, payload: vec![] }.encode()`."
+[[hints]]
+text = "`read_packet`: read the length with `read_varint`, reject anything outside `1..=MAX_PACKET_LEN`, `read_exact` into a `vec![0; len]`, then read the id from a `Cursor` over that buffer."
+[[hints]]
+text = "`parse_status`: `let v: Value = serde_json::from_str(json)?` (map the error to `invalid(..)`), then `v[\"version\"][\"name\"].as_str()`, `v[\"players\"][\"online\"].as_u64()`, ... with `ok_or_else(|| invalid(\"...\"))?`. `flatten_text` for an object: `text` plus the flattened `extra` items."
+[[hints]]
+text = "`ping`: connect with timeouts, `write_all` handshake then status_request, `read_packet`, check `id == 0`, `read_string(&packet.payload)`, `parse_status`."

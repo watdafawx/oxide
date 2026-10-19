@@ -5,8 +5,7 @@ A **VarInt** stores small numbers in one byte and big ones in up to five. You ne
 The recipe (LEB128):
 
 - Split the number into groups of **7 bits**, lowest group first.
-- Each byte holds one group in its low 7 bits. The top bit (`0x80`) means "more bytes follow".
-- The last byte has the top bit clear.
+- Each byte holds one group in its low 7 bits. The top bit (`0x80`) means "more bytes follow"; the last byte has it clear.
 
 ```rust
 // 300 = 0b1_0010_1100  ->  groups: 0101100 (0x2c), 0000010 (0x02)
@@ -22,19 +21,15 @@ fn groups(mut v: u32) -> usize {
     }
     n
 }
-assert_eq!(groups(127), 1);
 assert_eq!(groups(300), 2);
 ```
 
-Your loop does the same walk, but pushes each group's low 7 bits and sets `0x80` on every byte except the last.
-
 - `127` is `[0x7f]`, `128` is `[0x80, 0x01]`, `-1` is `[0xff, 0xff, 0xff, 0xff, 0x0f]`.
 - A VarInt is **at most 5 bytes**. A 6th continuation byte means a broken or hostile packet: reject it, never loop forever.
-- Decoding returns the value **and how many bytes it used**, so the caller knows where the next field starts.
 
 ## Your turn
 
 In `src/lib.rs`:
 
 - `encode_varint`: walk the 7-bit groups as in `groups`, appending each byte (flag bit set on all but the last) to a `Vec`.
-- `decode_varint`: the reverse. Returns `Err(VarIntError::TooLong)` or `Err(VarIntError::Truncated)` on bad input.
+- `decode_varint`: the reverse; return the value **and how many bytes it used**, so the caller knows where the next field starts. Returns `Err(VarIntError::TooLong)` or `Err(VarIntError::Truncated)` on bad input.

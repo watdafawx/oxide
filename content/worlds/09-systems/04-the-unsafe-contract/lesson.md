@@ -32,5 +32,3 @@ fn first(v: &[i32]) -> Option<i32> {
 - A **safe function** wrapping unsafe code must make misuse impossible. If any safe call can cause undefined behavior, the bug is in the wrapper.
 
 Undefined behavior (UB) is not a crash. It means the compiler may assume it never happens and optimize on that, so the symptom shows up anywhere, later.
-
-Answer the two questions below, then continue.
