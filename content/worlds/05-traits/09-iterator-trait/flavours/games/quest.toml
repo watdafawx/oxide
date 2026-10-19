@@ -2,13 +2,13 @@ title = "Walk every chunk in a radius"
 summary = "Implement Iterator for ChunksInRadius and get filter, map and sum for free."
 
 [[objectives]]
-test = "counts_down_to_one"
+test = "chunks_in_radius_yields_nine_then_stops"
 label = "ChunksInRadius::new(1) yields the 9 chunks around the origin, then stops"
 [[objectives]]
-test = "evens_only"
+test = "ore_chunks_keep_even_sums"
 label = "ore_chunks(1) collects the chunks where x + z is even"
 [[objectives]]
-test = "sum_of_squares_of_countdown"
+test = "total_distance_sq_is_twelve"
 label = "total_distance_sq(1) is 12"
 
 [[hints]]

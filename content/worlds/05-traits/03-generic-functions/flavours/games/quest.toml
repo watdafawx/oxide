@@ -2,13 +2,13 @@ title = "One function, any mob"
 summary = "Write generic functions over T: Entity: strongest, roster and total health."
 
 [[objectives]]
-test = "largest_works_for_many_types"
+test = "strongest_works_for_any_mob"
 label = "strongest finds the healthiest zombie, creeper or villager"
 [[objectives]]
-test = "show_all_joins_with_commas"
+test = "roster_lists_mob_names"
 label = "roster lists mob names separated by \", \""
 [[objectives]]
-test = "count_matching_counts_equal_items"
+test = "total_health_sums_every_mob"
 label = "total_health adds up the health of every mob"
 
 [[hints]]

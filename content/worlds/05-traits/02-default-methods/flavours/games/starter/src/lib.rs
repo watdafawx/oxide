@@ -48,13 +48,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_greet_uses_name() {
+    fn default_announce_uses_mob_name() {
         assert_eq!(Cow.announce(), "A wild Cow appears!");
         assert!(!Cow.is_hostile(), "mobs are peaceful by default");
     }
 
     #[test]
-    fn shout_builds_on_greet() {
+    fn alert_is_announce_in_caps() {
         assert_eq!(Cow.alert(), "A WILD COW APPEARS!");
         assert_eq!(
             Zombie.alert(),
@@ -64,7 +64,7 @@ mod tests {
     }
 
     #[test]
-    fn parrot_overrides_greet() {
+    fn zombie_overrides_announce() {
         assert_eq!(Zombie.announce(), "Zombie groans at you!");
         assert!(Zombie.is_hostile(), "Zombie overrides is_hostile");
     }

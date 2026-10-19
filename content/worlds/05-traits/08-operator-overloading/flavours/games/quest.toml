@@ -2,16 +2,16 @@ title = "Make + work on Vec3"
 summary = "Implement Add, Neg, Mul and PartialOrd so positions and velocities read like maths."
 
 [[objectives]]
-test = "add_vectors"
+test = "position_plus_velocity"
 label = "Vec3 + Vec3 adds each component (position + velocity)"
 [[objectives]]
-test = "negate_vector"
+test = "negated_vector_flips_components"
 label = "-Vec3 flips all three components"
 [[objectives]]
-test = "scale_by_number"
+test = "vector_scales_by_number"
 label = "Vec3 * f64 scales all three components"
 [[objectives]]
-test = "vectors_compare_by_length"
+test = "closer_vector_is_smaller"
 label = "a < b compares vector lengths (who is closer?)"
 
 [[hints]]

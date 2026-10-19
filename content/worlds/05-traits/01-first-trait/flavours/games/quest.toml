@@ -2,10 +2,10 @@ title = "Every mob has a describe()"
 summary = "Define the Entity trait and implement it for a zombie and a creeper."
 
 [[objectives]]
-test = "dog_describes_itself"
+test = "zombie_describes_itself"
 label = "Zombie::describe() returns \"Steve the zombie\""
 [[objectives]]
-test = "robot_describes_itself"
+test = "creeper_describes_itself"
 label = "Creeper::describe() returns \"creeper (fuse 30)\""
 
 [[hints]]

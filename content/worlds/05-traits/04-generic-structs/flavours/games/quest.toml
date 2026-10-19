@@ -2,13 +2,13 @@ title = "An inventory for any item"
 summary = "Make a generic Inventory<T> and add methods only some item types get."
 
 [[objectives]]
-test = "new_and_swap"
+test = "inventory_new_and_swap_hands"
 label = "Inventory::new and swap_hands() work for any T"
 [[objectives]]
-test = "larger_picks_bigger"
+test = "best_picks_the_better_item"
 label = "best() returns a reference to the better item"
 [[objectives]]
-test = "describe_larger_formats_text"
+test = "describe_best_formats_text"
 label = "describe_best() prints \"Best item: <x>\""
 
 [[hints]]

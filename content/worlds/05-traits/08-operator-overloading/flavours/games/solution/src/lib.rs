@@ -54,24 +54,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn add_vectors() {
+    fn position_plus_velocity() {
         let pos = Vec3::new(1.0, 2.0, 3.0);
         let velocity = Vec3::new(10.0, 20.0, 30.0);
         assert_eq!(pos + velocity, Vec3::new(11.0, 22.0, 33.0));
     }
 
     #[test]
-    fn negate_vector() {
+    fn negated_vector_flips_components() {
         assert_eq!(-Vec3::new(3.0, -4.0, 0.0), Vec3::new(-3.0, 4.0, -0.0));
     }
 
     #[test]
-    fn scale_by_number() {
+    fn vector_scales_by_number() {
         assert_eq!(Vec3::new(1.0, -2.0, 0.5) * 3.0, Vec3::new(3.0, -6.0, 1.5));
     }
 
     #[test]
-    fn vectors_compare_by_length() {
+    fn closer_vector_is_smaller() {
         let near = Vec3::new(1.0, 1.0, 1.0);
         let far = Vec3::new(0.0, 0.0, 5.0);
         assert!(near < far, "(1, 1, 1) is closer than (0, 0, 5)");

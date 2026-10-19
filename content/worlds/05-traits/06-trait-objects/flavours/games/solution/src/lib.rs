@@ -51,13 +51,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn shapes_report_area() {
+    fn mobs_report_health() {
         assert_eq!(Zombie { hp: 7 }.health(), 7, "a zombie reports its hp");
         assert_eq!(Creeper { hp: 3 }.health(), 3, "a creeper reports its hp");
     }
 
     #[test]
-    fn make_shapes_builds_mixed_vec() {
+    fn spawn_wave_mixes_mob_types() {
         let wave = spawn_wave();
         assert_eq!(wave.len(), 2);
         assert_eq!(wave[0].name(), "zombie");
@@ -65,7 +65,7 @@ mod tests {
     }
 
     #[test]
-    fn total_area_sums_boxed_shapes() {
+    fn total_health_sums_boxed_entities() {
         let world: Vec<Box<dyn Entity>> = vec![
             Box::new(Zombie { hp: 20 }),
             Box::new(Zombie { hp: 5 }),
@@ -77,7 +77,7 @@ mod tests {
     }
 
     #[test]
-    fn describe_takes_a_reference() {
+    fn describe_takes_a_dyn_entity() {
         assert_eq!(describe(&Zombie { hp: 20 }), "zombie with 20 hp");
         let boxed: Box<dyn Entity> = Box::new(Creeper { hp: 15 });
         assert_eq!(describe(boxed.as_ref()), "creeper with 15 hp");

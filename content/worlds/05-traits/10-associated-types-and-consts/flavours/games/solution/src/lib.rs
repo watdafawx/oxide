@@ -47,25 +47,25 @@ mod tests {
     use super::*;
 
     #[test]
-    fn celsius_converts_to_fahrenheit() {
+    fn zombie_loot_is_rotten_flesh_count() {
         assert_eq!(Zombie { looting: 0 }.loot(), 2);
         assert_eq!(Zombie { looting: 3 }.loot(), 5);
     }
 
     #[test]
-    fn words_counts_words() {
+    fn creeper_loot_is_gunpowder_or_head() {
         assert_eq!(Creeper { charged: false }.loot(), "gunpowder");
         assert_eq!(Creeper { charged: true }.loot(), "head");
     }
 
     #[test]
-    fn names_are_set() {
+    fn mobs_set_their_ids() {
         assert_eq!(Zombie::ID, "zombie");
         assert_eq!(Creeper::ID, "creeper");
     }
 
     #[test]
-    fn label_uses_name_and_output() {
+    fn label_shows_id_and_loot() {
         assert_eq!(label(&Zombie { looting: 1 }), "zombie: 3");
         assert_eq!(label(&Creeper { charged: false }), "creeper: gunpowder");
     }

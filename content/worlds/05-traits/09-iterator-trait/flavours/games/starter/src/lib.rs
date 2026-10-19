@@ -49,7 +49,7 @@ mod tests {
     }
 
     #[test]
-    fn counts_down_to_one() {
+    fn chunks_in_radius_yields_nine_then_stops() {
         let v: Vec<ChunkPos> = ChunksInRadius::new(1).collect();
         assert_eq!(v.len(), 9);
         assert_eq!(v[0], c(-1, -1));
@@ -60,7 +60,7 @@ mod tests {
     }
 
     #[test]
-    fn evens_only() {
+    fn ore_chunks_keep_even_sums() {
         assert_eq!(
             ore_chunks(1),
             vec![c(-1, -1), c(-1, 1), c(0, 0), c(1, -1), c(1, 1)]
@@ -69,7 +69,7 @@ mod tests {
     }
 
     #[test]
-    fn sum_of_squares_of_countdown() {
+    fn total_distance_sq_is_twelve() {
         assert_eq!(total_distance_sq(1), 12);
         assert_eq!(total_distance_sq(0), 0);
     }

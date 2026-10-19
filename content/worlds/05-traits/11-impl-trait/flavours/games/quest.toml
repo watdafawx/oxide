@@ -2,16 +2,16 @@ title = "Spawn rules with impl Trait"
 summary = "Take and return impl Trait, including spawn rules that are closures."
 
 [[objectives]]
-test = "shout_accepts_anything_displayable"
+test = "banner_accepts_any_display"
 label = "banner takes any impl Display"
 [[objectives]]
-test = "evens_returns_an_iterator"
+test = "spawn_ticks_yields_every_fifth_tick"
 label = "spawn_ticks returns an impl Iterator of every fifth tick"
 [[objectives]]
-test = "adder_returns_closure"
+test = "damage_bonus_returns_closure"
 label = "damage_bonus(n) returns a closure that adds n"
 [[objectives]]
-test = "compose_chains_closures"
+test = "chain_applies_first_then_second"
 label = "chain(first, second) applies first, then second"
 
 [[hints]]

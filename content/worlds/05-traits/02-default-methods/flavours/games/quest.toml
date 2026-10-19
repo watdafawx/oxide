@@ -2,13 +2,13 @@ title = "Peaceful unless told otherwise"
 summary = "Give Entity default methods, then override them for the zombie."
 
 [[objectives]]
-test = "default_greet_uses_name"
+test = "default_announce_uses_mob_name"
 label = "Default announce() says \"A wild <name> appears!\" and is_hostile() is false"
 [[objectives]]
-test = "shout_builds_on_greet"
+test = "alert_is_announce_in_caps"
 label = "Default alert() is announce() in uppercase"
 [[objectives]]
-test = "parrot_overrides_greet"
+test = "zombie_overrides_announce"
 label = "Zombie overrides announce() and is_hostile()"
 
 [[hints]]

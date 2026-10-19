@@ -29,28 +29,28 @@ mod tests {
     use super::*;
 
     #[test]
-    fn shout_accepts_anything_displayable() {
+    fn banner_accepts_any_display() {
         assert_eq!(banner("creeper"), "CREEPER!");
         assert_eq!(banner(42), "42!");
         assert_eq!(banner(String::from("ok")), "OK!");
     }
 
     #[test]
-    fn evens_returns_an_iterator() {
+    fn spawn_ticks_yields_every_fifth_tick() {
         let v: Vec<u32> = spawn_ticks(21).collect();
         assert_eq!(v, vec![0, 5, 10, 15, 20]);
         assert_eq!(spawn_ticks(21).count(), 5);
     }
 
     #[test]
-    fn adder_returns_closure() {
+    fn damage_bonus_returns_closure() {
         let bonus = damage_bonus(5);
         assert_eq!(bonus(1), 6);
         assert_eq!(damage_bonus(0)(10), 10);
     }
 
     #[test]
-    fn compose_chains_closures() {
+    fn chain_applies_first_then_second() {
         let f = chain(damage_bonus(2), |d| d * 3);
         assert_eq!(f(4), 18, "(4 + 2) * 3");
         let g = chain(|d| d * 3, damage_bonus(2));

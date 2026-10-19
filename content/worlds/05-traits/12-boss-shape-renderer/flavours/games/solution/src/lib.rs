@@ -191,14 +191,14 @@ mod tests {
     }
 
     #[test]
-    fn rect_area_and_name() {
+    fn aabb_area_and_name() {
         let r = aabb(0.0, 0.0, 2.0, 3.0);
         assert!(close(r.area(), 6.0), "area is w * h");
         assert_eq!(r.name(), "box");
     }
 
     #[test]
-    fn rect_contains_is_inclusive() {
+    fn aabb_contains_includes_edges() {
         let r = aabb(1.0, 1.0, 2.0, 1.0);
         assert!(r.contains(2.0, 1.5), "inside");
         assert!(r.contains(1.0, 1.0), "top-left corner counts");
@@ -209,7 +209,7 @@ mod tests {
     }
 
     #[test]
-    fn circle_is_a_shape() {
+    fn cylinder_is_a_hitbox() {
         let c = Cylinder { cx: 2.5, cy: 2.5, r: 2.0 };
         assert!(close(c.area(), 4.0 * PI));
         assert_eq!(c.name(), "cylinder");
@@ -220,7 +220,7 @@ mod tests {
     }
 
     #[test]
-    fn triangle_is_a_shape() {
+    fn wedge_is_a_hitbox() {
         let t = Wedge { x: 0.0, y: 0.0, base: 4.0, height: 4.0 };
         assert!(close(t.area(), 8.0));
         assert_eq!(t.name(), "wedge");
@@ -232,7 +232,7 @@ mod tests {
     }
 
     #[test]
-    fn canvas_renders_shapes() {
+    fn canvas_draws_hitboxes() {
         let canvas = Canvas { w: 6, h: 3 };
         let one: Vec<Box<dyn Hitbox>> = vec![Box::new(aabb(1.0, 1.0, 2.0, 1.0))];
         assert_eq!(canvas.render(&one), "......\n.##...\n......");
@@ -251,7 +251,7 @@ mod tests {
     }
 
     #[test]
-    fn totals_and_largest() {
+    fn total_area_and_biggest_hitbox() {
         let boxes = [aabb(0.0, 0.0, 1.0, 2.0), aabb(0.0, 0.0, 3.0, 3.0), aabb(0.0, 0.0, 2.0, 2.0)];
         assert!(close(total_area(&boxes), 15.0));
         assert_eq!(biggest(&boxes), Some(&boxes[1]));
@@ -262,7 +262,7 @@ mod tests {
     }
 
     #[test]
-    fn sort_by_area_orders_shapes() {
+    fn sort_by_area_orders_hitboxes() {
         let mut boxes = vec![aabb(0.0, 0.0, 3.0, 3.0), aabb(0.0, 0.0, 1.0, 1.0), aabb(0.0, 0.0, 2.0, 2.0)];
         sort_by_area(&mut boxes);
         let areas: Vec<f64> = boxes.iter().map(|r| r.area()).collect();
@@ -270,7 +270,7 @@ mod tests {
     }
 
     #[test]
-    fn scaled_wraps_any_shape() {
+    fn scaled_hitbox_is_a_hitbox() {
         let big = Scaled { inner: aabb(1.0, 1.0, 2.0, 1.0), factor: 2.0 };
         assert!(close(big.area(), 8.0), "area grows with factor squared");
         assert_eq!(big.name(), "scaled box");

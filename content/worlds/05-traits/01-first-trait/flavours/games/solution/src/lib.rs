@@ -27,13 +27,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn dog_describes_itself() {
+    fn zombie_describes_itself() {
         let z = Zombie { name: "Steve".to_string() };
         assert_eq!(z.describe(), "Steve the zombie");
     }
 
     #[test]
-    fn robot_describes_itself() {
+    fn creeper_describes_itself() {
         let c = Creeper { fuse: 30 };
         assert_eq!(c.describe(), "creeper (fuse 30)");
     }

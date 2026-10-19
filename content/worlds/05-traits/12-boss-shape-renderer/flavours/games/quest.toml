@@ -2,28 +2,28 @@ title = "Boss: hitbox renderer"
 summary = "A Hitbox trait, three hitbox shapes, an ASCII canvas, generic helpers and a Scaled wrapper."
 
 [[objectives]]
-test = "rect_area_and_name"
+test = "aabb_area_and_name"
 label = "Aabb: area() is w * h and name() is \"box\""
 [[objectives]]
-test = "rect_contains_is_inclusive"
+test = "aabb_contains_includes_edges"
 label = "Aabb::contains includes its edges"
 [[objectives]]
-test = "circle_is_a_shape"
+test = "cylinder_is_a_hitbox"
 label = "Cylinder: area, bounds, name and contains"
 [[objectives]]
-test = "triangle_is_a_shape"
+test = "wedge_is_a_hitbox"
 label = "Wedge: area, bounds, name and contains"
 [[objectives]]
-test = "canvas_renders_shapes"
+test = "canvas_draws_hitboxes"
 label = "Canvas::render draws # where a hitbox contains the cell centre"
 [[objectives]]
-test = "totals_and_largest"
+test = "total_area_and_biggest_hitbox"
 label = "total_area and biggest work for any T: Hitbox"
 [[objectives]]
-test = "sort_by_area_orders_shapes"
+test = "sort_by_area_orders_hitboxes"
 label = "sort_by_area sorts smallest to biggest hitbox"
 [[objectives]]
-test = "scaled_wraps_any_shape"
+test = "scaled_hitbox_is_a_hitbox"
 label = "Scaled<H> is itself a Hitbox, even inside a Canvas"
 
 [[hints]]

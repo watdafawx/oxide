@@ -76,7 +76,7 @@ mod tests {
     }
 
     #[test]
-    fn largest_works_for_many_types() {
+    fn strongest_works_for_any_mob() {
         let zombies = [Zombie { hp: 5 }, Zombie { hp: 20 }, Zombie { hp: 12 }];
         assert_eq!(strongest(&zombies).health(), 20);
         let creepers = [Creeper { hp: 20 }, Creeper { hp: 1 }];
@@ -86,14 +86,14 @@ mod tests {
     }
 
     #[test]
-    fn show_all_joins_with_commas() {
+    fn roster_lists_mob_names() {
         assert_eq!(roster(&[villager("Ada", 1), villager("Bo", 2)]), "Ada, Bo");
         assert_eq!(roster(&[Zombie { hp: 1 }, Zombie { hp: 2 }]), "zombie, zombie");
         assert_eq!(roster::<Creeper>(&[]), "");
     }
 
     #[test]
-    fn count_matching_counts_equal_items() {
+    fn total_health_sums_every_mob() {
         let zombies = [Zombie { hp: 5 }, Zombie { hp: 20 }, Zombie { hp: 12 }];
         assert_eq!(total_health(&zombies), 37);
         assert_eq!(total_health(&[Creeper { hp: 20 }]), 20);

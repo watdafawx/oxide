@@ -2,16 +2,16 @@ title = "One mob list, every kind"
 summary = "Store zombies and creepers in one Vec<Box<dyn Entity>> for the tick loop."
 
 [[objectives]]
-test = "shapes_report_area"
+test = "mobs_report_health"
 label = "Zombie and Creeper implement health()"
 [[objectives]]
-test = "make_shapes_builds_mixed_vec"
+test = "spawn_wave_mixes_mob_types"
 label = "spawn_wave() returns a zombie and a creeper in one Vec"
 [[objectives]]
-test = "total_area_sums_boxed_shapes"
+test = "total_health_sums_boxed_entities"
 label = "total_health adds up a slice of Box<dyn Entity>"
 [[objectives]]
-test = "describe_takes_a_reference"
+test = "describe_takes_a_dyn_entity"
 label = "describe(&dyn Entity) returns \"<name> with <n> hp\""
 
 [[hints]]

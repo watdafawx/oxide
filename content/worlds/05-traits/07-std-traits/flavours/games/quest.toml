@@ -2,16 +2,16 @@ title = "The traits every ChunkPos needs"
 summary = "Derive Debug, Clone, PartialEq, Default. Implement Display and From for ChunkPos."
 
 [[objectives]]
-test = "debug_and_equality_derive"
+test = "chunk_pos_debug_and_equality"
 label = "ChunkPos prints with {:?} and compares with =="
 [[objectives]]
-test = "clone_and_default_derive"
+test = "chunk_pos_clone_and_default"
 label = "ChunkPos can be cloned and has a Default (the origin)"
 [[objectives]]
-test = "display_formats_player"
+test = "chunk_pos_displays_as_pair"
 label = "Display prints \"[3, -2]\""
 [[objectives]]
-test = "from_str_builds_player"
+test = "chunk_pos_from_tuple"
 label = "ChunkPos::from((3, -2)) builds the chunk"
 
 [[hints]]

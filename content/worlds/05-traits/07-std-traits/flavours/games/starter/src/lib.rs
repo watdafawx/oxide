@@ -53,7 +53,7 @@ mod tests {
     }
 
     #[test]
-    fn debug_and_equality_derive() {
+    fn chunk_pos_debug_and_equality() {
         assert_eq!(debug_text(&spawn()), "ChunkPos { x: 3, z: -2 }");
         assert!(is_same(&spawn(), &spawn()), "same x and z are equal");
         let mut other = spawn();
@@ -62,7 +62,7 @@ mod tests {
     }
 
     #[test]
-    fn clone_and_default_derive() {
+    fn chunk_pos_clone_and_default() {
         let moved = shifted_to_x(&spawn(), 10);
         assert_eq!(moved.x, 10);
         assert_eq!(moved.z, -2);
@@ -72,13 +72,13 @@ mod tests {
     }
 
     #[test]
-    fn display_formats_player() {
+    fn chunk_pos_displays_as_pair() {
         assert_eq!(spawn().to_string(), "[3, -2]");
         assert_eq!(format!("{}", ChunkPos { x: 0, z: 7 }), "[0, 7]");
     }
 
     #[test]
-    fn from_str_builds_player() {
+    fn chunk_pos_from_tuple() {
         let p = ChunkPos::from((3, -2));
         assert_eq!(p.x, 3);
         assert_eq!(p.z, -2);

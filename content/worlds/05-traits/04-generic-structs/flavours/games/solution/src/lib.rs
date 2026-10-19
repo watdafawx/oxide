@@ -42,7 +42,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_and_swap() {
+    fn inventory_new_and_swap_hands() {
         let inv = Inventory::new("sword", "shield").swap_hands();
         assert_eq!((inv.main_hand, inv.off_hand), ("shield", "sword"));
         let nums = Inventory::new(1, 2);
@@ -50,13 +50,13 @@ mod tests {
     }
 
     #[test]
-    fn larger_picks_bigger() {
+    fn best_picks_the_better_item() {
         assert_eq!(*Inventory::new(3, 8).best(), 8);
         assert_eq!(*Inventory::new(2.5, 1.0).best(), 2.5);
     }
 
     #[test]
-    fn describe_larger_formats_text() {
+    fn describe_best_formats_text() {
         assert_eq!(Inventory::new(3, 8).describe_best(), "Best item: 8");
         assert_eq!(Inventory::new("pickaxe", "apple").describe_best(), "Best item: pickaxe");
     }

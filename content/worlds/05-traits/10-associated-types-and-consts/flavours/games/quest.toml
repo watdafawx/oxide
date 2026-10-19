@@ -2,16 +2,16 @@ title = "What a mob drops, and what it is called"
 summary = "Use an associated type Drop and an associated const ID on a Mob trait."
 
 [[objectives]]
-test = "celsius_converts_to_fahrenheit"
+test = "zombie_loot_is_rotten_flesh_count"
 label = "Zombie::loot() returns rotten flesh as a u32 (2 + looting)"
 [[objectives]]
-test = "words_counts_words"
+test = "creeper_loot_is_gunpowder_or_head"
 label = "Creeper::loot() returns a String: \"gunpowder\", or \"head\" when charged"
 [[objectives]]
-test = "names_are_set"
+test = "mobs_set_their_ids"
 label = "Each mob sets its own ID const"
 [[objectives]]
-test = "label_uses_name_and_output"
+test = "label_shows_id_and_loot"
 label = "label() prints \"<ID>: <loot>\""
 
 [[hints]]
