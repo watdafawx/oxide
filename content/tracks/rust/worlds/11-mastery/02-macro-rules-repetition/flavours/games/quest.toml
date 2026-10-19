@@ -1,0 +1,22 @@
+title = "Macros that repeat: block lists"
+summary = "Repetition in macro_rules!: block_names![..], block_ids!(k => v) and tallest!(a, b, c)."
+
+[[objectives]]
+test = "block_names_converts_each"
+label = "block_names![\"stone\", \"dirt\"] gives a Vec<String>"
+[[objectives]]
+test = "block_names_allows_empty_and_trailing_comma"
+label = "block_names![] is empty and a trailing comma is fine"
+[[objectives]]
+test = "block_ids_builds_one_pair"
+label = "block_ids!(k => v) builds a HashMap with that pair"
+[[objectives]]
+test = "tallest_of_many_heights"
+label = "tallest!(a, b, c, ...) returns the biggest argument"
+
+[[hints]]
+text = "`$($s:expr),* $(,)?` matches zero or more comma-separated expressions with an optional trailing comma. Expand with `vec![$($s.to_string()),*]`."
+[[hints]]
+text = "`block_ids!`: `($k:expr => $v:expr) => {{ let mut m = ::std::collections::HashMap::new(); m.insert($k, $v); m }};`"
+[[hints]]
+text = "`tallest!` is recursive: one arm for a single argument, one for `$x:expr, $($rest:expr),+` that returns `::std::cmp::max($x, $crate::tallest!($($rest),+))`."

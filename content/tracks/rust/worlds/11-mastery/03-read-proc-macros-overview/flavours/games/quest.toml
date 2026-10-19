@@ -1,0 +1,16 @@
+title = "Read: proc-macros in one screen"
+summary = "Derive, attribute and function-like proc-macros, and why they live in their own crate."
+
+[[quiz]]
+question = "Which kind of proc-macro is written `#[derive(Debug)]` and adds an impl next to your struct, like `#[derive(ChunkInfo)]` on `struct Chunk`?"
+choices = ["A function-like macro", "A derive macro", "An attribute macro"]
+answer = 1
+
+[[quiz]]
+question = "Why must a proc-macro like `#[count_calls]` live in its own crate (`proc-macro = true`)?"
+choices = [
+  "It is compiled and run by the compiler itself, before your crate exists",
+  "Cargo only allows one macro per crate",
+  "Proc-macros are slower, so they are cached separately",
+]
+answer = 0

@@ -1,0 +1,19 @@
+title = "Count chunk loads with #[count_calls]"
+summary = "Write an attribute macro that wraps a function and adds a <name>_calls() counter."
+
+[[objectives]]
+test = "counts_each_call"
+label = "load_chunk_calls() returns how many times load_chunk() ran"
+[[objectives]]
+test = "counts_are_per_function"
+label = "Every function gets its own counter"
+[[objectives]]
+test = "keeps_behaviour_and_counts"
+label = "The function still returns its normal result"
+
+[[hints]]
+text = "Declare the counter: `static #counter: ::std::sync::atomic::AtomicUsize = ::std::sync::atomic::AtomicUsize::new(0);`"
+[[hints]]
+text = "In the helper, return `#counter.load(::std::sync::atomic::Ordering::SeqCst)`."
+[[hints]]
+text = "At the top of the rewritten function body: `#counter.fetch_add(1, ::std::sync::atomic::Ordering::SeqCst);` before `#block`."

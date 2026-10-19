@@ -1,0 +1,19 @@
+title = "A no_std chunk load queue"
+summary = "A fixed-size FIFO queue with no heap: the ring buffer that holds chunks waiting to load."
+
+[[objectives]]
+test = "dequeues_in_arrival_order"
+label = "dequeue returns chunks first-in, first-out"
+[[objectives]]
+test = "enqueue_on_a_full_queue_returns_err"
+label = "enqueue on a full queue gives the value back as Err"
+[[objectives]]
+test = "queue_wraps_around_the_end"
+label = "Indices wrap, so the queue can be reused forever"
+
+[[hints]]
+text = "The next free slot is `(self.head + self.len) % N`. Write the value there and add 1 to `len`."
+[[hints]]
+text = "`dequeue`: read `self.buf[self.head]`, advance `head = (head + 1) % N`, subtract 1 from `len`."
+[[hints]]
+text = "A full queue is `len == N`. Return `Err(value)` so the caller gets its chunk back."

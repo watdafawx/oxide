@@ -1,0 +1,22 @@
+title = "Fast paths for the chunk indexer"
+summary = "Four small rewrites, each proven by a counter: one lookup per block, one clone, one allocation, none."
+
+[[objectives]]
+test = "count_blocks_uses_one_operation_per_block"
+label = "count_blocks does one Counter operation per block name (use entry)"
+[[objectives]]
+test = "longest_name_clones_at_most_once"
+label = "longest_name clones at most one Name"
+[[objectives]]
+test = "chunk_areas_allocate_once"
+label = "chunk_areas makes at most 1 allocation"
+[[objectives]]
+test = "count_long_names_does_not_allocate"
+label = "count_long_names makes 0 allocations"
+
+[[hints]]
+text = "`*counter.entry(block.to_string()).or_default() += 1;` is one operation: look up or insert, then bump. `contains` + `insert` + `get` is three."
+[[hints]]
+text = "Compare by reference (`best = name`) and clone only once, at the end: `Some(best.clone())`."
+[[hints]]
+text = "`Vec::with_capacity(n)` before pushing. For the last one, count with an iterator chain (`split_whitespace().filter(..).count()`): no Vec, no String."
