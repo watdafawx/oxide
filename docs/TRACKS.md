@@ -4,7 +4,7 @@ Oxide started as a Rust course. Tracks add Java (and its frameworks), Minecraft 
 (NeoForge 1.21.1+, Architectury, Fabric) and Lua (core, then Factorio). Same loop everywhere:
 one small quest, edit in your editor, save, objectives tick, XP.
 
-Status: design. Per-track curricula are planned in `docs/tracks/*.md`; nothing here is built yet.
+Status: design approved for planning; per-track curricula are in `docs/tracks/*.md`. Nothing is built yet. See "Roadmap" at the end.
 
 ## Content layout
 
@@ -100,3 +100,41 @@ NeoForge + Fabric 1.21.1).
    content-check learns each runner. Move Rust under `content/tracks/rust`.
 3. UI: track pill, per-track map, setup quests.
 4. Content sessions per world, Java first (Minecraft depends on it), then Lua, then Minecraft.
+
+## Roadmap (2026-10-19, after the planning sessions)
+
+| track | doc | worlds | quests | XP | first engine need |
+|---|---|---|---|---|---|
+| Rust | `content/worlds` (00-06 done) | 12 planned, 7 done | 68 done of ~110 | 5,210 so far | none |
+| Java | `docs/tracks/java.md` | 10 | 103 | 8,175 | gradle runner, JUnit XML |
+| NeoForge + Architectury | `docs/tracks/neoforge.md` | 12 | 116 | 9,550 | per-world workspace, `pre` tasks, GameTest parse |
+| Fabric | `docs/tracks/fabric.md` | 7 | 61 | 4,820 | same as NeoForge |
+| Lua + Factorio | `docs/tracks/lua.md` | 5 | 54 | 4,445 | embedded Lua, test harness, Factorio mock |
+
+Decisions on the planners' open questions:
+
+- **Java**: Spring Boot 3.5.x for worlds 08-09 (matches tutorials; all Spring pins in one shared
+  properties file for a later 4.x bump). No mutation grading yet: "write a test" quests become
+  "fix/complete this test". Commit `gradle-wrapper.jar` in every starter (self-contained).
+  Ship worlds 00-03 first (what Minecraft needs), then 04-09.
+- **NeoForge**: Architectury API is the default in world 9, ServiceLoader the alternative (the
+  user's own mod uses ServiceLoader, so both get taught). The Setup quest states the ~3 GB
+  first-run download and asks before starting it. No screenshot uploads; the look-check quiz is
+  the proof. A 1-hour measurement spike (cold/warm test times, GameTest task names, the
+  `verify` items) runs before any Minecraft content session.
+- **Fabric**: the capstone ports the NeoForge world-3 boss ("Ledger"), whose public shape stays
+  stable. Setup worlds may end without a boss. The runner gets optional `pre = [tasks]` per quest
+  and GameTest log parsing. Plain Mojang mappings in v1 (Parchment mentioned in Setup). The
+  NeoForge half of the Architectury capstone is provided ready-made.
+- **Lua**: Lua 5.2 via `mlua` (confirm `goto`/`bit32`; shim `string.pack`). The mock is kept
+  small and documented; `docs/tracks/lua-api-notes.md` lists every verified API name before the
+  mock is written. Factorio dry run is a bonus objective, never blocking.
+
+Order of work from here:
+
+1. Rust worlds 07-11 (content sessions, no engine change).
+2. Engine: tracks + runner trait; **lua runner first** (smallest, fully in-process), then the
+   gradle runner with the Java toolchain; move Rust under `content/tracks/rust`.
+3. UI: track pill, per-track map, Setup read-quests with toolchain checks.
+4. Content: Lua world 1 and Java worlds 00-03 in parallel; then Factorio worlds; then the
+   Minecraft measurement spike, then NeoForge worlds 0-3, Fabric 0-2, and onward.
