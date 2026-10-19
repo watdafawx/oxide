@@ -8,3 +8,8 @@ anyhow = "1"
 thiserror = "2"
 
 [workspace]
+
+[[bin]]
+name = "err_boss_todo"
+path = "src/main.rs"
+test = false

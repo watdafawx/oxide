@@ -22,3 +22,5 @@ fn run() -> anyhow::Result<()> {
 - Open `src/lib.rs`. `Todo`, `TodoError`, `Command` and the line helpers are given.
 - Fill every `todo!()`. Work down the test list: the first one is one line.
 - Order that works: `new`, `add`, `toggle`, `parse_command`, `save`, `load`, `run`.
+
+Press Run to play it.
