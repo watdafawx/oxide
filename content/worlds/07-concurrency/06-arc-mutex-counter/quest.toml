@@ -1,0 +1,23 @@
+title = "Arc<Mutex<T>>"
+summary = "Share one Mutex between many threads by wrapping it in an Arc."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["arc", "mutex", "shared-state"]
+
+[[objectives]]
+test = "count_with_threads_adds_up"
+label = "count_with_threads: every thread increments one shared counter"
+[[objectives]]
+test = "collect_squares_gathers_every_thread"
+label = "collect_squares: each thread pushes into one shared Vec"
+[[objectives]]
+test = "word_counts_tallies_in_a_shared_map"
+label = "word_counts: one thread per word updates a shared BTreeMap"
+
+[[hints]]
+text = "`let counter = Arc::new(Mutex::new(0));` Inside the loop: `let counter = Arc::clone(&counter);` then `thread::spawn(move || ...)`."
+[[hints]]
+text = "Join every handle before you read the result. Then `Arc::try_unwrap(counter).unwrap().into_inner().unwrap()` gets the value out (it works once all other clones are gone)."
+[[hints]]
+text = "For the map: `*map.lock().unwrap().entry(word).or_default() += 1;` with `word` an owned `String`."

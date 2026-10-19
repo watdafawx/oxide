@@ -1,0 +1,23 @@
+title = "Channels"
+summary = "Send values between threads with mpsc: many producers, one receiver."
+kind = "exercise"
+xp = 50
+minutes = 9
+tags = ["mpsc", "channels", "threads"]
+
+[[objectives]]
+test = "send_all_delivers_in_order"
+label = "send_all streams every item to the returned Receiver, in order"
+[[objectives]]
+test = "fan_out_delivers_from_every_worker"
+label = "fan_out starts several producers and the channel closes when they finish"
+[[objectives]]
+test = "drain_collects_until_senders_hang_up"
+label = "drain collects everything from a Receiver by iterating it"
+
+[[hints]]
+text = "`let (tx, rx) = mpsc::channel();` then move `tx` into the spawned thread and return `rx`."
+[[hints]]
+text = "Each worker needs its own `tx.clone()`. The original `tx` must be dropped too (`drop(tx)`), otherwise the channel never closes."
+[[hints]]
+text = "A `Receiver` is iterable: `rx.iter().collect()` ends when every sender is gone."

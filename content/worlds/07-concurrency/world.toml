@@ -1,0 +1,2 @@
+title = "Concurrency"
+blurb = "Threads, channels, locks, atomics and rayon: do several things at once without data races."

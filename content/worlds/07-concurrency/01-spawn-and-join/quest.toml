@@ -1,0 +1,23 @@
+title = "Spawn and join"
+summary = "Run work on another thread and get its result back with join."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["threads", "spawn", "join"]
+
+[[objectives]]
+test = "spawn_square_runs_on_a_thread"
+label = "spawn_square(n) returns a JoinHandle whose result is n * n"
+[[objectives]]
+test = "square_all_keeps_input_order"
+label = "square_all starts one thread per number and collects results in order"
+[[objectives]]
+test = "safe_div_turns_a_panic_into_none"
+label = "safe_div returns None when the thread panics (divide by zero)"
+
+[[hints]]
+text = "`thread::spawn(move || n * n)` returns a `JoinHandle<u64>`. Return it as is."
+[[hints]]
+text = "Start all the threads first (`.map(...).collect::<Vec<_>>()`), then `join().unwrap()` each handle. Joining inside the first loop makes it sequential."
+[[hints]]
+text = "`handle.join()` is a `Result`: `Err` means the thread panicked. `.ok()` turns it into an `Option`."

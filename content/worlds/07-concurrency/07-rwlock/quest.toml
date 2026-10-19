@@ -1,0 +1,26 @@
+title = "RwLock"
+summary = "Many readers at once, or one writer alone."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["rwlock", "locks"]
+
+[[objectives]]
+test = "entry_count_reads_the_list"
+label = "entry_count takes a read lock and returns the length"
+[[objectives]]
+test = "add_entry_appends_under_write_lock"
+label = "add_entry takes a write lock and appends"
+[[objectives]]
+test = "readers_share_the_lock"
+label = "readers_share holds one read guard and still gets a second one"
+[[objectives]]
+test = "writer_is_refused_while_a_reader_holds_the_lock"
+label = "writer_is_refused: try_write fails while a read guard is alive"
+
+[[hints]]
+text = "`cfg.read().unwrap()` for reading, `cfg.write().unwrap()` for changing."
+[[hints]]
+text = "`try_read()` and `try_write()` never block: they return `Err` instead of waiting. Check `is_ok()` / `is_err()`."
+[[hints]]
+text = "Keep the first guard in a variable (`let _first = ...`) so it stays alive while you try the second one."

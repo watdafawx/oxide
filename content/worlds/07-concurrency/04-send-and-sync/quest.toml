@@ -1,0 +1,24 @@
+title = "Read: Send and Sync"
+summary = "Two marker traits decide which values may cross threads. Why Rc is banned."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["send", "sync", "rc"]
+
+[[quiz]]
+question = "Which type is Send (can move to another thread) but NOT Sync (cannot be shared by &)?"
+choices = [
+  "i32",
+  "Cell<i32>",
+  "Rc<i32>",
+]
+answer = 1
+
+[[quiz]]
+question = "Why does thread::spawn refuse a closure that captures an Rc<T>?"
+choices = [
+  "Rc lives on the heap and heap data can never leave the main thread",
+  "Rc's counter is not atomic: two threads cloning or dropping at once could corrupt it",
+  "Rc is only valid inside a single function",
+]
+answer = 1

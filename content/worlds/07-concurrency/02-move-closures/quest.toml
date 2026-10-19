@@ -1,0 +1,23 @@
+title = "Why move?"
+summary = "A thread can outlive its caller, so its closure must own what it uses."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["threads", "move", "ownership"]
+
+[[objectives]]
+test = "greet_in_thread_owns_the_name"
+label = "greet_in_thread builds the greeting on a thread that owns the name"
+[[objectives]]
+test = "sum_in_thread_takes_the_vec"
+label = "sum_in_thread moves a Vec into a thread and returns its sum"
+[[objectives]]
+test = "split_work_sums_both_halves"
+label = "split_work splits a Vec in two and sums each half on its own thread"
+
+[[hints]]
+text = "Write `thread::spawn(move || ...)`. Without `move` the closure only borrows `name`, and the thread might outlive it."
+[[hints]]
+text = "`nums.iter().sum()` needs a type: `sum::<i32>()`."
+[[hints]]
+text = "`let right = data.split_off(mid);` leaves the first half in `data` and returns the second half as a new Vec. Move each Vec into its own thread."
