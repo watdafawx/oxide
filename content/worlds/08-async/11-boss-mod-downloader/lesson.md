@@ -26,3 +26,5 @@ Go stage by stage and run the tests after each one: the first objective turns gr
 ## Your turn
 
 In `src/lib.rs`: fill in every `todo!()`. `is_server_error` and `remove_partials` are given.
+
+Press Run to play it.
