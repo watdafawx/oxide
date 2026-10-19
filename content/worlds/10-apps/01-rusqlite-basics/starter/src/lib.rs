@@ -8,10 +8,14 @@ pub struct Mod {
 }
 
 /// Opens an in-memory database with an empty `mods` table:
-/// `mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)`.
+/// `mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)`. Given.
 pub fn open() -> Result<Connection> {
-    // TODO: Connection::open_in_memory()?, then conn.execute("CREATE TABLE mods (...)", [])?, then Ok(conn)
-    todo!()
+    let conn = Connection::open_in_memory()?;
+    conn.execute(
+        "CREATE TABLE mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)",
+        [],
+    )?;
+    Ok(conn)
 }
 
 /// Inserts an enabled mod and returns its new id.

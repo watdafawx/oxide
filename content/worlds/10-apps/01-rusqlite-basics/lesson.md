@@ -20,10 +20,11 @@ let name: String = conn.query_row("SELECT name FROM mods WHERE id = ?1", params!
 
 SQLite has no bool type: store `0` / `1`. rusqlite converts `bool` for you.
 
+**First build:** this quest downloads and compiles SQLite itself (the `bundled` feature builds C code, so it needs a C compiler, about 1-3 min the first time). Later runs take seconds.
+
 ## Your turn
 
-In `src/lib.rs`:
+In `src/lib.rs` (`open` is given: it makes the table):
 
-- `open`: in-memory connection plus `CREATE TABLE mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)`.
 - `add_mod`: insert an enabled mod, return `conn.last_insert_rowid()`.
 - `list_mods`: `query_map` every row into a `Mod`, ordered by id.
