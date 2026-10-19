@@ -1,6 +1,7 @@
 //! Tauri commands and events over `oxide_core`. The contract is `docs/API.md`.
 
 mod mcp;
+mod run;
 
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
@@ -40,6 +41,8 @@ struct AppState {
     /// Quests with a cargo run in flight, and whether a save arrived meanwhile.
     checking: Mutex<HashMap<String, bool>>,
     focus: Mutex<Option<FocusTimer>>,
+    /// The program started with `run_program`, if any.
+    running: Mutex<Option<run::Running>>,
 }
 
 #[derive(Serialize)]
@@ -51,6 +54,8 @@ struct QuestDetail {
     attempts: u32,
     completed: bool,
     last_check: Option<CheckResult>,
+    /// `run_program` would work: the workspace has a binary / main.lua.
+    has_program: bool,
 }
 
 #[derive(Serialize)]
@@ -103,6 +108,7 @@ impl AppState {
         let dir = workspace::dir_for(&self.quests_root, id);
         let workspace = (quest.has_project() && dir.join(quest.runner.marker()).exists())
             .then(|| dir.to_string_lossy().into_owned());
+        let has_program = workspace.is_some() && run::has_program(&quest, &dir);
         Ok(QuestDetail {
             quest,
             lesson,
@@ -111,6 +117,7 @@ impl AppState {
             attempts: run.as_ref().map(|r| r.attempts).unwrap_or(0),
             completed: run.as_ref().is_some_and(|r| r.completed_at.is_some()),
             last_check: self.last_checks.lock().unwrap().get(id).cloned(),
+            has_program,
         })
     }
 
@@ -423,6 +430,26 @@ fn stop_focus(state: State<AppState>, completed: bool) -> CmdResult<()> {
 }
 
 #[tauri::command]
+fn run_program(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
+    let quest = state.resolve(state.quest(&id)?);
+    let dir = workspace::dir_for(&state.quests_root, &id);
+    if !dir.join(quest.runner.marker()).exists() {
+        return Err("start the quest first".into());
+    }
+    run::start(&app, &state.running, &quest, &dir, &state.target_dir)
+}
+
+#[tauri::command]
+fn run_input(state: State<AppState>, text: String) -> CmdResult<()> {
+    run::input(&state.running, &text)
+}
+
+#[tauri::command]
+fn stop_program(state: State<AppState>) {
+    run::stop(&state.running);
+}
+
+#[tauri::command]
 fn get_settings(state: State<AppState>) -> CmdResult<Settings> {
     state.progress.lock().unwrap().settings().map_err(err)
 }
@@ -495,6 +522,7 @@ pub fn run() {
                 last_checks: Mutex::new(HashMap::new()),
                 checking: Mutex::new(HashMap::new()),
                 focus: Mutex::new(None),
+                running: Mutex::new(None),
             });
             Ok(())
         })
@@ -514,6 +542,9 @@ pub fn run() {
             list_achievements,
             start_focus,
             stop_focus,
+            run_program,
+            run_input,
+            stop_program,
             get_settings,
             set_settings,
             active_dates,

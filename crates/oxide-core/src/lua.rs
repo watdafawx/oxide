@@ -47,6 +47,55 @@ pub fn run(workspace: &Path, lib_dir: Option<&Path>, objectives: &[Objective]) -
     Ok(r)
 }
 
+/// Run one script (e.g. `src/main.lua`) with `print` captured; `(output, error)`.
+pub fn run_script(ws: &Path, lib: Option<&Path>, rel: &str) -> (String, Option<String>) {
+    let ws = ws.to_path_buf();
+    let lib = lib.map(Path::to_path_buf);
+    let rel = rel.to_string();
+    std::thread::spawn(move || -> (String, Option<String>) {
+        let lua = Lua::new();
+        let out = std::rc::Rc::new(std::cell::RefCell::new(String::new()));
+        let setup = (|| -> mlua::Result<()> {
+            sandbox(&lua)?;
+            install_searcher(&lua, &ws, lib.as_deref())?;
+            let out2 = out.clone();
+            let print = lua.create_function(move |_, args: mlua::Variadic<Value>| {
+                let mut buf = out2.borrow_mut();
+                let parts: Vec<String> = args.iter().map(|v| match v {
+                    Value::String(s) => s.to_string_lossy(),
+                    other => format!("{other:#?}").trim_matches('"').to_string(),
+                }).collect();
+                buf.push_str(&parts.join("\t"));
+                buf.push('\n');
+                Ok(())
+            })?;
+            lua.globals().set("print", print)?;
+            let deadline = Instant::now() + TIME_LIMIT;
+            let _ = lua.set_hook(HookTriggers::new().every_nth_instruction(10_000), move |_, _| {
+                if Instant::now() > deadline {
+                    Err(mlua::Error::runtime("time limit of 5s hit (infinite loop?)"))
+                } else {
+                    Ok(VmState::Continue)
+                }
+            });
+            Ok(())
+        })();
+        if let Err(e) = setup {
+            return (String::new(), Some(clean_error(&e)));
+        }
+        let path = ws.join(&rel);
+        let src = match fs::read_to_string(&path) {
+            Ok(s) => s,
+            Err(e) => return (String::new(), Some(format!("{rel}: {e}"))),
+        };
+        let err = lua.load(&src).set_name(format!("@{rel}")).exec().err().map(|e| clean_error(&e));
+        let text = out.borrow().clone();
+        (text, err)
+    })
+    .join()
+    .unwrap_or_else(|_| (String::new(), Some("the Lua thread panicked".into())))
+}
+
 /// `(stdout, stderr, ok)`: `ok` is false when tests.lua itself failed to run.
 /// mlua's error type is not `Send`, so this stays in mlua's `Result` until `run` converts it.
 fn run_inner(ws: &Path, lib: Option<&Path>) -> mlua::Result<(String, String, bool)> {

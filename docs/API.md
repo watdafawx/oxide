@@ -92,6 +92,7 @@ interface QuestDetail {
   attempts: number;
   completed: boolean;
   last_check: CheckResult | null;
+  has_program: boolean;       // the workspace has a binary (src/main.rs or [[bin]]) or src/main.lua: Run is possible
 }
 
 interface Home {
@@ -122,6 +123,9 @@ interface Home {
 | `list_achievements` | | `Achievement[]` | static list with titles |
 | `start_focus` | `{ id?: string, minutes }` | `number` | session id; engine emits `focus:tick` |
 | `stop_focus` | `{ completed: boolean }` | `void` | |
+| `run_program` | `{ id }` | `void` | runs the project (`cargo run`, or `src/main.lua` in-process); output streams as `run:output`; stops a previous run first |
+| `run_input` | `{ text }` | `void` | one line to the running program's stdin |
+| `stop_program` | | `void` | kills the running program |
 | `get_settings` / `set_settings` | `{ settings }` | `Settings` | switching track = `set_settings` with a new `track`, then reload `home` |
 | `active_dates` | | `string[]` | `YYYY-MM-DD`, for the streak calendar |
 
@@ -136,6 +140,8 @@ Errors: commands reject with a string message. Show it in a toast, no stack trac
 | `profile:changed` | `Profile` | after any XP/streak/achievement change |
 | `focus:tick` | `{ remaining_s, total_s, quest_id }` | once a second while a focus timer runs |
 | `focus:done` | `{ quest_id }` | timer hit zero |
+| `run:output` | `{ quest_id, stream: "stdout" \| "stderr" \| "system", line }` | one line of program output (`system` = the command itself) |
+| `run:done` | `{ quest_id, code: number \| null }` | the program exited |
 
 ## Dev without Tauri
 
