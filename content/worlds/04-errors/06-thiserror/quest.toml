@@ -1,0 +1,23 @@
+title = "thiserror: errors without the boilerplate"
+summary = "Derive Display, Error and From with a few attributes."
+kind = "exercise"
+xp = 65
+minutes = 12
+tags = ["thiserror", "derive", "crates"]
+
+[[objectives]]
+test = "missing_key_message_names_the_key"
+label = "Missing(key) displays \"missing key: <key>\""
+[[objectives]]
+test = "bad_port_converts_with_from"
+label = "A bad port becomes ConfigError::BadPort via ? and #[from]"
+[[objectives]]
+test = "read_port_finds_a_valid_port"
+label = "read_port returns the parsed port"
+
+[[hints]]
+text = "Put `#[error(\"missing key: {0}\")]` above `Missing`. `{0}` is the first field."
+[[hints]]
+text = "On `BadPort`: `#[error(\"port is not a number: {0}\")]` and mark the field `#[from] ParseIntError`. That generates the `From` impl, so `?` works."
+[[hints]]
+text = "In `read_port`: find the pair with `.iter().find(..)`, `.ok_or_else(|| ConfigError::Missing(key.to_string()))?`, then `Ok(value.parse()?)`."

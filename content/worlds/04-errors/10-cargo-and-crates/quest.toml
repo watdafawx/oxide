@@ -1,0 +1,16 @@
+title = "Cargo.toml and crates"
+summary = "What goes in each section, what ^1.2 means, and cargo add."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["cargo", "semver", "crates"]
+
+[[quiz]]
+question = "Which Cargo.toml section lists crates your code needs when it runs?"
+choices = ["[dependencies]", "[dev-dependencies]", "[package]"]
+answer = 0
+
+[[quiz]]
+question = "You write serde = \"1.2\". Which versions can Cargo pick?"
+choices = ["Only exactly 1.2.0", "1.2.0 or newer, but below 2.0.0", "Any version, even 2.x or 3.x"]
+answer = 1

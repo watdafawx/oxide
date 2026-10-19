@@ -1,0 +1,26 @@
+title = "Modules: rooms in your code"
+summary = "mod, pub, use, self and super: build a small module tree."
+kind = "exercise"
+xp = 55
+minutes = 10
+tags = ["mod", "pub", "use", "paths"]
+
+[[objectives]]
+test = "circle_area_uses_parent_constant"
+label = "circle::area reads PI from its parent with super::"
+[[objectives]]
+test = "square_area_multiplies_sides"
+label = "square::area works"
+[[objectives]]
+test = "total_area_adds_both_children"
+label = "total_area calls into its child modules with self::"
+[[objectives]]
+test = "describe_uses_an_imported_function"
+label = "describe brings total_area into scope with use"
+
+[[hints]]
+text = "Inside `circle`, the parent's private `PI` is reachable as `super::PI`. Children may see their parent's private items."
+[[hints]]
+text = "In `total_area`, `self::circle::area(r) + self::square::area(side)`. `self::` means \"this module\"."
+[[hints]]
+text = "In `describe`, write `use geometry::total_area;` at the top of the function (or file), then call `total_area(r, side)`."

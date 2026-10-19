@@ -1,0 +1,16 @@
+title = "Panic or Result?"
+summary = "When to crash on purpose, and when to hand the problem back."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["panic", "unwrap", "expect"]
+
+[[quiz]]
+question = "A user types a file name that does not exist. What should your function do?"
+choices = ["panic!, the program cannot continue", "Return Err so the caller decides what to do", "Call unwrap() and hope the file is there"]
+answer = 1
+
+[[quiz]]
+question = "When is expect(\"reason\") the right call?"
+choices = ["On user input that might be malformed", "Instead of ? in a function that returns Result", "On a value you know cannot fail, with a message saying why"]
+answer = 2

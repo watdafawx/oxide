@@ -1,0 +1,23 @@
+title = "The ? shortcut"
+summary = "Return early on Err or None instead of writing match every time."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["result", "option", "question-mark"]
+
+[[objectives]]
+test = "parse_and_double_doubles_a_number"
+label = "parse_and_double(\"21\") returns Ok(42)"
+[[objectives]]
+test = "parse_and_double_passes_the_error_up"
+label = "A bad string comes back as Err, not a panic"
+[[objectives]]
+test = "first_char_upper_uses_question_mark_on_option"
+label = "first_char_upper works on Option too"
+
+[[hints]]
+text = "Put `?` after the fallible call: `let n = s.parse::<i32>()?;`. If it is an Err, the function returns it right there."
+[[hints]]
+text = "After the `?` line, the rest is plain: `Ok(n * 2)`."
+[[hints]]
+text = "For the Option one: `let c = s.chars().next()?;` then `c.to_uppercase().next()`."
