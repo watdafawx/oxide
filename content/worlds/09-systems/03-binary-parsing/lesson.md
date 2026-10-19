@@ -1,4 +1,6 @@
-Every network protocol and file format starts with a **header**: a fixed run of bytes you must read field by field. Reading past the end must be an error, never a panic or garbage.
+**Why now:** the server pinger has to read the server's reply field by field from a byte stream, and a short or hostile reply must give an error, not a crash.
+
+Every protocol starts with a **header**: a fixed run of bytes you read field by field. Reading past the end must be an error, never a panic or garbage.
 
 The pattern is a **cursor**: a slice plus a position that only moves forward.
 

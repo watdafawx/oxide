@@ -1,8 +1,10 @@
+**Why now:** the pinger's byte buffers cross into C and back as raw pointers, so you need to make and check them yourself before the FFI quest.
+
 Raw pointers are how Rust talks to C, to hardware, and how `Vec` and `Box` are built. Making one is safe; **using one is not**.
 
 ```rust
-let mut x = 10;
-let p = &mut x as *mut i32;   // safe: casting a reference to a raw pointer
+let mut players = 10;
+let p = &mut players as *mut i32;   // safe: casting a reference to a raw pointer
 
 unsafe {
     *p += 1;                  // deref in unsafe

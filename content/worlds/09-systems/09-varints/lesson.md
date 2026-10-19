@@ -1,4 +1,6 @@
-Minecraft packets start with a length, and most lengths are tiny. A **VarInt** stores small numbers in one byte and big ones in up to five. You need this for the boss.
+**Why now:** every Minecraft packet starts with a VarInt length, so the pinger cannot send or read a single packet without them.
+
+A **VarInt** stores small numbers in one byte and big ones in up to five. You need this for the boss.
 
 The recipe (LEB128):
 

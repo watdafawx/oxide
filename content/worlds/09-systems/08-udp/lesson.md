@@ -1,4 +1,6 @@
-UDP is TCP's quick cousin: no connection, no retries, no ordering. Each `send_to` is one **datagram** that arrives whole or not at all. Game queries, DNS and discovery use it.
+**Why now:** servers also answer a UDP query for status and latency, so you will see why a lost reply must time out instead of hanging the pinger.
+
+UDP is TCP's quick cousin: no connection, no retries, no ordering. Each `send_to` is one **datagram** that arrives whole or not at all.
 
 ```rust
 use std::net::UdpSocket;
@@ -7,12 +9,12 @@ let server = UdpSocket::bind("127.0.0.1:0").unwrap();
 let addr = server.local_addr().unwrap();
 
 let client = UdpSocket::bind("127.0.0.1:0").unwrap();
-client.send_to(b"hi", addr).unwrap();
+client.send_to(b"ping", addr).unwrap();
 
 let mut buf = [0u8; 64];
 let (n, from) = server.recv_from(&mut buf).unwrap();
-assert_eq!(&buf[..n], b"hi");
-server.send_to(b"yo", from).unwrap(); // answer whoever sent it
+assert_eq!(&buf[..n], b"ping");
+server.send_to(b"pong", from).unwrap(); // answer whoever sent it
 ```
 
 - No `accept`: one socket talks to anyone. `recv_from` tells you **who** sent each datagram.

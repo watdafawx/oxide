@@ -1,4 +1,6 @@
-Every server list in the Minecraft launcher shows a name, a player count and a version without logging in. It does that with the **Server List Ping**, a tiny TCP conversation. You will write the client, and then you can point it at your own server.
+**Why now:** this is the finished server pinger: the same ping the launcher's server list sends, aimed at your own server.
+
+The launcher's server list shows a name, a player count and a version without logging in, using the **Server List Ping**, a tiny TCP conversation. You write the client.
 
 ## The conversation
 

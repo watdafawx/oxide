@@ -1,4 +1,6 @@
-Almost every OS API, database driver and game engine speaks **C**. Rust calls it through **FFI** (foreign function interface). No extra crate needed: the C runtime is already linked into every Rust program.
+**Why now:** the pinger and every OS API underneath it speak C, so you need to call C functions and turn C strings into `String` safely.
+
+Almost every OS API speaks **C**. Rust calls it through **FFI** (foreign function interface). No extra crate needed: the C runtime is already linked into every Rust program.
 
 ```rust
 use std::ffi::{c_char, c_int, CStr, CString};

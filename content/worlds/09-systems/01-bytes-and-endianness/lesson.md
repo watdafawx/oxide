@@ -1,4 +1,6 @@
-Files, network packets and game protocols are just bytes. The first thing every parser must know: **which byte comes first?**
+**Why now:** the server pinger sends a protocol version and a port as raw bytes, and the server rejects them unless you put the big end first.
+
+Network packets are just bytes. The first thing every parser must know: **which byte comes first?**
 
 A `u32` is 4 bytes. **Endianness** is the order you write them down:
 

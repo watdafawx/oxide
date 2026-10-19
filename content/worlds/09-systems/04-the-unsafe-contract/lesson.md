@@ -1,3 +1,5 @@
+**Why now:** the pinger talks to the OS and to C through `unsafe`, and the boss crate must stay safe for its callers; this quest is the rulebook.
+
 Rust's guarantees (no use-after-free, no data races) come from the compiler checking your code. **`unsafe` is how you tell the compiler: "I checked this part myself."**
 
 `unsafe` unlocks exactly five things:

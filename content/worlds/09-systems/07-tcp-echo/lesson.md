@@ -1,4 +1,6 @@
-Minecraft servers, web servers and chat apps all start the same way: a **listener** that accepts **connections**. `std::net` gives you both with no crates.
+**Why now:** a server ping is one TCP connection to a Minecraft server, and this quest is the plain connect, write, read round trip you will reuse in the boss.
+
+A Minecraft server is a **listener** that accepts **connections**. `std::net` gives you both with no crates.
 
 ```rust
 use std::io::{Read, Write};
