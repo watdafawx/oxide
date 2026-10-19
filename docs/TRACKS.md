@@ -111,6 +111,22 @@ entities, surfaces, on_tick budgeting, GUI, remote interfaces, migrations) · 4 
 (performance, settings, locale, multiplayer safety, mod portal) · 5 Capstone: a real mod
 loaded in Factorio (graded by the mock; a manual "load it in the game" step is the reward).
 
+## Versions: two Javas, two Minecrafts (2026-10-19)
+
+The user wants Java 21 + Spring Boot 3.5 + NeoForge 1.21.1 **and** Java 25 + Spring Boot 4 +
+NeoForge for the current Minecraft, without the old content being overwritten. Two delta tracks:
+
+| track | toolchain | what it is |
+|---|---|---|
+| `java` | JDK 21, Boot 3.5 | the full course (docs/tracks/java.md) |
+| `java-25` | JDK 25, Boot 4 | delta: worlds that `require` the matching `java` world and teach what changed: Java 22-25 language and library features (flexible constructor bodies, module imports, compact source files and instance `main`, scoped values, structured concurrency, stream gatherers, class-file API, primitive patterns), then Spring Boot 4 / Framework 7 (modular starters, Jackson 3, JSpecify null-safety, API versioning, test changes); capstone: migrate the `java` capstone to 25 + Boot 4 |
+| `neoforge` | 1.21.1, JDK 21 | the full course (docs/tracks/neoforge.md) |
+| `neoforge-latest` | current Minecraft + its NeoForge line, JDK the MDK needs | per world a "what moved since 1.21.1" read quest, and rewritten quests only where the API changed (item models and rendering since 1.21.2, data components, GameTest registration since 1.21.5, registries, networking, year-versioned NeoForge); unchanged quests `require` the 1.21.1 one instead of repeating it; capstone: port the 1.21.1 capstone mod to the current version |
+
+`track.toml` gains `jdk = 21 | 25` and the gradle runner sets `JAVA_HOME` from it (JDK 25 is not
+installed yet: the `java-25` Setup quest installs Temurin 25 with winget, after asking).
+Fabric stays on 1.21.1 for now; a `fabric-latest` delta can follow the same pattern.
+
 ## Toolchains on this machine (2026-10-19)
 
 JDK 21: `C:\Program Files\Eclipse Adoptium\jdk-21.0.12.101-hotspot` (JAVA_HOME points at a JRE 17;
