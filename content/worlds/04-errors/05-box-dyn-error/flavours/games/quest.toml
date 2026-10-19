@@ -1,0 +1,19 @@
+title = "Load the manifest file, whatever fails"
+summary = "Box<dyn Error> lets one loader return io errors and parse errors together."
+
+[[objectives]]
+test = "parses_a_valid_pair"
+label = "parse_pack_header(\"3,4.5\") returns (3, 4.5)"
+[[objectives]]
+test = "missing_comma_is_an_error_with_message"
+label = "No comma gives an error saying \"missing comma\""
+[[objectives]]
+test = "bad_numbers_convert_into_the_box"
+label = "ParseIntError, ParseFloatError and io::Error all fit in the Box"
+
+[[hints]]
+text = "Split with `text.split_once(',')`. It returns an Option, so turn it into an error with `.ok_or(\"missing comma\")?`. A `&str` converts into `Box<dyn Error>` by itself."
+[[hints]]
+text = "Then `let format = left.trim().parse::<u32>()?;` and `let size_gb = right.trim().parse::<f64>()?;`. Two different error types, one `?`."
+[[hints]]
+text = "`load_pack_header`: `let text = std::fs::read_to_string(path)?;` (an io error, same Box) then `parse_pack_header(&text)`."

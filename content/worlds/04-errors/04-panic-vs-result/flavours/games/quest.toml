@@ -1,0 +1,12 @@
+title = "Corrupt manifest or missing mod?"
+summary = "When the loader should crash on purpose, and when it should hand the problem back."
+
+[[quiz]]
+question = "A player's manifest lists an optional mod whose file is not in the mods folder. What should the loader do?"
+choices = ["panic!, the pack cannot start", "Return Err so the caller can skip it or warn", "Call unwrap() and hope the file is there"]
+answer = 1
+
+[[quiz]]
+question = "When is expect(\"reason\") the right call?"
+choices = ["On a manifest line a player typed by hand", "Instead of ? in a function that returns Result", "On a value you know cannot fail, like the loader list your own code built, with a message saying why"]
+answer = 2

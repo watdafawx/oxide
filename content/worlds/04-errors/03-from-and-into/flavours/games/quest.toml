@@ -1,0 +1,14 @@
+title = "Version numbers that convert"
+summary = "Teach ? to turn a ParseIntError into a ManifestError."
+
+[[objectives]]
+test = "from_wraps_the_parse_error"
+label = "From<ParseIntError> wraps the error in ManifestError::BadVersion"
+[[objectives]]
+test = "sum_all_stops_at_first_bad_input"
+label = "pack_fingerprint uses ? and returns the first error"
+
+[[hints]]
+text = "Inside `from`, build the variant: `ManifestError::BadVersion(e)`. Rename `_e` to `e` first."
+[[hints]]
+text = "In `pack_fingerprint`, loop over `builds` and add `parse_build(build)?` to a running total."

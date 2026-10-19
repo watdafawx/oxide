@@ -1,0 +1,22 @@
+title = "Modules: manifest and resolver"
+summary = "mod, pub, use, self and super: split the loader into a small module tree."
+
+[[objectives]]
+test = "circle_area_uses_parent_constant"
+label = "manifest::size_mb reads MB_PER_MOD from its parent with super::"
+[[objectives]]
+test = "square_area_multiplies_sides"
+label = "resolver::library_mb works"
+[[objectives]]
+test = "total_area_adds_both_children"
+label = "total_mb calls into its child modules with self::"
+[[objectives]]
+test = "describe_uses_an_imported_function"
+label = "describe brings total_mb into scope with use"
+
+[[hints]]
+text = "Inside `manifest`, the parent's private `MB_PER_MOD` is reachable as `super::MB_PER_MOD`. Children may see their parent's private items."
+[[hints]]
+text = "In `total_mb`, `self::manifest::size_mb(mods) + self::resolver::library_mb(libs)`. `self::` means \"this module\"."
+[[hints]]
+text = "In `describe`, write `use pack::total_mb;` at the top of the function (or file), then call `total_mb(mods, libs)`."

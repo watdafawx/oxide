@@ -1,0 +1,34 @@
+title = "Boss: the mod list manager"
+summary = "A mod list saved to a file, with typed errors inside and anyhow outside."
+
+[[objectives]]
+test = "new_store_is_empty"
+label = "ModList::new() starts with no mods"
+[[objectives]]
+test = "add_assigns_increasing_ids"
+label = "add returns ids 1, 2, ... and stores the mods, enabled"
+[[objectives]]
+test = "toggle_flips_done_and_reports_missing_ids"
+label = "toggle enables/disables a mod, unknown id gives ModError::NotFound"
+[[objectives]]
+test = "parse_command_understands_all_three"
+label = "parse_command reads add, toggle and list"
+[[objectives]]
+test = "parse_command_rejects_nonsense"
+label = "Bad input gives ModError::BadCommand"
+[[objectives]]
+test = "save_then_load_round_trips"
+label = "save writes a file that load reads back identically"
+[[objectives]]
+test = "load_missing_file_gives_empty_store"
+label = "load tolerates a mod list file that does not exist yet"
+[[objectives]]
+test = "run_executes_commands"
+label = "run adds, toggles and lists, and errors keep their ModError"
+
+[[hints]]
+text = "Start small: `ModList::new()` is `Self::default()`. Then `add`: the next id is `self.mods.iter().map(|m| m.id).max().unwrap_or(0) + 1`."
+[[hints]]
+text = "`toggle`: `self.mods.iter_mut().find(|m| m.id == id).ok_or(ModError::NotFound(id))?` gives you the mod to flip."
+[[hints]]
+text = "`parse_command`: `split_once(' ').unwrap_or((input, \"\"))` gives verb and rest. `\"toggle\" => rest.parse().map(Command::Toggle).map_err(|_| ...)`. For `load`, match on `e.kind() == std::io::ErrorKind::NotFound`."

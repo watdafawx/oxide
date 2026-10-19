@@ -1,0 +1,19 @@
+title = "One file per module"
+summary = "Move manifest and resolver into src/manifest.rs and src/resolver.rs and wire them with mod."
+
+[[objectives]]
+test = "parse_line_splits_name_and_score"
+label = "manifest::parse_mod_line reads \"name@version\""
+[[objectives]]
+test = "parse_line_rejects_garbage"
+label = "Bad lines give None"
+[[objectives]]
+test = "best_player_picks_the_highest_score"
+label = "resolver::newest_mod uses crate::manifest"
+
+[[hints]]
+text = "`parse_mod_line`: `let (name, version) = line.split_once('@')?;` then `let version = version.trim().parse().ok()?;`."
+[[hints]]
+text = "Return `Some((name.trim().to_string(), version))`."
+[[hints]]
+text = "`newest_mod`: `lines.iter().filter_map(|l| parse_mod_line(l)).max_by_key(|(_, version)| *version).map(|(name, _)| name)`."
