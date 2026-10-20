@@ -8,9 +8,9 @@ requires = ["01-lua-core/10-modules-and-errors"]
 
 [[quiz]]
 question = "In which file does a mod register a new item?"
-choices = ["control.lua", "data.lua", "info.json"]
-answer = 1
+choices = ["data.lua", "control.lua", "info.json"]
+answer = 0
 [[quiz]]
 question = "Why can data.lua not call game.print?"
-choices = ["print is banned in mods", "The data stage runs before any game exists", "game only works in singleplayer"]
-answer = 1
+choices = ["print is banned in mods", "game only works in singleplayer", "The data stage runs before any game exists"]
+answer = 2

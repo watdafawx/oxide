@@ -7,8 +7,8 @@ tags = ["docs", "prototypes"]
 
 [[quiz]]
 question = "On the recipe prototype page, which fields are mandatory?"
-choices = ["ingredients and results", "only type and name", "type, name and energy_required"]
-answer = 1
+choices = ["ingredients and results", "type, name and energy_required", "only type and name"]
+answer = 2
 [[quiz]]
 question = "A property says \"Mandatory if icons is not defined\". What does that mean for icon?"
 choices = ["Write both icon and icons", "Write icon, or icons, but one of them", "icon is never needed"]

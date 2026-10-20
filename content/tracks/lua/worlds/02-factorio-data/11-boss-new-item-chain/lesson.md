@@ -14,7 +14,7 @@ Everything lives in `mod/data.lua`. The alloy item and its recipe are written fo
 - the second **technology**, `kit-storage`, after the first one;
 - `enabled = false` on both recipes so research is the only way in.
 
-Reminders: ingredients are `{type, name, amount}`; research `unit.ingredients` are `{name, amount}` pairs; a placeable container needs an icon and the `placeable-neutral` flag; copy shapes from earlier quests rather than from memory.
+Reminders: ingredients are `{type, name, amount}`; research `unit.ingredients` are `{name, amount}` pairs; a placeable container needs an icon and the `placeable-neutral` flag, and the `kit-storage` technology needs its own `icon` and `icon_size` (copy the first technology's); copy shapes from earlier quests rather than from memory.
 
 ## Your turn
 

@@ -18,7 +18,7 @@ A technology is a prototype with a research cost (`unit`), things it grants (`ef
 ```
 
 - `unit` needs `time`, `ingredients` and exactly one of `count` / `count_formula`. A tech may use `research_trigger` instead of `unit`, but not in this quest.
-- Research ingredients must be `tool` items, the science packs.
+- Research ingredients must be `tool` items, the science packs. Careful: unlike recipe ingredients (`{type, name, amount}` tables), `unit.ingredients` are plain `{name, amount}` pairs.
 - The recipe must start locked: `enabled = false`. Otherwise research unlocks something you already own.
 - Names in `prerequisites` and `recipe` are looked up by name: a typo is an error in the game, and Oxide's reference check names it.
 

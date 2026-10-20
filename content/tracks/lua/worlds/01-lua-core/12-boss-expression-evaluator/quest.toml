@@ -2,7 +2,7 @@ title = "Boss: Expression evaluator"
 summary = "Tokenizer, parser and evaluator for formulas like 2 * (iron + 3) ^ 2."
 kind = "boss"
 xp = 400
-minutes = 60
+minutes = 75
 tags = ["boss", "parsing", "coroutines", "errors"]
 
 [[objectives]]

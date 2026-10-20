@@ -2,7 +2,7 @@ title = "String patterns"
 summary = "find, match, gmatch and gsub: parse a recipe line without a regex library."
 kind = "exercise"
 xp = 60
-minutes = 12
+minutes = 15
 tags = ["strings", "patterns"]
 
 [[objectives]]

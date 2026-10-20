@@ -10,6 +10,8 @@ end
 - `pairs` visits every key; `ipairs` visits `1, 2, 3...` and stops at the first hole.
 - **Order is not yours.** Never rely on the order `pairs` gives you; sort the keys first if you need one.
 - **Deleting while looping** is fine for fields that already exist: `chest[item] = nil` inside the loop is allowed. *Adding* new keys mid-loop is undefined.
+- `text:gmatch("%S+")` hands out the words of a string one by one (`%S+` = a run of non-space characters; patterns get their own quest next): `for word in text:gmatch("%S+") do ... end`.
+- `type(v)` returns `"table"`, `"number"`, `"string"`... : `type(v) == "table"` tells nested tables from plain values.
 - `local b = a` copies nothing: both names point at the same table. A *shallow* copy shares nested tables, so changing `b.stats.x` changes `a`'s too. A **deep copy** recurses.
 
 ```lua

@@ -19,6 +19,27 @@ atom   = number | name | "(" expr ")"
 ```
 
    Each rule calls the next-tighter one, which is how `*` ends up binding harder than `+`. A node looks like `{type = "bin", op = "+", left = ..., right = ...}`.
+   A worked mini-parser for just `number { "+" number }`: one function, a position `at`, and a loop that wraps what it has so far in a new node each time it sees `+`:
+
+```lua
+-- toks = {{kind="num", value=1}, {kind="op", text="+"}, {kind="num", value=2}}
+local at = 1
+local function number()
+  local tok = toks[at]; at = at + 1
+  return {type = "num", value = tok.value}
+end
+local function sum()
+  local left = number()
+  while toks[at] and toks[at].text == "+" do
+    at = at + 1                                   -- eat the "+"
+    local right = number()
+    left = {type = "bin", op = "+", left = left, right = right}   -- 1 + 2  ->  bin
+  end
+  return left
+end
+```
+
+   Your `expr` is `sum` with `term()` instead of `number()` and `+`/`-` in the loop test; `term` does the same with `unary()` and `*`/`/`.
 3. **Evaluator**: a function that walks the tree: numbers return themselves, `bin` evaluates both sides and applies the operator.
 
 Errors are part of the job: a bad input raises `"syntax error at position N: ..."` (positions count characters from 1), and `1 / 0` raises `"division by zero"`.

@@ -2,7 +2,7 @@ title = "Dicts and iteration"
 summary = "pairs, safe deletion while looping, and copying nested tables."
 kind = "exercise"
 xp = 35
-minutes = 8
+minutes = 10
 tags = ["tables", "pairs", "copy"]
 
 [[objectives]]

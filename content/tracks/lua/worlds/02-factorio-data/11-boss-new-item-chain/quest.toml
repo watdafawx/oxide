@@ -2,7 +2,7 @@ title = "Boss: Kit Mod"
 summary = "Ship the whole chain: kit-alloy, kit-crate, two recipes, two technologies and a chest."
 kind = "boss"
 xp = 400
-minutes = 50
+minutes = 30
 tags = ["boss", "items", "recipes", "technology", "entity"]
 
 [[objectives]]
