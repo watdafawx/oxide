@@ -1,7 +1,7 @@
 /// `block_names!["stone", "dirt"]` gives `vec!["stone".to_string(), "dirt".to_string()]`.
 #[macro_export]
 macro_rules! block_names {
-    // TODO: ($($s:expr),* $(,)?) => { vec![ ... ] };
+    // TODO: expand to `vec![$($s.to_string()),*]` (the pattern below is already right)
     ($($s:expr),* $(,)?) => {
         Vec::<String>::new()
     };
@@ -10,7 +10,7 @@ macro_rules! block_names {
 /// `block_ids!("stone" => 1)` builds a HashMap with one pair.
 #[macro_export]
 macro_rules! block_ids {
-    // TODO: ($k:expr => $v:expr) => {{ HashMap::new(), insert, return it }};
+    // TODO: make a `let mut m = ::std::collections::HashMap::new();`, `m.insert($k, $v);`, then end with `m`
     ($k:expr => $v:expr) => {{
         let _ = ($k, $v);
         ::std::collections::HashMap::new()
@@ -20,7 +20,7 @@ macro_rules! block_ids {
 /// `tallest!(3, 9, 2)` is 9.
 #[macro_export]
 macro_rules! tallest {
-    // TODO: one arm for a single argument, one recursive arm using ::std::cmp::max
+    // TODO: two arms: `($x:expr) => { $x };` and `($x:expr, $($rest:expr),+) => { ::std::cmp::max($x, $crate::tallest!($($rest),+)) };`
     ($($x:expr),+) => {
         0
     };

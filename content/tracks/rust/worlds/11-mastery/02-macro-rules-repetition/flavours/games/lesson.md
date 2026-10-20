@@ -1,13 +1,24 @@
 **Why now:** the chunk indexer registers dozens of blocks. Typing `"stone".to_string(), "dirt".to_string(), ...` for each is noise. A macro can take **any number** of arguments and apply a pattern to each: that is a **repetition**.
 
 ```rust
-macro_rules! block_names {
+macro_rules! shout {
     ($($name:expr),* $(,)?) => {
-        vec![$($name.to_string()),*]
+        vec![$($name.to_uppercase()),*]
     };
 }
 
-let names = block_names!["stone", "dirt", "gravel",];   // Vec<String>
+let loud = shout!["stone", "dirt", "gravel",];   // vec!["STONE", "DIRT", "GRAVEL"]
+
+// recursion: peel off the first argument, call yourself on the rest
+macro_rules! total {
+    ($x:expr) => { $x };                                      // base case first
+    ($x:expr, $($rest:expr),+) => { $x + total!($($rest),+) };
+}
+
+// literal tokens in a pattern must match exactly: `=>` here
+macro_rules! pair {
+    ($k:expr => $v:expr) => { ($k, $v) };
+}
 ```
 
 Reading the pattern:

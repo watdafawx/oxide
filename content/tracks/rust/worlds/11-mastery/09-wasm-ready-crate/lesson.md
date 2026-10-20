@@ -15,6 +15,15 @@ pub fn chunk_index(x: u32, z: u32) -> u32 {
 }
 ```
 
+The function body is ordinary Rust. A sequence where each number comes from the previous ones (Fibonacci: 0, 1, 1, 2, 3, 5, ...) needs no recursion, just two running numbers that you update together in a loop. You can assign a tuple at once, which updates both from their *old* values:
+
+```rust
+let (mut x, mut y) = (1u64, 2u64);
+for _ in 0..3 {
+    (x, y) = (y, x + y);      // x takes y's old value, y takes the sum
+}
+```
+
 Keep the logic in plain Rust and the wasm attribute as a thin tag on top. Then your tests need no browser.
 
 ## Your turn

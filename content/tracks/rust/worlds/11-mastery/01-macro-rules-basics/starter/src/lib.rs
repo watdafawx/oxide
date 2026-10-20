@@ -2,7 +2,7 @@
 #[macro_export]
 macro_rules! square {
     ($x:expr) => {
-        // TODO: bind `$x` once with `let v = $x;` and return `v * v`.
+        // TODO: change the arm body to double braces `{{ .. }}`, bind `$x` once with `let v = $x;`, and end with `v * v`.
         // (This stub just returns `$x`, so the crate compiles.)
         $x
     };

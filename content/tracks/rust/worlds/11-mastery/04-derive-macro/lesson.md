@@ -8,6 +8,17 @@ The recipe has three steps:
 2. **Compute**: look at `data`. For a struct, `s.fields.len()` is the field count.
 3. **Generate**: `quote! { impl ... }` builds tokens. `#name` and `#text` splice Rust values in.
 
+`data` is an enum, so you `match` on it. All three kinds must be covered, and a struct arm can bind its parts (`s.fields` is the list of fields, `.len()` counts them):
+
+```rust
+let kind = match &input.data {
+    syn::Data::Struct(s) => format!("struct, {} fields", s.fields.len()),
+    syn::Data::Enum(_) => String::from("enum"),
+    syn::Data::Union(_) => String::from("union"),
+};
+```
+Ident names print with `{}`: `format!("{name}")` gives `Point`.
+
 Generics need care: `split_for_impl()` hands you the three pieces of `impl<T> Name<T> where ...`.
 
 ```rust

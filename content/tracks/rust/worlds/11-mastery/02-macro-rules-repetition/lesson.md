@@ -16,6 +16,18 @@ macro_rules! total_blocks {
 assert_eq!(total_blocks!(4, 2, 3), 9);
 ```
 
+Repeating in the expansion works the same way, once per captured value. Here every argument gets `.len()` called on it:
+
+```rust
+macro_rules! lengths {
+    ($($s:expr),* $(,)?) => { vec![$($s.len()),*] };
+}
+
+assert_eq!(lengths!("ab", "cde"), vec![2, 3]);   // zero args: vec![]
+```
+
+Inside a macro, write full paths such as `::std::collections::HashMap::new()`, so it works even where `HashMap` was not imported.
+
 ## Your turn
 
 In `src/lib.rs`:

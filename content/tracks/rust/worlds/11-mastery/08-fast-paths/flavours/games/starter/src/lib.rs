@@ -17,7 +17,7 @@ pub fn count_blocks(log: &str, counter: &mut Counter) {
 
 /// The longest name (the first one wins a tie), or None for an empty slice.
 pub fn longest_name(names: &[Name]) -> Option<Name> {
-    // TODO: compare by reference, clone only the winner
+    // TODO: keep `let mut best = names.first()?;` (a reference), assign `best = name;`, and return `Some(best.clone())`
     let mut best = names.first()?.clone();
     for name in names {
         if name.0.len() > best.0.len() {
@@ -29,7 +29,7 @@ pub fn longest_name(names: &[Name]) -> Option<Name> {
 
 /// `[0, 1, 4, 9, ...]`: the chunk areas for sides `0..n`.
 pub fn chunk_areas(n: usize) -> Vec<u64> {
-    // TODO: reserve the capacity first
+    // TODO: reserve the capacity first: `Vec::with_capacity(n)` instead of `Vec::new()`
     let mut out = Vec::new();
     for i in 0..n as u64 {
         out.push(i * i);

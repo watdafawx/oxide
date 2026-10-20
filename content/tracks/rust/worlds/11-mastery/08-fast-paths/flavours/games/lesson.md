@@ -1,19 +1,20 @@
 **Why now:** you can count allocations and operations. Now fix four spots in the chunk indexer, each with a different habit. The tests do not time anything: they read a meter, so a pass means the pattern is right on every machine.
 
 ```rust
-// 1. One lookup, not three
-*counter.entry(block.to_string()).or_default() += 1;   // not contains + insert + get
+// 1. One lookup, not three: entry finds or creates the slot, then you bump it
+*tally.entry(tag).or_default() += 1;          // instead of contains_key + get + insert
+// (the test's Counter wants an owned key: tally.entry(tag.to_string()))
 
 // 2. Compare by reference, clone once at the end
-let mut best = names.first()?;
-for name in names { if name.0.len() > best.0.len() { best = name; } }
-Some(best.clone())
+let mut best: &String = &words[0];            // a reference: free to copy
+for w in &words { if w.len() > best.len() { best = w; } }
+let owned = best.clone();                     // the only clone
 
 // 3. Reserve once
-let mut out = Vec::with_capacity(n);
+let mut out: Vec<u64> = Vec::with_capacity(n);
 
-// 4. Iterators allocate nothing
-text.split_whitespace().filter(|w| w.len() >= min).count()
+// 4. Iterators allocate nothing: no collect, no to_string
+let long = text.split_whitespace().filter(|w| w.len() >= 5).count();
 ```
 
 - `entry` hashes the key once and gives you a handle to the slot.

@@ -26,6 +26,14 @@ The counter is per thread, so parallel tests do not disturb each other. It is a 
 
 A growing `String` or `Vec` reallocates every time it runs out of room. If you know the size, reserve it once with **`with_capacity`**.
 
+```rust
+let mut v: Vec<i32> = Vec::with_capacity(10);   // room for 10, one allocation, still len 0
+v.push(1);                                      // no new allocation while len <= 10
+let s = ["a", "b"].join(" ");                   // "a b": join works out the final size first
+```
+
+A `Vec` or `String` you only build once and never grow past `with_capacity` allocates exactly once.
+
 ## Your turn
 
 The wrapper is already in `tests/allocations.rs`. In `src/lib.rs`:

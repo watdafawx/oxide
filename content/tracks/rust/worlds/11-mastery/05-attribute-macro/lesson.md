@@ -25,6 +25,17 @@ Your `#[timed]` also generates a global counter per function. `#[timed] fn ping(
 - `pub fn ping_calls() -> usize` that reads it,
 - `fn ping()` with a `fetch_add(1)` before the original body. `format_ident!` builds those new names for you.
 
+The counter is a plain global **atomic** (as in the atomics quest). Inside `quote!`, use the full paths, since the user's file may not have imported them:
+
+```rust
+static HITS: ::std::sync::atomic::AtomicUsize = ::std::sync::atomic::AtomicUsize::new(0);
+
+HITS.fetch_add(1, ::std::sync::atomic::Ordering::SeqCst);        // bump
+let n = HITS.load(::std::sync::atomic::Ordering::SeqCst);        // read
+```
+
+In `quote!`, a name you computed outside it (like `counter`) is spliced with `#counter`, so `static #counter: ...` declares a static with that name.
+
 ## Your turn
 
 In `timed_macro/src/lib.rs`, function `timed`:

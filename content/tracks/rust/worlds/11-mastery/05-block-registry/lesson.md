@@ -8,7 +8,7 @@ macro_rules! point {
 }
 ```
 
-Inside another macro, call yours as `$crate::name!(..)` so it works from any module.
+`=>` in a pattern is just a literal token that must appear in the call, and `$( ... ),*` can wrap a whole macro call: `vec![$( point!($x, $y) ),*]`. A struct from your crate is written `$crate::Point { .. }` in the expansion, so it works wherever the macro is used. Inside another macro, call yours as `$crate::name!(..)` so it works from any module.
 
 ## Your turn
 

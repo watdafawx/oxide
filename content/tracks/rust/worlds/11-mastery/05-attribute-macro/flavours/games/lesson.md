@@ -19,6 +19,7 @@ The macro (in `count_calls_macro/`) parses the function with `syn::ItemFn`, take
 - `format_ident!("{}_calls", name)` builds a new identifier from a string.
 - `#(#attrs)*` repeats a list of tokens (here: the function's own attributes).
 - A `static` with an atomic is a global counter that needs no lock.
+- Inside `quote!`, write std items by full path (`::std::sync::atomic::AtomicUsize`, `::std::sync::atomic::Ordering::SeqCst`): the user's file may not import them. A name computed outside, like `counter`, is spliced in as `#counter`.
 - The original `#block` stays untouched, so behaviour does not change.
 
 ## Your turn

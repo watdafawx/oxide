@@ -2,29 +2,29 @@
 
 ```rust
 #[derive(Debug, PartialEq)]
-pub struct Biome { pub name: &'static str, pub id: u16 }
+pub struct Tag { pub label: &'static str, pub weight: u16 }
 
 #[macro_export]
-macro_rules! biome {
-    ($name:expr => $id:expr) => {
-        $crate::Biome { name: $name, id: $id }
+macro_rules! tag {
+    ($label:expr => $w:expr) => {
+        $crate::Tag { label: $label, weight: $w }     // $crate:: = "this crate", from anywhere
     };
 }
 
-#[macro_export]
-macro_rules! biomes {
-    ($($name:expr => $id:expr),* $(,)?) => {
-        vec![ $( $crate::biome!($name => $id) ),* ]
-    };
+// several pairs per round: both captures repeat together
+macro_rules! total_weight {
+    ($($label:expr => $w:expr),* $(,)?) => { 0 $( + $w )* };
 }
 
-let table = biomes!["plains" => 1, "desert" => 2,];
+let t = tag!("heavy" => 9);
+let sum = total_weight!["a" => 1, "b" => 2,];            // 0 + 1 + 2
 ```
+
+- A macro list expands into `vec![ ... ]` like in the last quest, and you can call another macro of yours inside the repetition with `$crate::name!(..)`.
 
 - Any tokens that are not `$...` in a pattern must appear literally. Here `=>` separates name and id.
 - A repetition can capture **several** things per round: both `$name` and `$id` repeat together.
 - `$crate::` always resolves to your crate, wherever the macro is used.
-- The macros are small, but the table at the call site now reads like a table.
 
 ## Your turn
 

@@ -14,6 +14,16 @@ for block in palette.split_whitespace() {
 }
 ```
 
+```rust
+let mut best: &String = &words[0];       // a reference: copying it is free
+for w in &words {
+    if w.len() > best.len() { best = w; }  // point at a new winner, no clone
+}
+let owned: String = best.clone();          // exactly one clone, at the very end
+```
+
+The test's `Counter` is a map of `String` to `u32`, so its `entry` wants an owned key: `counter.entry(word.to_string())`. That costs one copy but only one lookup. Filtering words without copying them: `text.split_whitespace().filter(|w| w.len() >= 3).count()`, since `filter` and `count` need no `Vec` at all.
+
 `src/probe.rs` holds the meters (do not edit it): a `Counter` that counts every operation on it, and a `Name` whose `clone` is counted. `tests/fast.rs` counts allocations with the wrapper from the last quest.
 
 ## Your turn

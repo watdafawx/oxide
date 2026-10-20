@@ -19,6 +19,17 @@ pub fn derive_chunk_info(input: TokenStream) -> TokenStream {
 }
 ```
 
+`data` is an enum, so you `match` on it. All three kinds must be covered, and a struct arm can bind its parts (`s.fields` is the list of fields, `.len()` counts them):
+
+```rust
+let kind = match &input.data {
+    syn::Data::Struct(s) => format!("struct, {} fields", s.fields.len()),
+    syn::Data::Enum(_) => String::from("enum"),
+    syn::Data::Union(_) => String::from("union"),
+};
+```
+Ident names print with `{}`: `format!("{name}")` gives `Chunk`.
+
 - `DeriveInput` has `ident` (the name), `generics` and `data` (a `Struct`, `Enum` or `Union`).
 - `quote!` splices Rust values in with `#name`. Everything else in it is output code.
 - `split_for_impl()` returns the three generic fragments you need so `struct Pair<T: Clone>` still works.

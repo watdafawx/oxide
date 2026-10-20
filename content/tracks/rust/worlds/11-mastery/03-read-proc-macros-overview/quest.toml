@@ -13,8 +13,8 @@ answer = 1
 [[quiz]]
 question = "Why must a proc-macro live in its own crate (`proc-macro = true`)?"
 choices = [
-  "It is compiled and run by the compiler itself, before your crate exists",
-  "Cargo only allows one macro per crate",
-  "Proc-macros are slower, so they are cached separately",
+  "Cargo only allows one macro per crate, and it refuses to build a second one in the same package",
+  "Proc-macros are slower than normal code, so Cargo caches them in a separate crate for speed",
+  "The compiler runs it while building, so it can't sit inside the code it changes",
 ]
-answer = 0
+answer = 2

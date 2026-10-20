@@ -8,17 +8,17 @@ tags = ["profiling", "performance"]
 [[quiz]]
 question = "What does a flamegraph (from samply, cargo-flamegraph or perf) show you?"
 choices = [
-  "How much memory each variable uses",
-  "Which functions the program spends its time in, as stacked bars where width is time",
-  "Which lines of code the compiler rejected",
+  "Which functions the time goes in, as stacked bars where width is time",
+  "How much memory each variable uses at the moment the profiler sampled the program",
+  "Which lines of code the compiler rejected, and the error message each one produced",
 ]
-answer = 1
+answer = 0
 
 [[quiz]]
 question = "Your code feels slow. What do you do first?"
 choices = [
-  "Rewrite the hot loop with unsafe",
+  "Rewrite the hot loop with unsafe so the compiler can skip its bounds checks",
+  "Add #[inline(always)] to every function so nothing is ever a real call",
   "Measure with a release build and a profiler to find where the time goes",
-  "Add #[inline(always)] everywhere",
 ]
-answer = 1
+answer = 2

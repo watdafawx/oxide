@@ -7,19 +7,22 @@ A macro is a list of arms: **pattern => expansion**. The compiler matches your c
 - `$x:expr` captures one expression.
 - The expansion can use `$x` as many times as it likes. If `$x` has side effects, bind it once with `let`.
 - `#[macro_export]` makes a macro usable from outside its module.
-- Wrap multi-statement expansions in an extra `{ }` so the macro is one expression.
+- Wrap multi-statement expansions in an extra `{ }` so the macro is one expression (see the double braces below).
 
 ```rust
 #[macro_export]
-macro_rules! chunk_area {
-    ($side:expr) => {{
-        let s = $side;
-        s * s
+macro_rules! clamp_chunk {
+    ($x:expr) => {{
+        let v = $x;                  // evaluated once, here
+        if v > 15 { 15 } else { v }
     }};
 }
 
-assert_eq!(chunk_area!(8 + 8), 256);
+assert_eq!(clamp_chunk!(20), 15);
+assert_eq!(clamp_chunk!(3 + 4), 7);
 ```
+
+Note the **double braces** `{{ ... }}`: the outer pair is the macro's arm, the inner pair is a block that holds the `let` and gives back its last line.
 
 ## Your turn
 

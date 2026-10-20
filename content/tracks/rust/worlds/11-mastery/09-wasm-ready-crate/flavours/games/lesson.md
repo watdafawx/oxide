@@ -1,14 +1,20 @@
 **Why now:** the chunk indexer should also run in a web page that previews a world. A browser runs **WebAssembly**, and Rust compiles to it. The trick is making the same crate build natively (for tests) and for the web, without dragging browser-only crates into `cargo test`.
 
 ```rust
-// Slimes breed like rabbits: each generation is the sum of the previous two.
+// The slime farm doubles every round: 1, 2, 4, 8, ...
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]
-pub fn slimes_after(generation: u32) -> u64 {
-    let (mut a, mut b) = (0u64, 1u64);
-    for _ in 0..generation {
-        (a, b) = (b, a + b);
+pub fn doubling(rounds: u32) -> u64 {
+    let mut x = 1u64;
+    for _ in 0..rounds {
+        x *= 2;
     }
-    a
+    x
+}
+
+// two running numbers, updated together from their OLD values:
+let (mut p, mut q) = (1u64, 2u64);
+for _ in 0..3 {
+    (p, q) = (q, p + q);
 }
 ```
 

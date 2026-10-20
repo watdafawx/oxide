@@ -20,6 +20,12 @@ static ALLOCATOR: Counting = Counting;
 ```
 
 - `#[global_allocator]` replaces the allocator for the whole program (here: the test binary). The test file `tests/allocations.rs` has it ready. Read it, it is 30 lines.
+```rust
+let mut v: Vec<i32> = Vec::with_capacity(10);   // room for 10: one allocation, len still 0
+v.push(1);                                      // no new allocation while it fits
+let s = ["a", "b"].join(" ");                   // "a b": join sizes the result first
+```
+
 - Count on **this thread only** (`thread_local!`) so other tests running in parallel do not disturb the number.
 - Common reducers: `Vec::with_capacity(n)` when you know the size, `join` instead of `+=` in a loop, passing `&str` instead of `String`.
 - Counting beats timing: a count is exact and the same on every machine.
