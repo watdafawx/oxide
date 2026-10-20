@@ -1,5 +1,5 @@
 title = "Every mob has a describe()"
-summary = "Define the Entity trait and implement it for a zombie and a creeper."
+summary = "Implement the Entity trait for a zombie and a creeper."
 
 [[objectives]]
 test = "zombie_describes_itself"

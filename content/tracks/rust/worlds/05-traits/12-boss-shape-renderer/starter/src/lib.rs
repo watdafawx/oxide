@@ -68,7 +68,7 @@ impl Shape for Rect {
 
 impl Shape for Circle {
     fn area(&self) -> f64 {
-        // TODO: PI * r * r
+        // TODO: the area of the circle seen from above
         0.0
     }
 
@@ -83,14 +83,14 @@ impl Shape for Circle {
     }
 
     fn contains(&self, x: f64, y: f64) -> bool {
-        // TODO: distance squared from the centre <= r squared
+        // TODO: is the point within the radius of the centre? (compare squared distances, no square root needed)
         false
     }
 }
 
 impl Shape for Triangle {
     fn area(&self) -> f64 {
-        // TODO: base * height / 2
+        // TODO: area of the right triangle
         0.0
     }
 
@@ -105,19 +105,19 @@ impl Shape for Triangle {
     }
 
     fn contains(&self, x: f64, y: f64) -> bool {
-        // TODO: dx, dy >= 0 and dx / base + dy / height <= 1
+        // TODO: inside the right triangle: not past the corner on either axis, and under the slanted edge
         false
     }
 }
 
 impl<S: Shape> Shape for Scaled<S> {
     fn area(&self) -> f64 {
-        // TODO: inner area times factor squared
+        // TODO: the inner area, grown by the factor in both directions
         0.0
     }
 
     fn bounds(&self) -> Rect {
-        // TODO: keep x and y of the inner bounds, scale w and h
+        // TODO: same top-left corner as the inner bounds, width and height scaled
         Rect { x: 0.0, y: 0.0, w: 0.0, h: 0.0 }
     }
 
@@ -136,7 +136,7 @@ impl Canvas {
     /// One char per cell: '#' if any shape contains the cell centre, else '.'.
     /// Rows joined with '\n', no trailing newline.
     pub fn render(&self, shapes: &[Box<dyn Shape>]) -> String {
-        // TODO: loop over rows and columns, test (col + 0.5, row + 0.5), join rows with "\n"
+        // TODO: build the picture row by row: a cell is filled when any shape contains the cell's centre; join the rows with newlines
         String::new()
     }
 }
@@ -155,7 +155,7 @@ pub fn largest<T: Shape>(shapes: &[T]) -> Option<&T> {
 
 /// Sort in place, smallest area first.
 pub fn sort_by_area<T: Shape>(shapes: &mut [T]) {
-    // TODO: sort_by comparing areas with total_cmp
+    // TODO: sort by area, smallest first (f64 has total_cmp)
     todo!()
 }
 

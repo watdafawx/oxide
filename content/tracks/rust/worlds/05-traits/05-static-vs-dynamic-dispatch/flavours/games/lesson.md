@@ -21,7 +21,7 @@ A `&dyn Entity` is a **fat pointer**: the data plus a pointer to a **vtable** (a
 
 - Default to **generics**. Fast, simple.
 - Reach for **`dyn`** when kinds are mixed in one list or only known at runtime: the entity list of a world, mods that add new mobs.
-- `dyn` needs a pointer (`&`, `Box`, `Rc`) because its size is unknown.
+- `dyn` needs a pointer (`&` or `Box`; `Rc` is next world's tool) because its size is unknown.
 
 ## Your turn
 

@@ -21,7 +21,7 @@ A `&dyn Shape` is a **fat pointer**: the data plus a pointer to a **vtable** (a 
 
 - Default to **generics**. Fast, simple.
 - Reach for **`dyn`** when types are mixed in one collection or only known at runtime (plugins, UI widgets, enemies in a game).
-- `dyn` needs a pointer (`&`, `Box`, `Rc`) because its size is unknown.
+- `dyn` needs a pointer (`&` or `Box`; `Rc` is next world's tool) because its size is unknown.
 
 ## Your turn
 

@@ -1,5 +1,5 @@
 title = "Same verb, different types"
-summary = "Define a trait and implement it for two structs."
+summary = "Implement a trait for two structs."
 kind = "exercise"
 xp = 30
 minutes = 4

@@ -29,6 +29,8 @@ impl PartialOrd for Step {                    // powers <, >, <=, >=
 - `Mul<f64>` means "multiply by an `f64`": the right-hand type is the generic. `Neg` is the same shape with one operand: `fn neg(self) -> Self::Output`.
 - `PartialOrd` needs `PartialEq` too (derive it).
 
+- **Careful:** `<=` here compares by length, but the derived `==` compares every field. Two different vectors of equal length are `<=` each other without being `==`. Real code keeps the two consistent; this quest orders by length on purpose.
+
 ## Your turn
 
 - Open `src/lib.rs`.

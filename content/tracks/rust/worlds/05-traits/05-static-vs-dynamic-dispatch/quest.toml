@@ -7,7 +7,7 @@ tags = ["generics", "dyn", "dispatch"]
 
 [[quiz]]
 question = "What does the compiler do with `fn show<T: Describe>(x: &T)` when you call it with a Dog and a Robot?"
-choices = ["Generates one copy of the function per type (monomorphisation), so calls are resolved at compile time", "Generates one function that looks up the method in a table at runtime", "Refuses: a function can only take one type"]
+choices = ["Generates one copy of the function per type, resolved at compile time", "Generates a single function that looks the method up in a table at runtime, whatever the type", "Refuses to compile: a function can only ever take one type, so you need one function per type"]
 answer = 0
 
 [[quiz]]

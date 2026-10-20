@@ -3,7 +3,7 @@ summary = "Generics copy code per mob type, dyn looks it up at runtime. Know whi
 
 [[quiz]]
 question = "What does the compiler do with `fn strongest<T: Entity>(mobs: &[T])` when you call it with a slice of Zombies and a slice of Creepers?"
-choices = ["Generates one copy of the function per mob type (monomorphisation), so calls are resolved at compile time", "Generates one function that looks up the method in a table at runtime", "Refuses: a function can only take one mob type"]
+choices = ["Generates one copy of the function per mob type, resolved at compile time", "Generates a single function that looks the method up in a table at runtime, whatever the mob", "Refuses to compile: a function can only ever take one mob type, so you need one function per type"]
 answer = 0
 
 [[quiz]]

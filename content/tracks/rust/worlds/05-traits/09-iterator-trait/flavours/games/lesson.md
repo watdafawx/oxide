@@ -22,6 +22,8 @@ let big: i32 = Row { cur: 1, last: 4 }.filter(|n| n % 2 == 0).sum();         // 
 - **`type Item`** names the element type. It is an *associated type*.
 - You never write `map`, `filter`, `collect`: the trait gives you dozens of **adaptors**.
 
+- **`n.rem_euclid(2)`** is a remainder that is never negative: `(-3).rem_euclid(2)` is `1`, but `-3 % 2` is `-1`. Use it whenever a coordinate can go below zero.
+
 ## Your turn
 
 - Open `src/lib.rs`.

@@ -69,7 +69,7 @@ impl Hitbox for Aabb {
 
 impl Hitbox for Cylinder {
     fn area(&self) -> f64 {
-        // TODO: PI * r * r
+        // TODO: the area of the circle seen from above
         0.0
     }
 
@@ -84,14 +84,14 @@ impl Hitbox for Cylinder {
     }
 
     fn contains(&self, x: f64, y: f64) -> bool {
-        // TODO: distance squared from the centre <= r squared
+        // TODO: is the point within the radius of the centre? (compare squared distances, no square root needed)
         false
     }
 }
 
 impl Hitbox for Wedge {
     fn area(&self) -> f64 {
-        // TODO: base * height / 2
+        // TODO: area of the right triangle
         0.0
     }
 
@@ -106,19 +106,19 @@ impl Hitbox for Wedge {
     }
 
     fn contains(&self, x: f64, y: f64) -> bool {
-        // TODO: dx, dy >= 0 and dx / base + dy / height <= 1
+        // TODO: inside the right triangle: not past the corner on either axis, and under the slanted edge
         false
     }
 }
 
 impl<H: Hitbox> Hitbox for Scaled<H> {
     fn area(&self) -> f64 {
-        // TODO: inner area times factor squared
+        // TODO: the inner area, grown by the factor in both directions
         0.0
     }
 
     fn bounds(&self) -> Aabb {
-        // TODO: keep x and y of the inner bounds, scale w and h
+        // TODO: same top-left corner as the inner bounds, width and height scaled
         Aabb { x: 0.0, y: 0.0, w: 0.0, h: 0.0 }
     }
 
@@ -137,7 +137,7 @@ impl Canvas {
     /// One char per cell: '#' if any hitbox contains the cell centre, else '.'.
     /// Rows joined with '\n', no trailing newline.
     pub fn render(&self, hitboxes: &[Box<dyn Hitbox>]) -> String {
-        // TODO: loop over rows and columns, test (col + 0.5, row + 0.5), join rows with "\n"
+        // TODO: build the picture row by row: a cell is filled when any shape contains the cell's centre; join the rows with newlines
         String::new()
     }
 }
@@ -156,7 +156,7 @@ pub fn biggest<T: Hitbox>(hitboxes: &[T]) -> Option<&T> {
 
 /// Sort in place, smallest area first.
 pub fn sort_by_area<T: Hitbox>(hitboxes: &mut [T]) {
-    // TODO: sort_by comparing areas with total_cmp
+    // TODO: sort by area, smallest first (f64 has total_cmp)
     todo!()
 }
 

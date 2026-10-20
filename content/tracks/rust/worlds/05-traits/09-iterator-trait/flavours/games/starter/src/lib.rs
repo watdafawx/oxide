@@ -30,7 +30,7 @@ impl Iterator for ChunksInRadius {
 
 /// Chunks in the radius where x + z is even (that is where the ore veins are).
 pub fn ore_chunks(radius: i32) -> Vec<ChunkPos> {
-    // TODO: filter ChunksInRadius to (x + z) even and collect (use rem_euclid(2) for negatives)
+    // TODO: keep the chunks where x + z is even (careful: negatives, see the lesson) and collect
     Vec::new()
 }
 

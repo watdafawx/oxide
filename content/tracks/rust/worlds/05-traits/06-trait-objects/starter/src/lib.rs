@@ -16,7 +16,7 @@ pub struct Rect {
 
 impl Shape for Circle {
     fn area(&self) -> f64 {
-        // TODO: return PI * r * r
+        // TODO: the circle's area
         todo!()
     }
 
@@ -27,7 +27,7 @@ impl Shape for Circle {
 
 impl Shape for Rect {
     fn area(&self) -> f64 {
-        // TODO: return w * h
+        // TODO: the rectangle's area
         todo!()
     }
 
