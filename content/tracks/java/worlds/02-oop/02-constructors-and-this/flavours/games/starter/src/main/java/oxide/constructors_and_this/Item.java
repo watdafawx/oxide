@@ -11,13 +11,13 @@ public class Item {
     }
 
     public Item(String name) {
-        // TODO: call the two-argument constructor with this(...), stack size 64
+        // TODO: call the two-argument constructor with this(...), stack size 64 (delete the two lines below it: this(...) must come first)
         this.name = name;
         this.maxStack = 0;
     }
 
     public Item() {
-        // TODO: call another constructor with the name "air"
+        // TODO: call another constructor with the name "air" (delete the two lines below it)
         this.name = "";
         this.maxStack = 0;
     }

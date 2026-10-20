@@ -30,6 +30,8 @@ String sky = switch (dimension) {                // switch over an enum: no defa
 - Constants are written in UPPER_CASE and end with `;` before the fields.
 - `valueOf` is case-sensitive: `"end"` fails. To accept any case (a config file!), clean the text first.
 - A `switch` expression over an enum must cover every constant, or the compiler stops you.
+- Inside an enum method you can switch over the enum itself: `switch (this) { ... }`.
+- To ignore case use `text.toUpperCase(Locale.ROOT)` (`Locale` needs `import java.util.Locale;`, already in the starter).
 
 ## Your turn
 

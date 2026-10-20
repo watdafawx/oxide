@@ -1,5 +1,7 @@
 package oxide.enums;
 
+import java.util.Locale;
+
 public enum TrafficLight {
     RED(0), // TODO: 30 seconds
     GREEN(0), // TODO: 25 seconds

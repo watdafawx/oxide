@@ -7,12 +7,12 @@ tags = ["encapsulation"]
 
 [[quiz]]
 question = "A class has `private int count;` and a getter `getCount()`, but no setter. Who can change `count` from outside the class?"
-choices = ["Nobody: only methods of the class itself can", "Any class, with `c.count = 5;`", "Only subclasses"]
+choices = ["Only the class's own methods", "Any class, with `c.count = 5;`", "Only subclasses and nearby classes"]
 answer = 0
 
 [[quiz]]
 question = "`public List<String> getTags() { return tags; }` hands out the real `tags` list. What can a caller do?"
-choices = ["Nothing: lists are copied on return in Java", "Call `getTags().add(\"x\")` and change the object behind its back", "Only read it, because the field is private"]
+choices = ["Nothing: Java copies lists on return", "Change it with `getTags().add(\"x\")`", "Only read it, since the field is private"]
 answer = 1
 
 [[quiz]]

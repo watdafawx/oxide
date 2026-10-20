@@ -25,6 +25,15 @@ balance 50.00
 
 The records, the exception and `money(cents)` are written. `Transaction` is a plain interface for now.
 
+New tools for this boss:
+
+```java
+List<String> lines = new ArrayList<>();             // a growing list of text
+lines.add("1. deposit 100.00");                     // append one line
+String statement = String.join("\n", lines);        // lines glued with a newline between them
+balance -= cents;                                   // like balance = balance - cents
+```
+
 ## Your turn
 
 Work in the order of the objectives; the first one turns green early.

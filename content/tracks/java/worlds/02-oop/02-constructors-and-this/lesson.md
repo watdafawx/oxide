@@ -25,6 +25,7 @@ public class Timer {
 - `this.name` is the field; plain `name` is the parameter. `this.` tells them apart.
 - `this(...)` must be the **first** statement of the constructor.
 - `final` fields are set once, in a constructor.
+- `Math.max(a, b)` is the larger of two numbers, `Math.min(a, b)` the smaller. Nest them to keep a value inside a range.
 
 ## Your turn
 

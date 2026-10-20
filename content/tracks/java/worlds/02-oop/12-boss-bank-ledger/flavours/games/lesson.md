@@ -25,6 +25,19 @@ items: 40
 
 The records, the exception and `ItemStack` are written. `Event` is a plain interface for now.
 
+New tools for this boss:
+
+```java
+Map<String, Integer> items = new HashMap<>();       // item id -> count (already in Chest)
+items.merge("torch", 3, Integer::sum);              // add 3 to the stored count (starts at 3 if absent)
+items.merge("torch", -2, Integer::sum);             // a negative number subtracts: now 1
+List<String> lines = new ArrayList<>();             // a growing list of text
+lines.add("1. placed 64 x cobblestone");
+String report = String.join("\n", lines);           // lines glued with a newline between them
+```
+
+`Integer::sum` just means "add the old and the new number". `count(item)` already reads the map for you.
+
 ## Your turn
 
 Work in the order of the objectives; the first one turns green early.

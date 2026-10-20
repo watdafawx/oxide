@@ -1,5 +1,7 @@
 package oxide.enums;
 
+import java.util.Locale;
+
 public enum Rarity {
     COMMON("", 0), // TODO: "white", weight 60
     UNCOMMON("", 0), // TODO: "yellow", weight 25

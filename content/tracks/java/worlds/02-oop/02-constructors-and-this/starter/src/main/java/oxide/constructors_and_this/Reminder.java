@@ -11,13 +11,13 @@ public class Reminder {
     }
 
     public Reminder(String text) {
-        // TODO: call the two-argument constructor with this(...), 10 minutes
+        // TODO: call the two-argument constructor with this(...), 10 minutes (delete the two lines below it: this(...) must come first)
         this.text = text;
         this.minutes = 0;
     }
 
     public Reminder() {
-        // TODO: call another constructor with the text "Untitled"
+        // TODO: call another constructor with the text "Untitled" (delete the two lines below it)
         this.text = "";
         this.minutes = 0;
     }
