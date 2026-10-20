@@ -23,7 +23,9 @@ String line = String.format(Locale.ROOT, "Bill: $%.2f", amount);   // you know t
 String text = String.join("\n", "line one", "line two");           // glue lines with \n between them
 ```
 
-`\n` is the newline character inside a Java string. Money as `double` is fine for a toy; real money code uses whole cents or `BigDecimal`.
+`\n` is the newline character inside a Java string. In a format template `%%` prints one literal percent sign: `"%d%%"` gives `15%`; `%d` is for an `int` such as the percent.
+
+`double` is a number with a decimal point, `int` a whole number. Divide by `100.0`, not `100`, when you want the decimals kept: `15 / 100` is `0`, but `15 / 100.0` is `0.15`. Money as `double` is fine for a toy; real money code uses whole cents or `BigDecimal`.
 
 ## Your turn
 

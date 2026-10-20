@@ -17,5 +17,5 @@ answer = 1
 
 [[quiz]]
 question = "What is the `build/` folder?"
-choices = ["Your source code", "Generated output; Gradle recreates it, never edit it", "The JDK"]
+choices = ["Your source code files", "Generated, safe to delete", "The JDK install"]
 answer = 1

@@ -13,5 +13,5 @@ answer = 1
 
 [[quiz]]
 question = "What is the `build/` folder?"
-choices = ["Your bot's source code", "Generated output; Gradle recreates it, never edit it", "The Minecraft server"]
+choices = ["Your bot's source code", "Generated, safe to delete", "The Minecraft server files"]
 answer = 1

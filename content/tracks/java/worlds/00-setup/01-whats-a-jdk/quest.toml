@@ -8,15 +8,15 @@ requires = []
 
 [[quiz]]
 question = "Which tool turns your `.java` source into bytecode?"
-choices = ["java", "javac", "gradlew"]
+choices = ["java, which starts the JVM", "javac, the compiler", "gradlew, the wrapper"]
 answer = 1
 
 [[quiz]]
 question = "You want to write and build Java. What must be installed?"
-choices = ["A JRE", "A JDK", "Only a browser"]
+choices = ["A JRE, the run-only half", "A JDK, the full kit", "Only a browser"]
 answer = 1
 
 [[quiz]]
 question = "Why does every Oxide quest ship a `gradlew` file?"
-choices = ["So everyone builds with the exact same Gradle version", "It is the compiler", "It replaces the JDK"]
+choices = ["It pins the exact Gradle version", "It is the compiler itself", "It replaces the JDK completely"]
 answer = 0

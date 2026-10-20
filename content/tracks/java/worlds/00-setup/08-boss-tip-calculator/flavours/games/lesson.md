@@ -21,6 +21,8 @@ String line = String.format(Locale.ROOT, "%s: %d players", "survival", counts[0]
 int pages = (7 + 3 - 1) / 3;                    // 3: add (size - 1) before dividing to round UP
 ```
 
+In a format template `%%` prints one literal percent sign: `"%d%%"` gives `60%`.
+
 Integer division throws away the remainder, so `1 * 100 / 3` is `33`, which is just what you want for the percent.
 
 ## Your turn
