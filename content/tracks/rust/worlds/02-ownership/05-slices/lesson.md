@@ -17,6 +17,8 @@ let s = String::from("rust is fun");
 let word = &s[..4];             // "rust"
 ```
 
+- `text.find(' ')` returns `Some(index)` of the first space, or `None` when there is none. Slice up to that index.
+
 Out-of-range slices panic, so check the length first.
 
 ## Your turn

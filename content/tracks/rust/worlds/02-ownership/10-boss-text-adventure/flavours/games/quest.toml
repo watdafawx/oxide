@@ -35,4 +35,6 @@ text = "tp: `self.server.players.iter_mut().find(|p| p.name == name)` gives `Opt
 [[hints]]
 text = "give: `stash.iter().position(|i| i == item)` finds the index, `stash.remove(pos)` gives you the owned String to push onto the inventory. Players and stash are different fields, so borrowing both at once is fine."
 [[hints]]
-text = "run: `line.split_whitespace().collect::<Vec<&str>>()` then `match words.as_slice() { [\"kick\", name] => ..., [\"tp\", name, x, y, z] => ..., _ => ... }`."
+text = "list: collect one `String` per player (`format!(\"{} @ {},{},{}\", ...)`), push the `[items: ...]` part only when the inventory is not empty, then `lines.join(\"; \")`. `Vec<String>::join` glues the pieces with a separator; `inventory.join(\", \")` does the item list."
+[[hints]]
+text = "run: `line.split_whitespace().collect::<Vec<&str>>()` then `match words.as_slice() { [\"kick\", name] => ..., [\"tp\", name, x, y, z] => ..., _ => ... }`. For `tp`, turn each coordinate with `x.parse::<i32>()`; if any of the three fails, the line is `Unknown command: <the whole line>`."

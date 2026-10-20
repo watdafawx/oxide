@@ -6,7 +6,7 @@ Three questions it asks about every variable:
 2. **Is anyone borrowing it?** Many `&` readers, or one `&mut` writer, never both.
 3. **Is the owner still alive?** A borrow can't outlive what it points to.
 
-Read this and mark each line as *moves*, *borrows* or *nothing*:
+Read this and mark each line as *moves*, *borrows* or *nothing*. The quiz below asks about it, so a quick pass is enough:
 
 ```rust
 let a = String::from("<Steve> hi");   // 1: a owns the chat line

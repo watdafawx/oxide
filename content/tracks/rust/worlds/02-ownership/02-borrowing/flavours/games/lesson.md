@@ -17,6 +17,7 @@ println!("{n} {}", roster.players.len());      // still ours
 ```
 
 - The type `&Roster` means "a borrowed Roster".
+- Looping over a borrowed list works the same way: `for name in &roster.players { ... }` looks at each name without taking the list.
 - Borrow as many times at once as you like, as long as nobody changes it.
 - No `.clone()` needed: nothing is copied.
 

@@ -1,6 +1,6 @@
 **Why now:** your console parses a typed line into a `Command` with a name and an argument. Copying both pieces of text would be wasteful, so `Command<'a>` just **borrows** from the line. Now comparing two commands raises a question: the answer points into *which* line, and for how long is it valid?
 
-Usually the compiler works out how long a borrow lasts on its own. When a function takes **two** references and returns one, it can't guess which input the answer came from, so you tell it.
+Usually the compiler works out how long a borrow lasts on its own. When a function takes **two** references and returns one, it can't guess which input the answer came from, so the signature has to tell it.
 
 ```rust
 struct Command<'a> {
@@ -31,5 +31,5 @@ let result;
 
 ## Your turn
 
-- In `src/lib.rs`, write the body of `longest_arg`. `Command<'a>` and `parse` are already there; the `'a` signature too.
+- In `src/lib.rs`, write the body of `longest_arg`. `Command<'a>` and `parse` are already there; the `'a` signature too (reading it is the lesson; writing your own comes in later worlds).
 - On equal lengths return the first one's argument.

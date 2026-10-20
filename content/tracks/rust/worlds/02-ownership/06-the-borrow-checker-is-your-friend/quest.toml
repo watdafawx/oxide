@@ -7,8 +7,8 @@ tags = ["ownership", "borrowing"]
 
 [[quiz]]
 question = "In the lesson's example, which line moves the String out of `b`?"
-choices = ["let c = &b;", "let e = b;", "println!(\"{c} {d}\");"]
-answer = 1
+choices = ["let c = &b;", "println!(\"{c} {d}\");", "let e = b;"]
+answer = 2
 
 [[quiz]]
 question = "With `let mut s = String::new();`, which pair of lines compiles?"

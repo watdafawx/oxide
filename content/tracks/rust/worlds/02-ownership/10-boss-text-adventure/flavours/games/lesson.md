@@ -19,7 +19,8 @@ Rules of the fight:
 - `tp` returns `Result<&str, String>`: the `&str` borrows from the server, so it's valid until the next change. Use it, then move on.
 - No `.clone()` on players or the server. Moving a `String` item out of the stash is fine.
 - `BlockPos` is `Copy`: pass it around freely.
-- Each command line is **sliced**, not copied: `line.split_whitespace().collect::<Vec<&str>>()` and match on `words.as_slice()` with patterns like `["kick", name]`.
+- Each command line is **sliced**, not copied: `line.split_whitespace().collect::<Vec<&str>>()` and match on `words.as_slice()` with **slice patterns** like `["kick", name]` (matches a 2-word slice whose first word is `kick` and binds the second to `name`) or `["tp", name, x, y, z]`.
+- Coordinates arrive as text: `x.parse::<i32>()` gives a `Result`. A coordinate that is not a number means `Unknown command`.
 
 You start with **Steve** at `0,64,0` (empty inventory), **Alex** at `10,70,-3` (holding a `compass`) and a stash with a `diamond` and a `torch`.
 

@@ -1,4 +1,4 @@
-Usually the compiler works out how long a borrow lasts on its own. When a function takes **two** references and returns one, it can't guess which input the answer came from, so you tell it.
+Usually the compiler works out how long a borrow lasts on its own. When a function takes **two** references and returns one, it can't guess which input the answer came from, so the signature has to tell it.
 
 ```rust
 fn longest<'a>(a: &'a str, b: &'a str) -> &'a str {
@@ -25,5 +25,5 @@ let result;
 
 ## Your turn
 
-- In `src/lib.rs`, write the body of `longest`. The `'a` signature is already there.
+- In `src/lib.rs`, write the body of `longest`. The `'a` signature is already there (reading it is the lesson; writing your own comes in later worlds).
 - On equal lengths return the first one.

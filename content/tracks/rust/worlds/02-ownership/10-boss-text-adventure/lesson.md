@@ -15,6 +15,7 @@ Rules of the fight:
 - **Methods that change things** (`go`, `take`) take `&mut self`.
 - `go` returns `Result<&str, String>`: the `&str` borrows from the game, so it's valid until the next change. Use it, then move on.
 - No `.clone()` on rooms or the world. Cloning a `String` to move an item is fine.
+- Build the exit and item lists with `Vec<String>::join(", ")`: it glues the pieces with a separator.
 - Rooms point at each other by **index** (`usize`), not by reference. Self-referencing structs are a fight you don't want yet.
 
 Map you start with: **Cellar** (lamp) → north → **Hall** → east → **Library** (key, book).

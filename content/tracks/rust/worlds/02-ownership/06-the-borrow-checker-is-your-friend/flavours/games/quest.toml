@@ -3,8 +3,8 @@ summary = "Read six lines of console code and say which one moves and which ones
 
 [[quiz]]
 question = "In the lesson's example, which line moves the chat line out of `log`?"
-choices = ["let c = &log;", "let e = log;", "println!(\"{c} {d}\");"]
-answer = 1
+choices = ["let c = &log;", "println!(\"{c} {d}\");", "let e = log;"]
+answer = 2
 
 [[quiz]]
 question = "With `let mut online = Vec::<String>::new();`, which pair of lines compiles?"

@@ -17,6 +17,7 @@ println!("{n} {}", bag.items.len()); // still ours
 ```
 
 - The type `&Backpack` means "a borrowed Backpack".
+- Looping over a borrowed list works the same way: `for item in &bag.items { ... }` looks at each item without taking the list.
 - Borrow as many times at once as you like, as long as nobody changes it.
 - No `.clone()` needed: nothing is copied.
 

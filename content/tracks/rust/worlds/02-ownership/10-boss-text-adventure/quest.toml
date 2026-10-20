@@ -39,4 +39,6 @@ text = "go: first find the target index (copy the `usize` out), then set `self.p
 [[hints]]
 text = "take: `room.items.iter().position(|i| i == item)` finds the index, `room.items.remove(pos)` gives you the owned String to push onto the inventory."
 [[hints]]
+text = "describe: collect the exits (and items) as a list of `String`s, then `exits.join(\", \")`. `Vec<String>::join` glues the pieces with a separator."
+[[hints]]
 text = "run: `line.split_once(' ')` splits \"go north\" into (\"go\", \"north\"). Match on the command word."
