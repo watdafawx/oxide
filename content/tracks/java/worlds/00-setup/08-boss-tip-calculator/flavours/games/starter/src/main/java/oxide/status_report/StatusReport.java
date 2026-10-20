@@ -10,12 +10,12 @@ public class StatusReport {
 
     /** Whole percent full: fillPercent(12, 20) is 60. A max of 0 gives 0. */
     public static int fillPercent(int online, int max) {
-        throw new UnsupportedOperationException("TODO: online * 100 / max");
+        throw new UnsupportedOperationException("TODO: whole percent that online is of max (multiply before dividing; max of 0 gives 0)");
     }
 
     /** Servers needed for `players` at `perServer` each, rounded up: (45, 20) is 3. */
     public static int serversNeeded(int players, int perServer) {
-        throw new UnsupportedOperationException("TODO: divide, rounding up");
+        throw new UnsupportedOperationException("TODO: divide players by perServer, rounding up");
     }
 
     /** One report line, e.g. "survival: 12/20 online (60%)". */

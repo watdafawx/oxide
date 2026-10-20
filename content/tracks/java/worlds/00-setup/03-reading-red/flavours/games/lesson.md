@@ -11,8 +11,8 @@ expected: 20
 
 - **expected** is what the test wants. **but was** is what *your* code returned. Here the bot returned 0 players when 20 were online.
 - The last line says which test and **file:line** failed. Open it to see exactly what was checked.
-- `UnsupportedOperationException: TODO` means the starter method is still a placeholder. Oxide shows it as "not written yet".
-- A *compile error* is different: the code never ran. You will meet one in two quests.
+- An unwritten starter method usually returns a placeholder (`null`, `0`, `false`), so a fresh quest shows `but was: null` or `but was: 0`. That just means "not written yet". (A `TODO` exception means the same.)
+- A *compile error* is different: the code never ran. You will meet one in the very next quest.
 
 Read the red from the top. Fix one thing, save, read again.
 

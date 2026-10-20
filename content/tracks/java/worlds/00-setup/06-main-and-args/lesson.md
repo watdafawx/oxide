@@ -9,7 +9,8 @@ public static void main(String[] args) {
 
 - `String[]` is an **array** of text. `args.length` is its size; `args[0]` is the first item. Counting starts at **0**.
 - Asking for `args[0]` when the array is empty throws `ArrayIndexOutOfBoundsException`. Always check `args.length` first.
-- `if (condition) { ... }` runs the block only when the condition is true.
+- `+` glues text together: `"Hello, " + name + "!"` builds one `String`.
+- `if (condition) { ... }` runs the block only when the condition is true. A `return` inside it ends the method early, so the code after the `if` only runs when the condition was false.
 - Real programs keep the logic in a normal method (here `banner`) and let `main` just call it. That is what makes the logic testable.
 
 ## Your turn

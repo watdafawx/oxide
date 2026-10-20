@@ -11,7 +11,17 @@ The spec, in order:
 survival: 12/20 online (60%)
 ```
 
-Reminders from this world: `Integer.parseInt`, `String.split`, `String.format(Locale.ROOT, ...)`. Integer division throws away the remainder, so `1 * 100 / 3` is `33`, which is just what you want here.
+New tools for this boss (printing was the only one you have met):
+
+```java
+String[] parts = "12/20".split("/");            // {"12", "20"}: cut text at a separator
+int online = Integer.parseInt(parts[0].trim()); // 12: text -> int; trim() drops spaces first
+int[] counts = new int[] {12, 20};              // build an int[] by listing its items; `return {a, b};` is NOT valid Java
+String line = String.format(Locale.ROOT, "%s: %d players", "survival", counts[0]);  // you know this from printing
+int pages = (7 + 3 - 1) / 3;                    // 3: add (size - 1) before dividing to round UP
+```
+
+Integer division throws away the remainder, so `1 * 100 / 3` is `33`, which is just what you want for the percent.
 
 ## Your turn
 

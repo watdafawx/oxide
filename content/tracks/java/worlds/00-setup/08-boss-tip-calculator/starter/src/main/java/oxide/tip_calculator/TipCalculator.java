@@ -10,12 +10,12 @@ public class TipCalculator {
 
     /** The amount plus tip: withTip(40.0, 15) is 46.0. */
     public static double withTip(double amount, int percent) {
-        throw new UnsupportedOperationException("TODO: add amount * percent / 100.0 to the amount");
+        throw new UnsupportedOperationException("TODO: work out the tip (percent of the amount) and add it to the amount");
     }
 
     /** What each of `people` pays: splitEvenly(46.0, 4) is 11.5. */
     public static double splitEvenly(double total, int people) {
-        throw new UnsupportedOperationException("TODO: divide the total by people");
+        throw new UnsupportedOperationException("TODO: share the total between people");
     }
 
     /** The four-line receipt, lines joined with "\n" (no trailing newline). */

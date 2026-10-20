@@ -12,10 +12,10 @@ answer = 1
 
 [[quiz]]
 question = "Where does the failure tell you which test line failed?"
-choices = ["In the Gradle version", "In the `file:line` after the assertion text", "It never does"]
-answer = 1
+choices = ["In the Gradle version", "It never does", "In the `file:line` after the assertion text"]
+answer = 2
 
 [[quiz]]
-question = "A red objective says `UnsupportedOperationException: TODO`. What does it mean?"
-choices = ["Java is broken", "That part is not written yet", "The test is wrong"]
-answer = 1
+question = "A red objective says `but was: null` and you have not touched that method yet. What does it mean?"
+choices = ["That part is not written yet", "Java is broken", "The test is wrong"]
+answer = 0

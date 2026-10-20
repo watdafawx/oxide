@@ -14,7 +14,16 @@ Total: $46.00
 Each (4): $11.50
 ```
 
-Reminders from this world: `Double.parseDouble`, `String.format(Locale.ROOT, "%.2f", x)`, and `String.join("\n", a, b, c)` to glue lines together. Money as `double` is fine for a toy; real money code uses whole cents or `BigDecimal`.
+New tools for this boss (printing was the only one you have met):
+
+```java
+String clean = "  42.50 ".trim();                    // "42.50": drops spaces at both ends
+double amount = Double.parseDouble(clean);           // 42.5: text -> double
+String line = String.format(Locale.ROOT, "Bill: $%.2f", amount);   // you know this one from printing
+String text = String.join("\n", "line one", "line two");           // glue lines with \n between them
+```
+
+`\n` is the newline character inside a Java string. Money as `double` is fine for a toy; real money code uses whole cents or `BigDecimal`.
 
 ## Your turn
 
