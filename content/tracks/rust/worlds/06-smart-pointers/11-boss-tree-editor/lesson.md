@@ -23,6 +23,12 @@ The rules:
 - `path(id)` -> texts from the root down to the node. Unknown id: empty Vec.
 - `render()` -> one line per node, two spaces per depth level, each line ends in `\n`.
 
+## Three things the boss needs
+
+- **`Rc::ptr_eq(a, b)`** finds the same shared node in a Vec: `children.retain(|c| !Rc::ptr_eq(c, &node))` drops exactly that child.
+- **End a `borrow()` before you `borrow_mut()` the same cell.** Take the parent in its own statement, `let parent = node.borrow().parent.upgrade();`, so the `Ref` dies at the semicolon. Keep it alive in a bigger expression and the next `borrow_mut()` panics.
+- **`let ... else`** unwraps or leaves early: `let Some(node) = self.nodes.get(&id) else { return false; };`.
+
 ## Your turn
 
 In `src/lib.rs` implement `text`, `add`, `path`, `render`, `remove` and `move_node`. `Doc::new` is done. The first objective is a two-minute win: start there.

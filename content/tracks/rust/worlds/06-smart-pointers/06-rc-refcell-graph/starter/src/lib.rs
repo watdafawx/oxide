@@ -8,19 +8,19 @@ pub struct Node {
 
 /// A new node with no children.
 pub fn new_node(value: i32) -> Rc<RefCell<Node>> {
-    // TODO: Rc::new(RefCell::new(Node { value, children: Vec::new() }))
+    // TODO: a new Node with no children yet, wrapped so it can be shared and edited
     todo!()
 }
 
 /// Appends `child` to `parent`'s children.
 pub fn add_child(parent: &Rc<RefCell<Node>>, child: Rc<RefCell<Node>>) {
-    // TODO: borrow_mut() the parent and push the child
+    // TODO: add the child to the parent's children
     todo!()
 }
 
 /// The node's value plus the totals of all its descendants.
 pub fn total(node: &Rc<RefCell<Node>>) -> i32 {
-    // TODO: borrow() the node; value + sum of total(child) over its children
+    // TODO: the node's own value plus the totals of its children (recursive)
     todo!()
 }
 

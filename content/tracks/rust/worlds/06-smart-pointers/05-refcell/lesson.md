@@ -23,6 +23,8 @@ println!("{}", v.count.borrow()); // 2
 - The borrow lasts until the `Ref` / `RefMut` is dropped (end of the statement for temporaries).
 - A second `borrow_mut()` while one is alive **panics**. `try_borrow_mut()` returns a `Result` so you can check.
 
+- To change a number inside a `RefCell`, deref the borrow: **`*cell.borrow_mut() += 1;`**. `borrow_mut()` gives a `RefMut`, and the `*` reaches the number inside it.
+
 ## Your turn
 
 In `src/lib.rs`:

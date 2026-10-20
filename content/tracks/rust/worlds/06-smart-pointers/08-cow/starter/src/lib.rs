@@ -2,8 +2,7 @@ use std::borrow::Cow;
 
 /// Replaces each tab with a single space. Borrows the input when there is nothing to change.
 pub fn normalise(input: &str) -> Cow<'_, str> {
-    // TODO: if input contains '\t' return Cow::Owned(input.replace('\t', " ")),
-    // otherwise Cow::Borrowed(input)
+    // TODO: tabs must become single spaces (own the fixed text); input without a tab is returned as it is (borrow it)
     todo!()
 }
 

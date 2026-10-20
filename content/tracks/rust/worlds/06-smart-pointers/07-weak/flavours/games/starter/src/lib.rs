@@ -29,14 +29,13 @@ pub fn new_machine(name: &str) -> Rc<Machine> {
 
 /// Puts `machine` on `pole`. The machine's back-pointer must be Weak.
 pub fn connect(pole: &Rc<PowerPole>, machine: &Rc<Machine>) {
-    // TODO: push Rc::clone(machine) onto pole.machines (borrow_mut),
-    // then *machine.pole.borrow_mut() = Rc::downgrade(pole)
+    // TODO: the pole gets a (strong) machine in its list; the machine gets a weak link back to the pole
     todo!()
 }
 
 /// The pole's name, or None if the machine has no pole (or the pole was removed).
 pub fn pole_name(machine: &Machine) -> Option<String> {
-    // TODO: machine.pole.borrow().upgrade() gives Option<Rc<PowerPole>>; map it to the name
+    // TODO: the pole's name, if the pole is still alive
     todo!()
 }
 

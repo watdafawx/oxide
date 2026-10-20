@@ -39,15 +39,15 @@ impl TechTree {
 
     /// Adds a tech unlocked by `prerequisite`. Returns the new id, or None if `prerequisite` does not exist.
     pub fn add(&mut self, prerequisite: u32, name: &str) -> Option<u32> {
-        // TODO: find the prerequisite tech; take self.next_id and increment it;
-        // build a Tech whose `prerequisite` is Rc::downgrade(prerequisite_tech);
-        // push a clone onto its unlocks; insert the tech into self.techs
+        // TODO: find the prerequisite tech (None if unknown); give the new tech the next id;
+        // it must point up at its prerequisite without owning it; the prerequisite owns it in `unlocks`;
+        // register it in self.techs
         todo!()
     }
 
     /// Names from the starting tech down to tech `id`. Empty if `id` does not exist.
     pub fn path(&self, id: u32) -> Vec<String> {
-        // TODO: walk from the tech up through `prerequisite.upgrade()`, collecting names; reverse at the end
+        // TODO: walk from the tech up to the start, collecting names; reverse at the end
         todo!()
     }
 
@@ -68,7 +68,7 @@ impl TechTree {
     /// Refuses (false) for the start, unknown ids, and moves under itself or its own dependants.
     pub fn reparent(&mut self, id: u32, new_prerequisite: u32) -> bool {
         // TODO: look up both techs; walk up from the target and refuse if you meet `tech`;
-        // detach from the old prerequisite, set the new Weak prerequisite, push onto the new one's unlocks
+        // detach from the old prerequisite, point at the new one, and become one of its unlocks
         todo!()
     }
 }

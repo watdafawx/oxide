@@ -19,6 +19,8 @@ println!("{}", Rc::strong_count(&gear)); // 2
 
 Write `Rc::clone(&a)` rather than `a.clone()`: it tells the reader this is cheap.
 
+- **`Rc::ptr_eq(&a, &b)`** is true when two `Rc`s point at the *same* allocation, even if two different values would be `==`. It is how you find one specific shared item in a Vec.
+
 ## Your turn
 
 In `src/lib.rs`:

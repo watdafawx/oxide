@@ -30,13 +30,13 @@ impl Default for Counter {
 
 /// Appends `item` to the list behind the RefCell.
 pub fn add_item(list: &RefCell<Vec<String>>, item: &str) {
-    // TODO: borrow_mut() the list and push item.to_string()
+    // TODO: add the item to the list through the shared handle
     todo!()
 }
 
 /// True if `cell` is currently borrowed so that a borrow_mut() would panic.
 pub fn is_locked(cell: &RefCell<i32>) -> bool {
-    // TODO: try_borrow_mut() returns Err when the cell is already borrowed
+    // TODO: report whether the cell is borrowed right now, without panicking
     todo!()
 }
 

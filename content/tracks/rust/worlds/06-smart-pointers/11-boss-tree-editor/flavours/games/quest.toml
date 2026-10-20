@@ -28,7 +28,7 @@ text = "Plan: `techs: HashMap<u32, Rc<RefCell<Tech>>>` finds a tech by id. Each 
 [[hints]]
 text = "`add(prerequisite, name)`: look the prerequisite up (None if unknown), take `self.next_id` and bump it, build the `Tech` with `prerequisite: Rc::downgrade(&pre_rc)`, push a clone of the new `Rc` onto the prerequisite's `unlocks`, and insert it into `self.techs`."
 [[hints]]
-text = "`path`: start at the tech, push its name, then `upgrade()` the prerequisite and repeat. Reverse at the end."
+text = "`path`: start at the tech, push its name, then `upgrade()` the prerequisite and repeat. Take each step in its own statement (`let up = cur.borrow().prerequisite.upgrade();`) so the borrow ends before you reuse `cur`. Reverse at the end."
 [[hints]]
 text = "`render`: a recursive helper `fn render_tech(tech: &Rc<RefCell<Tech>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`, then call it for each unlock with `depth + 1`."
 [[hints]]

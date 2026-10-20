@@ -10,13 +10,13 @@ use Belt::{End, Segment};
 
 /// Returns a longer belt with a new segment carrying `items` at the front.
 pub fn extend(belt: Belt, items: u32) -> Belt {
-    // TODO: Segment(items, Box::new(belt))
+    // TODO: a longer belt: a new Segment in front of the existing belt
     todo!()
 }
 
 /// Adds up the items on every segment. An empty belt carries 0.
 pub fn total_items(belt: &Belt) -> u32 {
-    // TODO: match on belt. Segment(n, rest) => n + total_items(rest), End => 0
+    // TODO: add up the items recursively: a Segment counts its items plus whatever follows it, End is 0
     todo!()
 }
 

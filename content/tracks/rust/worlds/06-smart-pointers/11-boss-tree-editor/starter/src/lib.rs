@@ -38,15 +38,15 @@ impl Doc {
 
     /// Adds a child under `parent`. Returns the new id, or None if `parent` does not exist.
     pub fn add(&mut self, parent: u32, text: &str) -> Option<u32> {
-        // TODO: find the parent node; take self.next_id and increment it;
-        // build a Node whose `parent` is Rc::downgrade(parent_node);
-        // push a clone onto the parent's children; insert the node into self.nodes
+        // TODO: find the parent node (None if unknown); give the new node the next id;
+        // it must point up at its parent without owning it; the parent owns it in `children`;
+        // register it in self.nodes
         todo!()
     }
 
     /// Texts from the root down to node `id`. Empty if `id` does not exist.
     pub fn path(&self, id: u32) -> Vec<String> {
-        // TODO: walk from the node up through `parent.upgrade()`, collecting texts; reverse at the end
+        // TODO: walk from the node up to the root, collecting texts; reverse at the end
         todo!()
     }
 
@@ -67,7 +67,7 @@ impl Doc {
     /// Refuses (false) for the root, unknown ids, and moves under itself or its own descendants.
     pub fn move_node(&mut self, id: u32, new_parent: u32) -> bool {
         // TODO: look up both nodes; walk up from the target and refuse if you meet `node`;
-        // detach from the old parent, set the new Weak parent, push onto the new parent's children
+        // detach from the old parent, point at the new one, and become one of its children
         todo!()
     }
 }

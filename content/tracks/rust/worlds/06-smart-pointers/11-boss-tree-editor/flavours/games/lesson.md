@@ -23,6 +23,12 @@ The rules:
 - `path(id)` -> names from the starting tech down to this tech. Unknown id: empty Vec.
 - `render()` -> one line per tech, two spaces per depth level, each line ends in `\n`.
 
+## Three things the boss needs
+
+- **`Rc::ptr_eq(a, b)`** finds the same shared tech in a Vec: `unlocks.retain(|c| !Rc::ptr_eq(c, &tech))` drops exactly that child.
+- **End a `borrow()` before you `borrow_mut()` the same cell.** Take the parent in its own statement, `let parent = tech.borrow().prerequisite.upgrade();`, so the `Ref` dies at the semicolon. Keep it alive in a bigger expression and the next `borrow_mut()` panics.
+- **`let ... else`** unwraps or leaves early: `let Some(tech) = self.techs.get(&id) else { return false; };`.
+
 ## Your turn
 
 In `src/lib.rs` implement `name`, `add`, `path`, `render`, `remove` and `reparent`. `TechTree::new` is done. The first objective is a two-minute win: start there.

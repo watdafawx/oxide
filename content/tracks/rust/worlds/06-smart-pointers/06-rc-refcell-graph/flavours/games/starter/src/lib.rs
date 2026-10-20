@@ -9,19 +9,19 @@ pub struct Assembler {
 
 /// A new assembler that feeds nothing yet.
 pub fn new_assembler(rate: u32) -> Rc<RefCell<Assembler>> {
-    // TODO: Rc::new(RefCell::new(Assembler { rate, feeds: Vec::new() }))
+    // TODO: a new Assembler with no feeds yet, wrapped so it can be shared and edited
     todo!()
 }
 
 /// Makes `source` feed `target`.
 pub fn connect(source: &Rc<RefCell<Assembler>>, target: Rc<RefCell<Assembler>>) {
-    // TODO: borrow_mut() the source and push the target
+    // TODO: add the target to the source's feeds
     todo!()
 }
 
 /// The assembler's rate plus the throughput of everything downstream of it.
 pub fn total_throughput(assembler: &Rc<RefCell<Assembler>>) -> u32 {
-    // TODO: borrow() the assembler; rate + sum of total_throughput(machine) over its feeds
+    // TODO: the assembler's own rate plus the throughput of everything it feeds (recursive)
     todo!()
 }
 

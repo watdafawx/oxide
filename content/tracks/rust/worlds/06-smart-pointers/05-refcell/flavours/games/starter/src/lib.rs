@@ -30,13 +30,13 @@ impl Default for Inserter {
 
 /// Appends `item` to the chest's inventory behind the RefCell.
 pub fn put_in_chest(chest: &RefCell<Vec<String>>, item: &str) {
-    // TODO: borrow_mut() the chest and push item.to_string()
+    // TODO: add the item to the chest through the shared handle
     todo!()
 }
 
 /// True if `chest` is currently borrowed so that a borrow_mut() would panic.
 pub fn chest_busy(chest: &RefCell<Vec<String>>) -> bool {
-    // TODO: try_borrow_mut() returns Err when the chest is already borrowed
+    // TODO: report whether the chest is borrowed right now, without panicking
     todo!()
 }
 

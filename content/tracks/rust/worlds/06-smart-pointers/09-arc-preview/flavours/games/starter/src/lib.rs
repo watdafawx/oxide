@@ -9,9 +9,8 @@ pub struct Recipe {
 
 /// Adds up the cost of `recipes` using two threads that share the list through an Arc.
 pub fn total_cost(recipes: Vec<Recipe>) -> u32 {
-    // TODO: let recipes = Arc::new(recipes); let mid = recipes.len() / 2;
-    // clone the Arc once per thread, thread::spawn(move || ...) for each half,
-    // then join() both and add them
+    // TODO: split the recipes in half, sum each half on its own thread (give each thread its own Arc owner),
+    // then wait for both and add the two sums
     todo!()
 }
 

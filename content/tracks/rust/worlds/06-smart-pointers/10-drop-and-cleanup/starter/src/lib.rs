@@ -12,13 +12,13 @@ impl<'a> Guard<'a> {
 
 impl Drop for Guard<'_> {
     fn drop(&mut self) {
-        // TODO: push format!("drop {}", self.name) onto self.log
+        // TODO: record "drop <name>" in the log
     }
 }
 
 /// Creates Guard "a", releases it, and only then logs "work".
 pub fn early_release(log: &mut Vec<String>) {
-    // TODO: let g = Guard::new("a", log); drop(g); then log.push("work".to_string())
+    // TODO: make guard "a", end it early, and only then log "work"
     todo!()
 }
 

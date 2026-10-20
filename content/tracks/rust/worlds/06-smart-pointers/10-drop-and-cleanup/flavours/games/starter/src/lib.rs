@@ -12,13 +12,13 @@ impl<'a> Inserter<'a> {
 
 impl Drop for Inserter<'_> {
     fn drop(&mut self) {
-        // TODO: push format!("power down {}", self.name) onto self.log
+        // TODO: record "power down <name>" in the log
     }
 }
 
 /// Places "inserter-1", powers it down, and only then logs "place new inserter".
 pub fn hot_swap(log: &mut Vec<String>) {
-    // TODO: let i = Inserter::new("inserter-1", log); drop(i); then log.push("place new inserter".to_string())
+    // TODO: make "inserter-1", end it early, and only then log "place new inserter"
     todo!()
 }
 

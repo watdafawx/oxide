@@ -18,6 +18,8 @@ println!("{total}"); // 16
 
 Keep it small: this is a preview.
 
+- A slice of an `Arc<Vec<T>>` works like a slice of a `Vec`: `data[..mid]` is the first half, `data[mid..]` the rest. Each thread gets its own `Arc::clone` and uses it with `move`.
+
 ## Your turn
 
 In `src/lib.rs`, `total_cost`: wrap the recipe list in an `Arc`, spawn two threads (first half, second half), join both and add the results.

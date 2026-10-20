@@ -17,13 +17,13 @@ impl Recipe {
 
 /// Returns another owner of the same Recipe (no copy of it).
 pub fn share_recipe(recipe: &Rc<Recipe>) -> Rc<Recipe> {
-    // TODO: Rc::clone
+    // TODO: hand out a second owner of the same value, not a copy of it
     todo!()
 }
 
 /// How many assemblers use this recipe right now?
 pub fn assembler_count(recipe: &Rc<Recipe>) -> usize {
-    // TODO: Rc::strong_count
+    // TODO: how many owners does this value have right now?
     todo!()
 }
 

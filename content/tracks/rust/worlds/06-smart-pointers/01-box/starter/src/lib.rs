@@ -9,13 +9,13 @@ use List::{Cons, Nil};
 
 /// Returns a new list with `x` in front of `list`.
 pub fn prepend(list: List, x: i32) -> List {
-    // TODO: Cons(x, Box::new(list))
+    // TODO: a longer list: a new Cons holding x in front of the existing list
     todo!()
 }
 
 /// Adds up every element. An empty list sums to 0.
 pub fn sum(list: &List) -> i32 {
-    // TODO: match on list. Cons(v, rest) => v + sum(rest), Nil => 0
+    // TODO: add up the numbers recursively: a Cons counts its value plus whatever follows it, Nil is 0
     todo!()
 }
 

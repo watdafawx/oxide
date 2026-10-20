@@ -32,7 +32,7 @@ text = "Plan: `nodes: HashMap<u32, Rc<RefCell<Node>>>` finds a node by id. Each 
 [[hints]]
 text = "`add(parent, text)`: look the parent up (None if unknown), take `self.next_id` and bump it, build the `Node` with `parent: Rc::downgrade(&parent_rc)`, push a clone of the new `Rc` onto the parent's `children`, and insert it into `self.nodes`."
 [[hints]]
-text = "`path`: start at the node, push its text, then `upgrade()` the parent and repeat. Reverse at the end."
+text = "`path`: start at the node, push its text, then `upgrade()` the parent and repeat. Take each step in its own statement (`let up = cur.borrow().parent.upgrade();`) so the borrow ends before you reuse `cur`. Reverse at the end."
 [[hints]]
 text = "`render`: a recursive helper `fn render_node(node: &Rc<RefCell<Node>>, depth: usize, out: &mut String)` using `\"  \".repeat(depth)`, then call it for each child with `depth + 1`."
 [[hints]]

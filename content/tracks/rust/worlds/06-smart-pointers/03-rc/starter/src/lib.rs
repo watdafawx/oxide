@@ -2,13 +2,13 @@ use std::rc::Rc;
 
 /// Returns another owner of the same String (no copy of the text).
 pub fn share(shared: &Rc<String>) -> Rc<String> {
-    // TODO: Rc::clone
+    // TODO: hand out a second owner of the same value, not a copy of it
     todo!()
 }
 
 /// How many owners does this Rc have right now?
 pub fn owner_count(shared: &Rc<String>) -> usize {
-    // TODO: Rc::strong_count
+    // TODO: how many owners does this value have right now?
     todo!()
 }
 

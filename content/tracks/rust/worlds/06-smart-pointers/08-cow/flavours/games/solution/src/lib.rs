@@ -15,7 +15,7 @@ mod tests {
 
     #[test]
     fn prefixed_name_is_borrowed() {
-        let out = qualified_name("create:cogwheel", "create");
+        let out = qualified_name("krastorio:gear-wheel", "krastorio");
         assert!(
             matches!(out, Cow::Borrowed(_)),
             "nothing changed, so nothing should be allocated"
@@ -24,13 +24,13 @@ mod tests {
 
     #[test]
     fn bare_name_gets_mod_prefix() {
-        assert_eq!(qualified_name("cogwheel", "create"), "create:cogwheel");
-        assert_eq!(qualified_name("create:cogwheel", "create"), "create:cogwheel");
+        assert_eq!(qualified_name("gear-wheel", "krastorio"), "krastorio:gear-wheel");
+        assert_eq!(qualified_name("krastorio:gear-wheel", "krastorio"), "krastorio:gear-wheel");
     }
 
     #[test]
     fn prefixed_bare_name_is_owned() {
-        let out = qualified_name("cogwheel", "create");
+        let out = qualified_name("gear-wheel", "krastorio");
         assert!(matches!(out, Cow::Owned(_)), "a prefixed name must be Owned");
     }
 }

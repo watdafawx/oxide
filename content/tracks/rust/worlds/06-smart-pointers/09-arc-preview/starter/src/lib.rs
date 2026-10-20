@@ -3,9 +3,8 @@ use std::thread;
 
 /// Sums `data` using two threads that share it through an Arc.
 pub fn parallel_sum(data: Vec<i32>) -> i32 {
-    // TODO: let data = Arc::new(data); let mid = data.len() / 2;
-    // clone the Arc once per thread, thread::spawn(move || ...) for each half,
-    // then join() both and add them
+    // TODO: split the data in half, sum each half on its own thread (give each thread its own Arc owner),
+    // then wait for both and add the two sums
     todo!()
 }
 

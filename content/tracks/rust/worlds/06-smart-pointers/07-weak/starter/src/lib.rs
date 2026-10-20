@@ -17,14 +17,13 @@ pub fn new(name: &str) -> Rc<TreeNode> {
 
 /// Makes `child` a child of `parent`. The child's back-pointer must be Weak.
 pub fn adopt(parent: &Rc<TreeNode>, child: &Rc<TreeNode>) {
-    // TODO: push Rc::clone(child) onto parent.children (borrow_mut),
-    // then *child.parent.borrow_mut() = Rc::downgrade(parent)
+    // TODO: the parent gets a (strong) child in its list; the child gets a weak link back to the parent
     todo!()
 }
 
 /// The parent's name, or None if there is no parent (or it was dropped).
 pub fn parent_name(node: &TreeNode) -> Option<String> {
-    // TODO: node.parent.borrow().upgrade() gives Option<Rc<TreeNode>>; map it to the name
+    // TODO: the parent's name, if the parent is still alive
     todo!()
 }
 
