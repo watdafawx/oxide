@@ -17,7 +17,8 @@ println!("{total}");                                // 1100
 - Scoped threads can borrow locals, because the scope joins them all before it returns.
 - Threads that are not joined by hand are joined at the end of the scope.
 - `&mut` works too, as long as the threads get **different** parts: `split_at_mut` hands out two non-overlapping halves.
-- Add `move` when each thread needs its own loop value (like a `chunk`).
+- **`jars.chunks(3)`** yields slices of up to 3 items each; add `move` when each thread needs its own loop value (like a `chunk`): `.map(|chunk| s.spawn(move || ...))`.
+- Change items in place with **`for x in part.iter_mut() { *x = ... }`** (`x` is a `&mut`, so write through `*x`); `a.iter().zip(b.iter_mut())` walks two slices in step.
 
 ## Your turn
 

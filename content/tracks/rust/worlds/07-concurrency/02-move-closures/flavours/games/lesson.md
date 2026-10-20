@@ -16,7 +16,7 @@ println!("{}", handle.join().unwrap());
 
 - Without `move` the error says the closure "may outlive the current function".
 - After the move the original variable is gone. Clone first if you still need a copy.
-- To give two workers each their own part, split the data first and move one part into each.
+- To give two workers each their own part, split the data first and move one part into each. **`split_off(mid)`** does the cut: `let right = v.split_off(2);` leaves the first 2 items in `v` and returns the rest as a new `Vec`.
 
 ## Your turn
 

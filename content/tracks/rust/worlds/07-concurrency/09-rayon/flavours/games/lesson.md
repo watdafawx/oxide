@@ -10,6 +10,8 @@ let doubled: Vec<u64> = sizes.par_iter().map(|&b| b * 2).collect();
 println!("{total} {doubled:?}");                              // 2200 [240, 680, 1120, 160]
 ```
 
+- Ranges work too, and `filter` + `count` too: `(0..10_u32).into_par_iter().filter(|&n| n % 2 == 0).count()` is `5` (the closure gets a reference, so `|&n|` unpacks it).
+- This quest has an external crate: `Cargo.toml` already lists `rayon`; the first build downloads it, then tests run offline.
 - `par_iter()`, `par_iter_mut()` and `into_par_iter()` mirror the normal iterator methods.
 - `collect()` keeps the **order** of the input.
 - Only worth it when each item is real work. For tiny closures the thread overhead costs more than it saves.

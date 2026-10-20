@@ -9,16 +9,16 @@ tags = ["send", "sync", "rc"]
 question = "Which type is Send (can move to another thread) but NOT Sync (cannot be shared by &)?"
 choices = [
   "i32",
-  "Cell<i32>",
   "Rc<i32>",
+  "Cell<i32>",
 ]
-answer = 1
+answer = 2
 
 [[quiz]]
 question = "Why does thread::spawn refuse a closure that captures an Rc<T>?"
 choices = [
+  "Rc's counter is not atomic, so two threads could corrupt it",
   "Rc lives on the heap and heap data can never leave the main thread",
-  "Rc's counter is not atomic: two threads cloning or dropping at once could corrupt it",
   "Rc is only valid inside a single function",
 ]
-answer = 1
+answer = 0

@@ -16,6 +16,8 @@ let answer = handle.join().unwrap(); // wait for it: 42
 - `spawn` takes a closure and returns a **`JoinHandle<T>`** right away. The thread runs on its own.
 - `join()` blocks until the thread ends and gives `Result<T, _>`. `Err` means the thread **panicked**; the panic does not crash the main thread.
 - Drop a handle without joining and nobody waits for the result.
+- Write **`move ||`** when the closure uses a variable from outside: the thread gets its own copy, because it may outlive the function that started it (next quest digs in).
+- A `Result` has **`.ok()`**: it turns `Ok(v)` into `Some(v)` and `Err(_)` into `None`.
 - Start every thread **before** you join any, or you hash the jars one by one.
 
 ## Your turn

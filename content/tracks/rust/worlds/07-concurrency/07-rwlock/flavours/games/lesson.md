@@ -17,6 +17,7 @@ mods.write().unwrap().push(String::from("iris.jar")); // writer: alone
 - `read()` gives a shared guard. Many can exist at once.
 - `write()` gives an exclusive guard. It waits until every reader is gone.
 - Asking for `write()` **while you still hold a read guard** on the same thread deadlocks. `try_write()` returns `Err` at once instead.
+- `.is_ok()` / `.is_err()` on a `Result` give a plain `bool`: `lock.try_read().is_ok()` asks "did I get in?".
 - Use `RwLock` when reads far outnumber writes. For short or mixed access a `Mutex` is simpler.
 
 ## Your turn

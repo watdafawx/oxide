@@ -36,7 +36,7 @@ pub fn hash_all(jars: Vec<ModJar>) -> Vec<u64> {
 /// Average jar size, computed on another thread. With zero jars the division
 /// panics inside the thread, and the answer is None.
 pub fn average_size(total_bytes: u32, jar_count: u32) -> Option<u32> {
-    // TODO: spawn a thread running `total_bytes / jar_count`, join it, turn Err into None
+    // TODO: spawn a thread running `total_bytes / jar_count`, join it, then `.ok()` turns Err into None
     todo!()
 }
 

@@ -22,6 +22,7 @@ println!("{}", *done.lock().unwrap());          // 4
 - Clone the `Arc` **before** `spawn`, and move the clone in. Each worker owns one handle.
 - Join all workers before reading the final value.
 - To take the value back out: `Arc::try_unwrap(done).unwrap().into_inner().unwrap()`. It only works when no other clone is left.
+- Shared map: lock, then use the map as usual, e.g. `*map.lock().unwrap().entry(key).or_insert(0) += 1;`.
 - Tests run your code with a timeout. A guard held while you join is a deadlock.
 
 ## Your turn

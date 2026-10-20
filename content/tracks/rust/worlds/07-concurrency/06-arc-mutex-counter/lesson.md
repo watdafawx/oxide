@@ -23,7 +23,8 @@ println!("{}", total.lock().unwrap());       // 34000
 
 - Clone the `Arc` **before** `spawn` and move the clone in. Shadowing the name keeps it tidy.
 - Join first, read after. Locking in the parent while threads still run is legal but gives a partial answer.
-- Once every other clone is dropped, `Arc::try_unwrap(arc)` gives the `Mutex` back and `into_inner()` the value.
+- Once every other clone is dropped, `Arc::try_unwrap(arc).unwrap()` gives the `Mutex` back and `.into_inner().unwrap()` the value inside.
+- Shared map: lock, then use the map as usual, e.g. `*map.lock().unwrap().entry(key).or_insert(0) += 1;`.
 - Do the slow work **outside** the lock and hold the guard only for the update.
 
 ## Your turn

@@ -21,6 +21,7 @@ h.join().unwrap();
 - After the move you cannot use the value in the parent. To keep one, `.clone()` first and move the clone.
 - Send **owned** data (`String`, `Vec<T>`), not references. A `&str` borrowed from a local would not live long enough.
 - To get data back, return it from the closure and read it with `join()`.
+- To hand each of two threads its own half, cut a `Vec` in two with **`split_off(mid)`**: `let right = v.split_off(2);` leaves the first 2 items in `v` and returns the rest as a new `Vec`. Move one `Vec` into each thread.
 
 ## Your turn
 

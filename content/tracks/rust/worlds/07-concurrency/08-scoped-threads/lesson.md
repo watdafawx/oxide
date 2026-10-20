@@ -22,7 +22,8 @@ println!("{longest}");           // 11
 
 - `s.spawn(|| ...)` closures may borrow locals. Shared `&` borrows can overlap; a `&mut` must be the only one.
 - No `Arc`, no `Mutex`, no `move` needed for read-only work.
-- To give each thread its own **mutable** piece, split the data first (`split_at_mut`, `chunks_mut`). The borrow checker sees the pieces never overlap.
+- Cutting a slice: **`data.split_at(2)`** gives two slices (first 2 items, the rest); **`data.chunks(3)`** yields slices of up to 3 items each, so `.map(|chunk| s.spawn(move || ...))` starts one thread per chunk (`move` copies the loop's `chunk` into its thread; the data itself is still only borrowed). `.iter().copied().max()` turns `&i32` items into `i32` and gives an `Option`.
+- To give each thread its own **mutable** piece, split the data first (`split_at_mut`, `chunks_mut`). The borrow checker sees the pieces never overlap. Change items in place with **`for x in piece.iter_mut() { *x = ... }`** (`x` is a `&mut`, so write through `*x`).
 - `s.spawn` returns a handle: `join()` it inside the scope for a value. Un-joined threads are joined automatically at the end, and a panic in one is re-raised.
 
 ## Your turn

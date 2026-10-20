@@ -19,6 +19,7 @@ seen.write().unwrap().push(0xc3);        // exclusive access
 - `read()` / `write()` block until allowed. They return guards, same poisoning story as `Mutex`.
 - A writer waits for all readers to leave. Asking for `write()` while *you* hold a read guard is a **deadlock**.
 - `try_read()` and `try_write()` return immediately with `Err(WouldBlock)` instead of waiting. Handy for checks and tests.
+- `.is_ok()` / `.is_err()` on a `Result` give a plain `bool`: `lock.try_read().is_ok()` asks "did I get in?".
 - Use `Mutex` when writes are common. `RwLock` pays off when reads dominate.
 
 ## Your turn

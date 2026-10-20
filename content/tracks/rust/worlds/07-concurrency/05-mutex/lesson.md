@@ -13,11 +13,17 @@ let log = Mutex::new(String::from("hashed: "));
 }                                          // guard dropped here: unlocked
 
 println!("{}", log.lock().unwrap());       // hashed: sodium.jar
+
+// a number works the same, with * to reach through the guard:
+let count = Mutex::new(0u32);
+*count.lock().unwrap() += 1;               // lock, change, guard dropped at the `;`
 ```
 
 - `lock()` returns a **guard**. The lock is held as long as the guard lives, and released when it is dropped. Keep guards short-lived.
+- To empty a locked `Vec` and keep what was in it, use **`std::mem::take(&mut *guard)`**: it swaps in an empty `Vec` and hands you the old one. (`*guard` reaches the `Vec`, `&mut` borrows it.)
 - Locking twice on the same thread without dropping the first guard is a **deadlock**: it waits for itself forever.
 - **Poisoning**: if a thread panics while holding the lock, the mutex is poisoned and later `lock()` calls return `Err`, because the data may be half-updated. `unwrap()` passes the panic along; `into_inner()` on the error gets the data anyway.
+- **`unwrap_or_else(|e| ...)`** is `unwrap` with a fallback: on `Err(e)` it runs your closure with the error inside instead of panicking. Example: `"x".parse::<i32>().unwrap_or_else(|_| 0)` is `0`.
 - A `Mutex` on its own only works in one place. To share it between threads you wrap it in `Arc` (next quest).
 
 ## Your turn

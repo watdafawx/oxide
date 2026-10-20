@@ -14,8 +14,10 @@ println!("{}", done.lock().unwrap());     // 1
 ```
 
 - `lock()` returns a **guard**. The guard derefs to the value and unlocks when it is dropped.
+- To empty a locked `Vec` and keep what was in it, use **`std::mem::take(&mut *guard)`**: it swaps in an empty `Vec` and hands you the old one. (`*guard` reaches the `Vec`, `&mut` borrows it.)
 - Keep the guard alive as briefly as you can. Locking again while you still hold it **deadlocks**.
-- If a worker panics while holding the lock, the Mutex is **poisoned**: `lock()` returns `Err`. `into_inner()` on that error still gives you the guard.
+- If a worker panics while holding the lock, the Mutex is **poisoned**: `lock()` returns `Err`. `into_inner()` on that error  still gives you the guard.
+- **`unwrap_or_else(|e| ...)`** is `unwrap` with a fallback: on `Err(e)` it runs your closure with the error inside instead of panicking. Example: `"x".parse::<i32>().unwrap_or_else(|_| 0)` is `0`.
 - Tests here run your code on a helper thread with a timeout, so a deadlock shows as a failure.
 
 ## Your turn

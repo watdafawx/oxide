@@ -9,7 +9,8 @@ println!("{before} {}", hashed.load(Ordering::SeqCst)); // 0 1
 ```
 
 - `fetch_add` adds and returns the **previous** value. `load` and `store` read and write.
-- **`compare_exchange(current, new, ..)`**: set to `new` only if the value is still `current`. Exactly one racing thread succeeds. That is how you "claim" something once.
+- **`compare_exchange(current, new, ordering, ordering)`**: set to `new` only if the value is still `current`. Exactly one racing thread succeeds. It returns a `Result`: `Ok` if you did the swap, `Err` if someone beat you (`.is_ok()` turns that into a `bool`). That is how you "claim" something once. Example: `counter.compare_exchange(0, 10, Ordering::SeqCst, Ordering::SeqCst)`.
+- `AtomicBool` has the same methods with `true`/`false`.
 - Atomics are `Sync`, so share them through `&` or `Arc`: no lock and no `mut`.
 - `Ordering`: when unsure use `SeqCst` (strongest). `Relaxed` is fine for plain counters that nothing else depends on.
 - Atomics suit single numbers and flags. For several values that must change together, use a `Mutex`.

@@ -18,6 +18,7 @@ let total: usize = (1..=100_u32)
     .sum();                          // 5050
 ```
 
+- Filtering works the same: `(0..10_u32).into_par_iter().filter(|&n| n % 2 == 0).count()` is `5` (the closure gets a reference, so `|&n|` unpacks it).
 - `par_iter()` borrows, `into_par_iter()` consumes, `par_iter_mut()` borrows mutably.
 - Most adapters you know work: `map`, `filter`, `sum`, `count`, `max`, `collect`, `for_each`, `reduce`.
 - The closure runs on several threads, so it must be `Send + Sync`: no `Rc`, no `RefCell`, no mutating a captured variable. Return values instead.

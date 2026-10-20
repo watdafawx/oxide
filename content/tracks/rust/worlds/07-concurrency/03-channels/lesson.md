@@ -19,6 +19,7 @@ for got in rx {                          // loops until ALL senders are dropped
 }
 ```
 
+- A `Receiver` is an iterator: `rx.iter().collect()` gathers everything into a `Vec`, ending when all senders are gone.
 - `send` moves the value into the channel. `recv` blocks until one arrives.
 - The receiver stops (`Err` / end of the `for`) only when **every** `Sender` is dropped. A forgotten `tx` means waiting forever.
 - Tests here use `recv_timeout`, so a mistake shows as a failure, not a freeze.

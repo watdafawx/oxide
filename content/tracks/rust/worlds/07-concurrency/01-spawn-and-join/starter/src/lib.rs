@@ -14,7 +14,7 @@ pub fn square_all(nums: &[u64]) -> Vec<u64> {
 
 /// Computes a / b on another thread. If that thread panics, returns None.
 pub fn safe_div(a: u32, b: u32) -> Option<u32> {
-    // TODO: spawn a thread running `a / b`, join it, turn Err into None
+    // TODO: spawn a thread running `a / b`, join it, then `.ok()` turns Err into None
     todo!()
 }
 
