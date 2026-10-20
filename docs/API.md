@@ -38,8 +38,11 @@ interface Quest {
 
 interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
+interface FileEntry { path: string; bytes: number; read_only: boolean; primary: boolean }  // path uses "/"; read_only = the spec (tests); primary = open this one first
+
 interface Settings {
-  editor: string; sound: boolean; focus_minutes: number;
+  editor: string;    // external editor command ("code", "zed"); "" (default) = in-app editor only, start_quest opens nothing
+  sound: boolean; focus_minutes: number;
   track: string;     // active track id, "" = first
   flavour: string;   // "games" (default) | "plain" | any name from list_flavours
 }
@@ -114,7 +117,10 @@ interface Home {
 | `list_worlds` | `{ track?: string }` | `World[]` | for the map; omitted = active track |
 | `get_quest` | `{ id }` | `QuestDetail` | |
 | `start_quest` | `{ id }` | `QuestDetail` | copies starter, records start, opens editor, starts the watcher |
-| `open_editor` | `{ id }` | `void` | re-open without resetting |
+| `open_editor` | `{ id }` | `void` | open the external editor; errors when `settings.editor` is empty |
+| `list_files` | `{ id }` | `FileEntry[]` | the started workspace's files (no target/build/.gradle), specs read-only, one `primary` |
+| `read_file` | `{ id, path }` | `string` | file text (≤ 512 KB) |
+| `write_file` | `{ id, path, text }` | `void` | save from the in-app editor; the watcher re-grades like any save; refuses read-only paths and paths outside the workspace |
 | `reset_quest` | `{ id }` | `QuestDetail` | wipes the workspace copy, keeps progress |
 | `run_checks` | `{ id }` | `CheckResult` | manual run; the watcher also runs on save |
 | `answer_quiz` | `{ id, answers: number[] }` | `Completion \| null` | read quests; null when wrong |

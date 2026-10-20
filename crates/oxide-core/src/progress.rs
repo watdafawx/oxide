@@ -51,6 +51,7 @@ pub struct Profile {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
+    /// External editor command (`code`, `zed`); empty = the in-app editor only.
     pub editor: String,
     pub sound: bool,
     pub focus_minutes: u32,
@@ -68,7 +69,7 @@ fn default_flavour() -> String {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { editor: "code".into(), sound: true, focus_minutes: 25, track: String::new(), flavour: default_flavour() }
+        Self { editor: String::new(), sound: true, focus_minutes: 25, track: String::new(), flavour: default_flavour() }
     }
 }
 

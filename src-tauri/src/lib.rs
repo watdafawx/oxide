@@ -1,5 +1,6 @@
 //! Tauri commands and events over `oxide_core`. The contract is `docs/API.md`.
 
+mod files;
 mod mcp;
 mod run;
 
@@ -298,8 +299,11 @@ fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
     state.progress.lock().unwrap().start_quest(&id, Local::now()).map_err(err)?;
     if quest.has_project() {
         let dir = workspace::start(&state.quests_root, &quest).map_err(err)?;
+        // The in-app editor is the default; an external editor opens only when configured.
         let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
-        if let Err(e) = workspace::open_in_editor(&dir, &editor) {
+        if !editor.trim().is_empty()
+            && let Err(e) = workspace::open_in_editor(&dir, &editor)
+        {
             log::warn!("{e:#}");
         }
         watch_quest(&app, &state, &id)?;
@@ -317,6 +321,9 @@ fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
         return Err("start the quest first".into());
     }
     let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
+    if editor.trim().is_empty() {
+        return Err("no external editor set: add one (e.g. `code`) in Profile › Settings".into());
+    }
     workspace::open_in_editor(&dir, &editor).map_err(err)?;
     let watching = state.watch.lock().unwrap().as_ref().is_some_and(|(q, _)| q == &id);
     if !watching {
@@ -449,6 +456,32 @@ fn stop_program(state: State<AppState>) {
     run::stop(&state.running);
 }
 
+/// The started workspace of a quest, for the in-app editor.
+fn workspace_of(state: &AppState, id: &str) -> CmdResult<PathBuf> {
+    let quest = state.resolve(state.quest(id)?);
+    let dir = workspace::dir_for(&state.quests_root, id);
+    if !dir.join(quest.runner.marker()).exists() {
+        return Err("start the quest first".into());
+    }
+    Ok(dir)
+}
+
+#[tauri::command]
+fn list_files(state: State<AppState>, id: String) -> CmdResult<Vec<files::FileEntry>> {
+    files::list(&workspace_of(&state, &id)?)
+}
+
+#[tauri::command]
+fn read_file(state: State<AppState>, id: String, path: String) -> CmdResult<String> {
+    files::read(&workspace_of(&state, &id)?, &path)
+}
+
+/// Writes like a save from any editor: the watcher picks it up and re-grades.
+#[tauri::command]
+fn write_file(state: State<AppState>, id: String, path: String, text: String) -> CmdResult<()> {
+    files::write(&workspace_of(&state, &id)?, &path, &text)
+}
+
 #[tauri::command]
 fn get_settings(state: State<AppState>) -> CmdResult<Settings> {
     state.progress.lock().unwrap().settings().map_err(err)
@@ -553,6 +586,9 @@ pub fn run() {
             run_program,
             run_input,
             stop_program,
+            list_files,
+            read_file,
+            write_file,
             get_settings,
             set_settings,
             active_dates,
