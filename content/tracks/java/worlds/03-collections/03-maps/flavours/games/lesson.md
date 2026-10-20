@@ -14,6 +14,7 @@ downloads.merge("sodium", 1, Integer::sum);   // 3 + 1 = 4; absent id starts at 
 - `getOrDefault(id, fallback)` avoids `null` checks when reading.
 - `merge(id, 1, Integer::sum)` is the counting idiom: absent means "put 1", present means `old + 1`.
 - `computeIfAbsent(key, k -> new ArrayList<>())` returns the value for the key, creating it first if missing. Chain `.add(x)` to build "key to list" maps.
+- `name.charAt(0)` is the first character of a string, a `char`. As a map key it is boxed to a `Character`, so the key type is `Character`.
 - Iterating with `for (Map.Entry<K, V> e : map.entrySet())` gives `e.getKey()` and `e.getValue()`.
 
 ## Your turn

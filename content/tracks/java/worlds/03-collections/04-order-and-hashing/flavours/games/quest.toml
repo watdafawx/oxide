@@ -13,5 +13,5 @@ answer = 0
 
 [[quiz]]
 question = "Two mod ids are `equals`. What must be true of their `hashCode()`?"
-choices = ["They must be equal too", "Nothing: the two are unrelated", "They must differ"]
-answer = 0
+choices = ["Nothing: the two are unrelated", "They must differ", "They must be equal too"]
+answer = 2

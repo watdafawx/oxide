@@ -18,6 +18,8 @@ mods.stream().collect(Collectors.partitioningBy(m -> m.downloads() > 9000));
 - `joining(separator, prefix, suffix)` works on a stream of `String`, so `map(Mod::name)` first.
 - `partitioningBy(predicate)` is `groupingBy` with exactly two groups, `true` and `false`, and both keys are always there.
 
+- The starter has `import java.util.stream.Collectors;` (so `Collectors.groupingBy(...)` works) and `import static ...Collectors.groupingBy;` (so plain `groupingBy(...)` works too). Use either.
+
 ## Your turn
 
 - Open `src/main/java/oxide/collectors/Report.java`.

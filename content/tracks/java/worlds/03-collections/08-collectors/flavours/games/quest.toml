@@ -12,7 +12,7 @@ test = "partitionsOutdatedAndCurrent"
 label = "partitionByOutdated splits mods into outdated (true) and current (false)"
 
 [[hints]]
-text = "All of these end the stream with `.collect(Collectors....)`. `import static java.util.stream.Collectors.*;` keeps it short."
+text = "All of these end the stream with `.collect(Collectors....)`. Your starter imports `Collectors` and the short forms (`groupingBy(...)`), so both `Collectors.groupingBy(...)` and `groupingBy(...)` compile."
 [[hints]]
 text = "groupByLoader: `mods.stream().collect(groupingBy(Mod::loader))`"
 [[hints]]

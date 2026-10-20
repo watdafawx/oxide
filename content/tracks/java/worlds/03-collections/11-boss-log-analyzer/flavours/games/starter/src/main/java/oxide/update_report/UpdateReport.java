@@ -11,21 +11,21 @@ import java.util.TreeMap;
 public class UpdateReport {
     /** "sodium,Sodium,fabric,9500,0.5.3" into a Mod (id, name, loader, downloads, version). */
     public static Mod parseMod(String line) {
-        throw new UnsupportedOperationException("TODO: split(\",\") and build a Mod; downloads is an int");
+        throw new UnsupportedOperationException("TODO: cut the line into its 5 parts and build a Mod; downloads is an int");
     }
 
     /** Loader to how many mods use it. */
     public static Map<String, Long> countsPerLoader(List<Mod> mods) {
-        throw new UnsupportedOperationException("TODO: groupingBy loader with counting()");
+        throw new UnsupportedOperationException("TODO: count the mods per loader");
     }
 
     /** Names of the n most downloaded mods: most first, ties A-Z. */
     public static List<String> topDownloaded(List<Mod> mods, int n) {
-        throw new UnsupportedOperationException("TODO: sort by downloads descending then name, limit(n), map to names");
+        throw new UnsupportedOperationException("TODO: sort by downloads (biggest first) then name, keep the first n names");
     }
 
     /** Loader to how many of its mods are outdated, loaders in A-Z order. */
     public static Map<String, Long> outdatedPerLoader(List<Mod> mods, Map<String, String> latest) {
-        throw new UnsupportedOperationException("TODO: filter outdated mods, then groupingBy loader into a TreeMap");
+        throw new UnsupportedOperationException("TODO: count outdated mods per loader, keys sorted");
     }
 }

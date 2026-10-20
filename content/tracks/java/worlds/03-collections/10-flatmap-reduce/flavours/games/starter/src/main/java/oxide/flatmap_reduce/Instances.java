@@ -7,16 +7,16 @@ import java.util.Optional;
 public class Instances {
     /** Every mod of every instance, in order. */
     public static List<Mod> allMods(List<List<Mod>> instances) {
-        throw new UnsupportedOperationException("TODO: stream().flatMap(List::stream).toList()");
+        throw new UnsupportedOperationException("TODO: turn the per-instance lists into one flat list of mods");
     }
 
     /** Sum of every mod's downloads (0 for no mods). */
     public static int totalDownloads(List<Mod> mods) {
-        throw new UnsupportedOperationException("TODO: map to downloads, then reduce(0, Integer::sum)");
+        throw new UnsupportedOperationException("TODO: add up every mod's downloads, starting from 0");
     }
 
     /** The mod with the most downloads, or empty when there are no mods. */
     public static Optional<Mod> mostDownloaded(List<Mod> mods) {
-        throw new UnsupportedOperationException("TODO: stream().max(...) returns an Optional");
+        throw new UnsupportedOperationException("TODO: return the mod with the most downloads; max gives an Optional, empty when there are none");
     }
 }

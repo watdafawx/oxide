@@ -7,15 +7,12 @@ instances.stream().flatMap(List::stream).toList();    // all mods in one list
 
 mods.stream().map(Mod::downloads).reduce(0, Integer::sum);   // 0 + 9500 + 8200 ...
 
-IntStream.rangeClosed(1, 3).boxed().toList();    // [1, 2, 3]   slot numbers, inclusive
-
 mods.stream().max(Comparator.comparingInt(Mod::downloads));   // Optional[Mod[...]] or Optional.empty
 ```
 
 - `map` turns one item into one item. `flatMap` turns one item into a **stream** of items and flattens them all into one stream.
-- `IntStream.rangeClosed(1, n)` is the numbers 1 to n, **inclusive**. `range(1, n)` stops before n.
 - `reduce(identity, combine)` folds a stream into one value: it starts at `identity`, then `combine(sofar, next)` for each item.
-- `max` can't answer for an empty stream, so it returns an `Optional`. `.isPresent()`, `.isEmpty()`, `.get()` (only after checking), `.orElse(fallback)`.
+- `max` can't answer for an empty stream, so it returns an `Optional`: a box that holds the answer, or is empty. Return it as it is.
 
 ## Your turn
 

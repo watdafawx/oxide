@@ -16,7 +16,7 @@ test = "partitionsPassFail"
 label = "partitionPassFail splits scores into pass (50 or more) and fail"
 
 [[hints]]
-text = "All of these end the stream with `.collect(Collectors....)`. `import static java.util.stream.Collectors.*;` keeps it short."
+text = "All of these end the stream with `.collect(Collectors....)`. Your starter imports `Collectors` and the short forms (`groupingBy(...)`), so both `Collectors.groupingBy(...)` and `groupingBy(...)` compile."
 [[hints]]
 text = "groupByLength: `words.stream().collect(groupingBy(String::length))`"
 [[hints]]

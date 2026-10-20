@@ -14,7 +14,7 @@ new ArrayList<Integer>().stream().max(Comparator.naturalOrder());   // Optional.
 - `map` turns one item into one item. `flatMap` turns one item into a **stream** of items and flattens them all into one stream.
 - `IntStream.rangeClosed(1, n)` is the numbers 1 to n, **inclusive**. `range(1, n)` stops before n.
 - `reduce(identity, combine)` folds a stream into one value: it starts at `identity`, then `combine(sofar, next)` for each item.
-- `max` can't answer for an empty stream, so it returns an `Optional`. `.isPresent()`, `.isEmpty()`, `.get()` (only after checking), `.orElse(fallback)`.
+- `max` can't answer for an empty stream, so it returns an `Optional`: a box that holds the answer, or is empty. Return it as it is.
 
 ## Your turn
 

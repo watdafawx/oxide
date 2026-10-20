@@ -17,7 +17,7 @@ words.stream().collect(Collectors.partitioningBy(w -> w.length() > 3));
 - A second argument, the **downstream collector**, changes what each group becomes: `counting()` for a count.
 - `joining(separator, prefix, suffix)` works on a stream of `String`. Prefix and suffix are optional.
 - `partitioningBy(predicate)` is `groupingBy` with exactly two groups, `true` and `false`, and both keys are always there.
-- `import static java.util.stream.Collectors.*;` lets you write `groupingBy(...)` directly.
+- The starter has `import java.util.stream.Collectors;` (so `Collectors.groupingBy(...)` works) and `import static ...Collectors.groupingBy;` (so plain `groupingBy(...)` works too). Use either.
 
 ## Your turn
 

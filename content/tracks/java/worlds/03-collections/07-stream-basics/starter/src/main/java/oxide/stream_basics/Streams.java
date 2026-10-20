@@ -5,11 +5,11 @@ import java.util.List;
 public class Streams {
     /** The squares of the even numbers, in input order. */
     public static List<Integer> evenSquares(List<Integer> nums) {
-        throw new UnsupportedOperationException("TODO: stream().filter(even).map(square).toList()");
+        throw new UnsupportedOperationException("TODO: keep the even numbers, square them, collect to a list");
     }
 
     /** Total number of characters in all words. */
     public static int totalLength(List<String> words) {
-        throw new UnsupportedOperationException("TODO: mapToInt(String::length).sum()");
+        throw new UnsupportedOperationException("TODO: add up the length of every word");
     }
 }
