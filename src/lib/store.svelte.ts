@@ -1,9 +1,12 @@
 import { goto } from "$app/navigation";
 import { api, listen } from "./api";
-import { ding } from "./sound";
+import { configureSound, play } from "./sound";
 import type { Achievement, CheckResult, Completion, Profile, Quest, RunStream, Track, World } from "./types";
 
-export interface CheckState { running: boolean; result: CheckResult | null; tick: number }
+/** `shown`: how many objective rows have been revealed so far (they tick one at a time); Infinity = all */
+export interface CheckState { running: boolean; result: CheckResult | null; tick: number; shown: number }
+/** gap between two objectives ticking over */
+export const STAGGER_MS = 120;
 export interface ConsoleLine { stream: RunStream | "input"; line: string }
 export interface RunState { running: boolean; lines: ConsoleLine[]; code: number | null | undefined }
 const MAX_LINES = 2000;
@@ -23,6 +26,13 @@ class App {
   runs = $state<Record<string, RunState>>({});
   trackMenu = $state(false);
   celebration = $state<Completion | null>(null);
+  /** bumped on a crit: the objectives card flashes white for a frame */
+  critFlash = $state(0);
+  /** the achievement toast on screen; the rest wait in `achQ`, 2.5 s each */
+  achToast = $state<{ id: string; key: number } | null>(null);
+  private achQ: string[] = [];
+  private achKey = 0;
+  private timers = new Map<string, ReturnType<typeof setTimeout>[]>();
   /** what to offer after `from` was cleared; quest null = nothing unlocked */
   next = $state<NextTarget | null>(null);
   /** quests whose starter run (red) is still to come; the quest page must not treat it as a failed attempt */
@@ -33,20 +43,19 @@ class App {
   async init() {
     if (this.started) return;
     this.started = true;
+    $effect.root(() => {
+      $effect(() => configureSound(this.profile?.settings));
+    });
     await listen("profile:changed", (p) => (this.profile = p));
     await listen("check:started", ({ quest_id }) => {
-      this.checks[quest_id] = { running: true, result: this.checks[quest_id]?.result ?? null, tick: this.checks[quest_id]?.tick ?? 0 };
+      this.checks[quest_id] = { running: true, result: this.checks[quest_id]?.result ?? null, tick: this.checks[quest_id]?.tick ?? 0, shown: Infinity };
     });
-    await listen("check:result", ({ quest_id, result, completion }) => {
-      this.checks[quest_id] = { running: false, result, tick: (this.checks[quest_id]?.tick ?? 0) + 1 };
-      if (result.ok) this.ding();
-      if (completion?.first_time) this.celebrate(completion);
-    });
+    await listen("check:result", ({ quest_id, result, completion }) => this.onResult(quest_id, result, completion));
     await listen("focus:tick", (t) => (this.focus = { remaining: t.remaining_s, total: t.total_s, quest_id: t.quest_id }));
     await listen("focus:done", () => {
       this.focus = null;
       this.toast("info", "Focus session done. Nice.");
-      this.ding("level");
+      play("level");
     });
     await listen("run:output", ({ quest_id, stream, line }) => this.runLine(quest_id, { stream, line }));
     await listen("run:done", ({ quest_id, code }) => {
@@ -107,13 +116,49 @@ class App {
     return `${t} › ${w} › ${q.title}`;
   }
 
-  ding(kind: "ok" | "level" = "ok") {
-    if (this.profile?.settings.sound !== false) ding(kind);
+  /** A result arrived: tick the objectives over one at a time (a note each), then the verdict, then the celebration. */
+  private onResult(quest_id: string, result: CheckResult, completion: Completion | null) {
+    this.timers.get(quest_id)?.forEach(clearTimeout);
+    const ts: ReturnType<typeof setTimeout>[] = [];
+    this.timers.set(quest_id, ts);
+    const later = (ms: number, fn: () => void) => ts.push(setTimeout(fn, ms));
+    const starter = this.fresh.has(quest_id); // the first red run after Start is not the learner's
+    const n = result.objectives.length;
+    const stagger = result.compiled && n > 0;
+    this.checks[quest_id] = { running: false, result, tick: (this.checks[quest_id]?.tick ?? 0) + 1, shown: stagger ? 0 : Infinity };
+    if (stagger)
+      result.objectives.forEach((o, i) =>
+        later(i * STAGGER_MS, () => {
+          const c = this.checks[quest_id];
+          if (c) c.shown = i + 1;
+          if (o.status === "passed") play("objective", i);
+        }),
+      );
+    later(stagger ? n * STAGGER_MS + 60 : 0, () => {
+      if (result.ok) play("clear");
+      else if (!starter) play("fail");
+      if (completion?.first_time) this.celebrate(completion);
+    });
   }
 
   celebrate(c: Completion) {
     this.celebration = c;
     void this.refreshNext(c.quest_id);
+  }
+
+  enqueueAchievements(ids: string[]) {
+    this.achQ.push(...ids);
+    if (!this.achToast) this.pumpAch();
+  }
+  private pumpAch() {
+    const id = this.achQ.shift();
+    if (!id) {
+      this.achToast = null;
+      return;
+    }
+    this.achToast = { id, key: ++this.achKey };
+    play("achievement");
+    setTimeout(() => this.pumpAch(), 2500);
   }
 
   /** ask `home` what comes after `from` */

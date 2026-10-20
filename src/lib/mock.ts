@@ -1,7 +1,7 @@
 // Fake backend for `pnpm dev` in a plain browser. Exercises every command and event.
 import type { MockHandlers } from "./api";
 import type {
-  Achievement, CheckResult, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, Track, World,
+  Achievement, CheckResult, Settings, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, Track, World,
 } from "./types";
 import helloLesson from "../../content/tracks/rust/worlds/00-tutorial/01-hello/lesson.md?raw";
 import fixLesson from "../../content/tracks/rust/worlds/00-tutorial/02-fix-it/lesson.md?raw";
@@ -179,9 +179,17 @@ const achievements: Achievement[] = [
   { id: "streak-7", title: "Week of Rust", description: "Keep a 7-day streak." },
   { id: "focus-1", title: "Deep Focus", description: "Finish a focus timer." },
   { id: "no-hints", title: "No Peeking", description: "Clear a quest without using a hint." },
-];
+  { id: "early-bird", title: "Early bird", description: "Clear a quest before 07:00" },
+  { id: "night-owl", title: "Night owl", description: "Clear a quest after 23:00" },
+  { id: "one-save", title: "One save", description: "Go green on your first save" },
+  { id: "comeback", title: "Comeback", description: "Clear a quest after 7+ days away" },
+  { id: "crit-first", title: "Lucky strike", description: "Land your first critical clear" },
+].map((a) => ({ ...a, hidden: ["early-bird", "night-owl", "one-save", "comeback", "crit-first"].includes(a.id) }));
 
 // ---------- state ----------
+/** dev-console knobs: `__oxideMock.forceCrit = true` makes the next first-time clear a crit */
+const dbg = { forceCrit: false, get state() { return state; } };
+if (typeof window !== "undefined") (window as unknown as { __oxideMock: unknown }).__oxideMock = dbg;
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 function mkDates(): string[] {
   const out: string[] = [];
@@ -199,7 +207,13 @@ const state = {
   completed: [] as string[],
   started: [] as string[],
   achievements: ["streak-3"] as string[],
-  settings: { editor: "", sound: true, focus_minutes: 25, track: "rust", flavour: "games" },
+  settings: {
+    editor: "", sound: true, focus_minutes: 25, track: "rust", flavour: "games", volume: 0.6,
+    sounds: { objective: true, clear: true, level: true, achievement: true, crit: true },
+  } as Settings,
+  combo: 0,
+  freezes: 1,
+  lastActive: null as string | null, // null = today
   hints: {} as Record<string, number>,
   attempts: {} as Record<string, number>,
   last: {} as Record<string, CheckResult | null>,
@@ -213,7 +227,7 @@ function profile(): Profile {
   while (xp >= levelStart(level + 1)) level++;
   return {
     xp, level, xp_into_level: xp - levelStart(level), xp_for_next: levelStart(level + 1) - levelStart(level),
-    streak_days: 3, best_streak: 7, last_active: iso(new Date()),
+    streak_days: 3, best_streak: 7, last_active: state.lastActive ?? iso(new Date()), combo: state.combo, freezes: state.freezes,
     achievements: [...state.achievements], completed: [...state.completed], started: [...state.started], settings: { ...state.settings },
   };
 }
@@ -236,22 +250,34 @@ function complete(qq: Quest, clean: boolean): Completion {
   const before = profile();
   const first = !state.completed.includes(qq.id);
   const newA: string[] = [];
+  let crit = false, comboMult = 1, xp = 0;
   if (first) {
     state.completed.push(qq.id);
     state.started = state.started.filter((s) => s !== qq.id);
-    state.xp += qq.xp;
+    const hour = new Date().getHours();
+    crit = dbg.forceCrit || Math.random() < 0.12;
+    comboMult = 1 + 0.05 * Math.min(state.combo, 10);
+    xp = Math.round(qq.xp * comboMult * (crit ? 2 : 1));
+    state.combo = state.hints[qq.id] ? 0 : state.combo + 1;
+    state.xp += xp;
     const add = (id: string) => { if (!state.achievements.includes(id)) { state.achievements.push(id); newA.push(id); } };
     add("first-quest");
     if (qq.kind === "boss") add("boss-slayer");
     if (clean) add("clean-run");
     if (!state.hints[qq.id]) add("no-hints");
     if (profile().level >= 2) add("level-2");
+    if (hour < 7) add("early-bird");
+    if (hour >= 23) add("night-owl");
+    if ((state.attempts[qq.id] ?? 0) <= 1 && qq.kind !== "read") add("one-save");
+    if (state.lastActive && Date.now() - new Date(state.lastActive).getTime() >= 7 * 86400000) add("comeback");
+    if (crit) add("crit-first");
   }
   const after = profile();
   pushProfile();
   return {
-    quest_id: qq.id, xp_awarded: first ? qq.xp : 0, level_before: before.level, level_after: after.level,
+    quest_id: qq.id, xp_awarded: first ? xp : 0, level_before: before.level, level_after: after.level,
     new_achievements: newA, focus_bonus: false, clean, first_time: first,
+    crit, combo: state.combo, combo_mult: comboMult,
   };
 }
 
@@ -429,7 +455,7 @@ export const mockHandlers: MockHandlers = {
       emit("check:result", { quest_id: id, result, completion });
     }, 1500);
   },
-  async reset_quest({ id }) { delete files[id]; state.last[id] = null; state.attempts[id] = 0; return detail(id); },
+  async reset_quest({ id }) { state.combo = 0; pushProfile(); delete files[id]; state.last[id] = null; state.attempts[id] = 0; return detail(id); },
   async run_checks({ id }) {
     if (busy) throw new Error("A check is already running.");
     return runCycle(id);
@@ -442,6 +468,7 @@ export const mockHandlers: MockHandlers = {
   async use_hint({ id }) {
     const qq = byId(id);
     state.hints[id] = Math.min((state.hints[id] ?? 0) + 1, qq.hints.length);
+    if (!state.completed.includes(id)) { state.combo = 0; pushProfile(); }
     return state.hints[id];
   },
   async get_profile() { return profile(); },

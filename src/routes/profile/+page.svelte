@@ -2,12 +2,20 @@
   import { api } from "$lib/api";
   import { app } from "$lib/store.svelte";
   import XpBar from "$lib/components/XpBar.svelte";
-  import type { Settings } from "$lib/types";
+  import { preview } from "$lib/sound";
+  import type { Settings, SoundKey } from "$lib/types";
 
   let dates = $state<Set<string>>(new Set());
   let autosave = $state((() => { try { return localStorage.getItem("oxide:autosave") !== "0"; } catch { return true; } })());
   const setAutosave = (v: boolean) => { autosave = v; try { localStorage.setItem("oxide:autosave", v ? "1" : "0"); } catch { /* private mode */ } };
-  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games" });
+  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games", volume: 0.6, sounds: { objective: true, clear: true, level: true, achievement: true, crit: true } });
+  const soundRows: [SoundKey, string, string][] = [
+    ["objective", "Objective tick", "a rising note per objective"],
+    ["clear", "All green", "a soft chord"],
+    ["level", "Level up", "a short fanfare"],
+    ["achievement", "Achievement", "a sparkle"],
+    ["crit", "Crit", "a quick zap"],
+  ];
   let saved = $state(false);
   let dirty = $state(false);
 
@@ -21,7 +29,7 @@
 
   async function save() {
     try {
-      const s = { ...form, focus_minutes: Math.max(1, Math.round(Number(form.focus_minutes) || 25)) };
+      const s = { ...form, volume: Number(form.volume), focus_minutes: Math.max(1, Math.round(Number(form.focus_minutes) || 25)) };
       form = await api.setSettings(s);
       dirty = false;
       saved = true;
@@ -126,10 +134,11 @@
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {#each app.achievements as a (a.id)}
         {@const got = p?.achievements.includes(a.id)}
-        <div class="rounded-2xl border p-4 {got ? 'border-rust/60 bg-rust/10' : 'border-line bg-panel opacity-50'}" data-earned={got}>
+        {@const secret = a.hidden && !got}
+        <div class="rounded-2xl border p-4 {got ? 'border-rust/60 bg-rust/10' : 'border-line bg-panel opacity-50'}" data-earned={got} data-hidden={secret}>
           <div class="text-2xl">{got ? "🏆" : "🔒"}</div>
-          <div class="mt-1 font-bold">{a.title}</div>
-          <div class="text-sm text-dim">{a.description}</div>
+          <div class="mt-1 font-bold">{secret ? "???" : a.title}</div>
+          <div class="text-sm text-dim">{secret ? "Hidden. Keep playing." : a.description}</div>
         </div>
       {/each}
     </div>
@@ -157,10 +166,29 @@
         <span class="font-semibold">Autosave code</span>
         <span class="text-sm text-dim">1.5 s after you stop typing. Ctrl+S always works.</span>
       </label>
-      <label class="flex items-center gap-3">
-        <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sound} />
-        <span class="font-semibold">Sound</span>
-      </label>
+      <div class="flex flex-col gap-3" data-testid="sound-settings">
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sound} />
+          <span class="font-semibold">Sound</span>
+        </label>
+        <label class="flex items-center gap-3">
+          <span class="w-16 text-sm text-dim">Volume</span>
+          <input type="range" min="0" max="1" step="0.05" class="w-56 accent-orange-500" bind:value={form.volume} data-testid="volume" />
+          <span class="w-10 text-sm text-dim tabular-nums">{Math.round(form.volume * 100)}%</span>
+        </label>
+        <div class="flex flex-col gap-1 rounded-xl border border-line bg-bg p-3">
+          {#each soundRows as [key, label, hint]}
+            <div class="flex items-center gap-3 py-1">
+              <label class="flex flex-1 items-center gap-3">
+                <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sounds[key]} data-testid="sound-{key}" />
+                <span class="font-medium">{label}</span>
+                <span class="text-sm text-dim">{hint}</span>
+              </label>
+              <button type="button" class="btn btn-ghost !px-3 !py-1 text-sm" onclick={() => preview(key, Number(form.volume))} data-testid="test-{key}">test</button>
+            </div>
+          {/each}
+        </div>
+      </div>
       <label class="flex flex-col gap-1.5">
         <span class="font-semibold">Focus minutes</span>
         <input type="number" min="1" max="180" class="w-32 rounded-xl border border-line bg-bg px-4 py-2.5" bind:value={form.focus_minutes} />

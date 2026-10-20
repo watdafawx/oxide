@@ -2,6 +2,7 @@
   import { page } from "$app/state";
   import { api } from "$lib/api";
   import { app } from "$lib/store.svelte";
+  import { play } from "$lib/sound";
   import { readingMinutes, renderMarkdown, splitLesson } from "$lib/markdown";
   import QuestScene from "$lib/components/QuestScene.svelte";
   import CodeEditor from "$lib/components/CodeEditor.svelte";
@@ -76,9 +77,19 @@
     if (check?.tick) api.getQuest(id).then((d) => { if (d.quest.id === id) detail = d; }).catch(() => {});
   });
 
+  // rows tick over one at a time after a result (store.onResult drives `shown`)
   const rows = $derived<ObjectiveResult[]>(
-    result?.objectives ?? (q?.objectives ?? []).map((o) => ({ ...o, status: "notrun" as const, output: null })),
+    result?.objectives.map((r, i) => (i < (check?.shown ?? Infinity) ? r : { ...r, status: "notrun" as const, output: null })) ??
+      (q?.objectives ?? []).map((o) => ({ ...o, status: "notrun" as const, output: null })),
   );
+  let flash = $state(false);
+  let flashSeen = app.critFlash;
+  $effect(() => {
+    if (app.critFlash === flashSeen) return;
+    flashSeen = app.critFlash;
+    flash = true;
+    setTimeout(() => (flash = false), 70);
+  });
   // a cleared quest shows its finished scene even when no check result is loaded
   const sceneRows = $derived<ObjectiveResult[]>(done ? rows.map((r) => ({ ...r, status: "passed" as const })) : rows);
   const errors = $derived(result && !result.compiled ? result.diagnostics : []);
@@ -128,7 +139,7 @@
     const c = await api.answerQuiz(id, answers);
     if (!c) { quizMsg = "Not quite. Re-read and try again."; return; }
     quizMsg = "";
-    app.ding();
+    play("clear");
     if (detail) detail.completed = true;
     if (c.first_time) app.celebrate(c);
   });
@@ -347,7 +358,7 @@
         {/if}
 
         {#if started}
-          <section class="rounded-2xl border border-line bg-panel p-5" data-testid="objectives">
+          <section class="rounded-2xl border p-5 {flash ? 'border-white bg-white' : 'border-line bg-panel'}" data-testid="objectives">
             <div class="mb-3 flex items-center justify-between">
               <h2 class="text-lg font-bold">Objectives</h2>
               <span class="text-sm text-dim tabular-nums">{passedCount}/{rows.length}</span>
@@ -370,13 +381,13 @@
             {/each}
 
             <ul class="flex flex-col gap-2">
-              {#each rows as r, i (r.test + (check?.tick ?? 0))}
+              {#each rows as r (r.test + (check?.tick ?? 0))}
                 <li class="rounded-xl border {tone[r.status]} {checking ? 'opacity-60' : ''}" data-status={r.status}>
                   <button
                     class="flex w-full items-start gap-3 px-3 py-2.5 text-left {r.status === 'failed' && r.output ? 'cursor-pointer' : 'cursor-default'}"
                     onclick={() => r.output && (expanded[r.test] = !expanded[r.test])}
                   >
-                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold {r.status === 'passed' ? 'tick bg-ok text-black' : r.status === 'failed' ? 'bg-bad text-black' : 'bg-line text-dim'}" style="animation-delay:{i * 260}ms">{icon[r.status]}</span>
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold {r.status === 'passed' ? 'tick bg-ok text-black' : r.status === 'failed' ? 'bg-bad text-black' : 'bg-line text-dim'}">{icon[r.status]}</span>
                     <span class="flex-1 text-ink">{r.label}</span>
                     {#if r.status === "failed" && r.output}<span class="text-xs text-dim">{expanded[r.test] ? "hide" : "why?"}</span>{/if}
                   </button>

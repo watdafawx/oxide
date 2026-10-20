@@ -101,7 +101,7 @@
       faceAt(to);
       hop++;
       puff++;
-      if (app.profile?.settings.sound) step();
+      step();
     };
     if (reduced) return arrive();
     walking = true;

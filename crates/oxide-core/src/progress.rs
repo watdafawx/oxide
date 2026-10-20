@@ -4,7 +4,7 @@ use std::collections::HashSet;
 use std::path::Path;
 
 use anyhow::{Context, Result};
-use chrono::{DateTime, Local, NaiveDate};
+use chrono::{DateTime, Local, NaiveDate, Timelike};
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 
@@ -33,6 +33,29 @@ pub fn level_for(total_xp: u32) -> (u32, u32, u32) {
 pub const FOCUS_MULTIPLIER: f64 = 1.5;
 /// Clippy had nothing to say.
 pub const CLEAN_BONUS: f64 = 0.10;
+/// Chance of a critical clear (2x XP) on a first-time clear.
+pub const CRIT_CHANCE: f64 = 0.12;
+/// Each combo step adds this to the XP multiplier, up to `COMBO_CAP` steps.
+pub const COMBO_STEP: f64 = 0.05;
+pub const COMBO_CAP: u32 = 10;
+/// A streak freeze is earned every this many streak days.
+pub const FREEZE_EVERY: u32 = 7;
+pub const MAX_FREEZES: u32 = 2;
+
+/// XP multiplier for a combo of `combo` consecutive clears.
+pub fn combo_multiplier(combo: u32) -> f64 {
+    1.0 + COMBO_STEP * combo.min(COMBO_CAP) as f64
+}
+
+/// Roll in [0, 1) from a quest id and a timestamp. No RNG crate: a hash is plenty for a loot roll.
+fn roll_for(quest_id: &str, now: DateTime<Local>) -> f64 {
+    use std::hash::{Hash, Hasher};
+    let mut h = std::collections::hash_map::DefaultHasher::new();
+    quest_id.hash(&mut h);
+    now.timestamp_nanos_opt().unwrap_or_default().hash(&mut h);
+    // top 53 bits -> exact f64 in [0, 1)
+    (h.finish() >> 11) as f64 / (1u64 << 53) as f64
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Profile {
@@ -43,6 +66,12 @@ pub struct Profile {
     pub streak_days: u32,
     pub best_streak: u32,
     pub last_active: Option<String>,
+    /// Consecutive first-time clears without a hint or a reset.
+    #[serde(default)]
+    pub combo: u32,
+    /// Streak freezes in stock (max `MAX_FREEZES`).
+    #[serde(default)]
+    pub freezes: u32,
     pub achievements: Vec<String>,
     pub completed: Vec<String>,
     pub started: Vec<String>,
@@ -61,6 +90,31 @@ pub struct Settings {
     /// How quests are told: `games` (default) or `plain`; falls back to plain per quest.
     #[serde(default = "default_flavour")]
     pub flavour: String,
+    /// Master volume 0-1.
+    #[serde(default = "default_volume")]
+    pub volume: f32,
+    #[serde(default)]
+    pub sounds: SoundToggles,
+}
+
+/// Per-sound switches; `Settings::sound` stays the master switch.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SoundToggles {
+    pub objective: bool,
+    pub clear: bool,
+    pub level: bool,
+    pub achievement: bool,
+    pub crit: bool,
+}
+
+impl Default for SoundToggles {
+    fn default() -> Self {
+        Self { objective: true, clear: true, level: true, achievement: true, crit: true }
+    }
+}
+
+fn default_volume() -> f32 {
+    0.6
 }
 
 fn default_flavour() -> String {
@@ -69,7 +123,15 @@ fn default_flavour() -> String {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { editor: String::new(), sound: true, focus_minutes: 25, track: String::new(), flavour: default_flavour() }
+        Self {
+            editor: String::new(),
+            sound: true,
+            focus_minutes: 25,
+            track: String::new(),
+            flavour: default_flavour(),
+            volume: default_volume(),
+            sounds: SoundToggles::default(),
+        }
     }
 }
 
@@ -83,6 +145,12 @@ pub struct Completion {
     pub focus_bonus: bool,
     pub clean: bool,
     pub first_time: bool,
+    /// Critical clear: XP doubled.
+    pub crit: bool,
+    /// Combo after this clear.
+    pub combo: u32,
+    /// XP multiplier the combo gave this clear (1.0 = none).
+    pub combo_mult: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -95,19 +163,40 @@ pub struct QuestRun {
     pub xp_awarded: u32,
 }
 
+/// An achievement the engine can award. Hidden ones show as "???" until earned.
+pub struct AchievementDef {
+    pub id: &'static str,
+    pub title: &'static str,
+    pub description: &'static str,
+    pub hidden: bool,
+}
+
+const fn ach(id: &'static str, title: &'static str, description: &'static str) -> AchievementDef {
+    AchievementDef { id, title, description, hidden: false }
+}
+
+const fn secret(id: &'static str, title: &'static str, description: &'static str) -> AchievementDef {
+    AchievementDef { id, title, description, hidden: true }
+}
+
 /// Every achievement the engine can award, for the profile grid.
-pub const ACHIEVEMENTS: &[(&str, &str, &str)] = &[
-    ("first-green", "First green", "Pass your first quest"),
-    ("no-hints", "Self-taught", "Clear a quest without a hint"),
-    ("speedrun", "Speedrun", "Clear a quest in under its estimate"),
-    ("streak-3", "Warming up", "3-day streak"),
-    ("streak-7", "On fire", "7-day streak"),
-    ("streak-30", "Unstoppable", "30-day streak"),
-    ("focus-first", "Deep work", "Clear a quest while the focus timer runs"),
-    ("boss", "Boss slayer", "Clear a boss"),
-    ("world", "World cleared", "Clear every quest in a world"),
-    ("ten-quests", "Grinder", "Clear 10 quests"),
-    ("clean-5", "Clippy's friend", "5 clean clears"),
+pub const ACHIEVEMENTS: &[AchievementDef] = &[
+    ach("first-green", "First green", "Pass your first quest"),
+    ach("no-hints", "Self-taught", "Clear a quest without a hint"),
+    ach("speedrun", "Speedrun", "Clear a quest in under its estimate"),
+    ach("streak-3", "Warming up", "3-day streak"),
+    ach("streak-7", "On fire", "7-day streak"),
+    ach("streak-30", "Unstoppable", "30-day streak"),
+    ach("focus-first", "Deep work", "Clear a quest while the focus timer runs"),
+    ach("boss", "Boss slayer", "Clear a boss"),
+    ach("world", "World cleared", "Clear every quest in a world"),
+    ach("ten-quests", "Grinder", "Clear 10 quests"),
+    ach("clean-5", "Clippy's friend", "5 clean clears"),
+    secret("early-bird", "Early bird", "Clear a quest before 07:00"),
+    secret("night-owl", "Night owl", "Clear a quest after 23:00"),
+    secret("one-save", "One save", "Go green on your first save"),
+    secret("comeback", "Comeback", "Clear a quest after 7+ days away"),
+    secret("crit-first", "Lucky strike", "Land your first critical clear"),
 ];
 
 pub struct Progress {
@@ -159,16 +248,24 @@ impl Progress {
                 completed INTEGER NOT NULL DEFAULT 0
              );",
         )?;
+        // Columns added after the first release; the error is "duplicate column" on migrated files.
+        for col in [
+            "ALTER TABLE profile ADD COLUMN combo INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE profile ADD COLUMN freezes INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE profile ADD COLUMN prev_active TEXT",
+        ] {
+            let _ = conn.execute(col, []);
+        }
         Ok(Self { conn })
     }
 
     pub fn profile(&self) -> Result<Profile> {
-        let (xp, streak_days, best_streak, last_active, settings): (u32, u32, u32, Option<String>, String) =
-            self.conn.query_row(
-                "SELECT xp, streak_days, best_streak, last_active, settings FROM profile WHERE id = 1",
-                [],
-                |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?)),
-            )?;
+        type Row = (u32, u32, u32, Option<String>, String, u32, u32);
+        let (xp, streak_days, best_streak, last_active, settings, combo, freezes): Row = self.conn.query_row(
+            "SELECT xp, streak_days, best_streak, last_active, settings, combo, freezes FROM profile WHERE id = 1",
+            [],
+            |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?, r.get(5)?, r.get(6)?)),
+        )?;
         let (level, xp_into_level, xp_for_next) = level_for(xp);
         let achievements = self.column("SELECT id FROM achievements ORDER BY earned_at")?;
         let completed = self.column("SELECT quest_id FROM quest_runs WHERE completed_at IS NOT NULL ORDER BY completed_at")?;
@@ -182,6 +279,8 @@ impl Progress {
             streak_days,
             best_streak,
             last_active,
+            combo,
+            freezes,
             achievements,
             completed,
             started,
@@ -238,6 +337,10 @@ impl Progress {
             "UPDATE quest_runs SET hints_used = MIN(hints_used + 1, ?2) WHERE quest_id = ?1",
             params![quest_id, total],
         )?;
+        // A hint on a quest still to clear breaks the combo.
+        if self.run(quest_id)?.is_some_and(|r| r.completed_at.is_none()) {
+            self.break_combo()?;
+        }
         Ok(self.run(quest_id)?.map(|r| r.hints_used).unwrap_or(0))
     }
 
@@ -247,31 +350,68 @@ impl Progress {
         self.touch(now.date_naive())
     }
 
-    /// Streak bookkeeping for activity on `today`.
+    /// Combo back to zero (hint used, quest reset).
+    pub fn break_combo(&self) -> Result<()> {
+        self.conn.execute("UPDATE profile SET combo = 0 WHERE id = 1", [])?;
+        Ok(())
+    }
+
+    /// Streak bookkeeping for activity on `today`. Skipped days are covered by freezes when there are enough.
     pub fn touch(&self, today: NaiveDate) -> Result<()> {
-        let last: Option<String> = self.conn.query_row("SELECT last_active FROM profile WHERE id = 1", [], |r| r.get(0))?;
+        let (last, streak, freezes): (Option<String>, u32, u32) = self.conn.query_row(
+            "SELECT last_active, streak_days, freezes FROM profile WHERE id = 1",
+            [],
+            |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
+        )?;
         let last = last.and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok());
-        let streak: u32 = self.conn.query_row("SELECT streak_days FROM profile WHERE id = 1", [], |r| r.get(0))?;
-        let new_streak = match last {
+        let (new_streak, mut freezes) = match last {
             Some(d) if d == today => return Ok(()),
-            Some(d) if d.succ_opt() == Some(today) => streak + 1,
-            _ => 1,
+            Some(d) => {
+                let missed = (today - d).num_days() - 1;
+                if missed <= 0 {
+                    (streak + 1, freezes)
+                } else if missed <= freezes as i64 {
+                    (streak + 1, freezes - missed as u32)
+                } else {
+                    (1, freezes)
+                }
+            }
+            None => (1, freezes),
         };
+        if new_streak > streak && new_streak % FREEZE_EVERY == 0 {
+            freezes = (freezes + 1).min(MAX_FREEZES);
+        }
         self.conn.execute(
-            "UPDATE profile SET streak_days = ?1, best_streak = MAX(best_streak, ?1), last_active = ?2 WHERE id = 1",
-            params![new_streak, today.format("%Y-%m-%d").to_string()],
+            "UPDATE profile SET streak_days = ?1, best_streak = MAX(best_streak, ?1), freezes = ?3,
+                    prev_active = last_active, last_active = ?2 WHERE id = 1",
+            params![new_streak, today.format("%Y-%m-%d").to_string(), freezes],
         )?;
         Ok(())
     }
 
-    /// The streak as of `today`: 0 if the learner skipped a day. Call from the UI; does not write.
-    pub fn streak_on(&self, today: NaiveDate) -> Result<u32> {
+    /// `(streak, freezes)` as of `today`: the streak is 0 if more days were skipped than freezes cover,
+    /// and freezes a pending skip would consume are already subtracted. Does not write.
+    pub fn streak_and_freezes_on(&self, today: NaiveDate) -> Result<(u32, u32)> {
         let p = self.profile()?;
         let last = p.last_active.and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok());
         Ok(match last {
-            Some(d) if d == today || d.succ_opt() == Some(today) => p.streak_days,
-            _ => 0,
+            Some(d) => {
+                let missed = ((today - d).num_days() - 1).max(0);
+                if missed == 0 {
+                    (p.streak_days, p.freezes)
+                } else if missed <= p.freezes as i64 {
+                    (p.streak_days, p.freezes - missed as u32)
+                } else {
+                    (0, p.freezes)
+                }
+            }
+            None => (0, p.freezes),
         })
+    }
+
+    /// The streak as of `today`: 0 if the learner skipped more days than freezes cover. Does not write.
+    pub fn streak_on(&self, today: NaiveDate) -> Result<u32> {
+        Ok(self.streak_and_freezes_on(today)?.0)
     }
 
     /// The quest went green. Awards XP once; later clears return `first_time = false` and 0 XP.
@@ -282,6 +422,19 @@ impl Progress {
         now: DateTime<Local>,
         focus_active: bool,
         clean: bool,
+    ) -> Result<Completion> {
+        self.complete_quest_with(catalog, quest, now, focus_active, clean, roll_for(&quest.id, now))
+    }
+
+    /// `complete_quest` with the crit roll (in [0, 1)) injected; below `CRIT_CHANCE` is a crit.
+    pub fn complete_quest_with(
+        &self,
+        catalog: &Catalog,
+        quest: &Quest,
+        now: DateTime<Local>,
+        focus_active: bool,
+        clean: bool,
+        crit_roll: f64,
     ) -> Result<Completion> {
         self.start_quest(&quest.id, now)?;
         let before = self.profile()?;
@@ -296,15 +449,24 @@ impl Progress {
                 focus_bonus: false,
                 clean,
                 first_time: false,
+                crit: false,
+                combo: before.combo,
+                combo_mult: 1.0,
             });
         }
 
-        let mut xp = quest.xp as f64;
+        let crit = crit_roll < CRIT_CHANCE;
+        let combo_mult = combo_multiplier(before.combo);
+        let combo = if run.hints_used > 0 { 0 } else { before.combo + 1 };
+        let mut xp = quest.xp as f64 * combo_mult;
         if focus_active {
             xp *= FOCUS_MULTIPLIER;
         }
         if clean {
             xp *= 1.0 + CLEAN_BONUS;
+        }
+        if crit {
+            xp *= 2.0;
         }
         let xp = xp.round() as u32;
 
@@ -312,7 +474,7 @@ impl Progress {
             "UPDATE quest_runs SET completed_at = ?2, xp_awarded = ?3 WHERE quest_id = ?1",
             params![quest.id, now.to_rfc3339(), xp],
         )?;
-        self.conn.execute("UPDATE profile SET xp = xp + ?1 WHERE id = 1", params![xp])?;
+        self.conn.execute("UPDATE profile SET xp = xp + ?1, combo = ?2 WHERE id = 1", params![xp, combo])?;
 
         // Achievements.
         let started = DateTime::parse_from_rfc3339(&run.started_at).map(|d| d.with_timezone(&Local)).ok();
@@ -353,6 +515,28 @@ impl Progress {
                 candidates.push(id);
             }
         }
+        // Hidden ones.
+        if now.hour() < 7 {
+            candidates.push("early-bird");
+        }
+        if now.hour() >= 23 {
+            candidates.push("night-owl");
+        }
+        // attempts <= 1: the starter's own red run does not count against the learner.
+        if run.attempts <= 1 && quest.has_project() {
+            candidates.push("one-save");
+        }
+        let prev_active: Option<String> = self.conn.query_row("SELECT prev_active FROM profile WHERE id = 1", [], |r| r.get(0))?;
+        let away = prev_active
+            .and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok())
+            .map(|d| (now.date_naive() - d).num_days())
+            .unwrap_or(0);
+        if away >= 7 {
+            candidates.push("comeback");
+        }
+        if crit {
+            candidates.push("crit-first");
+        }
         let mut new_achievements = Vec::new();
         for id in candidates {
             if self.award(id, now)? {
@@ -369,6 +553,9 @@ impl Progress {
             focus_bonus: focus_active,
             clean,
             first_time: true,
+            crit,
+            combo,
+            combo_mult,
         })
     }
 
@@ -486,7 +673,7 @@ mod tests {
         let cat = catalog();
         let q = &cat.worlds[0].quests[0];
         p.start_quest(&q.id, day(1)).unwrap();
-        let c = p.complete_quest(&cat, q, day(1), true, true).unwrap();
+        let c = p.complete_quest_with(&cat, q, day(1), true, true, 0.9).unwrap();
         assert_eq!(c.xp_awarded, 83); // 50 * 1.5 * 1.1 = 82.5
         assert!(c.first_time);
         assert!(c.new_achievements.contains(&"first-green".to_string()));
@@ -498,12 +685,12 @@ mod tests {
         assert!(!again.first_time);
 
         let boss = &cat.worlds[0].quests[1];
-        let c = p.complete_quest(&cat, boss, day(1), false, false).unwrap();
-        assert_eq!(c.xp_awarded, 300);
+        let c = p.complete_quest_with(&cat, boss, day(1), false, false, 0.9).unwrap();
+        assert_eq!(c.xp_awarded, 315); // combo of 1 before this clear: x1.05
         assert!(c.level_after > c.level_before);
         assert!(c.new_achievements.contains(&"boss".to_string()));
         assert!(c.new_achievements.contains(&"world".to_string()));
-        assert_eq!(p.profile().unwrap().xp, 383);
+        assert_eq!(p.profile().unwrap().xp, 398);
     }
 
     #[test]
@@ -529,8 +716,197 @@ mod tests {
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 1);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
-        let s = Settings { editor: "zed".into(), sound: false, focus_minutes: 15, track: "lua".into(), flavour: "plain".into() };
+        let s = Settings {
+            editor: "zed".into(),
+            sound: false,
+            focus_minutes: 15,
+            track: "lua".into(),
+            flavour: "plain".into(),
+            volume: 0.3,
+            sounds: SoundToggles { crit: false, ..Default::default() },
+        };
         p.set_settings(&s).unwrap();
-        assert_eq!(p.settings().unwrap().editor, "zed");
+        let got = p.settings().unwrap();
+        assert_eq!(got.editor, "zed");
+        assert!(!got.sounds.crit && got.sounds.clear);
+        assert!((got.volume - 0.3).abs() < 1e-6);
+    }
+
+    #[test]
+    fn old_settings_json_gets_sound_defaults() {
+        let s: Settings = serde_json::from_str(r#"{"editor":"","sound":true,"focus_minutes":25}"#).unwrap();
+        assert!((s.volume - 0.6).abs() < 1e-6);
+        assert!(s.sounds.objective && s.sounds.achievement);
+    }
+
+    #[test]
+    fn crit_doubles_xp_with_injected_roll() {
+        let cat = catalog();
+        let q = &cat.worlds[0].quests[0];
+        let p = Progress::in_memory().unwrap();
+        let c = p.complete_quest_with(&cat, q, day(1), false, false, 0.05).unwrap();
+        assert!(c.crit);
+        assert_eq!(c.xp_awarded, 100);
+        assert!(c.new_achievements.contains(&"crit-first".to_string()));
+
+        let p = Progress::in_memory().unwrap();
+        let c = p.complete_quest_with(&cat, q, day(1), false, false, 0.12).unwrap();
+        assert!(!c.crit);
+        assert_eq!(c.xp_awarded, 50);
+        assert!(!c.new_achievements.contains(&"crit-first".to_string()));
+        // repeat clears never crit
+        let again = p.complete_quest_with(&cat, q, day(1), false, false, 0.0).unwrap();
+        assert!(!again.crit && again.xp_awarded == 0);
+    }
+
+    #[test]
+    fn roll_is_in_range_and_varies() {
+        let a = roll_for("a/01-x", day(1));
+        let b = roll_for("a/01-x", day(2));
+        assert!((0.0..1.0).contains(&a) && (0.0..1.0).contains(&b));
+        assert_ne!(a, b);
+    }
+
+    fn many_quests(n: u32) -> Catalog {
+        Catalog {
+            tracks: vec![],
+            worlds: vec![World {
+                id: "00-w".into(),
+                track_id: "rust".into(),
+                index: 0,
+                slug: "w".into(),
+                title: "W".into(),
+                blurb: String::new(),
+                quests: (1..=n).map(|i| quest("00-w", i, QuestKind::Exercise, 100)).collect(),
+            }],
+        }
+    }
+
+    #[test]
+    fn combo_builds_multiplier_and_resets_on_hint_and_reset() {
+        let cat = many_quests(4);
+        let p = Progress::in_memory().unwrap();
+        let qs = &cat.worlds[0].quests;
+        let c1 = p.complete_quest_with(&cat, &qs[0], day(1), false, false, 0.9).unwrap();
+        assert_eq!((c1.combo, c1.xp_awarded), (1, 100)); // multiplier from the combo *before* this clear
+        let c2 = p.complete_quest_with(&cat, &qs[1], day(1), false, false, 0.9).unwrap();
+        assert_eq!((c2.combo, c2.xp_awarded), (2, 105));
+        // a hint on the next quest breaks it
+        p.start_quest(&qs[2].id, day(1)).unwrap();
+        p.use_hint(&qs[2].id, 3).unwrap();
+        assert_eq!(p.profile().unwrap().combo, 0);
+        let c3 = p.complete_quest_with(&cat, &qs[2], day(1), false, false, 0.9).unwrap();
+        assert_eq!((c3.combo, c3.xp_awarded), (0, 100));
+        p.complete_quest_with(&cat, &qs[3], day(1), false, false, 0.9).unwrap();
+        assert_eq!(p.profile().unwrap().combo, 1);
+        p.break_combo().unwrap();
+        assert_eq!(p.profile().unwrap().combo, 0);
+    }
+
+    #[test]
+    fn combo_multiplier_caps_at_ten() {
+        assert_eq!(combo_multiplier(0), 1.0);
+        assert!((combo_multiplier(4) - 1.2).abs() < 1e-9);
+        assert!((combo_multiplier(10) - 1.5).abs() < 1e-9);
+        assert!((combo_multiplier(99) - 1.5).abs() < 1e-9);
+    }
+
+    #[test]
+    fn seventh_day_earns_a_freeze_capped_at_two() {
+        let p = Progress::in_memory().unwrap();
+        for d in 1..=6 {
+            p.touch(day(d).date_naive()).unwrap();
+        }
+        assert_eq!(p.profile().unwrap().freezes, 0);
+        p.touch(day(7).date_naive()).unwrap();
+        assert_eq!(p.profile().unwrap().freezes, 1);
+        for d in 8..=21 {
+            p.touch(day(d).date_naive()).unwrap();
+        }
+        let pr = p.profile().unwrap();
+        assert_eq!((pr.streak_days, pr.freezes), (21, 2)); // third freeze is capped
+    }
+
+    #[test]
+    fn freeze_covers_a_skipped_day() {
+        let p = Progress::in_memory().unwrap();
+        for d in 1..=7 {
+            p.touch(day(d).date_naive()).unwrap();
+        }
+        // day 8 skipped: streak is alive on the 9th, one freeze pending
+        assert_eq!(p.streak_and_freezes_on(day(9).date_naive()).unwrap(), (7, 0));
+        p.touch(day(9).date_naive()).unwrap();
+        let pr = p.profile().unwrap();
+        assert_eq!((pr.streak_days, pr.freezes), (8, 0));
+        // two days skipped with no freeze left: resets
+        assert_eq!(p.streak_on(day(12).date_naive()).unwrap(), 0);
+        p.touch(day(12).date_naive()).unwrap();
+        assert_eq!(p.profile().unwrap().streak_days, 1);
+    }
+
+    #[test]
+    fn freeze_does_not_stretch_over_a_longer_gap() {
+        let p = Progress::in_memory().unwrap();
+        for d in 1..=7 {
+            p.touch(day(d).date_naive()).unwrap();
+        }
+        // 2 days missed, 1 freeze: not enough
+        assert_eq!(p.streak_on(day(10).date_naive()).unwrap(), 0);
+        p.touch(day(10).date_naive()).unwrap();
+        let pr = p.profile().unwrap();
+        assert_eq!((pr.streak_days, pr.freezes), (1, 1));
+    }
+
+    fn at(d: u32, h: u32) -> DateTime<Local> {
+        Local.with_ymd_and_hms(2026, 10, d, h, 0, 0).unwrap()
+    }
+
+    #[test]
+    fn hidden_time_of_day_achievements() {
+        let cat = many_quests(3);
+        let qs = &cat.worlds[0].quests;
+        let p = Progress::in_memory().unwrap();
+        let c = p.complete_quest_with(&cat, &qs[0], at(1, 6), false, false, 0.9).unwrap();
+        assert!(c.new_achievements.contains(&"early-bird".to_string()));
+        assert!(!c.new_achievements.contains(&"night-owl".to_string()));
+        let c = p.complete_quest_with(&cat, &qs[1], at(1, 23), false, false, 0.9).unwrap();
+        assert!(c.new_achievements.contains(&"night-owl".to_string()));
+        let c = p.complete_quest_with(&cat, &qs[2], at(1, 12), false, false, 0.9).unwrap();
+        assert!(!c.new_achievements.iter().any(|a| a == "early-bird" || a == "night-owl"));
+    }
+
+    #[test]
+    fn one_save_needs_no_failed_attempt_beyond_the_starter() {
+        let cat = many_quests(2);
+        let qs = &cat.worlds[0].quests;
+        let p = Progress::in_memory().unwrap();
+        p.start_quest(&qs[0].id, day(1)).unwrap();
+        p.record_attempt(&qs[0].id, day(1)).unwrap(); // starter run
+        assert!(p.complete_quest_with(&cat, &qs[0], day(1), false, false, 0.9).unwrap().new_achievements.contains(&"one-save".to_string()));
+        p.start_quest(&qs[1].id, day(1)).unwrap();
+        p.record_attempt(&qs[1].id, day(1)).unwrap();
+        p.record_attempt(&qs[1].id, day(1)).unwrap();
+        assert!(!p.complete_quest_with(&cat, &qs[1], day(1), false, false, 0.9).unwrap().new_achievements.contains(&"one-save".to_string()));
+    }
+
+    #[test]
+    fn comeback_after_a_week_away() {
+        let cat = many_quests(2);
+        let qs = &cat.worlds[0].quests;
+        let p = Progress::in_memory().unwrap();
+        p.complete_quest_with(&cat, &qs[0], day(1), false, false, 0.9).unwrap();
+        let c = p.complete_quest_with(&cat, &qs[1], day(9), false, false, 0.9).unwrap();
+        assert!(c.new_achievements.contains(&"comeback".to_string()));
+
+        let p = Progress::in_memory().unwrap();
+        p.complete_quest_with(&cat, &qs[0], day(1), false, false, 0.9).unwrap();
+        let c = p.complete_quest_with(&cat, &qs[1], day(3), false, false, 0.9).unwrap();
+        assert!(!c.new_achievements.contains(&"comeback".to_string()));
+    }
+
+    #[test]
+    fn hidden_flags_in_table() {
+        let hidden: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.hidden).map(|a| a.id).collect();
+        assert_eq!(hidden, ["early-bird", "night-owl", "one-save", "comeback", "crit-first"]);
     }
 }

@@ -73,6 +73,7 @@ struct Achievement {
     id: &'static str,
     title: &'static str,
     description: &'static str,
+    hidden: bool,
 }
 
 #[derive(Serialize, Clone)]
@@ -98,7 +99,7 @@ impl AppState {
     fn profile_now(&self) -> CmdResult<Profile> {
         let p = self.progress.lock().unwrap();
         let mut profile = p.profile().map_err(err)?;
-        profile.streak_days = p.streak_on(Local::now().date_naive()).map_err(err)?;
+        (profile.streak_days, profile.freezes) = p.streak_and_freezes_on(Local::now().date_naive()).map_err(err)?;
         Ok(profile)
     }
 
@@ -337,6 +338,8 @@ fn reset_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
     let quest = state.resolve(state.quest(&id)?);
     *state.watch.lock().unwrap() = None;
     workspace::reset(&state.quests_root, &quest).map_err(err)?;
+    state.progress.lock().unwrap().break_combo().map_err(err)?;
+    emit_profile(&app, &state);
     state.last_checks.lock().unwrap().remove(&id);
     watch_quest(&app, &state, &id)?;
     state.detail(&id)
@@ -386,7 +389,7 @@ fn get_profile(state: State<AppState>) -> CmdResult<Profile> {
 
 #[tauri::command]
 fn list_achievements() -> Vec<Achievement> {
-    ACHIEVEMENTS.iter().map(|(id, title, description)| Achievement { id, title, description }).collect()
+    ACHIEVEMENTS.iter().map(|a| Achievement { id: a.id, title: a.title, description: a.description, hidden: a.hidden }).collect()
 }
 
 #[tauri::command]

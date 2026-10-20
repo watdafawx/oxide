@@ -36,6 +36,19 @@
     return null;
   });
 
+  // Past 20:00 with nothing done today and a streak to lose: offer the shortest quest that is open.
+  const atRisk = $derived.by(() => {
+    const p = app.profile;
+    if (!p || p.streak_days < 1 || new Date().getHours() < 20) return null;
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    if (p.last_active === today) return null;
+    const open = (app.catalog[app.track?.id ?? ""] ?? [])
+      .flatMap((w) => w.quests)
+      .filter((q) => !p.completed.includes(q.id) && q.requires.every((r) => p.completed.includes(r)));
+    return open.sort((a, b) => a.minutes - b.minutes)[0] ?? null;
+  });
+
   async function start(id: string) {
     starting = true;
     try {
@@ -51,6 +64,13 @@
 
 <div class="mx-auto flex max-w-2xl flex-col gap-8 px-6 py-10">
   <XpBar />
+
+  {#if atRisk}
+    <a href="/quest/{atRisk.id}" class="flex items-center justify-between gap-3 rounded-2xl border border-amber-300/40 bg-amber-300/10 px-5 py-3 text-amber-200 hover:border-amber-300" data-testid="streak-nudge">
+      <span>Streak at risk: one quest keeps it alive</span>
+      <span class="shrink-0 font-semibold">{atRisk.title} · {atRisk.minutes} min →</span>
+    </a>
+  {/if}
 
   {#if home?.next}
     {@const q = home.next}

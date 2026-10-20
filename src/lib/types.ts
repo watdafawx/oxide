@@ -32,7 +32,14 @@ export interface World { id: string; track_id: string; index: number; slug: stri
 
 export interface FileEntry { path: string; bytes: number; read_only: boolean; primary: boolean }
 
-export interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string; flavour: string }
+export type SoundKey = "objective" | "clear" | "level" | "achievement" | "crit";
+export type SoundToggles = Record<SoundKey, boolean>;
+export interface Settings {
+  editor: string; sound: boolean; focus_minutes: number; track: string; flavour: string;
+  /** master volume 0-1 */
+  volume: number;
+  sounds: SoundToggles;
+}
 
 export interface Profile {
   xp: number;
@@ -42,13 +49,15 @@ export interface Profile {
   streak_days: number;
   best_streak: number;
   last_active: string | null;
+  combo: number;
+  freezes: number;
   achievements: string[];
   completed: string[];
   started: string[];
   settings: Settings;
 }
 
-export interface Achievement { id: string; title: string; description: string }
+export interface Achievement { id: string; title: string; description: string; hidden: boolean }
 
 export type ObjectiveStatus = "passed" | "failed" | "notrun";
 export interface ObjectiveResult { test: string; label: string; status: ObjectiveStatus; output: string | null }
@@ -72,6 +81,9 @@ export interface Completion {
   focus_bonus: boolean;
   clean: boolean;
   first_time: boolean;
+  crit: boolean;
+  combo: number;
+  combo_mult: number;
 }
 
 export interface QuestDetail {

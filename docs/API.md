@@ -45,6 +45,8 @@ interface Settings {
   sound: boolean; focus_minutes: number;
   track: string;     // active track id, "" = first
   flavour: string;   // "games" (default) | "plain" | any name from list_flavours
+  volume: number;    // 0-1, default 0.6; master volume for the synthesized sounds
+  sounds: { objective: boolean; clear: boolean; level: boolean; achievement: boolean; crit: boolean }; // per-sound toggles, default all true; `sound` stays the master switch
 }
 
 interface Profile {
@@ -55,13 +57,15 @@ interface Profile {
   streak_days: number;       // already adjusted for today (0 if a day was skipped)
   best_streak: number;
   last_active: string | null; // "YYYY-MM-DD"
+  combo: number;             // consecutive first-time clears without a hint or reset; next clear gets x(1 + 0.05 * min(combo, 10)) XP
+  freezes: number;           // streak freezes in stock (0-2), already minus those a pending skipped day will use; +1 every 7 streak days, a skipped day consumes one instead of resetting the streak
   achievements: string[];     // ids, see Achievement list
   completed: string[];        // quest ids
   started: string[];          // quest ids started but not completed
   settings: Settings;
 }
 
-interface Achievement { id: string; title: string; description: string }
+interface Achievement { id: string; title: string; description: string; hidden: boolean }  // hidden: show "???" until the id is in profile.achievements
 
 type ObjectiveStatus = "passed" | "failed" | "notrun";
 interface ObjectiveResult { test: string; label: string; status: ObjectiveStatus; output: string | null }
@@ -85,6 +89,9 @@ interface Completion {
   focus_bonus: boolean;
   clean: boolean;
   first_time: boolean;
+  crit: boolean;             // critical clear (12% on a first-time clear): xp_awarded is doubled
+  combo: number;             // profile.combo after this clear (0 if a hint had been used)
+  combo_mult: number;        // XP multiplier the combo gave this clear, 1 = none
 }
 
 interface QuestDetail {
@@ -121,12 +128,12 @@ interface Home {
 | `list_files` | `{ id }` | `FileEntry[]` | the started workspace's files (no target/build/.gradle), specs read-only, one `primary` |
 | `read_file` | `{ id, path }` | `string` | file text (≤ 512 KB) |
 | `write_file` | `{ id, path, text }` | `void` | save from the in-app editor; the watcher re-grades like any save; refuses read-only paths and paths outside the workspace |
-| `reset_quest` | `{ id }` | `QuestDetail` | wipes the workspace copy, keeps progress |
+| `reset_quest` | `{ id }` | `QuestDetail` | wipes the workspace copy, keeps progress; resets `combo` (a hint on an uncleared quest does too) |
 | `run_checks` | `{ id }` | `CheckResult` | manual run; the watcher also runs on save |
 | `answer_quiz` | `{ id, answers: number[] }` | `Completion \| null` | read quests; null when wrong |
 | `use_hint` | `{ id }` | `number` | hints now revealed |
 | `get_profile` | | `Profile` | |
-| `list_achievements` | | `Achievement[]` | static list with titles |
+| `list_achievements` | | `Achievement[]` | static list with titles; `hidden` ones (early-bird, night-owl, one-save, comeback, crit-first) are shown as "???" until earned |
 | `start_focus` | `{ id?: string, minutes }` | `number` | session id; engine emits `focus:tick` |
 | `stop_focus` | `{ completed: boolean }` | `void` | |
 | `run_program` | `{ id }` | `void` | runs the project (`cargo run`, or `src/main.lua` in-process); output streams as `run:output`; stops a previous run first |
@@ -155,3 +162,11 @@ Errors: commands reject with a string message. Show it in a toast, no stack trac
 `src/lib/api.ts`; when Tauri is absent it uses `src/lib/mock.ts` with a fake catalog and a
 fake check that flips objectives green two seconds after `run_checks`. Build all screens against
 the mock first.
+
+## Rewards ("juice")
+
+XP for a first-time clear = `quest.xp` x combo multiplier x 1.5 (focus) x 1.1 (clean) x 2 (crit), rounded.
+The combo multiplier uses the combo *before* the clear. Repeat clears give 0 XP and never crit.
+Sounds are synthesized in `src/lib/sound.ts` and gated by `settings.sound` (master), `settings.sounds.*` and `settings.volume`.
+When `check:result` arrives the UI ticks objectives over one at a time (120 ms apart, one scale note each), then plays the verdict
+(chord on green, a soft click on red), then shows the XP toast (`CRIT! 2x` when `completion.crit`) and queues achievement toasts (2.5 s each).
