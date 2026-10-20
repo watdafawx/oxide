@@ -16,6 +16,8 @@
 - `total_area`, `biggest`, `sort_by_area` are **generic** over `T: Hitbox`.
 - **`Scaled<H: Hitbox>`** wraps any hitbox and scales it about its top-left corner (a baby zombie, a giant). It is a `Hitbox` too.
 
+- **Tools:** `items.iter().max_by(|a, b| a.weight.total_cmp(&b.weight))` picks the biggest by an `f64` key (`max_by_key` cannot take floats). `items.sort_by(|a, b| a.weight.total_cmp(&b.weight))` sorts with the same closure. `iter().any(|s| s.is_big())` asks whether any item matches. `col as f64` turns a `usize` into an `f64`. `std::f64::consts::PI` is π.
+
 ## Your turn
 
 - Open `src/lib.rs`. Types and signatures are given. Every method is a `TODO`.

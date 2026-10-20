@@ -17,7 +17,7 @@ where
 
 /// How many items equal `target`.
 pub fn count_matching<T: PartialEq>(xs: &[T], target: &T) -> usize {
-    // TODO: count the items equal to target
+    // TODO: count the items equal to target (`filter` hands its closure a reference to each item, which is itself a reference: dereference with `*x` before comparing)
     todo!()
 }
 

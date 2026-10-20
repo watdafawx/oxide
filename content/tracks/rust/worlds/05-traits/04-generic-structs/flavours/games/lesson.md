@@ -18,6 +18,7 @@ impl<T: Display> Chest<T> {                // only when T can be printed
 
 - `impl<T>` declares `T`, then `Chest<T>` uses it.
 - A **bounded impl block** (`impl<T: Display>`) gives methods only to types that qualify.
+- **`PartialOrd`** means "can be compared with `<` and `>=`". **`Display`** means "can be printed with `{}`". They are bounds like any other.
 - `Chest<u32>` has `show`. `Chest<Vec<u32>>` does not: no `Display`.
 
 ## Your turn
