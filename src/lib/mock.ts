@@ -96,12 +96,18 @@ const quests: Quest[] = [
     hints: [{ text: "`table.insert(out, v)` appends." }] }),
 ];
 
+// the tutorial files predate the Why-now opener; give the mock one so the layout is visible
+const why = (line: string, body: string) => (body.startsWith("**Why now") ? body : `**Why now:** ${line}
+
+${body}`);
 const lessons: Record<string, string> = {
-  [`${T}/01-hello`]: helloLesson,
-  [`${T}/02-fix-it`]: fixLesson,
-  [`${T}/03-boss-name-tag`]: bossLesson,
+  [`${T}/01-hello`]: why("every program is built from small functions, and this one proves your edit, save, green loop works.", helloLesson),
+  [`${T}/02-fix-it`]: why("red tests are the normal state of programming; reading them calmly is the skill.", fixLesson),
+  [`${T}/03-boss-name-tag`]: why("bosses combine the small pieces you already own.", bossLesson),
 };
-const fallbackLesson = (qq: Quest) => qq.runner === "lua" ? `${qq.summary}
+const fallbackLesson = (qq: Quest) => qq.runner === "lua" ? `**Why now:** ${qq.summary}
+
+Lua builds strings with \`..\`, and a function hands a value back with \`return\`.
 
 \`\`\`lua
 local name = "Ada"
@@ -113,12 +119,24 @@ print("Hello, " .. name .. "!")
 - Open \`src/solution.lua\`.
 - \`tests.lua\` is the spec.
 - Make the objectives on the right go green.
-` : `${qq.summary}
+` : `**Why now:** ${qq.summary}
 
 \`\`\`rust
 fn main() {
     let name = "Ferris";
     println!("Hello, {name}!");
+}
+\`\`\`
+
+- \`let\` binds a name to a value.
+- \`println!\` prints a line; \`{name}\` splices the variable in.
+- The last expression of a function, without \`;\`, is what it returns.
+
+A second block shows the other half:
+
+\`\`\`rust
+fn shout(s: &str) -> String {
+    s.to_uppercase()
 }
 \`\`\`
 

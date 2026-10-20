@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { api, listen } from "./api";
 import { ding } from "./sound";
 import type { Achievement, CheckResult, Completion, Profile, Quest, RunStream, Track, World } from "./types";
@@ -6,6 +7,7 @@ export interface CheckState { running: boolean; result: CheckResult | null; tick
 export interface ConsoleLine { stream: RunStream | "input"; line: string }
 export interface RunState { running: boolean; lines: ConsoleLine[]; code: number | null | undefined }
 const MAX_LINES = 2000;
+export interface NextTarget { from: string; quest: Quest | null; label: string }
 export interface Toast { id: number; kind: "error" | "info"; text: string }
 
 class App {
@@ -21,6 +23,10 @@ class App {
   runs = $state<Record<string, RunState>>({});
   trackMenu = $state(false);
   celebration = $state<Completion | null>(null);
+  /** what to offer after `from` was cleared; quest null = nothing unlocked */
+  next = $state<NextTarget | null>(null);
+  /** quests whose starter run (red) is still to come; the quest page must not treat it as a failed attempt */
+  fresh = new Set<string>();
   private started = false;
   private tid = 0;
 
@@ -107,6 +113,46 @@ class App {
 
   celebrate(c: Completion) {
     this.celebration = c;
+    void this.refreshNext(c.quest_id);
+  }
+
+  /** ask `home` what comes after `from` */
+  async refreshNext(from: string) {
+    try {
+      const h = await api.home();
+      const n = h.next && h.next.id !== from ? h.next : null;
+      let label = "Next quest →";
+      if (n && n.world_id !== this.quest(from)?.world_id) {
+        const w = this.catalog[n.track_id]?.find((x) => x.id === n.world_id)?.title ?? n.world_id;
+        label = `World cleared · next: ${w}`;
+      }
+      this.next = { from, quest: n, label };
+    } catch (e) {
+      this.error(e);
+    }
+  }
+
+  /** start (copy the starter, run it once) and remember that its first red result is not the learner's */
+  async beginQuest(id: string) {
+    this.fresh.add(id);
+    try {
+      return await api.startQuest(id);
+    } catch (e) {
+      this.fresh.delete(id);
+      throw e;
+    }
+  }
+
+  async goNext() {
+    const n = this.next?.quest;
+    if (!n) return;
+    try {
+      const p = this.profile;
+      if (n.kind !== "read" && !p?.started.includes(n.id) && !p?.completed.includes(n.id)) await this.beginQuest(n.id);
+      await goto(`/quest/${n.id}`);
+    } catch (e) {
+      this.error(e);
+    }
   }
 
   toast(kind: Toast["kind"], text: string) {

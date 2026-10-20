@@ -2,10 +2,10 @@
   import { page } from "$app/state";
   import { api } from "$lib/api";
   import { app } from "$lib/store.svelte";
-  import { renderMarkdown } from "$lib/markdown";
+  import { readingMinutes, renderMarkdown, splitLesson } from "$lib/markdown";
   import QuestScene from "$lib/components/QuestScene.svelte";
   import { kindClass, kindLabel, mmss } from "$lib/ui";
-  import { tick } from "svelte";
+  import { tick, untrack } from "svelte";
   import type { CheckResult, ObjectiveResult, QuestDetail } from "$lib/types";
 
   const id = $derived(page.params.id ?? "");
@@ -17,10 +17,25 @@
   let answers = $state<number[]>([]);
   let quizMsg = $state("");
 
+  const ls = {
+    get(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k: string, v: string) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
+  };
+  let ticks = $state<number[]>([]);
+  let ideaOpen = $state(false);
+  const toggleTick = (i: number) => {
+    ticks = ticks.includes(i) ? ticks.filter((x) => x !== i) : [...ticks, i];
+    ls.set(`oxide:ticks:${id}`, JSON.stringify(ticks));
+  };
+  const setIdea = (v: boolean) => { ideaOpen = v; ls.set(`oxide:idea:${id}`, v ? "1" : "0"); };
+
   $effect(() => {
     const qid = id;
+    try { ticks = JSON.parse(ls.get(`oxide:ticks:${qid}`) ?? "[]"); } catch { ticks = []; }
+    ideaOpen = ls.get(`oxide:idea:${qid}`) === "1";
     void app.profile?.settings.flavour;
     detail = null;
+    seenTick = untrack(() => app.checks[qid]?.tick ?? 0);
     expanded = {};
     answers = [];
     quizMsg = "";
@@ -34,6 +49,22 @@
   const started = $derived(!!detail?.workspace);
   const done = $derived(detail?.completed ?? false);
   const lesson = $derived(detail ? renderMarkdown(detail.lesson) : "");
+  const parts = $derived(detail && detail.quest.kind !== "read" ? splitLesson(detail.lesson) : null);
+  const readMin = $derived(detail ? readingMinutes(detail.lesson) : 1);
+  const firstOpen = $derived(parts ? parts.tasks.findIndex((_, i) => !ticks.includes(i)) : -1);
+
+  // the first red result after the idea is still collapsed opens it once; the starter run does not count
+  let seenTick = 0;
+  $effect(() => {
+    const qid = id;
+    const c = app.checks[qid];
+    const t = c?.tick ?? 0;
+    if (t === seenTick) return;
+    seenTick = t;
+    if (!c?.result || c.result.ok) return;
+    if (app.fresh.delete(qid)) return;
+    if (ls.get(`oxide:idea:${qid}`) === null) untrack(() => setIdea(true));
+  });
   const focusHere = $derived(app.focus && app.focus.quest_id === id ? app.focus : null);
 
   // Refresh counters (attempts, completed) after each result.
@@ -60,7 +91,7 @@
       busy = false;
     }
   }
-  const start = () => wrap(async () => { detail = await api.startQuest(id); });
+  const start = () => wrap(async () => { detail = await app.beginQuest(id); });
   const reset = () => wrap(async () => {
     if (!confirm("Reset your copy of this quest? Progress stays, your code is wiped.")) return;
     delete app.checks[id];
@@ -89,6 +120,18 @@
     if (detail) detail.completed = true;
     if (c.first_time) app.celebrate(c);
   });
+
+  // ---- next quest ----
+  const nextHere = $derived(app.next && app.next.from === id ? app.next : null);
+  $effect(() => { if (done && app.next?.from !== id) void app.refreshNext(id); });
+  function onKey(e: KeyboardEvent) {
+    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || !done || !nextHere?.quest) return;
+    const el = e.target as HTMLElement | null;
+    if (el && (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(el.tagName))) return;
+    if (document.querySelector('[role="dialog"]')) return;
+    e.preventDefault();
+    void app.goNext();
+  }
 
   // ---- run pane ----
   const run = $derived(app.runs[id]);
@@ -140,6 +183,16 @@
   const tone = { passed: "border-ok/50 bg-ok/10 text-ok", failed: "border-bad/50 bg-bad/10 text-bad", notrun: "border-line bg-panel-2 text-dim" } as const;
 </script>
 
+<svelte:window onkeydown={onKey} />
+
+{#snippet nextBtn()}
+  {#if nextHere?.quest}
+    <button class="btn btn-primary flex-1" onclick={() => app.goNext()} data-testid="next-quest">{nextHere.label}</button>
+  {:else if nextHere}
+    <a class="btn btn-ghost flex-1 text-center" href="/map" data-testid="next-none">Nothing unlocked here; open the Map</a>
+  {/if}
+{/snippet}
+
 {#if !q || !detail}
   <div class="mx-auto max-w-6xl px-6 py-10"><div class="h-96 animate-pulse rounded-3xl bg-panel"></div></div>
 {:else}
@@ -153,7 +206,36 @@
         {#if done}<span class="rounded-full bg-ok/15 px-3 py-0.5 font-semibold text-ok">Cleared ✓</span>{/if}
       </div>
       <h1 class="mb-6 text-4xl font-extrabold">{q.title}</h1>
-      <div class="prose-ox text-lg">{@html lesson}</div>
+      {#if parts}
+        <section class="mb-6 rounded-2xl border border-rust/40 bg-panel p-5" data-testid="task">
+          <h2 class="mb-3 text-sm font-bold tracking-widest text-rust-hi uppercase">Your turn</h2>
+          <ul class="flex flex-col gap-2">
+            {#each parts.tasks as t, i}
+              <li>
+                <label class="flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 text-lg {i === firstOpen ? 'border-rust bg-rust/10' : 'border-line bg-panel-2'} {ticks.includes(i) ? 'opacity-60' : ''}">
+                  <input type="checkbox" class="mt-1.5 h-5 w-5 shrink-0 accent-orange-500" checked={ticks.includes(i)} onchange={() => toggleTick(i)} data-testid="task-tick" />
+                  <span class="prose-ox min-w-0 {ticks.includes(i) ? 'line-through' : ''}">{@html t}</span>
+                </label>
+              </li>
+            {/each}
+          </ul>
+        </section>
+        {#if parts.code}<div class="prose-ox big-code mb-6">{@html parts.code}</div>{/if}
+        {#if parts.why}<div class="prose-ox mb-6 rounded-xl border-l-4 border-line bg-panel/60 px-4 py-3 text-base text-dim" data-testid="why">{@html parts.why}</div>{/if}
+        {#if parts.idea}
+          <section class="rounded-2xl border border-line bg-panel" data-testid="idea-section">
+            <button class="flex w-full items-center gap-3 px-5 py-3 text-left font-semibold" aria-expanded={ideaOpen} onclick={() => setIdea(!ideaOpen)} data-testid="idea-toggle">
+              <span class="text-dim">{ideaOpen ? "▾" : "▸"}</span>
+              <span>The idea</span>
+              <span class="text-sm font-normal text-dim">· {parts.points} {parts.points === 1 ? "point" : "points"} · ~{parts.minutes} min</span>
+            </button>
+            {#if ideaOpen}<div class="prose-ox border-t border-line px-5 py-4 text-lg" data-testid="idea">{@html parts.idea}</div>{/if}
+          </section>
+        {/if}
+      {:else}
+        {#if q.kind === "read"}<div class="mb-4 text-sm text-dim" data-testid="read-time">~{readMin} min read</div>{/if}
+        <div class="prose-ox text-lg">{@html lesson}</div>
+      {/if}
 
       {#if run}
         <section bind:this={panelEl} class="mt-10 overflow-hidden rounded-2xl border border-line bg-[#0d0c0b]" data-testid="console">
@@ -201,7 +283,8 @@
           {/each}
           {#if quizMsg}<p class="mb-3 text-bad">{quizMsg}</p>{/if}
           {#if done}
-            <p class="font-semibold text-ok">Cleared ✓</p>
+            <p class="mb-3 font-semibold text-ok">Cleared ✓</p>
+            {@render nextBtn()}
           {:else}
             <button class="btn btn-primary w-full" disabled={busy || !quizReady} onclick={checkQuiz}>Check</button>
           {/if}
@@ -214,7 +297,11 @@
             <div class="flex flex-col gap-2">
               <button class="btn btn-primary w-full" disabled={busy} onclick={openEditor}>Open in editor</button>
               <div class="flex gap-2">
-                <button class="btn btn-ghost flex-1" disabled={busy || checking} onclick={runChecks}>Run checks</button>
+                {#if done}
+                  {@render nextBtn()}
+                {:else}
+                  <button class="btn btn-ghost flex-1" disabled={busy || checking} onclick={runChecks}>Run checks</button>
+                {/if}
                 {#if detail.has_program}
                   <button class="btn btn-ghost flex-1" disabled={busy || running} onclick={runProgram} data-testid="run">{running ? "Running…" : "Run"}</button>
                 {/if}
@@ -308,6 +395,8 @@
 {/if}
 
 <style>
+  .big-code :global(pre) { padding: 1.25rem 1.4rem; }
+  .big-code :global(pre code) { font-size: 1.2rem; line-height: 1.65; }
   .tick { animation: tick 0.35s ease-out both; }
   @keyframes tick { from { transform: scale(0.2); opacity: 0 } 60% { transform: scale(1.3) } to { transform: scale(1); opacity: 1 } }
 </style>

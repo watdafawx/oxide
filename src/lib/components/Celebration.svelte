@@ -36,13 +36,21 @@
     toastC = c;
     countUp(c.xp_awarded);
     clearTimeout(timer);
-    timer = setTimeout(() => (toastC = null), 5000);
+    timer = setTimeout(() => (toastC = null), 9000);
     if (levelUp) {
       modalC = c;
       showLevel = true;
       setTimeout(() => app.ding("level"), 350);
     }
   });
+
+  async function goNext() {
+    toastC = null;
+    closeModal();
+    await app.goNext();
+  }
+
+  const nextHere = $derived(app.next?.quest && app.next.from === (toastC ?? modalC)?.quest_id ? app.next : null);
 
   function closeModal() {
     showLevel = false;
@@ -57,6 +65,7 @@
     <div class="text-4xl font-extrabold text-rust-hi tabular-nums">+{shown} XP</div>
     <div class="text-sm text-dim">Quest cleared{toastC.clean ? " · clean compile" : ""}{toastC.focus_bonus ? " · focus bonus" : ""}</div>
     {#each toastC.new_achievements as a}<div class="mt-1 text-sm font-semibold text-amber-200">🏆 {app.achievementTitle(a)}</div>{/each}
+    {#if nextHere}<button class="btn btn-primary mt-3 w-full" onclick={goNext} data-testid="toast-next">{nextHere.label}</button>{/if}
   </div>
 {/if}
 
@@ -76,7 +85,12 @@
           </ul>
         </div>
       {/if}
-      <button class="btn btn-primary btn-lg mt-8 w-full" onclick={closeModal}>Keep going</button>
+      {#if nextHere}
+        <button class="btn btn-primary btn-lg mt-8 w-full" onclick={goNext} data-testid="toast-next">{nextHere.label}</button>
+        <button class="btn btn-ghost mt-2 w-full" onclick={closeModal}>Stay here</button>
+      {:else}
+        <button class="btn btn-primary btn-lg mt-8 w-full" onclick={closeModal}>Keep going</button>
+      {/if}
     </div>
   </div>
 {/if}
