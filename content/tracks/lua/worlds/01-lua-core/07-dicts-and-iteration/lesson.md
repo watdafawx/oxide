@@ -12,7 +12,7 @@ end
 - **Deleting while looping** is fine for fields that already exist: `chest[item] = nil` inside the loop is allowed. *Adding* new keys mid-loop is undefined.
 - `text:gmatch("%S+")` hands out the words of a string one by one (`%S+` = a run of non-space characters; patterns get their own quest next): `for word in text:gmatch("%S+") do ... end`.
 - `type(v)` returns `"table"`, `"number"`, `"string"`... : `type(v) == "table"` tells nested tables from plain values.
-- `local b = a` copies nothing: both names point at the same table. A *shallow* copy shares nested tables, so changing `b.stats.x` changes `a`'s too. A **deep copy** recurses.
+- `local b = a` copies nothing: both names point at the same table. A *shallow* copy shares nested tables, so changing `b.stats.x` changes `a`'s too. A **deep copy** recurses: **recursion** just means a function calls itself on the smaller piece (`M.deep_copy(v)` inside `M.deep_copy`).
 
 ```lua
 local function shallow(t)

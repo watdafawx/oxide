@@ -10,6 +10,7 @@ counts[#counts + 1] = 40        -- append
 table.insert(counts, 50)        -- same thing
 local last = table.remove(counts)   -- 50, and counts is shorter
 for i, v in ipairs(counts) do print(i, v) end   -- 1 10, 2 20, ...
+for _, v in ipairs(counts) do end   -- `_` is a name for "I don't need this one"
 table.sort(counts, function(a, b) return a > b end)   -- in place, descending
 print(table.concat(counts, ", "))   -- "40, 30, 20, 10"
 ```

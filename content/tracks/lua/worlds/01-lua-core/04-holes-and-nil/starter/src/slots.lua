@@ -15,13 +15,13 @@ end
 
 -- list with holes (length n) -> new dense list, same order
 function M.compact(list, n)
-  -- TODO: loop 1..n, keep the non-nil values
+  -- TODO: start with out = {}, loop i = 1..n, append list[i] to out when it is not nil
   return nil
 end
 
 -- pack arguments into a table that remembers the count in .n
 function M.pack_all(...)
-  -- TODO: table.pack
+  -- TODO: table.pack(...) keeps the nils and the count in .n
   return {...}
 end
 

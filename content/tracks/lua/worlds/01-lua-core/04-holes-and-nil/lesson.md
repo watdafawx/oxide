@@ -16,6 +16,7 @@ print(p.n)                  -- 3   pack stores the true count in `n`
 print(table.unpack(p, 1, p.n))  -- a nil nil
 ```
 
+- **`...`** in a parameter list (`function M.f(...)`) collects every argument the caller passed. Inside, `select("#", ...)` counts them and `table.pack(...)` stores them, nils and all. `~=` means "not equal": `if x ~= nil then` skips the holes.
 - **Rule:** `#` is only trustworthy on a list with no holes.
 - To remove from the middle, use `table.remove`. To keep nils on purpose, carry the length yourself (`n`).
 - `ipairs` stops at the first `nil`. A numeric `for i = 1, n` does not.

@@ -17,6 +17,8 @@ print(coroutine.resume(co, 7))    -- true  12
 print(coroutine.status(co))       -- dead
 ```
 
+- `while cond do ... end` repeats until `cond` is false; `while true do ... end` repeats until the function returns (or, in a coroutine, forever, pausing at each `yield`).
+- The **first** `resume(co, x)` has no `yield` waiting for it, so `x` becomes the coroutine function's parameter; later `resume` values come back from `yield`.
 - `create` + `resume` give you control; `wrap` returns a plain function that resumes for you (and re-raises errors).
 - `resume` returns `true, ...` or `false, errmessage`.
 - Statuses: `suspended`, `running`, `normal`, `dead`.

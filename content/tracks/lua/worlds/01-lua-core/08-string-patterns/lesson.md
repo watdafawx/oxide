@@ -17,6 +17,7 @@ print(("a,b"):gsub(",", "%%0"))     -- a%0b 1  in a replacement, %% is a literal
 - A **set** `[abc]` matches one character out of those listed; `[^,]` matches one that is *not* a comma. Inside a set `%` still escapes: `[%+%-]` is plus or minus.
 - An upper-case class is the opposite: `%S` is any non-space, `%D` any non-digit.
 - `s:match(pattern, i)` starts looking at index `i`; with `^` the match has to begin exactly there.
+- A `gsub` function gets the match as a **string**; `tonumber(n)` turns `"12"` into the number 12 so you can calculate with it.
 - In a `gsub` replacement string, `%0` is the whole match and `%%` a literal `%`.
 - `( )` captures what is inside. `^` and `$` pin to the start and end.
 - `%` is the escape: `%.` is a literal dot. The magic characters are `^$()%.[]*+-?`.

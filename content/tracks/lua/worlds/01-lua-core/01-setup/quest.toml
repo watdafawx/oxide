@@ -8,9 +8,9 @@ requires = []
 
 [[quiz]]
 question = "Which file do you edit in a Lua quest?"
-choices = ["the files under src/", "tests.lua", "lesson.md"]
+choices = ["the files under src/", "tests.lua, the spec that checks you", "lesson.md, the text you read first"]
 answer = 0
 [[quiz]]
 question = "Oxide runs Lua 5.2. Why that version?"
-choices = ["It is the newest", "5.4 has no tables", "It is what Factorio runs"]
+choices = ["It is the newest stable release", "5.4 has no tables, so 5.2 is the fallback", "It is what Factorio runs"]
 answer = 2

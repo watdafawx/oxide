@@ -2,7 +2,7 @@ title = "Holes and nil"
 summary = "nil in a list breaks `#`. Count, pack and compact around it."
 kind = "exercise"
 xp = 45
-minutes = 10
+minutes = 12
 tags = ["tables", "nil", "varargs"]
 
 [[objectives]]

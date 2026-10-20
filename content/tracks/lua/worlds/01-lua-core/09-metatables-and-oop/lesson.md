@@ -23,6 +23,8 @@ print(a:manhattan(Position.new(4, 6)), tostring(a + a))   -- 7  (2, 4)
 - `__index` fires only when a key is **missing**. `__newindex` fires when you write a **new** key.
 - Other hooks: `__call` (call the table), `__eq`, `__lt`, `__le`, `__len`, `__concat`.
 - `rawget` / `rawset` skip the hooks.
+- `__index` and `__newindex` can also hold a table or a function. `__index = t` reads missing keys from `t`; `__newindex = function(tbl, key, value) ... end` runs on every new-key write instead of storing it. `error("message")` stops the program with that message, which is how a table refuses a write.
+- `setmetatable(a, mt)` returns `a`, so you can build and wrap in one line: `setmetatable({}, {__index = t})`.
 
 ## Your turn
 

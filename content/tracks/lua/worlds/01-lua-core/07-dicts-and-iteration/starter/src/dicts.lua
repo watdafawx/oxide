@@ -2,7 +2,7 @@ local M = {}
 
 -- "iron coal iron" -> {iron = 2, coal = 1}
 function M.count_words(text)
-  -- TODO: gmatch over words, bump a counter per word
+  -- TODO: counts = {}; for each word from text:gmatch("%S+"), add 1 to counts[word] (a missing entry is nil: use `or 0`)
   return nil
 end
 
@@ -14,7 +14,7 @@ end
 
 -- copy a table and every table inside it
 function M.deep_copy(t)
-  -- TODO: recurse into values that are tables
+  -- TODO: make out = {}; for each key/value, if type(v) == "table" copy it by calling M.deep_copy(v), else copy v as it is
   return nil
 end
 

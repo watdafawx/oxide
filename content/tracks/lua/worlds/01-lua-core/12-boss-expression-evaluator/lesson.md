@@ -40,7 +40,7 @@ end
 ```
 
    Your `expr` is `sum` with `term()` instead of `number()` and `+`/`-` in the loop test; `term` does the same with `unary()` and `*`/`/`.
-3. **Evaluator**: a function that walks the tree: numbers return themselves, `bin` evaluates both sides and applies the operator.
+3. **Evaluator**: a function that walks the tree: numbers return themselves, `bin` evaluates both sides and applies the operator (`+ - * /` as in Lua, `a ^ b` is power; `-x` negates).
 
 Errors are part of the job: a bad input raises `"syntax error at position N: ..."` (positions count characters from 1), and `1 / 0` raises `"division by zero"`.
 

@@ -5,13 +5,13 @@ local Position = {}
 
 -- a new Position {x, y} that uses Position's methods
 function M.new(x, y)
-  -- TODO: setmetatable
+  -- TODO: return setmetatable({x = x, y = y}, Position)
   return {x = x, y = y}
 end
 
 -- |dx| + |dy|
 function Position:manhattan(other)
-  -- TODO
+  -- TODO: math.abs(self.x - other.x) + the same for y
   return nil
 end
 
@@ -23,7 +23,7 @@ end
 
 -- a proxy that reads from t but errors "read-only" on every write
 function M.read_only(t)
-  -- TODO: empty table + metatable with __index and __newindex
+  -- TODO: return setmetatable({}, {...}) where __index = t (reads fall through) and __newindex is a function that calls error("read-only")
   return t
 end
 

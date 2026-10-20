@@ -9,6 +9,18 @@ tests.lua         the spec: one t.test(...) per objective. Read it, do not edit 
 src/numbers.lua   what you write. require("numbers") in tests.lua loads it.
 ```
 
+Every file under `src/` is a **module**: a table of functions that the file hands back. You will see the same three parts in each starter, and you only fill in the bodies:
+
+```lua
+local M = {}                  -- the table that holds this file's functions
+
+function M.double(n)          -- a function called double, taking n
+  return n * 2                -- return gives the answer back
+end
+
+return M                      -- hand the table to whoever require()s the file
+```
+
 Save a file under `src/` and the objectives on the right re-run. A failing check prints the line in tests.lua that expected something else, and what it got:
 
 ```text
