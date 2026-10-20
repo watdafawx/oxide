@@ -12,6 +12,23 @@ async fn add(State(db): State<Db>, Json(new): Json<NewMod>)
 }
 ```
 
+```rust
+// one row or nothing: `.optional()` (use rusqlite::OptionalExtension) makes "no row" an Ok(None)
+let found: Option<ModRow> = conn
+    .query_row("SELECT id, name FROM mods WHERE id = ?1", params![id], |r| {
+        Ok(ModRow { id: r.get(0)?, name: r.get(1)? })
+    })
+    .optional()
+    .map_err(internal)?;                       // `internal` is given: any db error -> 500
+found.map(Json).ok_or(StatusCode::NOT_FOUND)   // Some(row) -> Json(row), None -> 404
+
+// a list: prepare, query_map, then collect the Results into one Result<Vec<_>, _>
+let rows = stmt.query_map([], |r| Ok(ModRow { id: r.get(0)?, name: r.get(1)? }))
+    .map_err(internal)?
+    .collect::<Result<Vec<_>, _>>()
+    .map_err(internal)?;
+```
+
 - Routes: `/mods` takes `get(list).post(add)`. `/mods/{id}` takes `get(one).delete(remove)`.
 - A `rusqlite::Connection` is not `Sync`, so share it as `Arc<Mutex<Connection>>`. Lock, query, drop the guard. Never hold it across an `.await`.
 - `query_row(..).optional()` turns "no row" into `Ok(None)`, which is how you spot a 404.

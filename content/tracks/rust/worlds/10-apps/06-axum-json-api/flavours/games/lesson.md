@@ -18,9 +18,11 @@ async fn total_size(Json(req): Json<SizesRequest>)                         // JS
 
 - **Extractors** pull data out of the request by their type: `Path<T>`, `Json<T>`, `State<T>`.
 - `Json<T>` as an argument parses the body (`Deserialize`). As a return it serialises it (`Serialize`).
-- A handler returning `Result<_, (StatusCode, Json<_>)>` chooses the status: `Err` is a 400, `Ok` a 200.
+- A handler returning `Result<_, (StatusCode, Json<_>)>` chooses the status: `Ok` is a 200, `Err` carries its own status (here a 400).
 - Shared server state goes in `State`, built with `.with_state(...)`. Use `Arc<Atomic..>` or `Arc<Mutex<..>>`: handlers run concurrently.
 - A tuple `(StatusCode::CREATED, Json(..))` sets a non-200 success status.
+- A counter shared by all handlers: `n.fetch_add(1, Ordering::SeqCst) + 1` bumps it and gives the new value (`fetch_add` returns the *old* one); **`n.load(Ordering::SeqCst)`** just reads it.
+- One path, two methods, and the state: `Router::new().route("/stats", get(show).post(add)).with_state(AppState::default())`.
 
 ## Your turn
 

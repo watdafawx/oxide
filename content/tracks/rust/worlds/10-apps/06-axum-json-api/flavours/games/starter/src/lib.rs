@@ -59,12 +59,12 @@ async fn install(State(state): State<AppState>) -> (StatusCode, Json<Count>) {
 
 /// GET /installs -> the current count.
 async fn installs(State(state): State<AppState>) -> Json<Count> {
-    // TODO: load the counter
+    // TODO: Json(Count { count: state.installs.load(Ordering::SeqCst) })
     todo!()
 }
 
 pub fn app() -> Router {
-    // TODO: add the three routes (welcome, total-size, installs with GET and POST) and .with_state(..)
+    // TODO: .route("/welcome/{player}", get(welcome)), .route("/total-size", post(total_size)), .route("/installs", get(installs).post(install)), then .with_state(AppState::default())
     Router::new()
 }
 

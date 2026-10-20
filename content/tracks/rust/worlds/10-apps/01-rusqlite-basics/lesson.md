@@ -6,6 +6,7 @@
 - `conn.execute(sql, params)` runs a statement that returns no rows and gives back how many rows it changed.
 - `?1`, `?2` in the SQL are placeholders. Fill them with `params![a, b]`. **Never** format values into the SQL string.
 - `conn.prepare(sql)` then `stmt.query_map(params, |row| ...)` runs a query and maps each row to your type. `row.get(0)?` reads column 0, and the type is inferred from where you put it.
+- `query_map` hands back an iterator of `Result` rows. Call **`.collect()`** on it and, when your function returns `Result<Vec<Mod>>`, you get the whole list or the first error.
 
 ```rust
 use rusqlite::{params, Connection};

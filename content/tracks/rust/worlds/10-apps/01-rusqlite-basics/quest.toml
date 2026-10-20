@@ -2,7 +2,7 @@ title = "Your first table"
 summary = "Open an in-memory SQLite database, insert rows and read them back."
 kind = "exercise"
 xp = 35
-minutes = 4
+minutes = 6
 tags = ["rusqlite", "sqlite", "sql"]
 
 [[objectives]]

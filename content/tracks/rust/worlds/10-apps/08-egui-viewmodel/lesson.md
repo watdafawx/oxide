@@ -24,6 +24,8 @@ assert_eq!(*harness.state(), 1);
 
 `get_by_label` panics when nothing matches, so a missing label fails the test with a clear message.
 
+Layout is a closure too: **`ui.horizontal(|ui| { ... })`** puts the widgets inside it side by side, and `ui.label(text)` draws text (a `String` is fine). Widgets outside it stack downwards. To stop a `u32` at zero, use `n.saturating_sub(1)`: it subtracts but never goes below 0.
+
 **First build:** this quest compiles egui and egui_kittest (about 2-4 min the first time). Later runs take seconds.
 
 ## Your turn

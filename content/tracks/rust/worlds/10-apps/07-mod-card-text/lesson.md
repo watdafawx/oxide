@@ -11,6 +11,13 @@ let enabled = [true, false, true];
 let on = enabled.iter().filter(|e| **e).count();   // 2
 ```
 
+`if` is an expression, so it can pick a value, and a closure can unpack a pair right in its parameter list:
+
+```rust
+let mark = if on { "[x]" } else { "[ ]" };            // a &str chosen by the bool
+let ready = pairs.iter().filter(|(_, ok)| *ok).count(); // pairs: &[(&str, bool)]; `*ok` is the bool
+```
+
 Oxide's own UI uses the same `[x] label` / `[ ] label` style for objectives.
 
 ## Your turn

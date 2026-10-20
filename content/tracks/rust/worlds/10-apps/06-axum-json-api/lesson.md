@@ -20,6 +20,13 @@ async fn add(
 }
 ```
 
+More pieces from the same family:
+
+- `Path(name): Path<String>` is the same destructuring as `State(..)`: the URL part lands in `name`.
+- Reading a shared counter is **`total.load(Ordering::SeqCst)`**; `fetch_add` bumps it and returns the *old* value, hence the `+ req.n`.
+- A success with a custom status is a tuple: `(StatusCode::CREATED, Json(Out { total: 1 }))`.
+- `req.numbers.iter().sum()` adds a list; the function's return type tells it what number type to make.
+
 Routes are already wired in `app()`. Your job is the handlers.
 
 ## Your turn

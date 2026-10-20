@@ -8,17 +8,17 @@ tags = ["egui", "gpui", "tauri", "ui"]
 [[quiz]]
 question = "What is the real difference between egui (immediate mode) and GPUI (retained mode)?"
 choices = [
-  "egui describes the whole UI again from your state every frame; GPUI keeps view objects alive and re-renders a view when it is told its state changed",
-  "egui draws with HTML and CSS; GPUI draws with native widgets",
-  "egui keeps a tree of widget objects you update with setters; GPUI has no state at all",
+  "egui draws with HTML and CSS inside a webview; GPUI draws native widgets from a setter-driven tree",
+  "egui keeps a tree of widget objects you update with setters; GPUI has no state of its own at all",
+  "egui redraws everything from your state each frame; GPUI keeps views and repaints on notify",
 ]
-answer = 0
+answer = 2
 
 [[quiz]]
 question = "You already have a polished Svelte UI and want a desktop app, with Rust doing the files and database work. Which stack fits?"
 choices = [
-  "egui, because immediate mode is faster to port",
-  "Tauri: the webview shows your Svelte app and Rust commands do the native work",
-  "GPUI, because it renders Svelte components on the GPU",
+  "egui, because immediate mode is the quickest way to port an existing web UI to Rust",
+  "GPUI, because it renders Svelte components on the GPU for you without any webview",
+  "Tauri: the webview shows your Svelte app, Rust commands do the native work",
 ]
-answer = 1
+answer = 2

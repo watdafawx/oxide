@@ -22,6 +22,8 @@ if v < 2 { /* ALTER TABLE ... */ }
 conn.pragma_update(None, "user_version", 2)?;
 ```
 
+Two more calls: **`tx.execute_batch(sql)`** runs a statement with no placeholders and no params (good for `CREATE TABLE` / `ALTER TABLE`), and **`tx.pragma_update(None, "user_version", 2)?`** writes the version number back. `commit()` returns a `Result`, so a function can end with `tx.commit()`.
+
 ## Your turn
 
 In `src/lib.rs` (`version` is done for you):

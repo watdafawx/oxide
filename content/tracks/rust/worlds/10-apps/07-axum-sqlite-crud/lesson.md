@@ -21,6 +21,12 @@ async fn one(State(db): State<Db>, Path(id): Path<i64>) -> Result<Json<Note>, St
 }
 ```
 
+Three more reminders from the rusqlite quest:
+
+- `conn.execute(..)` returns how many rows it changed. A `DELETE` that returns `0` found nothing.
+- A list comes from `conn.prepare(sql)`, then `stmt.query_map([], |r| Ok(Note { .. }))`, then **`.collect::<Result<Vec<_>, _>>()`**; each of those steps ends in `.map_err(internal)?`.
+- `conn.last_insert_rowid()` is the id the INSERT just made.
+
 Routing and the table are set up for you; the tests use a fresh in-memory database each time.
 
 ## Your turn

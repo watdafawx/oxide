@@ -23,7 +23,18 @@ Exact texts the tests look for:
 | Home | heading `Oxide`, `Level 1`, `40 / 100 XP`, card title, button `Start` |
 | Quest | heading with the title, `0/2 objectives`, `[ ] label` or `[x] label`, buttons `Run checks` and `Back` |
 | Toast | `+50 XP` |
-| Modal | heading `Level up!`, `You reached level 2`, button `Continue` | Stage your work: the first objective is a pure function, then Home, then each screen in turn. Run the tests after every method.
+| Modal | heading `Level up!`, `You reached level 2`, button `Continue` |
+
+Stage your work: the first objective is a pure function, then Home, then each screen in turn. Run the tests after every method.
+
+**Small tools you will want** (most are new here):
+
+- `x.clamp(0.0, 1.0)` forces a number into a range. Dividing by a zero `f32` gives NaN or infinity, so check for `0` first.
+- `opt.as_ref()` turns `&Option<T>` into `Option<&T>`, so you can look inside without moving it. `opt.map_or(0, f)` is "`f(value)` if `Some`, else `0`"; `opt.is_some_and(|v| ..)` is a `bool`.
+- **let-else** gets the value or leaves early: `let Some(d) = &self.detail else { return; };`
+- Borrow rule of thumb: `self.home.next` borrowed in a `match` blocks `self.start(..)` inside it. Save what you need in a local first (an `Option<String>` of the id), act after the match.
+- egui drawing: `ui.heading("Oxide")`, `ui.label(text)`, `ui.separator()`, `ui.button("Go").clicked()`, and a bar with `ui.add(egui::ProgressBar::new(0.4))` (0.0 to 1.0). Keys: `ui.input(|i| i.key_pressed(egui::Key::Escape))`.
+- A modal: `egui::Modal::new(egui::Id::unique("name")).show(ctx, |ui| { ... })` draws a box over the screen and returns a response; `response.should_close()` is true after Esc or a click outside.
 
 ## Your turn
 

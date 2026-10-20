@@ -1,18 +1,17 @@
 **Why now:** the mod manager needs a screen with "Mods enabled: 12", a `+`, a `-` and a Reset. In egui the screen is a function you run every frame. Put the **state and logic in a struct** (the view model), draw it in one `ui` method, and tests can click buttons with `egui_kittest`: no window, no GPU.
 
 ```rust
-pub struct ModCounter { pub count: u32 }
+pub struct Greeter { pub name: String, pub waves: u32 }
 
-impl ModCounter {
-    pub fn label(&self) -> String { format!("Mods enabled: {}", self.count) }
+impl Greeter {
+    pub fn title(&self) -> String { format!("Hello, {}", self.name) }
 
     pub fn ui(&mut self, ui: &mut egui::Ui) {
-        ui.horizontal(|ui| {
-            if ui.button("-").clicked() { self.decrement(); }
-            ui.label(self.label());
-            if ui.button("+").clicked() { self.increment(); }
+        ui.label(self.title());                      // draws text
+        ui.horizontal(|ui| {                         // children sit side by side
+            ui.label("Waves:");
+            if ui.button("Wave").clicked() { self.waves += 1; }
         });
-        if ui.button("Reset").clicked() { self.reset(); }
     }
 }
 ```
