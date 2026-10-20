@@ -4,6 +4,7 @@
   import { app } from "$lib/store.svelte";
   import { readingMinutes, renderMarkdown, splitLesson } from "$lib/markdown";
   import QuestScene from "$lib/components/QuestScene.svelte";
+  import CodeEditor from "$lib/components/CodeEditor.svelte";
   import { kindClass, kindLabel, mmss } from "$lib/ui";
   import { tick, untrack } from "svelte";
   import type { CheckResult, ObjectiveResult, QuestDetail } from "$lib/types";
@@ -13,6 +14,8 @@
   let detail = $state<QuestDetail | null>(null);
   let busy = $state(false);
   let copied = $state(false);
+  let codeCopied = $state(false);
+  let resetN = $state(0);
   let expanded = $state<Record<string, boolean>>({});
   let answers = $state<number[]>([]);
   let quizMsg = $state("");
@@ -96,9 +99,18 @@
     if (!confirm("Reset your copy of this quest? Progress stays, your code is wiped.")) return;
     delete app.checks[id];
     detail = await api.resetQuest(id);
+    resetN++;
+  });
+  const externalName = $derived.by(() => {
+    const e = (app.profile?.settings.editor ?? "").trim().split(/[\/]/).pop()?.replace(/\.(exe|cmd|bat)$/i, "").toLowerCase() ?? "";
+    return e === "code" || e === "code-insiders" ? "VS Code" : e || "editor";
   });
   const openEditor = () => wrap(() => api.openEditor(id));
   const runChecks = () => wrap(async () => { await api.runChecks(id); });
+  async function copyCode(e: MouseEvent) {
+    const pre = (e.currentTarget as HTMLElement).parentElement?.querySelector("pre");
+    try { await navigator.clipboard.writeText(pre?.textContent ?? ""); codeCopied = true; setTimeout(() => (codeCopied = false), 1500); } catch { app.toast("error", "Copy failed"); }
+  }
   const hint = () => wrap(async () => {
     const n = await api.useHint(id);
     if (detail) detail.hints_used = n;
@@ -196,7 +208,7 @@
 {#if !q || !detail}
   <div class="mx-auto max-w-6xl px-6 py-10"><div class="h-96 animate-pulse rounded-3xl bg-panel"></div></div>
 {:else}
-  <div class="mx-auto grid max-w-6xl gap-8 px-6 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
+  <div class="mx-auto grid max-w-[96rem] gap-8 px-6 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
     <!-- lesson -->
     <article class="min-w-0">
       <div class="mb-3 flex flex-wrap items-center gap-3 text-sm">
@@ -220,7 +232,12 @@
             {/each}
           </ul>
         </section>
-        {#if parts.code}<div class="prose-ox big-code mb-6">{@html parts.code}</div>{/if}
+        {#if parts.code}
+          <div class="group relative mb-6">
+            <div class="prose-ox big-code">{@html parts.code}</div>
+            <button class="absolute top-2 right-2 rounded-md border border-line bg-panel-2 px-2.5 py-1 text-xs text-dim hover:text-ink" onclick={copyCode} data-testid="copy-code">{codeCopied ? "Copied" : "Copy"}</button>
+          </div>
+        {/if}
         {#if parts.why}<div class="prose-ox mb-6 rounded-xl border-l-4 border-line bg-panel/60 px-4 py-3 text-base text-dim" data-testid="why">{@html parts.why}</div>{/if}
         {#if parts.idea}
           <section class="rounded-2xl border border-line bg-panel" data-testid="idea-section">
@@ -231,6 +248,13 @@
             </button>
             {#if ideaOpen}<div class="prose-ox border-t border-line px-5 py-4 text-lg" data-testid="idea">{@html parts.idea}</div>{/if}
           </section>
+        {/if}
+        {#if started}
+          <div class="mt-6">
+            {#key `${detail.workspace}|${resetN}`}
+              <CodeEditor {id} diagnostics={result?.diagnostics ?? []} {checking} />
+            {/key}
+          </div>
         {/if}
       {:else}
         {#if q.kind === "read"}<div class="mb-4 text-sm text-dim" data-testid="read-time">~{readMin} min read</div>{/if}
@@ -295,7 +319,7 @@
             <button class="btn btn-primary btn-lg w-full" disabled={busy} onclick={start}>Start quest</button>
           {:else}
             <div class="flex flex-col gap-2">
-              <button class="btn btn-primary w-full" disabled={busy} onclick={openEditor}>Open in editor</button>
+              
               <div class="flex gap-2">
                 {#if done}
                   {@render nextBtn()}
@@ -307,6 +331,9 @@
                 {/if}
                 <button class="btn btn-ghost" disabled={busy || checking || running} onclick={reset}>Reset</button>
               </div>
+              {#if app.profile?.settings.editor}
+                <button class="btn btn-ghost w-full" disabled={busy} onclick={openEditor} data-testid="open-external">Open in {externalName}</button>
+              {/if}
             </div>
             <div class="mt-3 flex items-center gap-2 text-xs text-dim">
               <code class="min-w-0 flex-1 truncate font-mono" title={detail.workspace}>{detail.workspace}</code>
@@ -365,7 +392,7 @@
                 {result.ok ? "All green" : result.compiled ? "Some tests failing" : q.runner === "lua" ? "Script error" : "Doesn't compile"} · {(result.duration_ms / 1000).toFixed(1)}s
               </div>
             {/if}
-            <div class="mt-3 text-xs text-dim" data-testid="help">{q.runner === "lua" ? "Edit src/*.lua, tests.lua is the spec. Save and checks run automatically." : "Edit src/lib.rs, save, and checks run automatically."}</div>
+            <div class="mt-3 text-xs text-dim" data-testid="help">{q.runner === "lua" ? "Edit src/*.lua, tests.lua is the spec. Save (Ctrl+S) and checks run automatically." : "Edit the code on the left, save (Ctrl+S), and checks run automatically."}</div>
           </section>
         {/if}
       {/if}

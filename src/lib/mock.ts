@@ -5,6 +5,7 @@ import type {
 } from "./types";
 import helloLesson from "../../content/tracks/rust/worlds/00-tutorial/01-hello/lesson.md?raw";
 import fixLesson from "../../content/tracks/rust/worlds/00-tutorial/02-fix-it/lesson.md?raw";
+import starterRs from "../../content/tracks/rust/worlds/00-tutorial/01-hello/starter/src/lib.rs?raw";
 import bossLesson from "../../content/tracks/rust/worlds/00-tutorial/03-boss-name-tag/lesson.md?raw";
 
 // ---------- event bus ----------
@@ -198,7 +199,7 @@ const state = {
   completed: [] as string[],
   started: [] as string[],
   achievements: ["streak-3"] as string[],
-  settings: { editor: "code", sound: true, focus_minutes: 25, track: "rust", flavour: "games" },
+  settings: { editor: "", sound: true, focus_minutes: 25, track: "rust", flavour: "games" },
   hints: {} as Record<string, number>,
   attempts: {} as Record<string, number>,
   last: {} as Record<string, CheckResult | null>,
@@ -308,6 +309,23 @@ async function runCycle(id: string): Promise<CheckResult> {
   return result;
 }
 
+// ---------- fake workspace files ----------
+const files: Record<string, Map<string, string>> = {};
+const LUA_SRC = 'local M = {}\n\nfunction M.greet(name)\n  return "Hello, " .. name\nend\n\nreturn M\n';
+const RS_FALLBACK = "pub fn answer() -> u32 {\n    todo!()\n}\n";
+const CARGO = '[package]\nname = "quest"\nversion = "0.1.0"\nedition = "2021"\n';
+function filesOf(id: string): Map<string, string> {
+  if (!files[id]) {
+    files[id] = byId(id).runner === "lua"
+      ? new Map([["src/solution.lua", LUA_SRC], ["tests.lua", "-- the spec\n"]])
+      : new Map([["src/lib.rs", id.endsWith("01-hello") ? starterRs : RS_FALLBACK], ["Cargo.toml", CARGO], ["tests/spec.rs", "// the spec\n"]]);
+  }
+  return files[id];
+}
+const primaryOf = (id: string) => (byId(id).runner === "lua" ? "src/solution.lua" : "src/lib.rs");
+const readOnly = (p: string) => p === "tests.lua" || p.startsWith("tests/");
+let writeTimer: ReturnType<typeof setTimeout> | null = null;
+
 // ---------- fake program run ----------
 const run = { timers: [] as ReturnType<typeof setTimeout>[], id: "", live: false };
 function endRun(code: number | null) {
@@ -372,8 +390,46 @@ export const mockHandlers: MockHandlers = {
     }
     return detail(id);
   },
-  async open_editor() { console.info("[mock] open_editor"); },
-  async reset_quest({ id }) { state.last[id] = null; state.attempts[id] = 0; return detail(id); },
+  async open_editor() {
+    if (!state.settings.editor) throw new Error("No external editor is set.");
+    console.info("[mock] open_editor");
+  },
+  async list_files({ id }) {
+    return [...filesOf(id)].map(([path, text]) => ({ path, bytes: text.length, read_only: readOnly(path), primary: path === primaryOf(id) }));
+  },
+  async read_file({ id, path }) {
+    const t = filesOf(id).get(path);
+    if (t === undefined) throw new Error(`no such file: ${path}`);
+    return t;
+  },
+  async write_file({ id, path, text }) {
+    const f = filesOf(id);
+    if (!f.has(path)) throw new Error(`no such file: ${path}`);
+    if (readOnly(path)) throw new Error(`${path} is read only`);
+    f.set(path, text);
+    if (path !== primaryOf(id)) return;
+    // the watcher: re-grade 1.5 s after the last write
+    if (writeTimer) clearTimeout(writeTimer);
+    const qq = byId(id);
+    emit("check:started", { quest_id: id });
+    writeTimer = setTimeout(() => {
+      writeTimer = null;
+      let result: CheckResult;
+      if (text.includes("oops")) {
+        const line = text.slice(0, text.indexOf("oops")).split("\n").length;
+        result = grade(qq, "compile");
+        result.diagnostics = [{
+          level: "error", message: "cannot find value `oops` in this scope", file: primaryOf(id), line,
+          rendered: "error[E0425]: cannot find value `oops` in this scope\n --> " + primaryOf(id) + ":" + line + ":5",
+        }];
+      } else result = grade(qq, text.includes("format!") ? "pass" : "fail");
+      state.attempts[id] = (state.attempts[id] ?? 0) + 1;
+      state.last[id] = result;
+      const completion = result.ok ? complete(qq, true) : null;
+      emit("check:result", { quest_id: id, result, completion });
+    }, 1500);
+  },
+  async reset_quest({ id }) { delete files[id]; state.last[id] = null; state.attempts[id] = 0; return detail(id); },
   async run_checks({ id }) {
     if (busy) throw new Error("A check is already running.");
     return runCycle(id);

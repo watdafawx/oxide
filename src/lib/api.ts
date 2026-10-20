@@ -1,7 +1,7 @@
 // Typed wrappers over Tauri commands/events (docs/API.md).
 // Without Tauri (plain `pnpm dev`) everything is routed to ./mock.
 import type {
-  Achievement, CheckResult, Completion, EventMap, Home, Profile, QuestDetail, Settings, Track, World,
+  Achievement, CheckResult, Completion, EventMap, FileEntry, Home, Profile, QuestDetail, Settings, Track, World,
 } from "./types";
 import { mockHandlers, mockListen } from "./mock";
 
@@ -17,6 +17,9 @@ export interface Commands {
   get_quest: { args: { id: string }; ret: QuestDetail };
   start_quest: { args: { id: string }; ret: QuestDetail };
   open_editor: { args: { id: string }; ret: void };
+  list_files: { args: { id: string }; ret: FileEntry[] };
+  read_file: { args: { id: string; path: string }; ret: string };
+  write_file: { args: { id: string; path: string; text: string }; ret: void };
   reset_quest: { args: { id: string }; ret: QuestDetail };
   run_checks: { args: { id: string }; ret: CheckResult };
   answer_quiz: { args: { id: string; answers: number[] }; ret: Completion | null };
@@ -66,6 +69,9 @@ export const api = {
   getQuest: (id: string) => call("get_quest", { id }),
   startQuest: (id: string) => call("start_quest", { id }),
   openEditor: (id: string) => call("open_editor", { id }),
+  listFiles: (id: string) => call("list_files", { id }),
+  readFile: (id: string, path: string) => call("read_file", { id, path }),
+  writeFile: (id: string, path: string, text: string) => call("write_file", { id, path, text }),
   resetQuest: (id: string) => call("reset_quest", { id }),
   runChecks: (id: string) => call("run_checks", { id }),
   answerQuiz: (id: string, answers: number[]) => call("answer_quiz", { id, answers }),

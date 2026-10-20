@@ -5,6 +5,8 @@
   import type { Settings } from "$lib/types";
 
   let dates = $state<Set<string>>(new Set());
+  let autosave = $state((() => { try { return localStorage.getItem("oxide:autosave") !== "0"; } catch { return true; } })());
+  const setAutosave = (v: boolean) => { autosave = v; try { localStorage.setItem("oxide:autosave", v ? "1" : "0"); } catch { /* private mode */ } };
   let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games" });
   let saved = $state(false);
   let dirty = $state(false);
@@ -137,9 +139,9 @@
     <h2 class="mb-3 text-xl font-bold">Settings</h2>
     <form class="flex flex-col gap-5 rounded-2xl border border-line bg-panel p-6" onsubmit={(e) => { e.preventDefault(); void save(); }} oninput={() => (dirty = true)}>
       <label class="flex flex-col gap-1.5">
-        <span class="font-semibold">Editor command</span>
-        <input class="rounded-xl border border-line bg-bg px-4 py-2.5 font-mono" bind:value={form.editor} placeholder="code" />
-        <span class="text-sm text-dim">Run with the quest folder as its argument.</span>
+        <span class="font-semibold">External editor command (optional)</span>
+        <input class="rounded-xl border border-line bg-bg px-4 py-2.5 font-mono" bind:value={form.editor} placeholder="code (leave empty to code in Oxide only)" />
+        <span class="text-sm text-dim">Quests are edited right in Oxide. Set this to also get an "Open in …" button; it runs with the quest folder as its argument.</span>
       </label>
       <div class="flex flex-col gap-1.5">
         <span class="font-semibold">Style</span>
@@ -150,6 +152,11 @@
         </div>
         <span class="text-sm text-dim">Game tells a story around each quest. Plain is just the lesson. Applies right away.</span>
       </div>
+      <label class="flex items-center gap-3">
+        <input type="checkbox" class="h-5 w-5 accent-orange-500" checked={autosave} onchange={(e) => setAutosave(e.currentTarget.checked)} data-testid="autosave" />
+        <span class="font-semibold">Autosave code</span>
+        <span class="text-sm text-dim">1.5 s after you stop typing. Ctrl+S always works.</span>
+      </label>
       <label class="flex items-center gap-3">
         <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sound} />
         <span class="font-semibold">Sound</span>

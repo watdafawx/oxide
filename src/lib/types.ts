@@ -30,6 +30,8 @@ export interface Quest {
 
 export interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 
+export interface FileEntry { path: string; bytes: number; read_only: boolean; primary: boolean }
+
 export interface Settings { editor: string; sound: boolean; focus_minutes: number; track: string; flavour: string }
 
 export interface Profile {
