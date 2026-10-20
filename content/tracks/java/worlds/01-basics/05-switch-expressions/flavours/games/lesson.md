@@ -16,5 +16,5 @@ String name = switch (day) {
 ## Your turn
 
 - Open `src/main/java/oxide/switch_expressions/Uptime.java`.
-- `daysInMonth(month, year)`: 31/30/28/29. Use the given `isLeap` helper for February.
+- `daysInMonth(month, year)`: 31/30/28/29. Use the given `isLeap` helper for February. A month outside 1-12 must throw `IllegalArgumentException`, like the `default` arm above.
 - `pingGrade(pingMs)`: under 50 ms "great", 50-99 "good", 100-199 "ok", 200 and over "poor".

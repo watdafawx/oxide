@@ -9,6 +9,7 @@ double ok = (double) 17 / 20; // 0.85
 
 - Int division **truncates toward zero**: it never rounds.
 - `%` is the remainder: "how many players are left for the last page?".
+- An `int[]` is built by listing its items: `new int[] {7, 8}`. A bare `{7, 8}` only works in a variable declaration, not after `return`. Arrays get their own quest later.
 - To keep the fraction, make one side a `double` **before** dividing.
 
 ## Your turn

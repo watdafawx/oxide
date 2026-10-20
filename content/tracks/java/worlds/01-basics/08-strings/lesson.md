@@ -4,6 +4,7 @@ Text is everywhere: names, messages, file paths, JSON. In Java a `String` is an 
 String s = "Java";
 s.toUpperCase();              // returns "JAVA" ... and s is still "Java"
 s = s.toUpperCase();          // keep the result by assigning it
+"MiXeD".toLowerCase();        // "mixed" (the lower-case twin)
 
 s.length();                   // 4
 s.charAt(0);                  // 'J'

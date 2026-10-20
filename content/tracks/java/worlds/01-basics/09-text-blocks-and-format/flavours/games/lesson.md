@@ -17,7 +17,8 @@ String json = """
 
 - `%s` text, `%d` whole number, `%.2f` two decimals, `%-8s` left-aligned in 8 columns, `%3d` right-aligned in 3.
 - A **text block** starts with `"""` + newline and keeps line breaks; quotes inside need no escape. Incidental indentation is removed up to the closing `"""` (or the least-indented line), but *relative* indentation stays.
-- A closing `"""` on its own line makes the string end with a newline.
+- A closing `"""` on its own line makes the string end with a newline (`\n`).
+- Write a newline as `\n` here, not `%n`. `%n` is the platform's newline (`\r\n` on Windows), which looks identical in a failure but is not the `\n` this report format uses.
 - `"...".formatted(args)` is `String.format` as a method.
 
 ## Your turn

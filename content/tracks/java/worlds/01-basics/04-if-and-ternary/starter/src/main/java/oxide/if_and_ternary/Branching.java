@@ -8,6 +8,6 @@ public class Branching {
 
     /** -1 for negative, 0 for zero, 1 for positive. */
     public static int signOf(int n) {
-        return 0; // TODO: use if / else if / else
+        return 0; // TODO: three-way choice: negative, positive, or zero
     }
 }

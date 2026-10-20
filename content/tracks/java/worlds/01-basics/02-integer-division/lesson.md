@@ -9,6 +9,7 @@ double ok2 = 17 / 5.0;        // 3.4 (one side is already a double)
 ```
 
 - Int division **truncates toward zero**: `-7 / 2` is `-3`, and `-7 % 2` is `-1`.
+- An `int[]` is built by listing its items: `new int[] {7, 8}`. A bare `{7, 8}` only works in a variable declaration, not after `return`. Arrays get their own quest later.
 - Dividing by zero throws on ints, but gives `Infinity` on doubles.
 
 ## Your turn

@@ -6,6 +6,7 @@ scores[0] = 8;                        // arrays are mutable
 int n = scores.length;                // no parentheses on arrays
 int[] zeros = new int[5];             // five 0s
 int[][] grid = {{1, 2, 3}, {4, 5, 6}};   // 2 rows, 3 columns
+int[][] empty = new int[3][2];          // 3 rows of 2 zeros: new int[rows][columns]
 grid[1][2];                           // 6: row 1, column 2
 
 java.util.Arrays.sort(scores);        // sorts in place

@@ -3,7 +3,7 @@ package oxide.strings;
 public class Motd {
     /** "Welcome" becomes "emocleW". */
     public static String flip(String motd) {
-        return null; // TODO: StringBuilder has a reverse() method
+        return null; // TODO: reverse the characters (the lesson shows a StringBuilder trick)
     }
 
     /** True when the MOTD reads the same both ways, ignoring case and spaces. */

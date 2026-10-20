@@ -6,6 +6,7 @@ In Java a `String` is **immutable**: methods never change it, they return a *new
 String motd = "Welcome";
 motd.toUpperCase();           // returns "WELCOME" ... and motd is still "Welcome"
 motd = motd.toUpperCase();    // keep the result by assigning it
+"MiXeD".toLowerCase();       // "mixed" (the lower-case twin)
 
 motd.length();                // 7
 motd.charAt(0);               // 'W'

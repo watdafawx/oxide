@@ -13,6 +13,6 @@ public class ArrayWork {
 
     /** {{1, 2, 3}, {4, 5, 6}} becomes {{1, 4}, {2, 5}, {3, 6}}. */
     public static int[][] transpose(int[][] grid) {
-        return null; // TODO: build new int[cols][rows] and copy result[c][r] = grid[r][c]
+        return null; // TODO: build a new grid with rows and columns swapped, then copy every cell across
     }
 }

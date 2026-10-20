@@ -5,6 +5,7 @@ int[] samples = {7, 3, 9};            // length 3, indexes 0..2
 samples[0] = 8;                       // arrays are mutable
 int n = samples.length;               // no parentheses on arrays
 int[][] grid = {{1, 2, 3}, {4, 5, 6}};   // 2 servers, 3 hours
+int[][] empty = new int[3][2];          // 3 rows of 2 zeros: new int[rows][columns]
 grid[1][2];                           // 6: server 1, hour 2
 
 java.util.Arrays.sort(samples);       // sorts in place

@@ -3,7 +3,7 @@ package oxide.strings;
 public class Words {
     /** "Java" becomes "avaJ". */
     public static String reverse(String text) {
-        return null; // TODO: StringBuilder has a reverse() method
+        return null; // TODO: reverse the characters (the lesson shows a StringBuilder trick)
     }
 
     /** True when the text reads the same both ways, ignoring case and spaces. */

@@ -7,7 +7,7 @@ tags = ["control-flow", "switch"]
 
 [[objectives]]
 test = "daysInMonthHandlesLeapYear"
-label = "daysInMonth knows 28/29/30/31, including leap years"
+label = "daysInMonth knows 28/29/30/31, including leap years, and throws IllegalArgumentException for month 13"
 
 [[objectives]]
 test = "gradeForMapsBands"

@@ -16,5 +16,5 @@ String name = switch (day) {
 ## Your turn
 
 - Open `src/main/java/oxide/switch_expressions/Rules.java`.
-- `daysInMonth(month, year)`: 31/30/28/29. Use the given `isLeap` helper for February.
+- `daysInMonth(month, year)`: 31/30/28/29. Use the given `isLeap` helper for February. A month outside 1-12 must throw `IllegalArgumentException`, like the `default` arm above.
 - `gradeFor(score)`: 90-100 "A", 80s "B", 70s "C", 60s "D", otherwise "F".
