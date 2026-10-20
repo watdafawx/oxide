@@ -19,6 +19,7 @@ for (char c : "hello".toCharArray()) {   // enhanced for: each element, no index
 - Off-by-one is the classic bug: `i < n` stops before `n`, `i <= n` includes it.
 - Use enhanced `for` when you do not need the index; use counted `for` when you do.
 - `text.toCharArray()` gives the characters; `Character.toLowerCase(c)` normalises case.
+- **`indexOf`** finds a character inside text: `"aeiou".indexOf('e')` is `1`, and it is `-1` when the character is not there. So `"aeiou".indexOf(c) >= 0` asks "is `c` a vowel?". A `char` is one character in single quotes.
 - `total += i` is shorthand for `total = total + i`.
 
 ## Your turn

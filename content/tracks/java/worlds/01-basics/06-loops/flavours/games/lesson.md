@@ -17,6 +17,7 @@ for (char c : "§aHi".toCharArray()) {   // enhanced for: each element, no index
 ```
 
 - Off-by-one is the classic bug: `m < minutes` stops before the last minute, `m <= minutes` includes it.
+- A `char` is one character in **single quotes**: `'a'`. Compare it with `==`: `c == 'a'` is true when `c` is the letter a.
 - Use enhanced `for` when you do not need the index; counted `for` when you do.
 - `motd.toCharArray()` gives the characters. The section sign is written `'\u00a7'` in source code so it survives any file encoding.
 

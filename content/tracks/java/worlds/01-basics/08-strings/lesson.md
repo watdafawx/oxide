@@ -10,6 +10,7 @@ s.length();                   // 4
 s.charAt(0);                  // 'J'
 s.substring(1, 3);            // "av"   (start included, end excluded)
 "a b".replace(" ", "");       // "ab"
+s.equals("Java");               // true: same characters
 new StringBuilder("abc").reverse().toString();   // "cba"
 ```
 

@@ -17,6 +17,17 @@ You have every tool for a real game now: `if`, `switch`, loops, `char`s, strings
 
 Then `render` turns the score into emoji squares for chat.
 
+New tools for this boss:
+
+```java
+import java.util.Arrays;                  // at the top of the file (already there): lets you write Arrays
+char[] row = new char[5];                 // a char[] you can change one slot at a time
+Arrays.fill(row, '.');                    // every slot becomes '.'
+row[2] = 'G';                             // set one slot
+String text = new String(row);            // char[] -> String: "..G.."
+int slot = 'd' - 'a';                     // 3: subtracting chars gives the distance from 'a'
+```
+
 Work through the objectives in order; the first is a one-liner.
 
 ## Your turn

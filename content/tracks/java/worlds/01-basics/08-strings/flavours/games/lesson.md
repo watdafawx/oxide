@@ -12,6 +12,7 @@ motd.length();                // 7
 motd.charAt(0);               // 'W'
 motd.substring(1, 3);         // "el"   (start included, end excluded)
 "a b".replace(" ", "");       // "ab"
+motd.equals("Welcome");       // true: same characters
 new StringBuilder("abc").reverse().toString();   // "cba"
 ```
 

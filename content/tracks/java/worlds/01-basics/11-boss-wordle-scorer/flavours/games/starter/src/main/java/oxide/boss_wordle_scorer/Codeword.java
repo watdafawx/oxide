@@ -1,5 +1,7 @@
 package oxide.boss_wordle_scorer;
 
+import java.util.Arrays;
+
 public class Codeword {
     static final String GREEN = "🟩";  // green square
     static final String YELLOW = "🟨"; // yellow square

@@ -13,7 +13,7 @@ String kind = n < 0 ? "negative" : "not negative";   // ternary: an if that has 
 ```
 
 - Conditions are `boolean`: `<`, `<=`, `==`, `!=`, and `&&` (and), `||` (or), `!` (not).
-- `&&` and `||` **short-circuit**: in `list != null && list.length > 0` the right side never runs when the left is false. That is how you avoid a `NullPointerException`.
+- `&&` and `||` **short-circuit**: in `text != null && text.length() > 0` the right side never runs when the left is false. That is how you avoid a `NullPointerException`.
 - Use `==` for numbers, never for text (a later quest explains why).
 - Ternary `cond ? a : b` is good for one small choice; use `if` for anything longer.
 

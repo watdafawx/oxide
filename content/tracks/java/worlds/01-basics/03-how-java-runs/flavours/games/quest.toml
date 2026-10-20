@@ -8,10 +8,10 @@ answer = 0
 
 [[quiz]]
 question = "The bot is slow right after start and fast after a minute. Why?"
-choices = ["Discord throttles new bots", "The JIT compiles the hot methods to machine code as it runs", "javac optimises later"]
+choices = ["Discord throttles brand new bots", "The JIT speeds up hot methods", "javac optimises the bytecode later"]
 answer = 1
 
 [[quiz]]
 question = "The bot builds a new `StatusLine` every ten seconds. What about the old ones?"
-choices = ["You must delete each one by hand", "They pile up until restart, always", "The garbage collector reclaims them once nothing refers to them"]
+choices = ["You must delete each one by hand, one at a time", "They pile up until the bot restarts", "The garbage collector frees them"]
 answer = 2

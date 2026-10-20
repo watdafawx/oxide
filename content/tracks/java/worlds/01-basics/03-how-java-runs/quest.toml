@@ -12,10 +12,10 @@ answer = 1
 
 [[quiz]]
 question = "Who turns bytecode into fast machine code while the program runs?"
-choices = ["The JIT compiler inside the JVM", "The Gradle wrapper", "The garbage collector"]
+choices = ["The JIT compiler", "The Gradle wrapper tool", "The garbage collector"]
 answer = 0
 
 [[quiz]]
 question = "You stop using an object and nothing refers to it any more. What happens?"
-choices = ["You must call free() yourself", "The garbage collector reclaims it later", "It stays forever"]
+choices = ["You must call free() yourself, always", "The garbage collector reclaims it", "It stays in memory until you restart"]
 answer = 1

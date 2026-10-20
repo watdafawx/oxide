@@ -8,6 +8,6 @@ public class Loops {
 
     /** Counts a, e, i, o, u in either case. */
     public static int countVowels(String text) {
-        return 0; // TODO: enhanced for over text.toCharArray()
+        return 0; // TODO: enhanced for over text.toCharArray(); count a char when "aeiou".indexOf(its lower-case form) is 0 or more
     }
 }
