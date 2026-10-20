@@ -9,7 +9,7 @@ public interface Shape {
 
     /** "<name> with area <area rounded to a whole number>". */
     default String describe() {
-        // TODO: build the text from name() and area()
+        // TODO: name(), then " with area ", then area() rounded with Math.round(...)
         return "";
     }
 }

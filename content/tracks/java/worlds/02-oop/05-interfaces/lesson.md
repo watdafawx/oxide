@@ -21,6 +21,7 @@ p.describe();      // "Bird has 2 legs"
 
 - `interface` lists methods without bodies. Classes `implements` it and fill every one in.
 - A **default method** has a body, so you write shared behaviour once. It can call the interface's other methods.
+- `Math.round(x)` rounds a decimal to the nearest whole number: `Math.round(12.56)` is `13`. `Math.PI` is the constant pi.
 - A variable can have the interface as its type: `Pet p = new Bird();`.
 
 ## Your turn
