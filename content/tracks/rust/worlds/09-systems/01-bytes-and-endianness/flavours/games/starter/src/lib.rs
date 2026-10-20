@@ -14,13 +14,13 @@ pub fn protocol_to_be(n: u32) -> [u8; 4] {
 
 /// Reads a little-endian u32 from the first 4 bytes of a reply. `None` if fewer than 4 bytes.
 pub fn read_protocol_le(reply: &[u8]) -> Option<u32> {
-    // TODO: reply.get(..4)?, try_into, from_le_bytes
+    // TODO: reply.get(..4)?, .try_into().ok()?, from_le_bytes
     todo!()
 }
 
 /// Reads a big-endian u32 from the first 4 bytes of a reply. `None` if fewer than 4 bytes.
 pub fn read_protocol_be(reply: &[u8]) -> Option<u32> {
-    // TODO: reply.get(..4)?, try_into, from_be_bytes
+    // TODO: reply.get(..4)?, .try_into().ok()?, from_be_bytes
     todo!()
 }
 

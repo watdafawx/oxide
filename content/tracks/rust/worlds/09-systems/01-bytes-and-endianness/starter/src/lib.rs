@@ -14,7 +14,7 @@ pub fn to_be(n: u32) -> [u8; 4] {
 
 /// Reads a little-endian u32 from the first 4 bytes. `None` if fewer than 4 bytes.
 pub fn read_u32_le(bytes: &[u8]) -> Option<u32> {
-    // TODO: bytes.get(..4)? -> try_into() an array -> u32::from_le_bytes
+    // TODO: bytes.get(..4)? -> .try_into().ok()? into a [u8; 4] -> u32::from_le_bytes
     todo!()
 }
 

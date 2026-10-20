@@ -16,6 +16,7 @@ println!("{n} bytes from {from}");
 - No `connect`, no `accept`: one socket sends to and receives from anyone.
 - Each `recv_from` gives **one whole datagram** plus the sender's address. Reply to that address.
 - Datagrams can be lost. Without a read timeout a lost reply hangs the program. With one, `recv_from` returns an `Err`.
+- `buf[..n].to_ascii_uppercase()` uppercases a byte slice into a new `Vec<u8>`; `buf[..n].to_vec()` copies the real bytes into a `Vec<u8>` you can return.
 - Tests bind `127.0.0.1:0` and use timeouts: no real network.
 
 ## Your turn

@@ -12,17 +12,23 @@ bytes: 0x80 0x01           bytes: 0xDD 0xC7 0x01
 ```
 
 ```rust
-let mut v = value as u32;            // reinterpret: -1 becomes 0xFFFF_FFFF
-let mut out = Vec::new();
-loop {
-    let mut byte = (v & 0x7f) as u8; // low 7 bits
-    v >>= 7;
-    if v != 0 { byte |= 0x80; }      // continuation bit
-    out.push(byte);
-    if v == 0 { break; }
+// Just the splitting, no flag bits yet: how many 7-bit groups does `v` need?
+fn groups(mut v: u32) -> usize {
+    let mut n = 1;
+    while v >= 0x80 {   // more than 7 bits left
+        v >>= 7;        // drop the lowest group
+        n += 1;
+    }
+    n
 }
+assert_eq!(groups(25565), 3);
+
+let low7 = (25565u32 & 0x7f) as u8;   // the lowest group: 0x5d
+let with_flag = low7 | 0x80;          // set the "more follow" bit: 0xdd
 ```
 
+- `value as u32` reinterprets an `i32` so its bits survive: `-1` becomes `0xFFFF_FFFF`. Split that, not the signed number. Decoding ends with `result as i32`.
+- Decoding is the mirror: take each byte's low 7 bits (`b & 0x7f`), shift them left by `7 * position`, OR them into a `u32`; stop at the first byte whose top bit (`b & 0x80`) is 0. `for (i, &b) in bytes.iter().enumerate()` gives you the position `i` and the byte.
 - At most **5 bytes** for an `i32` (5 × 7 = 35 ≥ 32 bits). A sixth continuation byte is malformed.
 - Negative numbers always take 5 bytes: `-1` is `0xFF 0xFF 0xFF 0xFF 0x0F`.
 - Decoding reports how many bytes it used, because the next field starts right after.

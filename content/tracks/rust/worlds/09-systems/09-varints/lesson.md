@@ -24,6 +24,8 @@ fn groups(mut v: u32) -> usize {
 assert_eq!(groups(300), 2);
 ```
 
+- Negative numbers: reinterpret the `i32` as a `u32` first (`value as u32`: `-1` becomes `0xFFFF_FFFF`, all 32 bits set), then split the groups of that. Decoding ends with `result as i32` to turn the bits back.
+- Decoding is the mirror: take each byte's low 7 bits (`b & 0x7f`), shift them left by `7 * position`, OR them into a `u32`; stop at the first byte whose top bit (`b & 0x80`) is 0. `for (i, &b) in bytes.iter().enumerate()` gives you the position `i` and the byte.
 - `127` is `[0x7f]`, `128` is `[0x80, 0x01]`, `-1` is `[0xff, 0xff, 0xff, 0xff, 0x0f]`.
 - A VarInt is **at most 5 bytes**. A 6th continuation byte means a broken or hostile packet: reject it, never loop forever.
 

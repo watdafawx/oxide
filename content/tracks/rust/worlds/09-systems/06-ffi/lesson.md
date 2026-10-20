@@ -21,6 +21,7 @@ fn len_of(s: &str) -> Option<usize> {
 - C strings are bytes ending in a **NUL** (`\0`) with no length. Rust strings have a length and may contain NUL. **`CString`** (owned) and **`CStr`** (borrowed) convert between them.
 - `CString::new` fails if the text has an interior NUL, so wrappers must return `Option` or `Result`.
 - `CStr::from_ptr(p)` reads up to the NUL. It is unsafe: `p` must point to a valid NUL-terminated string.
+- `CStr::from_ptr(p).to_string_lossy()` gives a `Cow<str>` (bad UTF-8 is patched up); `.into_owned()` turns the `Cow` into an owned `String`.
 - Use the C types: `c_char`, `c_int`, not `i8` / `i32` guesses.
 
 ## Your turn

@@ -7,18 +7,10 @@ tags = ["unsafe", "safety"]
 
 [[quiz]]
 question = "What does an `unsafe` block let you do that safe Rust does not?"
-choices = [
-  "Turn off the borrow checker and type checker inside the block",
-  "Do five extra things, like dereferencing a raw pointer or calling an unsafe fn; everything else is still checked",
-  "Skip bounds checks and overflow checks on all code in the function",
-]
-answer = 1
+choices = ["Turn off the borrow checker and the type checker for everything inside the block", "Skip bounds checks and overflow checks on all the code in the whole function body", "Five extra things, like dereferencing a raw pointer; all other checks still run"]
+answer = 2
 
 [[quiz]]
 question = "You write a safe function that uses an unsafe block inside. Who must make sure the unsafe operation is valid?"
-choices = [
-  "The caller of the safe function, by reading the docs",
-  "The compiler, because the function is not marked unsafe",
-  "You, the author: the safe function must be impossible to misuse into undefined behavior",
-]
-answer = 2
+choices = ["The caller of the safe function, who has to read its docs before every single call", "You, the author: no safe call may be able to cause undefined behavior", "The compiler, because the function itself is not marked unsafe, so it checks it"]
+answer = 1

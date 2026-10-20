@@ -21,6 +21,8 @@ assert_eq!(u32::from_le_bytes(first), n);
 
 **`from_*_bytes` wants an array `[u8; 4]`, not a slice.** `try_into()` converts a 4-long slice into one, and fails if the length is wrong. `slice.get(..4)` returns `None` instead of panicking when the slice is short.
 
+In a function that returns `Option`, chain them: `let first: [u8; 4] = data.get(..4)?.try_into().ok()?;` (`get(..4)?` leaves early with `None` when short; `try_into()` is a `Result`, so `.ok()?` turns its `Err` into the same early `None`).
+
 ## Your turn
 
 In `src/lib.rs`:

@@ -12,6 +12,7 @@ let back = u32::from_be_bytes(be);       // 763
 - **Little-endian** (x86, ARM): least significant byte first. **Big-endian**: most significant first. Network protocols are usually big-endian ("network byte order").
 - `to_le_bytes`, `to_be_bytes`, `from_le_bytes`, `from_be_bytes` exist on every integer type.
 - `from_*_bytes` wants an **array** `[u8; 4]`, not a slice. `slice.try_into()` converts when the length is exactly 4.
+- In a function that returns `Option`, chain the steps: `let first: [u8; 4] = reply.get(..4)?.try_into().ok()?;` (`get(..4)?` leaves early with `None` when short; `try_into()` is a `Result`, so `.ok()?` turns its `Err` into the same early `None`).
 - Reading from a network reply: never index blindly. `bytes.get(..4)` returns `None` instead of panicking when the reply is short.
 
 ## Your turn

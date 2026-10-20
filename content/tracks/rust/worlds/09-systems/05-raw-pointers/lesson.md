@@ -15,6 +15,7 @@ let slice = unsafe { std::slice::from_raw_parts(v.as_ptr(), v.len()) };
 assert_eq!(slice, &[1, 2, 3]);
 ```
 
+- `ptr.is_null()` is a safe check. `std::ptr::null::<i32>()` makes a null `*const i32` (handy in tests).
 - A raw pointer can be null, dangling or unaligned. Rust does not check. **You** do.
 - **`from_raw_parts(ptr, len)`** builds a slice. It is valid only if `ptr` is non-null, aligned, points at `len` live items, and nothing mutates them meanwhile.
 - Document the rules of an `unsafe fn` in `# Safety`. Put `// SAFETY:` above each unsafe block explaining why the rules hold.

@@ -22,6 +22,7 @@ c.read_exact(&mut got).unwrap();          // got == b"hello"
 ```
 
 - **`read`** may return fewer bytes than asked; `Ok(0)` means the other side closed. **`read_exact`** keeps reading until the buffer is full. **`write_all`** retries until every byte is sent.
+- A dead server would hang `read` forever, so give the client a deadline: `stream.set_read_timeout(Some(std::time::Duration::from_secs(3)))?;` makes a silent `read` return an `Err` after 3 s.
 - `accept()` blocks. To serve many clients, give each connection **its own thread**.
 - TCP is a stream, not messages: bytes arrive in order but your `read` boundaries don't match the sender's `write` boundaries.
 

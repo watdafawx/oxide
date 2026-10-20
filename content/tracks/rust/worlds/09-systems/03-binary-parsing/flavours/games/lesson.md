@@ -20,6 +20,7 @@ impl<'a> PacketCursor<'a> {
 - Build bigger reads from `take`: `u16::from_be_bytes([b[0], b[1]])`.
 - Use `?` so the first short read ends the whole parse with `Err`.
 - Check the length **before** you move the position, so a failed read leaves the cursor where it was.
+- `?` works inside a struct literal too: `PacketHeader { kind: c.u8()?, flags: c.u8()?, .. }` builds the struct field by field, in the order written, and returns early on the first `Err`.
 - Extra bytes after the header are fine: they belong to the next field.
 
 ## Your turn

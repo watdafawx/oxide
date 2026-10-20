@@ -17,7 +17,7 @@ println!("{}", back.to_string_lossy());
 - `unsafe extern "C" { fn ...; }` declares C functions. Calling one is `unsafe`: Rust cannot see its body.
 - C strings end with a NUL byte and cannot contain one. `CString::new` returns `Err` if your text has an interior NUL.
 - `.as_ptr()` borrows the buffer. The `CString` must stay alive until the call returns.
-- `CStr::from_ptr` reads a C string you were given. `to_string_lossy` copes with invalid UTF-8.
+- `CStr::from_ptr` reads a C string you were given. `to_string_lossy` copes with invalid UTF-8 and gives a `Cow<str>`; `.into_owned()` makes it an owned `String`.
 - `strlen` counts **bytes**, not characters.
 
 ## Your turn

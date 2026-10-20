@@ -22,6 +22,8 @@ thread::spawn(move || echo_ping(stream));
 - TCP is a **byte stream**: one `read` may return part of a message or several. Always use the returned length `n`.
 - `read` returning `0` means the other side closed. That is how a loop knows to stop.
 - `write_all` keeps writing until everything is sent. Plain `write` may stop early.
+- A dead server would hang `read` forever, so give the client a deadline: `stream.set_read_timeout(Some(std::time::Duration::from_secs(3)))?;` makes a silent `read` return an `Err` after 3 s.
+- `read_exact(&mut buf)` fills the whole buffer (`vec![0u8; len]` makes one of a chosen length) or fails.
 - `accept()` blocks. To serve many clients at once, hand every accepted stream to its own thread.
 - Tests bind `127.0.0.1:0` and use timeouts: no real network, no hanging.
 
