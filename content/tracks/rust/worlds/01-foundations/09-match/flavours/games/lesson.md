@@ -18,6 +18,8 @@ if let Some(slot) = free_slot {             // only care about one pattern
 - `n if cond` is a **guard**: binds `n`, then checks the condition.
 - **`if let`** is `match` with one arm and an implicit "ignore the rest".
 - `match` is an expression: it returns a value, so arms need the same type.
+- **`A | B =>`** lets two patterns share one arm: `0 | 1 => "tiny"`.
+- To hand back text you only borrowed, copy it: **`.clone()`** on a `&String` gives an owned `String`, and **`String::new()`** is an empty one.
 
 ## Your turn
 

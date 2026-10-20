@@ -17,6 +17,7 @@ while total > 0 { total -= 4; }      // while: repeat as long as true
 
 - Conditions are plain `bool`s. No parentheses needed, braces always required.
 - `1..4` is 1,2,3. `1..=4` is 1,2,3,4.
+- `.to_string()` turns a number or a `&str` into an owned `String`: `7.to_string()` is `"7"`, `"Full".to_string()` is a `String`. A bare `"Full"` is only a `&str`, so a function that returns `String` needs it.
 - `if` and `else` branches must have the **same type** when you use them as a value.
 - A parameter can be `mut` too: `fn f(mut n: i32)` gives the function its own changeable copy of `n`. The caller's value is untouched.
 

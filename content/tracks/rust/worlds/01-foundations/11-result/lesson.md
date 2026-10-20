@@ -18,6 +18,7 @@ let age = parse_age("42").expect("hard-coded age is valid");
 
 - `Ok(value)` = it worked. `Err(reason)` = it didn't, and here is why.
 - **`match`** on a Result handles both paths. The compiler won't let you skip `Err`.
+- `parse()` can work out the number type from context: `let n: u32 = text.parse().expect("a number");` needs no `::<u32>`.
 - **`expect("why this can't fail")`** gives the value or panics with your message. Use it when failure means a bug.
 - The `?` shortcut comes later. For now: `match`.
 

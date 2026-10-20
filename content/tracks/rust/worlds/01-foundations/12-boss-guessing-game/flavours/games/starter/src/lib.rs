@@ -57,7 +57,7 @@ impl Calculator {
 
     /// The recipe that produces `item`, or None for raw materials.
     pub fn find_recipe(&self, item: &str) -> Option<&Recipe> {
-        // TODO: search self.recipes for the recipe whose `output` equals `item`
+        // TODO: search self.recipes with `.iter().find(|r| ...)` for the recipe whose `output` equals `item`
         todo!()
     }
 

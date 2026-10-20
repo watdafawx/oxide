@@ -47,6 +47,9 @@ add_log(&mut totals);                           // recursion passes `totals` dow
 
 - `line.split(',')` walks the pieces of a string; `starts_with("need ")` tests a prefix.
 - `.iter().map(...).collect()` builds a new list from an old one.
+- `.iter().find(|x| test)` returns the first item the test accepts, as an `Option<&T>`: `lines.iter().find(|l| l.len() > 5)`.
+- `line.split_once('=')` cuts at the first `=` and returns `Option<(&str, &str)>`: `Some((left, right))`, or `None` when there is no `=`.
+- `break` leaves a loop early; `return Err(..)` leaves the function early.
 
 ## Your turn
 

@@ -18,6 +18,7 @@ let count = parse_count("42").expect("hard-coded count is valid");
 
 - `Ok(value)` = it worked. `Err(reason)` = it did not, and here is why.
 - **`match`** on a Result handles both paths. The compiler will not let you skip `Err`.
+- `parse()` can work out the number type from context: `let n: u32 = text.parse().expect("a number");` needs no `::<u32>`.
 - **`expect("why this cannot fail")`** gives the value or panics with your message. Use it when failure means a bug.
 - The `?` shortcut comes later. For now: `match`.
 
