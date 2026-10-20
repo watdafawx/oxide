@@ -12,13 +12,13 @@ impl Player {
 
     /// Lose `damage` hp, but never go below 0.
     pub fn take_hit(&mut self, damage: u32) {
-        // TODO: self.hp = self.hp.saturating_sub(damage)
+        // TODO: lower self.hp by `damage`, using saturating_sub so a u32 stops at 0
         todo!()
     }
 
     /// Alive while hp is above 0.
     pub fn is_alive(&self) -> bool {
-        // TODO: compare self.hp with 0
+        // TODO: true when hp is above 0
         todo!()
     }
 }

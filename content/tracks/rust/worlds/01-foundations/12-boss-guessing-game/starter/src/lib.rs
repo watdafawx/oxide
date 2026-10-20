@@ -13,13 +13,13 @@ pub struct Game {
 impl Game {
     /// A fresh game with no attempts yet.
     pub fn new(secret: u32) -> Game {
-        // TODO: Game { secret, attempts: 0 }
+        // TODO: build a Game holding the secret and no attempts yet
         todo!()
     }
 
     /// Count the attempt, then compare `n` with the secret.
     pub fn guess(&mut self, n: u32) -> Outcome {
-        // TODO: self.attempts += 1; then if / else if / else (or match) on n vs self.secret
+        // TODO: count this attempt, then compare n with self.secret and return the matching Outcome
         todo!()
     }
 
@@ -32,7 +32,7 @@ impl Game {
 
 /// " 42 " -> Ok(42), "abc" -> Err("'abc' is not a number")
 pub fn parse_guess(input: &str) -> Result<u32, String> {
-    // TODO: input.trim().parse::<u32>() and map the error to your message
+    // TODO: trim the input, parse it as a u32, and turn a parse failure into your message
     todo!()
 }
 
@@ -40,7 +40,7 @@ pub fn parse_guess(input: &str) -> Result<u32, String> {
 /// Invalid input shows its error but does not count as an attempt.
 /// Stops at the first correct guess: "Correct! 3 attempts" ("1 attempt" if just one).
 pub fn play(secret: u32, inputs: &[&str]) -> Vec<String> {
-    // TODO: Game::new, a Vec<String>, loop over inputs, parse_guess, game.guess, push messages
+    // TODO: start a game and an empty message list; for each input, parse it, and push a message for the error or the guess outcome
     todo!()
 }
 

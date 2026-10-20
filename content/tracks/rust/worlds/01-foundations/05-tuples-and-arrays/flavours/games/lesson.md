@@ -8,6 +8,7 @@ let first = slot.0;                  // or access by position
 let row = [10, 20, 30];              // array: fixed size, one type
 let middle = row[1];                 // indexes start at 0
 let width = row.len();               // 3
+let [a, b, c] = row;                 // arrays destructure too (a = 10, b = 20, c = 30)
 ```
 
 - Tuples hold **different** types: `(String, u32)`. Arrays hold the **same** type.

@@ -42,7 +42,7 @@ pub fn parse_need(line: &str) -> Result<(u32, String), String> {
 impl Calculator {
     /// A fresh calculator that knows no recipes yet.
     pub fn new() -> Calculator {
-        // TODO: Calculator { recipes: Vec::new() }
+        // TODO: return a calculator with an empty recipe list
         todo!()
     }
 
@@ -57,14 +57,14 @@ impl Calculator {
 
     /// The recipe that produces `item`, or None for raw materials.
     pub fn find_recipe(&self, item: &str) -> Option<&Recipe> {
-        // TODO: search self.recipes for one whose `output` equals `item`
+        // TODO: search self.recipes for the recipe whose `output` equals `item`
         todo!()
     }
 
     /// How many crafts make at least `wanted` of `item`? Raw items need 0 crafts.
     /// With plank yielding 4: batches_needed("plank", 5) -> 2
     pub fn batches_needed(&self, item: &str, wanted: u32) -> u32 {
-        // TODO: match self.find_recipe(item); Some(recipe) -> wanted.div_ceil(recipe.yields)
+        // TODO: look up the recipe; if there is one, divide `wanted` by `yields` rounding up (div_ceil); if not, 0
         todo!()
     }
 

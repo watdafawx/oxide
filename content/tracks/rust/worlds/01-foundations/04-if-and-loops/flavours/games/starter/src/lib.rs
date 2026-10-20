@@ -7,7 +7,7 @@ pub fn slot_label(count: u32) -> String {
 /// A staircase of `steps` steps needs 1 + 2 + ... + steps blocks.
 /// staircase_blocks(4) -> 10
 pub fn staircase_blocks(steps: u32) -> u32 {
-    // TODO: for i in 1..=steps { ... }
+    // TODO: add 1 through `steps` with a `for` loop over an inclusive range
     todo!()
 }
 

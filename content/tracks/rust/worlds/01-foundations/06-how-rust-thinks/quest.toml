@@ -7,8 +7,8 @@ tags = ["mindset"]
 
 [[quiz]]
 question = "When does Rust catch a type mismatch like adding a String to a number?"
-choices = ["At compile time, before the program runs", "At runtime, when that line executes", "Never, it silently converts"]
-answer = 0
+choices = ["At runtime, when that line executes", "At compile time, before the program runs", "Never, it silently converts"]
+answer = 1
 
 [[quiz]]
 question = "A function might not find what it is looking for. How does Rust express that?"

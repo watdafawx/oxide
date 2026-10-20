@@ -13,6 +13,7 @@ let next = slot.map(|s| s + 1);         // Some(8); None stays None
 - You cannot use an `Option<u32>` as a `u32`. The compiler forces you to decide what `None` means.
 - **`unwrap_or(default)`**: give me the value or this fallback.
 - **`map(|x| ...)`**: transform the value inside, leave `None` alone. `|x| ...` is a tiny inline function (a closure).
+- `match` also works on text. A `&str` matches string literals, and `_` catches the rest: `match item { "planks" => Some(4), _ => None }`.
 - Avoid `.unwrap()`: it panics on `None`. Save it for tests and quick experiments.
 
 ## Your turn

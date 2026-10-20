@@ -7,13 +7,13 @@ pub fn recipe_output(item: &str) -> Option<u32> {
 
 /// recipe_output, but 0 when the recipe is unknown.
 pub fn output_or_zero(item: &str) -> u32 {
-    // TODO: build on recipe_output with `unwrap_or(0)`
+    // TODO: ask recipe_output, falling back to 0 when it returns None
     todo!()
 }
 
 /// A double batch: twice the output, or None when the recipe is unknown.
 pub fn double_batch(item: &str) -> Option<u32> {
-    // TODO: build on recipe_output with `map(|n| n * 2)`
+    // TODO: ask recipe_output, then double the count inside the Some (None stays None)
     todo!()
 }
 

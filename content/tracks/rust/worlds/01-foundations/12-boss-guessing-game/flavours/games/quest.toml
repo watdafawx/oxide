@@ -33,8 +33,10 @@ text = "`batches_needed`: `match self.find_recipe(item) { Some(recipe) => wanted
 [[hints]]
 text = "`expand` calls itself: a raw item adds `wanted` to `totals`, a crafted item calls `expand` for each ingredient with `count * batches`. Do the `None` arm first and test the easy cases."
 [[hints]]
-text = "`parse_recipe`: `line.split_once('=')` gives `Option<(&str, &str)>`. Use `parse_part` on the left side, then on each piece of `right.split(',')`. Any `None` becomes `Err(bad)`."
+text = "`parse_recipe`: `line.split_once('=')` gives `Option<(&str, &str)>`. Use `parse_part` on the left side, then on each piece of `right.split(',')`. Any `None` becomes `Err(format!(\"'{line}' is not a recipe\"))` (with `line` trimmed)."
 [[hints]]
 text = "`run`: make a `Calculator` and a `Vec<String>`. `for input in inputs`, trim it, then check `\"quit\"`, `starts_with(\"need \")`, else `parse_recipe`. `break` after quit."
+[[hints]]
+text = "The `need` answer: `totals.iter().map(|(name, n)| format!(\"{name} x{n}\")).collect::<Vec<_>>().join(\", \")`, then `format!(\"{count} {item} needs: {list}\")`."
 [[hints]]
 text = "Plural: `let s = if n == 1 { \"\" } else { \"s\" };` then `format!(\"Bye! {n} recipe{s} learned\")`."

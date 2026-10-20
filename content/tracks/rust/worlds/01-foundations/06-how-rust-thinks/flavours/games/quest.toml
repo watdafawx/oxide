@@ -3,8 +3,8 @@ summary = "Compile-time checks, no null, no exceptions, seen through the craftin
 
 [[quiz]]
 question = "You add the String \"oak_log\" to the number 64 in your calculator. When does Rust catch that?"
-choices = ["At compile time, before the program runs", "At runtime, when that line executes", "Never, it silently converts"]
-answer = 0
+choices = ["At runtime, when that line executes", "At compile time, before the program runs", "Never, it silently converts"]
+answer = 1
 
 [[quiz]]
 question = "A recipe lookup might not find the item you asked for. How does Rust express that?"

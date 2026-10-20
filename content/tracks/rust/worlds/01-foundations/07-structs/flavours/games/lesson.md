@@ -22,7 +22,7 @@ impl Chest {
 - Fields are listed once in `struct`, methods live in an `impl` block.
 - `Chest::new(..)` is just a convention for constructors. It is a plain function.
 - `&self` reads, `&mut self` changes. Call methods with `chest.add_slots(9)`.
-- `u32` cannot go negative: `5u32 - 9` panics in debug. `saturating_sub` stops at 0.
+- `u32` cannot go negative: `5u32 - 9` panics in debug. `saturating_sub` stops at 0: `self.slots = self.slots.saturating_sub(9)` never drops below 0.
 
 ## Your turn
 

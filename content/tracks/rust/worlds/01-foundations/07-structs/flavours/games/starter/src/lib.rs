@@ -12,13 +12,13 @@ impl ItemStack {
 
     /// Remove `amount` items, but never go below 0.
     pub fn take(&mut self, amount: u32) {
-        // TODO: subtract from self.count without underflowing (hint: saturating_sub)
+        // TODO: lower self.count by `amount` without underflowing (saturating_sub, as in the lesson)
         todo!()
     }
 
     /// True while the stack still holds at least one item.
     pub fn has_items(&self) -> bool {
-        // TODO: compare self.count with 0
+        // TODO: true when count is above 0
         todo!()
     }
 }

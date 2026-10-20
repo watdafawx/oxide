@@ -10,7 +10,7 @@ test = "bonus_is_added_to_score"
 label = "score_with_bonus() returns 15"
 [[objectives]]
 test = "trimmed_len_ignores_spaces"
-label = "trimmed_len shadows `text` with the trimmed version"
+label = "trimmed_len returns the length without the outer spaces"
 
 [[hints]]
 text = "A plain `let` can never change. Write `let mut score = 10;` so you can do `score += 5;`."

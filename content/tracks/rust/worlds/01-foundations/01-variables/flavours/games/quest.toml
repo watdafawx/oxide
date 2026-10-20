@@ -6,7 +6,7 @@ test = "stack_after_pickup_adds_five"
 label = "stack_after_pickup() returns 15"
 [[objectives]]
 test = "item_name_len_ignores_padding"
-label = "item_name_len shadows `name` with the trimmed version"
+label = "item_name_len returns the length without the outer spaces"
 
 [[hints]]
 text = "A plain `let` can never change. Write `let mut stack = 10;` so you can do `stack += 5;`."

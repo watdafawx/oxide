@@ -6,7 +6,7 @@ pub fn fizzbuzz(n: i32) -> String {
 
 /// sum_to(4) -> 1 + 2 + 3 + 4 = 10
 pub fn sum_to(n: u32) -> u32 {
-    // TODO: for i in 1..=n { ... }
+    // TODO: add 1 through n with a `for` loop over an inclusive range
     todo!()
 }
 

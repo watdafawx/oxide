@@ -19,6 +19,19 @@ play(7, &["3", "pizza", "7"]);
 - `play` stops at the first correct guess; later inputs are ignored.
 - "1 attempt", but "2 attempts".
 
+## Toolbox for `play`
+
+New here: a **`Vec`** is a growable list. You will build the output with one.
+
+```rust
+let mut messages: Vec<String> = Vec::new();   // empty list
+messages.push("Too low".to_string());         // add to the end
+for m in &messages { println!("{m}"); }       // `&` = look at each, don't take the list
+```
+
+- `for input in inputs` works the same on the `&[&str]` slice you are given.
+- `break` leaves the loop early.
+
 ## Your turn
 
 - Open `src/lib.rs`. `Outcome` and `Game` are given.

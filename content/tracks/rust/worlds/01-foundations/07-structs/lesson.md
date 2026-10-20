@@ -22,7 +22,7 @@ impl Dog {
 - Fields are listed once in `struct`, methods live in an `impl` block.
 - `Dog::new(..)` is just a convention for constructors. It is a plain function.
 - `&self` reads, `&mut self` changes. Call methods with `dog.birthday()`.
-- `u32` can't go negative: `5u32 - 9` panics in debug. `saturating_sub` stops at 0.
+- `u32` can't go negative: `5u32 - 9` panics in debug. `saturating_sub` stops at 0: `self.age = self.age.saturating_sub(1)` never drops below 0.
 
 ## Your turn
 

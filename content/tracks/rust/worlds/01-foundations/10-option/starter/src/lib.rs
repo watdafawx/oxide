@@ -6,13 +6,13 @@ pub fn half(n: i32) -> Option<i32> {
 
 /// half_or_zero(8) -> 4, half_or_zero(7) -> 0
 pub fn half_or_zero(n: i32) -> i32 {
-    // TODO: half(n).unwrap_or(...)
+    // TODO: ask half, falling back to 0 when it returns None
     todo!()
 }
 
 /// half_plus_one(8) -> Some(5), half_plus_one(7) -> None
 pub fn half_plus_one(n: i32) -> Option<i32> {
-    // TODO: half(n).map(|h| ...)
+    // TODO: ask half, then add 1 to the value inside the Some (None stays None)
     todo!()
 }
 

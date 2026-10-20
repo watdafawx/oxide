@@ -2,7 +2,7 @@ title = "Boss: guessing game"
 summary = "Build the logic of a number guessing game, tested with scripted input."
 kind = "boss"
 xp = 300
-minutes = 40
+minutes = 55
 tags = ["structs", "enums", "match", "result", "boss"]
 
 [[objectives]]
