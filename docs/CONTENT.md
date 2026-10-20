@@ -48,6 +48,22 @@ short real-world "why now"). It may carry a **games** flavour beside it:
 - content-check builds and runs every flavour's starter and solution.
 - Worked example: `content/tracks/rust/worlds/00-tutorial/01-hello/flavours/games`.
 
+## Explain, then ask (the blind test)
+
+The learner may know nothing before the lesson. Every quest is **explain → do (or quiz) → reward**,
+so nothing the objectives, the quiz or the TODOs need may appear for the first time in the exercise.
+The test for every quest: *could someone solve it from this lesson, the earlier quests of this
+track, and the starter alone?* If the answer needs a function, syntax or idea the lesson never
+showed, the lesson is wrong, not the learner.
+
+- Every API call, keyword, macro or pattern the solution uses is **shown in the lesson or an
+  earlier quest of the same track**. "Used before taught" is a bug.
+- A quiz question is answerable from the lesson above it. Wrong choices are plausible, the right
+  one is not the longest, and the lesson contains the fact that decides it.
+- Each `// TODO:` says what to write in plain words, in the lesson's vocabulary. Hints then
+  narrow it down; the last hint names the exact call.
+- Read quests: the lesson is the whole teaching. Quiz facts come from that text, not from later quests.
+
 ## Layout
 
 ```
