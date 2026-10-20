@@ -19,7 +19,7 @@ let cmd = &line[..2];             // "tp"
 
 - `line.find(' ')` returns `Some(index)` of the first space, or `None` when there is none. Slice up to that index.
 
-Out-of-range slices panic, so check the length first.
+Out-of-range slices panic, so check the length first. When the answer is "nothing", return an **empty slice**, written `&[]`: any slice type accepts it.
 
 The `<'a>` in `trim_edges`'s signature is a lifetime label. Ignore it for now: it is given, you only write the body. Quest 09 explains it.
 

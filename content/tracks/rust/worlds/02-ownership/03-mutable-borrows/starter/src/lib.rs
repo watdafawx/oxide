@@ -1,6 +1,6 @@
 /// Adds a '!' to the end of the caller's String.
 pub fn add_exclaim(s: &mut String) {
-    // TODO: push a '!' onto s
+    // TODO: append "!" to s with push_str
     todo!()
 }
 

@@ -13,8 +13,8 @@ answer = 2
 [[quiz]]
 question = "With `let mut s = String::new();`, which pair of lines compiles?"
 choices = [
-  "let r1 = &mut s; let r2 = &mut s; r1.push('a');",
+  "let r1 = &mut s; let r2 = &mut s; r1.push('a'); r2.push('b');",
   "let r1 = &s; let r2 = &s; println!(\"{r1} {r2}\");",
-  "let r = &mut s; let t = &s; r.push('a');",
+  "let r = &mut s; let t = &s; r.push('a'); println!(\"{t}\");",
 ]
 answer = 1

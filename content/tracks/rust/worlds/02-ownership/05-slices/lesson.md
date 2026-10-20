@@ -19,7 +19,7 @@ let word = &s[..4];             // "rust"
 
 - `text.find(' ')` returns `Some(index)` of the first space, or `None` when there is none. Slice up to that index.
 
-Out-of-range slices panic, so check the length first.
+Out-of-range slices panic, so check the length first. When the answer is "nothing", return an **empty slice**, written `&[]`: any slice type accepts it.
 
 ## Your turn
 

@@ -22,6 +22,24 @@ Map you start with: **Cellar** (lamp) → north → **Hall** → east → **Libr
 
 Exact text formats are in the doc comment above each function in `src/lib.rs`, and in the tests.
 
+## Toolbox you have not met yet
+
+Skim these Vec moves; the hints name them again when you need one.
+
+```rust
+let mut names: Vec<String> = vec!["Steve".to_string(), "Alex".to_string()];
+names.is_empty();                                  // false
+names.iter().position(|n| n == "Alex");            // Some(1): the index of the first match, or None
+let gone = names.remove(1);                        // takes index 1 out and hands you the owned String
+for n in names.iter_mut() { n.push('!'); }         // like iter(), but each n is a &mut: you may change it
+let first = names.iter_mut().find(|n| n.len() > 3); // Option<&mut String>
+```
+
+- `!x.is_empty()` means "is not empty".
+- `for &line in script` loops over a `&[&str]` and gives you each `&str` itself.
+- `entry.split_once(' ')` cuts text at the first space into `Some((before, after))`, or `None`.
+- A closure can pick tuples apart: `exits.iter().find(|(dir, _)| dir == want)` looks at the first part of each `(String, usize)` pair.
+
 ## Your turn
 
 - Open `src/lib.rs`. `Game::demo()` and the types are done. Replace each `todo!()`, top to bottom, one objective at a time.

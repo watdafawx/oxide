@@ -9,8 +9,8 @@ answer = 2
 [[quiz]]
 question = "With `let mut online = Vec::<String>::new();`, which pair of lines compiles?"
 choices = [
-  "let r1 = &mut online; let r2 = &mut online; r1.push(\"Steve\".to_string());",
+  "let r1 = &mut online; let r2 = &mut online; r1.push(\"Steve\".to_string()); r2.push(\"Alex\".to_string());",
   "let r1 = &online; let r2 = &online; println!(\"{} {}\", r1.len(), r2.len());",
-  "let r = &mut online; let t = &online; r.push(\"Steve\".to_string());",
+  "let r = &mut online; let t = &online; r.push(\"Steve\".to_string()); println!(\"{}\", t.len());",
 ]
 answer = 1

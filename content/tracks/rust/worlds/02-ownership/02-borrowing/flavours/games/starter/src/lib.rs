@@ -10,7 +10,7 @@ pub fn count_players(roster: &Roster) -> usize {
 
 /// Sum of the length of every player name (the width of the tab list).
 pub fn total_chars(roster: &Roster) -> usize {
-    // TODO: add up name.len() for every name in roster.players
+    // TODO: add up name.len() for every name in roster.players (a mut total and a `for` loop over &roster.players)
     todo!()
 }
 
