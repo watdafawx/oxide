@@ -15,6 +15,8 @@ let handle = tokio::spawn(async move {
 let msg: String = handle.await.unwrap();
 ```
 
+`.ok()` turns that `Result` into an `Option` (`Err` becomes `None`).
+
 Spawn all the tasks **first**, then await the handles. Awaiting inside the spawn loop makes them run one at a time.
 
 ## Your turn

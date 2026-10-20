@@ -14,7 +14,7 @@ pub async fn square_all(nums: Vec<u64>) -> Vec<u64> {
 
 /// Divides in a spawned task. Division by zero panics, so give back None then.
 pub async fn safe_div(a: i32, b: i32) -> Option<i32> {
-    // TODO: spawn the division, await the handle, turn a JoinError into None
+    // TODO: spawn the division, await the handle, turn a JoinError into None with `.ok()`
     todo!()
 }
 

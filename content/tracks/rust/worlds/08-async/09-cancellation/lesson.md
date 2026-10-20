@@ -22,6 +22,17 @@ token.cancel();
 assert_eq!(handle.await.unwrap(), "stopped");
 ```
 
+A worker that keeps going until cancelled puts the `select!` inside a `loop`, and **returns** from the task when the token wins:
+
+```rust
+loop {
+    tokio::select! {
+        _ = t.cancelled() => return "stopped",   // leaves the whole task
+        _ = do_one_step() => {}                  // otherwise run a step, loop again
+    }
+}
+```
+
 `select!` is what makes a long `sleep` or download interruptible. A loop that only checks a flag between slow steps reacts late.
 
 ## Your turn

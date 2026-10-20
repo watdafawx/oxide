@@ -22,6 +22,10 @@ h.await.unwrap();
 assert_eq!(*done.lock().await, 1);
 ```
 
+`tokio::task::yield_now().await` pauses the current task for a moment so the others can run.
+
+To get the value back out of an `Arc<tokio::sync::Mutex<T>>` after all tasks are joined: `Arc::try_unwrap(arc).unwrap().into_inner()` (tokio's `into_inner` returns the value directly, no `Result`). `map.get(key).cloned()` turns `Option<&V>` into `Option<V>`.
+
 Keep locks short. Holding one across a slow call makes every other task queue behind it.
 
 ## Your turn

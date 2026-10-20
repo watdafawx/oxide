@@ -18,6 +18,8 @@ async fn main() {
 }
 ```
 
+A test is an `async fn` too: put `#[tokio::test]` above it instead of `#[test]`, and `.await` inside (the starter's tests do this).
+
 No `.await`, no work. Forget it and the compiler warns you.
 
 **First build:** this quest downloads and compiles tokio (about 1-2 min the first time). Later runs take seconds.

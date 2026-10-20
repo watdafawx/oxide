@@ -3,6 +3,7 @@
 Servers hang. A good downloader never waits forever and can be told to stop.
 
 - **`timeout(dur, fut).await`** returns `Ok(value)` if the future finishes in time, `Err(Elapsed)` if not. The future is dropped (cancelled) on timeout.
+- `.ok()` turns that `Result` into an `Option` (`Err` becomes `None`).
 - **`select!`** waits on several futures and runs the branch of the **first** one to finish. The others are dropped. A classic use: "the work" against a cancel signal.
 
 ```rust
@@ -23,6 +24,9 @@ let msg = tokio::select! {
 };
 assert_eq!(msg, "fast");
 ```
+
+- A **`oneshot`** channel carries one message: `let (tx, mut rx) = oneshot::channel::<()>();` then `tx.send(())`. The `rx` is itself a future that completes when the message arrives, so it can be a `select!` branch (write `&mut rx` to borrow it instead of moving it).
+- An arm can keep the winner's value: `result = some_future => result` binds the output to `result`; `_ = ...` throws it away.
 
 Dropping a future stops it at its next `.await`. That is what makes cancellation cheap in async Rust.
 

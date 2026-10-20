@@ -23,6 +23,17 @@ let permit = sem.clone().acquire_owned().await?; // waits if 2 are already runni
 // ...permit dropped at end of scope: slot freed
 ```
 
+**New tools for the stages** (the hints show the exact calls)
+
+- Text: `base.trim_end_matches('/')` cuts trailing slashes; `format!("{a}{b}")` glues text.
+- One request on a shared client: `client.get(url).send().await?` then `.error_for_status()?`, and `.bytes().await?` gives the body as bytes. Clone a `reqwest::Client` freely: clones share one connection pool.
+- Files, async flavour: `tokio::fs::write(&path, &bytes).await?` and `tokio::fs::rename(&from, &to).await?`. `dir.join("a.jar")` builds a path.
+- Retry: `match first { Err(e) if is_server_error(&e) => ..., other => other }`. The `if` after a pattern is a **match guard**: the arm only applies when it is true.
+- Many tasks, one set: `let mut set = JoinSet::new(); set.spawn(async move { ... });` then `while let Some(res) = set.join_next().await { ... }` yields each task's result as it finishes. `set.abort_all()` cancels them all.
+- `res??`: `join_next` gives `Result<Result<T>, JoinError>`. The first `?` unwraps the task result, the second your own `Result`.
+- A spawned async block that uses `?` needs its error type spelled out: end it with `Ok::<String, Error>(name)`.
+- Limiting: `Semaphore::new(n)` hands out `n` permits; `sem.acquire_owned().await?` waits for one (needs the `Arc<Semaphore>`), and the permit frees its slot when dropped.
+
 Go stage by stage and run the tests after each one: the first objective turns green within a minute.
 
 ## Your turn

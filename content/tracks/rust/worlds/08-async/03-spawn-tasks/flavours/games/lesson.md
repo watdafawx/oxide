@@ -14,6 +14,7 @@ let bytes = handle.await.unwrap();            // 2048
 - `tokio::spawn` takes a future and returns a **`JoinHandle<T>`** immediately. The task is already running.
 - Awaiting the handle gives `Result<T, JoinError>`. `Err` means the task **panicked**: your launcher survives it.
 - The future must own what it uses (`async move`) because the task may outlive the function.
+- `.ok()` turns that `Result` into an `Option` (`Err` becomes `None`).
 - Spawn all tasks **before** you await any, or you download one at a time again.
 
 ## Your turn

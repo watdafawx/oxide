@@ -19,6 +19,8 @@ let long: Vec<usize> = mods
     .await; // [6, 4]
 ```
 
+`fold` works like the iterator one, but the closure returns a future: `stream::iter(vec![5, 7]).fold(0, |acc, _| async move { acc + 1 }).await` counts the items (`2`). `stream::iter(1u64..)` is an **endless** stream (`1u64..` is a range with no end): cut it with `.take(n)` before you `collect`.
+
 Like iterators, streams are lazy: nothing happens until you `collect`, `fold` or loop over them.
 
 ## Your turn

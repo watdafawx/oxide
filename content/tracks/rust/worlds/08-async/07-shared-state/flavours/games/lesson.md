@@ -19,7 +19,9 @@ let v = versions.read().await.get("jei").copied(); // many readers
 - Holding a `std::sync::MutexGuard` across `.await` can deadlock the runtime. A tokio guard is safe to hold, but keep it short anyway.
 - A lost update comes from **read, wait, write** without the lock held the whole time. The test makes tasks yield in the middle to expose it.
 - `RwLock` suits a cache: many readers, a few writers.
-- Share through `Arc`, and `Arc::try_unwrap(..)` once all tasks are joined.
+- `tokio::task::yield_now().await` pauses the current task for a moment so the others can run.
+- Share through `Arc`, and `Arc::try_unwrap(arc).unwrap().into_inner()` gets the value back once all tasks are joined (tokio's `into_inner` returns the value directly, no `Result`).
+- `map.get(key).cloned()` turns `Option<&V>` into `Option<V>`.
 
 ## Your turn
 

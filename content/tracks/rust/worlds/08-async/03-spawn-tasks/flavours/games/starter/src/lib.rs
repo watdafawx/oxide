@@ -15,7 +15,7 @@ pub async fn fetch_all(sizes_kb: Vec<u64>) -> Vec<u64> {
 /// Average file size, computed in a spawned task. With zero files the division
 /// panics inside the task, so give back None.
 pub async fn average_kb(total_kb: i32, files: i32) -> Option<i32> {
-    // TODO: spawn `total_kb / files`, await it, turn Err into None
+    // TODO: spawn `total_kb / files`, await it, turn Err into None with `.ok()`
     todo!()
 }
 

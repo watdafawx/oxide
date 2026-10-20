@@ -8,7 +8,7 @@ pub async fn fetch_mod_json(url: &str) -> Result<Value, reqwest::Error> {
 
 /// The "title" field of the JSON at `url` (None if there is no string title).
 pub async fn mod_title(url: &str) -> Result<Option<String>, reqwest::Error> {
-    // TODO: fetch_mod_json, then value["title"].as_str()
+    // TODO: fetch_mod_json, then value["title"].as_str() (an Option<&str>), then .map(|s| s.to_string()) to own it
     todo!()
 }
 

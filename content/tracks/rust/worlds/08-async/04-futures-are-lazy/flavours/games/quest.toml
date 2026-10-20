@@ -3,10 +3,10 @@ summary = "A future does nothing until it is polled, and a blocking call freezes
 
 [[quiz]]
 question = "You call `download(jar)` (an async fn), store the result in a variable, and never .await it. What happens?"
-choices = ["The download still runs in the background", "Nothing runs: a future does nothing until it is polled", "The launcher panics"]
-answer = 1
+choices = ["Nothing runs: the future is never polled", "The download still runs in the background, just a bit later", "The launcher panics when the variable goes out of scope"]
+answer = 0
 
 [[quiz]]
 question = "Inside an async fn that downloads a jar you call std::thread::sleep(Duration::from_secs(5)) to wait before a retry. What is the problem?"
-choices = ["It does not compile", "It blocks the runtime thread, so every other download on that thread freezes for 5 seconds", "It is fine, it is the same as tokio::time::sleep"]
-answer = 1
+choices = ["It does not compile, because std::thread::sleep is not allowed in async fn", "It is fine: the runtime swaps downloads automatically while this one sleeps", "It blocks the thread, so other downloads on it freeze"]
+answer = 2

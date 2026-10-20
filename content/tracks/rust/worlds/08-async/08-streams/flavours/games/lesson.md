@@ -13,6 +13,7 @@ let big: Vec<u64> = stream::iter(vec![500u64, 2048, 4096])
 let first_three: Vec<u64> = stream::iter(0u64..).take(3).collect().await;  // endless source, cut with take
 ```
 
+- `fold` works like the iterator one, but the closure returns a future: `stream::iter(vec![5, 7]).fold(0, |acc, _| async move { acc + 1 }).await` counts the items (`2`).
 - Add the `futures` crate and `use futures::StreamExt` to get these methods.
 - Streams are lazy like iterators: nothing happens until you `collect`, `fold` or loop with `while let Some(x) = s.next().await`.
 - `filter` and `fold` take closures that return **futures**: `ready(bool)` for `filter`, `async move { .. }` for `fold`.

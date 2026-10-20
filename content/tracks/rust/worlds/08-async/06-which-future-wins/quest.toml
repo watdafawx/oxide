@@ -8,10 +8,10 @@ requires = ["08-async/06-timeouts-and-select"]
 
 [[quiz]]
 question = "The downloader runs `select!` between a slow download and the Cancel button. Cancel is pressed first. What happens to the download future?"
-choices = ["It keeps running in the background", "It is dropped, so it stops at its next .await", "select! waits for it to finish anyway"]
-answer = 1
+choices = ["It is dropped and stops at its next .await", "It keeps running in the background after select! returns", "select! waits for it to finish before it returns anything"]
+answer = 0
 
 [[quiz]]
 question = "`timeout(Duration::from_secs(5), download).await` returns `Err(Elapsed)`. What do you know about the download?"
-choices = ["It finished with an error", "It was cancelled because it took longer than 5 seconds", "It is still running and you can await it again"]
-answer = 1
+choices = ["It finished, but with an error", "It is still running and you can await it again later", "It was dropped: the deadline passed first"]
+answer = 2

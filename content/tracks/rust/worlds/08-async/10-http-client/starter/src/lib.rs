@@ -8,7 +8,7 @@ pub async fn fetch_json(url: &str) -> Result<Value, reqwest::Error> {
 
 /// The "title" field of the JSON at `url` (None if there is no string title).
 pub async fn title_of(url: &str) -> Result<Option<String>, reqwest::Error> {
-    // TODO: call fetch_json, look at value["title"].as_str()
+    // TODO: call fetch_json, look at value["title"].as_str() (an Option<&str>), then .map(|s| s.to_string()) to own it
     todo!()
 }
 

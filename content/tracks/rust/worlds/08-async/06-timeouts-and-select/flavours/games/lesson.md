@@ -16,7 +16,9 @@ let winner = tokio::select! {
 
 - `timeout(d, fut).await` is `Ok(value)` or `Err(Elapsed)`. On `Err` the future was **dropped**, so the work stopped.
 - `select!` polls several futures and runs the arm of the first one to finish. The losers are dropped.
-- A `oneshot::Receiver` is a future too: it completes when someone sends. That makes it a Cancel button.
+- A **`oneshot`** channel carries one message: `let (tx, mut rx) = oneshot::channel::<()>();` then `tx.send(())`. The `rx` is a future too: it completes when someone sends, which makes it a Cancel button. In `select!` write `&mut rx` to borrow it instead of moving it.
+- An arm can keep the winner's value: `result = some_future => result` binds the output to `result`; `_ = ...` throws it away.
+- `.ok()` turns the `Result` from `timeout` into an `Option`.
 - Cancellation happens at an `.await`. A future that never awaits cannot be stopped.
 
 ## Your turn
