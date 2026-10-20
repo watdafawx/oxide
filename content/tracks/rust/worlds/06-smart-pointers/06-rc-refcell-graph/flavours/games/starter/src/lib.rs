@@ -21,7 +21,7 @@ pub fn connect(source: &Rc<RefCell<Assembler>>, target: Rc<RefCell<Assembler>>) 
 
 /// The assembler's rate plus the throughput of everything downstream of it.
 pub fn total_throughput(assembler: &Rc<RefCell<Assembler>>) -> u32 {
-    // TODO: the assembler's own rate plus the throughput of everything it feeds (recursive)
+    // TODO: the assembler's own rate plus the throughput of everything it feeds (recursive). `borrow()` the assembler first, then add the total of each machine in its `feeds`
     todo!()
 }
 

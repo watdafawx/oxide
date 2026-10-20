@@ -22,6 +22,7 @@ println!("{}", chest.slots.borrow().len()); // 2
 - `borrow()` returns a `Ref<T>`, `borrow_mut()` returns a `RefMut<T>`. Both deref to the inside.
 - The borrow lasts until the `Ref` / `RefMut` is dropped (end of the statement for temporaries).
 - A second `borrow_mut()` while one is alive **panics**. `try_borrow_mut()` returns a `Result` so you can check.
+- `result.is_err()` is true when a `Result` is an `Err` (`is_ok()` is the opposite). So `cell.try_borrow_mut().is_err()` asks "is it borrowed right now?".
 
 - To change a number inside a `RefCell`, deref the borrow: **`*cell.borrow_mut() += 1;`**. `borrow_mut()` gives a `RefMut`, and the `*` reaches the number inside it.
 

@@ -29,6 +29,9 @@ The rules:
 - **End a `borrow()` before you `borrow_mut()` the same cell.** Take the parent in its own statement, `let parent = node.borrow().parent.upgrade();`, so the `Ref` dies at the semicolon. Keep it alive in a bigger expression and the next `borrow_mut()` panics.
 - **`let ... else`** unwraps or leaves early: `let Some(node) = self.nodes.get(&id) else { return false; };`.
 
+- **More small tools:** `while let Some(x) = current { ...; current = next; }` loops while an `Option` is `Some`. `opt.cloned()` turns `Option<&Rc<T>>` into `Option<Rc<T>>`. `"  ".repeat(3)` is six spaces. `out.push_str(&text)` appends a `&str` to a `String`, `out.push('
+')` one char. `v.reverse()` flips a `Vec` in place. `map.retain(|id, value| keep)` drops the entries where the closure is `false`. `&map[&key]` reads a `HashMap` entry (panics when absent). `v.iter().any(|x| ...)` asks whether some item matches.
+
 ## Your turn
 
 In `src/lib.rs` implement `text`, `add`, `path`, `render`, `remove` and `move_node`. `Doc::new` is done. The first objective is a two-minute win: start there.

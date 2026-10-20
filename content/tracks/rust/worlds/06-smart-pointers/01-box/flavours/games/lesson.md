@@ -16,6 +16,8 @@ Without the Box, `Belt` would be infinitely big and the compiler refuses it.
 
 Matching works as usual, and `&Box<Belt>` auto-derefs to `&Belt` when you pass it on.
 
+To walk it, match on it: the `End` arm returns a plain number and stops, the other arm calls the *same function* on the rest of the chain and adds its own part. A function that calls itself like this is **recursion**.
+
 ## Your turn
 
 In `src/lib.rs` fill in:

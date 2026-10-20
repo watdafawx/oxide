@@ -20,7 +20,7 @@ pub fn add_child(parent: &Rc<RefCell<Node>>, child: Rc<RefCell<Node>>) {
 
 /// The node's value plus the totals of all its descendants.
 pub fn total(node: &Rc<RefCell<Node>>) -> i32 {
-    // TODO: the node's own value plus the totals of its children (recursive)
+    // TODO: the node's own value plus the totals of its children (recursive). `borrow()` the node first, then add the total of each node in its `children`
     todo!()
 }
 

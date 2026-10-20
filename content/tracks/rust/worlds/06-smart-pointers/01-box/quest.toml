@@ -2,7 +2,7 @@ title = "Box it up"
 summary = "A list that contains itself needs a Box to have a size."
 kind = "exercise"
 xp = 35
-minutes = 4
+minutes = 6
 tags = ["box", "heap", "enums"]
 
 [[objectives]]
