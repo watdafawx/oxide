@@ -12,7 +12,7 @@ Scope: `00-tutorial` (3), `01-foundations` (12), `02-ownership` (10), `03-collec
 
 ## Verdicts
 
-Before fixes: 22 ok, 16 unclear (a needed item first appeared in a TODO or a hint), 0 broken. After fixes all 38 ok.
+Before fixes: 21 ok, 17 unclear (a needed item first appeared in a TODO or a hint), 0 broken. After fixes all 38 ok.
 
 | quest | verdict (before) | missing before | fixed |
 |---|---|---|---|
@@ -60,7 +60,7 @@ Before fixes: 22 ok, 16 unclear (a needed item first appeared in a TODO or a hin
 - `03/08` title mentions "fold" though fold is taught in `03/11`. Renaming the quest would break save data keyed on the folder name; the lesson itself is honest. Suggest a title tweak later.
 - `03/12` repeats the `to_uppercase` paragraph that `03/09` has; harmless in the games flavour, needed in plain.
 - `.sum()` and `.ok_or_else` still appear in a few solutions as the *idiomatic* form; the TODOs and lessons allow the longer `for`/`match` form, so they are not required knowledge.
-- Minutes were not changed. Added lesson lines are one-line bullets; the three boss/toolbox additions (`01/12`, `02/10`, `03/13`) add roughly one minute of reading each, within the current 20-40 minute boss estimates.
+- Minutes were not changed. Added lesson lines are one-line bullets; the three boss/toolbox additions (`01/12`, `02/10`, `03/13`) add roughly one minute of reading each.
 
 ## Commits
 
