@@ -23,6 +23,7 @@ for (item, n) in &bag {                            // arrow first, then torch: s
 ```
 
 - `HashSet`: `insert`, `contains`, `len`, `intersection`, `union`, `difference`. Order is random, so `sort()` a `Vec` copy if order matters.
+- `intersection` and friends hand you references (`&&str`, `&i32`...). Put `.copied()` before `.collect()` when you want the plain values.
 - `BTreeMap` has the same API as `HashMap` (`insert`, `get`, `entry`). Use it when you print or compare results.
 
 ## Your turn

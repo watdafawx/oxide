@@ -15,7 +15,7 @@ let light = weights.iter().filter(|w| **w < 20).count();      // 2
 
 - **`.iter()`** starts a chain by borrowing each item (`&DropEntry`, `&i32`).
 - **`.map(|x| ...)`** changes each item. **`.filter(|x| ...)`** keeps items where the closure is `true`.
-- **`.copied()`** turns `&i32` into `i32`, handy before `filter`/`collect`.
+- **`.copied()`** turns `&i32` into `i32`, handy before `filter`/`collect`. Without it, `filter` hands its closure a `&&i32` (a reference to the `&i32` that `iter` gives), so compare with `**w > 20`, or let a struct field access (`d.weight`) auto-deref for you.
 - **`.collect()`** builds the result. Say what you want: `let v: Vec<i32> = ...` or `collect::<Vec<_>>()`.
 - **`.sum()`** and **`.count()`** end the chain with a single number.
 

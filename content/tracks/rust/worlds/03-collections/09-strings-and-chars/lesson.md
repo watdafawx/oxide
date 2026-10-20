@@ -20,7 +20,9 @@ println!("[{:>6.2}]", 3.14159);   // [  3.14]  width 6, 2 decimals
 - **`split(sep)`**, **`trim()`**, **`split_whitespace()`** cut text up. They return iterators.
 - **`parse::<T>()`** returns a `Result`. **`.ok()`** converts it to `Option`; **`filter_map`** keeps the `Some` values and unwraps them.
 - **`chars()`** iterates characters. **`join(sep)`** glues a list of strings with a separator.
-- In `format!`, `{:<10}` pads left-aligned to width 10, `{:>5}` right-aligned. Perfect for tables.
+- In `format!`, `{:<10}` pads left-aligned to width 10, `{:>5}` right-aligned. Perfect for tables. A named variable works too: `{name:<12}`.
+- **`slice.to_vec()`** copies a slice (`&[&str]`) into a new `Vec` you may `mut`ate, for example to `sort()` it without touching the original.
+- Text answers `contains` too, with a `char` or a `&str`: `"abc".contains('b')` is `true`. Looping `chars()` through `filter` gives you `&char`, so write `*c` to get the `char`.
 
 ## Your turn
 

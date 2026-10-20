@@ -22,6 +22,8 @@ for w in ["a", "b", "a"] {
 - **Iteration order is random.** Never rely on it; sort, or use a `BTreeMap` (later quest).
 
 - **`a.iter().zip(b)`** walks two lists side by side and yields `(x, y)` pairs, stopping at the shorter one. Handy when two slices line up by position.
+- Items from a slice arrive as references (`&u32`): write `*c` to get the plain number out, for example when a `HashMap` wants a `u32` value.
+- **`text.split_whitespace()`** walks the words of a string, splitting on any spaces or newlines: `for word in text.split_whitespace() { ... }`.
 
 ## Your turn
 

@@ -18,6 +18,10 @@ let all: Result<Vec<i32>, String> = ["2", "4"].iter().map(|t| half(t)).collect()
 - **`map_err`** rewrites the error, e.g. to add a line number.
 - Collecting `Result` items into `Result<Vec<_>, _>` stops at the first `Err`.
 - `BTreeMap` keeps categories sorted. Compare `f64` with `total_cmp`.
+- `csv.lines()` walks a text one line at a time, like `split_whitespace()` does for words.
+- `min_by(|a, b| a.x.total_cmp(&b.x))` picks the smallest by a float field and returns an `Option`; `max_by` is the biggest.
+- `lines.extend(iter)` pushes every item of an iterator onto a `Vec`; `lines.push(x)` adds one.
+- `sort_by(|a, b| b.x.total_cmp(&a.x))` sorts floats biggest first (swap `a` and `b` for smallest first).
 
 ## Your turn
 

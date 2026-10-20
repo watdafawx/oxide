@@ -7,7 +7,7 @@ tags = ["iterators", "lazy"]
 
 [[quiz]]
 question = "What does `numbers.iter().map(|n| n * 2);` do on its own, with no `.collect()` after it?"
-choices = ["Nothing yet: it builds a lazy iterator that has not run", "It doubles every number in `numbers` in place", "It returns a new Vec with the doubled numbers"]
+choices = ["Nothing yet: it only builds a lazy iterator", "It doubles every number in `numbers` in place", "It returns a new Vec with the doubled numbers"]
 answer = 0
 
 [[quiz]]

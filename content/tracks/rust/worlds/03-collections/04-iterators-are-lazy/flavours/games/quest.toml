@@ -3,7 +3,7 @@ summary = "Why .map() alone does nothing, and what makes the chain run."
 
 [[quiz]]
 question = "What does `drops.iter().map(|d| d.weight * 2);` do on its own, with no `.collect()` after it?"
-choices = ["Nothing yet: it builds a lazy iterator that has not run", "It doubles every weight in the `LootTable` in place", "It returns a new Vec with the doubled weights"]
+choices = ["Nothing yet: it only builds a lazy iterator", "It doubles every weight in the `LootTable` in place", "It returns a new Vec with the doubled weights"]
 answer = 0
 
 [[quiz]]

@@ -22,6 +22,8 @@ for (name, n) in &m {                    // apple first, then pear: sorted
 ```
 
 - `HashSet`: `insert`, `contains`, `len`, `intersection`, `union`, `difference`. Order is random, so `sort()` a `Vec` copy if order matters.
+- `intersection` and friends hand you references (`&&str`, `&i32`...). Put `.copied()` before `.collect()` when you want the plain values.
+- A `char` has helpers: `c.is_alphabetic()` is `true` for letters, `c.to_ascii_lowercase()` turns `'A'` into `'a'`. Use `filter` on `text.chars()` to skip the ones you do not want.
 - `BTreeMap` has the same API as `HashMap` (`insert`, `get`, `entry`). Use it when you print or compare results.
 
 ## Your turn

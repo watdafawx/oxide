@@ -25,7 +25,8 @@ println!("[{:>6}]", "ab");   // [    ab]  right
 - **`split(sep)`**, **`trim()`**, **`split_whitespace()`** cut text up. They return iterators. `rsplit` starts from the right.
 - **`parse::<T>()`** returns a `Result`. **`.ok()`** converts it to `Option`; **`filter_map`** keeps the `Some` values and unwraps them.
 - **`chars()`** iterates characters, so you can take the first one and keep the rest. **`join(sep)`** glues a list of strings with a separator.
-- In `format!`, `{:<12}` pads left-aligned to width 12, `{:>4}` right-aligned. Perfect for tables.
+- In `format!`, `{:<12}` pads left-aligned to width 12, `{:>4}` right-aligned. Perfect for tables. A named variable works too: `{name:<12}`.
+- **`slice.to_vec()`** copies a slice (`&[&str]`) into a new `Vec` you may `mut`ate, for example to `sort()` it without touching the original.
 
 - **`c.to_uppercase()`** on a `char` returns an **iterator** (some letters become two), not a `char` or a `String`. Use `.collect::<String>()` to get a `String`, `.next()` for the first `char`, or `.chain(rest)` to glue it to the remaining chars first.
 
