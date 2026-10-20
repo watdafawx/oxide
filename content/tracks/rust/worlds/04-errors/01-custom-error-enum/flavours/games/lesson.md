@@ -24,6 +24,8 @@ impl std::error::Error for JarError {}
 
 A manifest line looks like `sodium@5 fabric`: mod name, `@`, version number, then the loader. The valid loaders are `fabric`, `forge` and `neoforge` (the `Loader` enum); any other word is `UnknownLoader`.
 
+- You can **match on text**: `match loader { Some("fabric") => ..., Some(other) => ..., None => ... }`. A literal like `"fabric"` is a pattern, and `other` catches everything else.
+
 ## Your turn
 
 - Open `src/lib.rs`. `impl Error` is already there.

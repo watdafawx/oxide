@@ -10,7 +10,7 @@ test = "circle_area_uses_parent_constant"
 label = "circle::area reads PI from its parent with super::"
 [[objectives]]
 test = "square_area_multiplies_sides"
-label = "square::area works"
+label = "square::area returns side times side"
 [[objectives]]
 test = "total_area_adds_both_children"
 label = "total_area calls into its child modules with self::"

@@ -51,7 +51,7 @@ fn parse_line(line: &str) -> anyhow::Result<Todo> {
 impl Store {
     /// An empty store.
     pub fn new() -> Self {
-        // TODO: an empty Store (hint: it derives Default)
+        // TODO: an empty Store
         todo!()
     }
 
@@ -61,44 +61,43 @@ impl Store {
 
     /// Add a todo and return its id. Ids start at 1 and go up (highest existing id + 1).
     pub fn add(&mut self, text: &str) -> u32 {
-        // TODO: next id = highest id + 1 (1 when empty); push a Todo with done: false
+        // TODO: give the new todo the next free id (1 when the store is empty) and store it, not done
         todo!()
     }
 
     /// Flip the `done` flag of todo `id`. Unknown id -> TodoError::NotFound(id).
     pub fn toggle(&mut self, id: u32) -> Result<(), TodoError> {
-        // TODO: find the todo with this id (iter_mut().find), flip `done`, or return NotFound
+        // TODO: flip `done` on the todo with this id, or return NotFound
         todo!()
     }
 
     /// Read a store from `path`. A file that does not exist yet is an empty store.
     pub fn load(path: &Path) -> anyhow::Result<Store> {
-        // TODO: std::fs::read_to_string(path). If the error kind is
-        //       std::io::ErrorKind::NotFound return Ok(Store::new()); other errors get
-        //       .with_context(). Then parse each line with parse_line(line) and
+        // TODO: read the file. A file that does not exist yet means an empty store;
+        //       any other read error gets context. Then parse every line, and
         //       add context saying which line number failed.
         todo!()
     }
 
     /// Write the store to `path`, one `format_line` per todo.
     pub fn save(&self, path: &Path) -> anyhow::Result<()> {
-        // TODO: join format_line for each todo with '\n' and std::fs::write it,
-        //       with .with_context(|| format!("writing {}", path.display()))
+        // TODO: write one line per todo to the file;
+        //       a write error gets context naming the path
         todo!()
     }
 }
 
 /// Turn "add buy milk" / "done 3" / "list" into a Command.
 pub fn parse_command(input: &str) -> Result<Command, TodoError> {
-    // TODO: trim; split_once(' ') into verb + rest; match the verb.
-    //       "add" needs non-empty text, "done" needs a number, anything else -> BadCommand(trimmed input)
+    // TODO: trim the input and read the first word as the verb.
+    //       "add" needs non-empty text, "done" needs a number, anything else is BadCommand carrying the trimmed input
     todo!()
 }
 
 /// Run a command. Add -> "added <id>", Done -> "done <id>",
 /// List -> one line per todo like "[x] 2 eggs" / "[ ] 1 milk", or "nothing to do".
 pub fn run(store: &mut Store, cmd: Command) -> anyhow::Result<String> {
-    // TODO: match cmd. Use `store.toggle(id)?` so TodoError turns into anyhow::Error.
+    // TODO: run the command; let `?` turn a TodoError into an anyhow::Error
     todo!()
 }
 

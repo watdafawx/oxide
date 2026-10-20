@@ -19,6 +19,8 @@ enum AppError {
 
 Same result as hand-written code, a quarter of the lines.
 
+- **`ok_or_else(|| err)`** turns a `None` into `Err(err)`, building the error only when it is needed: `pairs.iter().find(..).ok_or_else(|| MyError::Missing(key.to_string()))?`.
+
 ## Your turn
 
 - Open `src/lib.rs`. The variants have placeholder messages.

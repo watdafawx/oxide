@@ -17,6 +17,8 @@ fn run() -> anyhow::Result<()> {
 - A **missing file is not an error**: check `io::ErrorKind::NotFound` and return an empty store.
 - Tests use `std::env::temp_dir()`, so nothing touches your project.
 
+- Tools the boss uses: a **match guard** adds a condition to an arm (`Err(e) if e.kind() == ErrorKind::NotFound => ...`). A variant with data is also a function, so `rest.parse().map(Command::Done)` wraps an `Ok(n)` into `Ok(Command::Done(n))`. `let Some(x) = opt else { return ... };` unwraps or leaves early. `ok_or_else(|| err)` turns `None` into an `Err`.
+
 ## Your turn
 
 - Open `src/lib.rs`. `Todo`, `TodoError`, `Command` and the line helpers are given.

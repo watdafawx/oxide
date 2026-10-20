@@ -20,6 +20,8 @@ fn disk_needed(path: &str, extra: &str) -> Result<f64, Box<dyn Error>> {
 
 A pack header is one line: `format,size_gb`, such as `3,4.5` (pack format 3, 4.5 GB download).
 
+- Text from a file has stray spaces and a trailing `\n`, and `parse` rejects both. **`trim()`** each part first: `" 10 ".trim().parse::<u32>()`.
+
 ## Your turn
 
 - Open `src/lib.rs`.

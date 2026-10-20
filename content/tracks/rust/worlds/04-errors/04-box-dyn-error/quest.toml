@@ -7,7 +7,7 @@ tags = ["box", "dyn", "error-trait"]
 
 [[objectives]]
 test = "parses_a_valid_pair"
-label = "parse_pair(\"3,4.5\") returns (3, 4.5)"
+label = "parse_pair(\"3,4.5\") returns (3, 4.5), also with spaces around the parts"
 [[objectives]]
 test = "missing_comma_is_an_error_with_message"
 label = "No comma gives an error saying \"missing comma\""

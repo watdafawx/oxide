@@ -2,14 +2,14 @@ use anyhow::{Context, Result, bail};
 
 /// Parse a mod version number. A failure should say "version must be a number".
 pub fn parse_version(s: &str) -> Result<u32> {
-    // TODO: s.trim().parse::<u32>() with .context("version must be a number")
+    // TODO: parse the trimmed text as a number; a failure gets the context "version must be a number"
     todo!()
 }
 
 /// How much of the machine's RAM the pack may use. Accept 0 to 100 inclusive,
 /// otherwise fail with "ram percent out of range: <n>".
 pub fn check_ram_percent(n: i32) -> Result<i32> {
-    // TODO: bail!("ram percent out of range: {n}") when n is outside 0..=100, else Ok(n)
+    // TODO: fail with "ram percent out of range: {n}" when n is outside 0 to 100, otherwise return n
     todo!()
 }
 

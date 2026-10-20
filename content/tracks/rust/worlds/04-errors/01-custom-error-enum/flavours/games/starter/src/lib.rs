@@ -23,7 +23,7 @@ pub enum ManifestError {
 
 impl fmt::Display for ManifestError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // TODO: match self and write! one message per variant: "line has no mod name", "'<v>' is not a version number", "unknown loader: <l>"
+        // TODO: write one message per variant: "line has no mod name", "'<v>' is not a version number", "unknown loader: <l>"
         todo!()
     }
 }
@@ -32,7 +32,7 @@ impl std::error::Error for ManifestError {}
 
 /// Parse a manifest line such as `sodium@5 fabric`.
 pub fn parse_mod_line(line: &str) -> Result<ModEntry, ManifestError> {
-    // TODO: no first word or empty name -> MissingMod; split name@version with split_once('@'); parse the version (map_err -> BadVersion); match the loader word (else UnknownLoader)
+    // TODO: no first word, or an empty name -> MissingMod; a version that is not a number -> BadVersion; a loader other than fabric, forge or neoforge -> UnknownLoader
     todo!()
 }
 

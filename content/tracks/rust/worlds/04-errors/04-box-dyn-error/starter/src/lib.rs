@@ -2,8 +2,8 @@ use std::error::Error;
 
 /// Parse "int,float" such as "3,4.5".
 pub fn parse_pair(s: &str) -> Result<(i32, f64), Box<dyn Error>> {
-    // TODO: s.split_once(',').ok_or("missing comma")?, then parse the left as i32
-    //       and the right as f64 with `?`, and return Ok((a, b))
+    // TODO: split at the comma (no comma -> an error saying "missing comma"), trim both halves,
+    //       parse the left as i32 and the right as f64, let `?` pass failures on
     todo!()
 }
 

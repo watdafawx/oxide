@@ -3,18 +3,18 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum ManifestError {
-    // TODO: change the message to "mod not in manifest: {0}"
+    // TODO: give this variant the message "mod not in manifest: {0}" (`{0}` is its first field)
     #[error("TODO")]
     MissingMod(String),
 
-    // TODO: message "version is not a number: {0}" and put #[from] on the field
+    // TODO: message "version is not a number: {0}"; mark the field so `?` can convert a ParseIntError into it
     #[error("TODO")]
     BadVersion(ParseIntError),
 }
 
 /// Find `mod_name` in the manifest `pairs` (name, version) and parse its version number.
 pub fn find_version(pairs: &[(&str, &str)], mod_name: &str) -> Result<u32, ManifestError> {
-    // TODO: find the pair whose name matches (ok_or_else -> ManifestError::MissingMod), then parse the version with `?` (needs #[from] on BadVersion)
+    // TODO: find the pair whose name matches (no match -> MissingMod carrying the name), then parse the version and let `?` convert a failure
     todo!()
 }
 

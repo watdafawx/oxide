@@ -8,7 +8,7 @@ pub enum MyError {
 
 impl From<ParseIntError> for MyError {
     fn from(_e: ParseIntError) -> Self {
-        // TODO: wrap `e` in MyError::Parse (rename `_e` to `e`)
+        // TODO: wrap the parse error in the MyError variant for parse failures (rename `_e` to `e` so you can use it)
         todo!()
     }
 }
@@ -21,7 +21,7 @@ pub fn parse_small(s: &str) -> Result<i32, MyError> {
 
 /// Add up every input. Stop at the first error.
 pub fn sum_all(inputs: &[&str]) -> Result<i32, MyError> {
-    // TODO: loop over `inputs`, adding `parse_small(input)?` to a total
+    // TODO: add up every input; a bad one should fail the whole sum (let `?` pass the error on)
     todo!()
 }
 

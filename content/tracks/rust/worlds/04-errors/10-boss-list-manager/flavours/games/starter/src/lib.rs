@@ -51,7 +51,7 @@ fn parse_line(line: &str) -> anyhow::Result<ModEntry> {
 impl ModList {
     /// An empty mod list.
     pub fn new() -> Self {
-        // TODO: an empty ModList (hint: it derives Default)
+        // TODO: an empty ModList
         todo!()
     }
 
@@ -61,39 +61,39 @@ impl ModList {
 
     /// Add a mod (enabled) and return its id. Ids start at 1 and go up (highest existing id + 1).
     pub fn add(&mut self, name: &str) -> u32 {
-        // TODO: next id = highest id + 1 (1 when empty); push a ModEntry with enabled: true
+        // TODO: give the new mod the next free id (1 when the list is empty) and store it, enabled
         todo!()
     }
 
     /// Flip the `enabled` flag of mod `id`. Unknown id -> ModError::NotFound(id).
     pub fn toggle(&mut self, id: u32) -> Result<(), ModError> {
-        // TODO: find the mod with this id (iter_mut().find), flip `enabled`, or return NotFound
+        // TODO: flip `enabled` on the mod with this id, or return NotFound
         todo!()
     }
 
     /// Read a mod list from `path`. A file that does not exist yet is an empty list.
     pub fn load(path: &Path) -> anyhow::Result<ModList> {
-        // TODO: std::fs::read_to_string(path). If the error kind is std::io::ErrorKind::NotFound return Ok(ModList::new()); other errors get .with_context(). Then parse each line with parse_line(line) and add context saying which line number failed.
+        // TODO: read the file. A file that does not exist yet means an empty list; any other read error gets context. Then parse every line, and add context saying which line number failed.
         todo!()
     }
 
     /// Write the mod list to `path`, one `format_line` per mod.
     pub fn save(&self, path: &Path) -> anyhow::Result<()> {
-        // TODO: join format_line for each mod with '\n' and std::fs::write it, with .with_context(|| format!("writing {}", path.display()))
+        // TODO: write one line per mod to the file; a write error gets context naming the path
         todo!()
     }
 }
 
 /// Turn "add sodium" / "toggle 3" / "list" into a Command.
 pub fn parse_command(input: &str) -> Result<Command, ModError> {
-    // TODO: trim; split_once(' ') into verb + rest; match the verb. "add" needs a non-empty name, "toggle" needs a number, anything else -> BadCommand(trimmed input)
+    // TODO: trim the input and read the first word as the verb. "add" needs a non-empty name, "toggle" needs a number, anything else is BadCommand carrying the trimmed input
     todo!()
 }
 
 /// Run a command. Add -> "added <id>", Toggle -> "toggled <id>",
 /// List -> one line per mod like "[x] 1 sodium" (enabled) / "[ ] 2 lithium" (disabled), or "no mods yet".
 pub fn run(list: &mut ModList, cmd: Command) -> anyhow::Result<String> {
-    // TODO: match cmd. Use `list.toggle(id)?` so ModError turns into anyhow::Error.
+    // TODO: run the command; let `?` turn a ModError into an anyhow::Error
     todo!()
 }
 

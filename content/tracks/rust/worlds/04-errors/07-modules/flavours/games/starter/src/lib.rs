@@ -5,7 +5,7 @@ pub mod pack {
     pub mod manifest {
         /// Download size of `mods` mods: MB_PER_MOD each.
         pub fn size_mb(mods: u32) -> u32 {
-            // TODO: use the parent's constant: super::MB_PER_MOD * mods
+            // TODO: size of the mods, using the parent module's private constant
             todo!()
         }
     }
@@ -13,21 +13,21 @@ pub mod pack {
     pub mod resolver {
         /// Every library the mods pull in weighs 4 MB.
         pub fn library_mb(libs: u32) -> u32 {
-            // TODO: libs * 4
+            // TODO: each library is 4 MB
             todo!()
         }
     }
 
     /// Size of `mods` mods plus `libs` libraries.
     pub fn total_mb(mods: u32, libs: u32) -> u32 {
-        // TODO: self::manifest::size_mb(mods) + self::resolver::library_mb(libs)
+        // TODO: add the manifest's size to the resolver's library size, calling into the child modules
         todo!()
     }
 }
 
 /// Text such as "download: 11 MB".
 pub fn describe(mods: u32, libs: u32) -> String {
-    // TODO: `use pack::total_mb;` (here or at the top of the file), then format!("download: {} MB", total_mb(mods, libs))
+    // TODO: bring `total_mb` into scope with `use`, then format "download: <total> MB"
     todo!()
 }
 

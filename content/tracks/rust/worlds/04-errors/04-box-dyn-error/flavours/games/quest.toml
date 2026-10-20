@@ -3,7 +3,7 @@ summary = "Box<dyn Error> lets one loader return io errors and parse errors toge
 
 [[objectives]]
 test = "parse_pack_header_reads_a_pair"
-label = "parse_pack_header(\"3,4.5\") returns (3, 4.5)"
+label = "parse_pack_header(\"3,4.5\") returns (3, 4.5), also with spaces and a trailing newline"
 [[objectives]]
 test = "pack_header_without_comma_says_missing_comma"
 label = "No comma gives an error saying \"missing comma\""

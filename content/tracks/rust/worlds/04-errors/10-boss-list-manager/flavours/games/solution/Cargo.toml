@@ -1,5 +1,5 @@
 [package]
-name = "err_boss_todo"
+name = "err_boss_modlist"
 version = "0.1.0"
 edition = "2024"
 
@@ -10,6 +10,6 @@ thiserror = "2"
 [workspace]
 
 [[bin]]
-name = "err_boss_todo"
+name = "err_boss_modlist"
 path = "src/main.rs"
 test = false

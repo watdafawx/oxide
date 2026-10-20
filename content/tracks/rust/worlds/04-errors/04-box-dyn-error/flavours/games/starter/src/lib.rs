@@ -3,13 +3,13 @@ use std::path::Path;
 
 /// Parse a pack header `format,size_gb` such as "3,4.5".
 pub fn parse_pack_header(text: &str) -> Result<(u32, f64), Box<dyn Error>> {
-    // TODO: text.split_once(',') then .ok_or("missing comma")?; parse the left as u32 and the right as f64 with `?`; return Ok((format, size_gb))
+    // TODO: split at the comma (no comma -> an error saying "missing comma"), trim both halves, parse the left as u32 and the right as f64, let `?` pass failures on
     todo!()
 }
 
 /// Read a manifest file and parse its header. Missing file or bad header are both errors.
 pub fn load_pack_header(path: &Path) -> Result<(u32, f64), Box<dyn Error>> {
-    // TODO: std::fs::read_to_string(path)? then parse_pack_header(&text)
+    // TODO: read the file into a String (an io error is fine, the Box takes any error), then parse its header
     todo!()
 }
 

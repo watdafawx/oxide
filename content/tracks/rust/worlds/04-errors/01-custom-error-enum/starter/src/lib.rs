@@ -9,7 +9,7 @@ pub enum ParseError {
 
 impl fmt::Display for ParseError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // TODO: match self. Empty => "input is empty",
+        // TODO: write one message per variant: Empty => "input is empty",
         //       NotANumber(s) => "'<s>' is not a number", Negative(n) => "<n> is negative"
         todo!()
     }
@@ -19,8 +19,8 @@ impl std::error::Error for ParseError {}
 
 /// Parse an age. Empty, non-numeric and negative input each get their own error.
 pub fn parse_age(s: &str) -> Result<u32, ParseError> {
-    // TODO: trim; empty -> Empty; parse::<i64> (map_err to NotANumber(s.to_string()));
-    //       below zero -> Negative(n); otherwise Ok(n as u32)
+    // TODO: empty input (after trimming) -> Empty; text that is not a number -> NotANumber carrying the original text;
+    //       below zero -> Negative(n); otherwise the age
     todo!()
 }
 

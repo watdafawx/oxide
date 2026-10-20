@@ -18,6 +18,8 @@ fn run() -> anyhow::Result<()> {
 - Tests use `std::env::temp_dir()`, so nothing touches your project.
 - Commands are `add <mod>`, `toggle <id>` (enable if disabled, disable if enabled) and `list`.
 
+- Tools the boss uses: a **match guard** adds a condition to an arm (`Err(e) if e.kind() == ErrorKind::NotFound => ...`). A variant with data is also a function, so `rest.parse().map(Command::Toggle)` wraps an `Ok(n)` into `Ok(Command::Toggle(n))`. `let Some(x) = opt else { return ... };` unwraps or leaves early. `ok_or_else(|| err)` turns `None` into an `Err`.
+
 ## Your turn
 
 - Open `src/lib.rs`. `ModEntry`, `ModError`, `Command` and the line helpers are given.

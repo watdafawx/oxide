@@ -1,4 +1,4 @@
-use err_boss_todo::*;
+use err_boss_modlist::*;
 use std::io::{self, BufRead, Write};
 use std::panic;
 use std::path::Path;

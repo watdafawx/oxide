@@ -17,6 +17,8 @@ fn load(name: &str) -> Result<String> {
 - **`bail!("...")`** returns an error right away. It takes format args like `println!`.
 - Apps use anyhow. Libraries use thiserror, so callers can match.
 
+- **`(0..=100).contains(&n)`** asks whether `n` is in a range, ends included. `!` in front means outside. `n < 0 || n > 100` says the same thing.
+
 ## Your turn
 
 - Open `src/lib.rs`.

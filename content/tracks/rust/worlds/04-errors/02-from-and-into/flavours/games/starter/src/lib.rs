@@ -11,7 +11,7 @@ pub enum ManifestError {
 
 impl From<ParseIntError> for ManifestError {
     fn from(_e: ParseIntError) -> Self {
-        // TODO: wrap the error: ManifestError::BadVersion(e) (rename `_e` to `e`)
+        // TODO: wrap the parse error in the ManifestError variant for bad versions (rename `_e` to `e` so you can use it)
         todo!()
     }
 }
@@ -24,7 +24,7 @@ pub fn parse_build(s: &str) -> Result<u32, ManifestError> {
 
 /// Add up the build numbers of every mod. Stop at the first error.
 pub fn pack_fingerprint(builds: &[&str]) -> Result<u32, ManifestError> {
-    // TODO: loop over builds, add parse_build(build)? to a running total
+    // TODO: add up every build number; a bad one should fail the whole sum (let `?` pass the error on)
     todo!()
 }
 

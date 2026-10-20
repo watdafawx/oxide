@@ -6,7 +6,7 @@ test = "size_mb_uses_parent_constant"
 label = "manifest::size_mb reads MB_PER_MOD from its parent with super::"
 [[objectives]]
 test = "library_mb_adds_up_mods"
-label = "resolver::library_mb works"
+label = "resolver::library_mb returns 4 MB per library"
 [[objectives]]
 test = "total_mb_adds_both_children"
 label = "total_mb calls into its child modules with self::"

@@ -5,29 +5,29 @@ pub mod geometry {
     pub mod circle {
         /// Area is PI * r * r.
         pub fn area(r: f64) -> f64 {
-            // TODO: use the parent's constant: super::PI
+            // TODO: area of the circle, using the parent module's private constant
             todo!()
         }
     }
 
     pub mod square {
         pub fn area(side: f64) -> f64 {
-            // TODO: side * side
+            // TODO: area of the square
             todo!()
         }
     }
 
     /// Circle of radius `r` plus square of side `side`.
     pub fn total_area(r: f64, side: f64) -> f64 {
-        // TODO: self::circle::area(r) + self::square::area(side)
+        // TODO: add the circle's area to the square's, calling into the child modules
         todo!()
     }
 }
 
 /// Text such as "total area: 7".
 pub fn describe(r: f64, side: f64) -> String {
-    // TODO: `use geometry::total_area;` (here or at the top of the file),
-    //       then format!("total area: {}", total_area(r, side))
+    // TODO: bring `total_area` into scope with `use`,
+    //       then format "total area: <total>"
     todo!()
 }
 

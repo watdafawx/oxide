@@ -3,19 +3,19 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum ConfigError {
-    // TODO: change the message to "missing key: {0}"
+    // TODO: give this variant the message "missing key: {0}" (`{0}` is its first field)
     #[error("TODO")]
     Missing(String),
 
-    // TODO: message "port is not a number: {0}" and put #[from] on the field
+    // TODO: message "port is not a number: {0}"; mark the field so `?` can convert a ParseIntError into it
     #[error("TODO")]
     BadPort(ParseIntError),
 }
 
 /// Find `key` in `pairs` and parse its value as a port number.
 pub fn read_port(pairs: &[(&str, &str)], key: &str) -> Result<u16, ConfigError> {
-    // TODO: find the pair whose key matches (ok_or_else -> ConfigError::Missing),
-    //       then parse the value with `?` (needs #[from] on BadPort)
+    // TODO: find the pair whose key matches (no match -> Missing carrying the key),
+    //       then parse the value and let `?` convert a failure
     todo!()
 }
 

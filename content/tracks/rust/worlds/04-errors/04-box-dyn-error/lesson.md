@@ -17,8 +17,11 @@ fn total(a: &str, b: &str) -> Result<f64, Box<dyn Error>> {
 - `?` converts automatically. A string literal works with `.into()` or as the `?` source.
 - Downside: callers can't `match` on the exact type. Fine for apps, weaker for libraries.
 
+- Text from a file has stray spaces and a trailing `\n`, and `parse` rejects both. **`trim()`** each part first: `" 10 ".trim().parse::<u32>()`.
+
 ## Your turn
 
 - Open `src/lib.rs`.
 - In `parse_pair`, split `"3,4.5"` at the comma and parse both halves.
 - A missing comma must produce the message `missing comma`.
+- Trim each half before you parse it: `" 3 , 4.5 "` is valid input.

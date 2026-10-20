@@ -2,13 +2,13 @@ use anyhow::{Context, Result, bail};
 
 /// Parse a port number. A failure should say "port must be a number".
 pub fn parse_port(s: &str) -> Result<u16> {
-    // TODO: s.trim().parse::<u16>() and add .context("port must be a number")
+    // TODO: parse the trimmed text as a port; a failure gets the context "port must be a number"
     todo!()
 }
 
 /// Accept 0 to 100 inclusive, otherwise fail with "percent out of range: <n>".
 pub fn check_percent(n: i32) -> Result<i32> {
-    // TODO: bail!("percent out of range: {n}") when n is outside 0..=100
+    // TODO: fail with "percent out of range: {n}" when n is outside 0 to 100, otherwise return n
     todo!()
 }
 
