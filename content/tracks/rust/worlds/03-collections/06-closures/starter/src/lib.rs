@@ -1,24 +1,24 @@
 /// make_adder(5) returns a closure; calling it with 3 gives 8.
 pub fn make_adder(n: i32) -> impl Fn(i32) -> i32 {
-    // TODO: return a closure: `move |x| ...` that adds n to x
+    // TODO: return a closure that adds `n` to whatever it is given (it has to own `n`)
        move |x| x
 }
 
 /// Call `f` on `x`, then call `f` on that result. apply_twice(|n| n * 3, 2) = 18.
 pub fn apply_twice(f: impl Fn(i32) -> i32, x: i32) -> i32 {
-    // TODO: f(f(x))
+    // TODO: run `f` on `x`, then on its result
     todo!()
 }
 
 /// How many items make `is_match` return true?
 pub fn count_matching(items: &[i32], is_match: impl Fn(i32) -> bool) -> usize {
-    // TODO: items.iter().filter(|n| ...).count(); call is_match with the number
+    // TODO: count the items that `is_match` accepts
     todo!()
 }
 
 /// Keep numbers strictly greater than `limit`: ([1, 5, 9], 4) -> [5, 9]
 pub fn above_limit(numbers: &[i32], limit: i32) -> Vec<i32> {
-    // TODO: a filter closure that uses `limit` straight from this function
+    // TODO: keep the stack sizes over `limit` (the closure can use `limit` directly)
     todo!()
 }
 

@@ -1,24 +1,24 @@
 /// The first stack size bigger than `limit`.
 pub fn first_stack_over(stacks: &[u32], limit: u32) -> Option<u32> {
-    // TODO: stacks.iter().copied().find(|n| ...)
+    // TODO: find the first stack size bigger than `limit`
     todo!()
 }
 
 /// Which slot holds `name`? None if it is not in the inventory.
 pub fn slot_of(items: &[String], name: &str) -> Option<usize> {
-    // TODO: items.iter().position(|n| ...): compare n.as_str() == name
+    // TODO: find the index of `name` (the items are Strings, `name` is a &str)
     todo!()
 }
 
 /// Is any tool one hit from breaking (durability 1 or less)?
 pub fn has_fragile_tool(durability: &[u32]) -> bool {
-    // TODO: durability.iter().any(|d| ...)
+    // TODO: is any durability 1 or less?
     todo!()
 }
 
 /// Is every stack at least `full` items? An empty list counts as yes.
 pub fn all_full_stacks(counts: &[u32], full: u32) -> bool {
-    // TODO: counts.iter().all(|c| ...)
+    // TODO: is every count at least `full`?
     todo!()
 }
 

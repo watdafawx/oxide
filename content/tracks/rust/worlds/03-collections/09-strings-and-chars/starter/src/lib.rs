@@ -1,24 +1,24 @@
 /// "1, 2, x, 4" -> [1, 2, 4]. Pieces that are not numbers are skipped.
 pub fn parse_numbers(line: &str) -> Vec<i32> {
-    // TODO: split(','), then filter_map(|s| s.trim().parse().ok()), then collect
+    // TODO: split on commas, trim each piece, keep the ones that parse as numbers, drop the rest
     todo!()
 }
 
 /// How many of a, e, i, o, u (either case) are in the text?
 pub fn count_vowels(text: &str) -> usize {
-    // TODO: text.chars().filter(|c| "aeiouAEIOU".contains(*c)).count()
+    // TODO: count the vowels, upper or lower case
     todo!()
 }
 
 /// ["pear", "apple", "fig"] -> "apple, fig, pear"
 pub fn join_sorted(words: &[&str]) -> String {
-    // TODO: copy with words.to_vec(), sort it, then .join(", ")
+    // TODO: sort a copy of the words and join them with ", "
     todo!()
 }
 
 /// Name padded to 10 characters on the left, qty right-aligned in 5: "bolts        12"
 pub fn table_row(name: &str, qty: u32) -> String {
-    // TODO: format!("{name:<10}{qty:>5}")
+    // TODO: pad the name to width 10 (left) and the qty to width 5 (right)
     todo!()
 }
 

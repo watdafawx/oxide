@@ -27,6 +27,8 @@ println!("[{:>6}]", "ab");   // [    ab]  right
 - **`chars()`** iterates characters, so you can take the first one and keep the rest. **`join(sep)`** glues a list of strings with a separator.
 - In `format!`, `{:<12}` pads left-aligned to width 12, `{:>4}` right-aligned. Perfect for tables.
 
+- **`c.to_uppercase()`** on a `char` returns an **iterator** (some letters become two), not a `char` or a `String`. Use `.collect::<String>()` to get a `String`, `.next()` for the first `char`, or `.chain(rest)` to glue it to the remaining chars first.
+
 ## Your turn
 
 - Open `src/lib.rs`.

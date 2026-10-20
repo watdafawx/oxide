@@ -18,6 +18,6 @@ label = "count_words counts how often each word appears"
 [[hints]]
 text = "`prices.get(item)` gives `Option<&f64>`. Add `.copied()` to get `Option<f64>`."
 [[hints]]
-text = "`let mut map = HashMap::new();` then `map.insert(name.to_string(), *count);` inside the `for` loop."
+text = "`let mut map = HashMap::new();` then walk both slices together with `for (name, count) in names.iter().zip(counts)` and `map.insert(name.to_string(), *count);` inside it."
 [[hints]]
 text = "`*counts.entry(word.to_string()).or_insert(0) += 1;` — `or_insert` returns a `&mut` to the value, so `*` and `+= 1` bumps it."

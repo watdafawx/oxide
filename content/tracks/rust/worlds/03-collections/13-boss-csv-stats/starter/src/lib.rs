@@ -11,7 +11,7 @@ pub struct Row {
 impl Row {
     /// The money tied up in this line: price * qty. 1.5 * 10 -> 15.0
     pub fn total(&self) -> f64 {
-        // TODO: price times qty (qty is a u32, so `self.qty as f64`)
+        // TODO: price times qty (qty is a u32; floats and ints do not mix without a cast)
         todo!()
     }
 }
@@ -19,7 +19,7 @@ impl Row {
 /// One line like "pen, office, 1.50, 10" -> Row. Fields are trimmed.
 /// Errors: "expected 4 fields, got 2", "bad price 'abc'", "bad qty '-3'".
 pub fn parse_line(line: &str) -> Result<Row, String> {
-    // TODO: split on ',' and trim into a Vec<&str>; check len() == 4
+    // TODO: split the line on commas, trim every field, and check there are exactly 4 (else return an Err naming the problem)
     // parse fields[2] as f64 and fields[3] as u32, using map_err(...) and `?`
     // build the Row with name and category as Strings
     todo!()
@@ -29,7 +29,7 @@ pub fn parse_line(line: &str) -> Result<Row, String> {
 /// A bad line gives Err("line N: <reason>") where N counts from 1 over ALL lines
 /// (header = line 1, blank lines count too).
 pub fn parse_rows(csv: &str) -> Result<Vec<Row>, String> {
-    // TODO: csv.lines().enumerate().skip(1) -> filter out blank lines (trim().is_empty())
+    // TODO: walk the lines with their numbers, skip the header, drop blank lines
     // map each (i, line) to parse_line(line).map_err(|e| format!("line {}: {e}", i + 1))
     // collect() into the Result<Vec<Row>, String>
     todo!()
@@ -37,19 +37,19 @@ pub fn parse_rows(csv: &str) -> Result<Vec<Row>, String> {
 
 /// Sum of price * qty for each category, keys sorted by name.
 pub fn total_by_category(rows: &[Row]) -> BTreeMap<String, f64> {
-    // TODO: BTreeMap::new(); for each row: *totals.entry(row.category.clone()).or_insert(0.0) += row.total()
+    // TODO: add up price * qty per category in a BTreeMap so the categories come out sorted
     todo!()
 }
 
 /// The `n` rows with the biggest price * qty, biggest first.
 pub fn top_n(rows: &[Row], n: usize) -> Vec<&Row> {
-    // TODO: collect row references into a Vec, sort_by(|a, b| b.total().total_cmp(&a.total())), take(n)
+    // TODO: sort references to the rows by total, biggest first, and keep the first n (floats compare with `total_cmp`)
     todo!()
 }
 
 /// The row with the lowest price among rows in `category`. None if there are none.
 pub fn cheapest_in<'a>(rows: &'a [Row], category: &str) -> Option<&'a Row> {
-    // TODO: filter on r.category == category, then min_by(|a, b| a.price.total_cmp(&b.price))
+    // TODO: of the rows in this category, pick the lowest price (floats compare with `total_cmp`)
     todo!()
 }
 
@@ -58,7 +58,7 @@ pub fn cheapest_in<'a>(rows: &'a [Row], category: &str) -> Option<&'a Row> {
 ///   per row: the same widths, price with 2 decimals: {:>8.2}
 ///   footer: "<count> rows, total <sum of price*qty with 2 decimals>"
 pub fn report(rows: &[Row]) -> String {
-    // TODO: start a Vec with the header line
+    // TODO: start a list of lines with the header
     // extend it with rows.iter().map(|r| format!(...)), then push the footer
     // lines.join("\n")
     todo!()

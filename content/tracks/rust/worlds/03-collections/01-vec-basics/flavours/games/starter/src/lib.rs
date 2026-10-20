@@ -2,19 +2,19 @@
 
 /// A new player's kit: a wooden sword, then bread, then a torch.
 pub fn starter_kit() -> Vec<&'static str> {
-    // TODO: make `let mut kit = vec!["wooden_sword"];`, push "bread" and "torch", return kit
+    // TODO: start the kit with the wooden sword, push bread and torch, return it
     todo!()
 }
 
 /// What is in hotbar slot 3 (index 2)? None if the hotbar has fewer than three items.
 pub fn third_slot<'a>(slots: &[&'a str]) -> Option<&'a str> {
-    // TODO: slots.get(2) gives Option<&&str>; .copied() makes it Option<&str>
+    // TODO: read slot index 2 without panicking; return the item itself, not a reference to it
     todo!()
 }
 
 /// Adds up every stack count in the inventory. An empty inventory has 0 items.
 pub fn total_items(stacks: &[u32]) -> u32 {
-    // TODO: make `let mut total = 0;`, add each count in a `for` loop, return total
+    // TODO: add every stack count in a `for` loop and return the total
     todo!()
 }
 

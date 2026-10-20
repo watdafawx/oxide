@@ -12,7 +12,7 @@ test = "total_items_adds_every_stack"
 label = "total_items adds up every stack count using a for loop"
 
 [[hints]]
-text = "`kit.push(\"bread\");` adds to the end. Then return `kit`."
+text = "`let mut kit = vec![\"wooden_sword\"];` then `kit.push(\"bread\");` adds to the end. Then return `kit`."
 [[hints]]
 text = "`slots.get(2)` returns `Option<&&str>`. Turn it into `Option<&str>` with `.copied()`."
 [[hints]]

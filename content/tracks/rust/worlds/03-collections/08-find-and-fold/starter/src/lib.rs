@@ -1,24 +1,24 @@
 /// The first number bigger than `limit`.
 pub fn first_over(numbers: &[i32], limit: i32) -> Option<i32> {
-    // TODO: numbers.iter().copied().find(|n| ...)
+    // TODO: find the first number bigger than `limit`
     todo!()
 }
 
 /// Where in the list is `name`? None if it is not there.
 pub fn index_of(names: &[String], name: &str) -> Option<usize> {
-    // TODO: names.iter().position(|n| ...): compare n.as_str() == name
+    // TODO: find the index of `name` (the names are Strings, `name` is a &str)
     todo!()
 }
 
 /// Is any number below zero?
 pub fn has_negative(numbers: &[i32]) -> bool {
-    // TODO: numbers.iter().any(|n| ...)
+    // TODO: is any number below zero?
     todo!()
 }
 
 /// Does every score reach `pass`? An empty list counts as yes.
 pub fn all_passing(scores: &[u32], pass: u32) -> bool {
-    // TODO: scores.iter().all(|s| ...)
+    // TODO: does every score reach `pass`?
     todo!()
 }
 

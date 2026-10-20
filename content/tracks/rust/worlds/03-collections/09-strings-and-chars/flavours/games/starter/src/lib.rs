@@ -2,27 +2,27 @@
 
 /// "64, 16, x, 8" -> [64, 16, 8]. Pieces that are not numbers are skipped.
 pub fn parse_counts(line: &str) -> Vec<u32> {
-    // TODO: split(','), then filter_map(|s| s.trim().parse().ok()), then collect
+    // TODO: split on commas, trim each piece, keep the ones that parse as numbers, drop the rest
     todo!()
 }
 
 /// "minecraft:diamond_sword" -> "Diamond Sword". Drop the namespace, split on '_', capitalise each word.
 pub fn display_name(id: &str) -> String {
-    // TODO: id.rsplit(':').next() is the name without the namespace
-    // TODO: split('_') into words; for each word take chars(), capitalise chars.next(), chain the rest
-    // TODO: collect the words into a Vec and join(" ")
+    // TODO: cut off the namespace (everything up to the last ':')
+    // TODO: split the name into words on '_' and capitalise the first letter of each word (`to_uppercase()` on a char gives an iterator, see the lesson)
+    // TODO: join the capitalised words with single spaces
     todo!()
 }
 
 /// ["torch", "bow", "arrow"] -> "arrow, bow, torch"
 pub fn chest_summary(items: &[&str]) -> String {
-    // TODO: copy with items.to_vec(), sort it, then .join(", ")
+    // TODO: sort a copy of the items and join them with ", "
     todo!()
 }
 
 /// Name padded to 12 characters on the left, count right-aligned in 4: "diamond       12"
 pub fn inventory_row(name: &str, count: u32) -> String {
-    // TODO: format!("{name:<12}{count:>4}")
+    // TODO: pad the name to width 12 (left) and the count to width 4 (right)
     todo!()
 }
 

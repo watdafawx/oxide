@@ -11,6 +11,8 @@ fn double(s: &str) -> Result<i32, std::num::ParseIntError> {
 - On an `Option`: `Some(v)` gives `v`, `None` returns `None`.
 - The function must return a matching type (`Result` or `Option`). `?` is an early **return**.
 
+- **`c.to_uppercase()`** on a `char` returns an **iterator** (some letters become two), not a `char` or a `String`. Use `.collect::<String>()` to get a `String`, `.next()` for the first `char`, or `.chain(rest)` to glue it to the remaining chars first.
+
 ## Your turn
 
 - Open `src/lib.rs`.

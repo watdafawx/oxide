@@ -16,6 +16,8 @@ for name in &names {                   // borrow, don't consume
 - **`for x in &v`** borrows each item. `for x in v` would *move* the whole Vec.
 - Functions that only read take a slice: `&[i32]`. A `&Vec<i32>` coerces into it.
 
+- **`get(i)`** gives `Option<&T>`: a reference to the item. For plain values like numbers, **`.copied()`** turns `Option<&T>` into `Option<T>`. Looping `for n in &v` also hands you `&T`, and `total += n` works with a reference to a number.
+
 ## Your turn
 
 - Open `src/lib.rs`.

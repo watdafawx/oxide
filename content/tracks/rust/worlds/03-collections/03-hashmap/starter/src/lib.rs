@@ -2,20 +2,19 @@ use std::collections::HashMap;
 
 /// Look up an item's price. Unknown items give None.
 pub fn price_of(prices: &HashMap<String, f64>, item: &str) -> Option<f64> {
-    // TODO: prices.get(item) is Option<&f64>; .copied() makes it Option<f64>
+    // TODO: look the item up; return the price itself, not a reference to it
     todo!()
 }
 
 /// Build a map from names to counts. Same position in both slices = one pair.
 pub fn stock_map(names: &[&str], counts: &[u32]) -> HashMap<String, u32> {
-    // TODO: make a HashMap, then insert (name.to_string(), *count) for each pair
-    // `for (name, count) in names.iter().zip(counts)` walks both slices together
+    // TODO: make a HashMap and insert one entry per name/count pair (the key must be an owned String)
     todo!()
 }
 
 /// "the cat the hat" -> {"the": 2, "cat": 1, "hat": 1}. Words are split on whitespace.
 pub fn count_words(text: &str) -> HashMap<String, u32> {
-    // TODO: for each word in text.split_whitespace(): *counts.entry(word.to_string()).or_insert(0) += 1
+    // TODO: count every whitespace-separated word, adding 1 to its entry
     todo!()
 }
 

@@ -2,20 +2,20 @@ use std::collections::{BTreeMap, HashSet};
 
 /// ["sharpness", "sharpness", "unbreaking"] -> 2 distinct enchantments
 pub fn distinct_enchants(list: &[&str]) -> usize {
-    // TODO: collect the list into a HashSet and return its len()
+    // TODO: put the items in a HashSet (it drops repeats) and return its size
     todo!()
 }
 
 /// Enchantments on both items, sorted, no repeats.
 /// (["sharpness", "unbreaking"], ["unbreaking", "mending"]) -> ["unbreaking"]
 pub fn shared_enchants<'a>(a: &[&'a str], b: &[&'a str]) -> Vec<&'a str> {
-    // TODO: make a HashSet of each, take set_a.intersection(&set_b), collect to Vec, sort it
+    // TODO: find what both lists share (sets have an `intersection`), collect into a Vec and sort it
     todo!()
 }
 
 /// ["torch", "arrow", "torch"] -> {"arrow": 1, "torch": 2}. A BTreeMap keeps the names sorted.
 pub fn sorted_inventory(items: &[&str]) -> BTreeMap<String, u32> {
-    // TODO: BTreeMap::new(); for each item: *counts.entry(item.to_string()).or_insert(0) += 1
+    // TODO: count each item in a BTreeMap so the names come out in order
     todo!()
 }
 

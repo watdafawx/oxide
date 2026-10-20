@@ -2,25 +2,25 @@
 
 /// ["sword", "bow"] -> ["[1] sword", "[2] bow"]. Hotbar slots count from 1.
 pub fn hotbar_labels(items: &[&str]) -> Vec<String> {
-    // TODO: enumerate gives (i, item); format!("[{}] {}", i + 1, item) makes each label
+    // TODO: label every item "[n] name", counting from 1
     todo!()
 }
 
 /// Counts [2, 3, 1] priced [10, 5, 100] is worth 2*10 + 3*5 + 1*100 = 135 emeralds.
 pub fn loot_value(counts: &[u32], prices: &[u32]) -> u32 {
-    // TODO: counts.iter().zip(prices) gives pairs; multiply each pair, then sum
+    // TODO: multiply each count by its price and add the products up
     todo!()
 }
 
 /// Pages start at 0. chest_page(&["a","b","c","d","e"], 1, 2) is ["c", "d"].
 pub fn chest_page(items: &[&str], page: usize, size: usize) -> Vec<String> {
-    // TODO: skip(page * size) then take(size), then map to String and collect
+    // TODO: take one page of `size` items starting at `page * size`, as Strings
     todo!()
 }
 
 /// Tiers [1, 3, 2, 4] along the hotbar: how many times is the next slot a higher tier? -> 2
 pub fn count_upgrades(tiers: &[u32]) -> usize {
-    // TODO: tiers.windows(2) gives slices like [1, 3]; filter where pair[1] > pair[0]
+    // TODO: look at each neighbouring pair of tiers and count the ones that go up
     todo!()
 }
 

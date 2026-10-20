@@ -7,25 +7,25 @@ pub struct ItemStack {
 
 /// Pull the item out of `slot` and put it first (hotbar slot 1). [a, b, c] with slot 2 -> [c, a, b].
 pub fn move_to_hotbar(inventory: &mut Vec<String>, slot: usize) {
-    // TODO: `remove(slot)` gives the item back; `insert(0, item)` puts it first
+    // TODO: take the item out of its slot, then put it back at the front
     todo!()
 }
 
 /// Sorted by name, with repeats removed. [bone, arrow, bone] -> [arrow, bone].
 pub fn tidy_loot(mut drops: Vec<String>) -> Vec<String> {
-    // TODO: sort first, then dedup (dedup only removes neighbours), then return drops
+    // TODO: make the list sorted and free of repeats, then return it (repeats only count when they sit next to each other)
     todo!()
 }
 
 /// Is the exact item "elytra" in the inventory?
 pub fn has_elytra(items: &[String]) -> bool {
-    // TODO: items.contains(&String) wants a reference to a String
+    // TODO: does the inventory hold "elytra"? (`contains` wants a reference to a String)
     todo!()
 }
 
 /// Trash every stack with fewer than `min_count` items.
 pub fn drop_small_stacks(stacks: &mut Vec<ItemStack>, min_count: u32) {
-    // TODO: stacks.retain(|s| condition_to_keep)
+    // TODO: keep only the stacks with at least `min_count` items (`retain` takes a closure)
     todo!()
 }
 

@@ -1,24 +1,24 @@
 /// [1, 2, 3] -> [1, 4, 9]
 pub fn squares(numbers: &[i32]) -> Vec<i32> {
-    // TODO: numbers.iter().map(|n| ...).collect()
+    // TODO: square every number and collect them into a Vec
     todo!()
 }
 
 /// Keep only the even numbers: [1, 2, 3, 4] -> [2, 4]
 pub fn evens(numbers: &[i32]) -> Vec<i32> {
-    // TODO: .iter().copied().filter(|n| ...).collect()
+    // TODO: keep only the even numbers (copy them out of the references)
     todo!()
 }
 
 /// Total number of bytes in all the words: ["ab", "cde"] -> 5
 pub fn total_length(words: &[String]) -> usize {
-    // TODO: map each word to its len(), then sum()
+    // TODO: add up the length of every word
     todo!()
 }
 
 /// How many words are at least `min_len` bytes long?
 pub fn count_long(words: &[String], min_len: usize) -> usize {
-    // TODO: filter on w.len() >= min_len, then count()
+    // TODO: count the words with at least `min_len` bytes
     todo!()
 }
 

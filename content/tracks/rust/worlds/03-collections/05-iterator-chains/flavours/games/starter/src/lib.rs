@@ -9,25 +9,25 @@ pub struct DropEntry {
 
 /// The item names a table can drop, in order: [bone, arrow] and so on.
 pub fn drop_names(table: &[DropEntry]) -> Vec<String> {
-    // TODO: table.iter().map(|d| ...).collect(); clone the item name
+    // TODO: map every drop to its item name (cloned) and collect
     todo!()
 }
 
 /// Only the drops with `rarity >= min_rarity`.
 pub fn rare_drops(table: &[DropEntry], min_rarity: u8) -> Vec<&DropEntry> {
-    // TODO: .iter().filter(|d| ...).collect() keeps references to the matching drops
+    // TODO: keep the drops at or above the rarity; collect references, no cloning
     todo!()
 }
 
 /// The sum of every weight: the number the game rolls against.
 pub fn total_weight(table: &[DropEntry]) -> u32 {
-    // TODO: map each drop to its weight, then sum()
+    // TODO: add up the weight of every drop
     todo!()
 }
 
 /// How many drops have a weight of at least `min_weight`?
 pub fn count_common(table: &[DropEntry], min_weight: u32) -> usize {
-    // TODO: filter on d.weight >= min_weight, then count()
+    // TODO: count the drops with at least `min_weight`
     todo!()
 }
 

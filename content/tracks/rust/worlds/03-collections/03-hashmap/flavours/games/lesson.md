@@ -21,6 +21,8 @@ for mob in ["zombie", "creeper", "zombie"] {
 - **`entry(key).or_insert(default)`** means "give me the slot for this key, creating it if missing". It returns `&mut V`, so `*... += 1` counts.
 - **Iteration order is random.** Never rely on it; sort, or use a `BTreeMap` (later quest).
 
+- **`a.iter().zip(b)`** walks two lists side by side and yields `(x, y)` pairs, stopping at the shorter one. Handy when two slices line up by position.
+
 ## Your turn
 
 - Open `src/lib.rs`.

@@ -12,7 +12,7 @@ pub struct Mod {
 impl Mod {
     /// The jar size in kilobytes: size_mb * 1024. 1.5 MB -> 1536.0
     pub fn size_kb(&self) -> f64 {
-        // TODO: size_mb times 1024.0
+        // TODO: size in KB: size_mb scaled up (1 MB = 1024 KB)
         todo!()
     }
 }
@@ -20,9 +20,9 @@ impl Mod {
 /// One line like "sodium, fabric, 9000, 1.2" -> Mod. Fields are trimmed.
 /// Errors: "expected 4 fields, got 2", "bad downloads 'abc'", "bad size_mb 'big'".
 pub fn parse_mod(line: &str) -> Result<Mod, String> {
-    // TODO: split on ',' and trim into a Vec<&str>; check len() == 4
-    // TODO: parse fields[2] as u64 and fields[3] as f64, using map_err(...) and `?`
-    // TODO: build the Mod with name and loader as Strings
+    // TODO: split the line on commas, trim every field, and check there are exactly 4 (else return an Err naming the problem)
+    // TODO: parse the numeric fields; turn a parse failure into your own Err message and pass it on with `?`
+    // TODO: build the Mod (name and loader become owned Strings)
     todo!()
 }
 
@@ -30,27 +30,27 @@ pub fn parse_mod(line: &str) -> Result<Mod, String> {
 /// A bad line gives Err("line N: <reason>") where N counts from 1 over ALL lines
 /// (header = line 1, blank lines count too).
 pub fn parse_modlist(csv: &str) -> Result<Vec<Mod>, String> {
-    // TODO: csv.lines().enumerate().skip(1) -> filter out blank lines (trim().is_empty())
-    // TODO: map each (i, line) to parse_mod(line).map_err(|e| format!("line {}: {e}", i + 1))
-    // TODO: collect() into the Result<Vec<Mod>, String>
+    // TODO: walk the lines with their numbers, skip the header, drop blank lines
+    // TODO: parse each line; if it fails, prefix the error with "line N:" (N counts from 1)
+    // TODO: collect into a Result: all Ok gives the Vec, the first Err stops it
     todo!()
 }
 
 /// Total downloads for each loader, keys sorted by name.
 pub fn downloads_by_loader(mods: &[Mod]) -> BTreeMap<String, u64> {
-    // TODO: BTreeMap::new(); for each mod: *totals.entry(m.loader.clone()).or_insert(0) += m.downloads
+    // TODO: add up downloads per loader in a BTreeMap so the loaders come out sorted
     todo!()
 }
 
 /// The `n` most downloaded mods, biggest first.
 pub fn top_n(mods: &[Mod], n: usize) -> Vec<&Mod> {
-    // TODO: collect mod references into a Vec, sort_by_key(|m| std::cmp::Reverse(m.downloads)), take(n)
+    // TODO: sort references to the mods by downloads, biggest first, and keep the first n
     todo!()
 }
 
 /// The mod with the lowest size_mb among mods on `loader`. None if there are none.
 pub fn smallest_in<'a>(mods: &'a [Mod], loader: &str) -> Option<&'a Mod> {
-    // TODO: filter on m.loader == loader, then min_by(|a, b| a.size_mb.total_cmp(&b.size_mb))
+    // TODO: of the mods with this loader, pick the smallest size_mb (floats compare with `total_cmp`)
     todo!()
 }
 
@@ -59,9 +59,9 @@ pub fn smallest_in<'a>(mods: &'a [Mod], loader: &str) -> Option<&'a Mod> {
 ///   per mod: the same widths, size with 1 decimal: {:>7.1}
 ///   footer: "<count> mods, <sum of downloads> downloads"
 pub fn report(mods: &[Mod]) -> String {
-    // TODO: start a Vec with the header line
-    // TODO: extend it with mods.iter().map(|m| format!(...)), then push the footer
-    // TODO: lines.join("\n")
+    // TODO: start a list of lines with the header
+    // TODO: add one aligned line per mod, then the footer
+    // TODO: join the lines with newlines
     todo!()
 }
 

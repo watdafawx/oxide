@@ -2,13 +2,13 @@ use std::num::ParseIntError;
 
 /// A manifest says `mods = 21`. Client and server both load every mod, so double it.
 pub fn mods_for_client_and_server(count: &str) -> Result<i32, ParseIntError> {
-    // TODO: parse `count` as i32 with `?`, then return Ok(n * 2)
+    // TODO: parse `count` as a number (let `?` pass a failure on), then return it doubled in Ok
     todo!()
 }
 
 /// First letter of a mod name, uppercased, for the sorted mod list. None for an empty name.
 pub fn mod_initial(name: &str) -> Option<char> {
-    // TODO: take name.chars().next() with `?`, then uppercase it
+    // TODO: get the first char (let `?` pass on None), then uppercase it
     todo!()
 }
 

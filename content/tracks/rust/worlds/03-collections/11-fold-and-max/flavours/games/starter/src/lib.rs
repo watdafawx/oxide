@@ -7,13 +7,13 @@ pub struct ItemStack {
 
 /// Each armor piece trims a percent off what is left: 200.0 with [10.0, 50.0] -> 200 * 0.9 * 0.5 = 90.0
 pub fn damage_after_armor(damage: f64, reductions: &[f64]) -> f64 {
-    // TODO: reductions.iter().fold(damage, |left, off| left * (1.0 - off / 100.0))
+    // TODO: fold the damage through every reduction: each one keeps (100 - off)% of what is left
     todo!()
 }
 
 /// The stack with the most items. None for an empty inventory.
 pub fn biggest_stack(stacks: &[ItemStack]) -> Option<&ItemStack> {
-    // TODO: stacks.iter().max_by_key(|s| ...the count...)
+    // TODO: pick the stack with the biggest count
     todo!()
 }
 

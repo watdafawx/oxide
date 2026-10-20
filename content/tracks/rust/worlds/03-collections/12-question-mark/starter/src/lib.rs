@@ -2,13 +2,13 @@ use std::num::ParseIntError;
 
 /// Parse `s` as a number and double it. Bad input is an error, not a panic.
 pub fn parse_and_double(s: &str) -> Result<i32, ParseIntError> {
-    // TODO: parse `s` with `s.parse::<i32>()?` and return Ok(n * 2)
+    // TODO: parse `s` as a number (let `?` pass a failure on), then return it doubled in Ok
     todo!()
 }
 
 /// The first character of `s`, uppercased. None for an empty string.
 pub fn first_char_upper(s: &str) -> Option<char> {
-    // TODO: get `s.chars().next()?`, then return Some of its first uppercase char
+    // TODO: get the first char (let `?` pass on None), then return its uppercase as Some
     todo!()
 }
 

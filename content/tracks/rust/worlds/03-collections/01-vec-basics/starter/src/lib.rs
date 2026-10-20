@@ -7,13 +7,13 @@ pub fn podium() -> Vec<u32> {
 
 /// The third item, or None if there are fewer than three.
 pub fn third(items: &[i32]) -> Option<i32> {
-    // TODO: items.get(2) gives Option<&i32>; .copied() makes it Option<i32>
+    // TODO: read index 2 without panicking; return the number itself, not a reference to it
     todo!()
 }
 
 /// Adds up every number. An empty slice gives 0.
 pub fn sum_all(numbers: &[i32]) -> i32 {
-    // TODO: make `let mut total = 0;`, add each number in a `for` loop, return total
+    // TODO: add every number in a `for` loop and return the total
     todo!()
 }
 

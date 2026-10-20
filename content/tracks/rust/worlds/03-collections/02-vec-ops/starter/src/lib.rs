@@ -1,24 +1,24 @@
 /// Remove the item at `index` and put it at the front. [a, b, c] with index 2 -> [c, a, b].
 pub fn move_to_front(list: &mut Vec<String>, index: usize) {
-    // TODO: `remove(index)` gives the item back; `insert(0, item)` puts it first
+    // TODO: take the item out of its place, then put it back at the front
     todo!()
 }
 
 /// Sorted, with repeats removed. [3, 1, 3, 2, 1] -> [1, 2, 3].
 pub fn sorted_unique(mut numbers: Vec<i32>) -> Vec<i32> {
-    // TODO: sort first, then dedup (dedup only removes neighbours), then return numbers
+    // TODO: make the list sorted and free of repeats, then return it (repeats only count when they sit next to each other)
     todo!()
 }
 
 /// Is the exact name "admin" in the list?
 pub fn has_admin(names: &[String]) -> bool {
-    // TODO: names.contains(&String) wants a reference to a String
+    // TODO: does the list hold "admin"? (`contains` wants a reference to a String)
     todo!()
 }
 
 /// Keep only words that are at least `min_len` bytes long.
 pub fn drop_short(words: &mut Vec<String>, min_len: usize) {
-    // TODO: words.retain(|w| condition_to_keep)
+    // TODO: keep only the words that are at least `min_len` long (`retain` takes a closure)
     todo!()
 }
 

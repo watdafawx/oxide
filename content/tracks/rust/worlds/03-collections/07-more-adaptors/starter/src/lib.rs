@@ -1,24 +1,24 @@
 /// ["a", "b"] -> ["1. a", "2. b"]
 pub fn numbered(items: &[&str]) -> Vec<String> {
-    // TODO: enumerate gives (i, item); format!("{}. {}", i + 1, item) makes each line
+    // TODO: number every item "n. name", counting from 1
     todo!()
 }
 
 /// [1, 2, 3] . [4, 5, 6] = 1*4 + 2*5 + 3*6 = 32
 pub fn dot_product(a: &[i32], b: &[i32]) -> i32 {
-    // TODO: a.iter().zip(b) gives pairs; multiply each pair, then sum
+    // TODO: multiply matching items and add the products up
     todo!()
 }
 
 /// Page numbers start at 0. page(&[1,2,3,4,5], 1, 2) is [3, 4].
 pub fn page(items: &[i32], page: usize, size: usize) -> Vec<i32> {
-    // TODO: skip(page * size) then take(size), then copied().collect()
+    // TODO: take one page of `size` items starting at `page * size`
     todo!()
 }
 
 /// How many times does a number come right after a smaller one? [3, 5, 4, 8] -> 2
 pub fn count_rises(numbers: &[i32]) -> usize {
-    // TODO: numbers.windows(2) gives slices like [3, 5]; filter where pair[1] > pair[0]
+    // TODO: look at each neighbouring pair of numbers and count the ones that go up
     todo!()
 }
 
