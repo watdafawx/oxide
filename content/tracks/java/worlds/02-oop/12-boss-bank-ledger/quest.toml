@@ -2,7 +2,7 @@ title = "Boss: bank ledger"
 summary = "Accounts, sealed Transaction records (Deposit, Withdraw, Transfer), an overdraft rule and a statement."
 kind = "boss"
 xp = 400
-minutes = 60
+minutes = 75
 tags = ["boss", "records", "sealed", "pattern-matching"]
 
 [[objectives]]
@@ -26,7 +26,7 @@ test = "sealedSwitchIsExhaustive"
 label = "Transaction is sealed to exactly Deposit, Withdraw and Transfer"
 
 [[hints]]
-text = "Start small: in `Account.apply` write `switch (tx) { case Deposit d -> balance += d.cents(); ... }` and add `tx` to `history` at the end. The first objective only needs the Deposit branch."
+text = "Start small: in `Account.apply` write `switch (tx) { case Deposit d -> balance += d.cents(); ... }` and add `tx` to `history` at the end. Each branch is a block, `case Deposit d -> { ... }`, because this switch is a statement. The first objective only needs the Deposit branch."
 
 [[hints]]
 text = "Withdraw: if `w.cents() > balance` throw `new OverdraftException(...)`, otherwise subtract. Add to `history` only **after** the checks, so a rejected withdrawal leaves no trace."

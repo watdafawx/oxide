@@ -1,17 +1,17 @@
 title = "Anything that can be hurt"
-summary = "Write a Damageable interface, implement it for Zombie and ArmorStand, and add a default status()."
+summary = "Finish the Damageable interface: a default status(), plus Zombie and ArmorStand."
 
 [[objectives]]
 test = "zombieLosesHealthWhenDamaged"
-label = "Zombie starts at 20 hp and damage(7) leaves 13"
+label = "Zombie is named \"Zombie\", starts at 20 hp and damage(7) leaves 13"
 
 [[objectives]]
 test = "armorStandTakesHalfDamage"
-label = "ArmorStand starts at 6 hp and only takes half the damage"
+label = "ArmorStand is named \"Armor stand\", starts at 6 hp and takes half of each hit, rounded down"
 
 [[objectives]]
 test = "defaultStatusUsesNameAndHealth"
-label = "status() is \"<name>: <health> hp\", or \"<name>: dead\" at 0 hp, for every Damageable"
+label = "status() is \"<name>: <health> hp\" (\"Zombie: 20 hp\"), or \"<name>: dead\" at 0 hp"
 
 [[hints]]
 text = "Zombie: `health = Math.max(0, health - amount);` and `name()` returns `\"Zombie\"`."

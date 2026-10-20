@@ -21,6 +21,8 @@ class DamageableTest {
         assertThat(stand.health()).isEqualTo(6);
         stand.damage(4);
         assertThat(stand.health()).isEqualTo(4);
+        stand.damage(3);
+        assertThat(stand.health()).as("odd damage rounds down: 3 / 2 = 1").isEqualTo(3);
         stand.damage(100);
         assertThat(stand.health()).isZero();
     }

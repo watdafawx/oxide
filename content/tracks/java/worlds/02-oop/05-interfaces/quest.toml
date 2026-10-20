@@ -1,5 +1,5 @@
 title = "One promise, two shapes"
-summary = "Write a Shape interface, implement it twice, and add a default describe()."
+summary = "Finish the Shape interface: a default describe(), plus Circle and Rectangle."
 kind = "exercise"
 xp = 55
 minutes = 10

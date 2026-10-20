@@ -28,6 +28,7 @@ public class ChunkPos {
 
 - **The contract:** if `a.equals(b)` then `a.hashCode() == b.hashCode()`. `HashSet` and `HashMap` jump to a bucket by hash first, then use `equals`. Break the contract and equal positions land in different buckets: "not found".
 - `instanceof ChunkPos other` checks the type and gives you the cast variable in one go.
+- `Objects` lives in `java.util`, so a file that uses it starts with `import java.util.Objects;` (one `import` line per outside class). Your starter already has it.
 - `toString()` is what chat messages, logs and AssertJ failure messages show.
 
 ## Your turn

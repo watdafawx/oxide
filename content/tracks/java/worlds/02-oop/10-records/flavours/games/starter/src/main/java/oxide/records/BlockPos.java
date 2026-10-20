@@ -2,7 +2,7 @@ package oxide.records;
 
 import java.util.Objects;
 
-/** TODO: turn this class into `public record BlockPos(int x, int y, int z)`. */
+/** TODO: turn this class into `public record BlockPos(int x, int y, int z)`; the hand-written equals/hashCode/toString and the `Objects` import then go. */
 public final class BlockPos {
     private final int x;
     private final int y;

@@ -1,5 +1,7 @@
 package oxide.equals_hashcode_tostring;
 
+import java.util.Objects;
+
 public class Money {
     private final long cents;
     private final String currency;

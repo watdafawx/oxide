@@ -13,7 +13,7 @@ The rules:
 
 - **ItemPlaced** adds the stack to the chest.
 - **ItemTaken** removes it, but never more than the chest holds: otherwise `NotEnoughItemsException`, counts and log unchanged.
-- **ItemMoved** is a take here plus a placement in the `to` chest. If this chest does not have enough, nothing moves on either side.
+- **ItemMoved** is a take here plus a placement in the `to` chest. If this chest does not have enough, nothing moves on either side. The `to` chest logs its own `ItemPlaced` for the moved stack; this chest logs the `ItemMoved`.
 - `report()` prints the log, then the total number of items:
 
 ```
@@ -29,6 +29,6 @@ The records, the exception and `ItemStack` are written. `Event` is a plain inter
 
 Work in the order of the objectives; the first one turns green early.
 
-- `Chest.apply(Event)`: a `switch` over the three records.
+- `Chest.apply(Event)`: a `switch` over the three records. Use it as a statement: `case ItemPlaced p -> { ... }` with a block body, since `apply` returns nothing.
 - `Chest.report()`.
 - Last: make `Event` sealed, and check your switches have no `default`.

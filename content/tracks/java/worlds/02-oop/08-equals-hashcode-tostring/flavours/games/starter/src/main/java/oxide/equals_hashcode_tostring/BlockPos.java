@@ -1,5 +1,7 @@
 package oxide.equals_hashcode_tostring;
 
+import java.util.Objects;
+
 public class BlockPos {
     private final int x;
     private final int y;

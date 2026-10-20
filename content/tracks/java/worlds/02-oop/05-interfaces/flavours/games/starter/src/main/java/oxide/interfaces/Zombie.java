@@ -5,7 +5,7 @@ public class Zombie implements Damageable {
 
     @Override
     public String name() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("TODO: return \"Zombie\"");
     }
 
     @Override
@@ -15,6 +15,6 @@ public class Zombie implements Damageable {
 
     @Override
     public void damage(int amount) {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("TODO: lower health by amount, but never below 0");
     }
 }

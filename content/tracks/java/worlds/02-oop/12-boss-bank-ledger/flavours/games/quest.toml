@@ -22,7 +22,7 @@ test = "eventIsSealedToThreeKinds"
 label = "Event is sealed to exactly ItemPlaced, ItemTaken and ItemMoved"
 
 [[hints]]
-text = "Start small: in `Chest.apply` write `switch (event) { case ItemPlaced p -> items.merge(p.stack().item(), p.stack().count(), Integer::sum); ... }` and add `event` to `log` at the end. The first objective only needs the ItemPlaced branch."
+text = "Start small: in `Chest.apply` write `switch (event) { case ItemPlaced p -> items.merge(p.stack().item(), p.stack().count(), Integer::sum); ... }` and add `event` to `log` at the end. Each branch is a block, `case ItemPlaced p -> { ... }`, because this switch is a statement. The first objective only needs the ItemPlaced branch."
 
 [[hints]]
 text = "ItemTaken: if `count(item) < stack.count()` throw `new NotEnoughItemsException(...)`, otherwise subtract. Add to `log` only **after** the checks, so a rejected take leaves no trace."

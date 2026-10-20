@@ -7,8 +7,8 @@ tags = ["encapsulation"]
 
 [[quiz]]
 question = "A class has `private int count;` and a getter `getCount()`, but no setter. Who can change `count` from outside the class?"
-choices = ["Any class, with `c.count = 5;`", "Nobody: only methods of the class itself can", "Only subclasses"]
-answer = 1
+choices = ["Nobody: only methods of the class itself can", "Any class, with `c.count = 5;`", "Only subclasses"]
+answer = 0
 
 [[quiz]]
 question = "`public List<String> getTags() { return tags; }` hands out the real `tags` list. What can a caller do?"
@@ -17,5 +17,5 @@ answer = 1
 
 [[quiz]]
 question = "Which version of that getter stops the leak?"
-choices = ["`return tags;` but rename the method", "`return List.copyOf(tags);`", "`return (List<String>) tags;`"]
-answer = 1
+choices = ["`return tags;` but rename the method", "`return (List<String>) tags;`", "`return List.copyOf(tags);`"]
+answer = 2
