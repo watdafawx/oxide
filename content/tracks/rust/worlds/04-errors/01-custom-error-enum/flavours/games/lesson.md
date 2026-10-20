@@ -26,6 +26,13 @@ A manifest line looks like `sodium@5 fabric`: mod name, `@`, version number, the
 
 - You can **match on text**: `match loader { Some("fabric") => ..., Some(other) => ..., None => ... }`. A literal like `"fabric"` is a pattern, and `other` catches everything else.
 
+Text tools for the parser:
+
+- **`split_whitespace()`** gives the words one at a time. Call **`.next()`** to take the next word as an `Option`. **`s.is_empty()`** is true for `""`.
+- **`"hp:20".split_once(':')`** cuts at the first `:` and gives `Some(("hp", "20"))`, or `None` when there is no `:`.
+- **`opt.ok_or(err)`** turns an `Option` into a `Result`: `Some(v)` becomes `Ok(v)`, `None` becomes `Err(err)`. Add `?` and a missing value returns early.
+- **`text.parse::<u32>().map_err(|_| MyError::Bad)`** swaps the std parse error for your own (`map_err` from the CSV boss).
+
 ## Your turn
 
 - Open `src/lib.rs`. `impl Error` is already there.

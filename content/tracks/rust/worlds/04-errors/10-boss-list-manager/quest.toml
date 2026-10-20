@@ -46,3 +46,6 @@ text = "Still in `load`: `text.lines().enumerate()`, then `parse_line(line).with
 text = "`save`: `self.todos.iter().map(format_line).collect::<Vec<_>>().join(\"\\n\")`, then `std::fs::write(path, text)` with the `with_context` from the TODO."
 [[hints]]
 text = "`run`: `match cmd { Command::Add(text) => Ok(format!(\"added {}\", store.add(&text))), Command::Done(id) => { store.toggle(id)?; Ok(format!(\"done {id}\")) } Command::List => ... }`."
+
+[[hints]]
+text = "`Command::List`: an empty list returns \"nothing to do\". Otherwise map each todo to its line (`\"[x]\"` or `\"[ ]\"`, then id, then text), collect into a `Vec<String>` and `join(\"\\n\")`."

@@ -12,5 +12,5 @@ answer = 0
 
 [[quiz]]
 question = "You write serde = \"1.2\". Which versions can Cargo pick?"
-choices = ["Only exactly 1.2.0", "1.2.0 or newer, but below 2.0.0", "Any version, even 2.x or 3.x"]
+choices = ["Only 1.2.0 itself, never any newer release", "1.2.0 up to, not including, 2.0.0", "Every version, even 2.x or 3.x, as long as it exists"]
 answer = 1

@@ -22,6 +22,12 @@ impl std::error::Error for FileError {}
 - **`impl std::error::Error`** marks your type as an error. It can be empty: `Debug` + `Display` are all it needs.
 - With that, your type works with `?`, `Box<dyn Error>` and every library.
 
+Text tools for the parser:
+
+- **`s.trim()`** cuts spaces off both ends. **`s.is_empty()`** is true for `""`.
+- **`text.parse::<i64>()`** gives a `Result`. **`.map_err(|_| MyError::Bad)`** swaps the std parse error for your own (`map_err` from the CSV boss).
+- **`return Err(MyError::Bad);`** leaves the function early, for example inside an `if`.
+
 ## Your turn
 
 - Open `src/lib.rs`. `impl Error` is already there.

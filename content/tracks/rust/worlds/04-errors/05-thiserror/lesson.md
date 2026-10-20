@@ -20,6 +20,7 @@ enum AppError {
 Same result as hand-written code, a quarter of the lines.
 
 - **`ok_or_else(|| err)`** turns a `None` into `Err(err)`, building the error only when it is needed: `pairs.iter().find(..).ok_or_else(|| MyError::Missing(key.to_string()))?`.
+- **`find`** hands its closure a *reference* to each item. For `(name, score)` tuples, open them in the closure: `scores.iter().find(|(who, _)| *who == "ada")`. `who` is a `&&str`, so compare `*who`.
 
 ## Your turn
 

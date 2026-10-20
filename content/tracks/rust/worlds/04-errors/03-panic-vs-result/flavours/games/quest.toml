@@ -3,10 +3,10 @@ summary = "When the loader should crash on purpose, and when it should hand the 
 
 [[quiz]]
 question = "A player's manifest lists an optional mod whose file is not in the mods folder. What should the loader do?"
-choices = ["panic!, the pack cannot start", "Return Err so the caller can skip it or warn", "Call unwrap() and hope the file is there"]
+choices = ["Call panic!, because the pack cannot start without it", "Return Err so the caller decides", "Call unwrap() and hope the file is in the folder"]
 answer = 1
 
 [[quiz]]
 question = "When is expect(\"reason\") the right call?"
-choices = ["On a manifest line a player typed by hand, to get a clear message", "Instead of ? in any function that returns a Result, to save typing", "On a value you know cannot fail, like your own loader list, saying why"]
+choices = ["On a manifest line a player typed by hand, to get a clear message", "Instead of ? in any function that returns a Result, to save typing", "On a value that cannot fail, like your own table, saying why"]
 answer = 2

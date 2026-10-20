@@ -2,7 +2,7 @@ title = "Your own error type"
 summary = "An enum of everything that can go wrong, with a readable message for each."
 kind = "exercise"
 xp = 55
-minutes = 10
+minutes = 12
 tags = ["enum", "display", "error-trait"]
 
 [[objectives]]

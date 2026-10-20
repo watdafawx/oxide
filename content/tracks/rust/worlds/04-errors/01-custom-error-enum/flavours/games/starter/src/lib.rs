@@ -32,7 +32,9 @@ impl std::error::Error for ManifestError {}
 
 /// Parse a manifest line such as `sodium@5 fabric`.
 pub fn parse_mod_line(line: &str) -> Result<ModEntry, ManifestError> {
-    // TODO: no first word, or an empty name -> MissingMod; a version that is not a number -> BadVersion; a loader other than fabric, forge or neoforge -> UnknownLoader
+    // TODO: take the first word with `split_whitespace().next()` (none -> MissingMod). Cut it at '@' with `split_once`;
+    //       an empty name -> MissingMod. A version that is not a number -> BadVersion carrying the version text.
+    //       Then match the next word: fabric, forge, neoforge; anything else (or no word) -> UnknownLoader carrying it
     todo!()
 }
 

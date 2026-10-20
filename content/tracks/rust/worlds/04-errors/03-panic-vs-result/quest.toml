@@ -7,7 +7,7 @@ tags = ["panic", "unwrap", "expect"]
 
 [[quiz]]
 question = "A user types a file name that does not exist. What should your function do?"
-choices = ["panic!, the program cannot continue", "Return Err so the caller decides what to do", "Call unwrap() and hope the file is there"]
+choices = ["Call panic!, because the program cannot continue without it", "Return Err so the caller decides", "Call unwrap() and hope the file is there for sure"]
 answer = 1
 
 [[quiz]]

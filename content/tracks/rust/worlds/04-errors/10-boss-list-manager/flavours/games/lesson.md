@@ -19,7 +19,7 @@ fn run() -> anyhow::Result<()> {
 - Commands are `add <mod>`, `toggle <id>` (enable if disabled, disable if enabled) and `list`.
 
 - Tools the boss uses: a **match guard** adds a condition to an arm (`Err(e) if e.kind() == ErrorKind::NotFound => ...`). A variant with data is also a function, so `rest.parse().map(Command::Toggle)` wraps an `Ok(n)` into `Ok(Command::Toggle(n))`. `let Some(x) = opt else { return ... };` unwraps or leaves early. `ok_or_else(|| err)` turns `None` into an `Err`.
-
+- More tools: `#[derive(Default)]` is already on the list type, so `Self::default()` builds an empty one. `iter().map(|x| x.id).max()` gives the biggest id as an `Option` (`None` when empty); `unwrap_or(0)` supplies a fallback. `iter_mut()` is `iter()` with `&mut` items, so `iter_mut().find(..)` lets you change what it finds. `std::fs::write(path, text)` writes a `String` to a file. `path.display()` prints a `Path` inside `format!`.
 ## Your turn
 
 - Open `src/lib.rs`. `ModEntry`, `ModError`, `Command` and the line helpers are given.

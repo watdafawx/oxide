@@ -42,3 +42,6 @@ text = "Still in `load`: `text.lines().enumerate()`, then `parse_line(line).with
 text = "`save`: `self.mods.iter().map(format_line).collect::<Vec<_>>().join(\"\\n\")`, then `std::fs::write(path, text)` with the `with_context` from the TODO."
 [[hints]]
 text = "`run`: `match cmd { Command::Add(name) => Ok(format!(\"added {}\", list.add(&name))), Command::Toggle(id) => { list.toggle(id)?; Ok(format!(\"toggled {id}\")) } Command::List => ... }`."
+
+[[hints]]
+text = "`Command::List`: an empty list returns \"no mods yet\". Otherwise map each mod to `format!(\"[{}] {} {}\", mark, m.id, m.name)` where `mark` is `if m.enabled { 'x' } else { ' ' }`, collect into a `Vec<String>` and `join(\"\\n\")`."
