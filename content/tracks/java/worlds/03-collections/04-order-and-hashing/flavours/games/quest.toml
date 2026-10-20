@@ -3,7 +3,7 @@ summary = "HashMap, LinkedHashMap and TreeMap iterate in different orders. Know 
 
 [[quiz]]
 question = "You keep a `HashMap<String, Mod>` of installed mods and loop over it to print the pack. What order do the mod ids come out in?"
-choices = ["Install order", "No promised order: never rely on it", "Alphabetical"]
+choices = ["Install order, as you added them", "No order is promised", "Alphabetical by mod id"]
 answer = 1
 
 [[quiz]]

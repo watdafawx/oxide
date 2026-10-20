@@ -7,7 +7,7 @@ tags = ["map", "hashing"]
 
 [[quiz]]
 question = "You put keys into a `HashMap` and loop over it. What order do the keys come out in?"
-choices = ["Insertion order", "No promised order: never rely on it", "Sorted order"]
+choices = ["Insertion order, as you put them in", "No order is promised", "Sorted order, A to Z"]
 answer = 1
 
 [[quiz]]

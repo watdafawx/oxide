@@ -6,7 +6,7 @@ A log line looks like this:
 10:15:30 ERROR db Connection refused
 ```
 
-time, level, source, then the message (which can contain spaces). You build four small tools, each a stream pipeline.
+time, level, source, then the message (which can contain spaces). `line.split(" ", 4)` cuts into **at most 4** parts, so the 4th part keeps its spaces: that is how the message survives. You build four small tools, each a stream pipeline.
 
 1. **`parse`**: one line of text into a `LogLine` record.
 2. **`countsPerLevel`**: `{INFO=3, ERROR=4, WARN=1}`.
