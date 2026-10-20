@@ -11,11 +11,13 @@ A backslash or a missing root is an error. For several pictures in one icon use 
 
 ```lua
 icons = {
-  { icon = "__kit-mod__/graphics/icons/kit-alloy.png" },
-  { icon = "__base__/graphics/icons/iron-plate.png",
-    tint = { r = 1, g = 0.6, b = 0.2, a = 0.5 } },
+  { icon = "__kit-mod__/graphics/icons/kit-bolt.png" },
+  { icon = "__base__/graphics/icons/copper-plate.png",
+    tint = { r = 0.4, g = 0.8, b = 0.4, a = 0.7 } },
 }
 ```
+
+- In the starter, `icon = "graphics/icons/kit-alloy.png"` is broken because it has no root. Your own mod's root is its name between double underscores: this mod is `kit-mod`, so `__kit-mod__`.
 
 - Use either `icon` or `icons` on one prototype, never an empty `icons`.
 - A colour is `{r =, g =, b =, a =}` or `{r, g, b, a}`; values are 0 to 1. If any value is above 1 all of them are read as 0 to 255.

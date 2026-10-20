@@ -12,5 +12,5 @@ choices = ["data.lua", "control.lua", "info.json"]
 answer = 0
 [[quiz]]
 question = "Why can data.lua not call game.print?"
-choices = ["print is banned in mods", "game only works in singleplayer", "The data stage runs before any game exists"]
+choices = ["game.print is banned inside data files by Factorio", "game only exists in singleplayer, never on servers", "The data stage has no game yet"]
 answer = 2

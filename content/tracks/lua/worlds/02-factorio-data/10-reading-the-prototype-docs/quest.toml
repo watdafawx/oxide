@@ -11,9 +11,9 @@ choices = ["ingredients and results", "type, name and energy_required", "only ty
 answer = 2
 [[quiz]]
 question = "A property says \"Mandatory if icons is not defined\". What does that mean for icon?"
-choices = ["Write both icon and icons", "Write icon, or icons, but one of them", "icon is never needed"]
+choices = ["Write both icon and icons, or Factorio refuses the mod", "Give either icon or icons", "icon is never needed because icons replaces it in 2.0"]
 answer = 1
 [[quiz]]
 question = "ToolPrototype (science packs) lists only durability. Where are stack_size and icon documented?"
-choices = ["On the ItemPrototype page it inherits from", "Nowhere, they do not apply", "On the Lua runtime pages"]
+choices = ["On the page ToolPrototype inherits from", "Nowhere: tools have no stack size or icon of their own, so they are skipped", "On the Lua runtime pages, under the control-stage LuaItemPrototype"]
 answer = 0

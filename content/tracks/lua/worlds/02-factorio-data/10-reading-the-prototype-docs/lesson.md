@@ -4,7 +4,7 @@ Open `lua-api.factorio.com/2.0.55/` (pin the version, "latest" can be newer than
 
 A page has three parts:
 
-- **Properties** of this type. Each shows the type of the value (`double`, `string`, a named type such as `ItemStackIndex`) and either a default, or "Mandatory if ...", or nothing. **No default and not marked optional means mandatory.**
+- **Properties** of this type. Each shows the type of the value (`double`, `string`, a named type such as `ItemStackIndex`) and either a default, or "Mandatory if ...", or nothing. **No default and not marked optional means mandatory.** "Mandatory if `icons` is not defined" means: you must give this property unless the named one is there instead. Example: on `RecipePrototype` the fields `ingredients` and `results` are optional and `energy_required` has a default of 0.5, so only `type` and `name` (inherited from the base) are mandatory.
 - **Inherits from** at the top: `ToolPrototype` inherits `ItemPrototype`, which inherits `Prototype` and `PrototypeBase`. A tool needs everything an item needs, plus its own fields. Click up the chain to find `type`, `name`, `order`, `subgroup`.
 - **Types** in the sidebar: `ItemIngredientPrototype`, `IconData`, `Color` are small structs with their own page of fields.
 

@@ -2,7 +2,7 @@ title = "Icons and paths"
 summary = "Point at a mod file with __modname__/, then stack tinted icon layers."
 kind = "exercise"
 xp = 30
-minutes = 4
+minutes = 5
 tags = ["icons", "paths", "quick-win"]
 
 [[objectives]]

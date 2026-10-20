@@ -6,11 +6,11 @@
 data:extend({
   {
     type = "item",
-    name = "kit-alloy",
-    icon = "__base__/graphics/icons/iron-plate.png",   -- root + path, forward slashes
-    stack_size = 100,
+    name = "kit-bolt",
+    icon = "__base__/graphics/icons/copper-plate.png",   -- root + path, forward slashes
+    stack_size = 200,
     subgroup = "intermediate-product",   -- where it shows in the inventory
-    order = "z[kit-alloy]",              -- sort key inside the subgroup
+    order = "a[kit-bolt]",               -- sort key inside the subgroup
   },
 })
 ```

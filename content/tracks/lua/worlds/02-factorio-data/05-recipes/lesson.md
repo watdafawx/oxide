@@ -5,13 +5,13 @@ Many tutorials online (before late 2024) use the old shape. In 2.0 this is the f
 ```lua
 {
   type = "recipe",
-  name = "kit-alloy",
-  energy_required = 2,                       -- seconds at crafting speed 1 (default 0.5)
+  name = "kit-bolt",
+  energy_required = 0.75,                    -- seconds at crafting speed 1 (default 0.5)
   ingredients = {
-    { type = "item", name = "iron-plate",   amount = 2 },
+    { type = "item", name = "iron-plate",   amount = 3 },
     { type = "item", name = "copper-plate", amount = 1 },
   },
-  results = { { type = "item", name = "kit-alloy", amount = 1 } },
+  results = { { type = "item", name = "kit-bolt", amount = 4 } },
 }
 ```
 

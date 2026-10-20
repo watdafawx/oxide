@@ -8,7 +8,7 @@ data.lua      data-updates.lua      data-final-fixes.lua      <- this world
 control.lua                                                   <- world 3, during play
 ```
 
-The data stage builds `data.raw[type][name]`: every item, recipe and technology in the game. There is **no `game` yet**, no map, no player: only the tables `data`, `mods` and `settings`. That is why a prototype is plain data and never code that runs later.
+You register a new item, recipe or technology in `data.lua`. The data stage builds `data.raw[type][name]`: every item, recipe and technology in the game. There is **no `game` yet**, no map, no player: only the tables `data`, `mods` and `settings`. That is why a prototype is plain data and never code that runs later.
 
 ```lua
 data:extend({

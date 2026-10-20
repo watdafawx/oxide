@@ -11,7 +11,7 @@ data:extend({
   {
     type = "recipe",
     name = "kit-alloy",
-    -- TODO: lock it until researched
+    -- TODO: lock it until researched (enabled = false)
     energy_required = 2,
     ingredients = {
       { type = "item", name = "iron-plate", amount = 2 },

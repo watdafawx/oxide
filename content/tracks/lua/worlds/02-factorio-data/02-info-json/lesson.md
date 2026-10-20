@@ -4,10 +4,10 @@ Four fields are mandatory: `name`, `version`, `title`, `author`. Add `factorio_v
 
 ```json
 {
-  "name": "kit-mod",
-  "version": "0.1.0",
-  "title": "Kit Mod",
-  "author": "you",
+  "name": "belt-extras",
+  "version": "1.2.0",
+  "title": "Belt Extras",
+  "author": "fox",
   "factorio_version": "2.0",
   "dependencies": ["base >= 2.0.0", "? some-optional-mod"]
 }

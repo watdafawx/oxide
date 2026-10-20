@@ -12,7 +12,7 @@ data:extend({
   {
     type = "container",
     name = "kit-crate",
-    -- TODO: icon, flags = { "placeable-neutral", "player-creation" }, inventory_size = 48
+    -- TODO: icon (the wooden-chest one), flags = { "placeable-neutral", "player-creation" }, inventory_size = 48
     -- TODO: minable (0.2 s, gives back the kit-crate item)
     -- TODO: collision_box and selection_box, centred on 0
   },

@@ -29,4 +29,4 @@ The tests cannot see graphics, balance or the real game's loader. To check with 
 2. Start Factorio, enable Kit Mod in the Mods menu, load a new map.
 3. Research Automation, then Kit Metallurgy, then Kit Storage. Craft a kit-alloy and a kit-crate, place the crate and open it.
 
-The mod has no icon files of its own, so it borrows the base game's icons. The capstone quizzes you on what you saw.
+The mod has no icon files of its own, so it borrows the base game's icons.

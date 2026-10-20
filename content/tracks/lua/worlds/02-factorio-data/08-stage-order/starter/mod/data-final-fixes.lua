@@ -1,2 +1,3 @@
 -- Every mod's data-updates.lua has run by now: the last chance to touch all items.
--- TODO: halve the stack_size of every item above 50, exactly once
+-- TODO: loop `for _, item in pairs(data.raw.item) do`; when item.stack_size > 50 set it to
+--       math.floor(item.stack_size / 2). Run this loop only once, in this file.

@@ -5,19 +5,19 @@ An entity is another prototype, here `type = "container"`. Only `inventory_size`
 ```lua
 {
   type = "container",
-  name = "kit-crate",
+  name = "kit-bin",
   icon = "__base__/graphics/icons/wooden-chest.png",   -- needed once the entity is placeable
   flags = { "placeable-neutral", "player-creation" },
-  inventory_size = 48,
-  minable = { mining_time = 0.2, result = "kit-crate" },
-  collision_box = { { -0.35, -0.35 }, { 0.35, 0.35 } },   -- what blocks walking and building
-  selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },       -- what the mouse can hit
+  inventory_size = 16,
+  minable = { mining_time = 0.5, result = "kit-bin" },
+  collision_box = { { -0.4, -0.4 }, { 0.4, 0.4 } },   -- what blocks walking and building
+  selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },   -- what the mouse can hit
 }
 ```
 
-- The **item** says `place_result = "kit-crate"`; that is the only link from item to entity.
+- The **item** says `place_result = "kit-bin"`; that is the only link from item to entity.
 - `minable.result` names the item you get back. Without `minable` the entity cannot be picked up.
-- `collision_box` defaults to an empty box (no collision), so give it one. Centred entities use a box that mirrors around 0, which keeps them aligned to the grid.
+- `collision_box` defaults to an empty box (no collision), so give it one. A box is `{ {left, top}, {right, bottom} }` from the entity centre, and centred entities mirror it around 0 (`-0.4` and `0.4`), which keeps them aligned to the grid.
 - The `flags` entry `placeable-neutral` is what the docs tie the mandatory icon to; `player-creation` is the usual companion.
 - `mock_factorio` checks that `place_result` names an entity and `minable.result` names an item: loops that point nowhere are the classic first-mod bug.
 

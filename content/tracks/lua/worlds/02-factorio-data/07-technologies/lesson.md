@@ -5,14 +5,14 @@ A technology is a prototype with a research cost (`unit`), things it grants (`ef
 ```lua
 {
   type = "technology",
-  name = "kit-metallurgy",
+  name = "kit-welding",
   icon = "__base__/graphics/technology/steel-processing.png", icon_size = 256,
-  prerequisites = { "automation" },
-  effects = { { type = "unlock-recipe", recipe = "kit-alloy" } },
+  prerequisites = { "steel-processing" },
+  effects = { { type = "unlock-recipe", recipe = "kit-rod" } },
   unit = {
-    count = 30,                                   -- how many units (or count_formula, never both)
-    time = 15,                                    -- seconds per unit at lab speed 1
-    ingredients = { { "automation-science-pack", 1 } },   -- {name, amount} pairs
+    count = 50,                                   -- how many units (or count_formula, never both)
+    time = 20,                                    -- seconds per unit at lab speed 1
+    ingredients = { { "automation-science-pack", 2 } },   -- {name, amount} pairs
   },
 }
 ```

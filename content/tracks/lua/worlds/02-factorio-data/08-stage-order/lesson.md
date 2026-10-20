@@ -12,12 +12,13 @@ Inside `data.lua` a later mod's items do not exist yet. In `data-updates.lua` ev
 
 ```lua
 -- data-final-fixes.lua: sees EVERY item from EVERY mod
-for _, item in pairs(data.raw.item) do
-  if item.stack_size > 50 then item.stack_size = math.floor(item.stack_size / 2) end
+for _, item in pairs(data.raw.item) do          -- `_` = the key (the name), which we do not need
+  if item.stack_size > 200 then item.stack_size = 200 end    -- cap every huge stack
 end
+data.raw.item["iron-plate"].subgroup = "kit-parts"     -- change ONE item: index data.raw.<type>[<name>]
 ```
 
-- `/` is float division: `75 / 2` is `37.5`, and a stack size must be a whole number, hence `math.floor`. Real Factorio rejects the fraction.
+- To halve you divide, and `/` is float division: `75 / 2` is `37.5`, and a stack size must be a whole number, hence `math.floor`. Real Factorio rejects the fraction.
 - Each stage file runs **once**. Do a change in one stage, not several; a halving run twice quarters the stack.
 - `pairs` order is not guaranteed. Edit every item the same way and the order does not matter.
 - The fake `other` mod next to `mod/` plays "some other mod" in this quest. Do not edit it.
