@@ -1,0 +1,25 @@
+title = "Switch arms"
+summary = "Use arrow switches for ping grades and month lengths."
+
+[[objectives]]
+test = "pingGradeMapsBands"
+label = "pingGrade maps ping bands to great/good/ok/poor"
+[[objectives]]
+test = "monthLengthHandlesLeapYear"
+label = "daysInMonth knows 28/29/30/31, including leap years, and throws IllegalArgumentException for month 13"
+
+[[hints]]
+text = "Both methods are in `Uptime`. Each already has a first arm and a `default` arm: add the others between them."
+[[hints]]
+text = "`case 1 -> \"good\";`, `case 2, 3 -> \"ok\";` and for months `case 4, 6, 9, 11 -> 30;` and `case 2 -> isLeap(year) ? 29 : 28;`"
+
+[[points]]
+after = 2
+prompt = "Which token starts a switch arm's result?"
+pick = ["->", ":", "=>", "break"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Handle everything else."
+code = "___ -> throw new IllegalArgumentException(\"month \" + month);"
+blank = "default"

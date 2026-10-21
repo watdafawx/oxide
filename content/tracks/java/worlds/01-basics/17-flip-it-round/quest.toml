@@ -1,0 +1,29 @@
+title = "Flip it round"
+summary = "Reverse a text and spot palindromes."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["strings", "stringbuilder"]
+
+[[objectives]]
+test = "reversesText"
+label = "reverse returns the characters in the opposite order"
+[[objectives]]
+test = "palindromeIgnoresCaseAndSpaces"
+label = "isPalindrome ignores case and spaces"
+
+[[hints]]
+text = "Both methods are in `Words`. Write `reverse` first: `isPalindrome` can use it."
+[[hints]]
+text = "`return new StringBuilder(text).reverse().toString();` and `String clean = text.replace(\" \", \"\").toLowerCase(); return clean.equals(reverse(clean));`"
+
+[[points]]
+after = 2
+prompt = "Which call turns the builder back into a String?"
+pick = ["toString()", "reverse()", "append()", "length()"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Remove all spaces."
+code = "String tight = text.replace(\" \", ___);"
+blank = "\"\""

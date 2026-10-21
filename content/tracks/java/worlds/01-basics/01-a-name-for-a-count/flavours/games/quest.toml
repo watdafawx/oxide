@@ -1,0 +1,25 @@
+title = "A name for a count"
+summary = "Give the player counts names, then do maths with the names."
+
+[[objectives]]
+test = "totalOnlineAddsBothServers"
+label = "totalOnline() returns 15"
+[[objectives]]
+test = "slotsLeftIsCapacityMinusOnline"
+label = "slotsLeft() returns 8"
+
+[[hints]]
+text = "Both methods are in `Tally`. Each starts with a `// TODO` that tells you which variables to make."
+[[hints]]
+text = "`int survival = 12;` then `int creative = 3;` then `return survival + creative;`. In `slotsLeft`, the last line is `return capacity - online;`."
+
+[[points]]
+after = 1
+prompt = "Which line names the number 12 `survival`?"
+pick = ["int survival = 12;", "survival = 12", "12 = survival;", "int 12 = survival;"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line so `crew` is three per boat."
+code = "int people = boats * ___;"
+blank = "crew"

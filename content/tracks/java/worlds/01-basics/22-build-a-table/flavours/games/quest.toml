@@ -1,0 +1,22 @@
+title = "Build a table"
+summary = "Print the server table with a StringBuilder and column widths."
+
+[[objectives]]
+test = "buildsServerTableWithStringBuilder"
+label = "table builds one formatted row per server, each ending in a newline"
+
+[[hints]]
+text = "The method is in `StatusTable`. Make the builder before the loop, return `toString()` after it."
+[[hints]]
+text = "`for (int i = 0; i < servers.length; i++) { sb.append(String.format(\"%-8s|%3d\\n\", servers[i], players[i])); }`"
+
+[[points]]
+after = 2
+prompt = "Which slot left-aligns text in 8 columns?"
+pick = ["%-8s", "%8d", "%.8s", "%8"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Loop over every position."
+code = "for (int i = 0; i < servers.___; i++) {"
+blank = "length"

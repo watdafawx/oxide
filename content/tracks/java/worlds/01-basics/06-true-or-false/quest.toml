@@ -1,0 +1,29 @@
+title = "True or false"
+summary = "Answer yes/no questions: is it full, may they enter?"
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["boolean", "comparison"]
+
+[[objectives]]
+test = "fullWhenCountReachesCapacity"
+label = "isFull(20, 20) is true and isFull(19, 20) is false"
+[[objectives]]
+test = "entryNeedsRoomAndNoBan"
+label = "canEnter is true only with room and no ban"
+
+[[hints]]
+text = "Both methods are in `Checks`. Each returns one comparison or a mix of them."
+[[hints]]
+text = "`return count >= capacity;` and `return count < capacity && !banned;`"
+
+[[points]]
+after = 2
+prompt = "Which operator asks \"are these equal?\""
+pick = ["==", "=", "!=", "=>"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Both must be true."
+code = "boolean ok = a ___ b;"
+blank = "&&"

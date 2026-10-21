@@ -1,0 +1,22 @@
+You want to know whether two texts are the same. The obvious tool, `==`, answers a different question, and the answer can be wrong in a way that looks right.
+
+**Same letters.** Two texts can hold exactly the same letters and still be two separate pieces of text in memory, for example when one was read from the network and the other typed in the code.
+
+**`==` asks the wrong thing.** For texts, `==` asks "are these the very same piece of text?" and can answer `false` for two texts with identical letters. The checker builds exactly that case on purpose.
+
+**`equals` asks the right thing.** `a.equals(b)` asks "do these have the same characters?". That is almost always what you mean:
+
+```java
+a.equals(b)               // true when every letter matches
+a.equalsIgnoreCase(b)     // true even when only the capitals differ
+```
+
+**Ignoring capitals.** `equalsIgnoreCase` does the same but treats `A` and `a` as equal.
+
+**The rule.** Numbers and chars: `==`. Texts: `equals`. When your comparison of text misbehaves, check this first.
+
+## Your turn
+
+- In `sameText`, replace `==` so it compares the characters of the two texts.
+- In `sameIgnoringCase`, compare the characters but ignore capitals.
+- Save. Both objectives turn green.

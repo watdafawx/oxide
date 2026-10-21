@@ -1,0 +1,29 @@
+title = "Flip in place"
+summary = "Swap and reverse an array itself."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["arrays", "void"]
+
+[[objectives]]
+test = "swapEndsSwapsFirstAndLast"
+label = "swapEnds swaps the first and last value"
+[[objectives]]
+test = "reverseInPlaceMutates"
+label = "reverseInPlace changes the array it was given"
+
+[[hints]]
+text = "Both methods are in `Flip` and return `void`. Do `swapEnds` first, it is a smaller version of the reverse."
+[[hints]]
+text = "`int tmp = values[0]; values[0] = values[values.length - 1]; values[values.length - 1] = tmp;`. For `reverseInPlace`, put that in a `for` over `i < values.length / 2`, with `i` and `values.length - 1 - i`."
+
+[[points]]
+after = 2
+prompt = "Which return type means \"nothing handed back\"?"
+pick = ["void", "null", "int", "empty"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Why the tmp variable?"
+pick = ["Writing over a value would lose it", "Java requires it", "To make the array longer", "To sort the array"]
+answer = 0

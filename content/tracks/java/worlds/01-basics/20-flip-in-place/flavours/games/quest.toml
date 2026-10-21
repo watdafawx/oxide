@@ -1,0 +1,25 @@
+title = "Flip in place"
+summary = "Swap and reverse the samples array itself."
+
+[[objectives]]
+test = "swapEndsSwapsFirstAndLast"
+label = "swapEnds swaps the first and last value"
+[[objectives]]
+test = "newestFirstReversesInPlace"
+label = "newestFirst reverses the array it was given"
+
+[[hints]]
+text = "Both methods are in `SampleOrder` and return `void`. Do `swapEnds` first, it is a smaller version of the reverse."
+[[hints]]
+text = "`int tmp = samples[0]; samples[0] = samples[samples.length - 1]; samples[samples.length - 1] = tmp;`. For `newestFirst`, put that in a `for` over `i < samples.length / 2`, with `i` and `samples.length - 1 - i`."
+
+[[points]]
+after = 2
+prompt = "Which return type means \"nothing handed back\"?"
+pick = ["void", "null", "int", "empty"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Why the tmp variable?"
+pick = ["Writing over a value would lose it", "Java requires it", "To make the array longer", "To sort the array"]
+answer = 0

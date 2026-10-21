@@ -1,0 +1,25 @@
+title = "Any number of values"
+summary = "Total the players of any number of servers."
+
+[[objectives]]
+test = "serverCountCountsTheNumbers"
+label = "serverCount(3, 8, 0) returns 3"
+[[objectives]]
+test = "totalPlayersSumsAnyNumber"
+label = "totalPlayers adds any number of counts, including none"
+
+[[hints]]
+text = "Both methods are in `ServerTotals`. Inside, `perServer` is an `int[]`."
+[[hints]]
+text = "`return perServer.length;` and `int total = 0; for (int count : perServer) { total += count; } return total;`"
+
+[[points]]
+after = 1
+prompt = "What does `int... nums` accept?"
+pick = ["Zero or more ints", "Exactly one int", "An int and a text", "Only an array"]
+answer = 0
+[[points]]
+after = 3
+prompt = "What is `nums` inside the method?"
+pick = ["An int[]", "An int", "A String", "Nothing"]
+answer = 0

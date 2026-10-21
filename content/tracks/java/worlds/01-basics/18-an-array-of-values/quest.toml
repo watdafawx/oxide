@@ -1,0 +1,32 @@
+title = "An array of values"
+summary = "Read the first and last value of a row, and make an empty one."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["arrays"]
+
+[[objectives]]
+test = "firstIsIndexZero"
+label = "first({7, 3, 9}) returns 7"
+[[objectives]]
+test = "lastIsTheEnd"
+label = "last({7, 3, 9}) returns 9"
+[[objectives]]
+test = "zerosHasTheGivenSize"
+label = "zeros(5) is an array of five zeros"
+
+[[hints]]
+text = "All three methods are in `Rows`. Remember the first index is 0."
+[[hints]]
+text = "`return values[0];`, `return values[values.length - 1];` and `return new int[count];`"
+
+[[points]]
+after = 3
+prompt = "An array has length 5. What is its last index?"
+pick = ["4", "5", "6", "0"]
+answer = 0
+[[points]]
+after = 5
+prompt = "Make room for 24 numbers."
+code = "int[] day = ___ int[24];"
+blank = "new"

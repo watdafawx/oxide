@@ -1,0 +1,25 @@
+title = "Pages of players"
+summary = "Split the online list into pages with / and %."
+
+[[objectives]]
+test = "fullPagesCountsWholePages"
+label = "fullPages(17, 5) returns 3"
+[[objectives]]
+test = "lastPageHoldsTheRest"
+label = "playersOnLastPage(17, 5) returns 2"
+
+[[hints]]
+text = "Both methods are in `Pages`. One uses `/`, the other `%`."
+[[hints]]
+text = "`return players / perPage;` and `return players % perPage;`"
+
+[[points]]
+after = 2
+prompt = "What is 17 / 5 with ints?"
+pick = ["3", "3.4", "2", "4"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Which operator gives the remainder?"
+code = "int left = 17 ___ 5;   // 2"
+blank = "%"

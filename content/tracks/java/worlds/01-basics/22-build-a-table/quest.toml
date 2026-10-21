@@ -1,0 +1,26 @@
+title = "Build a table"
+summary = "Print a table with a StringBuilder and column widths."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["strings", "format", "stringbuilder"]
+
+[[objectives]]
+test = "buildsTableWithStringBuilder"
+label = "table builds one formatted row per name, each ending in a newline"
+
+[[hints]]
+text = "The method is in `Table`. Make the builder before the loop, return `toString()` after it."
+[[hints]]
+text = "`for (int i = 0; i < names.length; i++) { sb.append(String.format(\"%-6s|%4d\\n\", names[i], scores[i])); }`"
+
+[[points]]
+after = 2
+prompt = "Which slot left-aligns text in 6 columns?"
+pick = ["%-6s", "%6d", "%.6s", "%6"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Loop over every position."
+code = "for (int i = 0; i < names.___; i++) {"
+blank = "length"

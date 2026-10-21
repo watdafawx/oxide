@@ -1,0 +1,29 @@
+title = "The one-line choice"
+summary = "Pick between two words with a ternary."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["control-flow", "ternary"]
+
+[[objectives]]
+test = "yesNoFollowsTheFlag"
+label = "yesNo(true) is \"yes\", yesNo(false) is \"no\""
+[[objectives]]
+test = "pluralFollowsTheCount"
+label = "plural(1) is \"item\", any other count is \"items\""
+
+[[hints]]
+text = "Both methods are in `Labels`. Each is one `return` with a `?` and a `:`."
+[[hints]]
+text = "`return answer ? \"yes\" : \"no\";` and `return count == 1 ? \"item\" : \"items\";`"
+
+[[points]]
+after = 2
+prompt = "Which symbol means \"otherwise\" in a ternary?"
+pick = [":", "?", "&&", "->"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Choose the word."
+code = "String word = busy ___ \"busy\" : \"quiet\";"
+blank = "?"

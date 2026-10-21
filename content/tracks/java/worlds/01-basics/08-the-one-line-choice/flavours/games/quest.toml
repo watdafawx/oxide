@@ -1,0 +1,25 @@
+title = "The one-line choice"
+summary = "Pick between two words with a ternary."
+
+[[objectives]]
+test = "statusWordFollowsTheFlag"
+label = "statusWord(true) is \"ONLINE\", statusWord(false) is \"OFFLINE\""
+[[objectives]]
+test = "serverWordFollowsTheCount"
+label = "serverWord(1) is \"server\", any other count is \"servers\""
+
+[[hints]]
+text = "Both methods are in `StatusWords`. Each is one `return` with a `?` and a `:`."
+[[hints]]
+text = "`return online ? \"ONLINE\" : \"OFFLINE\";` and `return count == 1 ? \"server\" : \"servers\";`"
+
+[[points]]
+after = 2
+prompt = "Which symbol means \"otherwise\" in a ternary?"
+pick = [":", "?", "&&", "->"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Choose the word."
+code = "String word = busy ___ \"busy\" : \"quiet\";"
+blank = "?"

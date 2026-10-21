@@ -1,0 +1,26 @@
+title = "Text blocks"
+summary = "Write a JSON document as a text block."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["strings", "text-block"]
+
+[[objectives]]
+test = "textBlockKeepsIndent"
+label = "jsonBlock returns an indented JSON text block with the values filled in"
+
+[[hints]]
+text = "The method is in `Json`. A text block starts with `\"\"\"` and a line break; the closing `\"\"\"` goes on its own line."
+[[hints]]
+text = "Put `%s` where the status goes and `%d` where the count goes, and end with `.formatted(status, count)` right after the closing `\"\"\"`."
+
+[[points]]
+after = 2
+prompt = "What must follow the opening quotes?"
+pick = ["A line break", "The first word", "A semicolon", "A backslash"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Fill the slots of the text block."
+code = "String s = \"\"\"\n        {\"age\": %d}\n        \"\"\".___(36);"
+blank = "formatted"

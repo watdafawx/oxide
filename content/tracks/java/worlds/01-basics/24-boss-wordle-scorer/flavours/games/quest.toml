@@ -1,0 +1,35 @@
+title = "Boss: Codeword command"
+summary = "Add !guess to the status bot: score a codeword guess and reply with an emoji row."
+
+[[objectives]]
+test = "exactCodewordIsAllGreen"
+label = "score returns GGGGG when the guess is the secret"
+[[objectives]]
+test = "misplacedLetterIsYellow"
+label = "a letter in the word but in the wrong place is Y, a missing letter is ."
+[[objectives]]
+test = "repeatedLetterIsScoredOnce"
+label = "a repeated letter is only Y as many times as the secret has it"
+[[objectives]]
+test = "replyRendersEmojiRow"
+label = "reply builds the chat line: player name plus the emoji row"
+
+[[hints]]
+text = "Start with the easy win: if `guess.equals(secret)`, return `\"GGGGG\"`. That alone turns the first objective green."
+[[hints]]
+text = "General case: make a `char[] result` of five `'.'`. Pass 1: for every position `i`, if `guess.charAt(i) == secret.charAt(i)`, set `result[i] = 'G'`; otherwise count the secret letter in an `int[26]` tally with `tally[secret.charAt(i) - 'a']++`."
+[[hints]]
+text = "Pass 2: for every position that is not green, if `tally[guess.charAt(i) - 'a'] > 0` the letter is yellow: set `'Y'` and decrement that count. Return `new String(result)`."
+[[hints]]
+text = "`reply`: `return player + \": \" + render(score(secret, guess));`. `render` is a loop with a `StringBuilder` and a `switch` on each char."
+
+[[points]]
+after = 4
+prompt = "Which index holds letter c in the tally?"
+pick = ["c - 'a'", "c + 'a'", "'a' - c", "c"]
+answer = 0
+[[points]]
+after = 5
+prompt = "Fill every slot with a dot."
+code = "Arrays.fill(row, ___);"
+blank = "'.'"

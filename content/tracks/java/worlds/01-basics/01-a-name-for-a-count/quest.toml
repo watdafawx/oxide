@@ -1,0 +1,29 @@
+title = "A name for a number"
+summary = "Give two apple counts names, then do maths with the names."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["variables", "int"]
+
+[[objectives]]
+test = "totalApplesAddsBothBaskets"
+label = "totalApples() returns 15"
+[[objectives]]
+test = "roomLeftIsCapacityMinusApples"
+label = "roomLeft() returns 8"
+
+[[hints]]
+text = "Both methods are in `Baskets`. Each starts with a `// TODO` that tells you which variables to make."
+[[hints]]
+text = "`int small = 12;` then `int big = 3;` then `return small + big;`. In `roomLeft`, the last line is `return capacity - apples;`."
+
+[[points]]
+after = 1
+prompt = "Which line names the number 12 `small`?"
+pick = ["int small = 12;", "small = 12", "12 = small;", "int 12 = small;"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line so `crew` is three per boat."
+code = "int people = boats * ___;"
+blank = "crew"

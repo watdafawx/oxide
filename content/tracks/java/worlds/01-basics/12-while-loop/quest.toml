@@ -1,0 +1,29 @@
+title = "While loop"
+summary = "Halve a number until it is small enough."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["loops", "while"]
+
+[[objectives]]
+test = "countsHalvingSteps"
+label = "halvings(800, 100) returns 3"
+[[objectives]]
+test = "alreadyUnderNeedsNoSteps"
+label = "halvings(50, 100) returns 0"
+
+[[hints]]
+text = "The method is in `Halving`. Make a counter before the loop, and halve `start` inside it."
+[[hints]]
+text = "`int steps = 0; while (start > limit) { start = start / 2; steps++; } return steps;`"
+
+[[points]]
+after = 1
+prompt = "When does a while loop stop?"
+pick = ["When its condition is false", "After 10 rounds", "When you return", "After one round"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Keep going while the ping is above 100."
+code = "___ (ping > 100) {"
+blank = "while"

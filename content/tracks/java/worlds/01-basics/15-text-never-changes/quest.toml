@@ -1,0 +1,32 @@
+title = "Text never changes"
+summary = "Tidy a text with trim, toUpperCase and length."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["strings", "immutable"]
+
+[[objectives]]
+test = "tidyCutsOuterSpaces"
+label = "tidy(\"  Ada \") returns \"Ada\""
+[[objectives]]
+test = "shoutIsUpperCase"
+label = "shout(\"Ada\") returns \"ADA\""
+[[objectives]]
+test = "charCountCountsCharacters"
+label = "charCount(\"Hello\") returns 5"
+
+[[hints]]
+text = "All three methods are in `TextTools`. Each is one `return` that asks the text to do something."
+[[hints]]
+text = "`return raw.trim();`, `return text.toUpperCase();` and `return text.length();`"
+
+[[points]]
+after = 3
+prompt = "After `s.toUpperCase();` on its own line, what is s?"
+pick = ["Unchanged", "Upper-case", "Empty", "null"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Keep the trimmed text."
+code = "String clean = s.___();"
+blank = "trim"

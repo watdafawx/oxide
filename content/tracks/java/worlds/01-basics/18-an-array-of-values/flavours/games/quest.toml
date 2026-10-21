@@ -1,0 +1,28 @@
+title = "An array of values"
+summary = "Read the first and last hourly sample and make an empty day."
+
+[[objectives]]
+test = "firstSampleIsIndexZero"
+label = "firstSample({7, 3, 9}) returns 7"
+[[objectives]]
+test = "latestSampleIsTheLast"
+label = "latestSample({7, 3, 9}) returns 9"
+[[objectives]]
+test = "emptyDayHas24Zeros"
+label = "emptyDay() is an array of 24 zeros"
+
+[[hints]]
+text = "All three methods are in `HourlySamples`. Remember the first index is 0."
+[[hints]]
+text = "`return samples[0];`, `return samples[samples.length - 1];` and `return new int[24];`"
+
+[[points]]
+after = 3
+prompt = "An array has length 5. What is its last index?"
+pick = ["4", "5", "6", "0"]
+answer = 0
+[[points]]
+after = 5
+prompt = "Make room for 24 hours."
+code = "int[] day = ___ int[24];"
+blank = "new"

@@ -1,0 +1,29 @@
+title = "Fractions with double"
+summary = "Get the fraction back with a double."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["double", "cast"]
+
+[[objectives]]
+test = "ratioKeepsTheFraction"
+label = "ratio(17, 20) returns 0.85"
+[[objectives]]
+test = "averageKeepsTheHalf"
+label = "average(30, 45) returns 37.5"
+
+[[hints]]
+text = "Both methods are in `Fractions`. The starter has the classic bug: whole-number division."
+[[hints]]
+text = "`return (double) a / b;` and `return (a + b) / 2.0;`"
+
+[[points]]
+after = 1
+prompt = "What is 17 / 20 with two ints?"
+pick = ["0", "0.85", "1", "17"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Make one side a double."
+code = "double half = n / ___;"
+blank = "2.0"

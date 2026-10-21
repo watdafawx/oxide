@@ -1,0 +1,25 @@
+title = "While loop"
+summary = "Halve a retry delay until it is short enough."
+
+[[objectives]]
+test = "countsHalvingSteps"
+label = "retriesUntilUnder(800, 100) returns 3"
+[[objectives]]
+test = "alreadyUnderNeedsNoRetries"
+label = "retriesUntilUnder(50, 100) returns 0"
+
+[[hints]]
+text = "The method is in `Backoff`. Make a counter before the loop, and halve `delayMs` inside it."
+[[hints]]
+text = "`int retries = 0; while (delayMs > limitMs) { delayMs = delayMs / 2; retries++; } return retries;`"
+
+[[points]]
+after = 1
+prompt = "When does a while loop stop?"
+pick = ["When its condition is false", "After 10 rounds", "When you return", "After one round"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Keep going while the ping is above 100."
+code = "___ (ping > 100) {"
+blank = "while"

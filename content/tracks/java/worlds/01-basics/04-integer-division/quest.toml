@@ -1,0 +1,29 @@
+title = "Boxes and leftovers"
+summary = "Split items into boxes with / and %."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["operators", "division"]
+
+[[objectives]]
+test = "fullBoxesCountsWholeBoxes"
+label = "fullBoxes(17, 5) returns 3"
+[[objectives]]
+test = "itemsLeftAreTheRemainder"
+label = "itemsLeft(17, 5) returns 2"
+
+[[hints]]
+text = "Both methods are in `Boxes`. One uses `/`, the other `%`."
+[[hints]]
+text = "`return items / perBox;` and `return items % perBox;`"
+
+[[points]]
+after = 2
+prompt = "What is 17 / 5 with ints?"
+pick = ["3", "3.4", "2", "4"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Which operator gives the remainder?"
+code = "int left = 17 ___ 5;   // 2"
+blank = "%"

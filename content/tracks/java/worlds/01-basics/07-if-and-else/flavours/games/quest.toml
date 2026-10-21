@@ -1,0 +1,25 @@
+title = "If, else and the chain"
+summary = "Clamp a player count into range and report whether the server is filling."
+
+[[objectives]]
+test = "clampKeepsPlayerCountInRange"
+label = "clampPlayerCount returns min below the range, max above it, and the count inside it"
+[[objectives]]
+test = "trendReturnsMinusOneZeroOne"
+label = "trend returns -1 (leaving), 0 (steady) or 1 (joining)"
+
+[[hints]]
+text = "Both methods are in `PlayerCount`. In `clampPlayerCount`, two `if`s that return early do the job."
+[[hints]]
+text = "`if (playerCount < min) { return min; }`, the same for `max`, then `return playerCount;`. For `trend`: `if (delta < 0) { return -1; } else if (delta > 0) { return 1; } else { return 0; }`"
+
+[[points]]
+after = 2
+prompt = "What does a return inside an if do?"
+pick = ["Ends the method right there", "Skips the if", "Starts the loop again", "Nothing until the end"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Ask a second question."
+code = "} ___ (ping > 100) {"
+blank = "else if"

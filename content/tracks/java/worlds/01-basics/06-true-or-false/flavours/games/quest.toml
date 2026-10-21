@@ -1,0 +1,25 @@
+title = "True or false"
+summary = "Answer yes/no questions: is it full, may they join?"
+
+[[objectives]]
+test = "fullWhenOnlineReachesMax"
+label = "isFull(20, 20) is true and isFull(19, 20) is false"
+[[objectives]]
+test = "joinNeedsRoomAndNoBan"
+label = "canJoin is true only with room and no ban"
+
+[[hints]]
+text = "Both methods are in `Gate`. Each returns one comparison or a mix of them."
+[[hints]]
+text = "`return online >= max;` and `return online < max && !banned;`"
+
+[[points]]
+after = 2
+prompt = "Which operator asks \"are these equal?\""
+pick = ["==", "=", "!=", "=>"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Both must be true."
+code = "boolean ok = a ___ b;"
+blank = "&&"

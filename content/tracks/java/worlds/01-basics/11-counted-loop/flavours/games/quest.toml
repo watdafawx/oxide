@@ -1,0 +1,25 @@
+title = "Counted loop"
+summary = "Total a growing player count and draw a bar, one round at a time."
+
+[[objectives]]
+test = "playerMinutesAddsInclusive"
+label = "playerMinutes(minutes) adds 1 through minutes, the last minute included"
+[[objectives]]
+test = "playerBarHasOneHashPerPlayer"
+label = "playerBar(3) is \"###\""
+
+[[hints]]
+text = "Both methods are in `StatusLoops`. Make the result variable before the loop, change it inside the braces."
+[[hints]]
+text = "`int total = 0; for (int i = 1; i <= minutes; i++) { total += i; } return total;` and for the bar `String bar = \"\"; ... bar += \"#\";`"
+
+[[points]]
+after = 2
+prompt = "Which test includes n itself?"
+pick = ["i <= n", "i < n", "i != n", "i > n"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Add i to total."
+code = "total ___ i;"
+blank = "+="

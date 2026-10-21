@@ -1,0 +1,29 @@
+title = "Counted loop"
+summary = "Add up a run of numbers and draw a row of stars, one round at a time."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["loops", "for"]
+
+[[objectives]]
+test = "sumToAddsInclusive"
+label = "sumTo(n) adds 1 through n, n included"
+[[objectives]]
+test = "starsMakesOneStarPerRound"
+label = "stars(3) is \"***\""
+
+[[hints]]
+text = "Both methods are in `Loops`. Make the result variable before the loop, change it inside the braces."
+[[hints]]
+text = "`int total = 0; for (int i = 1; i <= n; i++) { total += i; } return total;` and for the stars `String row = \"\"; ... row += \"*\";`"
+
+[[points]]
+after = 2
+prompt = "Which test includes n itself?"
+pick = ["i <= n", "i < n", "i != n", "i > n"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Add i to total."
+code = "total ___ i;"
+blank = "+="

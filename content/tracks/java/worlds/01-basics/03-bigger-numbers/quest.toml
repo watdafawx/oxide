@@ -1,0 +1,29 @@
+title = "Bigger numbers"
+summary = "Use long for numbers that pass 2.1 billion."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["long", "cast"]
+
+[[objectives]]
+test = "populationNeedsLongLiteral"
+label = "worldPopulation() returns 8_000_000_000L"
+[[objectives]]
+test = "multiplyAsLongDoesNotWrap"
+label = "multiplyAsLong returns the true product as a long"
+
+[[hints]]
+text = "Both methods are in `BigMath`. A number past 2.1 billion must end in `L`."
+[[hints]]
+text = "`return 8_000_000_000L;` and `return (long) a * b;`"
+
+[[points]]
+after = 2
+prompt = "What must a literal bigger than an int end with?"
+pick = ["L", "B", "int", "0"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Cast the first number before the multiplication."
+code = "long total = ___ a * b;"
+blank = "(long)"

@@ -1,0 +1,21 @@
+title = "How Java runs"
+summary = "Two helpers inside the JVM: the JIT and the garbage collector."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["jvm", "jit", "gc"]
+
+[[quiz]]
+question = "What does the JIT compiler do?"
+choices = ["Compiles hot methods to machine code while the program runs", "Turns your .java file into bytecode", "Deletes objects you stopped using"]
+answer = 0
+
+[[quiz]]
+question = "Why does a Java program feel slow for the first second?"
+choices = ["The JIT is still watching which methods run a lot", "The JDK is downloading Gradle", "The garbage collector stops it from starting"]
+answer = 0
+
+[[quiz]]
+question = "You stop using an object and nothing refers to it any more. What happens?"
+choices = ["The garbage collector frees it", "You must call free() yourself", "It stays in memory until you restart"]
+answer = 0

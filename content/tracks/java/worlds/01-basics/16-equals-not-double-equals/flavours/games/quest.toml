@@ -1,0 +1,25 @@
+title = "equals, not =="
+summary = "Compare two MOTDs by their characters."
+
+[[objectives]]
+test = "sameMotdComparesContent"
+label = "sameMotd compares content, not identity"
+[[objectives]]
+test = "sameIgnoringCaseSkipsCapitals"
+label = "sameIgnoringCase treats Welcome and WELCOME as the same"
+
+[[hints]]
+text = "Both methods are in `MotdCompare`. The first one uses `==`, which is the bug."
+[[hints]]
+text = "`return a.equals(b);` and `return a.equalsIgnoreCase(b);`"
+
+[[points]]
+after = 2
+prompt = "Which asks \"same characters?\""
+pick = ["a.equals(b)", "a == b", "a = b", "a.same(b)"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Compare ignoring capitals."
+code = "return a.___(b);"
+blank = "equalsIgnoreCase"

@@ -1,0 +1,21 @@
+title = "Numbers that wrap"
+summary = "Add two ints and watch the sum wrap past the ceiling."
+kind = "exercise"
+xp = 20
+minutes = 2
+tags = ["int", "overflow"]
+
+[[objectives]]
+test = "intOverflowWraps"
+label = "addInts adds two ints and wraps past Integer.MAX_VALUE"
+
+[[hints]]
+text = "`addInts` is in `IntMath`. It currently returns `0`."
+[[hints]]
+text = "`return a + b;`"
+
+[[points]]
+after = 2
+prompt = "What happens when you add 1 to Integer.MAX_VALUE?"
+pick = ["It wraps to the lowest int", "Java stops with an error", "It becomes a long", "It stays the same"]
+answer = 0

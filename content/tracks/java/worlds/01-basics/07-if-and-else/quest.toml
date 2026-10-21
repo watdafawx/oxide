@@ -1,0 +1,29 @@
+title = "If, else and the chain"
+summary = "Keep a number in range and find its sign."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["control-flow", "if"]
+
+[[objectives]]
+test = "clampKeepsInRange"
+label = "clamp returns lo below the range, hi above it, and the value inside it"
+[[objectives]]
+test = "signOfReturnsMinusOneZeroOne"
+label = "signOf returns -1, 0 or 1"
+
+[[hints]]
+text = "Both methods are in `Branching`. In `clamp`, two `if`s that return early do the job."
+[[hints]]
+text = "`if (v < lo) { return lo; }`, the same for `hi`, then `return v;`. For `signOf`: `if (n < 0) { return -1; } else if (n > 0) { return 1; } else { return 0; }`"
+
+[[points]]
+after = 2
+prompt = "What does a return inside an if do?"
+pick = ["Ends the method right there", "Skips the if", "Starts the loop again", "Nothing until the end"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Ask a second question."
+code = "} ___ (ping > 100) {"
+blank = "else if"

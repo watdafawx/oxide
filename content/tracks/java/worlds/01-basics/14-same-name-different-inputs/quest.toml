@@ -1,0 +1,26 @@
+title = "Same name, different inputs"
+summary = "Overload area() for squares, rectangles and circles."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["methods", "overloads"]
+
+[[objectives]]
+test = "areaPicksByInputs"
+label = "area(int), area(int, int) and area(double) each do their own sum"
+
+[[hints]]
+text = "All three methods are in `Shapes`. They share the name `area`; only the parameters differ."
+[[hints]]
+text = "`side * side`, `width * height` and `Math.PI * radius * radius` (`Math.PI` is pi, ready made)."
+
+[[points]]
+after = 2
+prompt = "What does Java use to pick the right overload?"
+pick = ["The number and types of the arguments", "The order they were written in", "The return type only", "The first one in the file"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Which part of a method can NOT tell overloads apart?"
+pick = ["The return type", "The number of parameters", "A parameter's type", "Nothing, any of them"]
+answer = 0

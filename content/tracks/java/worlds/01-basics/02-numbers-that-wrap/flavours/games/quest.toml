@@ -1,0 +1,17 @@
+title = "Numbers that wrap"
+summary = "Add two player counts and watch an int wrap past its ceiling."
+
+[[objectives]]
+test = "playerCountWrapsPastIntMax"
+label = "addPlayers adds two ints and wraps past Integer.MAX_VALUE"
+
+[[hints]]
+text = "`addPlayers` is in `PlayerMath`. It currently returns `0`."
+[[hints]]
+text = "`return playerCount + joining;`"
+
+[[points]]
+after = 2
+prompt = "What happens when you add 1 to Integer.MAX_VALUE?"
+pick = ["It wraps to the lowest int", "Java stops with an error", "It becomes a long", "It stays the same"]
+answer = 0

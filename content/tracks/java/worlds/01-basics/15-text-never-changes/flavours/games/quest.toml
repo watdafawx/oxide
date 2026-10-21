@@ -1,0 +1,28 @@
+title = "Text never changes"
+summary = "Tidy a MOTD with trim, toUpperCase and length."
+
+[[objectives]]
+test = "tidyCutsOuterSpaces"
+label = "tidy(\"  Welcome \") returns \"Welcome\""
+[[objectives]]
+test = "shoutIsUpperCase"
+label = "shout(\"Welcome\") returns \"WELCOME\""
+[[objectives]]
+test = "motdLengthCountsCharacters"
+label = "motdLength(\"Welcome\") returns 7"
+
+[[hints]]
+text = "All three methods are in `MotdTools`. Each is one `return` that asks the text to do something."
+[[hints]]
+text = "`return raw.trim();`, `return motd.toUpperCase();` and `return motd.length();`"
+
+[[points]]
+after = 3
+prompt = "After `s.toUpperCase();` on its own line, what is s?"
+pick = ["Unchanged", "Upper-case", "Empty", "null"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Keep the trimmed text."
+code = "String clean = s.___();"
+blank = "trim"

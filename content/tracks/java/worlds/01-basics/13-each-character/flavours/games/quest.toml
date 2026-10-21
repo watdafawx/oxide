@@ -1,0 +1,22 @@
+title = "Each character"
+summary = "Count the colour codes in a MOTD, one character at a time."
+
+[[objectives]]
+test = "countsColorCodesInMotd"
+label = "countColorCodes counts every section sign in a MOTD"
+
+[[hints]]
+text = "The method is in `MotdScan`. Make a counter first, then loop over `motd.toCharArray()`."
+[[hints]]
+text = "`int count = 0; for (char c : motd.toCharArray()) { if (c == '§') { count++; } } return count;`"
+
+[[points]]
+after = 3
+prompt = "Which loop visits every character?"
+pick = ["for (char c : text.toCharArray())", "for (char c = text)", "while (text)", "for (c in text)"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Is c the letter a?"
+code = "if (c ___ 'a') {"
+blank = "=="

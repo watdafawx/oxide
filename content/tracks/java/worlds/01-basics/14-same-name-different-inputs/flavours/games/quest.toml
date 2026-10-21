@@ -1,0 +1,22 @@
+title = "Same name, different inputs"
+summary = "Overload show() for counts, flags and text."
+
+[[objectives]]
+test = "showPicksByArgumentType"
+label = "show(int), show(boolean) and show(String) each format their own value"
+
+[[hints]]
+text = "All three methods are in `StatusFormat`. They share the name `show`; only the parameter differs."
+[[hints]]
+text = "`String.format(\"%d online\", playerCount)`, `online ? \"ONLINE\" : \"OFFLINE\"` and `\"MOTD: \" + motd`"
+
+[[points]]
+after = 2
+prompt = "What does Java use to pick the right overload?"
+pick = ["The number and types of the arguments", "The order they were written in", "The return type only", "The first one in the file"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Which part of a method can NOT tell overloads apart?"
+pick = ["The return type", "The number of parameters", "A parameter's type", "Nothing, any of them"]
+answer = 0

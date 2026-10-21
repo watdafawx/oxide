@@ -1,0 +1,25 @@
+package oxide.switch_arms;
+
+public class Rules {
+    static boolean isLeap(int year) {
+        return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    }
+
+    /** "A" for 90-100, "B" 80s, "C" 70s, "D" 60s, otherwise "F". */
+    public static String gradeFor(int score) {
+        return switch (score / 10) {
+            case 10, 9 -> "A";
+            // TODO: add arms for 8 ("B"), 7 ("C") and 6 ("D")
+            default -> "F";
+        };
+    }
+
+    /** Days in a month (1-12), leap years included. Any other month throws IllegalArgumentException. */
+    public static int daysInMonth(int month, int year) {
+        return switch (month) {
+            case 1 -> 31;
+            // TODO: add arms for the other 31-day months, the 30-day months, and February
+            default -> throw new IllegalArgumentException("month " + month);
+        };
+    }
+}

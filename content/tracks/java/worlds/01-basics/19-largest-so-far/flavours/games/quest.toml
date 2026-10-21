@@ -1,0 +1,25 @@
+title = "Largest so far"
+summary = "Find the busiest and quietest hour in a row of samples."
+
+[[objectives]]
+test = "peakFindsLargestSample"
+label = "peak returns the highest sample, even when every sample is negative"
+[[objectives]]
+test = "lowFindsSmallestSample"
+label = "low returns the lowest sample"
+
+[[hints]]
+text = "Both methods are in `PeakFinder`. Make a variable for the champion before the loop."
+[[hints]]
+text = "`int best = samples[0]; for (int v : samples) { if (v > best) { best = v; } } return best;`. For `low`, flip the comparison."
+
+[[points]]
+after = 3
+prompt = "Replace the champion."
+code = "if (v > best) {\n    best = ___;\n}"
+blank = "v"
+[[points]]
+after = 4
+prompt = "Where should the champion start?"
+pick = ["The first element", "Zero", "The array's length", "-1"]
+answer = 0

@@ -1,0 +1,29 @@
+title = "Switch arms"
+summary = "Use arrow switches for letter grades and month lengths."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["control-flow", "switch"]
+
+[[objectives]]
+test = "gradeForMapsBands"
+label = "gradeFor maps score bands to letters"
+[[objectives]]
+test = "daysInMonthHandlesLeapYear"
+label = "daysInMonth knows 28/29/30/31, including leap years, and throws IllegalArgumentException for month 13"
+
+[[hints]]
+text = "Both methods are in `Rules`. Each already has a first arm and a `default` arm: add the others between them."
+[[hints]]
+text = "`case 8 -> \"B\";`, `case 7 -> \"C\";` and for months `case 4, 6, 9, 11 -> 30;` and `case 2 -> isLeap(year) ? 29 : 28;`"
+
+[[points]]
+after = 2
+prompt = "Which token starts a switch arm's result?"
+pick = ["->", ":", "=>", "break"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Handle everything else."
+code = "___ -> throw new IllegalArgumentException(\"month \" + month);"
+blank = "default"

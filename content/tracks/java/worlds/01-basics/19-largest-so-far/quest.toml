@@ -1,0 +1,29 @@
+title = "Largest so far"
+summary = "Find the largest and smallest number in a row."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["arrays", "loops"]
+
+[[objectives]]
+test = "maxFindsLargest"
+label = "max returns the largest element, even when all are negative"
+[[objectives]]
+test = "minFindsSmallest"
+label = "min returns the smallest element"
+
+[[hints]]
+text = "Both methods are in `Extremes`. Make a variable for the champion before the loop."
+[[hints]]
+text = "`int best = values[0]; for (int v : values) { if (v > best) { best = v; } } return best;`. For `min`, flip the comparison."
+
+[[points]]
+after = 3
+prompt = "Replace the champion."
+code = "if (v > best) {\n    best = ___;\n}"
+blank = "v"
+[[points]]
+after = 4
+prompt = "Where should the champion start?"
+pick = ["The first element", "Zero", "The array's length", "-1"]
+answer = 0

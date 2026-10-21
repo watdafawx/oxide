@@ -1,0 +1,25 @@
+title = "Fractions with double"
+summary = "Get the fill ratio back with a double."
+
+[[objectives]]
+test = "fillRatioKeepsTheFraction"
+label = "fillRatio(17, 20) returns 0.85"
+[[objectives]]
+test = "averagePingKeepsTheHalf"
+label = "averagePing(30, 45) returns 37.5"
+
+[[hints]]
+text = "Both methods are in `Fill`. The starter has the classic bug: whole-number division."
+[[hints]]
+text = "`return (double) online / capacity;` and `return (first + second) / 2.0;`"
+
+[[points]]
+after = 1
+prompt = "What is 17 / 20 with two ints?"
+pick = ["0", "0.85", "1", "17"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Make one side a double."
+code = "double half = n / ___;"
+blank = "2.0"
