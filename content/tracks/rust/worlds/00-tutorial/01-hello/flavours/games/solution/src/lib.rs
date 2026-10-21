@@ -8,7 +8,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn greets_by_name() {
+    fn greets_a_joining_player() {
         assert_eq!(join_message("Ferris"), "Welcome to the server, Ferris!");
         assert_eq!(join_message("Steve"), "Welcome to the server, Steve!");
     }

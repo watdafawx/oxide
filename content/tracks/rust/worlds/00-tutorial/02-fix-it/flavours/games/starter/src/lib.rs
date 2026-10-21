@@ -1,6 +1,6 @@
-/// The longest player name a name tag can show.
+/// The longest player name the server accepts.
 pub fn max_name_len() -> usize {
-    // TODO: this is off by one
+    // TODO: this is off by one, read the test's `right` side
     15
 }
 
@@ -9,7 +9,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn name_limit_is_sixteen() {
+    fn usernames_fit_sixteen_letters() {
         assert_eq!(max_name_len(), 16);
     }
 }

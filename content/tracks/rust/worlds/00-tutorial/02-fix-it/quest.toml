@@ -6,14 +6,16 @@ minutes = 2
 tags = ["tests", "reading-errors"]
 
 [[objectives]]
-test = "answer_is_right"
-label = "answer() returns what the test expects"
+test = "name_tag_fits_twenty_letters"
+label = "max_tag_len() returns what the test expects"
 
 [[hints]]
-text = "Click the failed objective: the test prints `left` (what you returned) and `right` (what it wanted)."
+text = "Click the red objective. The test prints `left` (what your code returned) and `right` (what it wanted)."
+[[hints]]
+text = "Change the number in `max_tag_len` to the number on the `right`."
 
 [[points]]
-after = 2
-prompt = "In a failed assert_eq!, which side is what your code returned?"
+after = 3
+prompt = "In a failed assert, which side is what your code returned?"
 pick = ["left", "right", "both", "neither"]
 answer = 0

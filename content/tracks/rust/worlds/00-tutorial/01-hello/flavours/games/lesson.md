@@ -1,21 +1,20 @@
-**Why now:** a server plugin's first job is talking to players. When someone joins, your code builds one chat line from their name. That is a function that takes text and returns text.
+Every Oxide quest works the same way: a small project, a function with a gap in it, and tests that tell you when the gap is filled. This first one is for your server: when a player joins, it needs a chat line that greets them by name.
 
-Every quest works the same way: Oxide copies a small project into your quests folder, you edit it in your editor, and **every time you save** the tests run and the objectives on the right tick off.
+**The loop.** You edit the code in the editor. Every time you **save**, Oxide runs the tests, and the objectives on the right tick off. Save often. Nothing breaks when you do.
 
-Rust functions look like this:
+**The gap.** The starter already has the function written, with one line marked `todo!()`. That line is a placeholder: the project builds, but running it stops with "not done yet". Your job is to replace it.
+
+**Text with a hole.** `format!` builds a line of text. Put `{player}` inside the quotes and Rust drops the value of `player` in there. A function that gets a player called `player` could build a farewell like this:
 
 ```rust
-fn double(n: i32) -> i32 {
-    n * 2          // no semicolon = this is the return value
-}
+format!("See you soon, {player}!")
 ```
 
-- `fn` starts a function, `-> i32` is the return type.
-- A player name arrives as `&str` (borrowed text). The chat line you build is a `String` (owned text). `format!("Welcome, {player}!")` builds a `String`.
-- `todo!()` compiles anywhere and panics when run. It marks the spot you fill in.
+**No semicolon.** Notice the line has no `;` at the end. That is how a function hands back its answer. You only need to copy the habit for now; a later quest explains it.
+
+**Watch it go green.** Fill in the chat line, save, and the objective turns green. Red means "not yet", never "you broke it".
 
 ## Your turn
 
-- Open `src/lib.rs`.
-- Replace the `todo!()` in `join_message` so it returns `Welcome to the server, <player>!`.
-- Save. Watch the objective go green.
+- In `join_message`, replace `todo!()` with a `format!` line that says `Welcome to the server, ` then the player, then `!`.
+- Save. The objective turns green.

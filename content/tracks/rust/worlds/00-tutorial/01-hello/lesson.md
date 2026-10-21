@@ -1,19 +1,20 @@
-Every quest works the same way: Oxide copies a small project into your quests folder, you edit it in your editor, and **every time you save** the tests run and the objectives on the right tick off.
+Every Oxide quest works the same way: a small project, a function with a gap in it, and tests that tell you when the gap is filled. This first one is a name tag for a visitor: it needs a line of text that greets them by name.
 
-Rust functions look like this:
+**The loop.** You edit the code in the editor. Every time you **save**, Oxide runs the tests, and the objectives on the right tick off. Save often. Nothing breaks when you do.
+
+**The gap.** The starter already has the function written, with one line marked `todo!()`. That line is a placeholder: the project builds, but running it stops with "not done yet". Your job is to replace it.
+
+**Text with a hole.** `format!` builds a line of text. Put `{name}` inside the quotes and Rust drops the value of `name` in there. A function that gets a visitor called `name` could build a farewell like this:
 
 ```rust
-fn double(n: i32) -> i32 {
-    n * 2          // no semicolon = this is the return value
-}
+format!("See you soon, {name}!")
 ```
 
-- `fn` starts a function, `-> i32` is the return type.
-- `&str` is borrowed text, `String` is owned text. `format!("Hello, {name}!")` builds a `String`.
-- `todo!()` compiles anywhere and panics when run. It marks the spot you fill in.
+**No semicolon.** Notice the line has no `;` at the end. That is how a function hands back its answer. You only need to copy the habit for now; a later quest explains it.
+
+**Watch it go green.** Fill in the greeting, save, and the objective turns green. Red means "not yet", never "you broke it".
 
 ## Your turn
 
-- Open `src/lib.rs`.
-- Replace the `todo!()` in `greeting` so it returns `Hello, <name>!`.
-- Save. Watch the objective go green.
+- In `greeting`, replace `todo!()` with a `format!` line that says `Hello, ` then the name, then `!`.
+- Save. The objective turns green.

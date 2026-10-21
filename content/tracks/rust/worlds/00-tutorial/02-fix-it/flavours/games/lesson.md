@@ -1,8 +1,10 @@
-**Why now:** your name tag needs a rule for how long a player name may be. The test knows the rule; your code has it wrong. Reading the failure is how you find the fix.
+Your server shows a name tag over every player, and a tag only fits so many letters. The test knows the limit; your code has it wrong. Reading the failure is how you find the fix.
 
-Most of learning Rust is **reading what the compiler and the tests tell you**. They are precise and they are on your side.
+**Red is information.** A red objective is not a punishment. Tests and the compiler tell you exactly what is wrong, and they are on your side. Most of learning Rust is reading what they say.
 
-A failing `assert_eq!` prints both sides:
+**Save once, change nothing.** Save the file as it is. The objective turns red. That is the starting point of every quest: red first, green when you fix it.
+
+**Read both sides.** Click the red objective and Oxide shows what the test printed. A failed `assert_eq!` always shows two numbers:
 
 ```text
 assertion `left == right` failed
@@ -10,9 +12,11 @@ assertion `left == right` failed
  right: 16        <- what the test wanted
 ```
 
-In Oxide, a red objective shows that output when you click it. Compiler errors show up above the objectives, with the file and line.
+**The fix.** The `right` side is the answer the test wants. Put that number in the function, save, and the objective turns green.
+
+**Compiler errors.** If the code does not build at all, the message appears above the objectives with the file and line. Read the first line first: it usually names the problem.
 
 ## Your turn
 
-- Save `src/lib.rs` once without changing anything. Look at the red objective.
-- Fix `max_name_len` so the test passes.
+- Save `max_name_len` once without changing it. Click the red objective and find `left` and `right`.
+- Change the number in `max_name_len` to match `right`. Save.

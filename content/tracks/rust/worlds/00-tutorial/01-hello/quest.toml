@@ -1,9 +1,9 @@
 title = "Say hello"
-summary = "Write one function and watch the tick turn green."
+summary = "Fill in one line, save, and watch the tick turn green."
 kind = "exercise"
 xp = 30
 minutes = 3
-tags = ["functions", "strings"]
+tags = ["format"]
 requires = []
 
 [[objectives]]
@@ -11,18 +11,17 @@ test = "greets_by_name"
 label = "greeting(\"Ferris\") returns \"Hello, Ferris!\""
 
 [[hints]]
-text = "`format!` builds a String the same way `println!` prints one: `format!(\"Hi {name}\")`."
+text = "Replace the `todo!()` line in `greeting`. It is the only line you change."
 [[hints]]
-text = "Replace `todo!()` with `format!(\"Hello, {name}!\")`."
+text = "Type `format!(\"Hello, {name}!\")` with no `;` at the end."
 
 [[points]]
 after = 3
-prompt = "Which word starts a function?"
-pick = ["fn", "let", "mod", "use"]
+prompt = "What does `{name}` become inside `format!`?"
+pick = ["The value of name", "The word name", "Nothing, it is ignored", "An error"]
 answer = 0
-
 [[points]]
-after = 3
-prompt = "Add the return type."
-code = "fn double(n: i32) ___ {\n    n * 2\n}"
-blank = "-> i32"
+after = 4
+prompt = "Which line hands the text back as the function's answer?"
+pick = ["format!(\"Hi {name}\")", "format!(\"Hi {name}\");"]
+answer = 0

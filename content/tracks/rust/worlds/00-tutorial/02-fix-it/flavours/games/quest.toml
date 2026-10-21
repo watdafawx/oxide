@@ -2,8 +2,16 @@ title = "Read the red"
 summary = "A test fails. Read what it says, fix the number."
 
 [[objectives]]
-test = "name_limit_is_sixteen"
+test = "usernames_fit_sixteen_letters"
 label = "max_name_len() returns what the test expects"
 
 [[hints]]
-text = "Click the failed objective: the test prints `left` (what you returned) and `right` (what it wanted)."
+text = "Click the red objective. The test prints `left` (what your code returned) and `right` (what it wanted)."
+[[hints]]
+text = "Change the number in `max_name_len` to the number on the `right`."
+
+[[points]]
+after = 3
+prompt = "In a failed assert, which side is what your code returned?"
+pick = ["left", "right", "both", "neither"]
+answer = 0

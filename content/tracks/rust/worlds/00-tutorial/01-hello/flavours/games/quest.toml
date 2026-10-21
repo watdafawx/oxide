@@ -2,10 +2,21 @@ title = "Welcome message"
 summary = "A player joins your server. Write the chat line."
 
 [[objectives]]
-test = "greets_by_name"
+test = "greets_a_joining_player"
 label = "join_message(\"Ferris\") returns \"Welcome to the server, Ferris!\""
 
 [[hints]]
-text = "`format!` builds a String the same way `println!` prints one: `format!(\"Hi {player}\")`."
+text = "Replace the `todo!()` line in `join_message`. It is the only line you change."
 [[hints]]
-text = "Replace `todo!()` with `format!(\"Welcome to the server, {player}!\")`."
+text = "Type `format!(\"Welcome to the server, {player}!\")` with no `;` at the end."
+
+[[points]]
+after = 3
+prompt = "What does `{player}` become inside `format!`?"
+pick = ["The value of player", "The word player", "Nothing, it is ignored", "An error"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Which line hands the text back as the function's answer?"
+pick = ["format!(\"Hi {player}\")", "format!(\"Hi {player}\");"]
+answer = 0

@@ -1,6 +1,6 @@
 /// Build the greeting for `name`: `Hello, Ferris!`
 pub fn greeting(name: &str) -> String {
-    // TODO: use format! to build the String
+    // TODO: use format! to build the String, like the lesson's example
     todo!()
 }
 

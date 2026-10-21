@@ -3,7 +3,7 @@ summary = "Two functions, two objectives. Your first boss."
 kind = "boss"
 xp = 100
 minutes = 5
-tags = ["functions", "strings", "integers"]
+tags = ["format", "boss"]
 
 [[objectives]]
 test = "shouts_the_name"
@@ -13,18 +13,17 @@ test = "tag_shows_name_and_level"
 label = "name_tag(\"ferris\", 3) returns \"[FERRIS] Lv 3\""
 
 [[hints]]
-text = "`str` has a method that returns an uppercase `String`. Type `name.` in your editor and look at the completions."
+text = "In `shout`, put a dot after `name` and look at the editor's suggestions for a method that makes capitals."
 [[hints]]
-text = "`name_tag` can call `shout`. Numbers go into `format!` just like text: `format!(\"Lv {level}\")`."
+text = "`shout` is `name.to_uppercase()`. For `name_tag`, call `shout(name)` inside `format!(\"[{}] Lv {level}\", ...)`."
 
 [[points]]
 after = 2
 prompt = "Which method makes text uppercase?"
 pick = ["to_uppercase", "to_string", "trim", "len"]
 answer = 0
-
 [[points]]
 after = 3
-prompt = "Print what the function call returns."
+prompt = "Show what a function call returns inside the text."
 code = "format!(\"({})\", ___)"
 blank = "double(4)"

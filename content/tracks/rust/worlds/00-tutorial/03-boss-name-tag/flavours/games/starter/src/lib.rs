@@ -1,6 +1,6 @@
 /// `ferris` -> `FERRIS`
 pub fn loud_name(name: &str) -> String {
-    // TODO: uppercase the name
+    // TODO: return the name in capitals
     todo!()
 }
 
