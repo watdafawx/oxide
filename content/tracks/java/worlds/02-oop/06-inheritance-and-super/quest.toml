@@ -21,3 +21,15 @@ text = "`Animal.describe()` already builds \"Rex says ...\" from `name()` and `s
 
 [[hints]]
 text = "In `Dog`, override `describe()` and start from the parent: `return super.describe() + \" and wags its tail\";`."
+
+[[points]]
+after = 2
+prompt = "Which keyword means \"is a\"?"
+pick = ["implements", "extends", "super", "this"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Run the parent constructor first."
+code = "public Car(String name) { ___(name); }"
+blank = "super"

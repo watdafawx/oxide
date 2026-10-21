@@ -13,3 +13,15 @@ text = "`return new int[] {players / perPage, players % perPage};`"
 
 [[hints]]
 text = "For `fillRatio`, cast one side first: `(double) players / capacity`."
+
+[[points]]
+after = 1
+prompt = "What is 17 / 5 with ints?"
+pick = ["3", "3.4", "4", "2"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Which operator gives the remainder?"
+code = "int left = 17 ___ 5;   // 2"
+blank = "%"

@@ -17,3 +17,15 @@ text = "`countColorCodes`: loop over `motd.toCharArray()` with `for (char c : ..
 
 [[hints]]
 text = "The color-code character is `'\\u00a7'` (a section sign). Compare with `c == '\\u00a7'` and `count++`."
+
+[[points]]
+after = 1
+prompt = "Which test includes the last minute?"
+pick = ["m < minutes", "m <= minutes", "m != minutes", "m > minutes"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Add m to total."
+code = "total ___ m;"
+blank = "+="

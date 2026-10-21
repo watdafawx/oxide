@@ -38,3 +38,15 @@ text = "`receipt`: `double amount = parseAmount(raw);` then `double total = with
 
 [[hints]]
 text = "Build the four lines with `String.format(Locale.ROOT, \"Bill: $%.2f\", amount)` and so on, then join them with `String.join(\"\\n\", ...)`. `%%` prints a literal percent sign in a format string."
+
+[[points]]
+after = 3
+prompt = "Turn the text into a double."
+code = "double amount = Double.___(clean);"
+blank = "parseDouble"
+
+[[points]]
+after = 8
+prompt = "Which prints a literal percent sign in a format?"
+pick = ["%d", "%%", "%s", "%n"]
+answer = 1

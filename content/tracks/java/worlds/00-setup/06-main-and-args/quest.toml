@@ -24,3 +24,15 @@ text = "Otherwise use the first one: `args[0]` is the first argument (counting s
 
 [[hints]]
 text = "`return \"Hello, \" + args[0] + \"!\";` after the `if`."
+
+[[points]]
+after = 2
+prompt = "Which index is the first item of args?"
+pick = ["0", "1", "-1", "args.length"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Test for an empty array."
+code = "if (args.___ == 0) {"
+blank = "length"

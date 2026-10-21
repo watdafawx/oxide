@@ -28,3 +28,15 @@ text = "`hashCode` must use the same fields as `equals`: `return Objects.hash(ce
 
 [[hints]]
 text = "`toString`: `String.format(\"%d.%02d %s\", cents / 100, cents % 100, currency)`. `%02d` pads with a zero: 5 cents becomes `05`."
+
+[[points]]
+after = 3
+prompt = "If a.equals(b), what must also match?"
+pick = ["hashCode()", "toString()", "length()", "getClass()"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Check the type and cast in one go."
+code = "if (!(o ___ Point other)) return false;"
+blank = "instanceof"

@@ -27,3 +27,15 @@ text = "`where`: `case BlockBroken(String player, String block, BlockPos(int x, 
 
 [[hints]]
 text = "`where` can end with `default -> \"nowhere\";` for the other two events. Here `default` is fine: you really do mean \"everything else\"."
+
+[[points]]
+after = 1
+prompt = "Which keyword lists the allowed subtypes?"
+pick = ["permits", "implements", "extends", "when"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Test the type and bind it in one go."
+code = "case ___ -> \"Hello \" + w.player();"
+blank = "Welcome w"

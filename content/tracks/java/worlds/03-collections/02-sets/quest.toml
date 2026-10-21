@@ -15,3 +15,15 @@ text = "Lowercase first so \"The\" and \"the\" match: `text.toLowerCase()`."
 text = "`split(\" \")` gives a `String[]`. `Arrays.asList(array)` turns it into a list."
 [[hints]]
 text = "`return new HashSet<>(Arrays.asList(text.toLowerCase().split(\" \")));` The set drops the repeats for you."
+
+[[points]]
+after = 2
+prompt = "Which type holds each value at most once?"
+pick = ["List", "Set", "Map", "Stream"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Dedupe the list in one go."
+code = "Set<String> unique = ___;"
+blank = "new HashSet<>(list)"

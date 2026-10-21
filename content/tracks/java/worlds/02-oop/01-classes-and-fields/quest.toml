@@ -21,3 +21,15 @@ text = "`value()` returns the field: `return count;`."
 
 [[hints]]
 text = "`increment()` changes the field: `count++;` (same as `count = count + 1;`)."
+
+[[points]]
+after = 4
+prompt = "Which keyword keeps a field inside the class?"
+pick = ["public", "private", "static", "final"]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "The method gives nothing back."
+code = "public ___ press() {"
+blank = "void"

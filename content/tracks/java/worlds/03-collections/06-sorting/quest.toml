@@ -20,3 +20,15 @@ text = "`Comparator.comparingInt(String::length)` orders by length."
 text = "Add the tie-break with `.thenComparing(Comparator.naturalOrder())`."
 [[hints]]
 text = "Players: `Comparator.comparingInt(Player::score).reversed()` flips the order to high-to-low."
+
+[[points]]
+after = 3
+prompt = "Which builds a comparator from an int key?"
+pick = ["comparingInt", "thenComparing", "reversed", "naturalOrder"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Flip it to long first."
+code = "words.sort(Comparator.comparingInt(String::length).___());"
+blank = "reversed"

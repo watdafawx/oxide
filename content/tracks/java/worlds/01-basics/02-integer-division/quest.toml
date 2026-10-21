@@ -17,3 +17,15 @@ text = "`return new int[] {a / b, a % b};` for `divmod`."
 
 [[hints]]
 text = "For `ratio`, cast one side first: `(double) a / b`."
+
+[[points]]
+after = 2
+prompt = "What is -7 / 2?"
+pick = ["-4", "-3", "-3.5", "3"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Which operator gives the remainder?"
+code = "int left = 17 ___ 5;   // 2"
+blank = "%"

@@ -21,3 +21,15 @@ text = "In `addAsLong`, `a + b` is added as `int` first and only then widened. W
 
 [[hints]]
 text = "`return (long) a + b;`"
+
+[[points]]
+after = 4
+prompt = "Which type needs an L on its literals?"
+pick = ["int", "long", "double", "float"]
+answer = 1
+
+[[points]]
+after = 6
+prompt = "Widen before the add."
+code = "long safe = ___ + 1;   // 2147483648"
+blank = "(long) big"

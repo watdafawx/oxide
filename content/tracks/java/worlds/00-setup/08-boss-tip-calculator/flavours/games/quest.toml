@@ -34,3 +34,15 @@ text = "`report`: `int[] counts = parseCounts(raw);` then `fillPercent(counts[0]
 
 [[hints]]
 text = "`return String.format(Locale.ROOT, \"%s: %d/%d online (%d%%)\", name, counts[0], counts[1], percent);` (`%%` prints a literal percent sign)."
+
+[[points]]
+after = 6
+prompt = "Cut the text at the slash."
+code = "String[] parts = \"12/20\".split(___);"
+blank = "\"/\""
+
+[[points]]
+after = 7
+prompt = "Which prints a literal percent sign in a format?"
+pick = ["%d", "%%", "%s", "%n"]
+answer = 1

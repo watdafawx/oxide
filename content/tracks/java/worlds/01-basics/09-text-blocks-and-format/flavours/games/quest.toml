@@ -20,3 +20,15 @@ text = "`statusJson`: a text block starts with `\"\"\"` and a newline. Put `%s` 
 
 [[hints]]
 text = "The closing `\"\"\"` on its own line decides how much indentation is stripped, and adds the final newline."
+
+[[points]]
+after = 1
+prompt = "Which placeholder is left-aligned in 8 columns?"
+pick = ["%-8s", "%3d", "%.2f", "%s"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Fill the text block with its arguments."
+code = "String json = \"\"\"\n        {\n          \"server\": \"%s\",\n          \"players\": %d\n        }\n        \"\"\".___(\"survival\", 12);"
+blank = "formatted"

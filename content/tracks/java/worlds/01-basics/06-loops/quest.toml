@@ -21,3 +21,15 @@ text = "`countVowels`: loop over `text.toCharArray()` with `for (char c : ...)`.
 
 [[hints]]
 text = "Lower-case once: `\"aeiou\".indexOf(Character.toLowerCase(c)) >= 0` is true for a vowel."
+
+[[points]]
+after = 2
+prompt = "Which test includes n itself?"
+pick = ["i < n", "i <= n", "i != n", "i > n"]
+answer = 1
+
+[[points]]
+after = 6
+prompt = "Add i to total."
+code = "total ___ i;"
+blank = "+="

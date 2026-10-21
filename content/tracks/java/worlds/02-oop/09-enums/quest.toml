@@ -28,3 +28,15 @@ text = "`next()` as a switch expression: `return switch (this) { case RED -> GRE
 
 [[hints]]
 text = "No `default` needed: the compiler knows all three constants, and adds an error if you forget one."
+
+[[points]]
+after = 3
+prompt = "Which character ends the constants list?"
+pick = [";", ",", ":", "."]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Look a constant up by its exact name."
+code = "Planet.___(\"VENUS\");"
+blank = "valueOf"

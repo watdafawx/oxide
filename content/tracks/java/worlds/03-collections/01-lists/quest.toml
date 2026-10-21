@@ -21,3 +21,15 @@ text = "`copy.remove(index)` removes the element AT that position."
 text = "For a value, `copy.remove(value)` would be read as an index. Box it: `copy.remove(Integer.valueOf(value));`"
 [[hints]]
 text = "labels: `List<String> out = new ArrayList<>(2);` then `for (int i = 0; i < count; i++) out.add(\"item\" + i);` and return `out`."
+
+[[points]]
+after = 2
+prompt = "Which method appends to a list?"
+pick = ["add", "put", "push", "append"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Create an empty list."
+code = "List<String> names = ___;"
+blank = "new ArrayList<>()"

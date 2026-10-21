@@ -21,3 +21,15 @@ text = "`Reminder(String text)` can be one line too: `this(text, 10);`."
 
 [[hints]]
 text = "Put the rules only in the two-argument constructor: `this.text = text.trim();` and `this.minutes = Math.max(1, minutes);`. The short constructors then get them for free."
+
+[[points]]
+after = 3
+prompt = "Which one is the field, not the parameter?"
+pick = ["name", "this.name", "Name", "this"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Reuse the main constructor."
+code = "public Timer(String name) {\n    ___(name, 60);\n}"
+blank = "this"

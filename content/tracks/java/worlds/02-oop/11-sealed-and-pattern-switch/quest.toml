@@ -31,3 +31,15 @@ text = "`isSquare`: `case Rectangle(double w, double h) -> w == h;` takes the re
 
 [[hints]]
 text = "Record pattern variables can be `var`: `case Rectangle(var w, var h) -> w == h;`."
+
+[[points]]
+after = 2
+prompt = "Which keyword lists the allowed subtypes?"
+pick = ["permits", "implements", "extends", "when"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Test the type and bind it in one go."
+code = "case ___ -> \"meow\";"
+blank = "Cat c"

@@ -24,3 +24,15 @@ text = "`jsonBlock`: a text block starts with `\"\"\"` and a newline. Put `%s` a
 
 [[hints]]
 text = "The closing `\"\"\"` on its own line decides how much indentation is stripped, and adds the final newline."
+
+[[points]]
+after = 2
+prompt = "Which placeholder is left-aligned in 6 columns?"
+pick = ["%-6s", "%4d", "%.2f", "%s"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Fill the text block with its arguments."
+code = "String json = \"\"\"\n        {\n          \"name\": \"%s\",\n          \"age\": %d\n        }\n        \"\"\".___(\"Ada\", 36);"
+blank = "formatted"

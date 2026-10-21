@@ -16,3 +16,15 @@ text = "Now javac complains it cannot convert `int` to `String`. Player counts a
 
 [[hints]]
 text = "Final line: `int total = survival + creative;`"
+
+[[points]]
+after = 1
+prompt = "What does the compiler say is missing?"
+code = "String total = survival + creative___"
+blank = ";"
+
+[[points]]
+after = 5
+prompt = "Which type does survival + creative give for two ints?"
+pick = ["String", "int", "double", "boolean"]
+answer = 1

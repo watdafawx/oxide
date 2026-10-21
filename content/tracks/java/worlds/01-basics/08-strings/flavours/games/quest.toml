@@ -21,3 +21,15 @@ text = "`isPalindrome`: build a cleaned copy with `motd.replace(\" \", \"\").toL
 
 [[hints]]
 text = "`sameMotd`: `a.equals(b)`. `==` asks \"same object?\", `equals` asks \"same characters?\"."
+
+[[points]]
+after = 1
+prompt = "Keep the upper-cased result."
+code = "motd = ___;"
+blank = "motd.toUpperCase()"
+
+[[points]]
+after = 2
+prompt = "Which method compares text?"
+pick = ["==", "equals", "substring", "replace"]
+answer = 1

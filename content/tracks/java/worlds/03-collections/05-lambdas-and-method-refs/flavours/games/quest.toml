@@ -16,3 +16,15 @@ text = "Look the latest version up in the map by id: `latestById.get(mod.id())`.
 text = "isOutdated: `return mod -> !mod.version().equals(latestById.get(mod.id()));`"
 [[hints]]
 text = "nameByLambda: `return mod -> mod.name();`  nameByMethodRef: `return Mod::name;` Same thing, shorter."
+
+[[points]]
+after = 2
+prompt = "Which interface's test returns a boolean?"
+pick = ["Predicate", "Function", "Runnable", "Comparator"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Write the method reference."
+code = "Function<Mod, String> name = ___;"
+blank = "Mod::name"

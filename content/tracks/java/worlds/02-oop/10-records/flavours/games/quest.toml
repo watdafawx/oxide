@@ -24,3 +24,15 @@ text = "`public BlockPos offset(int dx, int dy, int dz) { return new BlockPos(x 
 
 [[hints]]
 text = "Because `offset` goes through the constructor, an offset that leaves the world is rejected for free."
+
+[[points]]
+after = 1
+prompt = "Record fields are private and what?"
+pick = ["final", "static", "abstract", "volatile"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Declare the record's components."
+code = "public record ChunkPos(___) {"
+blank = "int x, int z"

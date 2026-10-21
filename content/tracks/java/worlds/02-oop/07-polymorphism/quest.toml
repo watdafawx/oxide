@@ -24,3 +24,15 @@ text = "Do not ask `e instanceof Salaried`. Just call `e.monthlyPay()`: Java run
 
 [[hints]]
 text = "The test slips in a new kind of Employee that Payroll has never heard of. Only the loop-and-call version survives that."
+
+[[points]]
+after = 2
+prompt = "Which keyword makes a half-finished parent?"
+pick = ["abstract", "final", "static", "sealed"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Mark the child's version of the method."
+code = "    ___ public int mealsPerDay() { return 3; }"
+blank = "@Override"

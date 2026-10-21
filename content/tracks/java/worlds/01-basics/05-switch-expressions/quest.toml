@@ -21,3 +21,15 @@ text = "February: `case 2 -> isLeap(year) ? 29 : 28;`. Leap = divisible by 4, ex
 
 [[hints]]
 text = "`gradeFor`: switch on `score / 10`, so 100 and 90..99 both land in `case 10, 9 -> \"A\"`. `default -> \"F\"`."
+
+[[points]]
+after = 2
+prompt = "Which token starts a switch arm's result?"
+pick = ["->", ":", "=>", "break"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Handle everything else."
+code = "___ -> throw new IllegalArgumentException(\"day \" + day);"
+blank = "default"

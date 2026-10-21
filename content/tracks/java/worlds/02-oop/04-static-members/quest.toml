@@ -21,3 +21,15 @@ text = "`static int nextId = 1;` belongs to the class, not to one Ticket: every 
 
 [[hints]]
 text = "In the constructor: `this.id = nextId++;` uses the current value and then adds one."
+
+[[points]]
+after = 2
+prompt = "Which keyword gives one copy for the whole class?"
+pick = ["final", "static", "private", "new"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Add one first, then hand out the number."
+code = "number = ___issued;"
+blank = "++"

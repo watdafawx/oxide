@@ -30,3 +30,15 @@ text = "topSources, step 2: stream the map's `entrySet()` and sort. `Comparator<
 text = "topSources, step 3: `.limit(n).map(Map.Entry::getKey).toList()`."
 [[hints]]
 text = "errorsPerMinute: `filter` level ERROR, then `groupingBy(l -> l.time().substring(0, 5), TreeMap::new, counting())`. The middle argument picks a TreeMap, which keeps the minutes sorted."
+
+[[points]]
+after = 3
+prompt = "Cut the line into at most 4 parts."
+code = "String[] parts = line.split(\" \", ___);"
+blank = "4"
+
+[[points]]
+after = 6
+prompt = "Which collector groups lines by source?"
+pick = ["groupingBy", "joining", "reduce", "limit"]
+answer = 0

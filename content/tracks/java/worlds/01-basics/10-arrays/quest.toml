@@ -28,3 +28,15 @@ text = "A swap needs a temp: `int tmp = values[i]; values[i] = values[j]; values
 
 [[hints]]
 text = "`transpose`: result is `new int[cols][rows]` where `rows = grid.length` and `cols = grid[0].length`; copy `result[c][r] = grid[r][c]`."
+
+[[points]]
+after = 2
+prompt = "What is the last valid index?"
+pick = ["length", "length - 1", "length + 1", "length / 2"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Read the size of the array."
+code = "int n = scores.___;"
+blank = "length"

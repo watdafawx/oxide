@@ -20,3 +20,15 @@ text = "Old way: `counts.put(w, counts.getOrDefault(w, 0) + 1);`"
 text = "Better: `counts.merge(w, 1, Integer::sum);` (put 1 if absent, otherwise combine old and new with `sum`)."
 [[hints]]
 text = "groupByFirstLetter: `Map<Character, List<String>> groups = new HashMap<>();` and per word `groups.computeIfAbsent(w.charAt(0), k -> new ArrayList<>()).add(w);`"
+
+[[points]]
+after = 3
+prompt = "Which call reads a key with a fallback?"
+pick = ["get", "getOrDefault", "merge", "put"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Add the two numbers when the key exists."
+code = "stock.merge(\"apple\", 1, ___);"
+blank = "Integer::sum"

@@ -28,3 +28,15 @@ text = "`public Parcel withGrams(int grams) { return new Parcel(label, grams); }
 
 [[hints]]
 text = "Records are immutable: there is no setter, so \"changing\" a value means building a new record."
+
+[[points]]
+after = 2
+prompt = "Record fields are private and what?"
+pick = ["final", "static", "abstract", "volatile"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Declare the record's components."
+code = "public record Tag(___) {"
+blank = "String name, int level"

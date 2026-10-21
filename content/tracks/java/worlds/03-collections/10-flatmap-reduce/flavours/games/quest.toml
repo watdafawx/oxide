@@ -19,3 +19,15 @@ text = "totalDownloads: first take the numbers, `.map(Mod::downloads)`, then `.r
 text = "Why start at 0? It is the identity for addition, so a pack with no mods totals 0."
 [[hints]]
 text = "mostDownloaded: `mods.stream().max(Comparator.comparingInt(Mod::downloads))` returns an `Optional<Mod>`. Empty stream, empty Optional."
+
+[[points]]
+after = 1
+prompt = "Which step flattens a stream of streams?"
+pick = ["map", "flatMap", "filter", "reduce"]
+answer = 1
+
+[[points]]
+after = 1
+prompt = "Flatten the instances into one stream."
+code = "instances.stream().___(List::stream).toList();"
+blank = "flatMap"

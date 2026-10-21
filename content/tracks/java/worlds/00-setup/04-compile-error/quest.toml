@@ -21,3 +21,15 @@ text = "Now javac complains it cannot convert `int` to `String`. `a + b` is a nu
 
 [[hints]]
 text = "Final line: `int total = a + b;`"
+
+[[points]]
+after = 2
+prompt = "What does the compiler say is missing?"
+code = "String total = a + b___"
+blank = ";"
+
+[[points]]
+after = 6
+prompt = "Which type does a + b give for two ints?"
+pick = ["String", "int", "double", "boolean"]
+answer = 1

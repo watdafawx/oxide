@@ -24,3 +24,15 @@ text = "`String.format` builds text with the same slots instead of printing. `%.
 
 [[hints]]
 text = "`return String.format(Locale.ROOT, \"$%.2f\", price);`"
+
+[[points]]
+after = 2
+prompt = "Which placeholder prints a whole number?"
+pick = ["%s", "%d", "%.2f", "%n"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Pin the format so every computer prints the same."
+code = "String price = String.format(___, \"%.2f\", 7.5);"
+blank = "Locale.ROOT"

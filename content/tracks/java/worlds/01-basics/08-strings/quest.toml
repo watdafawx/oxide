@@ -25,3 +25,15 @@ text = "`isPalindrome`: build a cleaned copy with `text.replace(\" \", \"\").toL
 
 [[hints]]
 text = "`sameText`: `a.equals(b)`. `==` asks \"same object?\", `equals` asks \"same characters?\"."
+
+[[points]]
+after = 2
+prompt = "Which method compares text?"
+pick = ["==", "equals", "substring", "replace"]
+answer = 1
+
+[[points]]
+after = 1
+prompt = "Keep the upper-cased result."
+code = "s = ___;"
+blank = "s.toUpperCase()"

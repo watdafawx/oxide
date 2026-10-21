@@ -25,3 +25,15 @@ text = "countByLength: give `groupingBy` a second argument, a downstream collect
 text = "joinWithCommas: `words.stream().collect(joining(\", \", \"[\", \"]\"))` (separator, prefix, suffix). It needs a stream of Strings."
 [[hints]]
 text = "partitionPassFail: `scores.stream().collect(partitioningBy(s -> s >= 50))` gives a Map<Boolean, List<Integer>> with both keys always present."
+
+[[points]]
+after = 3
+prompt = "Which collector builds key to list?"
+pick = ["groupingBy", "joining", "counting", "partitioningBy"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Join the words with a separator, prefix and suffix."
+code = "words.stream().collect(Collectors.___(\", \", \"[\", \"]\"));"
+blank = "joining"

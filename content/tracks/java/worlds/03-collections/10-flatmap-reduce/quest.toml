@@ -23,3 +23,15 @@ text = "product: `IntStream.rangeClosed(1, n)` is 1..n inclusive. `reduce(1, (a,
 text = "Why start at 1? It is the identity for multiplication, so product(0) is 1 (an empty range just returns the start value)."
 [[hints]]
 text = "largest: `nums.stream().max(Comparator.naturalOrder())` returns an `Optional<Integer>`. Empty stream, empty Optional."
+
+[[points]]
+after = 2
+prompt = "Which step flattens a stream of streams?"
+pick = ["map", "flatMap", "filter", "reduce"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Count 1 to 4, both ends included."
+code = "IntStream.___(1, 4).reduce(1, (a, b) -> a * b);"
+blank = "rangeClosed"

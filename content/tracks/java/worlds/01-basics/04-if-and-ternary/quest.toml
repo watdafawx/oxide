@@ -21,3 +21,15 @@ text = "`return v < lo ? lo : (v > hi ? hi : v);` is the one-line form."
 
 [[hints]]
 text = "`signOf`: `if (n < 0) return -1;` then `if (n > 0) return 1;` then `return 0;`."
+
+[[points]]
+after = 2
+prompt = "Which operator means \"and\"?"
+pick = ["||", "&&", "!", "=="]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "Write the ternary."
+code = "String kind = ___;"
+blank = "n < 0 ? \"negative\" : \"not negative\""

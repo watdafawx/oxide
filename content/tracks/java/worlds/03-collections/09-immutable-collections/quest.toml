@@ -16,3 +16,15 @@ label = "snapshot copies a list so later changes to the original do not show up"
 text = "`List.of(\"Mon\", \"Tue\", \"Wed\")` makes a read-only list. Return it directly."
 [[hints]]
 text = "snapshot: `return List.copyOf(source);` It copies the elements, so the copy no longer follows the original."
+
+[[points]]
+after = 2
+prompt = "Which exception does add on List.of throw?"
+pick = ["UnsupportedOperationException", "NullPointerException", "IllegalArgumentException", "IndexOutOfBoundsException"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Make a read-only copy."
+code = "List<String> copy = List.___(other);"
+blank = "copyOf"

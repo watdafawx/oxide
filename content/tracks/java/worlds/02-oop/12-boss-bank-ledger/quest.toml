@@ -42,3 +42,15 @@ text = "`statement()`: loop over `history` with a counter. Use a switch expressi
 
 [[hints]]
 text = "Last objective: make `Transaction` `sealed ... permits Deposit, Withdraw, Transfer`. If your `apply` switch has a `default`, delete it: the compiler now checks that you covered every kind."
+
+[[points]]
+after = 9
+prompt = "Which List method appends one line?"
+pick = ["add", "get", "size", "remove"]
+answer = 0
+
+[[points]]
+after = 9
+prompt = "Subtract the cents."
+code = "balance ___ cents;"
+blank = "-="

@@ -28,3 +28,15 @@ text = "A `default` method has a body inside the interface. Write it once; every
 
 [[hints]]
 text = "`return name() + \" with area \" + Math.round(area());` in `Shape.describe()`: a Rectangle 3 x 4 gives `Rectangle with area 12`."
+
+[[points]]
+after = 2
+prompt = "Which keyword fills in an interface?"
+pick = ["extends", "implements", "interface", "default"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Give describe a shared body."
+code = "    ___ String describe() {\n        return name() + \" has \" + legs() + \" legs\";\n    }"
+blank = "default"

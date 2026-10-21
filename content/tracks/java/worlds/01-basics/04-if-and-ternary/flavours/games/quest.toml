@@ -17,3 +17,15 @@ text = "`return playerCount < min ? min : (playerCount > max ? max : playerCount
 
 [[hints]]
 text = "`trend`: `if (delta < 0) return -1;` then `if (delta > 0) return 1;` then `return 0;`."
+
+[[points]]
+after = 1
+prompt = "Which operator means \"and\"?"
+pick = ["||", "&&", "!", "=="]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Write the ternary."
+code = "String label = ___;"
+blank = "playerCount == 1 ? \"player\" : \"players\""

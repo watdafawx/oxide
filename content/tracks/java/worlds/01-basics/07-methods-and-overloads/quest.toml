@@ -21,3 +21,15 @@ text = "`area(int side)`: `side * side`. `area(int w, int h)`: `w * h`. `area(do
 
 [[hints]]
 text = "`int... nums` behaves like an `int[]` inside: loop over it with `for (int n : nums)`."
+
+[[points]]
+after = 3
+prompt = "What is nums inside int... nums?"
+pick = ["int", "int[]", "List", "String"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Declare the varargs parameter."
+code = "static int sum(___ nums) {"
+blank = "int..."

@@ -24,3 +24,15 @@ text = "A `default` method has a body inside the interface. Write it once; every
 
 [[hints]]
 text = "`if (health() <= 0) return name() + \": dead\"; return name() + \": \" + health() + \" hp\";` in `Damageable.status()`."
+
+[[points]]
+after = 1
+prompt = "Which keyword fills in an interface?"
+pick = ["extends", "implements", "interface", "default"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Give label a shared body."
+code = "    ___ String label() {\n        return name() + \" burns for \" + fuelTicks() + \" ticks\";\n    }"
+blank = "default"

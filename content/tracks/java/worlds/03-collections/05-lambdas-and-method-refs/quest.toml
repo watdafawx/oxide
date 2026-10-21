@@ -20,3 +20,15 @@ text = "longerThan(n) returns the lambda: `return s -> s.length() > n;` (it can 
 text = "lengthByLambda: `return s -> s.length();`"
 [[hints]]
 text = "lengthByMethodRef: `return String::length;` Same thing, shorter, because the lambda only calls one method."
+
+[[points]]
+after = 3
+prompt = "Which interface's test returns a boolean?"
+pick = ["Predicate", "Function", "Runnable", "Comparator"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Write the method reference."
+code = "Function<String, Integer> len = ___;"
+blank = "String::length"

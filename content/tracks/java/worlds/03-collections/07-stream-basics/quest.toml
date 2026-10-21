@@ -20,3 +20,15 @@ text = "`.filter(n -> n % 2 == 0)` keeps evens, `.map(n -> n * n)` squares them.
 text = "evenSquares: `return nums.stream().filter(n -> n % 2 == 0).map(n -> n * n).toList();`"
 [[hints]]
 text = "totalLength: turn each word into an int with `.mapToInt(String::length)` and finish with `.sum()`."
+
+[[points]]
+after = 3
+prompt = "Which step keeps matching items?"
+pick = ["map", "filter", "limit", "count"]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "Turn each word into its length as an IntStream."
+code = "int letters = words.stream().___(String::length).sum();"
+blank = "mapToInt"

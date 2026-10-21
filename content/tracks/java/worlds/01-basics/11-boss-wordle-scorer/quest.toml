@@ -38,3 +38,15 @@ text = "Why two passes? Greens must claim their letters first. In \"eerie\" vs \
 
 [[hints]]
 text = "`render`: loop over the score string with a `StringBuilder` and `switch` on each char: `'G'` -> `GREEN`, `'Y'` -> `YELLOW`, anything else -> `GRAY`. The constants are already in the starter."
+
+[[points]]
+after = 9
+prompt = "Which index holds letter c in the tally?"
+pick = ["c - 'a'", "c + 'a'", "'a' - c", "c"]
+answer = 0
+
+[[points]]
+after = 12
+prompt = "Fill every slot with a dot."
+code = "Arrays.fill(row, ___);"
+blank = "'.'"
