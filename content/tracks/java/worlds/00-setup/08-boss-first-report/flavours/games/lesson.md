@@ -1,16 +1,13 @@
 The status bot has to answer the real command now: `java StatusCommand play.example.net`. Put together everything from this world and it prints a two-line report.
 
-**The spec.** Four small methods, each one a tick:
+**The small ones.** `announce("play.example.net")` returns `Status bot online: play.example.net`. `occupancy("play.example.net", 3, 20)` returns `play.example.net has 3 of 20 players`. `serverOf(args)` returns the first word typed.
 
-- `announce("play.example.net")` returns `Status bot online: play.example.net`.
-- `occupancy("play.example.net", 3, 20)` returns `play.example.net has 3 of 20 players`.
-- `serverOf(args)` returns the first word typed.
-- `report(args, 3, 20)` returns both lines, one after the other.
+**The report.** `report(args, 3, 20)` returns both lines, one after the other.
 
 **Methods can call methods.** Inside one method you can call another method of your own and use what it hands back, as if it were a value, and you can hand it straight to another call: `shout(twice(word))`. Here `shout` calls `twice`:
 
 ```java
-static String twice(String word) {
+public static String twice(String word) {
     return word + " " + word;
 }
 

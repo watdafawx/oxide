@@ -10,11 +10,11 @@ Status lines are mostly fixed text with a few values dropped in: `play.example.n
 
 **Wrong slot, red.** If a `%d` meets text, Java stops with an error while running, and the checker shows it. Match each slot to its value.
 
-Here is a whole method:
+**A whole method.** The template, the values and the `return` fit in three lines:
 
 ```java
-public static String statusLine(String server, int online, int max) {
-    return String.format("%s: %d/%d online", server, online, max);
+public static String lap(String runner, int seconds) {
+    return String.format("%s ran %d seconds", runner, seconds);
 }
 ```
 

@@ -24,12 +24,12 @@ text = "Start with `title`, `seatLine` and `eventOf`: they use only `+`, `String
 text = "`badge`: `return title(eventOf(args)) + \"\\n\" + seatLine(name, seat, total);`"
 
 [[points]]
-after = 2
-prompt = "Which text starts a new line inside a string?"
-pick = ["\\n", "/n", "%s", "\\\\"]
-answer = 0
-[[points]]
-after = 2
+after = 3
 prompt = "Call the other method."
 code = "return title(___(args));"
 blank = "eventOf"
+[[points]]
+after = 4
+prompt = "Which text starts a new line inside a string?"
+pick = ["\\n", "/n", "%s", "\\\\"]
+answer = 0

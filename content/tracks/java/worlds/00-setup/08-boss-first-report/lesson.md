@@ -1,16 +1,13 @@
 A conference prints a badge for everyone who arrives: a welcome line for the event, then a seat line for the guest. Put together everything from this world and one command prints the whole badge.
 
-**The spec.** Four small methods, each one a tick:
+**The small ones.** `title("DevDay")` returns `Welcome to DevDay`. `seatLine("Ada", 3, 40)` returns `Ada: seat 3 of 40`. `eventOf(args)` returns the first word typed.
 
-- `title("DevDay")` returns `Welcome to DevDay`.
-- `seatLine("Ada", 3, 40)` returns `Ada: seat 3 of 40`.
-- `eventOf(args)` returns the first word typed.
-- `badge(args, "Ada", 3, 40)` returns both lines, one after the other.
+**The report.** `badge(args, "Ada", 3, 40)` returns both lines, one after the other.
 
 **Methods can call methods.** Inside one method you can call another method of your own and use what it hands back, as if it were a value, and you can hand it straight to another call: `shout(twice(word))`. Here `shout` calls `twice`:
 
 ```java
-static String twice(String word) {
+public static String twice(String word) {
     return word + " " + word;
 }
 
