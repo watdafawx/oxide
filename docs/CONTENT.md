@@ -12,8 +12,8 @@ quest's idea is the tool for it.
 
 - `world.toml` names the project (`project = "Crafting calculator"`), and every quest adds a
   visible feature to it. The boss ships the finished thing.
-- The lesson opens with **Why now**: one or two sentences tying the concept to the feature.
-  "A stack holds 0 to 64 items, never -3: that is why stack sizes are `u32`, not `i32`."
+- The lesson opens with the situation, no label: one to three sentences tying the concept to
+  the feature. "A stack holds 0 to 64 items, never -3: that is why stack sizes are `u32`, not `i32`."
 - Function and type names come from the project, never from textbooks: `stack_size`,
   `Recipe`, `Inventory`, `Entity`, `ChunkPos`, `Command`, not `add`, `Foo`, `greet`.
 - Tests read like features: `crafting_a_pickaxe_needs_three_ingots`, not `test_struct`.
@@ -57,7 +57,8 @@ track, and the starter alone?* If the answer needs a function, syntax or idea th
 showed, the lesson is wrong, not the learner.
 
 - Every API call, keyword, macro or pattern the solution uses is **shown in the lesson or an
-  earlier quest of the same track**. "Used before taught" is a bug.
+  earlier quest of the same track**, or is a helper the starter already contains or the `// TODO:`
+  names. "Used before taught" is a bug; so is a lesson that turns into a glossary to avoid it.
 - A quiz question is answerable from the lesson above it. Wrong choices are plausible, the right
   one is not the longest, and the lesson contains the fact that decides it.
 - Each `// TODO:` says what to write in plain words, in the lesson's vocabulary. Hints then
@@ -135,14 +136,50 @@ Rules: exercise/boss need `objectives`, `starter/`, `solution/`. Read quests nee
 
 ## lesson.md
 
-Markdown, rendered inside the app, one screen. Shape:
+The app shows a lesson as **cards**, one paragraph each, one on screen at a time (Learn stage),
+then a one-question Check when the quest has a quiz, then Build. Write for that.
+The reference is `content/golden/rust/01-foundations`: three hand-written quests. Match them.
 
-1. **Why now**: one or two sentences tying the concept to the feature you are adding to the
-   world's project (see "Project first").
-2. The idea, in 3-6 short paragraphs or bullets. One runnable example in a ```rust block.
-3. `## Your turn` — what to do in the starter, in 2-4 bullets, naming the file and function.
+### One idea per quest
 
-Tone: direct, no fluff, no "in this lesson we will". Use `you`. A reader with ADHD will skim: bold the one term that matters, keep paragraphs to 3 lines. Never put the solution in the lesson.
+A quest teaches **one** new thing. `let` is a quest. `mut` is the next one. A function is a third.
+If the exercise needs a second new idea, split the quest. A term the exercise does not need is
+not in the lesson. Helpers the exercise needs but the quest is not about (`trim`, `len`, an
+import) are already written in the starter or named in the `// TODO:` comment; they never
+become a lesson paragraph.
+
+### Shape
+
+1. **Intro paragraph, no label.** The situation in the project, in plain words: what the
+   learner is trying to do and why today's idea is needed. Two or three sentences. The app shows
+   it once, above the cards.
+2. **Cards.** Each paragraph is one card and starts with a **kicker**: two to four bold words
+   ending in a period (`**Try the obvious thing.** …`, `**The word for it.** …`). The app uses
+   the kicker as the card's title. One thought per card, two or three sentences, at most one
+   line of code inline. Four to seven cards.
+3. **One code block**, placed after the card that explains it: the thing the learner will type,
+   nothing extra. A compiler message the learner is meant to meet goes in a ```text block.
+4. `## Your turn`: 2-4 steps a beginner can follow literally, naming the function and what
+   changes. No "open the file" step; the editor is in the app and opens the right file.
+
+### Voice
+
+- **Situation, then it happens, then the name.** The learner sees the thing (12 logs, a red
+  error) before they get the word for it (variable, immutable). Introduce each word once, in
+  bold, with a plain-English gloss in the same sentence: "**immutable**, which means cannot change".
+- Where the obvious first move is a mistake, have the learner make it and read the message.
+  The compiler is a character, not an obstacle.
+- Concrete numbers from the project, never `x` and `y`. Second person. Short sentences. No
+  "in this lesson we will", no "simply", no jokes that cost a sentence.
+- Never put the solution in the lesson. Hints do that: hint 1 says where, the last hint says
+  what to type.
+- Points (`[[points]]`) ask for the one thing the card above just showed, in its own words.
+
+### Term ledger
+
+`docs/tracks/<track>-terms.md` lists every term and syntax in the order the track introduces it,
+with the quest that does. A lesson may use only terms introduced at or before it. Add a row when a
+quest introduces something; if the row you need is missing, that is the quest to write first.
 
 ## starter/
 
@@ -177,11 +214,11 @@ Identical to starter with the TODOs filled. `cargo test` green, `cargo clippy` c
 
 | kind | minutes | xp | objectives |
 |---|---|---|---|
-| exercise | 3-15 | 30-80 | 1-4 |
+| exercise | 2-8 | 20-60 | 1-3 |
 | boss | 30-90 | 300-500 | 4-10, staged (first objective passes early) |
 | read | 2-5 | 15 | quiz: 1-3 |
 
-First quest of a world: under 5 minutes. A world is 6-12 quests + boss. Every third quest or so, lower the XP and the minutes: an easy win keeps the streak alive.
+First quest of a world: under 5 minutes. A world is 10-24 small quests + boss; one idea each (see lesson.md). Every third quest or so, lower the XP and the minutes: an easy win keeps the streak alive.
 
 **Tutorial exception.** `00-tutorial` is outside these ranges on purpose: `02-fix-it` is 20 xp / 2 min,
 and the boss `03-boss-name-tag` is 100 xp / 5 min / 2 objectives. The tutorial teaches the edit-save-green loop,
