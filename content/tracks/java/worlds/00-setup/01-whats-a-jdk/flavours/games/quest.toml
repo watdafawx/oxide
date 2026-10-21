@@ -3,15 +3,15 @@ summary = "The tools behind your Minecraft server, and the 90-second first build
 
 [[quiz]]
 question = "Your server's start script runs `java -jar server.jar`. Which tool is that?"
-choices = ["javac, the compiler that makes bytecode", "java, the JVM launcher", "gradlew, the Gradle wrapper"]
+choices = ["javac, the compiler", "java, which starts the JVM", "gradlew, the wrapper"]
 answer = 1
 
 [[quiz]]
-question = "You want to write a plugin for your server and build it. What must be installed?"
-choices = ["A JRE, the run-only half", "A JDK, the full kit", "Only the Minecraft launcher"]
-answer = 1
+question = "You want to write the bot and build it. What must be installed?"
+choices = ["The JDK, the full kit", "Only the Minecraft launcher", "Only the `java` tool"]
+answer = 0
 
 [[quiz]]
 question = "Why does every Oxide quest ship a `gradlew` file?"
-choices = ["It pins the exact Gradle version", "It is the Minecraft server itself", "It replaces the JDK completely"]
+choices = ["It fetches the exact Gradle version the project needs", "It is the Minecraft server itself", "It replaces the JDK completely"]
 answer = 0

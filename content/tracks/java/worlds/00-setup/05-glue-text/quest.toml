@@ -1,0 +1,29 @@
+title = "Greet by name"
+summary = "Glue a name into a greeting with +."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["setup", "strings", "parameters"]
+
+[[objectives]]
+test = "greetsByName"
+label = "greet(\"Ada\") returns \"Hello, Ada!\""
+[[objectives]]
+test = "greetsTwoPeople"
+label = "greetPair(\"Ada\", \"Bo\") returns \"Hello, Ada and Bo!\""
+
+[[hints]]
+text = "Both methods are in `Greetings`. Replace each `return null;` with a line that glues text together with `+`."
+[[hints]]
+text = "`return \"Hello, \" + name + \"!\";`, and for the pair `return \"Hello, \" + first + \" and \" + second + \"!\";`"
+
+[[points]]
+after = 2
+prompt = "What does `+` do between two pieces of text?"
+pick = ["Glues them into one text", "Adds up their letters", "Compares them", "Starts a new line"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line."
+code = "return \"Bye, \" + name + ___;"
+blank = "\"!\""

@@ -1,22 +1,25 @@
 title = "Pick the server"
-summary = "Run the bot as `java StatusCommand <server>`: read the address, default to localhost."
+summary = "Run the bot as `java StatusCommand <server>` and read the address from args."
 
 [[objectives]]
 test = "headerUsesFirstArgAsServer"
 label = "header([\"play.example.net\"]) returns \"Status of play.example.net\""
-
 [[objectives]]
-test = "headerDefaultsToLocalhost"
-label = "header([]) returns \"Status of localhost\""
+test = "compareHeaderUsesTwoServers"
+label = "compareHeader([\"a\", \"b\"]) returns \"Status of a and b\""
 
 [[hints]]
-text = "`args.length` tells you how many arguments came in. Check it before you touch `args[0]`."
-
+text = "Both methods are in `StatusCommand`. `args[0]` is the first word, `args[1]` the second."
 [[hints]]
-text = "Handle the empty case first: `if (args.length == 0) { return \"Status of localhost\"; }`"
+text = "`return \"Status of \" + args[0];`, and for two servers `return \"Status of \" + args[0] + \" and \" + args[1];`"
 
-[[hints]]
-text = "Otherwise the server address is `args[0]` (counting starts at 0)."
-
-[[hints]]
-text = "`return \"Status of \" + args[0];` after the `if`."
+[[points]]
+after = 3
+prompt = "Which one is the FIRST word the user typed?"
+pick = ["args[0]", "args[1]", "args[-1]", "args"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Take the second word."
+code = "return \"Status of \" + ___;"
+blank = "args[1]"

@@ -1,0 +1,35 @@
+title = "Boss: Event badge"
+summary = "Read the event from args and print the two-line badge."
+kind = "boss"
+xp = 150
+minutes = 15
+tags = ["setup", "boss", "strings", "format"]
+
+[[objectives]]
+test = "titleWelcomesTheEvent"
+label = "title(\"DevDay\") is \"Welcome to DevDay\""
+[[objectives]]
+test = "seatLineHasThreeValues"
+label = "seatLine(\"Ada\", 3, 40) is \"Ada: seat 3 of 40\""
+[[objectives]]
+test = "eventComesFromArgs"
+label = "eventOf([\"DevDay\"]) returns \"DevDay\""
+[[objectives]]
+test = "badgeHasTwoLines"
+label = "badge(args, \"Ada\", 3, 40) is the title line, a new line, then the seat line"
+
+[[hints]]
+text = "Start with `title`, `seatLine` and `eventOf`: they use only `+`, `String.format` and `args[0]`. `badge` just calls them."
+[[hints]]
+text = "`badge`: `return title(eventOf(args)) + \"\\n\" + seatLine(name, seat, total);`"
+
+[[points]]
+after = 2
+prompt = "Which text starts a new line inside a string?"
+pick = ["\\n", "/n", "%s", "\\\\"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Call the other method."
+code = "return title(___(args));"
+blank = "eventOf"

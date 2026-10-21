@@ -1,0 +1,25 @@
+title = "Announce who joined"
+summary = "Glue a player's name into a chat line with +."
+
+[[objectives]]
+test = "announcesOnePlayer"
+label = "announceJoin(\"Ada\") returns \"Ada joined the game\""
+[[objectives]]
+test = "announcesTwoPlayers"
+label = "announcePair(\"Ada\", \"Bo\") returns \"Ada and Bo joined the game\""
+
+[[hints]]
+text = "Both methods are in `JoinMessages`. Replace each `return null;` with a line that glues text together with `+`."
+[[hints]]
+text = "`return player + \" joined the game\";`, and for the pair `return first + \" and \" + second + \" joined the game\";`"
+
+[[points]]
+after = 2
+prompt = "What does `+` do between two pieces of text?"
+pick = ["Glues them into one text", "Adds up their letters", "Compares them", "Starts a new line"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line."
+code = "return player + ___;"
+blank = "\" has left\""

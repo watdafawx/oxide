@@ -5,8 +5,13 @@ public class Banner {
         System.out.println(banner(args));
     }
 
-    /** "Hello, <first arg>!", or "Hello, Oxide!" when there are no args. */
+    /** "Hello, <first word>!" */
     public static String banner(String[] args) {
-        return null; // TODO: use args[0] when there is one, otherwise "Oxide"
+        return null; // TODO: "Hello, ", args[0] and "!" glued together
+    }
+
+    /** "Hello, <first word> and <second word>!" */
+    public static String pairBanner(String[] args) {
+        return null; // TODO: args[0] and args[1] with " and " between
     }
 }

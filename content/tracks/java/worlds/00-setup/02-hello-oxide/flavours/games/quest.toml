@@ -6,17 +6,15 @@ test = "botAnnouncesItself"
 label = "greeting() returns \"Status bot online!\""
 
 [[hints]]
-text = "A method ends with `return something;`. Right now it returns `null`, which means \"nothing\"."
-
+text = "The method is `greeting`. Replace `return null;` with a line that returns your text."
 [[hints]]
 text = "Text goes in double quotes: `return \"Status bot online!\";`"
 
 [[points]]
-after = 3
-prompt = "Which word hands the value back?"
-pick = ["void", "return", "String", "static"]
-answer = 1
-
+after = 2
+prompt = "What does `but was: null` tell you?"
+pick = ["The method gave back nothing yet", "The checker is broken", "Java is not installed", "The text has a typo"]
+answer = 0
 [[points]]
 after = 4
 prompt = "Fill the body so it returns the text."

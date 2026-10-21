@@ -3,26 +3,24 @@ summary = "Make greeting() return \"Hello, Oxide!\": your first green tick."
 kind = "exercise"
 xp = 30
 minutes = 4
-tags = ["setup", "strings"]
+tags = ["setup", "return"]
 
 [[objectives]]
 test = "greetingSaysHello"
 label = "greeting() returns \"Hello, Oxide!\""
 
 [[hints]]
-text = "A method ends with `return something;`. Right now it returns `null`, which means \"nothing\"."
-
+text = "The method is `greeting`. Replace `return null;` with a line that returns your text."
 [[hints]]
 text = "Text goes in double quotes: `return \"Hello, Oxide!\";`"
 
 [[points]]
-after = 4
-prompt = "Which word hands the value back?"
-pick = ["void", "return", "String", "static"]
-answer = 1
-
+after = 2
+prompt = "What does `but was: null` tell you?"
+pick = ["The method gave back nothing yet", "The checker is broken", "Java is not installed", "The text has a typo"]
+answer = 0
 [[points]]
-after = 5
+after = 4
 prompt = "Fill the body so it returns the text."
 code = "public static String farewell() {\n    ___\n}"
 blank = "return \"Bye, Oxide!\";"

@@ -1,0 +1,25 @@
+title = "Fill the slots"
+summary = "Build status lines from a template with %s and %d."
+
+[[objectives]]
+test = "statusLineHasThreeSlots"
+label = "statusLine(\"play.example.net\", 3, 20) returns \"play.example.net: 3/20 online\""
+[[objectives]]
+test = "onlineLineHasTwoSlots"
+label = "onlineLine(\"survival\", 12) returns \"survival: 12 online\""
+
+[[hints]]
+text = "Both methods are in `StatusLines`. Replace each `return null;` with a `String.format(...)` call."
+[[hints]]
+text = "`return String.format(\"%s: %d/%d online\", server, online, max);` and `return String.format(\"%s: %d online\", server, online);`"
+
+[[points]]
+after = 2
+prompt = "Which slot takes a whole number?"
+pick = ["%d", "%s", "%n", "%%"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Fill the values in slot order."
+code = "String.format(\"%s has %d items\", ___, 3);"
+blank = "\"Ada\""

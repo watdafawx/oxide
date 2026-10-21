@@ -1,0 +1,29 @@
+title = "Fill the slots"
+summary = "Build score lines from a template with %s and %d."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["setup", "format"]
+
+[[objectives]]
+test = "scoreLineHasThreeSlots"
+label = "scoreLine(\"Ada\", 7, 10) returns \"Ada: 7/10 correct\""
+[[objectives]]
+test = "itemLineHasTwoSlots"
+label = "itemLine(\"apple\", 3) returns \"3 x apple\""
+
+[[hints]]
+text = "Both methods are in `Scores`. Replace each `return null;` with a `String.format(...)` call."
+[[hints]]
+text = "`return String.format(\"%s: %d/%d correct\", name, score, total);` and `return String.format(\"%d x %s\", count, item);`"
+
+[[points]]
+after = 2
+prompt = "Which slot takes a whole number?"
+pick = ["%d", "%s", "%n", "%%"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Fill the values in slot order."
+code = "String.format(\"%s has %d items\", ___, 3);"
+blank = "\"Ada\""

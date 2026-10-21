@@ -1,23 +1,30 @@
-**Why this matters:** before you build anything bigger, you need proof the loop works: edit, save, watch a check turn green. Every real program is built on that loop, with tests as the checks.
+Before you build anything bigger, you need proof that the loop works: change a line, save, watch a check turn green. Today the check wants one small thing, a method that says hello.
 
-A Java method that gives back text looks like this:
+**Where you start.** Oxide gives you a method called `greeting` and a checker that calls it. The checker lives in `HelloTest.java`: that file is what the checker reads, and you never change it. It wants the exact text `Hello, Oxide!`, and your method does not return that yet.
+
+**Read the red.** Save once without changing anything. The objective turns red and the checker explains why:
+
+```text
+expected: "Hello, Oxide!"
+ but was: null
+```
+
+**Two lines, one meaning.** `expected` is what the checker wants. `but was` is what your code gave back. `null` is Java's word for "nothing yet". Red is not a failure, it is a message telling you what to fix.
+
+**The shape of a method.** `public static String greeting()` is the shape every method has for now: copy it as it is and do not worry about the words yet. Two parts matter today. `String` means the method hands back text, and `greeting` is the name the checker calls.
+
+**Hand it back.** `return` hands a value back to whoever called the method. Text goes in double quotes, and a line ends with `;`:
 
 ```java
-public static String farewell() {
-    return "Bye, Oxide!";
+public static String greeting() {
+    return "Hello, Oxide!";
 }
 ```
 
-- `String` is the **return type**: text.
-- `return` hands the value back to whoever called the method.
-- Text literals use **double quotes**, and every statement ends with `;`.
-
-The test calls `Hello.greeting()` and expects exactly `Hello, Oxide!`. Capital letters, comma and `!` all count.
-
-The first save downloads Gradle and the test libraries (about 90 seconds, once). Later saves take a few seconds.
+**Exact means exact.** The checker compares letter by letter, capitals and punctuation included. One wrong character and `but was` shows you which. The first save also downloads Gradle, about 90 seconds, once.
 
 ## Your turn
 
-- Open `src/main/java/oxide/hello_oxide/Hello.java`.
-- Replace `return null;` so `greeting()` returns `"Hello, Oxide!"`.
-- Save. The objective turns green.
+- Save once without changing anything and read the red message.
+- In `greeting`, replace `null` with the text `"Hello, Oxide!"`.
+- Save again. The objective turns green.

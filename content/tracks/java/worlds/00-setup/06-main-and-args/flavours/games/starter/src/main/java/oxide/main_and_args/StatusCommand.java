@@ -5,8 +5,13 @@ public class StatusCommand {
         System.out.println(header(args));
     }
 
-    /** "Status of <first arg>", or "Status of localhost" when there are no args. */
+    /** "Status of <first word>". */
     public static String header(String[] args) {
-        return null; // TODO: use args[0] as the server address when there is one, otherwise "localhost"
+        return null; // TODO: "Status of " glued to args[0]
+    }
+
+    /** "Status of <first word> and <second word>". */
+    public static String compareHeader(String[] args) {
+        return null; // TODO: args[0] and args[1] with " and " between
     }
 }

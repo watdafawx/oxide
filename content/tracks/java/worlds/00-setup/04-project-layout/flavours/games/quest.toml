@@ -1,0 +1,17 @@
+title = "Project layout"
+summary = "Where the bot's code, its checker and the settings live."
+
+[[quiz]]
+question = "Where do the files YOU write go?"
+choices = ["src/main/java", "src/test/java", "build/"]
+answer = 0
+
+[[quiz]]
+question = "Where does the checker that grades you live?"
+choices = ["src/main/java", "src/test/java", "gradle/wrapper"]
+answer = 1
+
+[[quiz]]
+question = "What is the `build/` folder?"
+choices = ["Your source code files", "Generated output, safe to delete", "The JDK install"]
+answer = 1

@@ -12,7 +12,8 @@ class StatusCommandTest {
     }
 
     @Test
-    void headerDefaultsToLocalhost() {
-        assertThat(StatusCommand.header(new String[] {})).isEqualTo("Status of localhost");
+    void compareHeaderUsesTwoServers() {
+        assertThat(StatusCommand.compareHeader(new String[] {"play.example.net", "mc.example.org"}))
+                .isEqualTo("Status of play.example.net and mc.example.org");
     }
 }

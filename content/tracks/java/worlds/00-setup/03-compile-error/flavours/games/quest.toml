@@ -1,0 +1,22 @@
+title = "Fix the compile error"
+summary = "The bot's welcome line will not build. Fix a missing semicolon."
+
+[[objectives]]
+test = "motdBuilds"
+label = "ServerMotd compiles and motd() returns \"Welcome to the server!\""
+
+[[hints]]
+text = "Read the first error: it names the line, and the `^` points just after the end of the `return` line."
+[[hints]]
+text = "A statement ends with `;`. Add it after the closing quote."
+
+[[points]]
+after = 3
+prompt = "Which part of the message tells you the line number?"
+pick = ["The `7` after `ServerMotd.java:`", "The word `error`", "The word `expected`", "The `^` on the last line"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line."
+code = "return \"Welcome to the server!\"___"
+blank = ";"

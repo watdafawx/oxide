@@ -1,0 +1,31 @@
+title = "Boss: First report"
+summary = "Read the server from args and print the bot's two-line report."
+
+[[objectives]]
+test = "announcesTheBot"
+label = "announce(\"play.example.net\") is \"Status bot online: play.example.net\""
+[[objectives]]
+test = "occupancyHasThreeValues"
+label = "occupancy(\"play.example.net\", 3, 20) is \"play.example.net has 3 of 20 players\""
+[[objectives]]
+test = "serverComesFromArgs"
+label = "serverOf([\"play.example.net\"]) returns \"play.example.net\""
+[[objectives]]
+test = "reportHasTwoLines"
+label = "report(args, 3, 20) is the announce line, a new line, then the occupancy line"
+
+[[hints]]
+text = "Start with `announce`, `occupancy` and `serverOf`: they use only `+`, `String.format` and `args[0]`. `report` just calls them."
+[[hints]]
+text = "`report`: `return announce(serverOf(args)) + \"\\n\" + occupancy(serverOf(args), online, max);`"
+
+[[points]]
+after = 2
+prompt = "Which text starts a new line inside a string?"
+pick = ["\\n", "/n", "%s", "\\\\"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Call the other method."
+code = "return announce(___(args));"
+blank = "serverOf"

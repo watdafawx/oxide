@@ -1,7 +1,7 @@
 package oxide.hello_oxide;
 
 public class StatusBot {
-    /** The bot's first chat line: "Status bot online!". */
+    /** Returns "Status bot online!". */
     public static String greeting() {
         return "Status bot online!";
     }
