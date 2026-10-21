@@ -111,7 +111,7 @@ text = "Change the parameter type to `&String`."
 [[hints]]
 text = "Call it with `greet(&name)`."
 
-# optional, exercise/boss: a tap or a typed word between lesson points (the Learn stage)
+# optional, exercise/boss: a tap or a typed word between lesson cards (+2 XP, never blocks the task)
 [[points]]
 after = 3                                  # shown after idea point 3 (paragraph/bullet count); 0 = before the first
 prompt = "Which word hands the value back?"
@@ -136,8 +136,10 @@ Rules: exercise/boss need `objectives`, `starter/`, `solution/`. Read quests nee
 
 ## lesson.md
 
-The app shows a lesson as **cards**, one paragraph each, one on screen at a time (Learn stage),
-then a one-question Check when the quest has a quiz, then Build. Write for that.
+The app shows a lesson as **cards**, one paragraph each, stacked in a column beside the task
+and the editor (the learner can fold it away). A quest with a quiz gets a Check step first.
+Each card must read on its own. Don't refer to screen positions
+("on the right", "click Next"): the layout changes, the words stay.
 The reference is `content/golden/rust/01-foundations`: three hand-written quests. Match them.
 
 ### One idea per quest

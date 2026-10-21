@@ -2,7 +2,7 @@ In this world you build a recipe calculator for a Factorio factory: give it a re
 
 **Two files.** Every quest gives you two files. `tests.lua` is the spec: it says what each function must do. The file under `src/` is yours. You edit that one and never touch `tests.lua`.
 
-**Save and watch.** Every time you save, Oxide runs the tests. Each objective on the right turns green or stays red. A red one shows the line of `tests.lua` that failed, like `tests.lua:9: expected 3, got nil`.
+**Save and watch.** Every time you save, Oxide runs the tests. Each objective above the code turns green or stays red. A red one shows the line of `tests.lua` that failed, like `tests.lua:9: expected 3, got nil`.
 
 **A module.** The file you edit is a **module**: a table of functions that the file hands back. A Factorio mod is a pile of these. The starter already holds the outline, and you only fill in the bodies:
 

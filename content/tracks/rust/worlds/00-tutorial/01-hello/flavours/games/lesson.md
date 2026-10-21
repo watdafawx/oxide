@@ -1,6 +1,6 @@
 Every Oxide quest works the same way: a small project, a function with a gap in it, and tests that tell you when the gap is filled. This first one is for your server: when a player joins, it needs a chat line that greets them by name.
 
-**The loop.** You edit the code in the editor. Every time you **save**, Oxide runs the tests, and the objectives on the right tick off. Save often. Nothing breaks when you do.
+**The loop.** You edit the code in the editor. Every time you **save**, Oxide runs the tests, and the objectives above the code tick off. Save often. Nothing breaks when you do.
 
 **The gap.** The starter already has the function written, with one line marked `todo!()`. That line is a placeholder: the project builds, but running it stops with "not done yet". Your job is to replace it.
 
