@@ -3,7 +3,7 @@
   import { api } from "$lib/api";
   import { app } from "$lib/store.svelte";
   import { play } from "$lib/sound";
-  import { lessonCards, readingMinutes, renderMarkdown, splitLesson } from "$lib/markdown";
+  import { langOf, lessonCards, readingMinutes, renderMarkdown, splitLesson } from "$lib/markdown";
   import QuestScene from "$lib/components/QuestScene.svelte";
   import CodeEditor from "$lib/components/CodeEditor.svelte";
   import TypedCode from "$lib/components/TypedCode.svelte";
@@ -68,10 +68,11 @@
   const result = $derived<CheckResult | null>(check?.result ?? detail?.last_check ?? null);
   const started = $derived(!!detail?.workspace);
   const done = $derived(detail?.completed ?? false);
-  const lesson = $derived(detail ? renderMarkdown(detail.lesson) : "");
-  const parts = $derived(detail && detail.quest.kind !== "read" ? splitLesson(detail.lesson) : null);
+  const lang = $derived(langOf(detail?.quest.runner));
+  const lesson = $derived(detail ? renderMarkdown(detail.lesson, lang) : "");
+  const parts = $derived(detail && detail.quest.kind !== "read" ? splitLesson(detail.lesson, lang) : null);
   const readMin = $derived(detail ? readingMinutes(detail.lesson) : 1);
-  const cards = $derived(detail && detail.quest.kind !== "read" ? lessonCards(detail.lesson) : null);
+  const cards = $derived(detail && detail.quest.kind !== "read" ? lessonCards(detail.lesson, lang) : null);
   /** exercises and bosses with a "Your turn" list run as Learn / Check / Build; read quests keep one page */
   const staged = $derived(!!cards && !!parts);
   const firstOpen = $derived(parts ? parts.tasks.findIndex((_, i) => !ticks.includes(i)) : -1);
@@ -206,7 +207,7 @@
   const nextStage = $derived<Stage>(stageList[stageList.indexOf("learn") + 1] ?? "build");
 
   function initStage(d: QuestDetail) {
-    const c = d.quest.kind !== "read" ? lessonCards(d.lesson) : null;
+    const c = d.quest.kind !== "read" ? lessonCards(d.lesson, langOf(d.quest.runner)) : null;
     const list: Stage[] = [];
     if (c && (c.cards.length || d.quest.points.length)) list.push("learn");
     if (d.quest.quiz.length) list.push("check");
@@ -254,6 +255,14 @@
     if (d > 0 && lastStep) { lessonOpen ? (lessonOpen = false) : goStage(nextStage); return; }
     step = Math.max(0, Math.min(steps.length - 1, step + d));
   }
+  // the editor already shows the primary file, so an "Open ..." first step ticks itself (no XP, once)
+  $effect(() => {
+    if (!(staged && stage === "build" && started && parts)) return;
+    untrack(() => {
+      if (ls.get(`oxide:ticks:${id}`) !== null || ticks.includes(0)) return;
+      if (/^\s*Open/i.test((parts?.tasks[0] ?? "").replace(/<[^>]+>/g, ""))) { ticks = [0]; ls.set(`oxide:ticks:${id}`, JSON.stringify(ticks)); }
+    });
+  });
   const goLesson = () => goStage("learn");
   const stepDone = (s: Step) => (s.kind === "card" ? seen.includes(s.i) : !!solved[s.pi]);
   const stepsRead = $derived(steps.filter(stepDone).length);
@@ -516,7 +525,7 @@
           </div>
           <ol class="mb-3 flex flex-col gap-2">
             {#each hintsShown as h, i}
-              <li class="pop rounded-xl border border-line bg-panel-2 px-3 py-2 text-sm"><span class="mr-1 font-bold text-rust-hi">{i + 1}.</span>{@html renderMarkdown(h.text).replace(/^<p>|<\/p>\s*$/g, "")}</li>
+              <li class="pop rounded-xl border border-line bg-panel-2 px-3 py-2 text-sm"><span class="mr-1 font-bold text-rust-hi">{i + 1}.</span>{@html renderMarkdown(h.text, lang).replace(/^<p>|<\/p>\s*$/g, "")}</li>
             {/each}
           </ol>
           {#if freeHintReady}
@@ -544,16 +553,29 @@
       </div>
     {/if}
     {#if cards?.why}<div class="prose-ox mb-5 rounded-xl border-l-4 border-rust bg-[#221a15] px-5 py-3 text-base text-dim" data-testid="why">{@html cards.why}</div>{/if}
+    {#if inBuild && cards}
+      <div class="flex flex-col gap-6" data-testid="lesson-list">
+        {#each cards.cards as card, i}
+          <div data-testid="lesson-card">
+            {#if card.title}<div class="mb-1 text-sm font-bold tracking-widest text-dim uppercase">{card.title}</div>{/if}
+            <div class="prose-ox point text-xl leading-snug">{@html card.html}</div>
+            {#each card.codes as c}<div class="mt-3"><TypedCode code={c} playKey="{id}:{i}:list" animate={false} /></div>{/each}
+          </div>
+        {/each}
+      </div>
+      <div class="mt-6 flex justify-end"><button class="btn btn-primary" onclick={() => (lessonOpen = false)}>Back to code</button></div>
+    {:else}
     {#key `${step}|${lessonOpen}`}
       <div class="min-h-44" data-testid="card" data-step={step}>
         {#if cur?.kind === "card" && cards}
           {@const card = cards.cards[cur.i]}
+          {#if card.title}<div class="mb-2 text-sm font-bold tracking-widest text-dim uppercase" data-testid="card-title">{card.title}</div>{/if}
           <div class="prose-ox point text-2xl leading-snug">{@html card.html}</div>
           {#each card.codes as c, ci}
             <div class="mt-5"><TypedCode code={c} playKey="{id}:{cur.i}:{ci}" /></div>
           {/each}
         {:else if cur?.kind === "point" && q}
-          <PointStep point={q.points[cur.pi]} solved={!!solved[cur.pi]} onsolve={() => solvePoint(cur.pi)} />
+          <PointStep point={q.points[cur.pi]} {lang} solved={!!solved[cur.pi]} onsolve={() => solvePoint(cur.pi)} />
         {/if}
       </div>
     {/key}
@@ -570,9 +592,10 @@
       {/if}
       <button class="btn btn-ghost" disabled={step === 0} onclick={() => go(-1)} data-testid="back">Back</button>
       <button class="btn btn-primary" disabled={!curSolved} onclick={() => go(1)} data-testid="next">
-        {#if !lastStep}Next{:else if inBuild}Back to code{:else}Got it → {stageNames[nextStage]}{/if}
+        {#if !lastStep}Next{:else}Got it → {stageNames[nextStage]}{/if}
       </button>
     </div>
+    {/if}
   </div>
 {/snippet}
 
@@ -868,7 +891,7 @@
           </div>
           <ol class="mb-3 flex flex-col gap-2">
             {#each hintsShown as h, i}
-              <li class="pop rounded-xl border border-line bg-panel-2 px-3 py-2 text-sm"><span class="mr-1 font-bold text-rust-hi">{i + 1}.</span>{@html renderMarkdown(h.text).replace(/^<p>|<\/p>\s*$/g, "")}</li>
+              <li class="pop rounded-xl border border-line bg-panel-2 px-3 py-2 text-sm"><span class="mr-1 font-bold text-rust-hi">{i + 1}.</span>{@html renderMarkdown(h.text, lang).replace(/^<p>|<\/p>\s*$/g, "")}</li>
             {/each}
           </ol>
           {#if freeHintReady}

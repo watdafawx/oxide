@@ -40,12 +40,13 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .prose-ox table { border-collapse: collapse; } .prose-ox th, .prose-ox td { border: 1px solid var(--color-line); padding: .4rem .7rem; }
 
 /* highlight.js minimal warm theme */
-.hljs-keyword, .hljs-built_in, .hljs-literal { color: #fb923c; }
-.hljs-string { color: #86efac; }
-.hljs-comment { color: #7c7268; font-style: italic; }
-.hljs-number, .hljs-meta { color: #fcd34d; }
-.hljs-title, .hljs-type { color: #7dd3fc; }
-.hljs-attr, .hljs-variable { color: #f9a8d4; }
+.hljs-keyword, .hljs-literal, .hljs-selector-tag { color: #c678dd; }
+.hljs-built_in, .hljs-type, .hljs-class .hljs-title, .hljs-title.class_ { color: #e5c07b; }
+.hljs-title, .hljs-title.function_ { color: #61afef; }
+.hljs-string { color: #98c379; }
+.hljs-comment { color: #7d8799; font-style: italic; }
+.hljs-number, .hljs-meta { color: #d19a66; }
+.hljs-attr { color: #e06c75; }
 
 @keyframes pop { from { transform: scale(.85); opacity: 0 } to { transform: scale(1); opacity: 1 } }
 .pop { animation: pop .25s ease-out; }

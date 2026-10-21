@@ -7,7 +7,7 @@
   import { onDestroy, onMount } from "svelte";
   import { highlight, type CardCode } from "$lib/markdown";
 
-  let { code, playKey }: { code: CardCode; playKey: string } = $props();
+  let { code, playKey, animate = true }: { code: CardCode; playKey: string; animate?: boolean } = $props();
 
   const reduced = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const MS = 25;
@@ -31,6 +31,7 @@
     timer = setTimeout(tick, MS);
   }
   onMount(() => {
+    if (!animate) { n = code.raw.length; return; }
     if (played.has(playKey)) { n = code.raw.length; return; }
     played.add(playKey);
     play();
@@ -49,7 +50,7 @@
       <pre class="absolute inset-0 m-0"><code class="hljs language-{code.lang}">{@html partial}<span class="caret">&nbsp;</span></code></pre>
     {/if}
   </div>
-  {#if !reduced()}
+  {#if animate && !reduced()}
     <button class="absolute top-2 right-2 rounded-md border border-line bg-panel-2 px-2.5 py-1 text-xs text-dim hover:text-ink" onclick={play} data-testid="replay">▶ Replay</button>
   {/if}
 </div>

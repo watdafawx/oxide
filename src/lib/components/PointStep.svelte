@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Point } from "$lib/types";
+  import { renderInline } from "$lib/markdown";
 
-  let { point, solved, onsolve }: { point: Point; solved: boolean; onsolve: () => void } = $props();
+  let { point, solved, onsolve, lang = "" }: { point: Point; solved: boolean; onsolve: () => void; lang?: string } = $props();
 
   let wrong = $state<number[]>([]);
   let value = $state("");
@@ -18,7 +19,7 @@
 </script>
 
 <div class="point" data-testid="point-step">
-  <p class="text-2xl leading-snug font-semibold">{point.prompt}</p>
+  <p class="text-2xl leading-snug font-semibold">{@html renderInline(point.prompt, lang)}</p>
   {#if isPick}
     <div class="mt-5 flex flex-wrap gap-2">
       {#each point.pick as tok, i}
