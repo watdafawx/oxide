@@ -1,0 +1,25 @@
+title = "How big can a number be?"
+summary = "Counts, changes and block ids need different types of whole number."
+
+[[objectives]]
+test = "dropping_items_is_negative"
+label = "stack_change(10, 4) gives back -6"
+[[objectives]]
+test = "a_modded_block_id_can_reach_200"
+label = "modded_block_id() gives back 200"
+
+[[hints]]
+text = "Save and read the first error. It names the function and says `expected u32, found i32`."
+[[hints]]
+text = "In `stack_change` change `-> u32` to `-> i32`. Then in `modded_block_id` change `-> i8` to `-> u8`."
+
+[[points]]
+after = 2
+prompt = "Which type can hold -5?"
+pick = ["u32", "i32", "u8", "usize"]
+answer = 1
+[[points]]
+after = 4
+prompt = "200 is too big for `i8` (it stops at 127). Which type holds 0 to 255?"
+pick = ["i8", "u8", "bool", "char"]
+answer = 1

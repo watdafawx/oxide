@@ -1,0 +1,6 @@
+[package]
+name = "found_a_name_for_a_number"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

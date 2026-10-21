@@ -1,0 +1,29 @@
+title = "Match a range"
+summary = "Group numbers into tiers with ranges and a catch-all."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["match", "ranges"]
+
+[[objectives]]
+test = "few_extras_are_basic_or_standard"
+label = "tier(0) is Basic, tier(1) and tier(2) are Standard"
+[[objectives]]
+test = "many_extras_are_premium_or_deluxe"
+label = "tier(3) to tier(5) are Premium, anything more is Deluxe"
+
+[[hints]]
+text = "Match on the number `extras`. Each arm is a range, a `=>` and a `Tier::...` value."
+[[hints]]
+text = "`0 => Tier::Basic`, `1..=2 => Tier::Standard`, `3..=5 => Tier::Premium`, `_ => Tier::Deluxe`."
+
+[[points]]
+after = 2
+prompt = "Which pattern matches 3, 4 and 5?"
+pick = ["3..=5", "3..5", "3,5", "(3, 5)"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Catch every other number."
+code = "match age {\n    0..=4 => 0,\n    ___ => 10,\n}"
+blank = "_"

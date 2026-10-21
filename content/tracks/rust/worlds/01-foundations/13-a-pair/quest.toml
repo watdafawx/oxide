@@ -1,0 +1,29 @@
+title = "A pair"
+summary = "Hold two values together: tuples."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["tuples"]
+
+[[objectives]]
+test = "reads_the_count_of_a_slot"
+label = "box_count((5, 64)) gives back 64"
+[[objectives]]
+test = "packing_returns_both_numbers"
+label = "pack(3) gives back (3, 12)"
+
+[[hints]]
+text = "Take the pair apart with `let (kind, count) = slot;`, then return the number you want."
+[[hints]]
+text = "`pack` returns a pair too: `(crates, crates * 4)`, no semicolon."
+
+[[points]]
+after = 1
+prompt = "Which one is a tuple?"
+pick = ["(5, 64)", "[5, 64]", "{5, 64}", "5, 64"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Take the pair apart into two names."
+code = "let ___ = slot;"
+blank = "(kind, count)"

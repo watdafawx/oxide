@@ -1,0 +1,29 @@
+title = "A thing with parts"
+summary = "Bundle a label and a count into one value: structs."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["structs"]
+
+[[objectives]]
+test = "builds_a_full_paper_pallet"
+label = "full_pallet() has the label \"paper\" and 64 boxes"
+[[objectives]]
+test = "label_shows_name_and_count"
+label = "pallet_label(pallet) gives back \"paper x64\""
+
+[[hints]]
+text = "In `full_pallet`, fill in both fields between the braces, separated by a comma."
+[[hints]]
+text = "`Pallet { label: \"paper\".to_string(), boxes: 64 }`. For the label use `format!(\"{} x{}\", pallet.label, pallet.boxes)`."
+
+[[points]]
+after = 1
+prompt = "What is each named part of a struct called?"
+pick = ["field", "tuple", "index", "range"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Read the number of boxes off `pallet`."
+code = "let n = pallet.___;"
+blank = "boxes"

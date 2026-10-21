@@ -1,0 +1,6 @@
+[package]
+name = "found_halves_and_decimals"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

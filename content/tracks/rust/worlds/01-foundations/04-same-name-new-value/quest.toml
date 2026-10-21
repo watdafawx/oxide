@@ -1,0 +1,29 @@
+title = "Same name, new value"
+summary = "Clean up a typed name by reusing the name: shadowing."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["let", "shadowing"]
+
+[[objectives]]
+test = "padding_is_not_counted"
+label = "label_len(\"  Fragile \") gives back 7"
+[[objectives]]
+test = "two_boxes_use_eight_sheets"
+label = "sheets_after_two_boxes(48) gives back 40"
+
+[[hints]]
+text = "Both functions are a few `let` lines. Start with `label_len`."
+[[hints]]
+text = "`let label = label.trim();` then `label.len()`. For the sheets, write `let sheets = sheets - 4;` twice."
+
+[[points]]
+after = 2
+prompt = "What is it called when a new `let` reuses a name?"
+pick = ["shadowing", "mutating", "borrowing", "overflowing"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make a new `label` without the spaces."
+code = "let label = label.___();"
+blank = "trim"

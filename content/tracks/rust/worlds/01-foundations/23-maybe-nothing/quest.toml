@@ -1,0 +1,29 @@
+title = "Maybe nothing"
+summary = "A lookup that can come back empty: Option."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["option", "match"]
+
+[[objectives]]
+test = "known_items_have_a_box_size"
+label = "per_box gives Some(12) for pens, Some(6) for mugs and Some(1) for lamps"
+[[objectives]]
+test = "unknown_items_have_none"
+label = "per_box(\"unicorn\") gives back None"
+
+[[hints]]
+text = "Match on `item` with the item names in quotes. Every arm gives back `Some(..)` except the catch-all."
+[[hints]]
+text = "`\"pen\" => Some(12)`, `\"mug\" => Some(6)`, `\"lamp\" => Some(1)`, `_ => None`."
+
+[[points]]
+after = 1
+prompt = "Which Option variant means there is no value?"
+pick = ["None", "Some", "Null", "Err"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Match the text \"coal\" and give back 80."
+code = "___ => Some(80),"
+blank = "\"coal\""

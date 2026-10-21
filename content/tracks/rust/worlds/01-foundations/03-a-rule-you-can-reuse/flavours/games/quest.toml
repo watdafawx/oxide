@@ -1,0 +1,25 @@
+title = "A rule you can reuse"
+summary = "Logs to planks for any number of logs: your first function."
+
+[[objectives]]
+test = "planks_for_any_log_count"
+label = "planks(logs) gives four planks per log"
+[[objectives]]
+test = "sticks_for_any_plank_count"
+label = "sticks(planks) gives two sticks per plank"
+
+[[hints]]
+text = "The body of `planks` is one line with no semicolon: `logs * 4`."
+[[hints]]
+text = "`sticks` is the same shape with its own name and number: `planks * 2`."
+
+[[points]]
+after = 2
+prompt = "In `fn planks(logs: u32) -> u32`, which part says what comes out?"
+pick = ["-> u32", "logs: u32", "fn", "planks"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Write the body line that hands back four planks per log."
+code = "fn planks(logs: u32) -> u32 {\n    ___\n}"
+blank = "logs * 4"

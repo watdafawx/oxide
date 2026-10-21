@@ -1,0 +1,25 @@
+title = "A row"
+summary = "A fixed row of the same type: arrays and indexes."
+
+[[objectives]]
+test = "adds_up_a_crafting_row"
+label = "row_total([10, 20, 30]) gives back 60"
+[[objectives]]
+test = "finds_the_last_hotbar_slot"
+label = "last_slot picks the final slot of nine"
+
+[[hints]]
+text = "Pick each item with `row[0]`, `row[1]`, `row[2]` and add them."
+[[hints]]
+text = "The last index is one less than `hotbar.len()`: `hotbar[hotbar.len() - 1]`."
+
+[[points]]
+after = 2
+prompt = "Which index is the first item of `row`?"
+pick = ["row[0]", "row[1]", "row[first]", "row[-1]"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Ask the row how many items it has."
+code = "let count = row.___();"
+blank = "len"

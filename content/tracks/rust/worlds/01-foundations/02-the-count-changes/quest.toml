@@ -1,0 +1,29 @@
+title = "The count changes"
+summary = "A delivery arrives: the first time Rust says no, and why."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["mut"]
+
+[[objectives]]
+test = "a_delivery_adds_five_crates"
+label = "crates_after_delivery() gives back 15"
+[[objectives]]
+test = "packing_a_box_uses_four_sheets"
+label = "sheets_after_packing() gives back 44"
+
+[[hints]]
+text = "Add the line `crates += 5;` under the `let`. Save, read the red message, then do what it says: `let mut crates = 10;`."
+[[hints]]
+text = "`sheets_after_packing` is the same shape: `let mut sheets = 48;` then `sheets -= 4;`."
+
+[[points]]
+after = 2
+prompt = "What does Rust say when you change a plain `let` variable?"
+pick = ["cannot assign twice to immutable variable", "variable not found", "wrong type", "missing semicolon"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make `crates` allowed to change."
+code = "___ crates = 10;\ncrates += 5;"
+blank = "let mut"

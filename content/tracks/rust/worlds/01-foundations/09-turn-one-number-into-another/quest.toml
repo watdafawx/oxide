@@ -1,0 +1,29 @@
+title = "Turn one number into another"
+summary = "Average two counts with `as`."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["casting", "floats"]
+
+[[objectives]]
+test = "average_keeps_the_half"
+label = "average_pallet(3, 4) gives back 3.5"
+[[objectives]]
+test = "decimals_are_cut_off"
+label = "whole_sheets(3.9) gives back 3"
+
+[[hints]]
+text = "Both functions are one line with `as`. In `average_pallet` convert the sum before you divide."
+[[hints]]
+text = "`(a + b) as f64 / 2.0` and `sheets as u32`."
+
+[[points]]
+after = 3
+prompt = "Which word converts one number type into another?"
+pick = ["as", "to", "from", "cast"]
+answer = 0
+[[points]]
+after = 5
+prompt = "What is `7.9 as u32`?"
+pick = ["7", "8", "7.9", "an error"]
+answer = 0

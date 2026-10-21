@@ -1,0 +1,29 @@
+title = "Count the steps"
+summary = "Add up a staircase with a for loop."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["loops", "ranges"]
+
+[[objectives]]
+test = "rows_add_up_to_seats"
+label = "seats_in_rows(4) gives back 10"
+[[objectives]]
+test = "pyramid_layers_are_squares"
+label = "boxes_in_pyramid(3) gives back 14"
+
+[[hints]]
+text = "Both start with `let mut total = 0;` and end with `total`. The loop goes in between."
+[[hints]]
+text = "`for row in 1..=rows { total += row; }`. The pyramid adds `layer * layer` instead."
+
+[[points]]
+after = 2
+prompt = "Which range includes 4?"
+pick = ["1..4", "1..=4", "..4", "4.."]
+answer = 1
+[[points]]
+after = 3
+prompt = "Add each number of the loop to the total."
+code = "for row in 1..=3 {\n    ___\n}"
+blank = "total += row;"

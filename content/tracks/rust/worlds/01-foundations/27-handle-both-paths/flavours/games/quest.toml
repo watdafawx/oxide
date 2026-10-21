@@ -1,0 +1,25 @@
+title = "Handle both paths"
+summary = "Read a typed count, and answer for success and failure."
+
+[[objectives]]
+test = "a_number_is_read"
+label = "describe_count(\" 12 \") gives back \"12 items\""
+[[objectives]]
+test = "junk_is_reported"
+label = "describe_count(\"pizza\") gives back \"'pizza' is not a count\""
+
+[[hints]]
+text = "Match on `text.trim().parse::<u32>()`. It has two arms, `Ok(n)` and `Err(_)`."
+[[hints]]
+text = "`Ok(n) => format!(\"{n} items\")` and `Err(_) => format!(\"'{text}' is not a count\")`."
+
+[[points]]
+after = 2
+prompt = "What does `\"pizza\".parse::<u32>()` give?"
+pick = ["an Err", "an Ok(0)", "None", "a crash"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Match the failure and ignore its reason."
+code = "match text.trim().parse::<u32>() {\n    Ok(n) => n,\n    ___ => 0,\n}"
+blank = "Err(_)"

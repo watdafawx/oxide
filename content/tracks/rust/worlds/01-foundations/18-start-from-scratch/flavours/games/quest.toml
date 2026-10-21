@@ -1,0 +1,25 @@
+title = "Start from scratch"
+summary = "A constructor so every new stack starts the same way."
+
+[[objectives]]
+test = "new_stacks_start_full"
+label = "ItemStack::new(\"cobblestone\") holds 64 items"
+[[objectives]]
+test = "new_keeps_the_name"
+label = "ItemStack::new keeps the name it was given"
+
+[[hints]]
+text = "`new` is inside `impl ItemStack`. Its body is a struct literal, the same shape as in the last quests."
+[[hints]]
+text = "`ItemStack { name: name.to_string(), count: 64 }`, with no semicolon."
+
+[[points]]
+after = 2
+prompt = "How do you call the function `new` that belongs to `ItemStack`?"
+pick = ["ItemStack::new(\"stone\")", "ItemStack.new(\"stone\")", "new(ItemStack)", "stone.new()"]
+answer = 0
+[[points]]
+after = 4
+prompt = "What does `new` hand back?"
+code = "fn new(name: &str) -> ___ {"
+blank = "ItemStack"

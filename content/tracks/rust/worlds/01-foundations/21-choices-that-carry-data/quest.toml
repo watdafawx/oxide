@@ -1,0 +1,29 @@
+title = "Choices that carry data"
+summary = "A variant can hold a value: durability, servings, days."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["enums", "match"]
+
+[[objectives]]
+test = "courier_takes_its_days"
+label = "days_to_arrive(Courier(3)) gives back 3"
+[[objectives]]
+test = "post_adds_two_days_and_pickup_is_instant"
+label = "Post(3) takes 5 days and Pickup takes 0"
+
+[[hints]]
+text = "Each arm that has data gives the data a name: `Shipping::Courier(days) => ...`."
+[[hints]]
+text = "`Pickup => 0`, `Courier(days) => days`, `Post(days) => days + 2`, each starting with `Shipping::`."
+
+[[points]]
+after = 1
+prompt = "Write the Courier variant that carries a number."
+code = "Courier(___)"
+blank = "u32"
+[[points]]
+after = 2
+prompt = "In `Mob::Zombie(hp) => hp / 2`, what is `hp`?"
+pick = ["the value the Zombie carries", "a function", "a type", "always 0"]
+answer = 0

@@ -1,0 +1,29 @@
+title = "Repeat until"
+summary = "Loop while something is true, when you do not know how many turns it takes."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["loops", "while"]
+
+[[objectives]]
+test = "scoops_until_the_pile_is_gone"
+label = "scoops_to_empty(10, 3) gives back 4"
+[[objectives]]
+test = "boxes_fill_until_sheets_run_out"
+label = "boxes_filled(100, 24) gives back 4"
+
+[[hints]]
+text = "Both use `while`, a counter that starts at 0, and a pile that shrinks each time round."
+[[hints]]
+text = "`while pile > 0 { pile -= scoop; scoops += 1; }`. For the boxes, the test is `sheets >= per_box`. Start with `let mut sheets = sheets;`."
+
+[[points]]
+after = 1
+prompt = "When does a `while` loop stop?"
+pick = ["when its condition is false", "after 10 turns", "after one turn", "never"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Take another scoop off the pile each turn."
+code = "while pile > 0 {\n    ___\n    scoops += 1;\n}"
+blank = "pile -= scoop;"

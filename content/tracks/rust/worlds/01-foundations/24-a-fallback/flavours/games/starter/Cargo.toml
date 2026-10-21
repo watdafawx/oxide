@@ -1,0 +1,6 @@
+[package]
+name = "found_a_fallback"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

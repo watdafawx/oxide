@@ -1,0 +1,25 @@
+title = "Repeat until"
+summary = "Loop while something is true, when you do not know how many turns it takes."
+
+[[objectives]]
+test = "swings_until_the_block_breaks"
+label = "swings_to_break(10, 3) gives back 4"
+[[objectives]]
+test = "smelts_until_the_fuel_runs_out"
+label = "smelts_before_empty(100, 24) gives back 4"
+
+[[hints]]
+text = "Both use `while`, a counter that starts at 0, and a number that shrinks each time round."
+[[hints]]
+text = "`while hp > 0 { hp -= damage; swings += 1; }`. For the furnace, the test is `fuel >= per_smelt`. Start with `let mut fuel = fuel;`."
+
+[[points]]
+after = 1
+prompt = "When does a `while` loop stop?"
+pick = ["when its condition is false", "after 10 turns", "after one turn", "never"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Use up some health on every turn."
+code = "while hp > 0 {\n    ___\n    swings += 1;\n}"
+blank = "hp -= damage;"

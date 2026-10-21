@@ -1,0 +1,29 @@
+title = "Either, or"
+summary = "Pick a number with if and else if."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["if", "bool"]
+
+[[objectives]]
+test = "fragile_pallets_hold_less"
+label = "pallet_limit(true) is 10, pallet_limit(false) is 64"
+[[objectives]]
+test = "fee_grows_with_weight"
+label = "shipping_fee picks 5, 8 or 12 by weight"
+
+[[hints]]
+text = "Both functions are a single `if` expression as the last line, with no semicolon."
+[[hints]]
+text = "`if is_fragile { 10 } else { 64 }`. For the fee: `if weight <= 1 { 5 } else if weight <= 5 { 8 } else { 12 }`."
+
+[[points]]
+after = 1
+prompt = "What type of value is `weight <= 5`?"
+pick = ["bool", "u32", "f64", "text"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Fill in the branch that runs when it is false."
+code = "if is_fragile { 10 } ___ { 64 }"
+blank = "else"

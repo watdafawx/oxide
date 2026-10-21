@@ -1,0 +1,25 @@
+title = "Full stacks and leftovers"
+summary = "How many full stacks, and how many items are left over?"
+
+[[objectives]]
+test = "full_stacks_count_whole_stacks"
+label = "full_stacks(150) gives back 2"
+[[objectives]]
+test = "loose_items_are_the_remainder"
+label = "loose_items(150) gives back 22"
+
+[[hints]]
+text = "Both functions are one line each, using the number 64."
+[[hints]]
+text = "`items / 64` counts the full stacks. `items % 64` is what is left."
+
+[[points]]
+after = 1
+prompt = "What is `100 / 64` with whole numbers?"
+pick = ["1", "1.56", "2", "36"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Which operator gives what is left over?"
+pick = ["%", "/", "*", "-"]
+answer = 0

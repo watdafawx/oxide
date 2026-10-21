@@ -1,0 +1,11 @@
+[package]
+name = "found_boss_crafting_calculator"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[[bin]]
+name = "found_boss_crafting_calculator"
+path = "src/main.rs"
+test = false

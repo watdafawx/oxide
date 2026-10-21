@@ -1,0 +1,29 @@
+title = "A fallback"
+summary = "Get the number out of an Option, with a plan for None."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["option", "unwrap_or"]
+
+[[objectives]]
+test = "known_items_give_their_count"
+label = "per_box_or_zero(\"pen\") gives 12 and (\"unicorn\") gives 0"
+[[objectives]]
+test = "boxes_multiply_the_count"
+label = "items_in_boxes(\"pen\", 3) gives back 36"
+
+[[hints]]
+text = "Both functions call `per_box(item)` and then add `.unwrap_or(0)` to the end."
+[[hints]]
+text = "`per_box(item).unwrap_or(0)`. In `items_in_boxes`, multiply that by `boxes`."
+
+[[points]]
+after = 2
+prompt = "What does `None.unwrap_or(0)` give?"
+pick = ["0", "None", "an error", "nothing"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Fall back to 1 when there is no value."
+code = "let n = per_box(item).___(1);"
+blank = "unwrap_or"

@@ -1,0 +1,11 @@
+[package]
+name = "found_a_rule_you_can_reuse"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[[bin]]
+name = "found_a_rule_you_can_reuse"
+path = "src/main.rs"
+test = false

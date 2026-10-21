@@ -1,0 +1,25 @@
+title = "Either, or"
+summary = "Pick a number with if and else if."
+
+[[objectives]]
+test = "tools_stack_alone"
+label = "stack_limit(true) is 1, stack_limit(false) is 64"
+[[objectives]]
+test = "coal_grows_with_items"
+label = "coal_needed picks 1, 2 or 3 coal by item count"
+
+[[hints]]
+text = "Both functions are a single `if` expression as the last line, with no semicolon."
+[[hints]]
+text = "`if is_tool { 1 } else { 64 }`. For the coal: `if items <= 8 { 1 } else if items <= 16 { 2 } else { 3 }`."
+
+[[points]]
+after = 1
+prompt = "What type of value is `items <= 16`?"
+pick = ["bool", "u32", "f64", "text"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Fill in the branch that runs when it is false."
+code = "if is_tool { 1 } ___ { 64 }"
+blank = "else"

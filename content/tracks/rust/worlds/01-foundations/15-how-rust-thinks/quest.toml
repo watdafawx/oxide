@@ -1,0 +1,15 @@
+title = "How Rust thinks"
+summary = "Compile-time checks, no null, no exceptions. A two-minute read."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["mindset"]
+
+[[quiz]]
+question = "You add the text \"crate\" to the number 64 in your planner. When does Rust catch that?"
+choices = ["At runtime, when that line runs", "At compile time, before it runs", "Never, Rust silently turns it into text"]
+answer = 1
+[[quiz]]
+question = "A function might not find the order you asked for. How does Rust say that?"
+choices = ["It returns null, like most languages", "It throws an exception the caller can catch", "It returns an Option: Some or None"]
+answer = 2

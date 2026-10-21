@@ -1,0 +1,29 @@
+title = "Only if there is one"
+summary = "Do something with an Option's value, only when it has one."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["option", "if-let"]
+
+[[objectives]]
+test = "known_items_are_described"
+label = "describe_box(\"pen\") gives back \"pen: 12 per box\""
+[[objectives]]
+test = "unknown_items_are_reported"
+label = "describe_box(\"unicorn\") gives back \"no box size for unicorn\""
+
+[[hints]]
+text = "The body is one `if let Some(n) = per_box(item) { ... } else { ... }` with no semicolon."
+[[hints]]
+text = "`format!(\"{item}: {n} per box\")` in the first block, `format!(\"no box size for {item}\")` in the else."
+
+[[points]]
+after = 2
+prompt = "When does the first block of `if let Some(n) = ...` run?"
+pick = ["when there is a value", "when it is None", "always", "never"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Take the number out for the block."
+code = "if let ___(n) = per_box(item) {"
+blank = "Some"

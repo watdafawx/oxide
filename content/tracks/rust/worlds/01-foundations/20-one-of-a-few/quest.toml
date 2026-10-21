@@ -1,0 +1,29 @@
+title = "One of a few"
+summary = "A type with a fixed list of choices: enums and match."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["enums", "match"]
+
+[[objectives]]
+test = "letters_and_parcels_stack"
+label = "max_per_pallet gives 64 for a letter and 16 for a parcel"
+[[objectives]]
+test = "freight_travels_alone"
+label = "max_per_pallet gives 1 for freight"
+
+[[hints]]
+text = "Write one `match type { ... }` as the whole body of `max_per_pallet`, with an arm for each of the three choices."
+[[hints]]
+text = "`Mail::Letter => 64,` then `Mail::Parcel => 16,` then `Mail::Freight => 1,`."
+
+[[points]]
+after = 2
+prompt = "How do you write the Rain choice of `Weather`?"
+pick = ["Weather::Rain", "Weather.Rain", "Weather(Rain)", "rain"]
+answer = 0
+[[points]]
+after = 4
+prompt = "What does Rust do if a `match` forgets a choice?"
+pick = ["It refuses to build", "It picks one at random", "It runs the first arm", "It ignores it"]
+answer = 0

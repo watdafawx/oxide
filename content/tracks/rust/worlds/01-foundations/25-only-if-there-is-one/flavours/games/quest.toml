@@ -1,0 +1,25 @@
+title = "Only if there is one"
+summary = "Do something with an Option's value, only when it has one."
+
+[[objectives]]
+test = "known_recipes_are_described"
+label = "describe_recipe(\"planks\") gives back \"planks makes 4\""
+[[objectives]]
+test = "unknown_recipes_are_reported"
+label = "describe_recipe(\"bedrock\") gives back \"no recipe for bedrock\""
+
+[[hints]]
+text = "The body is one `if let Some(n) = recipe_output(item) { ... } else { ... }` with no semicolon."
+[[hints]]
+text = "`format!(\"{item} makes {n}\")` in the first block, `format!(\"no recipe for {item}\")` in the else."
+
+[[points]]
+after = 2
+prompt = "When does the first block of `if let Some(n) = ...` run?"
+pick = ["when there is a value", "when it is None", "always", "never"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Take the number out for the block."
+code = "if let ___(n) = recipe_output(item) {"
+blank = "Some"

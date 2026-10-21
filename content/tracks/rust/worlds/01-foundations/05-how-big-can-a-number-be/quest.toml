@@ -1,0 +1,30 @@
+title = "How big can a number be?"
+summary = "Counts, changes and small codes need different types of whole number."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["integers", "types"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "taking_stock_out_is_negative"
+label = "stock_change(10, 4) gives back -6"
+[[objectives]]
+test = "a_shelf_code_can_reach_200"
+label = "shelf_code() gives back 200"
+
+[[hints]]
+text = "Save and read the first error. It names the function and says `expected u32, found i32`."
+[[hints]]
+text = "In `stock_change` change `-> u32` to `-> i32`. Then in `shelf_code` change `-> i8` to `-> u8`."
+
+[[points]]
+after = 2
+prompt = "Which type can hold -5?"
+pick = ["u32", "i32", "u8", "usize"]
+answer = 1
+[[points]]
+after = 4
+prompt = "200 is too big for `i8` (it stops at 127). Which type holds 0 to 255?"
+pick = ["i8", "u8", "bool", "char"]
+answer = 1

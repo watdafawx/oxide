@@ -1,0 +1,25 @@
+title = "Match a range"
+summary = "Group numbers into rarities with ranges and a catch-all."
+
+[[objectives]]
+test = "few_enchants_are_common_or_uncommon"
+label = "rarity(0) is Common, rarity(1) and rarity(2) are Uncommon"
+[[objectives]]
+test = "many_enchants_are_rare_or_epic"
+label = "rarity(3) to rarity(5) are Rare, anything more is Epic"
+
+[[hints]]
+text = "Match on the number `enchants`. Each arm is a range, a `=>` and a `Rarity::...` value."
+[[hints]]
+text = "`0 => Rarity::Common`, `1..=2 => Rarity::Uncommon`, `3..=5 => Rarity::Rare`, `_ => Rarity::Epic`."
+
+[[points]]
+after = 2
+prompt = "Which pattern matches 3, 4 and 5?"
+pick = ["3..=5", "3..5", "3,5", "(3, 5)"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Catch every other number."
+code = "match age {\n    0..=4 => 0,\n    ___ => 10,\n}"
+blank = "_"

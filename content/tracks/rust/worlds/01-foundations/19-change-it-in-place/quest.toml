@@ -1,0 +1,29 @@
+title = "Change it in place"
+summary = "Take items out of a stack: the first time a method needs &mut self."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["structs", "mut"]
+
+[[objectives]]
+test = "taking_removes_boxes"
+label = "take(30) leaves 34 of 64 boxes"
+[[objectives]]
+test = "taking_too_many_stops_at_zero"
+label = "take(100) leaves 0, not a crash"
+
+[[hints]]
+text = "Write the body of `take` first. Save, read the error, and change `&self` the way it says."
+[[hints]]
+text = "`self.boxes = self.boxes.saturating_sub(amount);` and `&mut self` in the first line."
+
+[[points]]
+after = 2
+prompt = "Which self lets a method change the struct?"
+pick = ["self", "&self", "&mut self", "mut"]
+answer = 2
+[[points]]
+after = 3
+prompt = "The caller's pallet must allow changes too."
+code = "let ___ pallet = Pallet::new(\"paper\");\npallet.take(5);"
+blank = "mut"

@@ -1,0 +1,53 @@
+title = "Boss: packing planner"
+summary = "Finish the planner: raw material totals for a whole packing tree, driven by scripted input."
+kind = "boss"
+xp = 300
+minutes = 55
+tags = ["structs", "enums", "match", "result", "boss"]
+
+[[objectives]]
+test = "planner_starts_with_no_kits"
+label = "Planner::new() starts with 0 kits"
+[[objectives]]
+test = "find_kit_knows_packed_items"
+label = "find_kit returns Some for a packed item and None for a raw one"
+[[objectives]]
+test = "batches_needed_rounds_up"
+label = "batches_needed rounds up: 5 sheets need 2 packs"
+[[objectives]]
+test = "raw_totals_walks_the_kit_tree"
+label = "raw_totals walks the tree: 8 bundles need label x2 and crate x1"
+[[objectives]]
+test = "parse_kit_accepts_a_kit_line"
+label = "parse_kit(\"box x4 = sheet x2\") is Ok(Kit { .. })"
+[[objectives]]
+test = "parse_kit_rejects_nonsense"
+label = "parse_kit(\"pizza\") is Err(\"'pizza' is not a kit\")"
+[[objectives]]
+test = "run_turns_console_lines_into_messages"
+label = "run turns scripted lines into messages; bad lines change nothing"
+[[objectives]]
+test = "run_stops_at_quit"
+label = "run stops at quit and says \"1 kit\" in the singular"
+
+[[hints]]
+text = "Start with `Planner::new`: one struct literal, `Planner { kits: Vec::new() }`. Then `find_kit`: loop over `&self.kits` and `return Some(kit)` on a match."
+[[hints]]
+text = "`batches_needed`: `match self.find_kit(item) { Some(kit) => wanted.div_ceil(kit.yields), None => 0 }`. `div_ceil` divides and rounds up."
+[[hints]]
+text = "`expand` calls itself. The `None` arm is `add_raw(totals, item, wanted)`. The `Some` arm loops over `&kit.ingredients` and calls `self.expand(name, count * batches, totals)`."
+[[hints]]
+text = "`parse_kit`: three `match` steps, each with `return Err(message)` on the empty case: `split_once('=')`, then `parse_part(left)`, then a `for` over `right.split(',')` that pushes each `parse_part(piece)`."
+[[hints]]
+text = "`run`: a `for input in inputs` loop with an `if` chain on `line`: `\"quit\"`, `line.starts_with(\"need \")`, otherwise a kit. `break` after quit."
+
+[[points]]
+after = 3
+prompt = "Start an empty list of kits."
+code = "let mut kits: Vec<Kit> = ___;"
+blank = "Vec::new()"
+[[points]]
+after = 6
+prompt = "Which word stops a recursive function from calling itself forever?"
+pick = ["an arm that does not call itself", "mut", "as", "unwrap"]
+answer = 0

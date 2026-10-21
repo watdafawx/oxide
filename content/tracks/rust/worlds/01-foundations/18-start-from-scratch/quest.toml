@@ -1,0 +1,29 @@
+title = "Start from scratch"
+summary = "A constructor so every new pallet starts the same way."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["structs", "impl"]
+
+[[objectives]]
+test = "new_pallets_start_full"
+label = "Pallet::new(\"paper\") holds 64 boxes"
+[[objectives]]
+test = "new_keeps_the_label"
+label = "Pallet::new keeps the label it was given"
+
+[[hints]]
+text = "`new` is inside `impl Pallet`. Its body is a struct literal, the same shape as in the last quests."
+[[hints]]
+text = "`Pallet { label: label.to_string(), boxes: 64 }`, with no semicolon."
+
+[[points]]
+after = 2
+prompt = "How do you call the function `new` that belongs to `Pallet`?"
+pick = ["Pallet::new(\"paper\")", "Pallet.new(\"paper\")", "new(Pallet)", "paper.new()"]
+answer = 0
+[[points]]
+after = 4
+prompt = "What does `new` hand back?"
+code = "fn new(label: &str) -> ___ {"
+blank = "Pallet"

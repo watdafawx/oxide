@@ -1,0 +1,29 @@
+title = "Full stacks and leftovers"
+summary = "How many full pallets, and how many sheets are left over?"
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["integers", "division"]
+
+[[objectives]]
+test = "full_pallets_count_whole_pallets"
+label = "full_pallets(150) gives back 2"
+[[objectives]]
+test = "loose_sheets_are_the_remainder"
+label = "loose_sheets(150) gives back 22"
+
+[[hints]]
+text = "Both functions are one line each, using the number 64."
+[[hints]]
+text = "`sheets / 64` counts the full pallets. `sheets % 64` is what is left."
+
+[[points]]
+after = 1
+prompt = "What is `100 / 64` with whole numbers?"
+pick = ["1", "1.56", "2", "36"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Which operator gives what is left over?"
+pick = ["%", "/", "*", "-"]
+answer = 0

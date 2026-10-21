@@ -1,0 +1,25 @@
+title = "Maybe nothing"
+summary = "A recipe lookup that can come back empty: Option."
+
+[[objectives]]
+test = "known_recipes_have_an_output"
+label = "recipe_output gives Some(4) for planks, Some(4) for torches and Some(1) for a diamond pickaxe"
+[[objectives]]
+test = "unknown_items_have_no_recipe"
+label = "recipe_output(\"bedrock\") gives back None"
+
+[[hints]]
+text = "Match on `item` with the item names in quotes. Every arm gives back `Some(..)` except the catch-all."
+[[hints]]
+text = "`\"planks\" => Some(4)`, `\"torch\" => Some(4)`, `\"diamond_pickaxe\" => Some(1)`, `_ => None`."
+
+[[points]]
+after = 1
+prompt = "Which Option variant means there is no value?"
+pick = ["None", "Some", "Null", "Err"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Match the text \"coal\" and give back 80."
+code = "___ => Some(80),"
+blank = "\"coal\""

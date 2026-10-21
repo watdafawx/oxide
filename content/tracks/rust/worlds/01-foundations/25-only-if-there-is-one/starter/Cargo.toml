@@ -1,0 +1,6 @@
+[package]
+name = "found_only_if_there_is_one"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

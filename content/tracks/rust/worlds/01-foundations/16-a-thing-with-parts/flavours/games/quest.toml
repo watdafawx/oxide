@@ -1,0 +1,25 @@
+title = "A thing with parts"
+summary = "Bundle an item name and a count into one value: structs."
+
+[[objectives]]
+test = "builds_a_full_cobblestone_stack"
+label = "cobblestone_stack() has the name \"cobblestone\" and a count of 64"
+[[objectives]]
+test = "label_shows_name_and_count"
+label = "stack_label(stack) gives back \"cobblestone x64\""
+
+[[hints]]
+text = "In `cobblestone_stack`, fill in both fields between the braces, separated by a comma."
+[[hints]]
+text = "`ItemStack { name: \"cobblestone\".to_string(), count: 64 }`. For the label use `format!(\"{} x{}\", stack.name, stack.count)`."
+
+[[points]]
+after = 1
+prompt = "What is each named part of a struct called?"
+pick = ["field", "tuple", "index", "range"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Read the count off `stack`."
+code = "let n = stack.___;"
+blank = "count"

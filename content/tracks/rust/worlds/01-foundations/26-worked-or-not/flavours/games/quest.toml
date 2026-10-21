@@ -1,0 +1,25 @@
+title = "Worked, or not"
+summary = "Say no and give a reason: Result."
+
+[[objectives]]
+test = "a_valid_stack_is_ok"
+label = "validate_stack(32) and validate_stack(64) are Ok"
+[[objectives]]
+test = "an_oversized_stack_is_err"
+label = "validate_stack(100) is Err(\"100 is over the stack limit of 64\")"
+
+[[hints]]
+text = "The body is one `if` on the last line: one block gives `Err(..)`, the other `Ok(count)`."
+[[hints]]
+text = "`if count > 64 { Err(format!(\"{count} is over the stack limit of 64\")) } else { Ok(count) }`."
+
+[[points]]
+after = 1
+prompt = "Which variant means it worked?"
+pick = ["Ok", "Err", "Some", "None"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Build the failing answer."
+code = "___(format!(\"{ticks} ticks is too long\"))"
+blank = "Err"

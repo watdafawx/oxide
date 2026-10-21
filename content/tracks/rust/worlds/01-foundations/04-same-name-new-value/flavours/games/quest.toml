@@ -1,0 +1,25 @@
+title = "Same name, new value"
+summary = "Clean up a typed item name by reusing the name: shadowing."
+
+[[objectives]]
+test = "padding_is_not_counted"
+label = "item_name_len(\"  oak_log \") gives back 7"
+[[objectives]]
+test = "two_crafts_use_eight_planks"
+label = "planks_after_two_crafts(48) gives back 40"
+
+[[hints]]
+text = "Both functions are a few `let` lines. Start with `item_name_len`."
+[[hints]]
+text = "`let name = name.trim();` then `name.len()`. For the planks, write `let planks = planks - 4;` twice."
+
+[[points]]
+after = 2
+prompt = "What is it called when a new `let` reuses a name?"
+pick = ["shadowing", "mutating", "borrowing", "overflowing"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make a new `name` without the spaces."
+code = "let name = name.___();"
+blank = "trim"

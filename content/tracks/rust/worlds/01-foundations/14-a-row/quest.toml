@@ -1,0 +1,29 @@
+title = "A row"
+summary = "A fixed row of the same type: arrays and indexes."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["arrays"]
+
+[[objectives]]
+test = "adds_up_a_shelf_of_three"
+label = "shelf_total([10, 20, 30]) gives back 60"
+[[objectives]]
+test = "finds_the_last_box"
+label = "last_box picks the final slot of nine"
+
+[[hints]]
+text = "Pick each item with `shelf[0]`, `shelf[1]`, `shelf[2]` and add them."
+[[hints]]
+text = "The last index is one less than `boxes.len()`: `boxes[boxes.len() - 1]`."
+
+[[points]]
+after = 2
+prompt = "Which index is the first item of `shelf`?"
+pick = ["shelf[0]", "shelf[1]", "shelf[first]", "shelf[-1]"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Ask the row how many items it has."
+code = "let count = shelf.___();"
+blank = "len"

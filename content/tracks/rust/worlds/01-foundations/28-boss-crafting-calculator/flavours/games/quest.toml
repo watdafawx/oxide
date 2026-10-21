@@ -1,0 +1,49 @@
+title = "Boss: crafting calculator"
+summary = "Finish the calculator: raw material totals for a whole crafting tree, driven by scripted input."
+
+[[objectives]]
+test = "calculator_starts_with_no_recipes"
+label = "Calculator::new() starts with 0 recipes"
+[[objectives]]
+test = "find_recipe_knows_crafted_items"
+label = "find_recipe returns Some for a crafted item and None for a raw one"
+[[objectives]]
+test = "batches_needed_rounds_up"
+label = "batches_needed rounds up: 5 planks need 2 crafts"
+[[objectives]]
+test = "raw_totals_walks_the_recipe_tree"
+label = "raw_totals walks the tree: 8 torches need coal x2 and log x1"
+[[objectives]]
+test = "parse_recipe_accepts_a_recipe_line"
+label = "parse_recipe(\"stick x4 = plank x2\") is Ok(Recipe { .. })"
+[[objectives]]
+test = "parse_recipe_rejects_nonsense"
+label = "parse_recipe(\"pizza\") is Err(\"'pizza' is not a recipe\")"
+[[objectives]]
+test = "run_turns_console_lines_into_messages"
+label = "run turns scripted lines into messages; bad lines change nothing"
+[[objectives]]
+test = "run_stops_at_quit"
+label = "run stops at quit and says \"1 recipe\" in the singular"
+
+[[hints]]
+text = "Start with `Calculator::new`: one struct literal, `Calculator { recipes: Vec::new() }`. Then `find_recipe`: loop over `&self.recipes` and `return Some(recipe)` on a match."
+[[hints]]
+text = "`batches_needed`: `match self.find_recipe(item) { Some(recipe) => wanted.div_ceil(recipe.yields), None => 0 }`. `div_ceil` divides and rounds up."
+[[hints]]
+text = "`expand` calls itself. The `None` arm is `add_raw(totals, item, wanted)`. The `Some` arm loops over `&recipe.ingredients` and calls `self.expand(name, count * batches, totals)`."
+[[hints]]
+text = "`parse_recipe`: three `match` steps, each with `return Err(message)` on the empty case: `split_once('=')`, then `parse_part(left)`, then a `for` over `right.split(',')` that pushes each `parse_part(piece)`."
+[[hints]]
+text = "`run`: a `for input in inputs` loop with an `if` chain on `line`: `\"quit\"`, `line.starts_with(\"need \")`, otherwise a recipe. `break` after quit."
+
+[[points]]
+after = 3
+prompt = "Start an empty list of recipes."
+code = "let mut recipes: Vec<Recipe> = ___;"
+blank = "Vec::new()"
+[[points]]
+after = 6
+prompt = "Which word stops a recursive function from calling itself forever?"
+pick = ["an arm that does not call itself", "mut", "as", "unwrap"]
+answer = 0

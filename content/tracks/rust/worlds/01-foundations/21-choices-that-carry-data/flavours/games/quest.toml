@@ -1,0 +1,25 @@
+title = "Choices that carry data"
+summary = "A variant can hold a value: durability, servings."
+
+[[objectives]]
+test = "tools_use_their_durability"
+label = "uses(Tool(250)) gives back 250"
+[[objectives]]
+test = "food_uses_its_servings_and_blocks_one"
+label = "Food(3) gives 3 uses and a block gives 1"
+
+[[hints]]
+text = "Each arm that has data gives the data a name: `ItemKind::Tool(durability) => ...`."
+[[hints]]
+text = "`Block => 1`, `Tool(durability) => durability`, `Food(servings) => servings`, each starting with `ItemKind::`."
+
+[[points]]
+after = 1
+prompt = "Write the Tool variant that carries a number."
+code = "Tool(___)"
+blank = "u32"
+[[points]]
+after = 2
+prompt = "In `Mob::Zombie(hp) => hp / 2`, what is `hp`?"
+pick = ["the value the Zombie carries", "a function", "a type", "always 0"]
+answer = 0

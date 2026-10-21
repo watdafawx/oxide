@@ -1,0 +1,6 @@
+[package]
+name = "found_how_big_can_a_number_be"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

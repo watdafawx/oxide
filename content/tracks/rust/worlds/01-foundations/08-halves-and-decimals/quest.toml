@@ -1,0 +1,29 @@
+title = "Halves and decimals"
+summary = "Numbers with a point: f64, and the 2 that must be 2.0."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["floats"]
+
+[[objectives]]
+test = "ink_scales_with_sheets"
+label = "ink_ml(10.0) gives back 15.0"
+[[objectives]]
+test = "half_a_pallet_keeps_the_half"
+label = "half_pallet(5.0) gives back 2.5"
+
+[[hints]]
+text = "Both functions are one line. Every number in them needs a decimal point."
+[[hints]]
+text = "`sheets * 1.5` and `sheets / 2.0`."
+
+[[points]]
+after = 2
+prompt = "Write one and a half as an `f64`."
+code = "let rate = ___;"
+blank = "1.5"
+[[points]]
+after = 3
+prompt = "Which one is a valid `f64` divide?"
+pick = ["count / 2.0", "count / 2", "count / '2'", "count ÷ 2"]
+answer = 0

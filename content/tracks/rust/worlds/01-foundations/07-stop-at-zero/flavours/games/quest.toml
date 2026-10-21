@@ -1,0 +1,25 @@
+title = "Stop at zero"
+summary = "Take more logs than the chest holds without crashing."
+
+[[objectives]]
+test = "taking_some_leaves_the_rest"
+label = "take_logs(10, 3) gives back 7"
+[[objectives]]
+test = "taking_too_many_stops_at_zero"
+label = "take_logs(3, 5) gives back 0, not a crash"
+
+[[hints]]
+text = "The starter subtracts with a plain `-`. Run it and read what the second objective says."
+[[hints]]
+text = "Replace the subtraction with `chest.saturating_sub(amount)`."
+
+[[points]]
+after = 2
+prompt = "What does `u32` do when a subtraction would go below zero?"
+pick = ["panics in a debug build", "wraps to -1", "stays at zero", "turns into a float"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Subtract 5 but stop at zero."
+code = "let left = chest.___(5);"
+blank = "saturating_sub"

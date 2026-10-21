@@ -1,0 +1,29 @@
+title = "A name for a number"
+summary = "Give the crate count a name, then use the name."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["let"]
+
+[[objectives]]
+test = "store_holds_twelve_crates"
+label = "crates_in_store() gives back 12"
+[[objectives]]
+test = "twelve_crates_make_48_sheets"
+label = "sheets_in_store() gives back 48"
+
+[[hints]]
+text = "The first line of `crates_in_store` should read `let crates = 12;`."
+[[hints]]
+text = "In `sheets_in_store`, the second line is `let sheets = crates * 4;`. The last line, `sheets`, is already there and hands the answer back."
+
+[[points]]
+after = 2
+prompt = "Which line names the number 12 `crates`?"
+pick = ["let crates = 12;", "crates = 12", "12 = crates;", "let 12 = crates;"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line so `sheets` is four per crate."
+code = "let sheets = ___;"
+blank = "crates * 4"

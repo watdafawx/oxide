@@ -1,0 +1,29 @@
+title = "Worked, or not"
+summary = "Say no and give a reason: Result."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["result"]
+
+[[objectives]]
+test = "a_valid_pallet_is_ok"
+label = "check_pallet(32) and check_pallet(64) are Ok"
+[[objectives]]
+test = "an_oversized_pallet_is_err"
+label = "check_pallet(100) is Err(\"100 is over the pallet limit of 64\")"
+
+[[hints]]
+text = "The body is one `if` on the last line: one block gives `Err(..)`, the other `Ok(boxes)`."
+[[hints]]
+text = "`if boxes > 64 { Err(format!(\"{boxes} is over the pallet limit of 64\")) } else { Ok(boxes) }`."
+
+[[points]]
+after = 1
+prompt = "Which variant means it worked?"
+pick = ["Ok", "Err", "Some", "None"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Build the failing answer."
+code = "___(format!(\"{ticks} ticks is too long\"))"
+blank = "Err"

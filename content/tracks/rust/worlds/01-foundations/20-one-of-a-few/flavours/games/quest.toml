@@ -1,0 +1,25 @@
+title = "One of a few"
+summary = "A type with a fixed list of choices: enums and match."
+
+[[objectives]]
+test = "blocks_and_food_stack"
+label = "max_stack gives 64 for a block and 16 for food"
+[[objectives]]
+test = "tools_stack_alone"
+label = "max_stack gives 1 for a tool"
+
+[[hints]]
+text = "Write one `match type { ... }` as the whole body of `max_stack`, with an arm for each of the three choices."
+[[hints]]
+text = "`ItemKind::Block => 64,` then `ItemKind::Tool => 1,` then `ItemKind::Food => 16,`."
+
+[[points]]
+after = 2
+prompt = "How do you write the Rain choice of `Weather`?"
+pick = ["Weather::Rain", "Weather.Rain", "Weather(Rain)", "rain"]
+answer = 0
+[[points]]
+after = 4
+prompt = "What does Rust do if a `match` forgets a choice?"
+pick = ["It refuses to build", "It picks one at random", "It runs the first arm", "It ignores it"]
+answer = 0

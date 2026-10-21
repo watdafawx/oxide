@@ -1,0 +1,25 @@
+title = "Give it a verb"
+summary = "Ask a stack questions with a method."
+
+[[objectives]]
+test = "an_empty_stack_is_empty"
+label = "is_empty is true only at 0 items"
+[[objectives]]
+test = "only_64_items_is_full"
+label = "is_full is true only at 64 items"
+
+[[hints]]
+text = "Both methods sit inside `impl ItemStack`. Each is one line that reads `self.count`."
+[[hints]]
+text = "`self.count == 0` and `self.count == 64`, with no semicolon."
+
+[[points]]
+after = 2
+prompt = "How do you call the method `is_full` on `stack`?"
+pick = ["stack.is_full()", "is_full(stack)", "stack::is_full", "stack->is_full()"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Read the field inside a method."
+code = "fn is_big(&self) -> bool {\n    ___.slots > 27\n}"
+blank = "self"

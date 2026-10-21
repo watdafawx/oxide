@@ -1,0 +1,6 @@
+[package]
+name = "found_turn_one_number_into_another"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

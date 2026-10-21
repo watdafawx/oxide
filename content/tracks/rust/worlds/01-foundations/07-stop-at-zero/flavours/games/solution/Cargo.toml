@@ -1,0 +1,6 @@
+[package]
+name = "found_stop_at_zero"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
