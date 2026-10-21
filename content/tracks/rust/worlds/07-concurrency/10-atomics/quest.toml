@@ -21,3 +21,15 @@ text = "`counter.fetch_add(1, Ordering::Relaxed)` adds and returns the OLD value
 text = "Share with `Arc<AtomicUsize>` (clone per thread). Read the total with `load` after joining."
 [[hints]]
 text = "`flag.compare_exchange(false, true, Ordering::SeqCst, Ordering::SeqCst)` succeeds (`Ok`) for exactly one caller."
+
+[[points]]
+after = 1
+prompt = "Declare the atomic counter."
+code = "static FILES_DONE: ___ = AtomicUsize::new(0);"
+blank = "AtomicUsize"
+
+[[points]]
+after = 3
+prompt = "Which adds and returns the OLD value?"
+pick = ["fetch_add", "load", "store", "swap"]
+answer = 0

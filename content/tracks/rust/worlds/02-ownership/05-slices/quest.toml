@@ -21,3 +21,15 @@ text = "`text.find(' ')` gives `Some(index)` of the first space. A slice of the 
 text = "middle: if `nums.len() <= 2` return `&[]`, otherwise `&nums[1..nums.len() - 1]`."
 [[hints]]
 text = "last_three: the start is `nums.len().saturating_sub(3)` (never goes below 0), then `&nums[start..]`."
+
+[[points]]
+after = 3
+prompt = "Which slice is the first three?"
+pick = ["&x[..3]", "&x[3..]", "&x[2..5]", "&x[..=3]"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Take the first four bytes."
+code = "let word = ___;   // \"rust\""
+blank = "&s[..4]"

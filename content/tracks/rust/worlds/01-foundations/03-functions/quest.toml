@@ -19,3 +19,15 @@ label = "summary(3, 4) returns \"3x4 = 12\" by calling area"
 text = "Last line, **no semicolon**: `n * n`."
 [[hints]]
 text = "`summary` can call `area(w, h)` and put the result in `format!(\"{w}x{h} = {a}\")`."
+
+[[points]]
+after = 2
+prompt = "Give the parameter its type."
+code = "fn double(___) -> i32 {"
+blank = "n: i32"
+
+[[points]]
+after = 4
+prompt = "Which last line returns the value?"
+pick = ["result", "result;", "return;", "()"]
+answer = 0

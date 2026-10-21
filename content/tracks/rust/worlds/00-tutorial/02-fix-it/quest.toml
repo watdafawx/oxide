@@ -11,3 +11,9 @@ label = "answer() returns what the test expects"
 
 [[hints]]
 text = "Click the failed objective: the test prints `left` (what you returned) and `right` (what it wanted)."
+
+[[points]]
+after = 2
+prompt = "In a failed assert_eq!, which side is what your code returned?"
+pick = ["left", "right", "both", "neither"]
+answer = 0

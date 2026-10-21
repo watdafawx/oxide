@@ -21,3 +21,15 @@ text = "`handle`: loop { `let n = stream.read(&mut buf)?;` if `n == 0` the clien
 text = "`client_roundtrip`: `TcpStream::connect(addr)?`, `write_all(msg)?`, then `let mut buf = vec![0; msg.len()]; stream.read_exact(&mut buf)?;`"
 [[hints]]
 text = "`serve`: for each accepted `(stream, _)`, `thread::spawn(move || { let _ = handle(stream); })` and keep the JoinHandle. Don't call `handle` directly on the accepting thread, or one slow client blocks everyone."
+
+[[points]]
+after = 1
+prompt = "Listen on a port."
+code = "let listener = TcpListener::___(\"127.0.0.1:0\").unwrap();"
+blank = "bind"
+
+[[points]]
+after = 2
+prompt = "Which call keeps reading until the buffer is full?"
+pick = ["read_exact", "read", "write_all", "accept"]
+answer = 0

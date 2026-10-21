@@ -38,3 +38,15 @@ text = "give: `stash.iter().position(|i| i == item)` finds the index, `stash.rem
 text = "list: collect one `String` per player (`format!(\"{} @ {},{},{}\", ...)`), push the `[items: ...]` part only when the inventory is not empty, then `lines.join(\"; \")`. `Vec<String>::join` glues the pieces with a separator; `inventory.join(\", \")` does the item list."
 [[hints]]
 text = "run: `line.split_whitespace().collect::<Vec<&str>>()` then `match words.as_slice() { [\"kick\", name] => ..., [\"tp\", name, x, y, z] => ..., _ => ... }`. For `tp`, turn each coordinate with `x.parse::<i32>()`; if any of the three fails, the line is `Unknown command: <the whole line>`."
+
+[[points]]
+after = 4
+prompt = "Which self lets tp change the server?"
+pick = ["&self", "&mut self", "self", "mut"]
+answer = 1
+
+[[points]]
+after = 15
+prompt = "Find the index of the first match."
+code = "names.iter().___(|n| n == \"Alex\");"
+blank = "position"

@@ -24,3 +24,15 @@ text = "`numbers.iter().map(|n| n * n).collect()`. The return type `Vec<i32>` te
 text = "`.iter().copied().filter(|n| n % 2 == 0).collect()`. `copied()` turns `&i32` into `i32` so no references are left over."
 [[hints]]
 text = "Lengths: `words.iter().map(|w| w.len()).sum()`. Counting: `words.iter().filter(|w| w.len() >= min_len).count()`."
+
+[[points]]
+after = 3
+prompt = "Which keeps items where the closure is true?"
+pick = ["map", "filter", "collect", "sum"]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "End the chain with a Vec."
+code = "let doubled: Vec<i32> = numbers.iter().map(|n| n * 2).___;"
+blank = "collect()"

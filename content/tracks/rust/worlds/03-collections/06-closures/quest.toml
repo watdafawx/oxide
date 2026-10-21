@@ -24,3 +24,15 @@ text = "`move |x| x + n`. The `move` keyword copies `n` into the closure so it c
 text = "`f(f(x))`. `f` is just something you call with parentheses."
 [[hints]]
 text = "`items.iter().filter(|n| is_match(**n)).count()`. `filter` hands you `&&i32` here, so `**n` (or `copied()` first) gets the number. For `above_limit`: `.filter(|n| **n > limit)` captures `limit` automatically."
+
+[[points]]
+after = 2
+prompt = "Which writes a closure?"
+pick = ["|score| score + 1", "fn score", "score => score", "(score) -> score"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Take any closure from i32 to i32."
+code = "fn run_twice(f: ___, x: i32) -> i32 {"
+blank = "impl Fn(i32) -> i32"

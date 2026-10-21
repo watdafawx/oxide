@@ -19,3 +19,15 @@ label = "Input with tabs comes back as Cow::Owned"
 text = "Check first: `input.contains('\\t')`."
 [[hints]]
 text = "Clean case: `Cow::Borrowed(input)`. Dirty case: `Cow::Owned(input.replace('\\t', \" \"))`."
+
+[[points]]
+after = 1
+prompt = "Which type is clone on write?"
+pick = ["Cow<str>", "Rc<str>", "Box<str>", "String"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Get a String out of the Cow."
+code = "let owned = no_commas(\"a,b\").___();"
+blank = "into_owned"

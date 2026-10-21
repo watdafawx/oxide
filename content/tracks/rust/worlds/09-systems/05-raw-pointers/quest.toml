@@ -24,3 +24,15 @@ text = "Inside `unsafe { ... }`, `*ptr += 1` writes through a `*mut i32` and `*p
 text = "`std::slice::from_raw_parts(ptr, len)` turns a pointer and a length into `&[i32]`; then `.iter().sum()`."
 [[hints]]
 text = "`safe_sum`: `unsafe { sum_raw(slice.as_ptr(), slice.len()) }`. It is valid for any slice, so the wrapper is safe. Add a `// SAFETY:` comment saying why."
+
+[[points]]
+after = 2
+prompt = "Which check on a raw pointer is safe?"
+pick = ["is_null", "from_raw_parts", "deref", "offset"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Build a slice from the array's pointer."
+code = "let slice = unsafe { std::slice::from_raw_parts(___, v.len()) };"
+blank = "v.as_ptr()"

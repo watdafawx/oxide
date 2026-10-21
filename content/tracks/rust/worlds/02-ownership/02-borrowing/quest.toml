@@ -21,3 +21,15 @@ text = "The parameter is `bag: &Backpack`: you can read through it as if it were
 text = "For the count, `bag.items.len()` is all you need."
 [[hints]]
 text = "For total_chars, loop over `&bag.items` (or use `.iter()`) and add up each `item.len()`."
+
+[[points]]
+after = 2
+prompt = "Which symbol borrows x?"
+pick = ["&x", "*x", "x&", "mut x"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Take a borrowed Backpack."
+code = "fn count(bag: ___) -> usize {"
+blank = "&Backpack"

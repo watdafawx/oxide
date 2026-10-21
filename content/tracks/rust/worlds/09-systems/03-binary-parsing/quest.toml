@@ -24,3 +24,15 @@ text = "Everything is built on `take(n)`: check `self.data.len() - self.pos >= n
 text = "`u16_be`: `let b = self.take(2)?; Ok(u16::from_be_bytes([b[0], b[1]]))`. `u8` takes 1 byte. `u32_be` takes 4."
 [[hints]]
 text = "`parse_header`: make a `Cursor::new(data)` and read the fields in order with `?`: version (u8), flags (u8), id (u16), length (u32)."
+
+[[points]]
+after = 2
+prompt = "Which struct holds a slice and a position?"
+pick = ["Cursor", "Header", "ParseError", "Vec"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Return early on failure."
+code = "let end = self.pos.checked_add(n)___;"
+blank = "?"

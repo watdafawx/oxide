@@ -24,3 +24,15 @@ text = "`Rc::new(RefCell::new(Node { value, children: Vec::new() }))`"
 text = "`parent.borrow_mut().children.push(child);` The `Rc` you pass in is moved into the Vec."
 [[hints]]
 text = "`let n = node.borrow(); n.value + n.children.iter().map(total).sum::<i32>()`"
+
+[[points]]
+after = 1
+prompt = "Which type is shared and mutable?"
+pick = ["Rc<RefCell<T>>", "Rc<T>", "RefCell<T>", "Box<T>"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Reach through both layers to write."
+code = "other.___().n = 10;"
+blank = "borrow_mut"

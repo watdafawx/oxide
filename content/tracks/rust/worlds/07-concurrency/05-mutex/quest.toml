@@ -21,3 +21,15 @@ text = "`*counter.lock().unwrap() += 1;` The guard derefs to the `u32`."
 text = "`std::mem::take(&mut *guard)` swaps in an empty Vec and gives you the old one."
 [[hints]]
 text = "`lock()` returns `Err(PoisonError)` after a panic. `unwrap_or_else(|e| e.into_inner())` still gives you the guard."
+
+[[points]]
+after = 2
+prompt = "Take the lock."
+code = "let mut guard = log.___().unwrap();"
+blank = "lock"
+
+[[points]]
+after = 4
+prompt = "Locking twice on one thread is a what?"
+pick = ["deadlock", "panic", "copy", "timeout"]
+answer = 0

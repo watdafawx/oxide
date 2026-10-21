@@ -38,3 +38,15 @@ text = "Look up with `map.get_mut(buf.as_str())` (no allocation) and only `inser
 text = "`top_blocks`: collect `Vec<(&String, usize)>` of references, `sort_unstable_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)))`, then `take(n)` and clone just those. `sort_unstable` does not allocate a scratch buffer, `sort` does."
 [[hints]]
 text = "Still over the big-world budget? Look for a `clone()` or `to_string()` per token in `build`, or a `Vec<String>` you sort instead of references."
+
+[[points]]
+after = 4
+prompt = "Which type is the comparison meter?"
+pick = ["BlockName", "ChunkIndex", "Counter", "Vec"]
+answer = 0
+
+[[points]]
+after = 11
+prompt = "Count with one lookup."
+code = "*blocks.entry(\"stone\".to_string()).___ += 1;"
+blank = "or_default()"

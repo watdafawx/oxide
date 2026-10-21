@@ -21,3 +21,15 @@ text = "`let counter = Arc::new(Mutex::new(0));` Inside the loop: `let counter =
 text = "Join every handle before you read the result. Then `Arc::try_unwrap(counter).unwrap().into_inner().unwrap()` gets the value out (it works once all other clones are gone)."
 [[hints]]
 text = "For the map: `*map.lock().unwrap().entry(word).or_default() += 1;` with `word` an owned `String`."
+
+[[points]]
+after = 1
+prompt = "Which type gives every thread an owner?"
+pick = ["Arc", "Mutex", "Vec", "Rc"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Clone the Arc for the thread."
+code = "let total = ___(&total);"
+blank = "Arc::clone"

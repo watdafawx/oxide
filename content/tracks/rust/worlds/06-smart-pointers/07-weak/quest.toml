@@ -21,3 +21,15 @@ text = "`parent.children.borrow_mut().push(Rc::clone(child));` then set `*child.
 text = "`Rc::downgrade(&rc)` makes a `Weak`. It does not raise the strong count."
 [[hints]]
 text = "`node.parent.borrow().upgrade()` returns `Option<Rc<TreeNode>>`. `.map(|p| p.name.clone())` finishes it."
+
+[[points]]
+after = 2
+prompt = "Which type does not keep its target alive?"
+pick = ["Weak<T>", "Rc<T>", "Box<T>", "Arc<T>"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Get the Rc back, if it is still there."
+code = "println!(\"{:?}\", weak.___());"
+blank = "upgrade"

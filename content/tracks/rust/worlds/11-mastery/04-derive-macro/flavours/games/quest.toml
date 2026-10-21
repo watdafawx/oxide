@@ -17,3 +17,15 @@ text = "`match &input.data { Data::Struct(s) => ..., Data::Enum(_) => ..., Data:
 text = "`s.fields.len()` is the number of fields. Build the text with `format!(\"{name} with {n} fields\")`."
 [[hints]]
 text = "The `quote!` block already uses `#impl_generics #name #ty_generics #where_clause`, which is what makes generic structs work."
+
+[[points]]
+after = 4
+prompt = "Which DeriveInput field is the type's name?"
+pick = ["ident", "generics", "data", "attrs"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Build the tokens."
+code = "___! {\n    impl #impl_g #name #ty_g #where_c {}\n}"
+blank = "quote"

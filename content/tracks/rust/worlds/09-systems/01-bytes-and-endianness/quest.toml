@@ -21,3 +21,15 @@ text = "`n.to_le_bytes()` and `n.to_be_bytes()` do the encoding for you."
 text = "`bytes.get(..4)?` gives `&[u8]` of length 4, or `None` if the slice is too short."
 [[hints]]
 text = "`let arr: [u8; 4] = bytes.get(..4)?.try_into().ok()?;` then `Some(u32::from_le_bytes(arr))`. The _be version is the same with `from_be_bytes`."
+
+[[points]]
+after = 3
+prompt = "Which byte order puts the small end first?"
+pick = ["little-endian", "big-endian", "network order", "mixed"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Get the bytes in that order."
+code = "assert_eq!(n.___(), [0x78, 0x56, 0x34, 0x12]);"
+blank = "to_le_bytes"

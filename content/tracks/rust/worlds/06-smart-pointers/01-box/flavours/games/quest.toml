@@ -17,3 +17,15 @@ text = "`Segment(items, Box::new(belt))` builds a longer belt. `Box::new` puts t
 text = "`total_items` and `segment_count` are recursive: `match belt { Segment(n, rest) => ..., End => 0 }`."
 [[hints]]
 text = "`Segment(n, rest) => n + total_items(rest)`. `rest` is a `&Box<Belt>`, which derefs to `&Belt` for you."
+
+[[points]]
+after = 1
+prompt = "Which type puts a value on the heap?"
+pick = ["Box<T>", "&T", "Option<T>", "[T; 1]"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Put the rest of the belt behind a pointer."
+code = "Segment(u32, ___),"
+blank = "Box<Belt>"

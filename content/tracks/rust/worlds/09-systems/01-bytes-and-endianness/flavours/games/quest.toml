@@ -17,3 +17,15 @@ text = "`n.to_le_bytes()` and `n.to_be_bytes()` give the four bytes."
 text = "`bytes.get(..4)?` is `None` when the slice is too short. `.try_into().ok()?` turns the 4-byte slice into `[u8; 4]`."
 [[hints]]
 text = "`u32::from_le_bytes(array)` and `u32::from_be_bytes(array)` are the reverse."
+
+[[points]]
+after = 1
+prompt = "Which byte order puts the small end first?"
+pick = ["little-endian", "big-endian", "network order", "mixed"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Get the bytes small end first."
+code = "let le = protocol.___();"
+blank = "to_le_bytes"

@@ -21,3 +21,15 @@ text = "`if` is an expression: `if n % 3 == 0 { \"Fizz\".to_string() } else { ..
 text = "`for i in 1..=n` includes `n`. `1..n` stops one short."
 [[hints]]
 text = "Collatz: while n != 1, if n is even halve it, otherwise `n = 3 * n + 1`, and count each step."
+
+[[points]]
+after = 3
+prompt = "Which range includes 4?"
+pick = ["1..4", "1..=4", "..4", "1.."]
+answer = 1
+
+[[points]]
+after = 6
+prompt = "Hand a value back out of the loop."
+code = "let first_big = loop {\n    if size >= 100 { ___ }\n    size *= 2;\n};"
+blank = "break size;"

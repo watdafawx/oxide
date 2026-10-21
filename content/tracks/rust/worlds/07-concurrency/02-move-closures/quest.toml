@@ -21,3 +21,15 @@ text = "Write `thread::spawn(move || ...)`. Without `move` the closure only borr
 text = "`nums.iter().sum()` needs a type: `sum::<i32>()`."
 [[hints]]
 text = "`let right = data.split_off(mid);` leaves the first half in `data` and returns the second half as a new Vec. Move each Vec into its own thread."
+
+[[points]]
+after = 2
+prompt = "Which keyword makes a closure own its variables?"
+pick = ["move", "ref", "own", "mut"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Cut the Vec in two."
+code = "let right = v.___(2);"
+blank = "split_off"

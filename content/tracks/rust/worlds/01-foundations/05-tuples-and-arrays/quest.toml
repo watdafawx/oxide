@@ -21,3 +21,15 @@ text = "The last index is `items.len() - 1`."
 text = "`let (a, b) = pair;` splits a tuple. Then return `(b, a)`."
 [[hints]]
 text = "Arrays destructure too: `let [a, b, c] = nums;`."
+
+[[points]]
+after = 2
+prompt = "Which one holds different types?"
+pick = ["tuple", "array", "slice", "Vec"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Destructure into two variables."
+code = "let ___ = pos;"
+blank = "(x, y)"

@@ -14,3 +14,15 @@ label = "greeting(\"Ferris\") returns \"Hello, Ferris!\""
 text = "`format!` builds a String the same way `println!` prints one: `format!(\"Hi {name}\")`."
 [[hints]]
 text = "Replace `todo!()` with `format!(\"Hello, {name}!\")`."
+
+[[points]]
+after = 3
+prompt = "Which word starts a function?"
+pick = ["fn", "let", "mod", "use"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Add the return type."
+code = "fn double(n: i32) ___ {\n    n * 2\n}"
+blank = "-> i32"

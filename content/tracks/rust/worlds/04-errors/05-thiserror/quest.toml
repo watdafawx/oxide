@@ -21,3 +21,15 @@ text = "Put `#[error(\"missing key: {0}\")]` above `Missing`. `{0}` is the first
 text = "On `BadPort`: `#[error(\"port is not a number: {0}\")]` and mark the field `#[from] ParseIntError`. That generates the `From` impl, so `?` works."
 [[hints]]
 text = "In `read_port`: find the pair with `.iter().find(..)`, `.ok_or_else(|| ConfigError::Missing(key.to_string()))?`, then `Ok(value.parse()?)`."
+
+[[points]]
+after = 3
+prompt = "Which attribute writes the Display text?"
+pick = ["#[error(\"...\")]", "#[from]", "#[derive(Debug)]", "#[display]"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Generate From for the field."
+code = "Parse(___ std::num::ParseIntError),"
+blank = "#[from]"

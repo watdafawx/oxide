@@ -14,3 +14,15 @@ text = "`($name:expr => $id:expr) => { $crate::Biome { name: $name, id: $id } };
 text = "`biomes!` repeats the pair: `$($name:expr => $id:expr),* $(,)?` and expands to `vec![$( $crate::biome!($name => $id) ),*]`."
 [[hints]]
 text = "Call the first macro from the second with `$crate::biome!`, so it also works from other crates."
+
+[[points]]
+after = 2
+prompt = "Separate name and id in the pattern."
+code = "($label:expr ___ $w:expr) => {"
+blank = "=>"
+
+[[points]]
+after = 4
+prompt = "Which path always resolves to your crate?"
+pick = ["$crate::", "self::", "super::", "crate_::"]
+answer = 0

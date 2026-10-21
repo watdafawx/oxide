@@ -24,3 +24,15 @@ text = "Circle area is `std::f64::consts::PI * self.r * self.r`. Rect area is `s
 text = "`vec![Box::new(Circle { r: 1.0 }), Box::new(Rect { w: 2.0, h: 3.0 })]`. The return type tells Rust to treat each Box as `Box<dyn Shape>`."
 [[hints]]
 text = "`total_area`: `shapes.iter().map(|s| s.area()).sum()`. `describe`: `format!(\"{} with area {:.1}\", shape.name(), shape.area())`."
+
+[[points]]
+after = 2
+prompt = "Which type is an owned trait object?"
+pick = ["Box<dyn Shape>", "&dyn Shape", "Vec<Shape>", "impl Shape"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Borrow a trait object."
+code = "fn show(s: ___) -> f64 { s.area() }"
+blank = "&dyn Shape"

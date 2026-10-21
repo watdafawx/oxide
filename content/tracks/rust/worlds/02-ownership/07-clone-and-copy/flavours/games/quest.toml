@@ -14,3 +14,15 @@ text = "Edit the `#[derive(...)]` line above `Player`: add `Clone`. Then `player
 text = "`Copy` requires `Clone` too: derive both on `BlockPos`. Then you can use `pos` twice."
 [[hints]]
 text = "`vec![player.clone(), player.clone()]` and `(pos, pos)`."
+
+[[points]]
+after = 1
+prompt = "Which trait duplicates silently on assignment?"
+pick = ["Copy", "Clone", "Debug", "Drop"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Derive the traits."
+code = "#[___(Debug, Clone, Copy)]\nstruct BlockPos { x: i32, y: i32, z: i32 }"
+blank = "derive"

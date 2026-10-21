@@ -20,3 +20,15 @@ text = "A struct literal: `ItemStack { name: name.to_string(), count: 64 }`."
 text = "`&mut self` lets a method change fields: `self.count -= amount`. But `u32` cannot go below 0..."
 [[hints]]
 text = "`self.count = self.count.saturating_sub(amount);` stops at 0."
+
+[[points]]
+after = 3
+prompt = "Which self lets a method change the struct?"
+pick = ["self", "&self", "&mut self", "mut"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "Never drop below 0."
+code = "self.slots = self.slots.___(9);"
+blank = "saturating_sub"

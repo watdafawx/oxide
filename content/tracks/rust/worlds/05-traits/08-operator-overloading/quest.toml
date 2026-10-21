@@ -24,3 +24,15 @@ text = "`Add` has `type Output = Vec2;` and `fn add(self, other: Vec2) -> Vec2`.
 text = "`Neg`: `Vec2 { x: -self.x, y: -self.y }`. `Mul<f64>`: multiply both fields by `k`."
 [[hints]]
 text = "`partial_cmp`: compare squared lengths, `self.len_sq().partial_cmp(&other.len_sq())`. The helper `len_sq` is given."
+
+[[points]]
+after = 2
+prompt = "Which trait gives you +?"
+pick = ["Add", "Sum", "Plus", "Mul"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Multiply by an f64."
+code = "impl Mul<___> for P {"
+blank = "f64"

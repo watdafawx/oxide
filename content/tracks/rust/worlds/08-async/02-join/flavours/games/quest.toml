@@ -20,3 +20,15 @@ text = "`let first = queue_line(jar).await;` then the second, then `format!(\"{f
 text = "`tokio::join!(fetch_size(a), fetch_size(b))` runs both futures at once and returns a tuple."
 [[hints]]
 text = "For the total, destructure the tuple: `let (x, y) = tokio::join!(...);` then `x + y`."
+
+[[points]]
+after = 2
+prompt = "Run both futures together."
+code = "let (a, b) = tokio::___!(fetch_size(1), fetch_size(2));"
+blank = "join"
+
+[[points]]
+after = 3
+prompt = "Which sleep is safe in async code?"
+pick = ["tokio::time::sleep", "std::thread::sleep", "thread::park", "loop {}"]
+answer = 0

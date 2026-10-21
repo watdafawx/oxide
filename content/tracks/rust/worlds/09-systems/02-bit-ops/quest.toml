@@ -21,3 +21,15 @@ text = "Set a bit with `|`, clear it with `& !flag`, test it with `& flag != 0`.
 text = "`pack_rgb`: shift red left 16, green left 8, then OR them together. `unpack_rgb`: shift right, then cast `as u8` (the cast drops the high bits)."
 [[hints]]
 text = "`value.count_ones()` is built in. `has_flag`: `value & flag != 0`. `clear_flag`: `value & !flag`."
+
+[[points]]
+after = 2
+prompt = "Which operator turns bits on?"
+pick = ["|", "&", "!", "<<"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Turn the bit off."
+code = "flags &= ___COMPRESSED;"
+blank = "!"

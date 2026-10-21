@@ -22,3 +22,15 @@ text = "`bump`: `let mut guard = counter.lock().await; let v = *guard; yield_now
 text = "`count_concurrently`: `let counter = Arc::new(Mutex::new(0));`, clone it into each spawned task, await all handles, then `*counter.lock().await`."
 [[hints]]
 text = "`Cache`: `self.inner.write().await.insert(k.to_string(), v.to_string())` to write, `self.inner.read().await.get(k).cloned()` to read."
+
+[[points]]
+after = 3
+prompt = "Which Mutex guard cannot be held across an .await?"
+pick = ["std::sync::Mutex", "tokio::sync::Mutex", "RwLock", "Arc"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Wait for our turn."
+code = "let mut guard = t.lock().___;"
+blank = "await"

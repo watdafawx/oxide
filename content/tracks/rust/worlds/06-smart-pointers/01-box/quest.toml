@@ -21,3 +21,15 @@ text = "`Cons(x, Box::new(list))` builds a bigger list. `Box::new` puts a value 
 text = "`sum` and `len` are recursive: `match list { Cons(v, rest) => ..., Nil => 0 }`."
 [[hints]]
 text = "`Cons(v, rest) => v + sum(rest)`. `rest` is a `&Box<List>`, which derefs to `&List` for you."
+
+[[points]]
+after = 2
+prompt = "Which type puts a value on the heap?"
+pick = ["Box<T>", "&T", "Option<T>", "[T; 1]"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Put the rest of the list behind a pointer."
+code = "Cons(i32, ___),"
+blank = "Box<List>"

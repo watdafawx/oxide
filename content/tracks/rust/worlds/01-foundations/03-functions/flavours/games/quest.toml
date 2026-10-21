@@ -15,3 +15,15 @@ label = "inventory_line(3, 64) returns \"3x64 = 192\" by calling item_count"
 text = "Last line, **no semicolon**: `side * side`."
 [[hints]]
 text = "`inventory_line` can call `item_count(stacks, size)` and put the result in `format!(\"{stacks}x{size} = {total}\")`."
+
+[[points]]
+after = 1
+prompt = "Give the parameter its type."
+code = "fn double_stack(___) -> u32 {"
+blank = "n: u32"
+
+[[points]]
+after = 3
+prompt = "Which last line returns the value?"
+pick = ["result", "result;", "return;", "()"]
+answer = 0

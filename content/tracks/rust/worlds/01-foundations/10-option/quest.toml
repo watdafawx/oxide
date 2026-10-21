@@ -21,3 +21,15 @@ text = "Return `Some(n / 2)` or `None`. Both are `Option<i32>`."
 text = "`half(n).unwrap_or(0)` gives the value, or 0 if it was `None`."
 [[hints]]
 text = "`half(n).map(|h| h + 1)` runs the closure only if there is a value."
+
+[[points]]
+after = 1
+prompt = "Which variant means \"missing\"?"
+pick = ["Some", "None", "Ok", "Err"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Fall back to 0."
+code = "let n = door.___(0);"
+blank = "unwrap_or"

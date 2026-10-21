@@ -15,3 +15,15 @@ label = "A name that needed the prefix comes back as Cow::Owned"
 text = "Check first: `name.contains(':')`."
 [[hints]]
 text = "Already prefixed: `Cow::Borrowed(name)`. Bare name: `Cow::Owned(format!(\"{mod_id}:{name}\"))`."
+
+[[points]]
+after = 1
+prompt = "Which type is clone on write?"
+pick = ["Cow<str>", "Rc<str>", "Box<str>", "String"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Get a String out of the Cow."
+code = "let owned = with_ns(\"stone-brick\").___();"
+blank = "into_owned"

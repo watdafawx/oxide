@@ -20,3 +20,15 @@ text = "`banner`: `format!(\"{}!\", text.to_string().to_uppercase())`. `spawn_ti
 text = "`damage_bonus`: `move |d| d + n`. The `move` keeps `n` alive inside the closure."
 [[hints]]
 text = "`chain`: `move |d| second(first(d))`."
+
+[[points]]
+after = 1
+prompt = "Accept any type that implements Display."
+code = "fn tag(x: ___) -> String {"
+blank = "impl Display"
+
+[[points]]
+after = 4
+prompt = "Which keyword makes a closure own its variables?"
+pick = ["move", "ref", "own", "mut"]
+answer = 0

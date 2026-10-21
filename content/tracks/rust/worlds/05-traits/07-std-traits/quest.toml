@@ -24,3 +24,15 @@ text = "Put `#[derive(Debug, Clone, PartialEq, Default)]` on the line above `pub
 text = "Then the four small functions are one-liners: `format!(\"{p:?}\")`, `a == b`, `p.clone()`, `Player::default()`."
 [[hints]]
 text = "Display: `write!(f, \"{} ({} hp)\", self.name, self.hp)`. From: `Player { name: name.to_string(), hp: 100 }`."
+
+[[points]]
+after = 3
+prompt = "Which trait is for users?"
+pick = ["Display", "Debug", "Clone", "Default"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Get .into() for free."
+code = "impl ___<&str> for Item {"
+blank = "From"

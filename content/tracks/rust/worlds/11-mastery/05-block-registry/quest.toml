@@ -17,3 +17,9 @@ label = "registry![...] builds a Vec of blocks, empty and trailing comma allowed
 text = "`block!`: `($name:expr => $id:expr) => { $crate::Block { name: $name, id: $id } };`"
 [[hints]]
 text = "`registry!` repeats a whole pattern: `$( $name:expr => $id:expr ),* $(,)?` and expands to `vec![$( $crate::block!($name => $id) ),*]`."
+
+[[points]]
+after = 2
+prompt = "Repeat the macro call once per block."
+code = "vec![$( ___ ),*]"
+blank = "point!($x, $y)"

@@ -24,3 +24,15 @@ text = "`cfg.read().unwrap()` for reading, `cfg.write().unwrap()` for changing."
 text = "`try_read()` and `try_write()` never block: they return `Err` instead of waiting. Check `is_ok()` / `is_err()`."
 [[hints]]
 text = "Keep the first guard in a variable (`let _first = ...`) so it stays alive while you try the second one."
+
+[[points]]
+after = 1
+prompt = "Which type allows many readers at once?"
+pick = ["RwLock", "Mutex", "Cell", "Arc"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Get exclusive access."
+code = "seen.___().unwrap().push(0xc3);"
+blank = "write"

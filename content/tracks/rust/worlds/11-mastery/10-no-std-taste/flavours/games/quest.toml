@@ -17,3 +17,15 @@ text = "The next free slot is `(self.head + self.len) % N`. Write the value ther
 text = "`dequeue`: read `self.buf[self.head]`, advance `head = (head + 1) % N`, subtract 1 from `len`."
 [[hints]]
 text = "A full queue is `len == N`. Return `Err(value)` so the caller gets its chunk back."
+
+[[points]]
+after = 1
+prompt = "Make the capacity a const generic."
+code = "pub struct LoadQueue<T, const N: ___> {"
+blank = "usize"
+
+[[points]]
+after = 4
+prompt = "Which operator wraps the index around?"
+pick = ["%", "/", "&", "+"]
+answer = 0

@@ -14,3 +14,15 @@ text = "`macro_rules! chunk_area { ($x:expr) => { ... }; }` with `#[macro_export
 text = "`$x * $x` would paste the expression twice. Bind it once: `let v = $x; v * v` inside double braces `{{ ... }}`."
 [[hints]]
 text = "Why double braces? The outer pair is the macro syntax, the inner pair makes the expansion one block expression."
+
+[[points]]
+after = 2
+prompt = "Which captures one expression?"
+pick = ["$x:expr", "$x:ty", "$x:ident", "$x:tt"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Make the macro usable from other crates."
+code = "#[___]\nmacro_rules! top_block {"
+blank = "macro_export"

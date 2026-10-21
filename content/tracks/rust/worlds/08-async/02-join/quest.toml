@@ -26,3 +26,15 @@ text = "`let (x, y) = tokio::join!(slow_double(a), slow_double(b));` with no `.a
 text = "`join!` itself is awaited for you: it evaluates to a tuple of the results."
 [[hints]]
 text = "`sum_of_both`: destructure the tuple from `join!`, then return `x + y`."
+
+[[points]]
+after = 3
+prompt = "Run both futures together."
+code = "tokio::___!(fetch_jar(1), fetch_jar(2))"
+blank = "join"
+
+[[points]]
+after = 6
+prompt = "Which waits without freezing the thread?"
+pick = ["sleep(..).await", "std::thread::sleep", "loop {}", "join()"]
+answer = 0

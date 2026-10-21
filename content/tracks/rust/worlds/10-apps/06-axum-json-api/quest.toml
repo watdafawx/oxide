@@ -24,3 +24,15 @@ text = "Extractors are parameters: `Path(name): Path<String>` reads the URL, `Js
 text = "Returning `Json(Greeting { greeting: format!(\"Hello, {name}!\") })` sends JSON. For sum, add the numbers with `req.numbers.iter().sum()`; for the error return `Err((StatusCode::BAD_REQUEST, Json(ApiError { error: ... })))`."
 [[hints]]
 text = "`state.count.fetch_add(1, Ordering::SeqCst) + 1` is the new count. `bump` returns `(StatusCode::CREATED, Json(Count { count }))`; `count` uses `state.count.load(Ordering::SeqCst)`."
+
+[[points]]
+after = 2
+prompt = "Which extractor reads /hello/{name}?"
+pick = ["Path", "Json", "State", "Query"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Share the counter with every handler."
+code = "State(total): ___<Arc<AtomicU64>>,"
+blank = "State"

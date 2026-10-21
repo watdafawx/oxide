@@ -21,3 +21,15 @@ text = "`parse_line`: `let (name, score) = line.split_once(':')?;` then `let sco
 text = "Return `Some((name.trim().to_string(), score))`."
 [[hints]]
 text = "`best_player`: `lines.iter().filter_map(|l| parse_line(l)).max_by_key(|(_, score)| *score).map(|(name, _)| name)`."
+
+[[points]]
+after = 2
+prompt = "Which line loads src/shapes.rs?"
+pick = ["mod shapes;", "use shapes;", "mod shapes {}", "pub shapes;"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Start the path at the root."
+code = "use ___::shapes::square;"
+blank = "crate"

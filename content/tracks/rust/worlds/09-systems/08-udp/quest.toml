@@ -21,3 +21,15 @@ text = "`serve_once`: `let (n, from) = socket.recv_from(&mut buf)?;` then `socke
 text = "`request`: `UdpSocket::bind(\"127.0.0.1:0\")?`, `send_to(msg, server)?`, `recv_from(&mut buf)?`, return `buf[..n].to_vec()`."
 [[hints]]
 text = "Before receiving, call `socket.set_read_timeout(Some(Duration::from_millis(500)))?`. Then `recv_from` returns an `Err` instead of waiting forever."
+
+[[points]]
+after = 2
+prompt = "Which call tells you who sent the datagram?"
+pick = ["recv_from", "send_to", "bind", "connect"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Only the real bytes."
+code = "assert_eq!(&buf[___], b\"ping\");"
+blank = "..n"

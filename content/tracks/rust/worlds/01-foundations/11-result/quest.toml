@@ -21,3 +21,15 @@ text = "Return `Err(\"cannot divide by zero\".to_string())` when `b == 0`, other
 text = "`match safe_divide(a, b) { Ok(v) => ..., Err(e) => ... }`"
 [[hints]]
 text = "`text.parse().expect(\"config port must be a number\")` returns the number or panics with your message. The return type tells `parse` what to produce."
+
+[[points]]
+after = 2
+prompt = "Which variant means it worked?"
+pick = ["Ok", "Err", "Some", "None"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Panic with your message on failure."
+code = "let age = parse_age(\"42\").___(\"hard-coded age is valid\");"
+blank = "expect"

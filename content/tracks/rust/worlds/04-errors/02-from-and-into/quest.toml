@@ -16,3 +16,15 @@ label = "sum_all uses ? and returns the first error"
 text = "Inside `from`, build the variant: `MyError::Parse(e)`. Rename `_e` to `e` first."
 [[hints]]
 text = "In `sum_all`, loop over `inputs` and add `parse_small(input)?` to a running total."
+
+[[points]]
+after = 2
+prompt = "Say an error can become an AppError."
+code = "impl ___<std::num::ParseIntError> for AppError {"
+blank = "From"
+
+[[points]]
+after = 3
+prompt = "Which function does ? run on the error?"
+pick = ["From::from", "Default::default", "Clone::clone", "Drop::drop"]
+answer = 0

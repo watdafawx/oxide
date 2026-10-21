@@ -24,3 +24,15 @@ text = "`shout`: `format!(\"{}!\", x.to_string().to_uppercase())`. `evens`: `(0.
 text = "`adder`: `move |x| x + n`. The `move` keeps `n` alive inside the closure."
 [[hints]]
 text = "`compose`: `move |x| g(f(x))`."
+
+[[points]]
+after = 2
+prompt = "Accept any type that implements Display."
+code = "fn show(x: ___) -> String {"
+blank = "impl Display"
+
+[[points]]
+after = 5
+prompt = "Which keyword makes a closure own its variables?"
+pick = ["move", "ref", "own", "mut"]
+answer = 0

@@ -39,3 +39,15 @@ text = "Don't call `self.start(..)` inside that match (it borrows `self.home`): 
 text = "`level_up_modal`: `let response = egui::Modal::new(egui::Id::unique(\"level_up\")).show(ctx, |ui| { ui.heading(\"Level up!\"); ... if ui.button(\"Continue\").clicked() { close = true; } });` then `if close || response.should_close() { self.level_up = None; }`."
 [[hints]]
 text = "Esc is `ui.input(|i| i.key_pressed(egui::Key::Escape))`; ignore it while `self.level_up` is open, and refresh `self.home` from the Api when you go back."
+
+[[points]]
+after = 9
+prompt = "Which forces a number into a range?"
+pick = ["clamp", "min", "abs", "round"]
+answer = 0
+
+[[points]]
+after = 11
+prompt = "Leave early when there is no detail."
+code = "let Some(d) = &self.detail ___ { return; };"
+blank = "else"

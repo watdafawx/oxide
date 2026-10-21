@@ -24,3 +24,15 @@ text = "All four functions already give the right answer. The tests count extra 
 text = "`word_count`: `counter.entry(word.to_string())` finds or creates the slot in one operation. `.or_default()` gives you `&mut u32`, so `*slot += 1`. `longest`: keep a `&Name`, clone once at the end. `squares`: `Vec::with_capacity(n)`. `count_long_words`: no `collect`, no `String`."
 [[hints]]
 text = "`longest`: `names.iter().max_by_key(|n| n.0.len()).cloned()`. `count_long_words`: `text.split_whitespace().filter(|w| w.len() >= min_len).count()`."
+
+[[points]]
+after = 3
+prompt = "Clone only the winner."
+code = "let owned: String = best.___();"
+blank = "clone"
+
+[[points]]
+after = 4
+prompt = "Which call gives a default in one lookup?"
+pick = ["or_default", "contains_key", "get", "insert"]
+answer = 0

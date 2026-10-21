@@ -21,3 +21,15 @@ text = "In a default body you can call the trait's other methods: `self.name()`.
 text = "`shout` is `self.greet().to_uppercase()`. It calls whichever `greet` the type ended up with."
 [[hints]]
 text = "Parrot: `format!(\"Squawk! {} wants a cracker!\", self.name())`."
+
+[[points]]
+after = 1
+prompt = "Which method can Bob skip writing?"
+pick = ["name", "speak", "both", "neither"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Call the trait's other method."
+code = "format!(\"{} says hi\", self.___())"
+blank = "name"

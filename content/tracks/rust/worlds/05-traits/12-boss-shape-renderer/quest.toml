@@ -40,3 +40,15 @@ text = "`render`: for each row `y` in `0..h`, build a `String` over `x` in `0..w
 text = "Generic helpers: `shapes.iter().map(|s| s.area()).sum()`, `shapes.iter().max_by(|a, b| a.area().total_cmp(&b.area()))`, `shapes.sort_by(|a, b| a.area().total_cmp(&b.area()))`."
 [[hints]]
 text = "`Scaled`: area times `factor * factor`, bounds keep `x`, `y` and scale `w`, `h`. For `contains`, map the point back into the inner shape: `inner.contains(b.x + (px - b.x) / f, b.y + (py - b.y) / f)` where `b = self.inner.bounds()`."
+
+[[points]]
+after = 6
+prompt = "Which bound makes total_area generic over shapes?"
+pick = ["T: Shape", "T = Shape", "Shape<T>", "dyn Shape"]
+answer = 0
+
+[[points]]
+after = 8
+prompt = "Pick the biggest by an f64 key."
+code = "items.iter().___(|a, b| a.weight.total_cmp(&b.weight))"
+blank = "max_by"

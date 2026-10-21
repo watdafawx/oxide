@@ -17,3 +17,9 @@ label = "mods_summary gives \"2 of 3 mods enabled\""
 text = "`if enabled { \"[x]\" } else { \"[ ]\" }` picks the box; `format!(\"{mark} {name}\")` joins it."
 [[hints]]
 text = "`mods_summary`: count with `mods.iter().filter(|(_, on)| *on).count()`, then `format!(\"{on} of {} mods enabled\", mods.len())`."
+
+[[points]]
+after = 2
+prompt = "Pick the mark with an if expression."
+code = "let mark = ___;"
+blank = "if on { \"[x]\" } else { \"[ ]\" }"

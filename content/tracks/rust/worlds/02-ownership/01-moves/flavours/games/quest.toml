@@ -11,3 +11,15 @@ text = "The error names the line that gives the chat line away. Find the call th
 text = "Give the function its own copy and keep yours: `.clone()` makes a second String."
 [[hints]]
 text = "Half a step: the argument of `log_length` is the part to change. Pass it a copy and leave `line` alone for the tuple."
+
+[[points]]
+after = 2
+prompt = "Which method makes a second copy on purpose?"
+pick = ["clone", "move", "copy", "borrow"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Copy it so both names keep working."
+code = "let line = String::from(\"<Ferris> hello\");\nlet logged = ___;"
+blank = "line.clone()"

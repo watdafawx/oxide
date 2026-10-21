@@ -20,3 +20,15 @@ text = "Inside `unsafe { ... }` write `*ptr += 1;`. The `// SAFETY:` comment say
 text = "`ptr.is_null()` is safe to call. Only the dereference needs `unsafe`."
 [[hints]]
 text = "`std::slice::from_raw_parts(ptr, len)` rebuilds a slice from a pointer and a length. Then `.iter().sum()`. The safe wrapper passes `slice.as_ptr()` and `slice.len()`."
+
+[[points]]
+after = 1
+prompt = "Declare a null raw pointer."
+code = "let ptr: ___ i32 = std::ptr::null();"
+blank = "*const"
+
+[[points]]
+after = 3
+prompt = "Which call builds a slice from a pointer and a length?"
+pick = ["from_raw_parts", "as_ptr", "is_null", "offset"]
+answer = 0

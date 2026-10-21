@@ -20,3 +20,15 @@ text = "Zombie: `2 + self.looting`. Creeper: `if self.charged { \"head\" } else 
 text = "`const ID: &str = \"zombie\";` and `\"creeper\"`."
 [[hints]]
 text = "`label`: `format!(\"{}: {}\", M::ID, mob.loot())`. Read the constant from the **type**, `M::ID`."
+
+[[points]]
+after = 1
+prompt = "Pick an associated type."
+code = "    ___ Loot = u32;"
+blank = "type"
+
+[[points]]
+after = 2
+prompt = "How do you read the const on Pig?"
+pick = ["Pig::ID", "Pig.ID", "Pig->ID", "ID(Pig)"]
+answer = 0

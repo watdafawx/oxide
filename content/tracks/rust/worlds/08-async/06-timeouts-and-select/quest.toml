@@ -24,3 +24,15 @@ text = "`tokio::time::timeout(Duration::from_millis(limit), work).await` returns
 text = "`tokio::select! { _ = sleep_a => \"a\", _ = sleep_b => \"b\" }` returns the value of the branch that finished first."
 [[hints]]
 text = "`select! { _ = &mut cancel => \"cancelled\", _ = work => \"done\" }`: a oneshot Receiver is a future, so you can wait on it in a branch."
+
+[[points]]
+after = 2
+prompt = "Give up after 50 ms."
+code = "let r = ___(Duration::from_millis(50), slow_download()).await;"
+blank = "timeout"
+
+[[points]]
+after = 4
+prompt = "Which macro runs the first future to finish?"
+pick = ["select!", "join!", "timeout", "spawn"]
+answer = 0

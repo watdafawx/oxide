@@ -16,3 +16,15 @@ label = "Robot::describe() returns \"robot #7\""
 text = "Inside `impl Describe for Dog { ... }` the method body can use `self.name`."
 [[hints]]
 text = "Use `format!(\"{} the dog\", self.name)`. For the robot: `format!(\"robot #{}\", self.id)`."
+
+[[points]]
+after = 2
+prompt = "Which keyword lists method signatures?"
+pick = ["trait", "struct", "enum", "impl"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Fill in the bodies for Cat."
+code = "___ Describe for Cat {"
+blank = "impl"

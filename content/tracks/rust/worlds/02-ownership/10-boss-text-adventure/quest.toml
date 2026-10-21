@@ -42,3 +42,15 @@ text = "take: `room.items.iter().position(|i| i == item)` finds the index, `room
 text = "describe: collect the exits (and items) as a list of `String`s, then `exits.join(\", \")`. `Vec<String>::join` glues the pieces with a separator."
 [[hints]]
 text = "run: `line.split_once(' ')` splits \"go north\" into (\"go\", \"north\"). Match on the command word."
+
+[[points]]
+after = 5
+prompt = "Which self lets go() change the game?"
+pick = ["&self", "&mut self", "self", "mut"]
+answer = 1
+
+[[points]]
+after = 8
+prompt = "Glue the names with a separator."
+code = "let text = names.___(\", \");"
+blank = "join"

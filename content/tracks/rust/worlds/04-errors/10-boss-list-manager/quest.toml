@@ -49,3 +49,15 @@ text = "`run`: `match cmd { Command::Add(text) => Ok(format!(\"added {}\", store
 
 [[hints]]
 text = "`Command::List`: an empty list returns \"nothing to do\". Otherwise map each todo to its line (`\"[x]\"` or `\"[ ]\"`, then id, then text), collect into a `Vec<String>` and `join(\"\\n\")`."
+
+[[points]]
+after = 2
+prompt = "Which error type do the tests match on?"
+pick = ["TodoError", "anyhow::Error", "io::Error", "String"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Add a condition to the arm."
+code = "Err(e) ___ e.kind() == ErrorKind::NotFound => Ok(Self::default()),"
+blank = "if"

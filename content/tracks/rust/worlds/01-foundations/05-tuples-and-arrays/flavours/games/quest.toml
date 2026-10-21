@@ -17,3 +17,15 @@ text = "The last index is `hotbar.len() - 1`."
 text = "`let (a, b) = slots;` splits a tuple. Then return `(b, a)`."
 [[hints]]
 text = "Arrays destructure too: `let [a, b, c] = row;`."
+
+[[points]]
+after = 1
+prompt = "Which one holds different types?"
+pick = ["tuple", "array", "slice", "Vec"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Destructure into two variables."
+code = "let ___ = slot;"
+blank = "(id, count)"

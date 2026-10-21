@@ -21,3 +21,15 @@ text = "`tokio::spawn(async move { n * n })` returns a `JoinHandle<u64>`. `move`
 text = "`square_all`: first `.map(spawn_square).collect::<Vec<_>>()` to start them all, then loop over the handles and `.await` each one."
 [[hints]]
 text = "`handle.await` gives `Result<T, JoinError>`: `Err` if the task panicked. `.ok()` turns that into an Option."
+
+[[points]]
+after = 2
+prompt = "What does tokio::spawn return?"
+pick = ["JoinHandle", "Future", "Result", "Mutex"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Give the task its own data."
+code = "tokio::spawn(___ {\n    format!(\"hello {name}\")\n});"
+blank = "async move"

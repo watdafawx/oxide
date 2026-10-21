@@ -21,3 +21,15 @@ text = "Compare `a.len()` and `b.len()`. A plain `if` expression is enough."
 text = "On a tie return `a`: use `>=` when checking a against b."
 [[hints]]
 text = "`if a.len() >= b.len() { a } else { b }`"
+
+[[points]]
+after = 2
+prompt = "Declare the label."
+code = "fn longest<___>(a: &'a str, b: &'a str) -> &'a str {"
+blank = "'a"
+
+[[points]]
+after = 3
+prompt = "Which is a lifetime label?"
+pick = ["'a", "&a", "<a>", "T"]
+answer = 0

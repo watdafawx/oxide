@@ -12,3 +12,15 @@ label = "item_name_len returns the length without the outer spaces"
 text = "A plain `let` can never change. Write `let mut stack = 10;` so you can do `stack += 5;`."
 [[hints]]
 text = "For `item_name_len`: `let name = name.trim();` makes a new `name`, then return `name.len()`."
+
+[[points]]
+after = 1
+prompt = "Which word lets a variable change?"
+pick = ["mut", "let", "const", "var"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Shadow count with a new value."
+code = "let count = ___;     // a brand-new `count` (64)"
+blank = "count * 16"

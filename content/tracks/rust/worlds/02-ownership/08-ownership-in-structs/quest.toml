@@ -13,3 +13,15 @@ label = "Owned::as_borrowed gives a Borrowed view without copying"
 text = "You are building a `Borrowed` that points into `self`. Look at how the `Borrowed` struct is declared: which fields does it need?"
 [[hints]]
 text = "as_borrowed: `Borrowed { name: &self.name, level: self.level }`. `&self.name` (a `&String`) becomes `&str` automatically."
+
+[[points]]
+after = 2
+prompt = "Which field type owns its text?"
+pick = ["String", "&str", "&'a str", "Vec"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Name the lifetime on the struct."
+code = "struct Borrowed___ {\n    name: &'a str,\n}"
+blank = "<'a>"

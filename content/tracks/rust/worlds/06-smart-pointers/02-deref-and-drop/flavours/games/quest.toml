@@ -9,3 +9,15 @@ label = "*InserterHandle::new(x) gives x, and &InserterHandle<String> works as &
 text = "`deref` returns a reference to the inside: `&self.0`."
 [[hints]]
 text = "The handle is a tuple struct, so the wrapped machine is field `0`. Take a reference to it."
+
+[[points]]
+after = 1
+prompt = "Which trait makes *h work on a smart pointer?"
+pick = ["Deref", "Drop", "Clone", "Copy"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Say what the handle points at."
+code = "type ___ = String;"
+blank = "Target"

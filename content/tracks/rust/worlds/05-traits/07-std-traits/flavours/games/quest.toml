@@ -20,3 +20,15 @@ text = "Put `#[derive(Debug, Clone, PartialEq, Default)]` on the line above `pub
 text = "Then the helpers are one-liners: `format!(\"{p:?}\")`, `a == b`, `p.clone()`, `ChunkPos::default()`."
 [[hints]]
 text = "Display: `write!(f, \"[{}, {}]\", self.x, self.z)`. From: `ChunkPos { x: xz.0, z: xz.1 }`."
+
+[[points]]
+after = 2
+prompt = "Which trait is for players?"
+pick = ["Display", "Debug", "Clone", "Default"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Get .into() for free."
+code = "impl ___<i32> for BlockPos {"
+blank = "From"

@@ -24,3 +24,15 @@ text = "`items.iter().enumerate().map(|(i, item)| format!(\"{}. {item}\", i + 1)
 text = "`a.iter().zip(b).map(|(x, y)| x * y).sum()` walks both slices in step and stops at the shorter one."
 [[hints]]
 text = "Page: `items.iter().skip(page * size).take(size).copied().collect()`. Rises: `numbers.windows(2).filter(|pair| pair[1] > pair[0]).count()`."
+
+[[points]]
+after = 2
+prompt = "Which gives (index, item)?"
+pick = ["enumerate", "zip", "take", "skip"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Reverse the characters."
+code = "let backwards: String = \"abc\".chars().___().collect();"
+blank = "rev"

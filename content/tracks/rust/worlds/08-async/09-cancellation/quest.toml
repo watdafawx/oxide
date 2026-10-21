@@ -21,3 +21,15 @@ text = "Loop with `tokio::select! { _ = token.cancelled() => return \"stopped\",
 text = "`spawn_worker` returns `tokio::spawn(async move { loop { ... } })`. Move the token and the Arc counter into it."
 [[hints]]
 text = "`shutdown`: call `token.cancel()`, then await each handle and count how many returned `\"stopped\"`."
+
+[[points]]
+after = 3
+prompt = "Which call presses the stop button?"
+pick = ["cancel", "cancelled", "clone", "new"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Race the work against the token."
+code = "tokio::___! {\n    _ = t.cancelled() => \"stopped\",\n    _ = tokio::time::sleep(std::time::Duration::from_secs(60)) => \"finished\",\n}"
+blank = "select"

@@ -40,3 +40,15 @@ text = "Pool in `hash_all_tracked`: one job channel (`Sender<PathBuf>` to the wo
 text = "Order matters: spawn the workers, send every path, then `drop(job_tx)` so workers see the end. Drop the extra result `Sender` in the parent too, then collect the results with `res_rx.iter()` and `sort()`. `thread::scope` lets workers borrow `progress` without moving it."
 [[hints]]
 text = "`hash_all` can be one line: call `hash_all_tracked` with a throwaway `&Progress::new()`. `hash_all_rayon`: `files.par_iter().map(|p| (p.clone(), hash_file(p))).collect()`, then sort."
+
+[[points]]
+after = 3
+prompt = "Which multiplies without panicking on overflow?"
+pick = ["wrapping_mul", "checked_mul", "saturating_mul", "pow"]
+answer = 0
+
+[[points]]
+after = 13
+prompt = "Print 16 lowercase hex digits."
+code = "format!(\"{n:___}\")"
+blank = "016x"

@@ -38,3 +38,15 @@ text = "`parse_guess`: `input.trim().parse::<u32>()` gives a `Result`. Turn its 
 text = "`play`: make a `Game` and a `Vec<String>`. `for input in inputs`, `match parse_guess(input)`. On `Ok(n)`, `match game.guess(n)` and push a message. `break` after Correct."
 [[hints]]
 text = "Plural: `let s = if attempts == 1 { \"\" } else { \"s\" };` then `format!(\"Correct! {attempts} attempt{s}\")`."
+
+[[points]]
+after = 7
+prompt = "Start an empty list."
+code = "let mut messages: Vec<String> = ___;"
+blank = "Vec::new()"
+
+[[points]]
+after = 9
+prompt = "Which keyword leaves the loop early?"
+pick = ["break", "continue", "return", "loop"]
+answer = 0

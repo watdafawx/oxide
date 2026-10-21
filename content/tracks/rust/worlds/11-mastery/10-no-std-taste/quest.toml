@@ -21,3 +21,15 @@ text = "Fields: `buf` is the storage, `head` is where the oldest item sits, `len
 text = "`push`: if `len == N` return `Err(value)`. Otherwise write at `(head + len) % N`, bump `len`, return `Ok(())`."
 [[hints]]
 text = "`pop`: if `len == 0` return `None`. Otherwise read `buf[head]`, move `head = (head + 1) % N`, decrease `len`, return `Some(value)`. `len()` returns `self.len`, `is_full()` compares with `N`."
+
+[[points]]
+after = 2
+prompt = "What replaces std:: for items that exist in both?"
+pick = ["core::", "alloc::", "sys::", "lib::"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Fix the size in the type."
+code = "pub struct ChunkQueue<const N: ___> {"
+blank = "usize"

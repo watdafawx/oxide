@@ -42,3 +42,15 @@ text = "`read_packet`: read the length with `read_varint`, reject anything outsi
 text = "`parse_status`: `let v: Value = serde_json::from_str(json)?` (map the error to `invalid(..)`), then `v[\"version\"][\"name\"].as_str()`, `v[\"players\"][\"online\"].as_u64()`, ... with `ok_or_else(|| invalid(\"...\"))?`. `flatten_text` for an object: `text` plus the flattened `extra` items."
 [[hints]]
 text = "`ping`: connect with timeouts, `write_all` handshake then status_request, `read_packet`, check `id == 0`, `read_string(&packet.payload)`, `parse_status`."
+
+[[points]]
+after = 3
+prompt = "What does the packet length count?"
+pick = ["id plus payload", "payload only", "id only", "whole stream"]
+answer = 0
+
+[[points]]
+after = 9
+prompt = "Append the port as big-endian bytes."
+code = "buf.extend_from_slice(&port.___());"
+blank = "to_be_bytes"

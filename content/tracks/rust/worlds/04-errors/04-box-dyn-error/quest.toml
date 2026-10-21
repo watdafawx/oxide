@@ -21,3 +21,15 @@ text = "Split with `s.split_once(',')`. It returns an Option, so turn it into an
 text = "Then `let a = left.trim().parse::<i32>()?;` and `let b = right.trim().parse::<f64>()?;`. Two different error types, one `?`."
 [[hints]]
 text = "Finish with `Ok((a, b))`."
+
+[[points]]
+after = 2
+prompt = "Which type means \"any error, on the heap\"?"
+pick = ["Box<dyn Error>", "Vec<Error>", "String", "Option<Error>"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Cut the stray spaces first."
+code = "\" 10 \".___().parse::<u32>()"
+blank = "trim"

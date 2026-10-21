@@ -24,3 +24,15 @@ text = "Functions in `unsafe extern \"C\"` are unsafe to call: wrap the call in 
 text = "`CString::new(s).ok()?` makes a NUL-terminated copy (it fails if `s` has a NUL inside). Pass `c.as_ptr()` to `strlen`."
 [[hints]]
 text = "`from_c`: `CStr::from_ptr(ptr).to_string_lossy().into_owned()` inside `unsafe`."
+
+[[points]]
+after = 2
+prompt = "Which word makes every call to C need care?"
+code = "___ extern \"C\" {"
+blank = "unsafe"
+
+[[points]]
+after = 3
+prompt = "Which type is the owned C string?"
+pick = ["CString", "CStr", "String", "c_char"]
+answer = 0

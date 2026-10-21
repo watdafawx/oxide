@@ -16,3 +16,15 @@ label = "name_tag(\"ferris\", 3) returns \"[FERRIS] Lv 3\""
 text = "`str` has a method that returns an uppercase `String`. Type `name.` in your editor and look at the completions."
 [[hints]]
 text = "`name_tag` can call `shout`. Numbers go into `format!` just like text: `format!(\"Lv {level}\")`."
+
+[[points]]
+after = 2
+prompt = "Which method makes text uppercase?"
+pick = ["to_uppercase", "to_string", "trim", "len"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Print what the function call returns."
+code = "format!(\"({})\", ___)"
+blank = "double(4)"

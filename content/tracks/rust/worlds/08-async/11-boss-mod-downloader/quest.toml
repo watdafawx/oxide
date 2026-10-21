@@ -42,3 +42,15 @@ text = "`download_all`: create a `Semaphore::new(max_concurrent)` in an `Arc`. F
 text = "`verify`: a file is bad when `!std::fs::metadata(dir.join(&e.name)).is_ok_and(|m| m.len() == e.size)`. Collect the bad names."
 [[hints]]
 text = "Cancel: loop with `tokio::select! { _ = token.cancelled() => { set.abort_all(); remove_partials(dir).await; return Err(\"cancelled\".into()); } next = set.join_next() => ... }`. `res??` unwraps the JoinError and then your own Result."
+
+[[points]]
+after = 10
+prompt = "Which limits how many downloads run at once?"
+pick = ["Semaphore", "JoinSet", "Mutex", "timeout"]
+answer = 0
+
+[[points]]
+after = 21
+prompt = "Allow two at a time."
+code = "let sem = Arc::new(Semaphore::new(___));"
+blank = "2"

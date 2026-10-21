@@ -17,3 +17,15 @@ text = "`line.find(' ')` gives `Some(index)` of the first space. A slice of the 
 text = "trim_edges: if `lines.len() <= 2` return `&[]`, otherwise `&lines[1..lines.len() - 1]`."
 [[hints]]
 text = "recent_lines: the start is `log.len().saturating_sub(3)` (never goes below 0), then `&log[start..]`."
+
+[[points]]
+after = 2
+prompt = "Which slice is the first three?"
+pick = ["&x[..3]", "&x[3..]", "&x[2..5]", "&x[..=3]"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Take the first two bytes."
+code = "let cmd = ___;   // \"tp\""
+blank = "&line[..2]"

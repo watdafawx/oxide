@@ -16,3 +16,15 @@ label = "has_negative uses any and all_passing uses all"
 text = "`numbers.iter().copied().find(|n| *n > limit)` gives `Option<i32>`. For the index: `names.iter().position(|n| n == name)` (compare `n.as_str() == name`)."
 [[hints]]
 text = "`any` and `all` take a closure and return `bool`: `numbers.iter().any(|n| *n < 0)`."
+
+[[points]]
+after = 2
+prompt = "Which returns the index of the first match?"
+pick = ["find", "position", "any", "all"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Is any number above 40?"
+code = "nums.iter().___(|n| *n > 40);"
+blank = "any"

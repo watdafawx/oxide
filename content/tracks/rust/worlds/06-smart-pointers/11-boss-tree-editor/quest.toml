@@ -41,3 +41,15 @@ text = "`remove`: refuse the root and unknown ids. Detach from the old parent fi
 text = "Still in `remove`: collect the id of every node below the one you remove, then `self.nodes.retain` the ones that are not in that list."
 [[hints]]
 text = "`move_node`: for the cycle check, walk up from the new parent with `parent.upgrade()` and refuse if you meet the node being moved. Then detach it from the old parent, push it onto the new parent's `children`, and point its `parent` at the new one with `Rc::downgrade`."
+
+[[points]]
+after = 3
+prompt = "Which type points up to the parent?"
+pick = ["Weak", "Rc", "Box", "Cow"]
+answer = 0
+
+[[points]]
+after = 12
+prompt = "Drop exactly that child."
+code = "children.retain(|c| !Rc::___(c, &node))"
+blank = "ptr_eq"

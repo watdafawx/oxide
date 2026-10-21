@@ -21,3 +21,15 @@ text = "`*self.hits.borrow_mut() += 1;` gives you `&mut u32` for one statement."
 text = "`list.borrow_mut().push(item.to_string());`"
 [[hints]]
 text = "`cell.try_borrow_mut().is_err()` is true exactly when someone else holds a borrow."
+
+[[points]]
+after = 2
+prompt = "Which method gives write access?"
+pick = ["borrow_mut", "borrow", "try_borrow", "unwrap"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Reach the number inside the RefMut."
+code = "___self.count.borrow_mut() += 1;"
+blank = "*"

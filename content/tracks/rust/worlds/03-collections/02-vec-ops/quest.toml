@@ -24,3 +24,15 @@ text = "`let item = list.remove(index);` returns the removed item. Then `list.in
 text = "`dedup` only removes **neighbours** that are equal. Sort first: `numbers.sort(); numbers.dedup();`."
 [[hints]]
 text = "`names.contains(&\"admin\".to_string())` compares a `&String`. `retain` takes a closure: `words.retain(|w| w.len() >= min_len);`."
+
+[[points]]
+after = 4
+prompt = "Ask if 3 is in there."
+code = "println!(\"{}\", v.___(&3));"
+blank = "contains"
+
+[[points]]
+after = 5
+prompt = "Which call keeps only matching items?"
+pick = ["retain", "remove", "insert", "dedup"]
+answer = 0

@@ -21,3 +21,15 @@ text = "Put `?` after the fallible call: `let n = s.parse::<i32>()?;`. If it is 
 text = "After the `?` line, the rest is plain: `Ok(n * 2)`."
 [[hints]]
 text = "For the Option one: `let c = s.chars().next()?;` then `c.to_uppercase().next()`."
+
+[[points]]
+after = 2
+prompt = "Which character returns early on Err?"
+pick = ["?", "!", "*", "&"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Return the error now, or unwrap the value."
+code = "let n = s.parse::<i32>()___;"
+blank = "?"

@@ -17,3 +17,15 @@ text = "A handler is just an `async fn` returning something axum can turn into a
 text = "`Router::new().route(\"/status\", get(status))` wires path + method to the handler."
 [[hints]]
 text = "405 and 404 come for free: only declare the one `get` route."
+
+[[points]]
+after = 2
+prompt = "Which status do unknown paths get?"
+pick = ["404", "405", "200", "500"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Bind the path to the handler."
+code = "Router::new().___(\"/status\", get(status))"
+blank = "route"

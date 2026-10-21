@@ -26,3 +26,15 @@ text = "`vec![$($s.to_string()),*]` handles `vec_of_strings!`. Allow a trailing 
 text = "For `hashmap!`: `{ let mut m = ::std::collections::HashMap::new(); m.insert($k, $v); m }`. The pattern is `($k:expr => $v:expr)`: `=>` is matched literally."
 [[hints]]
 text = "`max!` has two arms. One argument: `($x:expr) => { $x }`. Several: `($x:expr, $($rest:expr),+) => { ::std::cmp::max($x, max!($($rest),+)) }`."
+
+[[points]]
+after = 2
+prompt = "Which matches zero or more comma-separated expressions?"
+pick = ["$( $x:expr ),*", "$( $x:expr ),+", "$x:expr*", "$($x:expr)?"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Accept an optional trailing comma."
+code = "($($s:expr),* ___) => { vec![$($s.len()),*] };"
+blank = "$(,)?"

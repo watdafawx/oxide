@@ -17,3 +17,15 @@ text = "`thread::spawn(move || quick_hash(&jar))` returns a `JoinHandle<u64>`. R
 text = "Start every thread first (`.map(...).collect::<Vec<_>>()`), then `join().unwrap()` each handle. Joining inside the first loop hashes the jars one by one."
 [[hints]]
 text = "`handle.join()` is a `Result`: `Err` means the thread panicked. `.ok()` turns it into an `Option`."
+
+[[points]]
+after = 2
+prompt = "What does spawn return?"
+pick = ["JoinHandle", "Receiver", "Mutex", "Arc"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Let the thread own what it uses."
+code = "thread::spawn(___ || {\n    println!(\"hashing {jar}\");\n});"
+blank = "move"

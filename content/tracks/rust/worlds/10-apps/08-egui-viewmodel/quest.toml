@@ -22,3 +22,15 @@ text = "The model first: `self.count += 1`, `self.count = self.count.saturating_
 text = "In `ui`, a button is a condition: `if ui.button(\"+\").clicked() { self.increment(); }`. Do the same for `-` and `Reset`."
 [[hints]]
 text = "Draw the label with `ui.label(self.label());`. Put `-`, the label and `+` inside `ui.horizontal(|ui| { ... })`, and Reset below it."
+
+[[points]]
+after = 3
+prompt = "Which call is true on the frame it was clicked?"
+pick = ["clicked", "draw", "label", "run"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Click the button in the test."
+code = "harness.get_by_label(\"+\").___();"
+blank = "click"

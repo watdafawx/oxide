@@ -21,3 +21,15 @@ text = "`reqwest::get(url).await?` sends the request. `.json::<serde_json::Value
 text = "A 404 is still a successful request for reqwest. Call `.error_for_status()?` on the response before reading it."
 [[hints]]
 text = "`title_of`: `let v = fetch_json(url).await?;` then `v[\"title\"].as_str().map(str::to_string)` (indexing a missing key gives `Null`, so `as_str` is `None`)."
+
+[[points]]
+after = 2
+prompt = "Send a GET."
+code = "let resp = reqwest::___(url).await?.error_for_status()?;"
+blank = "get"
+
+[[points]]
+after = 3
+prompt = "Which turns a 404 into an error?"
+pick = ["error_for_status", "json", "get", "send"]
+answer = 0

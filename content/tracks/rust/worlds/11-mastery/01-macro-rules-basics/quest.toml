@@ -16,3 +16,15 @@ label = "square!(expr) runs the expression a single time"
 text = "A macro arm is `(pattern) => { expansion };`. The pattern `$x:expr` captures any expression."
 [[hints]]
 text = "`square!(next())` must not call `next()` twice. Bind first: `{ let v = $x; v * v }`."
+
+[[points]]
+after = 3
+prompt = "Which captures one expression?"
+pick = ["$x:expr", "$x:ty", "$x:ident", "$x:tt"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Make the macro usable from outside."
+code = "#[___]\nmacro_rules! clamp_chunk {"
+blank = "macro_export"

@@ -21,3 +21,15 @@ text = "`stream::iter(nums).filter(|n| ready(n % 2 == 0)).map(|n| n * 2).collect
 text = "`stream::iter(1u64..)` never ends. Put `.take(n)` before `.collect()` or it will wait forever."
 [[hints]]
 text = "`fold(0, |acc, w| async move { acc + w.len() }).await`: the closure returns a future, so wrap the result in `async move`."
+
+[[points]]
+after = 2
+prompt = "Which call gets the next item of a stream?"
+pick = ["next", "map", "collect", "iter"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Turn a Vec into a stream."
+code = "let mods = stream::___(vec![\"jei\", \"sodium\", \"iris\"]);"
+blank = "iter"

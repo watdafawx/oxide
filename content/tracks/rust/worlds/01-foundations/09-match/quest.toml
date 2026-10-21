@@ -24,3 +24,15 @@ text = "Ranges work in patterns: `90..=100 => 'A'`. The catch-all arm is `_ => '
 text = "A guard adds a condition to an arm: `n if n < 0 => \"negative\"`. Order matters: first match wins."
 [[hints]]
 text = "`if let Command::Say(text) = cmd { text.clone() } else { String::new() }`."
+
+[[points]]
+after = 4
+prompt = "What is the extra `if` on a match arm called?"
+pick = ["guard", "clause", "filter", "cast"]
+answer = 0
+
+[[points]]
+after = 7
+prompt = "Let two patterns share one arm."
+code = "___ => \"tiny\","
+blank = "0 | 1"

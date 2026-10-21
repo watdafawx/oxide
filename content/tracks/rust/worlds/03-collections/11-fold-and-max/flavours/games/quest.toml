@@ -12,3 +12,15 @@ label = "biggest_stack returns the stack with the most items, or None if empty"
 text = "`fold(start, |acc, item| next_acc)`: the closure returns the new running value. Start from `damage`."
 [[hints]]
 text = "`reductions.iter().fold(damage, |d, off| d * (1.0 - off / 100.0))`. And `stacks.iter().max_by_key(|s| s.count)`."
+
+[[points]]
+after = 1
+prompt = "Which carries a running result?"
+pick = ["fold", "max_by_key", "find", "count"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Find the longest name."
+code = "let longest = items.iter().___(|w| w.len());"
+blank = "max_by_key"

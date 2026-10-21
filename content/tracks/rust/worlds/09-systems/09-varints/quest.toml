@@ -24,3 +24,15 @@ text = "Encode: take the low 7 bits (`v & 0x7f`), shift `v >>= 7`. If more is le
 text = "Decode: for each byte at index `i`, `result |= ((b & 0x7f) as u32) << (7 * i)`. If `b & 0x80 == 0` you are done: return `(result as i32, i + 1)`."
 [[hints]]
 text = "In decode, if `i >= 5` before processing a byte, return `Err(TooLong)`. If the loop ends without an end byte, return `Err(Truncated)`."
+
+[[points]]
+after = 3
+prompt = "Drop the lowest 7-bit group."
+code = "v >>= ___;"
+blank = "7"
+
+[[points]]
+after = 4
+prompt = "Which bit means \"more bytes follow\"?"
+pick = ["0x80", "0x7f", "0x01", "0xff"]
+answer = 0

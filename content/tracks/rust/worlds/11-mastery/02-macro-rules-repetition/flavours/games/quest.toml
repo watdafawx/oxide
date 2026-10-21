@@ -20,3 +20,15 @@ text = "`$($s:expr),* $(,)?` matches zero or more comma-separated expressions wi
 text = "`block_ids!`: `($k:expr => $v:expr) => {{ let mut m = ::std::collections::HashMap::new(); m.insert($k, $v); m }};`"
 [[hints]]
 text = "`tallest!` is recursive: one arm for a single argument, one for `$x:expr, $($rest:expr),+` that returns `::std::cmp::max($x, $crate::tallest!($($rest),+))`."
+
+[[points]]
+after = 2
+prompt = "Which repeats zero or more times, comma-separated?"
+pick = ["$( ... ),*", "$( ... ),+", "$( ... )?", "$... ,*"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Allow an optional trailing comma."
+code = "($($name:expr),* ___) => {"
+blank = "$(,)?"

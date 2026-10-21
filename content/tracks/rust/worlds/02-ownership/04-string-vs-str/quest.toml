@@ -21,3 +21,15 @@ text = "`format!(\"Hello, {name}!\")` builds a new String from the borrowed text
 text = "`text.to_string()` copies borrowed text into a new owned String."
 [[hints]]
 text = "`match name.as_str() { \"admin\" => ..., \"mod\" => ..., _ => ... }`"
+
+[[points]]
+after = 3
+prompt = "Which type borrows text?"
+pick = ["String", "&str", "Vec", "char"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Take text you only read."
+code = "fn greet(name: ___) -> String {"
+blank = "&str"

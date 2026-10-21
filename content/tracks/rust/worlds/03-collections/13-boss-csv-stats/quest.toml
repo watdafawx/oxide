@@ -40,3 +40,15 @@ text = "`parse_rows`: `csv.lines().enumerate().skip(1)` gives `(index, line)` pa
 text = "`total_by_category`: a `BTreeMap` and `*totals.entry(row.category.clone()).or_insert(0.0) += row.total();`. `top_n`: `rows.iter().collect::<Vec<_>>()`, `sort_by(|a, b| b.total().total_cmp(&a.total()))`, then `.into_iter().take(n).collect()`."
 [[hints]]
 text = "`cheapest_in`: `.iter().filter(|r| r.category == category).min_by(|a, b| a.price.total_cmp(&b.price))`. `report`: `vec![header]`, `extend` it with a `map` of `format!(\"{:<10} {:<9} {:>8.2} {:>4}\", ...)`, push the footer, `join(\"\\n\")`."
+
+[[points]]
+after = 3
+prompt = "Which rewrites the error?"
+pick = ["map_err", "unwrap_or", "expect", "filter_map"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Walk the text one line at a time."
+code = "for line in csv.___() {"
+blank = "lines"

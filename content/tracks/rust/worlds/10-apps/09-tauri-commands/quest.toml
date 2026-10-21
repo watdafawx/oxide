@@ -24,3 +24,15 @@ text = "Start with the plain functions: `xp / 100 + 1`, then `state.xp += amount
 text = "`start_quest_inner`: `if id.trim().is_empty() { return Err(\"quest id is blank\".into()); }`, `if state.started.contains(&id) { return Err(...) }`, then `state.started.push(id)` and return `Ok(state.started.clone())`."
 [[hints]]
 text = "A command is a thin wrapper: `award_xp_inner(&mut state.lock().unwrap(), amount)`. `state` is `tauri::State<Mutex<AppState>>`; `.lock()` works on it directly. Do the same for `start_quest`."
+
+[[points]]
+after = 2
+prompt = "Which attribute makes a Rust fn callable from the UI?"
+pick = ["#[tauri::command]", "#[derive(Command)]", "#[invoke]", "#[export]"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Register the shared state."
+code = "b.___(Mutex::new(AppState::default()))"
+blank = "manage"

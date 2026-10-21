@@ -21,3 +21,15 @@ text = "`prices.get(item)` gives `Option<&f64>`. Add `.copied()` to get `Option<
 text = "`let mut map = HashMap::new();` then walk both slices together with `for (name, count) in names.iter().zip(counts)` and `map.insert(name.to_string(), *count);` inside it."
 [[hints]]
 text = "`*counts.entry(word.to_string()).or_insert(0) += 1;` — `or_insert` returns a `&mut` to the value, so `*` and `+= 1` bumps it."
+
+[[points]]
+after = 3
+prompt = "Which method gives the slot for a key, creating it if missing?"
+pick = ["entry", "get", "insert", "remove"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Fill the slot with 0 if it is missing."
+code = "*counts.entry(w.to_string()).___(0) += 1;"
+blank = "or_insert"

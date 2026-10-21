@@ -16,3 +16,15 @@ text = "The error names the line that gives the String away. Find the call that 
 text = "Give the function its own copy and keep yours: `.clone()` makes a second String."
 [[hints]]
 text = "Half a step: the argument of `name_length` is the part to change. Pass it a copy and leave `name` alone for the tuple."
+
+[[points]]
+after = 3
+prompt = "Which method makes a second copy on purpose?"
+pick = ["clone", "move", "copy", "borrow"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Copy it so both names keep working."
+code = "let a = String::from(\"hi\");\nlet b = ___;"
+blank = "a.clone()"

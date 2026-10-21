@@ -21,3 +21,15 @@ text = "You cannot mix `i32` and `f64`. Convert first: `a as f64`."
 text = "`(a + b) as f64 / 2.0` works. For `low_byte`, just `n as u8`."
 [[hints]]
 text = "Integers have helper methods for overflow. Try `a.wrapping_add(b)`."
+
+[[points]]
+after = 3
+prompt = "Which keyword converts between number types?"
+pick = ["as", "to", "from", "let"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Wrap on purpose."
+code = "let wrapped = hp.___(100);  // 44, no crash"
+blank = "wrapping_add"

@@ -21,3 +21,15 @@ text = "`s.push('!')` works directly on a `&mut String`: no `*` needed for metho
 text = "`v.push(x)` twice. `x` is an `i32`, which is cheap to reuse."
 [[hints]]
 text = "`from.pop()` returns an `Option<i32>`: `if let Some(x) = from.pop() { to.push(x); }`"
+
+[[points]]
+after = 1
+prompt = "Which borrows a value so you can change it?"
+pick = ["&mut", "&", "mut", "ref"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Add 7 to the end."
+code = "v.___(7);"
+blank = "push"

@@ -24,3 +24,15 @@ text = "A struct literal: `Player { name: name.to_string(), hp: 100 }`."
 text = "`&mut self` lets a method change fields: `self.hp -= damage`. But `u32` can't go below 0..."
 [[hints]]
 text = "`self.hp = self.hp.saturating_sub(damage);` stops at 0."
+
+[[points]]
+after = 4
+prompt = "Which self lets a method change the struct?"
+pick = ["self", "&self", "&mut self", "mut"]
+answer = 2
+
+[[points]]
+after = 5
+prompt = "Never drop below 0."
+code = "self.age = self.age.___(1);"
+blank = "saturating_sub"

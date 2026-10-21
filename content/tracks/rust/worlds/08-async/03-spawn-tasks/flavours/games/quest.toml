@@ -17,3 +17,15 @@ text = "`tokio::spawn(async move { kb * 1024 })` returns a `JoinHandle<u64>`. Re
 text = "Spawn every task first (`.map(spawn_fetch).collect::<Vec<_>>()`), then `.await.unwrap()` each handle in order."
 [[hints]]
 text = "Awaiting a `JoinHandle` gives a `Result`: `Err` means the task panicked. `.ok()` turns it into an `Option`."
+
+[[points]]
+after = 1
+prompt = "What does tokio::spawn return?"
+pick = ["JoinHandle", "Future", "Result", "Mutex"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Give the task its own data."
+code = "tokio::spawn(___ { kb * 1024 })"
+blank = "async move"

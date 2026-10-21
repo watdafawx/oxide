@@ -16,3 +16,15 @@ label = "add_async(a, b) returns a + b"
 text = "An `async fn` works like a normal fn in its body. `format!(\"Hello, {name}!\")` builds the String."
 [[hints]]
 text = "Calling an async fn gives you a future. Add `.await` to get the value: `let a = greet(name).await;`"
+
+[[points]]
+after = 2
+prompt = "What does calling an async fn return?"
+pick = ["a future", "its value", "a thread", "nothing"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Run the recipe."
+code = "let name = jar_name(21).___;"
+blank = "await"

@@ -21,3 +21,15 @@ text = "`data.split_at(mid)` gives two `&[i64]` halves. Inside `thread::scope(|s
 text = "`s.spawn` returns a handle too. `join().unwrap()` it inside the scope to get the value out. Scope's closure returns what you return."
 [[hints]]
 text = "For `&mut`, `buf.split_at_mut(mid)` gives two non-overlapping `&mut [u32]`. The right half starts at index `mid`, so element `i` there is global index `mid + i`."
+
+[[points]]
+after = 1
+prompt = "Which call joins all its threads before returning?"
+pick = ["thread::scope", "thread::spawn", "thread::sleep", "thread::park"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Cut the slice after 2 items."
+code = "let (left, right) = data.___(2);"
+blank = "split_at"

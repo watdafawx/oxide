@@ -24,3 +24,15 @@ text = "Lock first: `let conn = db.lock().unwrap();`. Then it is the same rusqli
 text = "`create`: execute the INSERT with `params![new.body]`, then `let id = conn.last_insert_rowid();` and return `Ok((StatusCode::CREATED, Json(Note { id, body: new.body })))`."
 [[hints]]
 text = "`get_one`: `conn.query_row(sql, params![id], |r| Ok(Note { id: r.get(0)?, body: r.get(1)? })).optional()` gives `Option<Note>`. `remove`: `conn.execute(\"DELETE ...\", params![id])` returns the number of rows deleted; 0 means 404."
+
+[[points]]
+after = 2
+prompt = "What wraps the connection so handlers can share it?"
+pick = ["Arc<Mutex<Connection>>", "Rc<Connection>", "Box<Connection>", "Cell<Connection>"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Turn \"no row\" into Ok(None)."
+code = ".query_row(sql, params![id], |r| Ok(r.get(0)?))\n.___()\n.map_err(internal)?;"
+blank = "optional"

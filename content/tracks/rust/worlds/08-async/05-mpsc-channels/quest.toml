@@ -21,3 +21,15 @@ text = "`while let Some(msg) = rx.recv().await { out.push(msg); }` ends when eve
 text = "Give each worker its own sender: `let tx = tx.clone();` then `tokio::spawn(async move { tx.send(id * 10).await.unwrap(); })`."
 [[hints]]
 text = "The loop only ends when ALL senders are dropped, including your original `tx`. Call `drop(tx)` after the spawn loop."
+
+[[points]]
+after = 2
+prompt = "Make a queue of 8."
+code = "let (tx, mut rx) = mpsc::channel::<u32>(___);"
+blank = "8"
+
+[[points]]
+after = 5
+prompt = "Which forgotten call makes the receiver wait forever?"
+pick = ["drop(tx)", "tx.clone()", "rx.recv()", "send"]
+answer = 0

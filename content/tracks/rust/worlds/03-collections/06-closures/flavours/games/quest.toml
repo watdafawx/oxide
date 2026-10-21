@@ -20,3 +20,15 @@ text = "`move |count| count + bonus`. The `move` keyword copies `bonus` into the
 text = "`upgrade(upgrade(level))`. `upgrade` is just something you call with parentheses."
 [[hints]]
 text = "`stacks.iter().filter(|n| keep(**n)).count()`. `filter` hands you `&&u32` here, so `**n` (or `copied()` first) gets the number. For `stacks_over`: `.filter(|n| **n > limit)` captures `limit` automatically."
+
+[[points]]
+after = 1
+prompt = "Which writes a closure?"
+pick = ["|count| count + 1", "fn count", "count => count", "(count) -> count"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Take any closure from u32 to u32."
+code = "fn apply_twice(f: ___, x: u32) -> u32 {"
+blank = "impl Fn(u32) -> u32"

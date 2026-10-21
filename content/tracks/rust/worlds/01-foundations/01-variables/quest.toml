@@ -16,3 +16,15 @@ label = "trimmed_len returns the length without the outer spaces"
 text = "A plain `let` can never change. Write `let mut score = 10;` so you can do `score += 5;`."
 [[hints]]
 text = "For `trimmed_len`: `let text = text.trim();` makes a new `text`, then return `text.len()`."
+
+[[points]]
+after = 2
+prompt = "Which word lets a variable change?"
+pick = ["mut", "let", "const", "var"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Shadow lives with a new value."
+code = "let lives = ___;    // a brand-new `lives` (20)"
+blank = "lives * 10"

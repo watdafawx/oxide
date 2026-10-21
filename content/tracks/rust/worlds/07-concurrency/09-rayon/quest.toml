@@ -21,3 +21,15 @@ text = "Start with `use rayon::prelude::*;` (already there). Then `nums.par_iter
 text = "`collect::<Vec<_>>()` on a parallel iterator still returns the items in the original order."
 [[hints]]
 text = "`(0..limit).into_par_iter().filter(|&n| is_prime(n)).count()`"
+
+[[points]]
+after = 1
+prompt = "Swap one word to run in parallel."
+code = "let lengths: Vec<usize> = jars.___().map(|j| j.len()).collect();"
+blank = "par_iter"
+
+[[points]]
+after = 3
+prompt = "Which one consumes the collection?"
+pick = ["par_iter", "into_par_iter", "par_iter_mut", "iter"]
+answer = 1

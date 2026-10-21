@@ -24,3 +24,15 @@ text = "Add `.context(\"port must be a number\")` after `.parse::<u16>()`. `Cont
 text = "`bail!(\"percent out of range: {n}\")` returns an `Err` immediately, like `return Err(...)`."
 [[hints]]
 text = "Use `if !(0..=100).contains(&n) { bail!(...); }` then `Ok(n)`."
+
+[[points]]
+after = 3
+prompt = "Which method adds a higher-level message?"
+pick = ["context", "bail", "unwrap", "expect"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Return an error right away."
+code = "___!(\"name must not be empty\");"
+blank = "bail"

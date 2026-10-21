@@ -21,3 +21,15 @@ text = "`numbers.iter().collect::<HashSet<_>>().len()`. A set silently ignores d
 text = "Make a `HashSet` of each side: `a.iter().copied().collect::<HashSet<i32>>()`. Then `set_a.intersection(&set_b).copied().collect::<Vec<_>>()`, and `sort()` it since sets have no order."
 [[hints]]
 text = "Same as the word counter, but `BTreeMap::new()`. Skip non-letters, lowercase the rest: `*counts.entry(c.to_ascii_lowercase()).or_insert(0) += 1;`."
+
+[[points]]
+after = 3
+prompt = "Which map keeps its keys sorted?"
+pick = ["HashMap", "BTreeMap", "HashSet", "Vec"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Find what both sets share."
+code = "let both: Vec<_> = a.___(&b).collect();"
+blank = "intersection"

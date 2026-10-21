@@ -24,3 +24,15 @@ text = "Inside `circle`, the parent's private `PI` is reachable as `super::PI`. 
 text = "In `total_area`, `self::circle::area(r) + self::square::area(side)`. `self::` means \"this module\"."
 [[hints]]
 text = "In `describe`, write `use geometry::total_area;` at the top of the function (or file), then call `total_area(r, side)`."
+
+[[points]]
+after = 2
+prompt = "Which keyword makes an item visible outside?"
+pick = ["pub", "use", "mod", "super"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Go up to the parent module."
+code = "___::SECRET * 2"
+blank = "super"

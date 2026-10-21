@@ -21,3 +21,15 @@ text = "`thread::spawn(move || n * n)` returns a `JoinHandle<u64>`. Return it as
 text = "Start all the threads first (`.map(...).collect::<Vec<_>>()`), then `join().unwrap()` each handle. Joining inside the first loop makes it sequential."
 [[hints]]
 text = "`handle.join()` is a `Result`: `Err` means the thread panicked. `.ok()` turns it into an `Option`."
+
+[[points]]
+after = 2
+prompt = "What does spawn return?"
+pick = ["JoinHandle", "Receiver", "Mutex", "Arc"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Let the thread own what it uses."
+code = "thread::spawn(___ || {\n    println!(\"{}\", jars.len());\n});"
+blank = "move"

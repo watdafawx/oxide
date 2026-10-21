@@ -21,3 +21,15 @@ text = "`let (tx, rx) = mpsc::channel();` then move `tx` into the spawned thread
 text = "Each worker needs its own `tx.clone()`. The original `tx` must be dropped too (`drop(tx)`), otherwise the channel never closes."
 [[hints]]
 text = "A `Receiver` is iterable: `rx.iter().collect()` ends when every sender is gone."
+
+[[points]]
+after = 3
+prompt = "Which call blocks until a value arrives?"
+pick = ["recv", "send", "clone", "drop"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Drop the original sender."
+code = "drop(___);"
+blank = "tx"

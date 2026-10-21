@@ -17,3 +17,15 @@ text = "`if` is an expression: `if count == 64 { \"Full\".to_string() } else if 
 text = "`for i in 1..=steps` includes `steps`. `1..steps` stops one short."
 [[hints]]
 text = "`while block_hp > 0 { block_hp -= damage; swings += 1; }`, then return `swings`."
+
+[[points]]
+after = 2
+prompt = "Which range includes 4?"
+pick = ["1..4", "1..=4", "..4", "1.."]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "Hand a value back out of the loop."
+code = "let reach = loop {\n    if radius >= 10 { ___ }\n    radius += 1;\n};"
+blank = "break radius * 16;"

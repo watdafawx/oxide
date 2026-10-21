@@ -20,3 +20,15 @@ text = "`let item = inventory.remove(slot);` returns the removed item. Then `inv
 text = "`dedup` only removes **neighbours** that are equal. Sort first: `drops.sort(); drops.dedup();`."
 [[hints]]
 text = "`items.contains(&\"elytra\".to_string())` compares a `&String`. `retain` takes a closure: `stacks.retain(|s| s.count >= min_count);`."
+
+[[points]]
+after = 3
+prompt = "Ask if dirt is in there."
+code = "println!(\"{}\", v.___(&\"dirt\"));"
+blank = "contains"
+
+[[points]]
+after = 4
+prompt = "Which call keeps only matching items?"
+pick = ["retain", "remove", "insert", "dedup"]
+answer = 0

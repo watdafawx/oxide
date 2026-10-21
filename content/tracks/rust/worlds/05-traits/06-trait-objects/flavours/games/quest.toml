@@ -20,3 +20,15 @@ text = "Both `health` methods just return `self.hp`."
 text = "`vec![Box::new(Zombie { hp: 20 }), Box::new(Creeper { hp: 15 })]`. The return type tells Rust to treat each Box as `Box<dyn Entity>`."
 [[hints]]
 text = "`total_health`: `world.iter().map(|mob| mob.health()).sum()`. `describe`: `format!(\"{} with {} hp\", mob.name(), mob.health())`."
+
+[[points]]
+after = 1
+prompt = "Which type is an owned trait object?"
+pick = ["Box<dyn Entity>", "&dyn Entity", "Vec<Entity>", "impl Entity"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Borrow a trait object."
+code = "fn show(m: ___) -> u32 { m.health() }"
+blank = "&dyn Entity"

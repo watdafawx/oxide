@@ -17,3 +17,15 @@ text = "`while let Some(line) = rx.recv().await { ... }` ends when every sender 
 text = "Each task needs its own `tx.clone()`. Move the clone into the `async move` block."
 [[hints]]
 text = "With zero workers the original `tx` is the only sender left. `drop(tx)` after the loop, or `recv()` waits forever."
+
+[[points]]
+after = 1
+prompt = "Buffer 4 pending messages."
+code = "let (tx, mut rx) = mpsc::channel::<u32>(___);"
+blank = "4"
+
+[[points]]
+after = 2
+prompt = "Which forgotten call makes the receiver wait forever?"
+pick = ["drop(tx)", "tx.clone()", "rx.recv()", "send"]
+answer = 0

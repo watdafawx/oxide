@@ -21,3 +21,15 @@ text = "`Rc::clone(shared)` copies the pointer, not the String."
 text = "`Rc::strong_count(rc)` returns the number of owners."
 [[hints]]
 text = "Make the extra owner inside a `{ ... }` block so it is dropped at the closing brace, then read the count again."
+
+[[points]]
+after = 2
+prompt = "Which call adds an owner without copying?"
+pick = ["Rc::clone", "String::from", "Vec::new", "Box::new"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Add a cheap second owner."
+code = "let b = ___(&a);"
+blank = "Rc::clone"

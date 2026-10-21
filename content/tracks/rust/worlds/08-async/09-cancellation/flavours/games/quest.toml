@@ -17,3 +17,15 @@ text = "`loop { tokio::select! { _ = token.cancelled() => return \"stopped\", _ 
 text = "Spawn it with `tokio::spawn(async move { ... })`. `token` and `chunks` are moved in, so do not borrow them."
 [[hints]]
 text = "`token.cancel()` first, then await each handle and count the ones that returned `\"stopped\"`."
+
+[[points]]
+after = 1
+prompt = "Which call completes when someone cancels?"
+pick = ["cancelled", "cancel", "clone", "new"]
+answer = 0
+
+[[points]]
+after = 1
+prompt = "Race the work against the token."
+code = "tokio::___! {\n    _ = worker_token.cancelled() => return \"stopped\",\n    _ = download_next_chunk() => {}\n}"
+blank = "select"

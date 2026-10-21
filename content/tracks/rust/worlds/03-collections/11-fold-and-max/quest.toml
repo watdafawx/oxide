@@ -16,3 +16,15 @@ label = "longest_word returns the longest word, or None if empty"
 text = "`fold(start, |acc, item| next_acc)`: the closure returns the new running value. Start from `price`."
 [[hints]]
 text = "`percents.iter().fold(price, |p, off| p * (1.0 - off / 100.0))`. And `words.iter().max_by_key(|w| w.len())`."
+
+[[points]]
+after = 2
+prompt = "Which carries a running result?"
+pick = ["fold", "max_by_key", "find", "count"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Find the longest word."
+code = "let longest = words.iter().___(|w| w.len());"
+blank = "max_by_key"

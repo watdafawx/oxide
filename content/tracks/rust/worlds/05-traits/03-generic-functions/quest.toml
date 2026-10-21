@@ -21,3 +21,15 @@ text = "`largest`: start with `let mut best = &xs[0];`, loop over `xs`, and repl
 text = "`show_all`: map every item to a `String` with `.to_string()`, collect into a `Vec<String>`, then `.join(\", \")`."
 [[hints]]
 text = "`count_matching`: `xs.iter().filter(|x| *x == target).count()`."
+
+[[points]]
+after = 2
+prompt = "Which writes a bound?"
+pick = ["<T: Display>", "<T = Display>", "T<Display>", "(T: Display)"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Combine two bounds."
+code = "fn largest<T: Display ___ PartialOrd>(a: T, b: T) -> T {"
+blank = "+"

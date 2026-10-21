@@ -45,3 +45,15 @@ text = "`run`: `match cmd { Command::Add(name) => Ok(format!(\"added {}\", list.
 
 [[hints]]
 text = "`Command::List`: an empty list returns \"no mods yet\". Otherwise map each mod to `format!(\"[{}] {} {}\", mark, m.id, m.name)` where `mark` is `if m.enabled { 'x' } else { ' ' }`, collect into a `Vec<String>` and `join(\"\\n\")`."
+
+[[points]]
+after = 1
+prompt = "Which error type do the tests match on?"
+pick = ["ModError", "anyhow::Error", "io::Error", "String"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Add a condition to the arm."
+code = "Err(e) ___ e.kind() == ErrorKind::NotFound => Ok(Self::default()),"
+blank = "if"

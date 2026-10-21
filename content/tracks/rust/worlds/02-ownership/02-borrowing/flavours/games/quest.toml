@@ -17,3 +17,15 @@ text = "The parameter is `roster: &Roster`: you can read through it as if it wer
 text = "For the count, `roster.players.len()` is all you need."
 [[hints]]
 text = "For total_chars, loop over `&roster.players` (or use `.iter()`) and add up each `name.len()`."
+
+[[points]]
+after = 1
+prompt = "Which symbol borrows x?"
+pick = ["&x", "*x", "x&", "mut x"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Take a borrowed Roster."
+code = "fn count(roster: ___) -> usize {"
+blank = "&Roster"
