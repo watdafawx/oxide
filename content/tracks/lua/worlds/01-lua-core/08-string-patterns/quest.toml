@@ -26,3 +26,15 @@ text = "`for item in s:gmatch(\"[^,]+\")` walks the pieces between commas. Trim 
 text = "`text:gsub(\"%d+\", function(n) return tonumber(n) * 2 end)` replaces each number. gsub returns two values: wrap the call in parentheses to keep one."
 [[hints]]
 text = "Prefix every magic character with `%`: `s:gsub(\"[%^%$%(%)%%%.%[%]%*%+%-%?]\", \"%%%0\")` (`%0` is the whole match)."
+
+[[points]]
+after = 1
+prompt = "Which class matches one digit?"
+pick = ["%a", "%d", "%s", "%w"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Match each run of non-comma characters."
+code = "for item in (\"a,b,c\"):gmatch(___) do print(item) end"
+blank = "\"[^,]+\""

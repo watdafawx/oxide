@@ -24,3 +24,15 @@ text = "`effects = { { type = \"unlock-recipe\", recipe = \"kit-alloy\" } }` and
 text = "`unit = { count = 30, time = 15, ingredients = { { \"automation-science-pack\", 1 } } }`: the ingredient pair is `{ name, amount }`, no `type`."
 [[hints]]
 text = "A recipe is craftable from the start unless it says `enabled = false`. A technology that unlocks it then makes it available."
+
+[[points]]
+after = 1
+prompt = "Which field lists the techs you need first?"
+pick = ["effects", "prerequisites", "unit", "count"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Write one research ingredient pair."
+code = "ingredients = { ___ },   -- {name, amount} pairs"
+blank = "{ \"automation-science-pack\", 2 }"

@@ -21,3 +21,15 @@ text = "Switch from `icon = \"...\"` to `icons = { { icon = \"...\" }, { icon = 
 text = "Layer 1 is your own file: `__kit-mod__/graphics/icons/kit-alloy.png`. Layer 2: `__base__/graphics/icons/iron-plate.png` with a `tint`."
 [[hints]]
 text = "`tint = { r = 0.9, g = 0.5, b = 0.2, a = 0.8 }`. Channels are 0 to 1; plain white `{1, 1, 1}` changes nothing."
+
+[[points]]
+after = 1
+prompt = "Which path is valid?"
+pick = ["graphics/icons/x.png", "__base__ graphics/x.png", "__base__/graphics/icons/iron-plate.png", "base/graphics/x.png"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Add your own mod's root."
+code = "icon = \"___/graphics/icons/kit-alloy.png\""
+blank = "__kit-mod__"

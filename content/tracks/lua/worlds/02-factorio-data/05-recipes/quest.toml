@@ -21,3 +21,15 @@ text = "Each ingredient is `{ type = \"item\", name = \"iron-plate\", amount = 2
 text = "Replace `result = \"kit-alloy\"` with `results = { { type = \"item\", name = \"kit-alloy\", amount = 1 } }`."
 [[hints]]
 text = "`energy_required = 2` is seconds at crafting speed 1. The default is 0.5. `enabled` defaults to true, `category` to \"crafting\"."
+
+[[points]]
+after = 3
+prompt = "Which field says how many?"
+pick = ["count", "amount", "qty", "number"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Mark the entry as an item."
+code = "{ ___, name = \"iron-plate\", amount = 3 },"
+blank = "type = \"item\""

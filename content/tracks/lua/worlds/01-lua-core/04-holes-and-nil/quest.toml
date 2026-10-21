@@ -26,3 +26,15 @@ text = "`select(\"#\", ...)` is the real argument count. `#{...}` is not: it may
 text = "Loop `for i = 1, n` (not `ipairs`, which stops at the first nil) and append the non-nil values."
 [[hints]]
 text = "`table.pack(...)` returns a table with an `n` field. `table.unpack(p, 1, p.n)` gives all of them back."
+
+[[points]]
+after = 1
+prompt = "Which value leaves a hole when stored?"
+pick = ["0", "false", "nil", "\"\""]
+answer = 2
+
+[[points]]
+after = 2
+prompt = "Count the real arguments, nils included."
+code = "print(___)   -- 2"
+blank = "select(\"#\", nil, nil)"

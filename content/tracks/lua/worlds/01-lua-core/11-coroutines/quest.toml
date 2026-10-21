@@ -21,3 +21,15 @@ text = "`coroutine.wrap(function() for i = a, b do coroutine.yield(i) end end)` 
 text = "`coroutine.resume(co, x)` passes `x` in. The first time it becomes the function's argument, afterwards it is the return value of `coroutine.yield`."
 [[hints]]
 text = "Make a coroutine per task with `coroutine.create`. Loop over them, `resume` each once per round, and drop it when `coroutine.status(co) == \"dead\"`."
+
+[[points]]
+after = 3
+prompt = "Wrap the generator so it is a plain function."
+code = "local function count_to(n)\n  return ___(function()\n    for i = 1, n do coroutine.yield(i) end\n  end)\nend"
+blank = "coroutine.wrap"
+
+[[points]]
+after = 6
+prompt = "Which call pauses the coroutine and hands out a value?"
+pick = ["resume", "yield", "wrap", "status"]
+answer = 1

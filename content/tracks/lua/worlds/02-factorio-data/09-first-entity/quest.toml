@@ -24,3 +24,15 @@ text = "A `container` needs `inventory_size`. Give it `icon = ...` and `flags = 
 text = "The item points at the entity: `place_result = \"kit-crate\"`. The entity points back at the item: `minable = { mining_time = 0.2, result = \"kit-crate\" }`."
 [[hints]]
 text = "Boxes are `{ { left, top }, { right, bottom } }`. A centred one mirrors itself: `{ { -0.35, -0.35 }, { 0.35, 0.35 } }`, with the selection box a little bigger."
+
+[[points]]
+after = 2
+prompt = "Which item field links to the entity?"
+pick = ["minable", "place_result", "flags", "result"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Give the item back when mined."
+code = "minable = { mining_time = 0.5, result = ___ },"
+blank = "\"kit-bin\""

@@ -38,3 +38,15 @@ text = "Recipe ingredients: `{ type = \"item\", name = \"kit-alloy\", amount = 4
 text = "kit-storage: `prerequisites = { \"kit-metallurgy\" }`, `effects = { { type = \"unlock-recipe\", recipe = \"kit-crate\" } }`, `unit = { count = 50, time = 20, ingredients = { { \"automation-science-pack\", 1 } } }`."
 [[hints]]
 text = "Run `src/main.lua`: it prints your prototypes and the raw plate cost of a kit-crate. If it says `place_result ... is not an entity prototype`, the container is missing or misnamed."
+
+[[points]]
+after = 4
+prompt = "Which item field places the container?"
+pick = ["place_result", "minable", "result", "icon"]
+answer = 0
+
+[[points]]
+after = 6
+prompt = "Which setting keeps a recipe locked until research?"
+pick = ["enabled = false", "enabled = true", "hidden = true", "energy_required = 0"]
+answer = 0

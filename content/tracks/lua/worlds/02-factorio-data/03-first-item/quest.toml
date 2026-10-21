@@ -21,3 +21,15 @@ text = "Inside the table passed to `data:extend` add `icon = \"__base__/graphics
 text = "`subgroup` is the name of an `item-subgroup` (the section of the inventory where it shows). Use `\"intermediate-product\"`. `order` is a sort string, for example `\"z[kit-alloy]\"`."
 [[hints]]
 text = "The error message names the missing field: read it, it tells you which line to add."
+
+[[points]]
+after = 1
+prompt = "Fill the prototype type."
+code = "{\n  type = ___,\n  name = \"kit-bolt\",\n  stack_size = 200,\n}"
+blank = "\"item\""
+
+[[points]]
+after = 1
+prompt = "Which field must be a whole number of at least 1?"
+pick = ["icon", "stack_size", "order", "subgroup"]
+answer = 1

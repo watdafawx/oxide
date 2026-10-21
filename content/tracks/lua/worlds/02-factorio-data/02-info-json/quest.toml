@@ -21,3 +21,15 @@ text = "The four mandatory fields are `name`, `version`, `title` and `author`. `
 text = "`factorio_version` is a string with exactly two numbers: `\"2.0\"`. Leave it out and Factorio assumes the ancient \"0.12\"."
 [[hints]]
 text = "`\"dependencies\": [\"base >= 2.0.0\"]`: a name, then an operator and a version. Prefixes such as `?` (optional) go in front."
+
+[[points]]
+after = 1
+prompt = "Which value does factorio_version take?"
+code = "\"factorio_version\": ___,"
+blank = "\"2.0\""
+
+[[points]]
+after = 4
+prompt = "Which prefix marks an optional dependency?"
+pick = ["?", "!", "~", "+"]
+answer = 0

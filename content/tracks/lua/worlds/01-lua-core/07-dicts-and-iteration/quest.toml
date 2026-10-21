@@ -21,3 +21,15 @@ text = "`for word in text:gmatch(\"%S+\") do counts[word] = (counts[word] or 0) 
 text = "While looping with `pairs`, you may set an *existing* field to `nil`. Adding new keys during the loop is the forbidden part."
 [[hints]]
 text = "Recurse: if `type(v) == \"table\"` copy it with `deep_copy(v)`, otherwise copy the value as is."
+
+[[points]]
+after = 1
+prompt = "Which loop visits every key of a dict?"
+pick = ["ipairs", "pairs", "select", "unpack"]
+answer = 1
+
+[[points]]
+after = 5
+prompt = "Test for a nested table."
+code = "if ___ then"
+blank = "type(v) == \"table\""

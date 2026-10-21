@@ -26,3 +26,15 @@ text = "Define methods with a colon: `function Position:manhattan(other)`. The c
 text = "`Position.__add = function(a, b) return Position.new(a.x + b.x, a.y + b.y) end` and `Position.__tostring = function(p) ... end`."
 [[hints]]
 text = "For `read_only`, return an empty proxy: `setmetatable({}, {__index = t, __newindex = function() error(\"read-only\", 2) end})`."
+
+[[points]]
+after = 1
+prompt = "What is a:f(x) short for?"
+pick = ["a.f(a, x)", "a.f(x)", "f(a.x)", "a[f](x)"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Which key makes missing lookups fall back to Position?"
+code = "Position.___ = Position            -- missing keys are looked up here"
+blank = "__index"

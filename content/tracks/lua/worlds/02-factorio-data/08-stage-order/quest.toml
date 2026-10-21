@@ -21,3 +21,15 @@ text = "`other` loads after `mod`, so in `mod/data.lua` its items do not exist y
 text = "In `data-final-fixes.lua` loop `for _, item in pairs(data.raw.item) do ... end` and set `item.stack_size = item.stack_size / 2` when it is above 50."
 [[hints]]
 text = "Do the halving in exactly one stage. If it also runs in data-updates, other-widget ends at 25 and vanilla plates at 25 too."
+
+[[points]]
+after = 2
+prompt = "Which file runs last?"
+pick = ["data.lua", "data-updates.lua", "data-final-fixes.lua", "info.json"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Halve into a whole number."
+code = "item.stack_size = ___(item.stack_size / 2)"
+blank = "math.floor"

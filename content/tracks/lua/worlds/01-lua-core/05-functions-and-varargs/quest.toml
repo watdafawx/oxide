@@ -24,3 +24,15 @@ text = "`return lo, hi` returns two values. Start both from `list[1]` and walk t
 text = "`n or 1` works for nil, but it also replaces `false`. For booleans test `value == nil` instead."
 [[hints]]
 text = "`for _, v in ipairs({...}) do` loops over the varargs. `select(\"#\", ...)` is how many there are."
+
+[[points]]
+after = 1
+prompt = "What is a missing argument inside the function?"
+pick = ["0", "\"\"", "nil", "false"]
+answer = 2
+
+[[points]]
+after = 2
+prompt = "Add the default for count."
+code = "local function craft(item, count)\n  ___\n  return count .. \"x \" .. item\nend"
+blank = "count = count or 1"

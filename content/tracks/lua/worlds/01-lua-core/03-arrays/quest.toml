@@ -24,3 +24,15 @@ text = "`for i, v in ipairs(xs) do ... end` visits 1..#xs in order. `xs[#xs + 1]
 text = "`table.remove(xs)` removes and returns the last element. `table.sort(xs, function(a, b) return a > b end)` sorts descending."
 [[hints]]
 text = "`table.concat(xs, \", \")` joins strings; it errors on non-strings, so convert with `tostring` first if needed."
+
+[[points]]
+after = 1
+prompt = "Which is the first item of counts?"
+pick = ["counts[0]", "counts[1]", "counts[-1]", "counts[#counts]"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Fill the index that appends."
+code = "counts[___] = 40        -- append"
+blank = "#counts + 1"

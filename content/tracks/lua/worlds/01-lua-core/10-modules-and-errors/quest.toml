@@ -26,3 +26,15 @@ text = "`local ok, err = pcall(fn)`: `ok` is false when fn raised, and `err` is 
 text = "`error(ctx .. \": \" .. tostring(err), 0)`: level 0 skips the extra `file:line:` prefix."
 [[hints]]
 text = "Run the code with a fake environment: `load(code, \"chunk\", \"t\", env)` where `env` is `setmetatable({}, {__newindex = function(_, k) ... end})`."
+
+[[points]]
+after = 1
+prompt = "Which local does the module hand out as its public API?"
+pick = ["recipes", "M", "err", "name"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Catch the error as data."
+code = "local ok, err = ___(function()\n  error({code = \"E_NO_PLATES\", need = 3})\nend)"
+blank = "pcall"

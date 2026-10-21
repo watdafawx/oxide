@@ -19,3 +19,15 @@ label = "whole(n) formats a float like 5 as \"5\", not \"5.0\""
 text = "In Lua, `0` and `\"\"` are truthy. Only `nil` and `false` are not: `return v == nil or v == false`."
 [[hints]]
 text = "`math.floor(n / 2)` rounds down. `string.format(\"%d\", n)` prints a whole float without a decimal point."
+
+[[points]]
+after = 2
+prompt = "Which operator means \"not equal\"?"
+pick = ["==", "~=", "!=", "<>"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Which call rounds x down?"
+code = "local whole = ___   -- round x down"
+blank = "math.floor(x)"

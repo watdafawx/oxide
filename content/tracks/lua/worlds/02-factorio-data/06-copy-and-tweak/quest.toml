@@ -21,3 +21,15 @@ text = "`local item = table.deepcopy(data.raw.item[\"iron-gear-wheel\"])` makes 
 text = "Copy the recipe too and change `name`, `ingredients[1].amount` (4 iron plates) and `results[1].name` on the copy."
 [[hints]]
 text = "Without deepcopy, `local item = data.raw.item[...]` is the same table under a second name: editing it edits vanilla."
+
+[[points]]
+after = 1
+prompt = "Which call makes a safe copy of a prototype?"
+pick = ["table.deepcopy", "pairs", "setmetatable", "table.insert"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Rename the copy."
+code = "local item = table.deepcopy(data.raw.item[\"copper-cable\"])\n___\nitem.stack_size = 400"
+blank = "item.name = \"kit-wire\""

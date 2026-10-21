@@ -21,3 +21,15 @@ text = "Declare `local count = 0` *outside* the returned function, then `count =
 text = "In `for i = 1, n`, each round gets its own fresh `i`. Build the list with `fns[i] = function(x) return x * i end`."
 [[hints]]
 text = "Keep `local cache = {}` outside the returned function. Check `cache[x] == nil` before calling `fn(x)`, then store the result."
+
+[[points]]
+after = 1
+prompt = "What are captured outer locals called?"
+pick = ["upvalues", "globals", "varargs", "metatables"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Keep count private to make_counter."
+code = "local function make_counter()\n  ___ = 0\n  return function()\n    count = count + 1\n    return count\n  end\nend"
+blank = "local count"
