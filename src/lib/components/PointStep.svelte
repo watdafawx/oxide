@@ -2,7 +2,7 @@
   import type { Point } from "$lib/types";
   import { renderInline } from "$lib/markdown";
 
-  let { point, solved, onsolve, lang = "" }: { point: Point; solved: boolean; onsolve: () => void; lang?: string } = $props();
+  let { point, solved, onsolve, lang = "", compact = false }: { point: Point; solved: boolean; onsolve: () => void; lang?: string; compact?: boolean } = $props();
 
   let wrong = $state<number[]>([]);
   let value = $state("");
@@ -18,7 +18,7 @@
   }
 </script>
 
-<div class="point" data-testid="point-step">
+<div class="point" class:compact data-testid="point-step">
   <p class="text-2xl leading-snug font-semibold">{@html renderInline(point.prompt, lang)}</p>
   {#if isPick}
     <div class="mt-5 flex flex-wrap gap-2">
@@ -37,10 +37,14 @@
       <input class="blank mt-5" class:ok={solved || blankOk} bind:value disabled={solved} size={Math.max(10, (point.blank ?? "").length + 2)} spellcheck="false" autocomplete="off" data-testid="blank" />
     {/if}
   {/if}
-  <p class="mt-4 min-h-6 text-base {solved ? 'font-semibold text-ok' : 'text-dim'}">{solved ? "Yes." : isPick ? "Tap one. Guessing is free." : "Type it exactly, then Next unlocks."}</p>
+  <p class="mt-4 min-h-6 text-base {solved ? 'font-semibold text-ok' : 'text-dim'}">{solved ? "Yes." : isPick ? "Tap one. Guessing is free." : "Type it exactly."}</p>
 </div>
 
 <style>
   .blank { font-family: var(--font-mono); background: #0d0c0b; color: var(--color-ink); border: 1px solid var(--color-rust); border-radius: 0.5rem; padding: 0.1rem 0.5rem; outline: none; }
+  .compact :global(.text-2xl) { font-size: 1.125rem; }
+  .compact :global(.text-xl) { font-size: 1rem; }
+  .compact :global(.mt-5) { margin-top: 0.75rem; }
+  .compact pre { padding: 0.75rem 1rem; }
   .blank.ok { border-color: var(--color-ok); color: var(--color-ok); }
 </style>
