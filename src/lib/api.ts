@@ -24,6 +24,7 @@ export interface Commands {
   run_checks: { args: { id: string }; ret: CheckResult };
   answer_quiz: { args: { id: string; answers: number[] }; ret: Completion | null };
   use_hint: { args: { id: string }; ret: number };
+  read_point: { args: { id: string; index: number }; ret: number };
   get_profile: { args: NoArgs; ret: Profile };
   list_achievements: { args: NoArgs; ret: Achievement[] };
   start_focus: { args: { id?: string; minutes: number }; ret: number };
@@ -76,6 +77,7 @@ export const api = {
   runChecks: (id: string) => call("run_checks", { id }),
   answerQuiz: (id: string, answers: number[]) => call("answer_quiz", { id, answers }),
   useHint: (id: string) => call("use_hint", { id }),
+  readPoint: (id: string, index: number) => call("read_point", { id, index }),
   getProfile: () => call("get_profile", E),
   listAchievements: () => call("list_achievements", E),
   startFocus: (minutes: number, id?: string) => call("start_focus", { id, minutes }),

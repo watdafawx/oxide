@@ -7,7 +7,7 @@
   const levels = [{ n: 0, label: "0%" }, { n: 3, label: "50%" }, { n: 6, label: "100%" }];
 
   function quest(world: string): Quest {
-    return { id: `${world}/demo`, track_id: "rust", flavour: "games", world_id: world, runner: "cargo", index: 1, slug: "demo", title: "Demo", summary: "", kind: "exercise", xp: 60, minutes: 10, tags: [], requires: [], objectives: [], hints: [], quiz: [] };
+    return { id: `${world}/demo`, track_id: "rust", flavour: "games", world_id: world, runner: "cargo", index: 1, slug: "demo", title: "Demo", summary: "", kind: "exercise", xp: 60, minutes: 10, tags: [], requires: [], objectives: [], hints: [], quiz: [], points: [] };
   }
   const objs = (passed: number): ObjectiveResult[] =>
     Array.from({ length: 6 }, (_, i) => ({ test: `t${i}`, label: `objective ${i + 1}`, status: i < passed ? "passed" : "notrun", output: null }));

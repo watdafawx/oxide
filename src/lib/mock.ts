@@ -25,7 +25,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 type QuestInit = Partial<Quest> & Pick<Quest, "title" | "summary" | "kind" | "xp" | "minutes">;
 function q(world: string, index: number, slug: string, p: QuestInit): Quest {
   const track_id = world.split("/")[0];
-  return { id: `${world}/${slug}`, track_id, flavour: "games", runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], ...p };
+  return { id: `${world}/${slug}`, track_id, flavour: "games", runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], points: [], ...p };
 }
 const obj = (test: string, label: string) => ({ test, label });
 
@@ -215,6 +215,7 @@ const state = {
   freezes: 1,
   lastActive: null as string | null, // null = today
   hints: {} as Record<string, number>,
+  points: new Set<string>(),
   attempts: {} as Record<string, number>,
   last: {} as Record<string, CheckResult | null>,
   focusTimer: null as ReturnType<typeof setInterval> | null,
@@ -470,6 +471,15 @@ export const mockHandlers: MockHandlers = {
     state.hints[id] = Math.min((state.hints[id] ?? 0) + 1, qq.hints.length);
     if (!state.completed.includes(id)) { state.combo = 0; pushProfile(); }
     return state.hints[id];
+  },
+  async read_point({ id, index }) {
+    byId(id);
+    if (state.points.has(`${id}#${index}`)) return 0;
+    state.points.add(`${id}#${index}`);
+    const xp = index < 100 ? 2 : index < 200 ? 1 : 5;
+    state.xp += xp;
+    pushProfile();
+    return xp;
   },
   async get_profile() { return profile(); },
   async list_achievements() { return achievements; },

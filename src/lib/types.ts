@@ -8,6 +8,8 @@ export interface Objective { test: string; label: string }
 export interface Hint { text: string }
 export interface Quiz { question: string; choices: string[]; answer: number }
 
+export interface Point { after: number; prompt: string; pick: string[]; answer: number | null; blank: string | null; code: string | null }
+
 export interface Quest {
   id: string;
   track_id: string;
@@ -26,6 +28,7 @@ export interface Quest {
   objectives: Objective[];
   hints: Hint[];
   quiz: Quiz[];
+  points: Point[];
 }
 
 export interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }

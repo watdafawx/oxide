@@ -137,6 +137,7 @@ interface Home {
 | `run_checks` | `{ id }` | `CheckResult` | manual run; the watcher also runs on save |
 | `answer_quiz` | `{ id, answers: number[] }` | `Completion \| null` | read quests; null when wrong |
 | `use_hint` | `{ id }` | `number` | hints now revealed |
+| `read_point` | `{ id, index }` | `number` | XP credited, once per quest+index (0 when already read; does not start the quest). `index` 0-99 = Learn card (`i`) or active point (`50 + i`), +2 XP; 100-199 = Build task (`100 + task`), +1 XP; 200+ = Check stage, +5 XP. Emits `profile:changed` when XP was credited |
 | `get_profile` | | `Profile` | |
 | `list_achievements` | | `Achievement[]` | static list with titles; `hidden` ones (early-bird, night-owl, one-save, comeback, crit-first) are shown as "???" until earned |
 | `start_focus` | `{ id?: string, minutes }` | `number` | session id; engine emits `focus:tick` |

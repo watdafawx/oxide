@@ -246,6 +246,11 @@ impl Progress {
                 started_at TEXT NOT NULL,
                 minutes INTEGER NOT NULL,
                 completed INTEGER NOT NULL DEFAULT 0
+             );
+             CREATE TABLE IF NOT EXISTS point_reads (
+                quest_id TEXT NOT NULL,
+                idx INTEGER NOT NULL,
+                PRIMARY KEY (quest_id, idx)
              );",
         )?;
         // Columns added after the first release; the error is "duplicate column" on migrated files.
@@ -342,6 +347,26 @@ impl Progress {
             self.break_combo()?;
         }
         Ok(self.run(quest_id)?.map(|r| r.hints_used).unwrap_or(0))
+    }
+
+    /// Credit XP for reading lesson point `index` of a quest, once per quest+index.
+    /// Indexes below 100 are Learn cards and points (2 XP); 100-199 are Build tasks (1 XP); 200+ is the Check stage (5 XP).
+    /// Returns the XP credited (0 when already read). Does not start the quest.
+    pub fn read_point(&self, quest_id: &str, index: u32) -> Result<u32> {
+        let n = self.conn.execute(
+            "INSERT OR IGNORE INTO point_reads (quest_id, idx) VALUES (?1, ?2)",
+            params![quest_id, index],
+        )?;
+        if n == 0 {
+            return Ok(0);
+        }
+        let xp = match index {
+            0..=99 => 2,
+            100..=199 => 1,
+            _ => 5,
+        };
+        self.conn.execute("UPDATE profile SET xp = xp + ?1 WHERE id = 1", params![xp])?;
+        Ok(xp)
     }
 
     /// A check ran and did not pass.
@@ -716,6 +741,10 @@ mod tests {
         p.start_quest("a/01-x", day(1)).unwrap();
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 1);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
+        assert_eq!(p.read_point("a/01-x", 0).unwrap(), 2);
+        assert_eq!(p.read_point("a/01-x", 0).unwrap(), 0);
+        assert_eq!(p.read_point("a/01-x", 100).unwrap(), 1);
+        assert_eq!(p.read_point("a/01-x", 200).unwrap(), 5);
         assert_eq!(p.use_hint("a/01-x", 2).unwrap(), 2);
         let s = Settings {
             editor: "zed".into(),

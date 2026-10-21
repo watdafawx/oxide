@@ -383,6 +383,16 @@ fn use_hint(state: State<AppState>, id: String) -> CmdResult<u32> {
 }
 
 #[tauri::command]
+fn read_point(app: AppHandle, state: State<AppState>, id: String, index: u32) -> CmdResult<u32> {
+    state.quest(&id)?;
+    let xp = state.progress.lock().unwrap().read_point(&id, index).map_err(err)?;
+    if xp > 0 {
+        emit_profile(&app, &state);
+    }
+    Ok(xp)
+}
+
+#[tauri::command]
 fn get_profile(state: State<AppState>) -> CmdResult<Profile> {
     state.profile_now()
 }
@@ -582,6 +592,7 @@ pub fn run() {
             run_checks,
             answer_quiz,
             use_hint,
+            read_point,
             get_profile,
             list_achievements,
             start_focus,

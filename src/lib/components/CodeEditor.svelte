@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy, onMount, untrack } from "svelte";
-  import { EditorState, type Extension } from "@codemirror/state";
-  import { EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers } from "@codemirror/view";
+  import { EditorState, StateEffect, StateField, type Extension } from "@codemirror/state";
+  import { Decoration, type DecorationSet, EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers } from "@codemirror/view";
   import { bracketMatching, indentOnInput, StreamLanguage, syntaxHighlighting } from "@codemirror/language";
   import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
   import { lintGutter, setDiagnostics, type Diagnostic as CmDiag } from "@codemirror/lint";
@@ -15,7 +15,37 @@
   import { app } from "$lib/store.svelte";
   import type { Diagnostic, FileEntry } from "$lib/types";
 
-  let { id, diagnostics: rawDiagnostics = [], checking = false }: { id: string; diagnostics?: Diagnostic[]; checking?: boolean } = $props();
+  let {
+    id, diagnostics: rawDiagnostics = [], checking = false, todo = null, tasks = 0, hot = false, onsave, onlesson,
+  }: {
+    id: string; diagnostics?: Diagnostic[]; checking?: boolean;
+    /** highlight (and scroll to) the Nth TODO comment of the open, editable file; null = none */
+    todo?: number | null;
+    /** how many tasks the learner sees; extra tasks beyond the TODO count ("Open the file", "Save") shift the match */
+    tasks?: number;
+    /** stronger highlight: the learner looks stuck */
+    hot?: boolean;
+    /** called after a file was written to disk */
+    onsave?: () => void;
+    /** shows a "Lesson" tab at the end of the tab row */
+    onlesson?: () => void;
+  } = $props();
+
+  // ---- TODO highlight ----
+  const setTodoLine = StateEffect.define<{ pos: number; hot: boolean } | null>();
+  const todoField = StateField.define<DecorationSet>({
+    create: () => Decoration.none,
+    update(v, tr) {
+      v = v.map(tr.changes);
+      for (const e of tr.effects) {
+        if (!e.is(setTodoLine)) continue;
+        v = e.value ? Decoration.set([Decoration.line({ class: e.value.hot ? "cm-todo cm-todo-hot" : "cm-todo" }).range(e.value.pos)]) : Decoration.none;
+      }
+      return v;
+    },
+    provide: (f) => EditorView.decorations.from(f),
+  });
+  const TODO_RE = /(?:\/\/|--|#)\s*TODO\b/;
 
   const ls = {
     get(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } },
@@ -79,6 +109,8 @@
     ".cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection": { backgroundColor: "#f9731640" },
     "&.cm-focused .cm-matchingBracket": { backgroundColor: "#f9731655", outline: "1px solid #f97316aa" },
     ".cm-tooltip": { backgroundColor: "#262320", border: "1px solid #38332e", color: "#f2ebe4", borderRadius: "8px" },
+    ".cm-todo": { backgroundColor: "#f973162a", boxShadow: "inset 3px 0 0 #f97316" },
+    ".cm-todo-hot": { backgroundColor: "#f9731655", outline: "1px solid #f97316" },
     ".cm-diagnostic": { padding: "4px 8px", fontFamily: "var(--font-sans)", fontSize: "14px" },
   }, { dark: true });
 
@@ -96,7 +128,7 @@
       extensions: [
         lineNumbers(), highlightActiveLineGutter(), highlightActiveLine(), drawSelection(), history(),
         indentOnInput(), bracketMatching(), closeBrackets(), lintGutter(),
-        syntaxHighlighting(oneDarkHighlightStyle), theme, langFor(path),
+        syntaxHighlighting(oneDarkHighlightStyle), theme, langFor(path), todoField,
         keymap.of([
           { key: "Mod-s", preventDefault: true, run: () => { void save(); return true; } },
           indentWithTab, ...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap,
@@ -135,6 +167,29 @@
     view.dispatch(setDiagnostics(view.state, out));
   }
 
+  /** put the TODO highlight on the `todo`-th TODO line of the open file (editable files only) */
+  function applyTodo(scroll: boolean) {
+    if (!view) return;
+    const doc = view.state.doc;
+    let pos: number | null = null;
+    if (todo !== null && !activeRO) {
+      const found: number[] = [];
+      for (let n = 1; n <= doc.lines; n++) if (TODO_RE.test(doc.line(n).text)) found.push(doc.line(n).from);
+      // Nth task <-> Nth TODO, except that "Open the file" style tasks beyond the TODO count push the match back
+      const at = todo - Math.max(0, tasks - found.length);
+      if (at >= 0 && at < found.length) pos = found[at];
+    }
+    view.dispatch({ effects: setTodoLine.of(pos === null ? null : { pos, hot }) });
+    // scroll the editor's own viewport only; scrollIntoView would drag the whole page along
+    if (scroll && pos !== null) {
+      const v = view;
+      v.requestMeasure({
+        read: () => v.lineBlockAt(pos).top - v.scrollDOM.clientHeight / 3,
+        write: (top) => { v.scrollDOM.scrollTop = Math.max(0, top); },
+      });
+    }
+  }
+
   async function open(path: string) {
     if (!view) return;
     if (active) states[active] = view.state;
@@ -149,6 +204,7 @@
     if (active !== path) return;
     view.setState(states[path]);
     applyDiagnostics();
+    applyTodo(true);
   }
 
   async function save(path = active) {
@@ -162,6 +218,7 @@
     try {
       await api.writeFile(id, path, text);
       saved[path] = text;
+      onsave?.();
       const now = path === active ? view.state.doc.toString() : states[path].doc.toString();
       dirty[path] = now !== text;
     } catch (e) {
@@ -194,6 +251,7 @@
     if (import.meta.env.DEV) {
       (window as unknown as { __oxideEditor: unknown }).__oxideEditor = {
         setText, getText: () => view?.state.doc.toString() ?? "", save: () => save(), get file() { return active; },
+        todoLine: () => { const el = host?.querySelector(".cm-todo"); return el ? { text: el.textContent, hot: el.classList.contains("cm-todo-hot") } : null; },
       };
     }
     void load();
@@ -209,6 +267,20 @@
     void diagnostics;
     void active;
     untrack(() => applyDiagnostics());
+  });
+
+  // current task / stuck changed -> move the highlight
+  let lastTodo: number | null | undefined;
+  let lastHot = false;
+  $effect(() => {
+    const t = todo, h = hot;
+    void active;
+    untrack(() => {
+      if (!view || !active) return;
+      applyTodo(t !== lastTodo || (h && !lastHot));
+      lastTodo = t;
+      lastHot = h;
+    });
   });
 
   const anyDirty = $derived(Object.values(dirty).some(Boolean));
@@ -241,6 +313,9 @@
           {#if dirty[f.path]}<span class="h-2 w-2 rounded-full bg-rust-hi" title="unsaved" data-testid="dirty"></span>{/if}
         </button>
       {/each}
+      {#if onlesson}
+        <button class="ml-auto flex items-center gap-1.5 rounded-lg border border-line px-3 py-1 text-sm text-ink hover:border-rust" onclick={onlesson} data-testid="lesson-tab">📖 Lesson</button>
+      {/if}
     </div>
     {#if checking}
       <span class="flex items-center gap-2 text-sm text-amber-200" data-testid="editor-checking">
