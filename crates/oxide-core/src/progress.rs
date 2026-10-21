@@ -634,6 +634,7 @@ mod tests {
             objectives: vec![Objective { test: "t".into(), label: "t".into() }],
             hints: vec![],
             quiz: vec![],
+            points: vec![],
             starter_fails_to_compile: false,
             dir: PathBuf::new(),
             lib_dir: None,

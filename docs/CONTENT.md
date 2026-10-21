@@ -110,6 +110,20 @@ text = "Change the parameter type to `&String`."
 [[hints]]
 text = "Call it with `greet(&name)`."
 
+# optional, exercise/boss: a tap or a typed word between lesson points (the Learn stage)
+[[points]]
+after = 3                                  # shown after idea point 3 (paragraph/bullet count); 0 = before the first
+prompt = "Which word hands the value back?"
+pick = ["public", "static", "return", "null"]
+answer = 2
+[[points]]
+after = 5
+prompt = "Fill the blank so it returns text."
+code = "fn farewell() -> String {
+    ___
+}"
+blank = "\"Bot going offline.\".to_string()"
+
 # kind = "read" only:
 [[quiz]]
 question = "Which of these moves `s`?"

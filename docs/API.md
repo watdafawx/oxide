@@ -34,7 +34,12 @@ interface Quest {
   objectives: Objective[];
   hints: Hint[];
   quiz: Quiz[];
+  points: Point[];       // optional micro-interactions for the Learn stage; empty = plain cards
 }
+
+// After lesson point `after` (1-based count of idea paragraphs/bullets; 0 = before the first) the learner must
+// pick the right token (`pick` + `answer`) or type `blank` (shown inside `code` where `___` is) before Next unlocks.
+interface Point { after: number; prompt: string; pick: string[]; answer: number | null; blank: string | null; code: string | null }
 
 interface World { id: string; track_id: string; index: number; slug: string; title: string; blurb: string; quests: Quest[] }
 

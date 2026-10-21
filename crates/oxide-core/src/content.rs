@@ -91,6 +91,44 @@ pub struct Quiz {
     pub answer: usize,
 }
 
+/// A micro-interaction between lesson points: the learner picks a token or types a blank
+/// before the next point unlocks. Either `pick` + `answer`, or `blank` (+ `code` with `___`).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Point {
+    /// Shown after this lesson point (1-based paragraph/bullet count of the idea). 0 = before the first.
+    pub after: usize,
+    pub prompt: String,
+    #[serde(default)]
+    pub pick: Vec<String>,
+    /// Index into `pick`.
+    pub answer: Option<usize>,
+    /// The exact text that fills `___` in `code` (or stands alone).
+    pub blank: Option<String>,
+    pub code: Option<String>,
+}
+
+fn check_points(points: &[Point], at: &dyn Fn(&str) -> String, errs: &mut Vec<String>) {
+    for (i, p) in points.iter().enumerate() {
+        let picking = !p.pick.is_empty();
+        match (picking, &p.blank) {
+            (true, Some(_)) | (false, None) => errs.push(at(&format!("points[{i}]: give either pick+answer or blank"))),
+            (true, None) => {
+                if p.pick.len() < 2 || p.answer.is_none_or(|a| a >= p.pick.len()) {
+                    errs.push(at(&format!("points[{i}]: need 2+ pick entries and answer in range")));
+                }
+            }
+            (false, Some(b)) => {
+                if b.trim().is_empty() {
+                    errs.push(at(&format!("points[{i}]: blank is empty")));
+                }
+                if p.code.as_deref().is_some_and(|c| !c.contains("___")) {
+                    errs.push(at(&format!("points[{i}]: code needs a `___` for the blank")));
+                }
+            }
+        }
+    }
+}
+
 #[derive(Debug, Deserialize)]
 struct QuestToml {
     title: String,
@@ -109,6 +147,8 @@ struct QuestToml {
     hints: Vec<Hint>,
     #[serde(default)]
     quiz: Vec<Quiz>,
+    #[serde(default)]
+    points: Vec<Point>,
     /// The point of the quest is a compile error in the starter (borrow checker lessons).
     #[serde(default)]
     starter_fails_to_compile: bool,
@@ -129,6 +169,8 @@ struct VariantToml {
     hints: Vec<Hint>,
     #[serde(default)]
     quiz: Vec<Quiz>,
+    #[serde(default)]
+    points: Vec<Point>,
 }
 
 /// One flavour of a quest: `<quest>/flavours/<name>/` with its own lesson and files.
@@ -140,6 +182,7 @@ pub struct Variant {
     pub objectives: Option<Vec<Objective>>,
     pub hints: Option<Vec<Hint>>,
     pub quiz: Option<Vec<Quiz>>,
+    pub points: Option<Vec<Point>>,
     pub dir: PathBuf,
 }
 
@@ -169,6 +212,8 @@ pub struct Quest {
     pub objectives: Vec<Objective>,
     pub hints: Vec<Hint>,
     pub quiz: Vec<Quiz>,
+    /// Optional micro-interactions between lesson points (the UI's Learn stage).
+    pub points: Vec<Point>,
     pub starter_fails_to_compile: bool,
     pub dir: PathBuf,
     /// The track's `lib/` folder (Lua mocks and helpers), if it has one.
@@ -222,6 +267,9 @@ impl Quest {
         }
         if let Some(z) = &v.quiz {
             q.quiz = z.clone();
+        }
+        if let Some(p) = &v.points {
+            q.points = p.clone();
         }
         q
     }
@@ -495,6 +543,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
             errs.push(at(&format!("quiz[{i}]: need 2+ choices and answer in range")));
         }
     }
+    check_points(&t.points, &at, &mut errs);
     let variants = load_variants(dir, &t, runner, &mut errs);
     // `requires` omitted (not `[]`) = chain to the previous quest.
     // Two-segment ids are relative to this track.
@@ -525,6 +574,7 @@ fn load_quest(dir: &Path, track: &Track, world_id: &str, index: u32, slug: &str)
         objectives: t.objectives,
         hints: t.hints,
         quiz: t.quiz,
+        points: t.points,
         starter_fails_to_compile: t.starter_fails_to_compile,
         dir: dir.to_path_buf(),
         lib_dir: track.lib_dir.clone(),
@@ -585,6 +635,7 @@ fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<S
                 errs.push(at(&format!("quiz[{i}]: need 2+ choices and answer in range")));
             }
         }
+        check_points(&vt.points, &at, errs);
         out.push(Variant {
             flavour: name,
             title: vt.title,
@@ -592,6 +643,7 @@ fn load_variants(dir: &Path, plain: &QuestToml, runner: Runner, errs: &mut Vec<S
             objectives: (!vt.objectives.is_empty()).then_some(vt.objectives),
             hints: (!vt.hints.is_empty()).then_some(vt.hints),
             quiz: (!vt.quiz.is_empty()).then_some(vt.quiz),
+            points: (!vt.points.is_empty()).then_some(vt.points),
             dir: vdir,
         });
     }
