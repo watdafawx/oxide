@@ -1,0 +1,29 @@
+title = "A name for a number"
+summary = "Give the log count a name, then use the name."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["let"]
+
+[[objectives]]
+test = "chest_holds_twelve_logs"
+label = "logs_in_chest() gives back 12"
+[[objectives]]
+test = "twelve_logs_make_48_planks"
+label = "planks_in_chest() gives back 48"
+
+[[hints]]
+text = "The first line of `logs_in_chest` should read `let logs = 12;`."
+[[hints]]
+text = "In `planks_in_chest`, the second line is `let planks = logs * 4;`. The last line, `planks`, is already there and hands the answer back."
+
+[[points]]
+after = 2
+prompt = "Which line names the number 12 `logs`?"
+pick = ["let logs = 12;", "logs = 12", "12 = logs;", "let 12 = logs;"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Finish the line so `planks` is four per log."
+code = "let planks = ___;"
+blank = "logs * 4"

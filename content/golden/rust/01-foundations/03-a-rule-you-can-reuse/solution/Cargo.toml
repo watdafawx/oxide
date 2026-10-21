@@ -1,0 +1,6 @@
+[package]
+name = "golden_a_rule_you_can_reuse"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
