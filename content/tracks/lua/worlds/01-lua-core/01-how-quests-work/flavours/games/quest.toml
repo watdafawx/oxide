@@ -1,0 +1,2 @@
+title = "How Lua quests work"
+summary = "Two files, one loop: edit src/, save, watch the ticks."

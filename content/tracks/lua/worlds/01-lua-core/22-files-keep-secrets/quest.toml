@@ -1,0 +1,32 @@
+title = "Files keep secrets"
+summary = "A registry file that hands out two functions and keeps its table to itself."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["modules", "require", "local"]
+
+[[objectives]]
+test = "module_exposes_only_register_and_get"
+label = "the registry exposes register and get, and nothing else"
+
+[[objectives]]
+test = "registers_and_finds_a_recipe"
+label = "get(name) gives back the recipe passed to register(name, recipe)"
+
+[[hints]]
+text = "The leak is `M.recipes`. Write `local recipes = {}` above `local M = {}` and delete the `M.recipes` line."
+
+[[hints]]
+text = "`register` is `recipes[name] = recipe`. `get` is `return recipes[name]`."
+
+[[points]]
+after = 3
+prompt = "Which part of a module is public?"
+pick = ["whatever is on M", "every local", "every global", "nothing"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "How do you keep a table private to the file?"
+pick = ["write local above it", "hang it on M", "write public in front", "write global in front"]
+answer = 0

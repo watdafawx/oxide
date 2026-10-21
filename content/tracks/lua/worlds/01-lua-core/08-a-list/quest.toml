@@ -1,0 +1,36 @@
+title = "A list"
+summary = "Hold a whole recipe in one name, and find the first, the last and how many."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["tables", "lists"]
+
+[[objectives]]
+test = "first_ingredient_is_item_one"
+label = "first_ingredient(recipe) is the item at position 1"
+
+[[objectives]]
+test = "counts_the_ingredients"
+label = "ingredient_count(recipe) says how many items there are"
+
+[[objectives]]
+test = "last_ingredient_is_at_the_count"
+label = "last_ingredient(recipe) is the item at the last position"
+
+[[hints]]
+text = "Lua counts from 1: the first item is `recipe[1]`."
+
+[[hints]]
+text = "`#recipe` is the number of items, and `recipe[#recipe]` is the last one."
+
+[[points]]
+after = 2
+prompt = "Which is the first item of `recipe`?"
+pick = ["recipe[0]", "recipe[1]", "recipe[-1]", "recipe.first"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Pick the last item."
+code = "local last = recipe[___]"
+blank = "#recipe"

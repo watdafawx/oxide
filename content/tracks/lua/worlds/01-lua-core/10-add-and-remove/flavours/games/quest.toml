@@ -1,0 +1,28 @@
+title = "Add and remove"
+summary = "The build queue grows at the end and shrinks when a job finishes."
+
+[[objectives]]
+test = "adds_to_the_end"
+label = "add_job(queue, job) puts the job at the end"
+
+[[objectives]]
+test = "finishing_closes_the_gap"
+label = "finish_job(queue, i) returns that job and closes the gap"
+
+[[hints]]
+text = "Both jobs have a ready-made call in the `table` library. `add_job` puts the job at the end of the queue."
+
+[[hints]]
+text = "`table.insert(queue, job)` adds at the end, and `return table.remove(queue, i)` removes slot `i` and hands it back."
+
+[[points]]
+after = 1
+prompt = "Which adds \"pipe\" at the end of `queue`?"
+pick = ["table.insert(queue, \"pipe\")", "queue.add(\"pipe\")", "table.add(queue, \"pipe\")", "queue[0] = \"pipe\""]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Take slot 2 out and keep it."
+code = "local done = table.___(queue, 2)"
+blank = "remove"

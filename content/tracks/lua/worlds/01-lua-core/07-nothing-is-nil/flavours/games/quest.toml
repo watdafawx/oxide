@@ -1,0 +1,28 @@
+title = "Nothing is nil"
+summary = "An empty chest slot is nil. Tell nothing from something."
+
+[[objectives]]
+test = "empty_slot_is_nil"
+label = "slot_is_empty(stack) is true only when there is nothing"
+
+[[objectives]]
+test = "only_nil_and_false_are_falsy"
+label = "is_falsy(v) is true for nil and false, not for 0 or \"\""
+
+[[hints]]
+text = "A missing argument is `nil`, so `slot_is_empty` can ask `stack == nil`."
+
+[[hints]]
+text = "`not` flips yes and no, so `is_falsy` is `return not value`."
+
+[[points]]
+after = 2
+prompt = "Ask whether the slot holds nothing."
+code = "local empty = stack ___ nil"
+blank = "=="
+
+[[points]]
+after = 3
+prompt = "Which of these counts as yes in an `if`?"
+pick = ["nil", "false", "0", "not true"]
+answer = 2

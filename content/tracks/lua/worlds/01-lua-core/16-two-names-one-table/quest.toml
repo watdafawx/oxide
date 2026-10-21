@@ -1,0 +1,32 @@
+title = "Two names, one table"
+summary = "Try a bigger batch on a copy of the pantry without touching the real one."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["tables", "references", "copy"]
+
+[[objectives]]
+test = "copy_has_the_same_contents"
+label = "copy_pantry(pantry) holds the same keys and counts, in a new table"
+
+[[objectives]]
+test = "editing_the_copy_leaves_the_original"
+label = "changing the copy never changes the original"
+
+[[hints]]
+text = "Right now the function hands back the very same table. Make a new one first with `local copy = {}`."
+
+[[hints]]
+text = "Loop `for key, value in pairs(pantry) do copy[key] = value end`, then `return copy`."
+
+[[points]]
+after = 2
+prompt = "After `local copy = pantry` and `copy.eggs = 0`, what is `pantry.eggs`?"
+pick = ["0", "12", "nil", "an error"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "What does `==` ask about two tables?"
+pick = ["are they the same table", "do they hold the same things", "are they the same size", "are they sorted"]
+answer = 0

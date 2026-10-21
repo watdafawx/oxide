@@ -1,0 +1,32 @@
+title = "Share the methods"
+summary = "One copy of each method, shared by every pantry."
+kind = "exercise"
+xp = 55
+minutes = 6
+tags = ["metatables", "__index"]
+
+[[objectives]]
+test = "pantries_share_their_methods"
+label = "every Pantry finds count_of through __index, with no copy inside the object"
+
+[[objectives]]
+test = "adding_changes_only_this_pantry"
+label = "pantry:add(item, n) changes that pantry and no other"
+
+[[hints]]
+text = "Two lines are missing: one that sets `Pantry.__index = Pantry`, and one in `Pantry.new` that uses `setmetatable`."
+
+[[hints]]
+text = "`Pantry.new` is `return setmetatable({items = items}, Pantry)`. `add` is `self.items[item] = (self.items[item] or 0) + n`."
+
+[[points]]
+after = 3
+prompt = "When does Lua look in `__index`?"
+pick = ["when a key is missing", "on every read", "on every write", "when the table is made"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Point missing keys at `Recipe`."
+code = "Recipe.___ = Recipe"
+blank = "__index"

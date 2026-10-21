@@ -1,0 +1,18 @@
+local t = require("oxide.test")
+local text = require("ingredient_text")
+
+t.test("splits_count_and_name", function()
+  local count, name = text.parse_ingredient("12 brown-sugar")
+  t.is_type(count, "number", "the count is a number, not text")
+  t.eq(count, 12)
+  t.eq(name, "brown-sugar")
+  count, name = text.parse_ingredient("3 eggs")
+  t.eq(count, 3)
+  t.eq(name, "eggs")
+end)
+
+t.test("no_count_gives_nil", function()
+  local count, name = text.parse_ingredient("eggs")
+  t.is_nil(count)
+  t.is_nil(name)
+end)

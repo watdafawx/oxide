@@ -1,0 +1,32 @@
+title = "A name for a count"
+summary = "Give the batch count a name, then use the name."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["local", "arithmetic"]
+
+[[objectives]]
+test = "plans_four_batches"
+label = "planned_batches() gives back 4"
+
+[[objectives]]
+test = "four_batches_need_12_eggs"
+label = "eggs_needed() gives back 12"
+
+[[hints]]
+text = "The first line of `planned_batches` should read `local batches = 4`."
+
+[[hints]]
+text = "In `eggs_needed`, the second line is `local eggs = batches * 3`. The last line, `return eggs`, is already there."
+
+[[points]]
+after = 1
+prompt = "Which line names the number 4 `batches`?"
+pick = ["local batches = 4", "batches := 4", "4 = batches", "let batches = 4"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Finish the line so `eggs` is three per batch."
+code = "local eggs = ___"
+blank = "batches * 3"

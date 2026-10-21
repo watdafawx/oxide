@@ -1,0 +1,18 @@
+local t = require("oxide.test")
+local makers = require("makers")
+
+t.test("multiplier_remembers_its_factor", function()
+  local triple = makers.make_multiplier(3)
+  local double = makers.make_multiplier(2)
+  t.eq(triple(5), 15)
+  t.eq(double(5), 10, "each multiplier has its own factor")
+  t.eq(triple(0), 0)
+end)
+
+t.test("counters_keep_their_own_count", function()
+  local a, b = makers.make_counter(), makers.make_counter()
+  t.eq(a(), 1)
+  t.eq(a(), 2)
+  t.eq(b(), 1, "b has its own count")
+  t.eq(a(), 3)
+end)

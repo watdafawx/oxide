@@ -1,0 +1,57 @@
+title = "Boss: Expression evaluator"
+summary = "Tokenizer, parser and evaluator for formulas like 2 * (eggs + 3) ^ 2."
+kind = "boss"
+xp = 400
+minutes = 75
+tags = ["boss", "parsing", "coroutines", "errors"]
+
+[[objectives]]
+test = "tokenizes_numbers_and_operators"
+label = "tokenize splits \"12 + 3.5\" into number and operator tokens with positions"
+
+[[objectives]]
+test = "respects_precedence"
+label = "eval gets 2 + 3 * 4 = 14, left-to-right minus, and right-to-left ^"
+
+[[objectives]]
+test = "handles_parentheses_and_unary_minus"
+label = "(1 + 2) * 3, -(1 + 2) and 2 * -3 all work"
+
+[[objectives]]
+test = "reads_variables_from_environment"
+label = "eval(\"eggs * 2\", {eggs = 3}) = 6, unknown names raise an error"
+
+[[objectives]]
+test = "reports_syntax_error_with_position"
+label = "bad input raises \"syntax error at position N: ...\""
+
+[[objectives]]
+test = "rejects_division_by_zero"
+label = "1 / 0 raises \"division by zero\" instead of returning inf"
+
+[[hints]]
+text = "Stage 1: add two `elseif` branches in `scan`. For `+ - * / ^` yield `{kind = \"op\", text = c, pos = i}` and advance `i`; parentheses use `kind = c`."
+
+[[hints]]
+text = "Each grammar rule is one function. `expr` = `term` then a loop: while the next token is `+` or `-`, take it and parse another `term`, wrapping the left side in a `bin` node."
+
+[[hints]]
+text = "`power` is right-associative: `2 ^ 3 ^ 2` is `2 ^ (3 ^ 2)`. After the atom, if the next token is `^`, take it and parse the right side with `unary` (not a loop)."
+
+[[hints]]
+text = "Unary minus: `unary` sees `-`, takes it and returns `{type = \"neg\", expr = unary()}`; otherwise it calls `power`. That makes `-2 ^ 2` equal `-4`."
+
+[[hints]]
+text = "In the evaluator, `/` must check `b == 0` and `error(\"division by zero\", 0)`. In Lua `1 / 0` is `inf`, not an error."
+
+[[points]]
+after = 2
+prompt = "What makes the tokenizer a generator?"
+pick = ["coroutine.wrap", "pcall", "setmetatable", "table.sort"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Raise the divide-by-zero error."
+code = "if op == \"/\" and b == 0 then error(___, 0) end"
+blank = "\"division by zero\""

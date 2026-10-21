@@ -1,0 +1,32 @@
+title = "Pick a branch"
+summary = "Each dish needs a different number of eggs. Choose by name."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["if", "else"]
+
+[[objectives]]
+test = "known_dishes_have_an_egg_count"
+label = "eggs_for gives 3 for pancakes, 2 for omelette and 4 for cake"
+
+[[objectives]]
+test = "unknown_dish_needs_no_eggs"
+label = "eggs_for gives 0 for a dish it does not know"
+
+[[hints]]
+text = "Start with `if dish == \"pancakes\" then return 3`, then add one `elseif` per dish."
+
+[[hints]]
+text = "End with `else return 0 end`, then `end` once more to close the whole `if`."
+
+[[points]]
+after = 1
+prompt = "What does `if` do when its test is false?"
+pick = ["skips its block", "runs its block anyway", "stops the program", "returns nil"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Which word runs when no test above matched?"
+pick = ["else", "elseif", "otherwise", "default"]
+answer = 0

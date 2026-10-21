@@ -1,0 +1,28 @@
+title = "Pause and resume"
+summary = "A function that hands out one scaled count at a time and waits to be asked again."
+
+[[objectives]]
+test = "for_loop_gets_each_scaled_count"
+label = "scaled(counts, factor) works as the iterator of a for loop, one scaled count per round"
+
+[[objectives]]
+test = "pauses_between_calls"
+label = "each call gives the next scaled count, then the function waits"
+
+[[hints]]
+text = "Return `coroutine.wrap(function() ... end)`. Inside it, loop over `counts` with `ipairs`."
+
+[[hints]]
+text = "In the loop, `coroutine.yield(count * factor)` hands out one value and pauses."
+
+[[points]]
+after = 1
+prompt = "Which call pauses the function and hands out a value?"
+pick = ["coroutine.yield", "coroutine.wrap", "pcall", "table.insert"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Turn the pausing function into one you can call."
+code = "function M.names_of(list)\n  return coroutine.___(function()\n    for _, name in ipairs(list) do\n      coroutine.yield(name)\n    end\n  end)\nend"
+blank = "wrap"

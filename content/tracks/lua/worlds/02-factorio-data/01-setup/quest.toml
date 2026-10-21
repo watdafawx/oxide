@@ -4,7 +4,7 @@ kind = "read"
 xp = 15
 minutes = 4
 tags = ["setup", "stages"]
-requires = ["01-lua-core/10-modules-and-errors"]
+requires = [] # TMP
 
 [[quiz]]
 question = "In which file does a mod register a new item?"

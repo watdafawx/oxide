@@ -1,0 +1,18 @@
+local t = require("oxide.test")
+local text = require("ingredient_text")
+
+t.test("splits_count_and_name", function()
+  local count, name = text.parse_ingredient("10 copper-cable")
+  t.is_type(count, "number", "the count is a number, not text")
+  t.eq(count, 10)
+  t.eq(name, "copper-cable")
+  count, name = text.parse_ingredient("5 iron-plate")
+  t.eq(count, 5)
+  t.eq(name, "iron-plate")
+end)
+
+t.test("no_count_gives_nil", function()
+  local count, name = text.parse_ingredient("stone")
+  t.is_nil(count)
+  t.is_nil(name)
+end)

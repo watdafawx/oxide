@@ -1,0 +1,28 @@
+title = "A table that acts"
+summary = "Teach a recipe to answer questions about itself: its total and a description."
+
+[[objectives]]
+test = "recipe_adds_up_its_items"
+label = "recipe:total_items() adds up the recipe's counts"
+
+[[objectives]]
+test = "recipe_describes_itself"
+label = "recipe:describe() gives \"electronic-circuit: 4 items\""
+
+[[hints]]
+text = "Inside a method, `self` is the recipe. Its counts are `self.counts`: loop over them with `ipairs`."
+
+[[hints]]
+text = "`describe` glues `self.name`, `\": \"`, `self:total_items()` and `\" items\"` with `..`."
+
+[[points]]
+after = 2
+prompt = "What is the usual name for the table a method receives?"
+pick = ["self", "this", "me", "it"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "What is `recipe:total()` short for?"
+pick = ["recipe.total(recipe)", "recipe.total()", "total(recipe)", "recipe[total]"]
+answer = 0

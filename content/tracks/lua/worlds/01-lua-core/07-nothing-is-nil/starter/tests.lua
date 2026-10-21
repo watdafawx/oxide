@@ -1,0 +1,16 @@
+local t = require("oxide.test")
+local shelf = require("shelf")
+
+t.test("empty_slot_is_nil", function()
+  t.eq(shelf.slot_is_empty(), true, "no argument at all")
+  t.eq(shelf.slot_is_empty(nil), true)
+  t.eq(shelf.slot_is_empty("eggs"), false)
+  t.eq(shelf.slot_is_empty(0), false, "0 is something")
+end)
+
+t.test("only_nil_and_false_are_falsy", function()
+  t.eq(shelf.is_falsy(nil), true)
+  t.eq(shelf.is_falsy(false), true)
+  t.eq(shelf.is_falsy(0), false, "0 counts as yes")
+  t.eq(shelf.is_falsy(""), false, "empty text counts as yes")
+end)

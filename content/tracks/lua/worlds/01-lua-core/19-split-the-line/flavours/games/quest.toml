@@ -1,0 +1,28 @@
+title = "Split the line"
+summary = "A whole recipe is one line: \"2 iron-plate,1 copper-cable\". Cut it at the commas."
+
+[[objectives]]
+test = "splits_on_commas"
+label = "split_commas(line) gives the pieces between the commas"
+
+[[objectives]]
+test = "parses_a_whole_recipe"
+label = "parse_recipe(line) gives a list of {count, name} tables"
+
+[[hints]]
+text = "`for piece in string.gmatch(line, \"[^,]+\") do` visits each piece. Put each one in a list with `table.insert`."
+
+[[hints]]
+text = "In `parse_recipe`, loop over `M.split_commas(line)`, call `M.parse_ingredient(piece)`, and insert `{count = count, name = name}`."
+
+[[points]]
+after = 2
+prompt = "What does `string.gmatch` hand out in a `for` loop?"
+pick = ["each match, one per round", "only the first match", "the number of matches", "the whole text"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Which pattern is a run of characters that are not commas?"
+pick = ["[^,]+", "[,]+", "^,+", "%,"]
+answer = 0

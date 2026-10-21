@@ -1,0 +1,16 @@
+local t = require("oxide.test")
+local slots = require("chest_slots")
+
+t.test("empty_slot_is_nil", function()
+  t.eq(slots.slot_is_empty(), true, "no argument at all")
+  t.eq(slots.slot_is_empty(nil), true)
+  t.eq(slots.slot_is_empty("iron-plate"), false)
+  t.eq(slots.slot_is_empty(0), false, "0 is something")
+end)
+
+t.test("only_nil_and_false_are_falsy", function()
+  t.eq(slots.is_falsy(nil), true)
+  t.eq(slots.is_falsy(false), true)
+  t.eq(slots.is_falsy(0), false, "0 counts as yes")
+  t.eq(slots.is_falsy(""), false, "empty text counts as yes")
+end)

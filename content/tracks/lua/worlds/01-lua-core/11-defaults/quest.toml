@@ -1,0 +1,32 @@
+title = "Defaults"
+summary = "When nobody says how many batches, bake one. But keep a real false."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["or", "nil", "defaults"]
+
+[[objectives]]
+test = "missing_batches_means_one"
+label = "batches_to_bake(n) gives 1 when n is missing"
+
+[[objectives]]
+test = "false_is_a_real_answer"
+label = "option(value, default) falls back for nil only, never for false"
+
+[[hints]]
+text = "A missing argument is `nil`, so `batches_to_bake` can reuse it: `return n or 1`."
+
+[[hints]]
+text = "`option` cannot use `or`. Check `if value == nil then return default end`, then `return value`."
+
+[[points]]
+after = 2
+prompt = "What is `nil or 5`?"
+pick = ["nil", "5", "false", "an error"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "What does `false or true` give?"
+pick = ["false", "true", "nil", "an error"]
+answer = 1

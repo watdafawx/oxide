@@ -1,0 +1,28 @@
+title = "Catch the error"
+summary = "Refuse to craft without enough plates, and let the caller carry on."
+
+[[objectives]]
+test = "craft_stops_when_plates_run_short"
+label = "craft(plates, needed) raises \"not enough plates\" when short, else gives back what is left"
+
+[[objectives]]
+test = "try_craft_never_stops"
+label = "try_craft(plates, needed) gives true and what is left, or false and the message"
+
+[[hints]]
+text = "In `craft`, check `if plates < needed then` and call `error(\"not enough plates\")` inside it."
+
+[[hints]]
+text = "`try_craft` is one line: `return pcall(M.craft, plates, needed)`."
+
+[[points]]
+after = 1
+prompt = "What does `error(\"...\")` do?"
+pick = ["stops the function with a message", "returns nil", "prints and carries on", "does nothing"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Call `M.refuel` with 0 and catch any error."
+code = "local ok, result = ___(M.refuel, 0)"
+blank = "pcall"

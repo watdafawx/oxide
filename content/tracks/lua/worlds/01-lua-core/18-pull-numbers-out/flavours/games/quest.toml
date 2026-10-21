@@ -1,0 +1,28 @@
+title = "Pull numbers out"
+summary = "Turn the text \"2 iron-plate\" into the number 2 and the item name."
+
+[[objectives]]
+test = "splits_count_and_name"
+label = "parse_ingredient(\"10 copper-cable\") gives the number 10 and the name \"copper-cable\""
+
+[[objectives]]
+test = "no_count_gives_nil"
+label = "parse_ingredient(\"stone\") has no count, so it gives nil, nil"
+
+[[hints]]
+text = "`string.match(text, \"(%d+) (%S+)\")` gives the two pieces as text. Keep them in `local count, name`."
+
+[[hints]]
+text = "`return tonumber(count), name`. When the text does not fit, `match` gives `nil`, so you get `nil, nil`."
+
+[[points]]
+after = 2
+prompt = "Which pattern matches a whole number written in text?"
+pick = ["%d+", "%d", "%S+", "%n"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Turn the text in `count` into a number."
+code = "local n = ___(count)"
+blank = "tonumber"

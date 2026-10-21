@@ -1,0 +1,32 @@
+title = "A chest of items"
+summary = "Look things up by name: iron-plate, coal, stone and how many of each."
+
+[[objectives]]
+test = "reads_a_count_or_zero"
+label = "count_of(chest, item) gives the count, or 0 for an item it does not have"
+
+[[objectives]]
+test = "puts_in_more"
+label = "put_in(chest, item, n) adds n, starting a new key when needed"
+
+[[objectives]]
+test = "empties_out_a_key"
+label = "empty_out(chest, item) removes the key and gives back what was there"
+
+[[hints]]
+text = "Look the item up with `chest[item]`. A missing key gives `nil`, so `or 0` turns that into a count."
+
+[[hints]]
+text = "`put_in`: `chest[item] = (chest[item] or 0) + n`. `empty_out`: keep the count in a local, set `chest[item] = nil`, return the count."
+
+[[points]]
+after = 2
+prompt = "How do you read `coal` out of `chest`?"
+pick = ["chest.coal", "chest:coal", "chest(coal)", "coal.chest"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Remove the key `coal`."
+code = "chest.coal = ___"
+blank = "nil"

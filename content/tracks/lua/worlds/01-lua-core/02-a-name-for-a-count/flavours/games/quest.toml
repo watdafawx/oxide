@@ -1,0 +1,28 @@
+title = "A name for a count"
+summary = "Give the gear count a name, then use the name."
+
+[[objectives]]
+test = "wants_five_gears"
+label = "gears_wanted() gives back 5"
+
+[[objectives]]
+test = "five_gears_need_10_plates"
+label = "plates_needed() gives back 10"
+
+[[hints]]
+text = "The first line of `gears_wanted` should read `local gears = 5`."
+
+[[hints]]
+text = "In `plates_needed`, the second line is `local plates = gears * 2`. The last line, `return plates`, is already there."
+
+[[points]]
+after = 1
+prompt = "Which line names the number 5 `gears`?"
+pick = ["local gears = 5", "gears := 5", "5 = gears", "let gears = 5"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Finish the line so `plates` is two per gear."
+code = "local plates = ___"
+blank = "gears * 2"

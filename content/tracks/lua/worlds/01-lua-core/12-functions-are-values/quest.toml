@@ -1,0 +1,32 @@
+title = "Functions are values"
+summary = "Hand a rule to sort, and write a function that takes a rule."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["functions", "callbacks", "sort"]
+
+[[objectives]]
+test = "sorts_biggest_first"
+label = "sort_biggest_first(counts) sorts in place, biggest count first"
+
+[[objectives]]
+test = "applies_a_rule_to_each"
+label = "apply_to_each(list, fn) gives a new list with fn applied to every item"
+
+[[hints]]
+text = "`table.sort(counts, function(a, b) return ... end)`: the rule says when `a` should come before `b`."
+
+[[hints]]
+text = "For biggest first, `return a > b`. In `apply_to_each`, start `local out = {}`, loop with `ipairs`, and `table.insert(out, fn(item))`."
+
+[[points]]
+after = 1
+prompt = "What is `function(a, b) return a < b end`?"
+pick = ["a function with no name", "a syntax error", "a number", "a table"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Sort smallest first."
+code = "table.sort(counts, function(a, b)\n  return a ___ b\nend)"
+blank = "<"

@@ -1,0 +1,32 @@
+title = "Pull numbers out"
+summary = "Turn the text \"3 eggs\" into the number 3 and the word eggs."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["patterns", "match", "tonumber"]
+
+[[objectives]]
+test = "splits_count_and_name"
+label = "parse_ingredient(\"12 brown-sugar\") gives the number 12 and the name \"brown-sugar\""
+
+[[objectives]]
+test = "no_count_gives_nil"
+label = "parse_ingredient(\"eggs\") has no count, so it gives nil, nil"
+
+[[hints]]
+text = "`string.match(text, \"(%d+) (%S+)\")` gives the two pieces as text. Keep them in `local count, name`."
+
+[[hints]]
+text = "`return tonumber(count), name`. When the text does not fit, `match` gives `nil`, so you get `nil, nil`."
+
+[[points]]
+after = 2
+prompt = "Which pattern matches a whole number written in text?"
+pick = ["%d+", "%d", "%S+", "%n"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Turn the text in `count` into a number."
+code = "local n = ___(count)"
+blank = "tonumber"

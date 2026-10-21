@@ -1,0 +1,36 @@
+title = "Yes or no"
+summary = "Ask the pantry questions that have a true-or-false answer."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["comparison", "boolean"]
+
+[[objectives]]
+test = "three_eggs_make_a_batch"
+label = "can_make_batch(eggs) is true from 3 eggs up"
+
+[[objectives]]
+test = "full_carton_holds_12"
+label = "carton_is_full(eggs) is true for exactly 12"
+
+[[objectives]]
+test = "partial_carton_is_not_12"
+label = "carton_is_partial(eggs) is true for anything but 12"
+
+[[hints]]
+text = "Each function is one line: `return` and then the question. `can_make_batch` asks whether `eggs` is at least 3."
+
+[[hints]]
+text = "Use `eggs >= 3`, `eggs == 12` and `eggs ~= 12`."
+
+[[points]]
+after = 1
+prompt = "Which asks \"at least 3\"?"
+pick = ["eggs >= 3", "eggs => 3", "eggs > 3", "eggs = 3"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Ask whether the carton is full."
+code = "local full = eggs ___ 12"
+blank = "=="

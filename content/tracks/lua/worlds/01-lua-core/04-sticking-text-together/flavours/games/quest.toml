@@ -1,0 +1,28 @@
+title = "Sticking text together"
+summary = "Build the tooltip line \"2x iron-plate\" from a number and a name."
+
+[[objectives]]
+test = "labels_an_ingredient"
+label = "ingredient_label(2, \"iron-plate\") gives \"2x iron-plate\""
+
+[[objectives]]
+test = "describes_crafting_time"
+label = "crafting_line(\"iron-gear-wheel\", 0.5) gives \"iron-gear-wheel: 0.5s\""
+
+[[hints]]
+text = "Glue the pieces with `..`: `count .. \"x \" .. item`."
+
+[[hints]]
+text = "For the second one, the pieces are `item`, `\": \"`, `seconds` and `\"s\"`."
+
+[[points]]
+after = 2
+prompt = "What is `\"iron\" .. \"-plate\"`?"
+pick = ["\"iron-plate\"", "\"iron -plate\"", "\"iron\" \"-plate\"", "an error"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Put `x ` between the count and the item."
+code = "local line = count .. ___ .. item"
+blank = "\"x \""

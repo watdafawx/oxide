@@ -1,0 +1,28 @@
+title = "Copy inside a copy"
+summary = "A recipe holds a list of ingredients. Copy all of it, not just the top."
+
+[[objectives]]
+test = "copies_nested_tables"
+label = "deep_copy(recipe) holds the same values and shares no table with the original"
+
+[[objectives]]
+test = "editing_the_copy_leaves_the_original"
+label = "changing an ingredient of the copy leaves the original alone"
+
+[[hints]]
+text = "Start with `if type(value) ~= \"table\" then return value end`: plain numbers and text need no copy."
+
+[[hints]]
+text = "Then `local out = {}`, loop with `pairs`, and set `out[key] = M.deep_copy(inner)`. Return `out`."
+
+[[points]]
+after = 2
+prompt = "What is `type({})`?"
+pick = ["\"table\"", "\"list\"", "\"object\"", "\"nil\""]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "What is it called when a function calls itself?"
+pick = ["recursion", "a closure", "a metatable", "a loop"]
+answer = 0

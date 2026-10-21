@@ -1,0 +1,32 @@
+title = "Catch the error"
+summary = "Refuse to bake without enough eggs, and let the caller carry on."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["error", "pcall"]
+
+[[objectives]]
+test = "bake_stops_when_eggs_run_short"
+label = "bake(eggs, needed) raises \"not enough eggs\" when short, else gives back what is left"
+
+[[objectives]]
+test = "try_bake_never_stops"
+label = "try_bake(eggs, needed) gives true and what is left, or false and the message"
+
+[[hints]]
+text = "In `bake`, check `if eggs < needed then` and call `error(\"not enough eggs\")` inside it."
+
+[[hints]]
+text = "`try_bake` is one line: `return pcall(M.bake, eggs, needed)`."
+
+[[points]]
+after = 1
+prompt = "What does `error(\"...\")` do?"
+pick = ["stops the function with a message", "returns nil", "prints and carries on", "does nothing"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Call `M.pour` with 0 and catch any error."
+code = "local ok, result = ___(M.pour, 0)"
+blank = "pcall"

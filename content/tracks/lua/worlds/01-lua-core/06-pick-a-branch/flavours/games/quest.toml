@@ -1,0 +1,28 @@
+title = "Pick a branch"
+summary = "Each product needs different plates. Choose by name."
+
+[[objectives]]
+test = "known_items_have_a_plate_count"
+label = "plates_for gives 2 for iron-gear-wheel, 1 for pipe and 5 for steel-plate"
+
+[[objectives]]
+test = "unknown_item_needs_no_plates"
+label = "plates_for gives 0 for an item it does not know"
+
+[[hints]]
+text = "Start with `if item == \"iron-gear-wheel\" then return 2`, then add one `elseif` per item."
+
+[[hints]]
+text = "End with `else return 0 end`, then `end` once more to close the whole `if`."
+
+[[points]]
+after = 1
+prompt = "What does `if` do when its test is false?"
+pick = ["skips its block", "runs its block anyway", "stops the program", "returns nil"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Which word runs when no test above matched?"
+pick = ["else", "elseif", "otherwise", "default"]
+answer = 0

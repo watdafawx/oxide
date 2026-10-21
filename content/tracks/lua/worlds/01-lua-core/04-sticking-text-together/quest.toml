@@ -1,0 +1,32 @@
+title = "Sticking text together"
+summary = "Build the shopping-list line \"3 eggs\" from a number and a word."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["strings", "concat"]
+
+[[objectives]]
+test = "labels_an_ingredient"
+label = "ingredient_label(3, \"eggs\") gives \"3 eggs\""
+
+[[objectives]]
+test = "describes_cooking_time"
+label = "cooking_line(\"pancakes\", 12) gives \"pancakes: 12 min\""
+
+[[hints]]
+text = "Glue the pieces with `..`: `count .. \" \" .. item`."
+
+[[hints]]
+text = "For the second one, the pieces are `dish`, `\": \"`, `minutes` and `\" min\"`."
+
+[[points]]
+after = 2
+prompt = "What is `\"egg\" .. \"s\"`?"
+pick = ["\"eggs\"", "\"egg s\"", "\"egg\" \"s\"", "an error"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Put a space between the count and the item."
+code = "local line = count .. ___ .. item"
+blank = "\" \""

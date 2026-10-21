@@ -1,0 +1,32 @@
+title = "Yes or no"
+summary = "Ask the chest questions that have a true-or-false answer."
+
+[[objectives]]
+test = "two_plates_make_a_gear"
+label = "can_craft_gear(plates) is true from 2 plates up"
+
+[[objectives]]
+test = "full_stack_holds_100"
+label = "stack_is_full(count) is true for exactly 100"
+
+[[objectives]]
+test = "partial_stack_is_not_100"
+label = "stack_is_partial(count) is true for anything but 100"
+
+[[hints]]
+text = "Each function is one line: `return` and then the question. `can_craft_gear` asks whether `plates` is at least 2."
+
+[[hints]]
+text = "Use `plates >= 2`, `count == 100` and `count ~= 100`."
+
+[[points]]
+after = 1
+prompt = "Which asks \"at least 2\"?"
+pick = ["plates >= 2", "plates => 2", "plates > 2", "plates = 2"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Ask whether the stack is full."
+code = "local full = count ___ 100"
+blank = "=="

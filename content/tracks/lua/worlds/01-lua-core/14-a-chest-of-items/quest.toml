@@ -1,0 +1,36 @@
+title = "A pantry of items"
+summary = "Look things up by name: eggs, flour, sugar and how many of each."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["tables", "dicts", "keys"]
+
+[[objectives]]
+test = "reads_a_count_or_zero"
+label = "count_of(pantry, item) gives the count, or 0 for an item it does not have"
+
+[[objectives]]
+test = "puts_in_more"
+label = "put_in(pantry, item, n) adds n, starting a new key when needed"
+
+[[objectives]]
+test = "empties_out_a_key"
+label = "empty_out(pantry, item) removes the key and gives back what was there"
+
+[[hints]]
+text = "Look the item up with `pantry[item]`. A missing key gives `nil`, so `or 0` turns that into a count."
+
+[[hints]]
+text = "`put_in`: `pantry[item] = (pantry[item] or 0) + n`. `empty_out`: keep the count in a local, set `pantry[item] = nil`, return the count."
+
+[[points]]
+after = 2
+prompt = "How do you read `eggs` out of `pantry`?"
+pick = ["pantry.eggs", "pantry:eggs", "pantry(eggs)", "eggs.pantry"]
+answer = 0
+
+[[points]]
+after = 5
+prompt = "Remove the key `eggs`."
+code = "pantry.eggs = ___"
+blank = "nil"

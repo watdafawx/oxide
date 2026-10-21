@@ -1,0 +1,17 @@
+local t = require("oxide.test")
+local crafting = require("crafting")
+
+t.test("craft_stops_when_plates_run_short", function()
+  t.eq(crafting.craft(10, 6), 4)
+  t.eq(crafting.craft(6, 6), 0)
+  t.raises(function() crafting.craft(4, 6) end, "not enough plates")
+end)
+
+t.test("try_craft_never_stops", function()
+  local ok, left = crafting.try_craft(10, 6)
+  t.eq(ok, true)
+  t.eq(left, 4)
+  local failed, message = crafting.try_craft(4, 6)
+  t.eq(failed, false)
+  t.contains(message, "not enough plates")
+end)

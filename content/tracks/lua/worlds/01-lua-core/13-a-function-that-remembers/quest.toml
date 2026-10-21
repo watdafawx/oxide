@@ -1,0 +1,32 @@
+title = "A function that remembers"
+summary = "Build functions that carry a number with them: a multiplier and a batch counter."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["closures"]
+
+[[objectives]]
+test = "multiplier_remembers_its_factor"
+label = "make_multiplier(3) gives a function that triples whatever it gets"
+
+[[objectives]]
+test = "counters_keep_their_own_count"
+label = "make_counter() counts 1, 2, 3 and every counter has its own count"
+
+[[hints]]
+text = "Return a function from inside `make_multiplier`. Inside that function you can use `factor` from the line above it."
+
+[[hints]]
+text = "`make_counter`: `local count = 0`, then `return function() count = count + 1 return count end`."
+
+[[points]]
+after = 2
+prompt = "What does the inner function remember?"
+pick = ["the locals around where it was made", "nothing", "only its own arguments", "every global"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "What does `count = count + 1` change inside the inner function?"
+pick = ["the remembered count", "a brand-new local", "nothing", "a global"]
+answer = 0

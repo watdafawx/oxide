@@ -1,0 +1,28 @@
+title = "Every item"
+summary = "Visit every key of the chest: total the stock, clear the empty slots."
+
+[[objectives]]
+test = "totals_the_stock"
+label = "total_items(chest) adds up every count"
+
+[[objectives]]
+test = "clears_empty_entries"
+label = "remove_empty(chest) deletes zero counts in place and returns the same table"
+
+[[hints]]
+text = "`for item, count in pairs(chest) do ... end` visits every key. Add each `count` to a running total."
+
+[[hints]]
+text = "In `remove_empty`, when `count == 0` set `chest[item] = nil`. At the end, `return chest`."
+
+[[points]]
+after = 1
+prompt = "What does `pairs` hand out each round?"
+pick = ["a key and its value", "only the values", "only the keys", "an index and a count"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "In which order does `pairs` visit the keys?"
+pick = ["no promised order", "alphabetical", "the order they were added", "smallest count first"]
+answer = 0

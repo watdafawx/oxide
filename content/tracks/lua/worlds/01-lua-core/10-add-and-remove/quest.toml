@@ -1,0 +1,32 @@
+title = "Add and remove"
+summary = "The shopping list grows at the end and shrinks when you cross something off."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["tables", "insert", "remove"]
+
+[[objectives]]
+test = "adds_to_the_end"
+label = "add_item(list, item) puts the item at the end"
+
+[[objectives]]
+test = "crossing_off_closes_the_gap"
+label = "cross_off(list, i) returns that item and closes the gap"
+
+[[hints]]
+text = "Both jobs have a ready-made call in the `table` library. `add_item` puts the item at the end of the list."
+
+[[hints]]
+text = "`table.insert(list, item)` adds at the end, and `return table.remove(list, i)` removes slot `i` and hands it back."
+
+[[points]]
+after = 1
+prompt = "Which adds \"milk\" at the end of `list`?"
+pick = ["table.insert(list, \"milk\")", "list.add(\"milk\")", "table.add(list, \"milk\")", "list[0] = \"milk\""]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Take slot 2 out and keep it."
+code = "local gone = table.___(list, 2)"
+blank = "remove"

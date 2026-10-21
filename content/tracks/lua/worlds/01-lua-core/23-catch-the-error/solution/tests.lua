@@ -1,0 +1,17 @@
+local t = require("oxide.test")
+local baking = require("baking")
+
+t.test("bake_stops_when_eggs_run_short", function()
+  t.eq(baking.bake(5, 3), 2)
+  t.eq(baking.bake(3, 3), 0)
+  t.raises(function() baking.bake(2, 3) end, "not enough eggs")
+end)
+
+t.test("try_bake_never_stops", function()
+  local ok, left = baking.try_bake(5, 3)
+  t.eq(ok, true)
+  t.eq(left, 2)
+  local failed, message = baking.try_bake(2, 3)
+  t.eq(failed, false)
+  t.contains(message, "not enough eggs")
+end)

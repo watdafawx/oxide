@@ -1,0 +1,28 @@
+title = "Walk the list"
+summary = "Visit every count in a recipe and add them up."
+
+[[objectives]]
+test = "totals_every_count"
+label = "total_ingredients(counts) adds up every count"
+
+[[objectives]]
+test = "counts_the_bulk_ingredients"
+label = "bulk_ingredients(counts, limit) counts how many are above the limit"
+
+[[hints]]
+text = "Make `local total = 0` above a `for _, count in ipairs(counts) do` loop, and add each `count` to it inside."
+
+[[hints]]
+text = "`total = total + count` adds. For `bulk_ingredients`, count up by 1 inside an `if count > limit then`."
+
+[[points]]
+after = 2
+prompt = "What is `_` for?"
+pick = ["a name for a value you do not need", "an error", "the first item", "a comment"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Start the running value at zero."
+code = "local biggest = ___\nfor _, count in ipairs(counts) do\n  if count > biggest then\n    biggest = count\n  end\nend"
+blank = "0"

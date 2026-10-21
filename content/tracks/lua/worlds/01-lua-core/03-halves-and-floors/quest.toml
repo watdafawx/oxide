@@ -1,0 +1,32 @@
+title = "Halves and floors"
+summary = "7 eggs divided by 2 is 3.5. You cannot bake 3.5 omelettes."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["division", "math.floor"]
+
+[[objectives]]
+test = "seven_eggs_make_three_and_a_half"
+label = "omelettes_exact(7) gives 3.5"
+
+[[objectives]]
+test = "whole_omelettes_round_down"
+label = "whole_omelettes(7) gives 3, not 3.5"
+
+[[hints]]
+text = "In `omelettes_exact`, divide with `/`: `eggs / 2`."
+
+[[hints]]
+text = "In `whole_omelettes`, wrap the division: `math.floor(eggs / 2)`."
+
+[[points]]
+after = 2
+prompt = "What is 7 / 2 in Lua 5.2?"
+pick = ["3", "3.5", "4", "an error"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Round the division down."
+code = "local whole = math.___(eggs / 2)"
+blank = "floor"

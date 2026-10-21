@@ -1,0 +1,22 @@
+You want to try a big baking day on paper without touching the real pantry, so you make a copy. A copy that is not really a copy will quietly wreck the original.
+
+**A second name.** `local copy = pantry` does not make a new pantry. It gives the one table a second name.
+
+**Watch it go wrong.** Change the table through either name and both names see it, because there is only one table.
+
+```lua
+local pantry = {eggs = 12}
+local copy = pantry        -- a second name, not a second table
+copy.eggs = 0
+-- pantry.eggs is now 0 too
+```
+
+**Same table, or same contents.** `==` on two tables asks "are these the same table?", not "do they hold the same things?". Two separate tables with equal contents are not `==`.
+
+**A real copy.** Make a new empty `{}` and copy every key and value across with a `pairs` loop. The new table is its own thing. Change it and the original stays as it was.
+
+## Your turn
+
+- In `copy_pantry`, start with a new empty table.
+- Loop over the pantry with `pairs` and copy each key and value into it.
+- Return the new table, not the pantry.
