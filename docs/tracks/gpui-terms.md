@@ -105,3 +105,15 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `fs::create_dir_all`, `serde_json::to_string_pretty`, temp file + `fs::rename`, `?` with `io::Result` | 07-settings/14-save-to-disk | `save` |
 | `serde_json::from_str`, `clamp_settings` (*starter*), `.bak` backup | 07-settings/15-fix-bad-values | `load` |
 | `App::observe_global` closure with only `cx`, `cx.set_global` to swap profiles | 07-settings/16-boss-settings | `apply_settings`, `persist_settings`, `Profiles` |
+| `WindowKind::Normal` without a title bar, `Option::take`, `window.remove_window()` | 08-widget/01-widget-window | `toggle_widget_window` |
+| `window.start_window_move()`, a `fn` field to swap behaviour in tests | 08-widget/02-drag-to-move | `widget_header` |
+| work area, distance with `abs()`, one side per axis | 08-widget/03-snap-to-edges | `snap_to_edges` |
+| `Option::is_some_and`, falling back to a default place | 08-widget/04-remember-position | `place_widget` |
+| `\|` joining kinds in one match arm, fixed heading order | 08-widget/05-groups | `group_of` |
+| `relative(share)` lengths | 08-widget/06-usage-bars | `usage_bar` |
+| widen with `as u64` before multiplying, `.max(1)` before dividing | 08-widget/07-graph-length | `history_points` |
+| `.flex_wrap()`, `.items_end()`, `thread_local!` reader (*starter*) | 08-widget/08-core-bars | `core_bars` |
+| a tuple of `bool`s from a `match` | 08-widget/09-styles | `parts` |
+| window stack, `HWND_BOTTOM` / `HWND_NOTOPMOST` / `HWND_TOPMOST`, `WinApi::set_layer` | 08-widget/10-placement | `apply_placement` |
+| extended window style bits, `\|` to set, `& !` to clear, `GetWindowLongPtrW` (*starter*) | 08-widget/11-click-through | `click_through_style` |
+| `cx.defer(..)` to open a window after an update (*starter*), `observe` + `observe_global` in one view | 08-widget/12-boss-desktop-widget | `WidgetView::render`, `apply_widget_window` |

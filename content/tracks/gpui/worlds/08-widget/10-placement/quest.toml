@@ -1,0 +1,21 @@
+title = "Placement"
+summary = "On the desktop behind your windows, a normal window, or always on top."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["win32", "match"]
+
+[[objectives]]
+test = "desktop_placement_sends_to_bottom"
+label = "Desktop puts the widget at the bottom, On top at the top, Normal in between"
+
+[[hints]]
+text = "`match` on `placement` to pick a `Layer`, then one `api.set_layer(..)` call."
+[[hints]]
+text = "`let layer = match placement { Placement::Desktop => Layer::Bottom, Placement::Normal => Layer::Normal, Placement::OnTop => Layer::Top }; api.set_layer(hwnd, layer);`"
+
+[[points]]
+after = 3
+prompt = "Which placement keeps the widget behind the window you are working in?"
+pick = ["Desktop", "On top", "Normal", "none"]
+answer = 0

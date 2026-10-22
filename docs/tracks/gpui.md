@@ -99,6 +99,11 @@ Rules that follow:
   (a PresentMon CSV in `fixtures/`), and the live version is a `live` objective that passes
   with `skip: needs administrator` when Oxide is not elevated. Oxide never asks for admin.
 - `look` quizzes never gate progress alone (same rule as the Fabric track).
+- GPUI 0.2.2 never clears the `debug_bounds` map between frames: an element that disappears
+  still looks drawn. Test "is gone" on state, or open a fresh window with the setting already
+  applied; "is drawn" and "where" are reliable.
+- Opening a window whose view reads another entity, from inside that entity's update (an action
+  handler), panics: defer it with `cx.defer(..)` (World 08's `toggle_widget`).
 
 ## 2. Requires (cross-track)
 
@@ -274,18 +279,18 @@ GPUI 0.2.2 ships no text box, toggle or slider widgets; the learner builds the f
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-widget-window | the widget as a `Normal` window with no titlebar, toggled from the menu | `widget_toggle_opens_window` | 4 | 25 | exercise ⚡ | gpui |
-| 02-drag-to-move | `window.start_window_move()` from the header's mouse-down | `header_press_starts_move` | 5 | 30 | exercise | fake |
-| 03-snap-to-edges | pure: within 12 px of the work area's edge, snap | `near_left_edge_snaps_to_zero`, `middle_does_not_snap` | 6 | 40 | exercise | unit |
-| 04-remember-position | save bounds after a move, restore on start | `position_restored_after_restart` | 4 | 25 | exercise ⚡ | unit |
-| 05-groups | stats under headings (Processor, Graphics, ...) with CPU and GPU model names | `cpu_stats_under_processor` | 6 | 40 | exercise | visual |
-| 06-usage-bars | `.w(relative(v / 100.))` | `bar_at_50_is_half_the_track` | 6 | 40 | exercise | visual |
-| 07-graph-length | history length 30 s, 1, 2 or 5 minutes, reusing the hover graph | `five_minutes_keeps_300_points` | 4 | 25 | exercise ⚡ | unit |
-| 08-core-bars | one mini bar per CPU thread, `.flex_wrap()` | `sixteen_threads_sixteen_bars` | 6 | 40 | exercise | visual |
-| 09-styles | `enum WidgetStyle { Bars, Graphs, Both, Minimal }` decides what is drawn | `minimal_draws_no_graphs` | 5 | 30 | exercise | visual |
-| 10-placement | on the desktop (`HWND_BOTTOM`), normal, or always on top | `desktop_placement_sends_to_bottom` | 6 | 40 | exercise | fake |
-| 11-click-through | lock: `WS_EX_LAYERED \| WS_EX_TRANSPARENT` via `SetWindowLongPtrW` | `lock_sets_click_through_bits`, `unlock_clears_them` | 5 | 30 | exercise ⚡ | unit, fake |
-| 12-boss-desktop-widget | the widget: groups, bars, graphs, styles, snapping, saved position, placement, lock | `opens_from_menu`, `groups_drawn`, `bars_match_values`, `style_switches`, `snaps_and_saves`, `placement_applied`, `lock_is_click_through` (+ look) | 60 | 450 | boss | visual, fake, unit |
+| 01-widget-window | a `Normal`, title-less, transparent window; `slot.take()` + `remove_window` toggles it off | `widget_toggle_opens_window` | 4 | 25 | exercise ⚡ | gpui |
+| 02-drag-to-move | `window.start_window_move()` on the header's press, through a swappable fn (the test platform cannot move windows); locked does not move | `header_press_starts_move` | 5 | 30 | exercise | visual |
+| 03-snap-to-edges | pure: within 12 px of the work area's edge, snap; one side per axis; keep the size | `near_left_edge_snaps_to_zero`, `middle_does_not_snap` | 6 | 40 | exercise | unit |
+| 04-remember-position | saved spot if 40 x 40 of it is on screen, else the top-right corner; `is_some_and` | `position_restored_after_restart` | 4 | 25 | exercise ⚡ | unit |
+| 05-groups | `group_of` with `\|` arms; headings in `GROUPS` order | `cpu_stats_under_processor` | 6 | 40 | exercise | visual |
+| 06-usage-bars | `.w(relative(share))` | `bar_at_50_is_half_the_track` | 6 | 40 | exercise | visual |
+| 07-graph-length | readings for 30 s to 5 min at the interval; widen before multiplying, never divide by 0 | `five_minutes_keeps_300_points` | 4 | 25 | exercise ⚡ | unit |
+| 08-core-bars | one bar per thread, `.flex_wrap()`, filled from the bottom | `sixteen_threads_sixteen_bars` | 6 | 40 | exercise | visual |
+| 09-styles | `WidgetStyle` to a `(bars, graphs)` pair | `minimal_draws_no_graphs` | 5 | 30 | exercise | visual |
+| 10-placement | `WinApi::set_layer`: desktop (`HWND_BOTTOM`), normal, always on top | `desktop_placement_sends_to_bottom` | 6 | 40 | exercise | fake |
+| 11-click-through | `WS_EX_LAYERED \| WS_EX_TRANSPARENT`: set with `\|`, clear with `& !`, other bits kept | `lock_sets_click_through_bits`, `unlock_clears_them` | 5 | 30 | exercise ⚡ | unit |
+| 12-boss-desktop-widget | `WidgetView::render` from scratch (header, groups, bars, graphs by style, core bars) and `apply_widget_window` | `opens_from_menu`, `groups_drawn`, `bars_match_values`, `style_switches`, `snaps_and_saves`, `placement_applied`, `lock_is_click_through` | 60 | 450 | boss | visual, fake, unit |
 
 ### World 09: Game overlay (`09-overlay`), project "Game overlay and FPS", 15 quests
 
@@ -412,6 +417,6 @@ The right-click menu and hover card as their own pop-up windows: inside the dock
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-07~~ written 2026-10-22, content-check green (97 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-08~~ written 2026-10-22, content-check green (109 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

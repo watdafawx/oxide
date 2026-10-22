@@ -1,0 +1,24 @@
+title = "Snap to edges"
+summary = "Let go near an edge of the screen and the widget jumps flush against it."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["maths", "geometry"]
+
+[[objectives]]
+test = "near_left_edge_snaps_to_zero"
+label = "10 px from the left edge snaps to 0; 5 px from the bottom snaps to the bottom"
+[[objectives]]
+test = "middle_does_not_snap"
+label = "a widget in the middle of the screen stays where it is, same size"
+
+[[hints]]
+text = "Check left, then right (only if left did not snap); then top, then bottom. Keep the width and height."
+[[hints]]
+text = "`if (window.left - work.left).abs() <= margin { r.left = work.left; } else if (work.right - window.right).abs() <= margin { r.left = work.right - w; }` and the same for top and bottom; then `r.right = r.left + w; r.bottom = r.top + h;`"
+
+[[points]]
+after = 2
+prompt = "The widget's right edge is 8 px from the screen's right edge, margin 12. Where does its left edge go?"
+pick = ["work.right minus its width", "work.left", "it stays", "work.right"]
+answer = 0

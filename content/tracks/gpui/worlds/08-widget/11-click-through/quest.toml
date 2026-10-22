@@ -1,0 +1,24 @@
+title = "Click-through"
+summary = "Lock the widget and clicks fall through it: two style bits, set or cleared, the rest kept."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["bits", "win32"]
+
+[[objectives]]
+test = "lock_sets_click_through_bits"
+label = "locking adds both click-through bits and keeps every other bit"
+[[objectives]]
+test = "unlock_clears_them"
+label = "unlocking removes both bits and keeps every other bit"
+
+[[hints]]
+text = "`|` adds bits, `& !` removes them."
+[[hints]]
+text = "`if on { style | CLICK_THROUGH } else { style & !CLICK_THROUGH }`"
+
+[[points]]
+after = 2
+prompt = "What is 0b1010 & !0b0010?"
+pick = ["0b1000", "0b1010", "0b0010", "0b1110"]
+answer = 0

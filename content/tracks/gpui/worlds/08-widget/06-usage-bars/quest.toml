@@ -1,0 +1,21 @@
+title = "Usage bars"
+summary = "A bar under each percentage: a fill as wide as the value, with relative()."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "layout"]
+
+[[objectives]]
+test = "bar_at_50_is_half_the_track"
+label = "CPU at 50% draws a fill half as wide as its track"
+
+[[hints]]
+text = "One call on the fill: its width as a share of the parent's."
+[[hints]]
+text = "`.w(relative(share))`"
+
+[[points]]
+after = 2
+prompt = "What is relative(0.25) inside a 200 px wide parent?"
+pick = ["50 px", "25 px", "0.25 px", "200 px"]
+answer = 0

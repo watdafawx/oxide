@@ -1,0 +1,21 @@
+title = "Drag to move"
+summary = "Press on the widget's header and drag: Windows moves the window for you."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "window", "mouse"]
+
+[[objectives]]
+test = "header_press_starts_move"
+label = "a left press on the header starts a window drag; a locked widget does not move"
+
+[[hints]]
+text = "Add `.on_mouse_down(MouseButton::Left, cx.listener(..))` to the header. Inside: return if locked, else count the move and call `(this.start_move)(window)`."
+[[hints]]
+text = "`.on_mouse_down(MouseButton::Left, cx.listener(|this, _, window, cx| { if cx.global::<Settings>().widget.locked { return; } this.moves_started += 1; (this.start_move)(window); }))`"
+
+[[points]]
+after = 3
+prompt = "Why call start_move through a field instead of window.start_window_move() directly?"
+pick = ["tests swap it out: the test platform cannot move windows", "it is faster", "Windows needs a field", "to count presses"]
+answer = 0

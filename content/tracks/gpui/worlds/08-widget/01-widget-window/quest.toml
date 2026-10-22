@@ -1,0 +1,22 @@
+title = "The widget's window"
+summary = "Desktop widget in the menu opens a floating panel; choosing it again closes it."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "window"]
+requires = ["07-settings/16-boss-settings"]
+
+[[objectives]]
+test = "widget_toggle_opens_window"
+label = "toggle_widget_window opens the widget, and a second toggle closes it"
+
+[[hints]]
+text = "At the top: if `slot.take()` gives a handle and removing its window works, return."
+[[hints]]
+text = "`if let Some(handle) = slot.take() && handle.update(cx, |_, window, _| window.remove_window()).is_ok() { return; }`"
+
+[[points]]
+after = 3
+prompt = "What does slot.take() leave behind?"
+pick = ["None", "a copy of the handle", "the window", "nothing changes"]
+answer = 0

@@ -1,0 +1,21 @@
+title = "Groups"
+summary = "Stats under headings: Processor, Graphics, Memory, Network, Storage, Battery."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["match", "gpui"]
+
+[[objectives]]
+test = "cpu_stats_under_processor"
+label = "CPU usage and temperature sit under Processor, above Graphics"
+
+[[hints]]
+text = "`group_of` is a `match` on `kind`; `|` puts two kinds in one arm."
+[[hints]]
+text = "`StatKind::CpuUsage | StatKind::CpuTemp => Group::Processor, StatKind::GpuUsage | StatKind::GpuTemp => Group::Graphics, StatKind::RamUsed => Group::Memory, StatKind::NetDown | StatKind::NetUp | StatKind::Ping => Group::Network, StatKind::DiskFree => Group::Storage, StatKind::Battery => Group::Battery,`"
+
+[[points]]
+after = 2
+prompt = "Under which heading does ping go?"
+pick = ["Network", "Processor", "System", "Storage"]
+answer = 0

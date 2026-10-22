@@ -1,0 +1,21 @@
+title = "Graph length"
+summary = "30 seconds to 5 minutes of history: how many readings is that?"
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["maths"]
+
+[[objectives]]
+test = "five_minutes_keeps_300_points"
+label = "5 minutes at 1 s is 300 readings; 30 s at 0.5 s is 60"
+
+[[hints]]
+text = "Seconds times 1000, divided by the interval in milliseconds."
+[[hints]]
+text = "`(secs as u64 * 1000 / interval_ms.max(1)) as usize`"
+
+[[points]]
+after = 2
+prompt = "Why .max(1) on the interval?"
+pick = ["dividing by 0 would panic", "intervals start at 1", "to round up", "it changes nothing"]
+answer = 0

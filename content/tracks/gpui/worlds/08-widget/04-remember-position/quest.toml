@@ -1,0 +1,21 @@
+title = "Remember the position"
+summary = "The widget opens where you left it, unless that is off screen now."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["option", "geometry"]
+
+[[objectives]]
+test = "position_restored_after_restart"
+label = "a saved position on screen is used; none, or one off screen, falls back to the top-right corner"
+
+[[hints]]
+text = "If there is a saved position and at least 40 by 40 pixels of the widget there would be on screen, return it. Else the top-right corner."
+[[hints]]
+text = "`if let Some((x, y)) = saved { let place = Rect::new(x, y, x + width, y + height); if place.intersect(&work).is_some_and(|seen| seen.width() >= 40 && seen.height() >= 40) { return place; } }` then the corner rectangle."
+
+[[points]]
+after = 3
+prompt = "Why check that the saved position is still on screen?"
+pick = ["the monitor it was on may be unplugged", "positions expire", "Windows moves windows at night", "to save memory"]
+answer = 0
