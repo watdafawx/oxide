@@ -1,0 +1,24 @@
+title = "1% and 0.1% lows"
+summary = "The slowest frames, averaged, as FPS: what an average hides."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["sort", "maths"]
+
+[[objectives]]
+test = "one_percent_low_of_capture"
+label = "the capture's 1% low is 64.31 FPS"
+[[objectives]]
+test = "point_one_percent_low_of_capture"
+label = "its 0.1% low is 22.22 FPS"
+
+[[hints]]
+text = "Copy, sort slowest first with `total_cmp`, take the slowest `share` of them (at least one), average, and turn that into FPS."
+[[hints]]
+text = "`let mut slowest = ms.to_vec(); slowest.sort_by(|a, b| b.total_cmp(a)); let n = ((ms.len() as f64 * share).round() as usize).max(1); let average = slowest[..n].iter().sum::<f64>() / n as f64; 1000.0 / average`"
+
+[[points]]
+after = 3
+prompt = "Why sort_by(|a, b| b.total_cmp(a)) and not sort()?"
+pick = ["f64 has no plain ordering (NaN); total_cmp gives one, and b-first sorts slowest first", "sort() is too slow", "sort() only works on strings", "to remove duplicates"]
+answer = 0

@@ -1,0 +1,24 @@
+title = "A global hotkey"
+summary = "Ctrl+Shift+F10 works while the game has focus: a system-wide hotkey, acting on the press only."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["hotkey", "match"]
+
+[[objectives]]
+test = "hotkey_is_ctrl_shift_f10"
+label = "overlay_hotkey is Ctrl+Shift+F10"
+[[objectives]]
+test = "hotkey_toggles_overlay"
+label = "a press of it toggles the overlay; its release does nothing"
+
+[[hints]]
+text = "`overlay_hotkey` is `HotKey::new(..)` with Control and Shift and `Code::F10`. In `hotkey_action`, return `None` unless the state is `Pressed`."
+[[hints]]
+text = "`HotKey::new(Some(Modifiers::CONTROL | Modifiers::SHIFT), Code::F10)` and `if event.state != HotKeyState::Pressed { return None; }`"
+
+[[points]]
+after = 2
+prompt = "Why can GPUI's KeyBinding not do this job?"
+pick = ["it only hears keys while a GPUI window has focus; the game has it", "it cannot do F-keys", "it needs a context", "it is too slow"]
+answer = 0

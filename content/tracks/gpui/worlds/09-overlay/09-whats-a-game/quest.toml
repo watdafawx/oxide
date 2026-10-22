@@ -1,0 +1,24 @@
+title = "What is a game"
+summary = "A window covering its monitor counts as a game; Windows' own desktop does not."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["windows", "strings"]
+
+[[objectives]]
+test = "borderless_game_counts"
+label = "a borderless window covering the monitor is a game"
+[[objectives]]
+test = "windowed_app_does_not"
+label = "a smaller window, or explorer.exe covering the screen, is not"
+
+[[hints]]
+text = "Two checks joined with `&&`: `covers_monitor` from the taskbar world, and the exe not in `NOT_GAMES` (ignoring case)."
+[[hints]]
+text = "`covers_monitor(window, monitor) && !NOT_GAMES.iter().any(|name| exe.eq_ignore_ascii_case(name))`"
+
+[[points]]
+after = 2
+prompt = "Why is explorer.exe excluded?"
+pick = ["the desktop is a window that covers the screen", "Explorer is slow", "it has no FPS", "it needs admin"]
+answer = 0

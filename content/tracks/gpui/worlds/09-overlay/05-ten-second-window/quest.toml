@@ -1,0 +1,21 @@
+title = "The last ten seconds"
+summary = "Lows over the whole session drift; Kinetik's look at the last ten seconds."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["vecdeque"]
+
+[[objectives]]
+test = "old_frames_are_dropped"
+label = "after the whole capture, the window holds the 1181 frames of the last 10 s"
+
+[[hints]]
+text = "Push the frame at the back, then pop from the front while the oldest is more than 10 s older than the new one."
+[[hints]]
+text = "`self.frames.push_back(frame); while self.frames.front().is_some_and(|old| old.time < frame.time - WINDOW_SECONDS) { self.frames.pop_front(); }`"
+
+[[points]]
+after = 2
+prompt = "Why a while loop and not one pop_front?"
+pick = ["one long hitch can make several old frames expire at once", "pop_front only works in loops", "to sort them", "VecDeque needs it"]
+answer = 0

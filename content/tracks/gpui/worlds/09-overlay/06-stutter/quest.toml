@@ -1,0 +1,21 @@
+title = "Stutter"
+summary = "A spike is a frame that took more than twice the median: find them in the capture."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["sort", "statistics"]
+
+[[objectives]]
+test = "spikes_found_in_capture"
+label = "the capture's spikes are frames 100, 400, 700, 812 and 1000"
+
+[[hints]]
+text = "Sort a copy to find the median (the middle value, or the average of the two middle ones), then keep the positions of frames above twice it."
+[[hints]]
+text = "`let mut sorted = ms.to_vec(); sorted.sort_by(f64::total_cmp); let mid = sorted.len() / 2; let median = if sorted.len().is_multiple_of(2) { (sorted[mid - 1] + sorted[mid]) / 2.0 } else { sorted[mid] }; ms.iter().enumerate().filter(|(_, m)| **m > 2.0 * median).map(|(i, _)| i).collect()`"
+
+[[points]]
+after = 2
+prompt = "Why the median and not the average?"
+pick = ["the spikes themselves would drag the average up", "the median is faster", "the average can be negative", "they are the same here"]
+answer = 0

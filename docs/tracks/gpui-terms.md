@@ -117,3 +117,18 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | window stack, `HWND_BOTTOM` / `HWND_NOTOPMOST` / `HWND_TOPMOST`, `WinApi::set_layer` | 08-widget/10-placement | `apply_placement` |
 | extended window style bits, `\|` to set, `& !` to clear, `GetWindowLongPtrW` (*starter*) | 08-widget/11-click-through | `click_through_style` |
 | `cx.defer(..)` to open a window after an update (*starter*), `observe` + `observe_global` in one view | 08-widget/12-boss-desktop-widget | `WidgetView::render`, `apply_widget_window` |
+| present, ETW, PresentMon, frame generation | 09-overlay/01-how-fps-is-counted | read |
+| CSV header lookup by name, `filter_map` with `?`, a fixture file with `include_str!` | 09-overlay/02-read-a-capture | `parse_capture` |
+| frames over seconds | 09-overlay/03-fps | `average_fps` |
+| `f64::total_cmp`, slices `[..n]`, `.max(1)` | 09-overlay/04-lows | `low_fps` |
+| a window by time, `while` + `pop_front` | 09-overlay/05-ten-second-window | `FrameWindow::push` |
+| median, `is_multiple_of` | 09-overlay/06-stutter | `spikes` |
+| `filter(..).count()` | 09-overlay/07-base-fps | `base_fps` |
+| `ferrisetw` (*starter*), nested enum patterns, match guards, `raw_os_error` | 09-overlay/08-live-frames | `live_error` |
+| `eq_ignore_ascii_case` | 09-overlay/09-whats-a-game | `is_game` |
+| `Pixels` arithmetic for centring | 09-overlay/10-overlay-window | `overlay_bounds` |
+| `global-hotkey`: `HotKey::new`, `Modifiers`, `Code`, `HotKeyState` | 09-overlay/11-global-hotkey | `overlay_hotkey`, `hotkey_action` |
+| state machine, `*self = Default`, `if let .. &&` | 09-overlay/12-auto-show | `AutoShow::step` |
+| `Option::map` + `unwrap_or_default` for an empty cell | 09-overlay/13-session-summary | `SessionSummary::csv_line` |
+| closures as small helpers inside a method | 09-overlay/14-benchmark | `Benchmark::tick` |
+| (no new terms) | 09-overlay/15-boss-game-overlay | `FrameStats::compute`, `OverlayController::tick` |

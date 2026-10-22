@@ -1,0 +1,21 @@
+title = "FPS"
+summary = "Frames divided by seconds: 1200 frames in 10.16 s is 118 FPS."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["maths"]
+
+[[objectives]]
+test = "average_of_16_6_ms_is_60_fps"
+label = "16.6 ms frames are 60.24 FPS; the capture averages 118.06"
+
+[[hints]]
+text = "Sum the frame times, turn milliseconds into seconds, divide the count by that."
+[[hints]]
+text = "`let total: f64 = ms.iter().sum(); if total == 0.0 { 0.0 } else { ms.len() as f64 / (total / 1000.0) }`"
+
+[[points]]
+after = 2
+prompt = "Why not average 1000 / ms over every frame?"
+pick = ["fast frames would count as much as slow ones; frames over time weighs them right", "it is slower", "it divides by zero", "it is the same"]
+answer = 0

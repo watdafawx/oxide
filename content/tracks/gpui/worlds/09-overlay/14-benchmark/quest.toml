@@ -1,0 +1,21 @@
+title = "Benchmark recording"
+summary = "Ctrl+Shift+F11: a row of readings per tick while recording, for comparing settings and drivers."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["csv", "state"]
+
+[[objectives]]
+test = "recording_writes_one_row_per_tick"
+label = "three ticks while recording add three rows after the header; ticks while stopped add none"
+
+[[hints]]
+text = "Return when not recording; otherwise push one `format!` row with the tick number and four cells, and count the tick."
+[[hints]]
+text = "`if !self.recording { return; } let cell = |v: Option<f64>| v.map(|v| format!(\"{v:.1}\")).unwrap_or_default(); let get = |kind: StatKind| snapshot.get(&kind).copied(); self.rows.push(format!(\"{},{},{},{},{}\", self.ticks, cell(get(StatKind::CpuUsage)), cell(get(StatKind::GpuUsage)), cell(get(StatKind::GpuTemp)), cell(fps))); self.ticks += 1;`"
+
+[[points]]
+after = 2
+prompt = "What does a tick add while not recording?"
+pick = ["nothing", "an empty row", "the header again", "a zero row"]
+answer = 0

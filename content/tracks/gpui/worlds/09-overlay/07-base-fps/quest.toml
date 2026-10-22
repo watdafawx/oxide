@@ -1,0 +1,21 @@
+title = "Base FPS"
+summary = "With frame generation, count only the frames the game drew."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["iterator", "maths"]
+
+[[objectives]]
+test = "frame_gen_doubles_displayed_fps"
+label = "the capture shows 118 FPS on screen from 59 drawn by the game"
+
+[[hints]]
+text = "Seconds from all frames' times; count only the frames that are not generated."
+[[hints]]
+text = "`let seconds: f64 = frames.iter().map(|f| f.ms).sum::<f64>() / 1000.0; if seconds == 0.0 { return 0.0; } frames.iter().filter(|f| !f.generated).count() as f64 / seconds`"
+
+[[points]]
+after = 2
+prompt = "Over which time does base FPS divide?"
+pick = ["the same time as FPS: all frames' time", "only the game's frames' time", "one second", "the generated frames' time"]
+answer = 0

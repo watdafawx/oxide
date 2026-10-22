@@ -1,0 +1,21 @@
+title = "Session summary"
+summary = "When a game closes: how long, average FPS, 1% low, peak GPU temperature, as one CSV line."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["format", "csv"]
+
+[[objectives]]
+test = "summary_line_matches_header"
+label = "the line has the header's five fields: game, minutes, FPS and low with one decimal, temperature"
+
+[[hints]]
+text = "One `format!` with five `{}` separated by commas; minutes are `seconds / 60`; a missing temperature is an empty cell."
+[[hints]]
+text = "`let temp = self.peak_gpu_temp.map(|t| format!(\"{t:.0}\")).unwrap_or_default(); format!(\"{},{:.1},{:.1},{:.1},{}\", self.game, self.seconds as f64 / 60.0, self.average_fps, self.one_percent_low, temp)`"
+
+[[points]]
+after = 2
+prompt = "How is a missing GPU temperature written?"
+pick = ["an empty cell", "0", "--", "the word none"]
+answer = 0

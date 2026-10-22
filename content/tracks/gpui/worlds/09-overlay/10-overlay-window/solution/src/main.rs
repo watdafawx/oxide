@@ -1,0 +1,42 @@
+use gpui::{App, Application, Bounds, TitlebarOptions, WindowBounds, WindowOptions, prelude::*, px, size};
+use kinetik_09_overlay_window::*;
+
+fn main() {
+    Application::new().run(|cx: &mut App| {
+        cx.set_global(load(&settings_path()));
+        bind_settings_keys(cx);
+        persist_settings(settings_path(), cx).detach();
+        let bounds = Bounds::centered(None, size(px(900.), px(48.)), cx);
+        let options = WindowOptions {
+            window_bounds: Some(WindowBounds::Windowed(bounds)),
+            titlebar: Some(TitlebarOptions { title: Some("Kinetik Stats".into()), ..Default::default() }),
+            ..Default::default()
+        };
+        cx.open_window(options, |window, cx| {
+            cx.new(|cx| {
+                let mut bar = StatsBar::from_settings(live_sensors(), cx);
+                bar.ui.top_processes = real_top_processes;
+                bar.focus_in(window, cx);
+                bar.watch_settings(cx);
+                bar.start(cx);
+                {
+                    let mut window = FrameWindow::default();
+                    for frame in parse_capture(include_str!("../fixtures/capture.csv")) {
+                        window.push(frame);
+                    }
+                    bar.ui.frame_feed = std::sync::Arc::new(std::sync::Mutex::new(window));
+                }
+                bar.toggle_overlay(cx);
+                bar
+            })
+        })
+        .unwrap();
+        cx.on_window_closed(|cx| {
+            if cx.windows().is_empty() {
+                cx.quit();
+            }
+        })
+        .detach();
+        cx.activate(true);
+    });
+}

@@ -1,0 +1,41 @@
+title = "Boss: the game overlay"
+summary = "Frame stats from a window of frames, and the controller that shows, hides, closes, summarises and benchmarks."
+kind = "boss"
+xp = 500
+minutes = 75
+tags = ["boss", "fps", "state-machine"]
+
+[[objectives]]
+test = "fps_from_capture"
+label = "FrameStats: FPS and base FPS from the capture"
+[[objectives]]
+test = "lows_from_capture"
+label = "FrameStats: 1% and 0.1% lows"
+[[objectives]]
+test = "graph_marks_spikes"
+label = "FrameStats: the last 3 seconds and their spikes"
+[[objectives]]
+test = "hotkey_toggles"
+label = "ToggleOverlay from the bar opens the overlay"
+[[objectives]]
+test = "shows_for_game"
+label = "the controller shows for a game and hides on Alt+Tab"
+[[objectives]]
+test = "closes_with_game"
+label = "and closes when the game exits"
+[[objectives]]
+test = "summary_saved"
+label = "the session summary has the minutes, FPS, low and peak GPU temperature"
+[[objectives]]
+test = "benchmark_rows"
+label = "benchmark rows come from the controller's recording"
+[[objectives]]
+test = "live_or_needs_admin"
+label = "the live trace starts or says it needs administrator"
+
+[[hints]]
+text = "Start with `FrameStats::compute`: the frame times, the newest time, the last 3 seconds of frame times, then `average_fps`, `base_fps`, `low_fps` twice and `spikes` on the recent ones. Four objectives turn green."
+[[hints]]
+text = "`OverlayController::tick`: while a game is remembered, keep the higher GPU temperature (`a.max(b)` when both are there, else whichever is). Then `let step = self.auto.step(front, running);`."
+[[hints]]
+text = "On `Some(OverlayStep::Show)` with no start time yet, remember `now`. On `Some(OverlayStep::Close)`, build a `SessionSummary` (seconds from the start, `stats.fps`, `stats.one_percent_low`, the peak, taken) and push its `csv_line()` to `sessions`. Give back `step`."

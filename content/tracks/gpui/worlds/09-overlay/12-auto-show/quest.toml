@@ -1,0 +1,24 @@
+title = "Show itself in games"
+summary = "Game in front: show. Alt+Tab away: hide. Game closed: close and summarise."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["state-machine", "match"]
+
+[[objectives]]
+test = "game_exit_closes_overlay"
+label = "once the game's process is gone, the overlay closes, once"
+[[objectives]]
+test = "alt_tab_hides_overlay"
+label = "a game in front shows it; another window in front hides it; the game again shows it"
+
+[[hints]]
+text = "First the exit check (`if let .. && !running(game)`), then a `match front` with two arms that change something and `_ => None`."
+[[hints]]
+text = "`if let Some(game) = self.game && !running(game) { *self = AutoShow::default(); return Some(OverlayStep::Close); } match front { Front::Game(pid) if !self.shown => { self.game = Some(pid); self.shown = true; Some(OverlayStep::Show) } Front::Other if self.shown => { self.shown = false; Some(OverlayStep::Hide) } _ => None }`"
+
+[[points]]
+after = 3
+prompt = "Why check \"the game exited\" before \"what is in front\"?"
+pick = ["after a game exits, something else is in front; that must close, not just hide", "it is faster", "match needs it", "to show it again"]
+answer = 0

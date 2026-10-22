@@ -1,0 +1,22 @@
+title = "How FPS is counted"
+summary = "Presents, event tracing and PresentMon: how Kinetik counts a game's frames without touching the game."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["fps", "etw"]
+requires = ["08-widget/12-boss-desktop-widget"]
+
+[[quiz]]
+question = "How does Kinetik learn that a game drew a frame?"
+choices = ["It hooks into the game's DirectX calls", "Windows reports every present through event tracing", "It takes screenshots and compares them"]
+answer = 1
+
+[[quiz]]
+question = "A game shows 120 FPS with frame generation on. Its base FPS is 60. What does that mean?"
+choices = ["Every second frame on screen was made up between two real ones", "The game is broken", "The monitor shows 60 frames"]
+answer = 0
+
+[[quiz]]
+question = "Why does the FPS counter need administrator?"
+choices = ["Listening to Windows' graphics event tracing requires it", "DirectX only answers administrators", "Games block other apps"]
+answer = 0

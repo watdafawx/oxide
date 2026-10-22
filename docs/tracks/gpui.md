@@ -294,25 +294,27 @@ GPUI 0.2.2 ships no text box, toggle or slider widgets; the learner builds the f
 
 ### World 09: Game overlay (`09-overlay`), project "Game overlay and FPS", 15 quests
 
-Frame maths is graded on `fixtures/cyberpunk-dlss-fg.csv` (a PresentMon capture, 1200 frames, with frame generation). Live ETW is a bonus.
+Frame maths is graded on `fixtures/capture.csv`: 1200 made-up frames shaped like a cut-down PresentMon capture
+(every second frame generated, five stutters), generated so its numbers are exact. Live ETW is graded only on
+"starts, or says it needs administrator".
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-how-fps-is-counted | present events, ETW, PresentMon, why no hooking, why admin, what frame generation changes | quiz: 3 | 4 | 15 | read | - |
-| 02-read-a-capture | parse the CSV's `MsBetweenPresents` column into `Vec<f64>` | `capture_has_1200_frames` | 6 | 40 | exercise | unit |
-| 03-fps | frames divided by seconds | `average_of_16_6_ms_is_60_fps` | 4 | 25 | exercise ⚡ | unit |
-| 04-lows | 1 % and 0.1 % lows: the slowest frames, as FPS | `one_percent_low_of_capture`, `point_one_percent_low_of_capture` | 7 | 45 | exercise | unit |
-| 05-ten-second-window | drop frames older than 10 s (`VecDeque` by timestamp) | `old_frames_are_dropped` | 6 | 40 | exercise | unit |
-| 06-stutter | frame-time graph of 3 s; a spike is over twice the median | `spike_found_at_frame_812` | 6 | 40 | exercise | unit |
-| 07-base-fps | displayed frames vs frames the game rendered (`FrameType`) | `frame_gen_doubles_displayed_fps` | 4 | 25 | exercise ⚡ | unit |
-| 08-live-frames | `ferrisetw`: a DxgKrnl present-event session into a channel | `etw_starts_or_says_needs_admin` | 8 | 60 | exercise | live |
-| 09-whats-a-game | foreground window that fills its monitor counts as a game (reuses world 05) | `borderless_game_counts`, `windowed_app_does_not` | 5 | 30 | exercise | unit |
-| 10-overlay-window | top-centre `PopUp` strip, transparent, click-through when locked | `overlay_sits_top_centre` | 6 | 40 | exercise | unit, look |
-| 11-global-hotkey | `global-hotkey`: Ctrl+Shift+F10 works while a game has focus; GPUI key bindings only reach a focused GPUI window; one press sends Pressed and Released, toggle on Pressed only | `hotkey_is_ctrl_shift_f10`, `hotkey_toggles_overlay` | 6 | 40 | exercise | unit, gpui |
-| 12-auto-show | state machine: game in front shows it, leaving hides it, game exit closes it | `game_exit_closes_overlay`, `alt_tab_hides_overlay` | 7 | 45 | exercise | unit |
-| 13-session-summary | play time, average FPS, 1 % low, peak GPU temp, appended to `Sessions.csv` | `summary_line_matches_header` | 5 | 30 | exercise ⚡ | unit |
-| 14-benchmark | Ctrl+Shift+F11 toggles a CSV writer, one row per tick | `recording_writes_one_row_per_tick` | 6 | 40 | exercise | unit |
-| 15-boss-game-overlay | the overlay: FPS, base FPS, lows, frame-time graph, hotkeys, auto-show, summaries, benchmarks | `fps_from_capture`, `lows_from_capture`, `graph_marks_spikes`, `hotkey_toggles`, `shows_for_game`, `closes_with_game`, `summary_saved`, `benchmark_rows`, `live_or_needs_admin` | 75 | 500 | boss | unit, gpui, live |
+| 01-how-fps-is-counted | presents, ETW, PresentMon, no hooking, admin, frame generation, lows | quiz: 3 | 4 | 15 | read | - |
+| 02-read-a-capture | columns found by name in the header; `filter_map` + `?` per row into `Frame` | `capture_has_1200_frames` | 6 | 40 | exercise | unit |
+| 03-fps | frames over the seconds they took (not an average of rates) | `average_of_16_6_ms_is_60_fps` | 4 | 25 | exercise ⚡ | unit |
+| 04-lows | 1 % and 0.1 % lows: sort with `total_cmp`, average the slowest share, at least one | `one_percent_low_of_capture`, `point_one_percent_low_of_capture` | 7 | 45 | exercise | unit |
+| 05-ten-second-window | a `VecDeque` window by time: push, then pop while older than 10 s | `old_frames_are_dropped` | 6 | 40 | exercise | unit |
+| 06-stutter | the median (even counts: `is_multiple_of(2)`), spikes over twice it | `spikes_found_in_capture` | 6 | 40 | exercise | unit |
+| 07-base-fps | only frames that are not `generated`, over the same time | `frame_gen_doubles_displayed_fps` | 4 | 25 | exercise ⚡ | unit |
+| 08-live-frames | `ferrisetw` DXGI present trace (*starter*); a guarded `match` turns OS error 5 into `NeedsAdmin` | `access_denied_means_needs_admin`, `etw_starts_or_says_needs_admin` | 8 | 60 | exercise | unit, live |
+| 09-whats-a-game | covers its monitor and is not `explorer.exe`; `eq_ignore_ascii_case` | `borderless_game_counts`, `windowed_app_does_not` | 5 | 30 | exercise | unit |
+| 10-overlay-window | top-centre `PopUp` strip, transparent, unfocused; `OverlayView` (*starter*) fed by a replay of the capture | `overlay_sits_top_centre` | 6 | 40 | exercise | unit |
+| 11-global-hotkey | `global-hotkey`: Ctrl+Shift+F10 works while a game has focus; act on Pressed only | `hotkey_is_ctrl_shift_f10`, `hotkey_toggles_overlay` | 6 | 40 | exercise | unit |
+| 12-auto-show | `AutoShow::step`: exit first, then show for a game, hide on Alt+Tab; match guards | `game_exit_closes_overlay`, `alt_tab_hides_overlay` | 7 | 45 | exercise | unit |
+| 13-session-summary | one CSV line in the header's order, empty cell for a missing temperature | `summary_line_matches_header` | 5 | 30 | exercise ⚡ | unit |
+| 14-benchmark | Ctrl+Shift+F11 toggles; one row per tick while recording | `recording_writes_one_row_per_tick` | 6 | 40 | exercise | unit |
+| 15-boss-game-overlay | `FrameStats::compute` and `OverlayController::tick` (peak GPU temperature, auto-show, summaries); `main.rs` runs the live trace, hotkeys and controller | `fps_from_capture`, `lows_from_capture`, `graph_marks_spikes`, `hotkey_toggles`, `shows_for_game`, `closes_with_game`, `summary_saved`, `benchmark_rows`, `live_or_needs_admin` | 75 | 500 | boss | unit, gpui, live |
 
 ### World 10: Dashboard (`10-dashboard`), project "Dashboard", 12 quests
 
@@ -417,6 +419,6 @@ The right-click menu and hover card as their own pop-up windows: inside the dock
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-08~~ written 2026-10-22, content-check green (109 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-09~~ written 2026-10-22, content-check green (124 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

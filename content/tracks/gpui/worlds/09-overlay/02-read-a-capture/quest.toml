@@ -1,0 +1,21 @@
+title = "Read a capture"
+summary = "A PresentMon-style CSV: find the columns by name, turn each line into a Frame."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["parsing", "iterator"]
+
+[[objectives]]
+test = "capture_has_1200_frames"
+label = "the capture in fixtures/ reads as 1200 frames, the second one generated"
+
+[[hints]]
+text = "For each line: split on commas, and build a `Frame` from the cells at `time`, `ms` and `kind`; skip lines that do not parse (`filter_map` and `?`)."
+[[hints]]
+text = "`lines.filter_map(|line| { let cells: Vec<&str> = line.split(',').collect(); Some(Frame { time: cells.get(time)?.parse().ok()?, ms: cells.get(ms)?.parse().ok()?, generated: *cells.get(kind)? == \"Generated\" }) }).collect()`"
+
+[[points]]
+after = 3
+prompt = "Why find the columns by name instead of by position?"
+pick = ["other captures may order or add columns differently", "names are faster", "positions start at 1", "CSV has no positions"]
+answer = 0

@@ -1,0 +1,2 @@
+title = "Game overlay"
+blurb = "FPS without hooking into games: frame times from a capture, 1% lows, stutter, base FPS under frame generation, live ETW, a hotkey overlay that shows itself in games, session summaries and benchmarks."

@@ -1,0 +1,21 @@
+title = "The overlay window"
+summary = "A slim strip centred at the top of the screen, see-through, never taking focus from the game."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "window", "geometry"]
+
+[[objectives]]
+test = "overlay_sits_top_centre"
+label = "a 420 px strip on a 2560 px screen sits at x 1070, 8 px from the top"
+
+[[hints]]
+text = "x is the screen's left plus half of what is left over: `(screen width - width) / 2`; y is the top plus 8."
+[[hints]]
+text = "`let x = screen.origin.x + (screen.size.width - width) / 2.0; Bounds::new(point(x, screen.origin.y + px(8.)), size(width, height))`"
+
+[[points]]
+after = 3
+prompt = "Why focus: false on the overlay?"
+pick = ["taking focus would pull the keyboard away from the game", "the overlay has no keys", "it is faster", "pop-ups cannot focus"]
+answer = 0
