@@ -1,0 +1,21 @@
+title = "Top processes"
+summary = "The five processes using the most memory, biggest first."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["sort", "vec"]
+
+[[objectives]]
+test = "top_five_by_memory"
+label = "seven processes give the five biggest, biggest first"
+
+[[hints]]
+text = "Sort biggest first with `sort_by_key` and `Reverse`, then keep five with `truncate`."
+[[hints]]
+text = "`processes.sort_by_key(|p| Reverse(p.1)); processes.truncate(5); processes`"
+
+[[points]]
+after = 2
+prompt = "sort_by_key(|p| Reverse(p.1)) sorts..."
+pick = ["biggest first", "smallest first", "by name", "not at all"]
+answer = 0

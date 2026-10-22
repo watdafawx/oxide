@@ -1,0 +1,21 @@
+title = "The left-click action"
+summary = "Kinetik's setting: a left click opens Task Manager, Settings, or nothing."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["match", "trait"]
+
+[[objectives]]
+test = "left_click_opens_task_manager"
+label = "with TaskManager, a click launches taskmgr; with Nothing, it launches nothing"
+
+[[hints]]
+text = "In `on_pill_click`, after remembering the click, `match self.ui.left_click` with three arms."
+[[hints]]
+text = "`LeftClick::TaskManager => self.ui.launcher.launch(\"taskmgr\"), LeftClick::Settings => self.open_settings(cx), LeftClick::Nothing => {}`"
+
+[[points]]
+after = 3
+prompt = "How does the test know Task Manager would have opened?"
+pick = ["a FakeLauncher writes down the program name", "it looks for taskmgr.exe running", "it reads the screen", "it asks Windows"]
+answer = 0

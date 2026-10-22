@@ -234,18 +234,18 @@ Win32 calls live behind `trait WinApi`; tests use `FakeWinApi`.
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-a-click | `.id("pill-cpu")` + `.on_click(...)` | `clicking_cpu_pill_is_seen` | 4 | 25 | exercise ⚡ | visual |
-| 02-left-click-action | `enum LeftClick { TaskManager, Settings, Nothing }`; a `Launcher` trait runs `taskmgr` | `left_click_opens_task_manager` | 5 | 30 | exercise | fake |
-| 03-hover | `.hover(\|s\| s.bg(..))` and remembering which stat is hovered | `hover_sets_hovered_stat` | 6 | 40 | exercise | visual |
-| 04-hover-card | `.tooltip(\|window, cx\| cx.new(\|_\| HoverCard { .. }).into())` | `hover_shows_card` | 7 | 45 | exercise | visual |
-| 05-graph-points | pure: `History` to points inside a box (newest on the right, max at the top) | `points_span_full_width`, `highest_value_at_top` | 6 | 40 | exercise | unit |
-| 06-draw-the-graph | `canvas(..)` + `PathBuilder::stroke(px(1.5))`, `line_to`, `window.paint_path` | `card_has_graph`, look | 8 | 60 | exercise | visual, look |
-| 07-top-processes | `sysinfo` processes sorted by CPU, top 5 | `top_five_by_cpu` | 4 | 25 | exercise ⚡ | unit |
-| 08-actions | `actions!(kinetik, [OpenSettings, ToggleOverlay, Exit])`, `.on_action(cx.listener(..))` | `open_settings_action_is_handled` | 7 | 45 | exercise | gpui |
-| 09-right-click-menu | `on_mouse_down(MouseButton::Right, ..)` + `deferred(anchored().child(menu))` | `right_click_opens_menu`, `click_elsewhere_closes_it` | 8 | 60 | exercise | visual |
-| 10-menu-items | a menu row dispatches its action and closes the menu | `settings_row_dispatches_open_settings` | 5 | 30 | exercise ⚡ | visual |
-| 11-tray-icon | `tray-icon`: icon + menu; tray events go into GPUI through a channel read by `cx.spawn` | `tray_click_maps_to_open_settings`, look | 8 | 60 | exercise | unit, look |
-| 12-boss-interactive-bar | click, hover card with graph and min/avg/max and top processes, right-click menu, tray icon, all through actions | `left_click_runs_action`, `hover_card_appears`, `card_shows_summary`, `card_lists_top_processes`, `menu_opens_on_right_click`, `menu_exit_quits`, `tray_open_settings` | 55 | 400 | boss | visual, gpui, fake |
+| 01-a-click | `view.rs` sends every pill through `interactive_pill`; `.id(..)` makes a `Stateful<Div>`, `.on_click(cx.listener(..))` | `clicking_cpu_pill_is_seen` | 4 | 25 | exercise ⚡ | visual |
+| 02-left-click-action | `enum LeftClick { TaskManager, Settings, Nothing }`; a `Launcher` trait runs `taskmgr`, `FakeLauncher` records it | `left_click_opens_task_manager` | 5 | 30 | exercise | visual, fake |
+| 03-hover | `.hover(\|style\| ..)` look, `.on_hover(..)` state, clear only your own kind | `hover_sets_hovered_stat` | 6 | 40 | exercise | visual |
+| 04-hover-card | `HoverCard` view, `card_for`; `.tooltip(move \|_, cx\| cx.new(..).into())`, 500 ms delay | `hover_shows_card` | 7 | 45 | exercise | visual |
+| 05-graph-points | pure: `History` to points inside a box (newest on the right, max at the top, flat in the middle) | `points_span_full_width`, `highest_value_at_top` | 6 | 40 | exercise | unit |
+| 06-draw-the-graph | `canvas(..)` + `PathBuilder::stroke`, `line_to`, `window.paint_path` | `card_has_graph` | 8 | 60 | exercise | visual |
+| 07-top-processes | `sort_by_key` + `Reverse`, `truncate(5)`; processes by memory (CPU needs two samples) | `top_five_by_memory` | 4 | 25 | exercise ⚡ | unit |
+| 08-actions | `actions!(kinetik, [OpenSettings, OpenTaskManager, Exit])`, `.on_action(cx.listener(..))`, focus (`track_focus`, `window.focus`) | `open_settings_action_is_handled` | 7 | 45 | exercise | gpui |
+| 09-right-click-menu | `on_mouse_down(MouseButton::Right, ..)` + `deferred(anchored().position(at)..)`, `on_mouse_down_out` closes | `right_click_opens_menu`, `click_elsewhere_closes_it` | 8 | 60 | exercise | visual |
+| 10-menu-items | a menu row closes the menu and `window.dispatch_action(action.boxed_clone(), cx)` | `settings_row_dispatches_open_settings` | 5 | 30 | exercise ⚡ | visual |
+| 11-tray-icon | `tray-icon`: icon + menu in `main.rs`; tray events map to actions (release, not press; menu ids) | `tray_click_maps_to_open_settings`, `tray_menu_maps_by_id` | 8 | 60 | exercise | unit |
+| 12-boss-interactive-bar | `interactive_pill` and `bar_layer` from scratch: click, hover, card with processes, actions, menu; tray in `main.rs` | `left_click_runs_action`, `hover_card_appears`, `card_shows_summary`, `card_lists_top_processes`, `menu_opens_on_right_click`, `menu_exit_quits`, `tray_open_settings` | 55 | 400 | boss | visual, gpui, unit |
 
 ### World 07: Settings (`07-settings`), project "Settings window", 16 quests
 
@@ -400,6 +400,8 @@ Now playing (WinRT `GlobalSystemMediaTransportControlsSessionManager`), Bluetoot
 batteries (WinRT), Timeline (snapshot diff every 3 hours), Crashes (Event Log query with
 plain-words explanations), companion shared memory, per-stat animated icons
 (`with_animation`), the admin startup task (Task Scheduler) and the protected Program Files copy.
+The right-click menu and hover card as their own pop-up windows: inside the docked bar's
+48 px window they are clipped (World 06 runs the bar in a normal window for that reason).
 
 ## 7. Open questions for the owner
 
@@ -412,6 +414,6 @@ plain-words explanations), companion shared memory, per-stat animated icons
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-05~~ written 2026-10-22, content-check green (69 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-06~~ written 2026-10-22, content-check green (81 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

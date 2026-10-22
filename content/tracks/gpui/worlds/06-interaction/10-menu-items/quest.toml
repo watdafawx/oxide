@@ -1,0 +1,21 @@
+title = "Menu items"
+summary = "A menu row dispatches its action and closes the menu."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "actions"]
+
+[[objectives]]
+test = "settings_row_dispatches_open_settings"
+label = "clicking Settings… closes the menu and reaches the OpenSettings handler"
+
+[[hints]]
+text = "One `.on_click` on the row in `menu_row`, with three lines inside."
+[[hints]]
+text = "`.on_click(cx.listener(move |this, _, window, cx| { this.ui.menu_at = None; window.dispatch_action(action.boxed_clone(), cx); cx.notify(); }))`"
+
+[[points]]
+after = 2
+prompt = "Why does the row dispatch an action instead of calling open_settings itself?"
+pick = ["so Settings has one handler, wherever the request comes from", "rows cannot call methods", "actions are faster", "to close the menu"]
+answer = 0

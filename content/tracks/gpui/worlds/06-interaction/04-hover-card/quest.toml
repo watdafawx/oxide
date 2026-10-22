@@ -1,0 +1,21 @@
+title = "The hover card"
+summary = "Hold the mouse on a pill and a card appears: a small view built on demand by .tooltip."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["gpui", "tooltip", "entity"]
+
+[[objectives]]
+test = "hover_shows_card"
+label = "half a second on the CPU pill shows a hover card"
+
+[[hints]]
+text = "One more call on the pill: `.tooltip(move |_, cx| ..)` that builds a `HoverCard` entity and turns it into a view."
+[[hints]]
+text = "`.tooltip(move |_, cx| { let card = card.clone(); cx.new(|_| card).into() })`"
+
+[[points]]
+after = 3
+prompt = "Why clone the card inside the tooltip closure?"
+pick = ["the closure may run many times, and each card needs its own copy", "cloning makes it faster", "cx.new needs a reference", "Rust forbids moving structs"]
+answer = 0

@@ -77,3 +77,15 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `Shell_SecondaryTrayWnd` (*starter*), `filter(..).copied()`, `display_id` | 05-taskbar/09-every-taskbar | `taskbars_to_use` |
 | compare with last, `move_to` without resizing | 05-taskbar/10-taskbar-moved | `Docker::redock` |
 | (no new terms) | 05-taskbar/11-boss-docked-bar | `Docker::tick` |
+| `.id(..)`, `Stateful<Div>`, `SharedString`, `.on_click(cx.listener(..))`, `move` closures in listeners | 06-interaction/01-a-click | `interactive_pill` |
+| `Launcher` trait, `FakeLauncher`, `std::process::Command` (*starter*) | 06-interaction/02-left-click-action | `on_pill_click` |
+| `.hover(\|style\| ..)`, `.on_hover(..)`, `rgba(..)` | 06-interaction/03-hover | `ui.hovered` |
+| `.tooltip(..)`, `AnyView`, `cx.new(..).into()`, tooltip delay | 06-interaction/04-hover-card | `HoverCard` |
+| `Bounds` edges, `Pixels` arithmetic, `point(..)` | 06-interaction/05-graph-points | `graph_points` |
+| `canvas(prepaint, paint)`, `PathBuilder::stroke`, `move_to` / `line_to`, `window.paint_path` | 06-interaction/06-draw-the-graph | `graph` |
+| `sort_by_key`, `std::cmp::Reverse`, `truncate` | 06-interaction/07-top-processes | `top_five` |
+| `actions!`, `.on_action(..)`, `track_focus`, `window.focus`, `cx.quit()` | 06-interaction/08-actions | `bar_layer` |
+| `on_mouse_down(MouseButton::Right, ..)`, `MouseDownEvent`, `deferred`, `anchored().position(..)`, `on_mouse_down_out`, `when_some` | 06-interaction/09-right-click-menu | the menu |
+| `window.dispatch_action(..)`, `Action::boxed_clone` | 06-interaction/10-menu-items | `menu_row` |
+| `tray-icon`, `TrayIconEvent::Click { .. }` with `..`, `MouseButtonState`, menu ids | 06-interaction/11-tray-icon | `tray_click_action`, `tray_menu_action` |
+| (no new terms) | 06-interaction/12-boss-interactive-bar | assembles world 06 |
