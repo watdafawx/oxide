@@ -1,0 +1,16 @@
+title = "The Windows toolchain"
+summary = "GPUI talks to Windows' own graphics and text libraries; check Rust can link them."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["setup"]
+
+[[quiz]]
+question = "Which line should `rustup show` print for GPUI to build?"
+choices = ["stable-x86_64-pc-windows-gnu", "stable-x86_64-pc-windows-msvc", "nightly-wasm32-unknown"]
+answer = 1
+
+[[quiz]]
+question = "What does GPUI use DirectWrite for?"
+choices = ["Drawing text", "Downloading crates", "Reading CPU temperature"]
+answer = 0

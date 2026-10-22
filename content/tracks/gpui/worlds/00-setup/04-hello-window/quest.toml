@@ -1,0 +1,26 @@
+title = "Hello, window"
+summary = "Open Kinetik's first window: 360 by 120 pixels, with its name in the title bar."
+kind = "exercise"
+xp = 35
+minutes = 6
+tags = ["gpui", "window"]
+
+[[objectives]]
+test = "window_is_360_by_120"
+label = "bar_size() is 360 wide and 120 high"
+
+[[hints]]
+text = "Only `bar_size` in `lib.rs` changes. `main.rs` already opens the window with it."
+[[hints]]
+text = "`size(px(360.), px(120.))`"
+
+[[points]]
+after = 3
+prompt = "Which call opens a window?"
+pick = ["cx.open_window(..)", "Application::new()", "bar_size()", "cx.quit()"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Write a size 360 wide and 120 high."
+code = "size(___, px(120.))"
+blank = "px(360.)"

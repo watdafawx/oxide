@@ -1,0 +1,26 @@
+title = "A view"
+summary = "Put Kinetik's first pill in the window: a view that renders a box with CPU 12% in it."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "render", "div"]
+
+[[objectives]]
+test = "bar_draws_a_cpu_pill"
+label = "StatsBar draws an element named pill-cpu"
+
+[[hints]]
+text = "All of it is the body of `render`. Keep the outer `div()` and add one `.child(...)` to it."
+[[hints]]
+text = "`div().child(div().debug_selector(|| \"pill-cpu\".into()).child(\"CPU 12%\"))`"
+
+[[points]]
+after = 2
+prompt = "Which function does GPUI call to find out what a view looks like?"
+pick = ["render", "open_window", "run", "child"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Put the text inside the box."
+code = "div().___(\"CPU 12%\")"
+blank = "child"

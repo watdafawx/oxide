@@ -1,0 +1,29 @@
+title = "Bytes, in the right unit"
+summary = "8589934592 bytes shows 8.0 GB: divide by 1024 until the number is small."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["while", "format"]
+
+[[objectives]]
+test = "bytes_pick_the_right_unit"
+label = "1536 is 1.5 KB, 3565158 is 3.4 MB, 8589934592 is 8.0 GB"
+[[objectives]]
+test = "small_counts_stay_in_bytes"
+label = "0 is 0 B, 1023 is 1023 B"
+
+[[hints]]
+text = "Replace the TODO line in `format_bytes` with a `while` loop. The lines below it already pick the text."
+[[hints]]
+text = "`while value >= 1024.0 && unit < units.len() - 1 { value /= 1024.0; unit += 1; }`"
+
+[[points]]
+after = 2
+prompt = "How many times do you divide 3565158 by 1024 to get below 1024?"
+pick = ["once", "twice", "three times", "never"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Fill in the loop's condition."
+code = "while ___ && unit < units.len() - 1 {"
+blank = "value >= 1024.0"

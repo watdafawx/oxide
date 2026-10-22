@@ -1,0 +1,24 @@
+title = "Warning limits"
+summary = "A CPU at 90 °C turns red: compare a reading with its kind's limit."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["option", "match"]
+
+[[objectives]]
+test = "cpu_at_90_degrees_is_hot"
+label = "a CPU temperature of 90 is a warning (limit 85)"
+[[objectives]]
+test = "fine_or_unknown_is_not_a_warning"
+label = "ping 20, a missing value and a kind with no limit are not warnings"
+
+[[hints]]
+text = "In `is_warning`, `match` on the pair `(reading.value, limits.limit_for(reading.kind))`."
+[[hints]]
+text = "Two arms: `(Some(v), Some(limit)) => v >= limit,` and `_ => false,`."
+
+[[points]]
+after = 3
+prompt = "Which pair means \"warn if the value reached the limit\"?"
+pick = ["(Some(v), None)", "(None, Some(limit))", "(Some(v), Some(limit))", "(None, None)"]
+answer = 2

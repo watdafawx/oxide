@@ -1,0 +1,24 @@
+title = "When low is bad"
+summary = "A battery at 15% warns too: some limits are a floor, not a ceiling."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["enum", "match"]
+
+[[objectives]]
+test = "battery_at_15_warns"
+label = "a battery at 15% is a warning (limit 20, below)"
+[[objectives]]
+test = "battery_at_80_is_fine"
+label = "a battery at 80% is not"
+
+[[hints]]
+text = "The change is in the `(Some(v), Some(limit))` arm of `is_warning`: it needs a `match` on `limit.when`."
+[[hints]]
+text = "`match limit.when { WarnWhen::Above => v >= limit.at, WarnWhen::Below => v <= limit.at }`"
+
+[[points]]
+after = 2
+prompt = "Which kind warns when its value is too low?"
+pick = ["CpuTemp", "Ping", "Battery", "GpuUsage"]
+answer = 2

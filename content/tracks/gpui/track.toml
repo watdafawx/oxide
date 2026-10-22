@@ -1,0 +1,3 @@
+title = "Kinetik in Rust"
+blurb = "Rebuild Kinetik Stats with GPUI: a taskbar bar, a widget, a game overlay, shipped."
+runner = "cargo"

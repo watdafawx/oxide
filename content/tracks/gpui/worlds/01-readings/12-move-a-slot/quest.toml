@@ -1,0 +1,24 @@
+title = "Move a slot"
+summary = "Alt+Up on the Arrange page: swap a slot with the one before it."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["slice", "vec"]
+
+[[objectives]]
+test = "move_up_swaps_with_previous"
+label = "moving slot 1 up swaps it with slot 0"
+[[objectives]]
+test = "first_slot_cannot_move_up"
+label = "slot 0, and an index past the end, do not move and give false"
+
+[[hints]]
+text = "First the `if` that gives back `false` when `index` is 0 or not below `order.len()`. Then swap."
+[[hints]]
+text = "`if index == 0 || index >= order.len() { return false; }` then `order.swap(index - 1, index);` and `true`."
+
+[[points]]
+after = 2
+prompt = "Which call swaps the slots at 2 and 3?"
+pick = ["order.swap(2, 3)", "order.move(3, 2)", "swap(order[2], order[3])", "order[2] = order[3]"]
+answer = 0

@@ -1,0 +1,37 @@
+title = "Boss: the stat model"
+summary = "Turn the bar order and a snapshot into pills, two-line columns and hover text."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["boss", "hashmap", "match", "option"]
+
+[[objectives]]
+test = "formats_each_kind"
+label = "bar_items writes each stat in its unit"
+[[objectives]]
+test = "missing_shows_dashes"
+label = "a stat missing from the snapshot shows --"
+[[objectives]]
+test = "hot_cpu_is_flagged"
+label = "a CPU at 90 °C is a warning pill"
+[[objectives]]
+test = "low_battery_is_flagged"
+label = "a battery at 15% is a warning pill"
+[[objectives]]
+test = "dividers_pass_through"
+label = "dividers stay where the order puts them"
+[[objectives]]
+test = "two_line_pairs_stats"
+label = "two_line_columns pairs pills, and a divider ends a pair"
+[[objectives]]
+test = "hover_summary_from_history"
+label = "hover_summary writes min, avg and max in the stat's unit"
+
+[[hints]]
+text = "Start with `bar_items`: a `for slot in order` loop and a `match slot` with two arms. The first four objectives all come from it."
+[[hints]]
+text = "For a stat: `let reading = Reading { kind: *kind, value: snapshot.get(kind).copied() };` then push `BarItem::Pill(Pill { kind: *kind, label: kind.label(), text: reading.text(), warning: is_warning(&reading, limits) })`."
+[[hints]]
+text = "`two_line_columns` keeps `let mut waiting: Option<Pill> = None;`. On a pill: `match waiting.take()`, `Some(top)` pushes `Column::Pills(top, Some(pill.clone()))`, `None` sets `waiting = Some(pill.clone())`. On a divider, push the waiting pill alone first. After the loop, push it too."
+[[hints]]
+text = "`hover_summary`: `let Some(s) = history.summary() else { return \"no data yet\".to_string(); };` then write each number with `Reading { kind, value: Some(s.min) }.text()` and the same for `avg` and `max`."

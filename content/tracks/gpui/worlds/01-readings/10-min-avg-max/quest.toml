@@ -1,0 +1,24 @@
+title = "Min, average, max"
+summary = "The hover card's three numbers, from one walk over the history."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["for", "option"]
+
+[[objectives]]
+test = "min_avg_max_of_10_20_30"
+label = "10, 20, 30 give min 10, avg 20, max 30"
+[[objectives]]
+test = "summary_of_empty_is_none"
+label = "an empty history has no summary"
+
+[[hints]]
+text = "Replace the TODO with a `for v in self.values()` loop that updates `min`, `max` and `total`, then build the `Summary`."
+[[hints]]
+text = "In the loop: `min = min.min(v); max = max.max(v); total += v;`. After it: `Some(Summary { min, avg: total / self.len() as f64, max })`."
+
+[[points]]
+after = 2
+prompt = "Why does min start at f64::MAX?"
+pick = ["Any real reading is smaller, so the first one replaces it", "MAX means no value", "So the average is right", "Rust needs a start value of MAX"]
+answer = 0

@@ -1,0 +1,24 @@
+title = "The bar's order"
+summary = "The bar is a list of slots: stats and dividers, left to right."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["vec", "enum"]
+
+[[objectives]]
+test = "default_order_starts_with_cpu"
+label = "the default bar starts with CPU usage, then CPU temperature"
+[[objectives]]
+test = "default_order_has_three_line_dividers"
+label = "it has 11 slots, 3 of them Line dividers"
+
+[[hints]]
+text = "`default_order` is one `vec![...]` with eleven entries."
+[[hints]]
+text = "Each stat is `Slot::Stat(StatKind::CpuUsage)`, each divider `Slot::Divider(DividerStyle::Line)`, comma after each."
+
+[[points]]
+after = 2
+prompt = "Which value is a divider slot?"
+pick = ["Slot::Stat(StatKind::Ping)", "Slot::Divider(DividerStyle::Dot)", "DividerStyle::Line", "StatKind::CpuUsage"]
+answer = 1

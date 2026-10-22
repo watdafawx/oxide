@@ -1,0 +1,24 @@
+title = "Speeds with arrows"
+summary = "A download shows ↓ 3.4 MB/s: an arrow, the bytes text you already have, and /s."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["format", "functions"]
+
+[[objectives]]
+test = "download_shows_down_arrow"
+label = "a NetDown reading of 3565158 shows ↓ 3.4 MB/s"
+[[objectives]]
+test = "upload_shows_up_arrow"
+label = "a NetUp reading of 52000 shows ↑ 50.8 KB/s"
+
+[[hints]]
+text = "`format_speed` is one `format!` line that calls `format_bytes`."
+[[hints]]
+text = "`format!(\"{arrow} {}/s\", format_bytes(bytes_per_sec as u64))`"
+
+[[points]]
+after = 2
+prompt = "Which function already turns 3565158 into 3.4 MB?"
+pick = ["format_percent", "format_bytes", "format_speed", "text"]
+answer = 1

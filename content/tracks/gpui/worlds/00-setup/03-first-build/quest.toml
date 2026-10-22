@@ -1,0 +1,21 @@
+title = "The first build"
+summary = "Add GPUI to Cargo.toml, save, and let the first build run."
+kind = "exercise"
+xp = 20
+minutes = 4
+tags = ["cargo", "dependencies"]
+
+[[objectives]]
+test = "gpui_is_in_dependencies"
+label = "Cargo.toml lists gpui =0.2.2 with test-support under [dependencies]"
+
+[[hints]]
+text = "The line goes in `Cargo.toml`, on the empty line under `[dependencies]`, not in `lib.rs`."
+[[hints]]
+text = "Paste exactly: `gpui = { version = \"=0.2.2\", features = [\"test-support\"] }`"
+
+[[points]]
+after = 2
+prompt = "What does the = in \"=0.2.2\" mean?"
+pick = ["exactly this version", "this version or newer", "any 0.x version", "the latest version"]
+answer = 0

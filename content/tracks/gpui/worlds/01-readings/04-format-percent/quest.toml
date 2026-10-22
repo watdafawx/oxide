@@ -1,0 +1,21 @@
+title = "Percent, no decimals"
+summary = "12.6 shows 13%: round to a whole number when writing it."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["format"]
+
+[[objectives]]
+test = "percent_rounds_to_whole"
+label = "format_percent(12.6) is 13%, 12.4 is 12%, 100.0 is 100%"
+
+[[hints]]
+text = "Only the `format!` line in `format_percent` changes."
+[[hints]]
+text = "Make it `format!(\"{value:.0}%\")`."
+
+[[points]]
+after = 2
+prompt = "What does format!(\"{v:.0}\") give for v = 47.8?"
+pick = ["47.8", "47", "48", "47.80"]
+answer = 2

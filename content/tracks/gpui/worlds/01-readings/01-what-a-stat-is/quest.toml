@@ -1,0 +1,30 @@
+title = "What a stat is"
+summary = "Nine kinds of reading, each with the short label the bar shows."
+kind = "exercise"
+xp = 20
+minutes = 3
+tags = ["enum", "match"]
+requires = ["00-setup/06-it-runs"]
+
+[[objectives]]
+test = "gpu_kinds_say_gpu"
+label = "GpuUsage and GpuTemp both have the label GPU"
+[[objectives]]
+test = "net_ping_and_battery_labels"
+label = "NetDown and NetUp say NET, Ping says PING, Battery says BAT"
+
+[[hints]]
+text = "All the work is in `label`, under the `RamUsed` arm."
+[[hints]]
+text = "Add six arms like `StatKind::GpuUsage => \"GPU\",`, one per missing kind, then delete `_ => \"?\",`."
+
+[[points]]
+after = 2
+prompt = "Which two kinds share the label CPU?"
+pick = ["CpuUsage and CpuTemp", "CpuUsage and GpuUsage", "CpuTemp and GpuTemp", "RamUsed and CpuUsage"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Write the arm that gives Ping its label."
+code = "StatKind::Ping => ___,"
+blank = "\"PING\""

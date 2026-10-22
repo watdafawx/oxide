@@ -1,0 +1,21 @@
+title = "A reading"
+summary = "A stat and its value, or two dashes when Kinetik could not read it."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["option", "struct"]
+
+[[objectives]]
+test = "missing_temp_shows_dashes"
+label = "a CPU temperature with no value shows --"
+
+[[hints]]
+text = "Only the `None` arm of the `match` in `text` changes."
+[[hints]]
+text = "Make it `None => \"--\".to_string(),`."
+
+[[points]]
+after = 2
+prompt = "A CPU temperature Kinetik could not read is stored as..."
+pick = ["Some(0.0)", "None", "Some(-1.0)", "0.0"]
+answer = 1

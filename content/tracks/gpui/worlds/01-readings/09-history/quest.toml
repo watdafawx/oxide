@@ -1,0 +1,26 @@
+title = "The last minute"
+summary = "Keep the last 60 readings: add at the back, drop from the front."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["vecdeque"]
+
+[[objectives]]
+test = "history_keeps_last_60"
+label = "after 100 readings, a 60-reading history holds 40 to 99"
+
+[[hints]]
+text = "In `push`, after `push_back`, check the length against `self.cap`."
+[[hints]]
+text = "`if self.values.len() > self.cap { self.values.pop_front(); }`"
+
+[[points]]
+after = 2
+prompt = "Which end of a VecDeque holds the oldest reading here?"
+pick = ["the front", "the back", "the middle", "it depends"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Drop the oldest reading."
+code = "self.values.___;"
+blank = "pop_front()"
