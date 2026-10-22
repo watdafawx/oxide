@@ -66,3 +66,14 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `Send`, supertrait `trait Sensor: Send`, `Arc<Mutex<..>>` and `background_executor().spawn` (*starter*) | 04-sensors/12-off-the-ui-thread | the compile error |
 | `enum Missing`, default trait method, WMI `HRESULT` | 04-sensors/13-why-its-missing | `missing_from_wmi` |
 | (no new terms) | 04-sensors/14-boss-sensor-hub | assembles world 04 |
+| `titlebar: None`, `WindowKind::PopUp`, `is_movable`, `is_resizable`, `focus: false` | 05-taskbar/01-window-options | `bar_window_options` |
+| `WindowBackgroundAppearance::Transparent` | 05-taskbar/02-see-through | see-through window |
+| window class, `FindWindowW`, `FindWindowExW`, `w!(..)`, `HWND` | 05-taskbar/03-find-the-taskbar | `find_taskbar` |
+| `Rect`, `intersect`, auto-hide | 05-taskbar/04-dock-maths | `dock_bar` |
+| physical vs logical pixels, scale, `Bounds::new(point, size)` | 05-taskbar/05-dpi | `to_logical` |
+| `trait WinApi`, fake that records calls, topmost, `SetWindowPos`, `raw-window-handle` (*starter*) | 05-taskbar/06-stay-on-top | `Docker::on_open` |
+| `window.appearance()`, `WindowAppearance`, `\|` in a match arm | 05-taskbar/07-light-or-dark | `text_colour_for` |
+| covers its monitor, per-monitor hiding | 05-taskbar/08-hide-in-fullscreen | `bar_visible` |
+| `Shell_SecondaryTrayWnd` (*starter*), `filter(..).copied()`, `display_id` | 05-taskbar/09-every-taskbar | `taskbars_to_use` |
+| compare with last, `move_to` without resizing | 05-taskbar/10-taskbar-moved | `Docker::redock` |
+| (no new terms) | 05-taskbar/11-boss-docked-bar | `Docker::tick` |

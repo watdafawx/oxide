@@ -218,17 +218,17 @@ Win32 calls live behind `trait WinApi`; tests use `FakeWinApi`.
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-window-options | `WindowOptions { titlebar: None, kind: WindowKind::PopUp, is_movable: false, .. }` | `bar_window_has_no_titlebar`, `bar_window_is_popup` | 4 | 25 | exercise ⚡ | unit |
-| 02-see-through | `WindowBackgroundAppearance::Transparent`, only the pill is drawn | `bar_background_is_transparent`, look | 4 | 25 | exercise | unit, look |
-| 03-find-the-taskbar | `FindWindowW("Shell_TrayWnd")` + `GetWindowRect` into a `TaskbarRect` | `taskbar_found_on_this_pc` | 7 | 45 | exercise | live |
-| 04-dock-maths | bar bounds from taskbar rect, tray rect, bar width and Shift left | `bar_sits_left_of_tray`, `shift_left_moves_it_left`, `auto_hidden_taskbar_hides_bar` | 7 | 45 | exercise | unit |
-| 05-dpi | `WindowBounds::Windowed(Bounds::new(..))`, physical vs logical pixels at 150 %; the bounds are the client area (Windows adds an invisible frame, so `GetWindowRect` is 16x9 px bigger) | `bounds_scale_at_150_percent` | 5 | 30 | exercise ⚡ | unit |
-| 06-stay-on-top | raw HWND via `HasWindowHandle`, `SetWindowPos(HWND_TOPMOST)`, again when the taskbar repaints | `topmost_set_after_open`, `topmost_set_again_after_taskbar_click` | 7 | 45 | exercise | fake |
-| 07-light-or-dark | `window.appearance()` + `observe_window_appearance`: text follows the taskbar | `dark_taskbar_uses_white_text` | 5 | 30 | exercise | gpui |
-| 08-hide-in-fullscreen | foreground window covers its monitor: hide the bar on that monitor only | `fullscreen_game_hides_bar`, `fullscreen_on_other_monitor_keeps_bar` | 6 | 40 | exercise | unit |
-| 09-every-taskbar | `Shell_SecondaryTrayWnd`: one bar per taskbar when the option is on; each bar's `WindowOptions.display_id` must name its monitor | `two_taskbars_two_bars` | 6 | 40 | exercise | fake |
-| 10-taskbar-moved | re-dock when the taskbar rect changes | `moved_taskbar_redocks_bar` | 4 | 25 | exercise ⚡ | fake |
-| 11-boss-docked-bar | the live bar docked next to the tray, on top, matching light/dark, hidden in fullscreen | `window_options_right`, `docks_left_of_tray`, `scales_with_dpi`, `stays_topmost`, `follows_dark_mode`, `hides_for_fullscreen`, `redocks_after_move` (+ look) | 50 | 400 | boss | fake, gpui, look |
+| 01-window-options | `WindowOptions { titlebar: None, kind: WindowKind::PopUp, is_movable: false, is_resizable: false, focus: false, .. }` | `bar_window_has_no_titlebar`, `bar_window_is_popup` | 4 | 25 | exercise ⚡ | unit |
+| 02-see-through | `WindowBackgroundAppearance::Transparent`, only the pill is drawn (spike R3 measured it exact) | `bar_background_is_transparent` | 4 | 25 | exercise | unit |
+| 03-find-the-taskbar | `FindWindowW("Shell_TrayWnd")` + `FindWindowExW("TrayNotifyWnd")`; `GetWindowRect`, monitor and DPI (*starter*) | `taskbar_found_on_this_pc` | 7 | 45 | exercise | live |
+| 04-dock-maths | bar rect left of the tray, `Shift left`; `Rect::intersect` with the monitor, under 4 px visible is auto-hide | `bar_sits_left_of_tray`, `shift_left_moves_it_left`, `auto_hidden_taskbar_hides_bar` | 7 | 45 | exercise | unit |
+| 05-dpi | physical to logical pixels: divide by the monitor's scale; `main.rs` now docks for real | `bounds_scale_at_150_percent` | 5 | 30 | exercise ⚡ | unit |
+| 06-stay-on-top | `trait WinApi`, `FakeWin` records calls, `RealWin` calls `SetWindowPos(HWND_TOPMOST)`; raise on open and when the taskbar comes to the front; HWND via `raw-window-handle` | `topmost_set_after_open`, `topmost_set_again_after_taskbar_click` | 7 | 45 | exercise | fake |
+| 07-light-or-dark | `window.appearance()`, `WindowAppearance`, `\|` in a match arm | `dark_taskbar_uses_white_text` | 5 | 30 | exercise | unit |
+| 08-hide-in-fullscreen | a window covering its monitor hides the bar on that monitor only | `fullscreen_game_hides_bar`, `fullscreen_on_other_monitor_keeps_bar` | 6 | 40 | exercise | unit |
+| 09-every-taskbar | `Shell_SecondaryTrayWnd` (*starter*), "Show on all taskbars" filter; `display_id` trap from R3 | `two_taskbars_two_bars`, `primary_only_by_default` | 6 | 40 | exercise | unit |
+| 10-taskbar-moved | compare with the last taskbar, move only on a change (`move_to`, never resize through Win32) | `moved_taskbar_redocks_bar` | 4 | 25 | exercise ⚡ | fake |
+| 11-boss-docked-bar | one `Docker::tick` a second: dock and raise on a change, show or hide for auto-hide and fullscreen | `window_options_right`, `docks_left_of_tray`, `stays_topmost`, `hides_for_fullscreen`, `redocks_after_move`, `hidden_taskbar_hides_bar`, `scales_with_dpi` | 50 | 400 | boss | fake, unit |
 
 ### World 06: Interaction (`06-interaction`), project "Clicks, hovers and menus", 12 quests
 
@@ -388,7 +388,7 @@ auto-hide taskbar). Code: `docs/tracks/gpui-spike/` (`visual.rs` is R2, `probe.r
 |---|---|---|
 | R1 | gpui 0.2.2 from crates.io may not build on Windows | **Pass.** Builds and opens a window with no extra setup. Numbers in section 1 (Runner). Only noise: a future-incompat warning from `proc-macro-error2`. |
 | R2 | `#[gpui::test]` + `VisualTestContext` headless on Windows | **Pass.** `add_window_view`, `debug_bounds` (size and position), `simulate_click` hitting an `on_click`, `simulate_resize`, `executor().advance_clock` all work; 3 tests in 0.01 s. The `visual` grading row stands. |
-| R3 | PopUp + Transparent + no titlebar: see-through, on top, placeable | **Pass, with two rules.** (a) Transparent is exact: over white, black and red backdrops the empty part of the bar matches the backdrop pixel for pixel; the pill draws its colour exactly. (b) `SetWindowPos(HWND_TOPMOST)` on the HWND from `HasWindowHandle` sticks and the bar sits above `Shell_TrayWnd` in z-order. (c) PopUp gets `WS_EX_TOOLWINDOW`: no taskbar button. **Rule 1:** GPUI checks that the requested bounds' centre lies on the target display; if not (an auto-hidden taskbar's off-screen rect, another monitor without `display_id`) it silently uses its default 1552x873 centred window. World 05 teaches `display_id` and handles auto-hide. **Rule 2:** bounds are the client area; Windows adds an invisible 8 px frame. Resizing the HWND afterwards with `SetWindowPos` shrinks GPUI's viewport (200x48 became 184x39), so size through GPUI, never through Win32. Not tested: docking on a visible taskbar (this PC auto-hides it), and topmost surviving a click on the taskbar; check both in the World 05 content session. |
+| R3 | PopUp + Transparent + no titlebar: see-through, on top, placeable | **Pass, with two rules.** (a) Transparent is exact: over white, black and red backdrops the empty part of the bar matches the backdrop pixel for pixel; the pill draws its colour exactly. (b) `SetWindowPos(HWND_TOPMOST)` on the HWND from `HasWindowHandle` sticks and the bar sits above `Shell_TrayWnd` in z-order. (c) PopUp gets `WS_EX_TOOLWINDOW`: no taskbar button. **Rule 1:** GPUI checks that the requested bounds' centre lies on the target display; if not (an auto-hidden taskbar's off-screen rect, another monitor without `display_id`) it silently uses its default 1552x873 centred window. World 05 teaches `display_id` and handles auto-hide. **Rule 2:** bounds are the client area; Windows adds an invisible 8 px frame. Resizing the HWND afterwards with `SetWindowPos` shrinks GPUI's viewport (200x48 became 184x39), so size through GPUI, never through Win32. Not tested: docking on a visible taskbar (this PC auto-hides it), and topmost surviving a click on the taskbar. World 05 handles auto-hide (the bar hides with the taskbar and returns when it slides up) and re-raises the bar when the taskbar comes to the front; both still need a check on a PC with a fixed taskbar. |
 | R4 | 0.2.2 is a year old; Zed's git API has moved | **Decided: stay on crates.io `=0.2.2`.** R1-R3 found nothing that needs a newer gpui. Moving later is a "what changed" pass like `neoforge-latest`. |
 | R5 | `tray-icon` and `global-hotkey` need a Win32 message loop | **Pass.** Both created inside `Application::run`; GPUI's main-thread loop pumps their hidden windows. A real Ctrl+Alt+Shift+F9 via `SendInput` gave 2 events (Pressed, Released); a click message to the tray window gave 1 `TrayIconEvent::Click`. Read both receivers from a `cx.spawn` loop every 100 ms. |
 | R6 | ETW needs admin; Oxide runs tests unelevated | not run; designed around: fixtures grade, live is `skip: needs administrator` |
@@ -412,6 +412,6 @@ plain-words explanations), companion shared memory, per-stat animated icons
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-04~~ written 2026-10-22, content-check green (58 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-05~~ written 2026-10-22, content-check green (69 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

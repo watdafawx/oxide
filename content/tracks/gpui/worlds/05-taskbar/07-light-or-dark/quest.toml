@@ -1,0 +1,21 @@
+title = "Light or dark"
+summary = "White text on a dark taskbar, near-black on a light one, from the window's appearance."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "theme"]
+
+[[objectives]]
+test = "dark_taskbar_uses_white_text"
+label = "Dark and VibrantDark give white text; Light and VibrantLight near-black"
+
+[[hints]]
+text = "`text_colour_for` (in `view.rs`) is a `match` with two arms; `|` joins two variants in one arm."
+[[hints]]
+text = "`WindowAppearance::Dark | WindowAppearance::VibrantDark => rgb(0xffffff), WindowAppearance::Light | WindowAppearance::VibrantLight => rgb(0x1a1a1a),`"
+
+[[points]]
+after = 2
+prompt = "Which text colour reads on a light taskbar?"
+pick = ["near-black", "white", "light grey", "the warning red"]
+answer = 0

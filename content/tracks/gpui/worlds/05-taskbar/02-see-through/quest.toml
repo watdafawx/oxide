@@ -1,0 +1,21 @@
+title = "See-through"
+summary = "Only the pill is drawn; everything else in the window shows the taskbar behind it."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "window"]
+
+[[objectives]]
+test = "bar_background_is_transparent"
+label = "the bar window's background is Transparent"
+
+[[hints]]
+text = "One more field in `bar_window_options`."
+[[hints]]
+text = "`window_background: WindowBackgroundAppearance::Transparent,`"
+
+[[points]]
+after = 2
+prompt = "With a Transparent window, what shows where the view draws nothing?"
+pick = ["whatever is behind the window", "white", "black", "the desktop wallpaper only"]
+answer = 0

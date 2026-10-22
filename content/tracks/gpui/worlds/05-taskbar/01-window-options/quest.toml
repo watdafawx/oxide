@@ -1,0 +1,25 @@
+title = "The bar's window"
+summary = "No title bar, a pop-up that never shows in the taskbar, not movable, never taking focus."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "window"]
+requires = ["04-sensors/14-boss-sensor-hub"]
+
+[[objectives]]
+test = "bar_window_has_no_titlebar"
+label = "bar_window_options has no title bar and does not take focus"
+[[objectives]]
+test = "bar_window_is_popup"
+label = "it is a PopUp window that cannot be moved or resized"
+
+[[hints]]
+text = "Set five fields in the `WindowOptions { .. }` in `bar_window_options`; `..Default::default()` fills the rest."
+[[hints]]
+text = "`titlebar: None, kind: WindowKind::PopUp, is_movable: false, is_resizable: false, focus: false,`"
+
+[[points]]
+after = 3
+prompt = "Why focus: false?"
+pick = ["clicking the bar must not pull focus from your game or editor", "focus is slow", "pop-ups cannot focus", "the title bar needs it"]
+answer = 0

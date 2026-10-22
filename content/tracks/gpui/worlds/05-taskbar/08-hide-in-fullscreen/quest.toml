@@ -1,0 +1,24 @@
+title = "Hide in fullscreen"
+summary = "A game or video that covers its monitor hides the bar on that monitor only."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["maths", "option"]
+
+[[objectives]]
+test = "fullscreen_game_hides_bar"
+label = "a window covering the bar's monitor hides the bar"
+[[objectives]]
+test = "fullscreen_on_other_monitor_keeps_bar"
+label = "fullscreen on another monitor, or a normal window, keeps it"
+
+[[hints]]
+text = "`covers_monitor` compares four edges; `bar_visible` matches on the `Option`."
+[[hints]]
+text = "`window.left <= monitor.left && window.top <= monitor.top && window.right >= monitor.right && window.bottom >= monitor.bottom`; in `bar_visible`: `Some((window, monitor)) => !(monitor == bar_monitor && covers_monitor(window, monitor)), None => true`."
+
+[[points]]
+after = 2
+prompt = "A game is fullscreen on monitor 2. The bar is on monitor 1. Should it hide?"
+pick = ["no", "yes", "only if the game has focus", "only at night"]
+answer = 0

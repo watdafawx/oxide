@@ -1,0 +1,27 @@
+title = "Dock maths"
+summary = "From the taskbar and tray rectangles to the bar's: left of the tray, full height, shifted by a setting."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["maths", "option"]
+
+[[objectives]]
+test = "bar_sits_left_of_tray"
+label = "a 300 px bar ends 8 px left of the tray, as tall as the taskbar"
+[[objectives]]
+test = "shift_left_moves_it_left"
+label = "Shift left of 100 moves it 100 px further left"
+[[objectives]]
+test = "auto_hidden_taskbar_hides_bar"
+label = "a taskbar that shows less than 4 px (auto-hide) gives None"
+
+[[hints]]
+text = "First the visible part of the taskbar with `intersect(..)?` and the 4 px check; then the right edge; then the rectangle."
+[[hints]]
+text = "`let visible = taskbar.rect.intersect(&taskbar.monitor)?; if visible.height() < 4 { return None; } let right = taskbar.tray.left - TRAY_GAP - shift_left; Some(Rect::new(right - bar_width, visible.top, right, visible.bottom))`"
+
+[[points]]
+after = 3
+prompt = "This PC's taskbar is at y 1438 to 1486 on a 1440-high monitor. What does that mean?"
+pick = ["it is auto-hidden: 2 px peek out", "it is on a second monitor", "it is broken", "it is 1486 px tall"]
+answer = 0

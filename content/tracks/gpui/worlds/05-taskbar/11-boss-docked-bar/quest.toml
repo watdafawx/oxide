@@ -1,0 +1,35 @@
+title = "Boss: docked on the taskbar"
+summary = "One tick a second keeps the bar docked, on top, and out of the way of fullscreen games and auto-hide."
+kind = "boss"
+xp = 400
+minutes = 50
+tags = ["boss", "win32", "window"]
+
+[[objectives]]
+test = "window_options_right"
+label = "the bar's window: PopUp, no title bar, no focus, transparent"
+[[objectives]]
+test = "docks_left_of_tray"
+label = "the first tick moves the bar left of the tray"
+[[objectives]]
+test = "stays_topmost"
+label = "after docking, the bar is raised above the taskbar"
+[[objectives]]
+test = "hides_for_fullscreen"
+label = "a fullscreen window on its monitor hides the bar; leaving shows it; only on changes"
+[[objectives]]
+test = "redocks_after_move"
+label = "the bar follows the tray when it grows, and stays put otherwise"
+[[objectives]]
+test = "hidden_taskbar_hides_bar"
+label = "an auto-hidden taskbar hides the bar until it slides up"
+[[objectives]]
+test = "scales_with_dpi"
+label = "physical pixels become logical ones at 150 %"
+
+[[hints]]
+text = "Start `tick` with the primary taskbar (`find(|t| t.primary)`, `let .. else { return }`) and `dock_bar(..)` kept as an `Option` (no `?`: a hidden taskbar still needs the hide step)."
+[[hints]]
+text = "When `self.last != Some(taskbar)`: store it, and if `docked` is `Some(place)`, `move_to` and then `set_topmost`. That turns docks_left_of_tray, stays_topmost and redocks_after_move green."
+[[hints]]
+text = "`let visible = docked.is_some() && bar_visible(self.api.foreground(), taskbar.monitor);` then, only when it differs from `self.visible`, store it and call `self.api.show(self.hwnd, visible)`."

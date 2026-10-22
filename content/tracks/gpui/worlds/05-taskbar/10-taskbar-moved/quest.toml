@@ -1,0 +1,21 @@
+title = "The taskbar moved"
+summary = "Check the taskbar every second; when it changed, move the bar with it."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["state", "option"]
+
+[[objectives]]
+test = "moved_taskbar_redocks_bar"
+label = "redock moves the bar once when the taskbar changes, and not again while it stays"
+
+[[hints]]
+text = "After the `last` check: remember the taskbar, work out the place with `dock_bar(..)?`, move, give back the place."
+[[hints]]
+text = "`self.last = Some(taskbar); let place = dock_bar(&taskbar, self.bar_width, self.shift_left)?; self.api.move_to(self.hwnd, place.left, place.top); Some(place)`"
+
+[[points]]
+after = 2
+prompt = "Why compare with `last` before moving?"
+pick = ["moving an unchanged window every second is wasted work", "Windows forbids two moves", "move_to is unsafe", "to save memory"]
+answer = 0

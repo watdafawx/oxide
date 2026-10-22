@@ -1,0 +1,21 @@
+title = "Scaling"
+summary = "Windows measures in physical pixels, GPUI in logical ones: divide by the monitor's scale."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["dpi", "maths"]
+
+[[objectives]]
+test = "bounds_scale_at_150_percent"
+label = "at 150 %, a 300 x 48 physical rectangle at (1500, 1392) is 200 x 32 at (1000, 928)"
+
+[[hints]]
+text = "Divide each of the four numbers by `scale` before turning it into `px(..)`."
+[[hints]]
+text = "`Bounds::new(point(px(rect.left as f32 / scale), px(rect.top as f32 / scale)), size(px(rect.width() as f32 / scale), px(rect.height() as f32 / scale)))`"
+
+[[points]]
+after = 2
+prompt = "At 125 % scaling, how many logical pixels is a 40-pixel-tall physical taskbar?"
+pick = ["32", "40", "50", "25"]
+answer = 0
