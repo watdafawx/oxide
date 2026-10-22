@@ -1,0 +1,2 @@
+title = "Sensors"
+blurb = "SensorHub: network, disk, GPU, temperature, battery and ping from this PC, read lazily, off the UI thread, with a reason when a number is missing."

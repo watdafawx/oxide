@@ -1,0 +1,29 @@
+title = "The battery"
+summary = "Call a Windows function with unsafe, then decode what it filled in: 255 means no battery."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["unsafe", "ffi", "windows"]
+
+[[objectives]]
+test = "this_pc_power_status_reads"
+label = "read_power_status gets an answer from Windows on this PC"
+[[objectives]]
+test = "no_battery_flag_means_none"
+label = "flag 128 or a percent of 255 decode to None; 15% charging decodes right"
+
+[[hints]]
+text = "`read_power_status`: a default `SYSTEM_POWER_STATUS`, an `unsafe` call to `GetSystemPowerStatus(&mut status)` with `.ok()?`, then `Some(status)`. `decode_battery`: the flag and 255 checks first."
+[[hints]]
+text = "`let mut status = SYSTEM_POWER_STATUS::default(); unsafe { GetSystemPowerStatus(&mut status) }.ok()?; Some(status)` and in decode: `if status.BatteryFlag & 128 != 0 || status.BatteryLifePercent == 255 { return None; } Some(Battery { percent: status.BatteryLifePercent as f64, charging: status.BatteryFlag & 8 != 0 })`"
+
+[[points]]
+after = 2
+prompt = "What does unsafe { .. } promise?"
+pick = ["you checked what the compiler cannot", "the code cannot crash", "it runs faster", "it runs as administrator"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Which test says \"bit 8 is set in the flag\"?"
+pick = ["flag & 8 != 0", "flag == 8", "flag > 8", "flag | 8 != 0"]
+answer = 0

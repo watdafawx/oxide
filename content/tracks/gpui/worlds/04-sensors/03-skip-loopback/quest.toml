@@ -1,0 +1,21 @@
+title = "Skip the doubles"
+summary = "Sum only the adapters that carry real traffic: no loopback, no virtual switch, no filter copies."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["iterator", "strings"]
+
+[[objectives]]
+test = "loopback_is_not_counted"
+label = "Ethernet counts; Loopback, Teredo, vEthernet and filter-driver copies do not"
+
+[[hints]]
+text = "`counts_toward_total` is one line: true unless the name contains any entry of `SKIP`."
+[[hints]]
+text = "`!SKIP.iter().any(|skip| name.contains(skip))`"
+
+[[points]]
+after = 2
+prompt = "Why skip \"ZeroTier One-ExitLag NDIS LightWeight Filter-0000\"?"
+pick = ["it is a copy of the ZeroTier adapter's traffic", "it is always 0", "it needs admin", "the name is too long"]
+answer = 0

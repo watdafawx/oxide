@@ -1,0 +1,24 @@
+title = "Pick the GPU"
+summary = "Kinetik's Auto choice: the NVIDIA card if there is one, else the card with the most video memory."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["iterator", "option"]
+
+[[objectives]]
+test = "auto_prefers_nvidia"
+label = "with an Intel iGPU and an NVIDIA card, Auto picks the NVIDIA one"
+[[objectives]]
+test = "else_most_vram_wins"
+label = "without NVIDIA, the card with most VRAM wins; no cards gives None"
+
+[[hints]]
+text = "Two steps: `position` of the first NVIDIA card, else the index with the biggest `vram_bytes`."
+[[hints]]
+text = "`if let Some(i) = gpus.iter().position(|g| g.vendor == Vendor::Nvidia) { return Some(i); } gpus.iter().enumerate().max_by_key(|(_, g)| g.vram_bytes).map(|(i, _)| i)`"
+
+[[points]]
+after = 2
+prompt = "A laptop has Intel graphics (128 MB) and an AMD card (8 GB). Auto picks..."
+pick = ["the AMD card", "the Intel graphics", "neither", "both"]
+answer = 0

@@ -1,0 +1,22 @@
+title = "What needs admin"
+summary = "Which numbers Windows hands out freely, which need administrator or a driver, and which crate reads each."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["sensors", "windows"]
+requires = ["03-live/13-boss-live-bar", "rust/07-concurrency/11-boss-parallel-file-hasher"]
+
+[[quiz]]
+question = "Why does Kinetik show --°C for CPU temperature on many desktops?"
+choices = ["Windows only gives it to administrators or through a driver", "The CPU is too cold to measure", "sysinfo cannot read numbers"]
+answer = 0
+
+[[quiz]]
+question = "Which reading needs no administrator rights at all?"
+choices = ["NVIDIA GPU temperature through nvml.dll", "The FPS of a game", "RAM temperature"]
+answer = 0
+
+[[quiz]]
+question = "What should the bar show for a number it is not allowed to read?"
+choices = ["0, so the layout stays the same", "-- and, on hover, the reason", "The last number it ever read"]
+answer = 1

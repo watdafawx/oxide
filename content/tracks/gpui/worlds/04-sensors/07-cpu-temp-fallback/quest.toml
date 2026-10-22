@@ -1,0 +1,24 @@
+title = "CPU temperature, the fallback"
+summary = "ACPI reports tenths of a kelvin; turn that into °C and ignore the dummy values desktops report."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["maths", "option"]
+
+[[objectives]]
+test = "kelvin_tenths_to_celsius"
+label = "3332 tenths of a kelvin is 60.05 °C"
+[[objectives]]
+test = "dummy_27_8_is_ignored"
+label = "3010 (27.8 °C), other dummies and impossible values give None"
+
+[[hints]]
+text = "First the `DUMMY` check, then the conversion, then a range check on the result."
+[[hints]]
+text = "`if DUMMY.contains(&tenths_kelvin) { return None; } let celsius = tenths_kelvin as f64 / 10.0 - 273.15; if (1.0..=120.0).contains(&celsius) { Some(celsius) } else { None }`"
+
+[[points]]
+after = 2
+prompt = "What is 2982 tenths of a kelvin in °C?"
+pick = ["25.05", "29.82", "2708.85", "298.2"]
+answer = 0

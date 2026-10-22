@@ -1,0 +1,24 @@
+title = "The GPU, through nvml"
+summary = "NVIDIA's driver DLL gives usage and temperature to any app; no card means None, not a crash."
+kind = "exercise"
+xp = 60
+minutes = 8
+tags = ["nvml", "option", "result"]
+
+[[objectives]]
+test = "no_nvidia_means_none"
+label = "a GPU with no NVIDIA card behind it reads None"
+[[objectives]]
+test = "nvidia_usage_is_a_percentage"
+label = "on a PC with an NVIDIA card, usage is between 0 and 100"
+
+[[hints]]
+text = "Three steps in `usage`, each ending in `?`: the `Nvml` from `self.nvml`, device 0, its utilization rates."
+[[hints]]
+text = "`let nvml = self.nvml.as_ref()?; let device = nvml.device_by_index(0).ok()?; Some(device.utilization_rates().ok()?.gpu as f64)`"
+
+[[points]]
+after = 3
+prompt = "device_by_index gives a Result. What turns it into an Option, so ? ends the function with None?"
+pick = [".ok()", ".unwrap()", ".expect(..)", ".err()"]
+answer = 0

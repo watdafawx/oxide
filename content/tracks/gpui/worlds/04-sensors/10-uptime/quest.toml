@@ -1,0 +1,21 @@
+title = "Uptime"
+summary = "How long the PC has been on, in the two biggest units: 3d 4h, 4h 12m, 12m."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["maths", "format"]
+
+[[objectives]]
+test = "uptime_shows_days_and_hours"
+label = "277 200 s is 3d 5h; 15 120 s is 4h 12m; 720 s is 12m"
+
+[[hints]]
+text = "Days, hours and minutes come from `/` and `%`; then an `if` / `else if` / `else` picks the format."
+[[hints]]
+text = "`let days = seconds / 86_400; let hours = seconds % 86_400 / 3600; let minutes = seconds % 3600 / 60;` then `format!(\"{days}d {hours}h\")`, `format!(\"{hours}h {minutes}m\")` or `format!(\"{minutes}m\")`."
+
+[[points]]
+after = 2
+prompt = "What is 90 000 % 86 400?"
+pick = ["3600", "1", "86 400", "90 000"]
+answer = 0

@@ -1,0 +1,21 @@
+title = "Free disk space"
+summary = "Find drive C: among the disks and read how much space is left."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["sysinfo", "disk", "option"]
+
+[[objectives]]
+test = "c_drive_has_free_space"
+label = "DiskSensor reads C:'s free space: above 0, at most its size"
+
+[[hints]]
+text = "In `read`, refresh, then `find` the disk whose `mount_point()` is `C:\\`."
+[[hints]]
+text = "`let c = self.disks.list().iter().find(|d| d.mount_point() == Path::new(\"C:\\\\\"))?; Some(c.available_space() as f64)`"
+
+[[points]]
+after = 3
+prompt = "What does find(..)? do when no disk is C:?"
+pick = ["the function gives back None", "it panics", "it picks the first disk", "it gives 0"]
+answer = 0

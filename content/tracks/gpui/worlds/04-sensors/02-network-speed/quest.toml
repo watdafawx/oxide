@@ -1,0 +1,21 @@
+title = "Network speed"
+summary = "Bytes since the last read divided by the seconds since the last read."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["sysinfo", "network", "duration"]
+
+[[objectives]]
+test = "speed_is_bytes_over_seconds"
+label = "3 000 000 bytes over 2 s is 1 500 000 bytes per second, and no time gives 0"
+
+[[hints]]
+text = "`speed` turns `elapsed` into seconds with `as_secs_f64()` and divides."
+[[hints]]
+text = "`let seconds = elapsed.as_secs_f64(); if seconds == 0.0 { 0.0 } else { bytes as f64 / seconds }`"
+
+[[points]]
+after = 2
+prompt = "A first read has nothing to compare with. What does the sensor give?"
+pick = ["None", "Some(0.0)", "the total bytes ever", "a panic"]
+answer = 0

@@ -1,0 +1,37 @@
+title = "Boss: the sensor hub"
+summary = "Every real sensor, read lazily in the background, with a reason for every gap and a hover text for every stat."
+kind = "boss"
+xp = 450
+minutes = 60
+tags = ["boss", "sensors", "threads"]
+
+[[objectives]]
+test = "hub_reads_cpu_and_ram"
+label = "read_sensors reads this PC's CPU and RAM"
+[[objectives]]
+test = "hidden_stats_cost_nothing"
+label = "stats not wanted are never read"
+[[objectives]]
+test = "gaps_come_with_a_reason"
+label = "a missing value carries the sensor's reason; a value carries none"
+[[objectives]]
+test = "bar_shows_hub_readings"
+label = "the bar shows the latest read and its hover summary"
+[[objectives]]
+test = "bar_remembers_why"
+label = "the hover text says why a stat is missing, until it has a value again"
+[[objectives]]
+test = "unchanged_reads_skip_redraw"
+label = "reads that change nothing on the bar do not redraw it"
+[[objectives]]
+test = "network_speed_needs_two_reads"
+label = "network speed is None on the first read, a speed on the second"
+
+[[hints]]
+text = "Start with `read_sensors`: lock, `iter_mut()`, `filter` by `wanted`, `map` each sensor to `(kind, value, reason)`, `collect`. Lock with `unwrap_or_else(|p| p.into_inner())` so a panic in one sensor never kills the bar."
+[[hints]]
+text = "The reason: `if value.is_none() { s.missing() } else { None }`. Read first, then ask why: `missing()` describes the read that just happened."
+[[hints]]
+text = "`apply`: for each `(kind, value, missing)`, `Some(v)` inserts into `snapshot`, pushes into `histories` and removes `kind` from `self.missing`; `None` removes from `snapshot` and inserts or removes the reason. Then `ticks += 1` and the compare-then-notify."
+[[hints]]
+text = "`hover_text`: `if let Some(why) = self.missing.get(&kind) { return missing_text(*why).to_string(); }` then `hover_summary(kind, history)` if there is a history, else `\"no data yet\"`."

@@ -52,3 +52,17 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `sysinfo` (`system` feature), `System::new()`, `refresh_cpu_usage`, `global_cpu_usage`, `MINIMUM_CPU_UPDATE_INTERVAL` | 03-live/11-real-cpu | `CpuSensor` |
 | `refresh_memory`, `used_memory` | 03-live/12-real-ram | `RamSensor` |
 | (no new terms) | 03-live/13-boss-live-bar | assembles world 03 |
+| admin-only stats, drivers, never 0 for unknown | 04-sensors/01-what-needs-admin | read |
+| `Networks`, `refresh`, `received()`, `Instant`, `Duration::as_secs_f64`, `Option::replace` (*starter*) | 04-sensors/02-network-speed | `speed` |
+| `iter().any(..)`, `str::contains` | 04-sensors/03-skip-loopback | `counts_toward_total` |
+| `StatKind::DiskFree` (*starter*), `Disks`, `mount_point`, `Path::new`, `find(..)?` | 04-sensors/04-free-disk | `DiskSensor` |
+| `nvml-wrapper`, `Nvml::init`, `Result::ok()` then `?` in a chain | 04-sensors/05-gpu-via-nvml | `NvidiaGpu::usage` |
+| `position`, `enumerate`, `max_by_key` | 04-sensors/06-pick-the-gpu | `pick_gpu` |
+| tenths of a kelvin, range `contains`, `wmi` query (*starter*) | 04-sensors/07-cpu-temp-fallback | `acpi_to_celsius` |
+| `unsafe { .. }`, `// SAFETY:`, `windows` crate, `SYSTEM_POWER_STATUS`, bit flags `& 128` | 04-sensors/08-battery | `read_power_status`, `decode_battery` |
+| `TcpStream::connect_timeout`, `SocketAddr`, `Instant::elapsed` | 04-sensors/09-ping | `ping_once` |
+| `/` and `%` for units of time | 04-sensors/10-uptime | `format_uptime` |
+| `HashSet`, `continue` | 04-sensors/11-lazy-sensors | read only wanted stats |
+| `Send`, supertrait `trait Sensor: Send`, `Arc<Mutex<..>>` and `background_executor().spawn` (*starter*) | 04-sensors/12-off-the-ui-thread | the compile error |
+| `enum Missing`, default trait method, WMI `HRESULT` | 04-sensors/13-why-its-missing | `missing_from_wmi` |
+| (no new terms) | 04-sensors/14-boss-sensor-hub | assembles world 04 |

@@ -197,20 +197,20 @@ Static data (a fixed `Snapshot`), real GPUI elements. Every element under test h
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-what-needs-admin | which stats Windows gives freely, which need admin or a driver (PawnIO), and which crate reads each | quiz: 3 | 4 | 15 | read | - |
-| 02-network-speed | bytes since the last refresh divided by seconds | `speed_is_bytes_over_seconds` | 6 | 40 | exercise | unit |
-| 03-skip-loopback | sum adapters, skip loopback and virtual ones | `loopback_is_not_counted` | 4 | 25 | exercise ⚡ | unit |
-| 04-free-disk | `sysinfo::Disks`, find `C:\` | `c_drive_has_free_space` | 5 | 30 | exercise | live |
-| 05-gpu-via-nvml | `Nvml::init()`, device 0, usage and temperature; no NVIDIA card is `None`, not a crash | `no_nvidia_means_none`, `nvidia_usage_is_a_percentage` | 8 | 60 | exercise | fake, live |
-| 06-pick-the-gpu | Auto: NVIDIA first, else the most VRAM | `auto_prefers_nvidia`, `else_most_vram_wins` | 6 | 40 | exercise | unit |
-| 07-cpu-temp-fallback | `wmi` `MSAcpi_ThermalZoneTemperature`: tenths of kelvin to °C, ignore dummy values (Kinetik's laptop fallback) | `kelvin_tenths_to_celsius`, `dummy_27_8_is_ignored` | 6 | 40 | exercise | unit |
-| 08-battery | `unsafe` + `GetSystemPowerStatus` from the `windows` crate; 255 means no battery | `255_means_no_battery`, `charging_adds_plus` | 7 | 45 | exercise | unit, live |
-| 09-ping | ping on a background thread, a timeout is `None` | `timeout_shows_dashes`, `ping_parses_round_trip` | 7 | 45 | exercise | unit |
-| 10-uptime | `3d 4h` from seconds | `uptime_shows_days_and_hours` | 4 | 25 | exercise ⚡ | unit |
-| 11-lazy-sensors | only read stats that are on the bar: `HashSet<StatKind>` of wanted stats | `hidden_gpu_is_never_read` | 6 | 40 | exercise | fake |
-| 12-off-the-ui-thread | `cx.background_spawn(...)`: a 1-second ping never freezes the bar; `Send` | `slow_ping_does_not_delay_cpu` | 8 | 60 | exercise | gpui |
-| 13-why-its-missing | `enum Missing { NeedsAdmin, NoDevice, Timeout }` for the hover text | `cpu_temp_without_admin_says_why` | 4 | 25 | exercise ⚡ | unit |
-| 14-boss-sensor-hub | `SensorHub` behind `Sensor`: every real sensor, lazy, off the UI thread, errors become dashes with a reason | `hub_reads_cpu_and_ram`, `network_speed_from_two_samples`, `gpu_or_reason`, `battery_or_reason`, `hidden_stats_cost_nothing`, `slow_sensor_does_not_block`, `bar_wired_to_hub` | 60 | 450 | boss | fake, gpui, live |
+| 01-what-needs-admin | which stats Windows gives freely, which need admin or a driver (PawnIO), which crate reads each; never show 0 for unknown | quiz: 3 | 4 | 15 | read | - |
+| 02-network-speed | bytes since the last refresh over `as_secs_f64()`; a speed needs two reads | `speed_is_bytes_over_seconds` | 6 | 40 | exercise | unit |
+| 03-skip-loopback | skip loopback, tunnels, `vEthernet` and filter-driver copies: `iter().any` | `loopback_is_not_counted` | 4 | 25 | exercise ⚡ | unit |
+| 04-free-disk | new stat `DiskFree` (label `C:`, warns below 10 GB); `sysinfo::Disks`, `find(..)?` | `c_drive_has_free_space` | 5 | 30 | exercise | live |
+| 05-gpu-via-nvml | `Nvml::init()` kept as an `Option`, chain `.ok()?`; no NVIDIA card is `None`, not a crash | `no_nvidia_means_none`, `nvidia_usage_is_a_percentage` | 8 | 60 | exercise | unit, live |
+| 06-pick-the-gpu | Auto: NVIDIA first (`position`), else the most VRAM (`max_by_key`) | `auto_prefers_nvidia`, `else_most_vram_wins` | 6 | 40 | exercise | unit |
+| 07-cpu-temp-fallback | ACPI tenths of kelvin to °C, ignore dummy values and impossible numbers; `ThermalSensor` queries WMI (*starter*) | `kelvin_tenths_to_celsius`, `dummy_27_8_is_ignored` | 6 | 40 | exercise | unit |
+| 08-battery | `unsafe` + `GetSystemPowerStatus`; flag 128 or 255 % means no battery, bit 8 is charging | `this_pc_power_status_reads`, `no_battery_flag_means_none` | 7 | 45 | exercise | unit, live |
+| 09-ping | time a TCP connect with `connect_timeout` (no admin, unlike Kinetik's ICMP); no answer is `None` | `local_server_answers`, `unreachable_host_is_none` | 7 | 45 | exercise | unit |
+| 10-uptime | `/` and `%` into days, hours, minutes: `3d 5h` | `uptime_shows_days_and_hours` | 4 | 25 | exercise ⚡ | unit |
+| 11-lazy-sensors | read only stats on the bar: `wanted_kinds` `HashSet`, `continue` | `hidden_gpu_is_never_read` | 6 | 40 | exercise | gpui |
+| 12-off-the-ui-thread | sensors read on `background_executor().spawn`; the compiler demands `trait Sensor: Send` (starter does not compile) | `readings_arrive_from_the_background` | 8 | 60 | exercise | gpui |
+| 13-why-its-missing | `enum Missing { NeedsAdmin, NoDevice, Timeout }`, `Sensor::missing()` default method, WMI access denied | `cpu_temp_without_admin_says_why` | 4 | 25 | exercise ⚡ | unit |
+| 14-boss-sensor-hub | `read_sensors` (lazy, with reasons), `apply` (snapshot, history, reasons, redraw on change), `hover_text` | `hub_reads_cpu_and_ram`, `hidden_stats_cost_nothing`, `gaps_come_with_a_reason`, `bar_shows_hub_readings`, `bar_remembers_why`, `unchanged_reads_skip_redraw`, `network_speed_needs_two_reads` | 60 | 450 | boss | unit, gpui, live |
 
 ### World 05: On the taskbar (`05-taskbar`), project "Docked bar", 11 quests
 
@@ -412,6 +412,6 @@ plain-words explanations), companion shared memory, per-stat animated icons
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-03~~ written 2026-10-22, content-check green (44 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-04~~ written 2026-10-22, content-check green (58 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.
