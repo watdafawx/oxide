@@ -39,3 +39,16 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `.min_w(..)`, `.font_family(..)` (*starter*) | 02-views/10-numbers-that-sit-still | 48 px value box |
 | `.text_size(..)`, `f32::clamp` | 02-views/11-text-size | `bar_text_size` |
 | (no new terms) | 02-views/12-boss-static-bar | assembles world 02 |
+| view state in fields, `view.rs` holds the drawing (*starter*) | 03-live/01-state-in-a-view | `StatsBar::new(snapshot)` |
+| entity, `Entity<T>`, `cx.new(\|_\| ..)`, `read_with` | 03-live/02-entity | `new_bar` |
+| `entity.update(cx, \|bar, cx\| ..)`, `Context<T>`, `cx.notify()` | 03-live/03-update-and-notify | `set_reading` |
+| `trait Sensor`, `Box<dyn Sensor>`, `ScriptedSensor` | 03-live/04-a-fake-sensor | test stand-in |
+| `cx.spawn(async move \|this, cx\| ..)`, `Task`, dropped task is cancelled, `_poll` field | 03-live/05-spawn-and-keep | keep the task |
+| `cx.background_executor().timer(..).await`, test clock `advance_clock` | 03-live/06-a-timer | wait one interval |
+| `loop` with `.await`, `WeakEntity`, `this.update(..).is_err()` then `break` | 03-live/07-every-second | the polling loop |
+| `Duration::from_millis`, `u64::clamp` | 03-live/08-update-interval | `clamp_interval` |
+| compare before notify, `PartialEq` on items | 03-live/09-redraw-only-on-change | skip identical redraws |
+| `HashMap::entry(..).or_insert_with(..)` | 03-live/10-history-per-stat | `histories` |
+| `sysinfo` (`system` feature), `System::new()`, `refresh_cpu_usage`, `global_cpu_usage`, `MINIMUM_CPU_UPDATE_INTERVAL` | 03-live/11-real-cpu | `CpuSensor` |
+| `refresh_memory`, `used_memory` | 03-live/12-real-ram | `RamSensor` |
+| (no new terms) | 03-live/13-boss-live-bar | assembles world 03 |

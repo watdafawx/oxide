@@ -155,7 +155,7 @@ NeoForge + Fabric 1.21.1).
 | Lua + Factorio | `docs/tracks/lua.md` | 5 | 54 | 4,445 | embedded Lua, test harness, Factorio mock |
 | Java 25 + Boot 4 (delta) | `docs/tracks/java-25.md` | 5 | 33 | 2,995 | JDK 25 (Temurin 25.0.4), Boot 4.1.1, `track.toml` jdk |
 | NeoForge latest (delta) | `docs/tracks/neoforge-latest.md` | 12 | 69 | 7,260 | Minecraft 26.3 + NeoForge 26.3.0.94, JDK 25; re-cut each Minecraft release |
-| Kinetik in Rust (GPUI) | `docs/tracks/gpui.md` | 13 | 158 | 10,400 | none (cargo runner); spikes R1-R3, R5 passed 2026-10-22 |
+| Kinetik in Rust (GPUI) | `docs/tracks/gpui.md` | 13 | 158 | 10,380 | none (cargo runner); spikes R1-R3, R5 passed 2026-10-22 |
 
 Decisions on the planners' open questions:
 

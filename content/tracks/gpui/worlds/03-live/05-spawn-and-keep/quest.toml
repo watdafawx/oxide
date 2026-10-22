@@ -1,0 +1,21 @@
+title = "Spawn, and keep it"
+summary = "Run work after the current moment with cx.spawn, and keep the Task or it is cancelled."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "async", "task"]
+
+[[objectives]]
+test = "started_bar_reads_its_sensors"
+label = "after start, the bar has read its sensors once"
+
+[[hints]]
+text = "The last line of `start` throws the task away. Keep it in `self._poll` instead."
+[[hints]]
+text = "`self._poll = Some(task);`"
+
+[[points]]
+after = 2
+prompt = "What happens to a GPUI Task you drop?"
+pick = ["it is cancelled", "it runs anyway", "it panics", "it runs twice"]
+answer = 0

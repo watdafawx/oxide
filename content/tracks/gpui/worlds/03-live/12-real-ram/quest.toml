@@ -1,0 +1,21 @@
+title = "Real RAM"
+summary = "RAM in use, in bytes: the same sensor shape, a different question."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["sysinfo", "sensor"]
+
+[[objectives]]
+test = "ram_used_is_within_total"
+label = "RamSensor reads more than 0 and no more than this PC's total RAM"
+
+[[hints]]
+text = "Same shape as `CpuSensor::read`, with the memory calls."
+[[hints]]
+text = "`self.system.refresh_memory(); Some(self.system.used_memory() as f64)`"
+
+[[points]]
+after = 2
+prompt = "Which unit does RamSensor give, so the bar writes 8.0 GB?"
+pick = ["bytes", "megabytes", "percent", "gigabytes"]
+answer = 0

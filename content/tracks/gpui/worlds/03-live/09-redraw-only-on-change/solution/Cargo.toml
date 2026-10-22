@@ -1,0 +1,9 @@
+[package]
+name = "kinetik_03_redraw_only_on_change"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gpui = { version = "=0.2.2", features = ["test-support"] }
+
+[workspace]

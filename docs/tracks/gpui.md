@@ -179,19 +179,19 @@ Static data (a fixed `Snapshot`), real GPUI elements. Every element under test h
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-state-in-a-view | the view owns a `snapshot` field and draws from it | `bar_shows_its_snapshot` | 4 | 25 | exercise ⚡ | visual |
-| 02-entity | `cx.new(\|cx\| StatsBar::new())` gives an `Entity<StatsBar>`; `read_with` | `entity_holds_bar_state` | 6 | 40 | exercise | gpui |
-| 03-update-and-notify | `entity.update(cx, \|bar, cx\| ...)` + `cx.notify()`; without it the screen stays stale | `new_reading_redraws_bar` | 6 | 40 | exercise | gpui |
-| 04-a-fake-sensor | `trait Sensor { fn read(&mut self) -> Reading }`, a `ScriptedSensor` for tests | `scripted_sensor_plays_in_order` | 4 | 25 | exercise ⚡ | unit |
-| 05-a-timer | `cx.background_executor().timer(Duration)`; tests move time with `advance_clock` | `one_second_passes_in_a_test` | 6 | 40 | exercise | gpui |
-| 06-spawn-a-loop | `cx.spawn(async move \|this, cx\| loop { ... })`, keep the `Task` in a field | `bar_reads_every_second` | 8 | 60 | exercise | gpui |
-| 07-stop-with-the-bar | `WeakEntity`: `this.update(..)` fails once the bar is gone, the loop ends | `loop_ends_when_bar_dropped` | 7 | 45 | exercise | gpui |
-| 08-update-interval | interval 0.5 to 5 s, clamped | `interval_clamps_to_half_second` | 4 | 25 | exercise ⚡ | unit |
-| 09-redraw-only-on-change | compare new pills with old, `notify` only when they differ | `same_values_do_not_redraw` | 6 | 40 | exercise | gpui |
-| 10-history-per-stat | `HashMap<StatKind, History>` filled each tick | `ten_ticks_fill_ten_points` | 6 | 40 | exercise | gpui |
-| 11-real-cpu | `sysinfo::System`, `refresh_cpu_usage` needs two samples | `cpu_usage_is_a_percentage` | 6 | 40 | exercise | live |
-| 12-real-ram | `used_memory() / total_memory()` | `ram_percent_is_used_over_total` | 4 | 25 | exercise ⚡ | unit, live |
-| 13-boss-live-bar | the bar ticks on real CPU and RAM, scripted rest, interval setting, no redraw when nothing changed | `bar_starts_with_dashes`, `first_tick_fills_cpu`, `ticks_follow_interval`, `history_grows_per_tick`, `unchanged_tick_skips_redraw`, `closing_stops_the_loop` | 50 | 400 | boss | gpui, live |
+| 01-state-in-a-view | the view keeps `snapshot` and `items` in fields; `render` (now in `view.rs`) draws from them | `bar_shows_its_snapshot` | 4 | 25 | exercise ⚡ | visual |
+| 02-entity | `cx.new(\|_\| ..)` gives an `Entity<StatsBar>`; `read_with` | `entity_holds_bar_state` | 6 | 40 | exercise | gpui |
+| 03-update-and-notify | `entity.update(cx, \|bar, cx\| ..)` + `cx.notify()`; without it the screen stays stale | `new_reading_redraws_bar` | 6 | 40 | exercise | gpui |
+| 04-a-fake-sensor | `trait Sensor { kind, read }`, a `ScriptedSensor` for tests | `scripted_sensor_plays_in_order` | 4 | 25 | exercise ⚡ | unit |
+| 05-spawn-and-keep | `cx.spawn(async move \|this, cx\| ..)`; a dropped `Task` is cancelled, keep it in `_poll` | `started_bar_reads_its_sensors` | 6 | 40 | exercise | gpui |
+| 06-a-timer | `cx.background_executor().timer(interval).await`, never `thread::sleep`; tests use `advance_clock` | `first_read_waits_one_interval` | 6 | 40 | exercise | gpui |
+| 07-every-second | `loop` + `WeakEntity`: `this.update(..)` fails once the bar is gone, `break` | `bar_reads_every_second` | 7 | 45 | exercise | gpui |
+| 08-update-interval | interval 0.5 to 5 s, `u64::clamp`, `Duration::from_millis` | `interval_clamps_to_half_second` | 4 | 25 | exercise ⚡ | unit |
+| 09-redraw-only-on-change | compare new items with old, `notify` only when they differ | `same_values_do_not_redraw` | 6 | 40 | exercise | gpui |
+| 10-history-per-stat | `HashMap<StatKind, History>`, `entry(..).or_insert_with(..)` | `ten_ticks_fill_ten_points` | 6 | 40 | exercise | gpui |
+| 11-real-cpu | `sysinfo::System`, `refresh_cpu_usage` + `global_cpu_usage`; the first read is 0 | `cpu_usage_is_a_percentage` | 6 | 40 | exercise | live |
+| 12-real-ram | `refresh_memory` + `used_memory`, in bytes | `ram_used_is_within_total` | 4 | 25 | exercise ⚡ | live |
+| 13-boss-live-bar | the bar ticks on real CPU and RAM, scripted rest, clamped interval, history, no redraw when nothing changed, stops when dropped | `bar_starts_with_dashes`, `first_tick_fills_cpu`, `ticks_follow_interval`, `history_grows_per_tick`, `unchanged_tick_skips_redraw`, `closing_stops_the_loop` | 50 | 400 | boss | gpui |
 
 ### World 04: Sensors (`04-sensors`), project "SensorHub", 14 quests
 
@@ -367,7 +367,7 @@ Frame maths is graded on `fixtures/cyberpunk-dlss-fg.csv` (a PresentMon capture,
 | 00 Setup | 6 | 140 | 25 |
 | 01 Readings | 13 | 745 | 107 |
 | 02 Views | 12 | 725 | 104 |
-| 03 Live | 13 | 845 | 117 |
+| 03 Live | 13 | 825 | 115 |
 | 04 Sensors | 14 | 940 | 135 |
 | 05 Taskbar | 11 | 750 | 105 |
 | 06 Interaction | 12 | 860 | 123 |
@@ -377,7 +377,7 @@ Frame maths is graded on `fixtures/cyberpunk-dlss-fg.csv` (a PresentMon capture,
 | 10 Dashboard | 12 | 835 | 120 |
 | 11 Screen time | 11 | 800 | 115 |
 | 12 Ship | 11 | 840 | 143 |
-| **total** | **158** | **10,400** | **~25.5 h** |
+| **total** | **158** | **10,380** | **~25.5 h** |
 
 ## 5. Risks and spikes
 
@@ -412,6 +412,6 @@ plain-words explanations), companion shared memory, per-stat animated icons
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-02~~ written 2026-10-22, content-check green (31 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-03~~ written 2026-10-22, content-check green (44 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

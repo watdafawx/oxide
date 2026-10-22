@@ -1,0 +1,26 @@
+title = "An entity"
+summary = "GPUI owns the bar: cx.new hands back an Entity you read through the app."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "entity"]
+
+[[objectives]]
+test = "entity_holds_bar_state"
+label = "new_bar gives an Entity whose CPU pill reads 42%"
+
+[[hints]]
+text = "`new_bar` is one line: `cx.new(..)` with a closure that makes the bar."
+[[hints]]
+text = "`cx.new(|_| StatsBar::new(snapshot))`"
+
+[[points]]
+after = 2
+prompt = "What does cx.new(|_| StatsBar::new(s)) give back?"
+pick = ["an Entity<StatsBar>", "a StatsBar", "a &mut StatsBar", "a Window"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Read the bar's CPU text from a test."
+code = "bar.___(cx, |bar, _| bar.text_of(StatKind::CpuUsage))"
+blank = "read_with"

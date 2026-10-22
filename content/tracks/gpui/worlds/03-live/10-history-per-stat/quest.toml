@@ -1,0 +1,21 @@
+title = "History per stat"
+summary = "Every tick feeds each stat's History, ready for the hover graph."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["hashmap", "entry"]
+
+[[objectives]]
+test = "ten_ticks_fill_ten_points"
+label = "after 10 ticks, the CPU history holds 10 readings, newest 10"
+
+[[hints]]
+text = "In `tick`, in the `Some(v)` arm, push `v` into the stat's history too."
+[[hints]]
+text = "`self.histories.entry(kind).or_insert_with(|| History::new(60)).push(v);`"
+
+[[points]]
+after = 2
+prompt = "What does .entry(kind).or_insert_with(..) give you?"
+pick = ["the history for kind, made first if missing", "a copy of the history", "None when missing", "the whole map"]
+answer = 0
