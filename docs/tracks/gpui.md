@@ -131,10 +131,10 @@ Setup world without a boss, finale is a `look` read (same exception as the Fabri
 |---|---|---|---|---|---|---|
 | 01-what-gpui-is | GPUI: Rust code describes the window every frame, the GPU draws it; what the first build downloads and how long it takes (about 2 minutes, 2 GB) | quiz: 2 | 3 | 15 | read | - |
 | 02-msvc-toolchain | the MSVC toolchain and Windows SDK, `rustup show` reads `x86_64-pc-windows-msvc` | quiz: 2 | 3 | 15 | read ⚡ | - |
-| 03-first-build | a dependency line `gpui = "=0.2.2"`; the long first build happens while the learner fixes `app_title()` | `title_is_kinetik_stats` | 4 | 20 | exercise ⚡ | unit |
-| 04-hello-window | `Application::new().run(\|cx\| ...)`, `cx.open_window(options, \|window, cx\| ...)`; size from `fn bar_size() -> Size<Pixels>` | `window_is_360_by_120` | 6 | 35 | exercise | unit, look |
+| 03-first-build | a dependency line `gpui = { version = "=0.2.2", features = ["test-support"] }`; saving starts the long first build | `gpui_is_in_dependencies` | 4 | 20 | exercise ⚡ | unit |
+| 04-hello-window | `Application::new().run(\|cx\| ...)`, `cx.open_window`, quit on close; size from `fn bar_size() -> Size<Pixels>` | `window_is_360_by_120` | 6 | 35 | exercise | unit |
 | 05-a-view | `struct StatsBar`, `impl Render`, `div().child("CPU 12%")`, `.debug_selector` | `bar_draws_a_cpu_pill` | 6 | 40 | exercise | visual |
-| 06-it-runs | `cargo run`, the window, closing it ends the app | quiz: 2 | 3 | 15 | read ⚡ | look |
+| 06-it-runs | `cargo run`, the event loop, render when needed, closing quits | quiz: 2 | 3 | 15 | read ⚡ | - |
 
 ### World 01: Readings (`01-readings`), project "The stat model", 13 quests
 
@@ -142,19 +142,19 @@ No gpui in this world's tests: pure Rust, builds in seconds. The boss is the mod
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-what-a-stat-is | `enum StatKind` (8 of Kinetik's 44: CPU usage, CPU temp, RAM, GPU usage, GPU temp, down, up, ping), `label()` | `cpu_usage_label_is_cpu`, `ping_label_is_ping` | 3 | 20 | exercise ⚡ | unit |
+| 01-what-a-stat-is | `enum StatKind` (9 of Kinetik's 44: CPU usage, CPU temp, RAM, GPU usage, GPU temp, down, up, ping, battery), `label()` | `gpu_kinds_say_gpu`, `net_ping_and_battery_labels` | 3 | 20 | exercise ⚡ | unit |
 | 02-a-reading | `struct Reading { kind, value: Option<f64> }`; no value shows `--` | `missing_temp_shows_dashes` | 5 | 30 | exercise | unit |
-| 03-units | `enum Unit`, `StatKind::unit()` | `cpu_temp_is_celsius`, `net_down_is_bytes_per_sec` | 5 | 30 | exercise | unit |
+| 03-units | `enum Unit`, `StatKind::unit()` | `temps_are_celsius`, `network_and_ping_units` | 5 | 30 | exercise | unit |
 | 04-format-percent | `{:.0}` rounding: 12.6 shows `13%` | `percent_rounds_to_whole` | 4 | 25 | exercise ⚡ | unit |
-| 05-format-bytes | 1024 steps, one decimal: 8 589 934 592 shows `8.0 GB` | `bytes_pick_the_right_unit`, `zero_bytes_is_0_b` | 7 | 45 | exercise | unit |
+| 05-format-bytes | divide by 1024 in a `while`: 8 589 934 592 shows `8.0 GB` | `bytes_pick_the_right_unit`, `small_counts_stay_in_bytes` | 7 | 45 | exercise | unit |
 | 06-format-speed | speeds reuse `format_bytes` + `/s`, with ↓ and ↑ | `download_shows_down_arrow`, `upload_shows_up_arrow` | 5 | 30 | exercise | unit |
-| 07-warning-limits | `struct Limits`, `is_warning(&reading, &limits)`; CPU at 90 °C is hot | `cpu_at_90_is_warning`, `ping_of_20_is_fine` | 6 | 40 | exercise | unit |
-| 08-low-is-bad | `enum WarnWhen { Above, Below }`: battery and free disk warn when low | `battery_at_15_warns` | 4 | 25 | exercise ⚡ | unit |
+| 07-warning-limits | `struct Limits`, match on `(value, limit)`; CPU at 90 °C is hot | `cpu_at_90_degrees_is_hot`, `fine_or_unknown_is_not_a_warning` | 6 | 40 | exercise | unit |
+| 08-low-is-bad | `enum WarnWhen { Above, Below }`: battery warns when low | `battery_at_15_warns`, `battery_at_80_is_fine` | 4 | 25 | exercise ⚡ | unit |
 | 09-history | `VecDeque`, `push_back` + `pop_front` keeps the last 60 readings | `history_keeps_last_60` | 7 | 45 | exercise | unit |
-| 10-min-avg-max | `History::summary() -> Option<Summary>` for the hover card | `summary_of_empty_is_none`, `avg_of_10_20_30_is_20` | 6 | 40 | exercise | unit |
-| 11-bar-order | `enum Slot { Stat(StatKind), Divider(DividerStyle) }`, `Vec<Slot>` is the bar | `default_order_starts_with_cpu`, `dividers_stay_in_place` | 4 | 25 | exercise ⚡ | unit |
-| 12-move-a-slot | `Vec::swap` with a bounds check (the Arrange page's Alt+↑) | `move_up_swaps_with_previous`, `first_slot_cannot_move_up` | 6 | 40 | exercise | unit |
-| 13-boss-stat-model | `pills(&order, &snapshot, &limits) -> Vec<Pill>` and `pairs()` for the two-line layout | `formats_each_kind`, `missing_shows_dashes`, `hot_cpu_is_flagged`, `low_battery_is_flagged`, `dividers_pass_through`, `two_line_pairs_stats`, `hover_summary_from_history` | 45 | 350 | boss | unit |
+| 10-min-avg-max | `History::summary() -> Option<Summary>` for the hover card | `min_avg_max_of_10_20_30`, `summary_of_empty_is_none` | 6 | 40 | exercise | unit |
+| 11-bar-order | `enum Slot { Stat(StatKind), Divider(DividerStyle) }`, `Vec<Slot>` is the bar | `default_order_starts_with_cpu`, `default_order_has_three_line_dividers` | 4 | 25 | exercise ⚡ | unit |
+| 12-move-a-slot | `slice.swap` with a bounds check (the Arrange page's Alt+↑) | `move_up_swaps_with_previous`, `first_slot_cannot_move_up` | 6 | 40 | exercise | unit |
+| 13-boss-stat-model | `bar_items(&order, &snapshot, &limits) -> Vec<BarItem>`, `two_line_columns`, `hover_summary` | `formats_each_kind`, `missing_shows_dashes`, `hot_cpu_is_flagged`, `low_battery_is_flagged`, `dividers_pass_through`, `two_line_pairs_stats`, `hover_summary_from_history` | 45 | 350 | boss | unit |
 
 ### World 02: Views (`02-views`), project "The bar, drawn", 12 quests
 
@@ -162,18 +162,18 @@ Static data (a fixed `Snapshot`), real GPUI elements. Every element under test h
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-a-div | `div()` is a box, `.child(...)` puts something in it | `bar_has_a_cpu_pill` | 4 | 25 | exercise ⚡ | visual |
-| 02-a-row | `.flex()`, `.flex_row()`, `.gap_2()` | `ram_pill_is_right_of_cpu_pill` | 5 | 30 | exercise | visual |
-| 03-pixels | `px(32.)`, `.h(..)`, `.w_full()` | `bar_is_32_high` | 5 | 30 | exercise | visual |
-| 04-colours | `rgb(0x..)`, `.bg`, `.text_color`; `Hsla` named | `warning_colour_is_kinetik_red`, look | 4 | 25 | exercise ⚡ | unit, look |
-| 05-a-list-of-children | `.children(pills.iter().map(...))` | `one_element_per_pill` | 6 | 40 | exercise | visual |
-| 06-a-pill-component | `#[derive(IntoElement)]` + `impl RenderOnce for PillView` | `pill_view_draws_icon_and_value` | 7 | 45 | exercise | visual |
-| 07-only-when-hot | `.when(pill.warning, \|el\| el.text_color(..))` | `hot_pill_uses_warning_colour` | 4 | 25 | exercise ⚡ | unit |
-| 08-dividers | divider styles line, dotted, dot, blank as elements with a set width | `dot_divider_is_4_wide`, `blank_divider_has_no_border` | 6 | 40 | exercise | visual |
-| 09-two-lines | `.flex_col()` inside the row: pairs stacked | `two_line_layout_stacks_pairs` | 7 | 45 | exercise | visual |
-| 10-the-pill-background | `.rounded(px(r))`, `rgba` alpha from the opacity slider value | `opacity_50_sets_half_alpha`, look | 5 | 30 | exercise | unit, look |
-| 11-numbers-that-sit-still | `.font_family(..)` monospace and `.min_w(..)`: `9%` and `10%` take the same width | `value_box_width_does_not_jump` | 6 | 40 | exercise | visual |
-| 12-boss-static-bar | the full bar from a fixed snapshot: pills, dividers, one or two lines, warning colours | `bar_window_opens`, `every_pill_drawn`, `dividers_drawn`, `pills_in_bar_order`, `two_line_mode_stacks`, `hot_pill_flagged` (+ look) | 45 | 350 | boss | visual, look |
+| 01-a-row | `.flex()`, `.flex_row()`, `.gap_2()`: boxes stack by default | `ram_pill_is_right_of_cpu_pill` | 4 | 25 | exercise ⚡ | visual |
+| 02-pixels | `.h(px(32.))`, `.items_center()` (*starter*) | `bar_is_32_high` | 5 | 30 | exercise | visual |
+| 03-colours | `rgb(0x..)`, `.bg`, `.text_color`, `value_colour(warning)` | `warning_colour_is_kinetik_red`, `normal_colour_is_white` | 4 | 25 | exercise ⚡ | unit |
+| 04-children-from-a-list | `.children(pills.iter().map(..))`, pills come from the World 01 model | `one_element_per_pill` | 6 | 40 | exercise | visual |
+| 05-a-pill-component | `#[derive(IntoElement)]` + `impl RenderOnce for PillView`, named label and value | `pill_view_draws_label_then_value` | 7 | 45 | exercise | visual |
+| 06-labels-or-not | `.when(show_label, \|el\| ..)`, `LabelMode` | `text_mode_draws_label`, `off_mode_draws_no_label` | 4 | 25 | exercise ⚡ | visual |
+| 07-dividers | `divider_width` by style; `.into_any_element()` (*starter*) mixes pills and dividers | `dot_divider_is_4_wide`, `blank_divider_is_8_wide` | 6 | 40 | exercise | visual |
+| 08-two-lines | `.flex_col()` columns, `.children(Option)` | `two_line_layout_stacks_pairs` | 7 | 45 | exercise | visual |
+| 09-the-pill-background | `Rgba.a` alpha from the opacity setting; `.rounded(px(8.))` (*starter*) | `opacity_50_sets_half_alpha`, `full_opacity_is_solid` | 5 | 30 | exercise | unit |
+| 10-numbers-that-sit-still | `.min_w(px(48.))`, monospace is not enough | `value_box_width_does_not_jump` | 6 | 40 | exercise | visual |
+| 11-text-size | `.text_size(..)`, `f32::clamp` | `font_size_is_clamped`, `bigger_font_makes_wider_label` | 5 | 30 | exercise | unit, visual |
+| 12-boss-static-bar | the whole bar from the model: pill function, one-line and two-line children | `every_pill_drawn`, `pills_in_bar_order`, `dividers_drawn`, `labels_follow_mode`, `values_sit_still`, `two_line_mode_stacks` | 45 | 350 | boss | visual |
 
 ### World 03: Live (`03-live`), project "The bar ticks", 13 quests
 
@@ -411,7 +411,7 @@ plain-words explanations), companion shared memory, per-stat animated icons
 ## 8. Order of work
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
-2. `content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md` filled from the **new** column.
-3. Content sessions world by world, 00-02 first (the hook: a window in 15 minutes, a real-looking
-   bar by the end of world 02). `cargo run -p content-check -- gpui/<world>` green, commit per world.
+2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
+3. ~~Worlds 00-02~~ written 2026-10-22, content-check green (31 quests): a window in 15 minutes, a real-looking
+   bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

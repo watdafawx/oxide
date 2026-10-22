@@ -27,3 +27,15 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `Slot { Stat, Divider }`, `DividerStyle`, `vec![..]` | 01-readings/11-bar-order | `default_order` |
 | slice `&mut [T]`, `.swap(a, b)`, early `return false` | 01-readings/12-move-a-slot | `move_up` |
 | `Snapshot` = `HashMap<StatKind, f64>`, `.get(..).copied()`, `Pill`, `BarItem`, `Column`, `Option::take`, `let .. else` | 01-readings/13-boss-stat-model | boss lesson and hints |
+| `.flex()`, `.flex_row()`, `.gap_2()`, boxes stack by default | 02-views/01-a-row | pills side by side |
+| `.h(..)`, `.items_center()` (*starter*) | 02-views/02-pixels | 32 px bar |
+| `rgb(0x..)`, hex colour digits, `.bg(..)`, `.text_color(..)`, `Rgba` | 02-views/03-colours | `value_colour` |
+| `.children(iter)`, `debug_selector` with `format!` and `move` (*starter*) | 02-views/04-children-from-a-list | one element per pill |
+| component, `#[derive(IntoElement)]`, `RenderOnce`, `render(self, ..)` | 02-views/05-a-pill-component | `PillView` |
+| `.when(condition, \|el\| ..)` | 02-views/06-labels-or-not | `LabelMode` |
+| `divider_width` match, `.flex_none()`, `.into_any_element()` / `AnyElement` (*starter*) | 02-views/07-dividers | four divider styles |
+| `.flex_col()`, `.children(Option)` | 02-views/08-two-lines | `column` |
+| alpha `Rgba.a`, `.rounded(..)` (*starter*), `.px_2()` (*starter*) | 02-views/09-the-pill-background | `pill_background` |
+| `.min_w(..)`, `.font_family(..)` (*starter*) | 02-views/10-numbers-that-sit-still | 48 px value box |
+| `.text_size(..)`, `f32::clamp` | 02-views/11-text-size | `bar_text_size` |
+| (no new terms) | 02-views/12-boss-static-bar | assembles world 02 |

@@ -1,0 +1,21 @@
+title = "A row"
+summary = "Pills sit side by side, not stacked: make the bar a flex row."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "flex"]
+
+[[objectives]]
+test = "ram_pill_is_right_of_cpu_pill"
+label = "the RAM pill sits to the right of the CPU pill, on the same line"
+
+[[hints]]
+text = "Add three calls to the outer `div()` in `render`, after `.debug_selector(..)`."
+[[hints]]
+text = "`.flex().flex_row().gap_2()`"
+
+[[points]]
+after = 2
+prompt = "Which pair of calls lays children out left to right?"
+pick = [".flex().flex_row()", ".flex().flex_col()", ".gap_2()", ".child().child()"]
+answer = 0

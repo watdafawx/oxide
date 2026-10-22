@@ -1,0 +1,34 @@
+title = "Boss: the static bar"
+summary = "Draw the whole bar from the model: pills, dividers, labels, one line or two, on a see-through pill."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["boss", "gpui"]
+
+[[objectives]]
+test = "every_pill_drawn"
+label = "all eight default pills are drawn, in a 32 px bar"
+[[objectives]]
+test = "pills_in_bar_order"
+label = "pills go left to right in the bar's order"
+[[objectives]]
+test = "dividers_drawn"
+label = "the three line dividers are drawn between the groups"
+[[objectives]]
+test = "labels_follow_mode"
+label = "labels show with LabelMode::Text and vanish with Off"
+[[objectives]]
+test = "values_sit_still"
+label = "values have their 48 px minimum width"
+[[objectives]]
+test = "two_line_mode_stacks"
+label = "two-line mode stacks pairs in columns"
+
+[[hints]]
+text = "Start with `pill_element`: a flex row named `pill-<Kind>`, the label box only `.when(show_label, ..)`, then the value box with `.min_w(px(48.))` and its colour. Then the one-line `.children(..)` in `render`. That turns the first five objectives green."
+[[hints]]
+text = "In `render`, one line: `bar.children(self.items.iter().enumerate().map(|(i, item)| match item { BarItem::Pill(pill) => pill_element(pill.clone(), show_label).into_any_element(), BarItem::Divider(style) => divider(i, *style).into_any_element() }))`."
+[[hints]]
+text = "`column`: the `Pills(top, bottom)` arm is `div().flex().flex_col().child(pill_element(top, show_label)).children(bottom.map(|p| pill_element(p, show_label))).into_any_element()`."
+[[hints]]
+text = "In `render`, `if self.two_lines { bar.children(two_line_columns(&self.items).into_iter().enumerate().map(|(i, c)| column(i, c, show_label))) } else { ... }`."

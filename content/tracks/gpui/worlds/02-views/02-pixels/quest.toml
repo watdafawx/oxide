@@ -1,0 +1,21 @@
+title = "Exactly 32 pixels"
+summary = "The taskbar has a fixed height; give the bar one too."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "size"]
+
+[[objectives]]
+test = "bar_is_32_high"
+label = "the bar is exactly 32 pixels high"
+
+[[hints]]
+text = "One more call on the outer `div()`, next to `.flex()`."
+[[hints]]
+text = "`.h(px(32.))`"
+
+[[points]]
+after = 2
+prompt = "Which call sets a box's height to 32 pixels?"
+pick = [".h(px(32.))", ".h(32)", ".size(32)", ".gap_2()"]
+answer = 0

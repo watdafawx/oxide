@@ -1,0 +1,201 @@
+//! Kinetik Stats: the model, and the bar drawn with GPUI.
+
+pub mod demo;
+pub mod format;
+pub mod history;
+pub mod limits;
+pub mod order;
+pub mod pills;
+pub mod reading;
+pub mod stat;
+
+pub use format::{format_bytes, format_percent, format_speed};
+pub use history::{History, Summary};
+pub use limits::{Limit, Limits, WarnWhen, is_warning};
+pub use order::{DividerStyle, Slot, default_order, move_up};
+pub use pills::{BarItem, Column, Pill, Snapshot, bar_items, hover_summary, two_line_columns};
+pub use reading::Reading;
+pub use stat::{StatKind, Unit};
+
+use gpui::{AnyElement, Context, Div, IntoElement, Pixels, Render, Rgba, Window, div, prelude::*, px, rgb};
+
+/// Kinetik's value colours: white, or the warning red.
+pub fn value_colour(warning: bool) -> Rgba {
+    if warning { rgb(0xff5c5c) } else { rgb(0xffffff) }
+}
+
+/// Kinetik's icon picker, cut down: a short text label, or nothing in front of the value.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum LabelMode {
+    Text,
+    Off,
+}
+
+/// The bar's rounded background: Kinetik's dark grey, see-through by `opacity` (0.0 to 1.0).
+pub fn pill_background(opacity: f32) -> Rgba {
+    let mut colour = rgb(0x202020);
+    colour.a = opacity;
+    colour
+}
+
+/// The bar's text size from the Appearance page setting, kept between 8 and 24 pixels.
+pub fn bar_text_size(setting: f32) -> Pixels {
+    px(setting.clamp(8.0, 24.0))
+}
+
+/// How wide each divider style is.
+pub fn divider_width(style: DividerStyle) -> Pixels {
+    match style {
+        DividerStyle::Line => px(1.),
+        DividerStyle::Dotted => px(1.),
+        DividerStyle::Dot => px(4.),
+        DividerStyle::Blank => px(8.),
+    }
+}
+
+/// A divider: a thin line, a dashed line, a dot, or a gap.
+fn divider(index: usize, style: DividerStyle) -> Div {
+    let grey = rgb(0x5a5a5a);
+    let el = div().debug_selector(move || format!("divider-{index}")).flex_none().w(divider_width(style));
+    match style {
+        DividerStyle::Line => el.h(px(16.)).bg(grey),
+        DividerStyle::Dotted => el.h(px(16.)).border_l_1().border_dashed().border_color(grey),
+        DividerStyle::Dot => el.h(px(4.)).rounded_full().bg(grey),
+        DividerStyle::Blank => el,
+    }
+}
+
+/// The bar of stats.
+pub struct StatsBar {
+    pub items: Vec<BarItem>,
+    pub label_mode: LabelMode,
+    pub two_lines: bool,
+    pub opacity: f32,
+    pub font_size: f32,
+}
+
+impl StatsBar {
+    /// The default bar, drawn from the demo snapshot.
+    pub fn demo() -> Self {
+        StatsBar::from_snapshot(&demo::demo_snapshot())
+    }
+
+    /// The default bar order with these readings.
+    pub fn from_snapshot(snapshot: &Snapshot) -> Self {
+        StatsBar {
+            items: bar_items(&default_order(), snapshot, &Limits::default()),
+            label_mode: LabelMode::Text,
+            two_lines: false,
+            opacity: 0.85,
+            font_size: 13.0,
+        }
+    }
+}
+
+/// One pill: a row named pill-<Kind> with the label (named label-<Kind>, only when
+/// `show_label`) and the value (named value-<Kind>, at least 48 px wide, in its colour).
+fn pill_element(pill: Pill, show_label: bool) -> Div {
+    let _ = (pill, show_label);
+    todo!("the pill row, its label box and its value box")
+}
+
+/// One column of the two-line layout: two pills stacked, one pill, or a divider.
+fn column(index: usize, column: Column, show_label: bool) -> AnyElement {
+    let _ = (index, column, show_label);
+    todo!("a flex_col box with one or two pills, or the divider")
+}
+
+impl Render for StatsBar {
+    fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
+        let show_label = self.label_mode == LabelMode::Text;
+        let bar = div()
+            .debug_selector(|| "bar".into())
+            .flex()
+            .flex_row()
+            .items_center()
+            .gap_2()
+            .h(px(32.))
+            .px_2()
+            .rounded(px(8.))
+            .bg(pill_background(self.opacity))
+            .text_color(rgb(0xffffff))
+            .font_family("Consolas")
+            .text_size(bar_text_size(self.font_size))
+            .when(self.two_lines, |el| el.text_xs().line_height(px(15.)));
+        // TODO: two lines -> one column(..) per two_line_columns(&self.items);
+        // one line -> pill_element for a pill, divider(i, style) for a divider
+        let _ = show_label;
+        bar.child(column(0, Column::Divider(DividerStyle::Blank), false))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gpui::TestAppContext;
+
+    fn bounds(cx: &mut gpui::VisualTestContext, name: &'static str) -> gpui::Bounds<gpui::Pixels> {
+        cx.debug_bounds(name).unwrap_or_else(|| panic!("nothing named {name} was drawn"))
+    }
+
+    const DEFAULT_PILLS: [&str; 8] = [
+        "pill-CpuUsage", "pill-CpuTemp", "pill-GpuUsage", "pill-GpuTemp",
+        "pill-RamUsed", "pill-NetDown", "pill-NetUp", "pill-Ping",
+    ];
+
+    #[gpui::test]
+    fn every_pill_drawn(cx: &mut TestAppContext) {
+        let (_bar, cx) = cx.add_window_view(|_, _| StatsBar::demo());
+        cx.run_until_parked();
+        for name in DEFAULT_PILLS {
+            assert!(cx.debug_bounds(name).is_some(), "{name} was not drawn");
+        }
+        assert_eq!(bounds(cx, "bar").size.height, px(32.));
+    }
+
+    #[gpui::test]
+    fn pills_in_bar_order(cx: &mut TestAppContext) {
+        let (_bar, cx) = cx.add_window_view(|_, _| StatsBar::demo());
+        cx.run_until_parked();
+        let xs: Vec<Pixels> = DEFAULT_PILLS.iter().map(|n| bounds(cx, n).origin.x).collect();
+        assert!(xs.windows(2).all(|w| w[0] < w[1]), "pills should go left to right in bar order: {xs:?}");
+    }
+
+    #[gpui::test]
+    fn dividers_drawn(cx: &mut TestAppContext) {
+        let (_bar, cx) = cx.add_window_view(|_, _| StatsBar::demo());
+        cx.run_until_parked();
+        for name in ["divider-2", "divider-5", "divider-7"] {
+            assert_eq!(bounds(cx, name).size.width, px(1.), "{name} is a 1 px line");
+        }
+        assert!(bounds(cx, "divider-2").origin.x > bounds(cx, "pill-CpuTemp").origin.x);
+    }
+
+    #[gpui::test]
+    fn labels_follow_mode(cx: &mut TestAppContext) {
+        let (_bar, vcx) = cx.add_window_view(|_, _| StatsBar::demo());
+        vcx.run_until_parked();
+        assert!(vcx.debug_bounds("label-CpuUsage").is_some(), "labels on by default");
+        let (_bar, vcx) = cx.add_window_view(|_, _| StatsBar { label_mode: LabelMode::Off, ..StatsBar::demo() });
+        vcx.run_until_parked();
+        assert!(vcx.debug_bounds("label-CpuUsage").is_none(), "labels off");
+        assert!(vcx.debug_bounds("value-CpuUsage").is_some());
+    }
+
+    #[gpui::test]
+    fn values_sit_still(cx: &mut TestAppContext) {
+        let (_bar, cx) = cx.add_window_view(|_, _| StatsBar::demo());
+        cx.run_until_parked();
+        assert_eq!(bounds(cx, "value-CpuUsage").size.width, px(48.), "13% gets the 48 px floor");
+    }
+
+    #[gpui::test]
+    fn two_line_mode_stacks(cx: &mut TestAppContext) {
+        let (_bar, cx) = cx.add_window_view(|_, _| StatsBar { two_lines: true, ..StatsBar::demo() });
+        cx.run_until_parked();
+        let (top, bottom) = (bounds(cx, "pill-GpuUsage"), bounds(cx, "pill-GpuTemp"));
+        assert_eq!(top.origin.x, bottom.origin.x);
+        assert!(bottom.origin.y > top.origin.y);
+        assert!(cx.debug_bounds("pill-RamUsed").is_some(), "RAM gets a column of its own");
+    }
+}

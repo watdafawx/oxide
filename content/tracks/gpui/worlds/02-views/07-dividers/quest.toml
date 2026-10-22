@@ -1,0 +1,24 @@
+title = "Dividers"
+summary = "Line, dotted, dot or blank: each divider style is a box of its own width."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "match"]
+
+[[objectives]]
+test = "dot_divider_is_4_wide"
+label = "a Dot divider is 4 pixels wide"
+[[objectives]]
+test = "blank_divider_is_8_wide"
+label = "a Blank divider is 8 pixels wide, a Line 1"
+
+[[hints]]
+text = "`divider_width` is a `match` on `style` with four arms."
+[[hints]]
+text = "`DividerStyle::Line => px(1.),` `DividerStyle::Dotted => px(1.),` `DividerStyle::Dot => px(4.),` `DividerStyle::Blank => px(8.),`"
+
+[[points]]
+after = 2
+prompt = "Which divider style draws nothing but still takes space?"
+pick = ["Blank", "Dot", "Line", "Dotted"]
+answer = 0
