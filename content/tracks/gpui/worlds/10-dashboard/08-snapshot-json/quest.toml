@@ -1,0 +1,21 @@
+title = "The snapshot as JSON"
+summary = "The web dashboard gets every stat as data: kind, label, text, value, warning."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["serde", "json"]
+
+[[objectives]]
+test = "snapshot_json_has_cpu_usage"
+label = "the snapshot's JSON has CPU usage with its text 30% and value 30"
+
+[[hints]]
+text = "For each kind in `ALL`: a `Reading` from the snapshot, then a `WebStat` with its label, text, value and `is_warning`."
+[[hints]]
+text = "`let limits = Limits::default(); let stats = ALL.into_iter().map(|kind| { let reading = Reading { kind, value: bar.snapshot.get(&kind).copied() }; WebStat { kind, label: kind.label(), text: reading.text(), value: reading.value, warning: is_warning(&reading, &limits) } }).collect(); WebSnapshot { stats }`"
+
+[[points]]
+after = 3
+prompt = "Why send both text and value?"
+pick = ["text to show as is, value for anything that wants to compute", "JSON needs both", "value is for warnings only", "to make it bigger"]
+answer = 0

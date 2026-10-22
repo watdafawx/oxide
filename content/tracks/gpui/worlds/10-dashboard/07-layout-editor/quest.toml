@@ -1,0 +1,21 @@
+title = "The layout editor"
+summary = "Cards switched off on the Dashboard page are not drawn."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["iterator", "settings"]
+
+[[objectives]]
+test = "hidden_disk_card_is_gone"
+label = "with Free disk hidden, nine cards and no disk card"
+
+[[hints]]
+text = "Every kind in `ALL`, except those in `hidden`."
+[[hints]]
+text = "`ALL.into_iter().filter(|kind| !hidden.contains(kind)).collect()`"
+
+[[points]]
+after = 2
+prompt = "Where does the list of hidden cards live?"
+pick = ["in Settings, so it is saved and shared", "in the DashboardView", "in each Card", "in the web page"]
+answer = 0

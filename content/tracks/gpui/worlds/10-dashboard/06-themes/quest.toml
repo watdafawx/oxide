@@ -1,0 +1,21 @@
+title = "Themes"
+summary = "Modern, Terminal, Amber terminal, Yellow terminal: four looks from one setting."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["match", "struct"]
+
+[[objectives]]
+test = "amber_theme_text_is_amber"
+label = "Amber has amber text and accent and a monospace font; Modern is not monospace"
+
+[[hints]]
+text = "A `match` on `choice` with four arms, each a `Theme { .. }` with its five fields."
+[[hints]]
+text = "Amber: `Theme { background: 0x0d0800, card: 0x140c00, text: 0xffb000, accent: 0xffb000, monospace: true }`; Terminal green `0x33ff66`, Yellow `0xffee33`, Modern `0xf2f2f2` text with a `0x5ab0ff` accent and no monospace."
+
+[[points]]
+after = 2
+prompt = "Why keep the colours in a Theme struct instead of in render?"
+pick = ["render asks one place, and a new theme is one more arm", "structs draw faster", "render cannot use numbers", "for serde"]
+answer = 0

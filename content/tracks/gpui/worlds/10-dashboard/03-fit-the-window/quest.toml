@@ -1,0 +1,21 @@
+title = "Fit the window"
+summary = "As many columns as fit: the grid follows the window's width."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "layout"]
+
+[[objectives]]
+test = "wide_window_has_four_columns"
+label = "1400 px wide fits 4 columns; very narrow 1, very wide at most 6"
+
+[[hints]]
+text = "Width over `CARD_MIN_WIDTH`, as a whole number, clamped to 1..=6."
+[[hints]]
+text = "`((f32::from(width) / CARD_MIN_WIDTH) as usize).clamp(1, 6)`"
+
+[[points]]
+after = 2
+prompt = "Why a minimum of 1?"
+pick = ["a narrow window still needs one column, not zero", "grids start at 1", "to avoid rounding", "for the gauge"]
+answer = 0

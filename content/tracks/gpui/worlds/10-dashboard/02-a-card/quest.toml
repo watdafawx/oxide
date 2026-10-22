@@ -1,0 +1,21 @@
+title = "A card's numbers"
+summary = "Now, average and peak, each written in the stat's own unit."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["option", "history"]
+
+[[objectives]]
+test = "card_shows_peak"
+label = "after CPU 10, 20, 30 %: now 30%, avg 20%, peak 30%; GPU peak 70°C"
+
+[[hints]]
+text = "A `text` closure that writes any `Option<f64>` as a `Reading` of this kind; the history's `summary()` for avg and max."
+[[hints]]
+text = "`let text = |value: Option<f64>| Reading { kind, value }.text(); let summary = bar.histories.get(&kind).and_then(|h| h.summary()); CardNumbers { now: text(bar.snapshot.get(&kind).copied()), avg: text(summary.map(|s| s.avg)), peak: text(summary.map(|s| s.max)) }`"
+
+[[points]]
+after = 2
+prompt = "A stat with no history yet shows which average?"
+pick = ["--", "0", "the current value", "nothing at all"]
+answer = 0

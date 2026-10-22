@@ -1,0 +1,22 @@
+title = "A web server"
+summary = "axum serves the page and /api/stats, on its own tokio runtime next to GPUI."
+kind = "exercise"
+xp = 60
+minutes = 8
+tags = ["axum", "tokio", "web"]
+requires = ["10-dashboard/08-snapshot-json", "rust/10-apps/06-axum-json-api"]
+
+[[objectives]]
+test = "get_stats_returns_json"
+label = "GET /api/stats answers 200 with the snapshot as JSON"
+
+[[hints]]
+text = "Lock the shared snapshot, clone it out, and reply with `Json(..)`."
+[[hints]]
+text = "`let snapshot = state.snapshot.lock().unwrap_or_else(|p| p.into_inner()).clone(); Json(snapshot).into_response()`"
+
+[[points]]
+after = 3
+prompt = "Why does the web server get its own thread and tokio runtime?"
+pick = ["GPUI's executor is not tokio, and axum needs tokio", "web servers must be alone", "to use more CPU", "GPUI forbids networking"]
+answer = 0

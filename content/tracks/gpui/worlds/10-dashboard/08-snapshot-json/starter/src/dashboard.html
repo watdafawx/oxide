@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kinetik Stats</title>
+<style>
+  body { margin: 0; padding: 16px; background: #15171c; color: #f2f2f2; font: 14px system-ui, sans-serif; }
+  #cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .card { background: #22252d; border-radius: 8px; padding: 12px; }
+  .value { font-size: 28px; margin-top: 4px; }
+  .warning .value { color: #ff5c5c; }
+  #error { color: #ff5c5c; }
+</style>
+</head>
+<body>
+<div id="error"></div>
+<div id="cards"></div>
+<script>
+  const key = new URLSearchParams(location.search).get("key") || "";
+  async function refresh() {
+    const reply = await fetch("/api/stats?key=" + encodeURIComponent(key));
+    if (!reply.ok) { document.getElementById("error").textContent = "Wrong or missing key."; return; }
+    const data = await reply.json();
+    document.getElementById("cards").innerHTML = data.stats.map(s =>
+      `<div class="card ${s.warning ? "warning" : ""}"><div>${s.label} ${s.kind}</div><div class="value">${s.text}</div></div>`).join("");
+  }
+  refresh();
+  setInterval(refresh, 1000);
+</script>
+</body>
+</html>

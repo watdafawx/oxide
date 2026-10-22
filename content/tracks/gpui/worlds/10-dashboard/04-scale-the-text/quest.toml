@@ -1,0 +1,21 @@
+title = "Scale the text"
+summary = "Bigger cards, bigger numbers: a tenth of the card's width, kept readable."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["clamp"]
+
+[[objectives]]
+test = "small_cards_shrink_text"
+label = "a 320 px card gets 32 px text, 200 px gets 20, 100 px stays at 14"
+
+[[hints]]
+text = "A tenth of the width, clamped to 14..=32, as `px`."
+[[hints]]
+text = "`px((f32::from(card_width) / 10.0).clamp(14.0, 32.0))`"
+
+[[points]]
+after = 2
+prompt = "Why clamp the low end at 14?"
+pick = ["smaller text is hard to read across a room", "GPUI cannot draw smaller", "14 is the default", "to save space"]
+answer = 0

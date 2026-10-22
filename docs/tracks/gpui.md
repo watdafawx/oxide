@@ -104,6 +104,9 @@ Rules that follow:
   applied; "is drawn" and "where" are reliable.
 - Opening a window whose view reads another entity, from inside that entity's update (an action
   handler), panics: defer it with `cx.defer(..)` (World 08's `toggle_widget`).
+- An observer registered during app startup (`App::observe_global` in `Application::run`) does not
+  hear changes made before that startup code returns. Save or apply such changes by hand (World 10's
+  first-start key).
 
 ## 2. Requires (cross-track)
 
@@ -320,18 +323,18 @@ Frame maths is graded on `fixtures/capture.csv`: 1200 made-up frames shaped like
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-dashboard-window | a big window with `.grid().grid_cols(3)` of cards | `dashboard_has_ten_cards` | 4 | 25 | exercise ⚡ | visual |
-| 02-a-card | `Card` component: title, now, average, peak, graph | `card_shows_peak` | 5 | 30 | exercise | visual |
-| 03-fit-the-window | columns from width; `simulate_resize` | `wide_window_has_four_columns` | 6 | 40 | exercise | unit, visual |
-| 04-scale-the-text | text size from card width | `small_cards_shrink_text` | 4 | 25 | exercise ⚡ | unit |
-| 05-a-gauge | `PathBuilder::arc_to`: 50 % is half the arc | `fifty_percent_ends_at_top` | 7 | 45 | exercise | unit, look |
-| 06-themes | `struct Theme`; Modern, Terminal, Amber terminal, Yellow terminal | `amber_theme_text_is_amber` | 5 | 30 | exercise | unit |
-| 07-layout-editor | hide and reorder cards, reusing the Arrange list | `hidden_disk_card_is_gone` | 5 | 30 | exercise ⚡ | visual |
-| 08-snapshot-json | `#[derive(Serialize)]` snapshot | `snapshot_json_has_cpu_usage` | 5 | 30 | exercise | unit |
-| 09-web-server | axum on its own thread with its own tokio runtime; GPUI's executor is not tokio; `Arc<Mutex<Snapshot>>` shared | `get_stats_returns_json` | 8 | 60 | exercise | unit |
-| 10-secret-key | random key in the link, requests without it get 401 | `request_without_key_is_401`, `request_with_key_is_200` | 7 | 45 | exercise | unit |
-| 11-local-only | binds `127.0.0.1` unless "share on network" is on | `default_binds_localhost` | 4 | 25 | exercise ⚡ | unit |
-| 12-boss-dashboard | window + web dashboard from the same snapshot, layout editor, themes, key | `window_cards_fit`, `cards_show_now_avg_peak`, `layout_editor_applies`, `theme_switches`, `web_json_matches_window`, `key_required`, `localhost_by_default` | 60 | 450 | boss | visual, unit |
+| 01-dashboard-window | a window of `Card` components in a `.grid().grid_cols(n)` | `dashboard_has_ten_cards` | 4 | 25 | exercise ⚡ | visual |
+| 02-a-card | now, average and peak through `Reading::text` and `History::summary` | `card_shows_peak` | 5 | 30 | exercise | gpui |
+| 03-fit-the-window | columns from `window.viewport_size()`, clamped 1..=6; `simulate_resize` | `wide_window_has_four_columns` | 6 | 40 | exercise | unit, visual |
+| 04-scale-the-text | a tenth of the card width, clamped 14..=32 | `small_cards_shrink_text` | 4 | 25 | exercise ⚡ | unit |
+| 05-a-gauge | a point on a half circle: angle `π × (1 − share)`, `cos` across, `− sin` up | `fifty_percent_ends_at_top` | 7 | 45 | exercise | unit |
+| 06-themes | `Theme` struct; Modern, Terminal, Amber terminal, Yellow terminal | `amber_theme_text_is_amber` | 5 | 30 | exercise | unit |
+| 07-layout-editor | hidden cards from `Settings::dashboard.hidden` | `hidden_disk_card_is_gone` | 5 | 30 | exercise ⚡ | visual |
+| 08-snapshot-json | `#[derive(Serialize)]` `WebSnapshot` of every stat | `snapshot_json_has_cpu_usage` | 5 | 30 | exercise | gpui |
+| 09-web-server | axum router and handler; its own thread and tokio runtime, `Arc<Mutex<WebSnapshot>>` shared; tested with `tower::ServiceExt::oneshot` | `get_stats_returns_json` | 8 | 60 | exercise | unit |
+| 10-secret-key | `?key=` checked with a constant-time compare, 401 otherwise; `new_key` from `getrandom` (*starter*) | `request_without_key_is_401`, `request_with_key_is_200` | 7 | 45 | exercise | unit |
+| 11-local-only | `127.0.0.1` unless "share on network", then `0.0.0.0` | `default_binds_localhost` | 4 | 25 | exercise ⚡ | unit |
+| 12-boss-dashboard | `DashboardView::render` from scratch and `serve_dashboard`; `main.rs` makes and saves the key, prints the link, feeds the snapshot with `observe_self` | `window_cards_fit`, `cards_show_now_avg_peak`, `layout_editor_applies`, `theme_switches`, `web_json_matches_window`, `key_required`, `server_answers_on_localhost` | 60 | 450 | boss | visual, gpui, unit |
 
 ### World 11: Screen time and alerts (`11-screen-time`), project "Screen time", 11 quests
 
@@ -419,6 +422,6 @@ The right-click menu and hover card as their own pop-up windows: inside the dock
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-09~~ written 2026-10-22, content-check green (124 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-10~~ written 2026-10-22, content-check green (136 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

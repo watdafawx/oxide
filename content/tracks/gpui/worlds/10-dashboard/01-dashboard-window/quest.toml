@@ -1,0 +1,22 @@
+title = "The dashboard window"
+summary = "A big window with a card per stat, laid out in a grid."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "grid"]
+requires = ["09-overlay/15-boss-game-overlay"]
+
+[[objectives]]
+test = "dashboard_has_ten_cards"
+label = "the dashboard draws all ten stats as cards, several to a row"
+
+[[hints]]
+text = "Two calls on the outer `div()` in `render`, before `.gap_4()`."
+[[hints]]
+text = "`.grid().grid_cols(columns as u16)`"
+
+[[points]]
+after = 2
+prompt = "What does .grid_cols(4) do to twelve children?"
+pick = ["three rows of four", "one row of twelve", "four rows of three", "twelve rows"]
+answer = 0

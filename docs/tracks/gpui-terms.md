@@ -132,3 +132,15 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `Option::map` + `unwrap_or_default` for an empty cell | 09-overlay/13-session-summary | `SessionSummary::csv_line` |
 | closures as small helpers inside a method | 09-overlay/14-benchmark | `Benchmark::tick` |
 | (no new terms) | 09-overlay/15-boss-game-overlay | `FrameStats::compute`, `OverlayController::tick` |
+| `.grid()`, `.grid_cols(n)` | 10-dashboard/01-dashboard-window | `DashboardView` |
+| `Option::and_then` then `map` through a history's summary | 10-dashboard/02-a-card | `card_numbers` |
+| `window.viewport_size()`, `f32::from(Pixels)`, `simulate_resize` | 10-dashboard/03-fit-the-window | `columns_for` |
+| clamping a computed size | 10-dashboard/04-scale-the-text | `card_text_size` |
+| radians, `cos` / `sin`, `std::f32::consts::PI` | 10-dashboard/05-a-gauge | `gauge_point` |
+| a struct of colours chosen by `match` | 10-dashboard/06-themes | `theme` |
+| `filter` + `contains` against a settings list | 10-dashboard/07-layout-editor | `visible_cards` |
+| `#[derive(Serialize)]` for an API, enum variants as JSON strings | 10-dashboard/08-snapshot-json | `web_snapshot` |
+| axum `Router`, `State`, `Json`, a second runtime next to GPUI, `tower::ServiceExt::oneshot` | 10-dashboard/09-web-server | `stats` |
+| `Query`, `StatusCode::UNAUTHORIZED`, constant-time compare, `getrandom` (*starter*) | 10-dashboard/10-secret-key | the key check |
+| `Ipv4Addr::LOCALHOST` / `UNSPECIFIED`, `SocketAddr::from((ip, port))` | 10-dashboard/11-local-only | `bind_addr` |
+| `std::thread::spawn` + `tokio::runtime::Runtime`, `axum::serve`, `observe_self` (*starter*) | 10-dashboard/12-boss-dashboard | `DashboardView::render`, `serve_dashboard` |

@@ -1,0 +1,24 @@
+title = "The secret key"
+summary = "Every request needs the key from the link; anything else gets 401."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["security", "axum"]
+
+[[objectives]]
+test = "request_without_key_is_401"
+label = "no key, or a wrong key, gets 401 Unauthorized"
+[[objectives]]
+test = "request_with_key_is_200"
+label = "the right key gets the stats"
+
+[[hints]]
+text = "At the top of `stats`: if the given key (or empty) does not match `state.key` with `keys_match`, return 401."
+[[hints]]
+text = "`if !keys_match(param.key.as_deref().unwrap_or(\"\"), &state.key) { return StatusCode::UNAUTHORIZED.into_response(); }`"
+
+[[points]]
+after = 3
+prompt = "Why not compare the keys with ==?"
+pick = ["== can stop at the first difference, and the time it takes leaks how much matched", "== does not work on strings", "it is slower", "keys are numbers"]
+answer = 0
