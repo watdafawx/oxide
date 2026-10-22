@@ -10,7 +10,7 @@ Hover a stat on Kinetik's bar and you get a graph of its last minute. At one rea
 if self.values.len() > self.cap { self.values.pop_front(); }
 ```
 
-**Why the cap is a field.** Kinetik lets you pick 30 seconds, 1, 2 or 5 minutes of graph. That is `History::new(30)` to `History::new(300)`, with no other change.
+**A cap you choose.** Kinetik lets you pick 30 seconds, 1, 2 or 5 minutes of graph. That is `History::new(30)` to `History::new(300)`, with no other change.
 
 ## Your turn
 

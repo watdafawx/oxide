@@ -8,6 +8,8 @@ On the taskbar Kinetik's stats sit on a rounded, see-through "pill" so the taskb
 colour.a = opacity;
 ```
 
+**Alpha, not colour.** The grey stays the same at every setting; only how much shows through changes, so the slider never turns the bar a different shade.
+
 **Rounded corners.** The starter's bar already calls `.rounded(px(8.))` for the pill shape, and `.px_2()` for room inside it. In this window you see the pill against the window's background; on the taskbar, in a later world, you see the taskbar through it.
 
 ## Your turn

@@ -10,7 +10,7 @@
 StatKind::CpuTemp => Unit::Celsius,
 ```
 
-**Why a unit and not the text.** Two kinds share each unit, and next quests write one formatter per unit. A new kind then only needs one arm here to be written correctly everywhere.
+**Why not text.** Two kinds share each unit, and next quests write one formatter per unit. A new kind then only needs one arm here to be written correctly everywhere.
 
 ## Your turn
 

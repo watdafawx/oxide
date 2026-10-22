@@ -2,7 +2,7 @@ Kinetik Stats puts a strip of numbers on your taskbar: CPU, GPU, RAM, network, p
 
 **One type, nine kinds.** `StatKind` is an enum with one variant per thing the bar can show: `CpuUsage`, `CpuTemp`, `RamUsed` and six more. The real Kinetik has 44. Nine is enough to build the whole bar.
 
-**Each kind has a label.** With icons switched off, Kinetik writes a short label instead, like `CPU` or `RAM`. Two kinds can share one: CPU usage and CPU temperature both say `CPU`, and the number next to it tells them apart.
+**Short labels.** With icons switched off, Kinetik writes a short label instead, like `CPU` or `RAM`. Two kinds can share one: CPU usage and CPU temperature both say `CPU`, and the number next to it tells them apart.
 
 **One arm per kind.** `label` is a `match` on `self`. Three arms are written, and the `_` arm catches the rest with `?` for now:
 

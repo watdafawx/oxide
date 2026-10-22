@@ -1,6 +1,6 @@
 Kinetik groups stats with dividers: a thin line, a dotted line, a small dot, or plain blank space. The bar now draws every `BarItem`, pills and dividers alike, so the three line dividers of the default order show up. Each style needs its own width.
 
-**A divider is a box.** `divider` draws one: a 16-pixel line, a dashed border, a round dot, or nothing at all. `.flex_none()` stops the row from squeezing it. Its width comes from `divider_width`.
+**Dividers are boxes.** `divider` draws one: a 16-pixel line, a dashed border, a round dot, or nothing at all. `.flex_none()` stops the row from squeezing it. Its width comes from `divider_width`.
 
 **Width by style.** Lines are 1 pixel wide, dotted lines too, a dot is 4, and blank space is 8: wide enough to read as a gap. A `match` with one arm per style, each giving back a length:
 
@@ -8,7 +8,9 @@ Kinetik groups stats with dividers: a thin line, a dotted line, a small dot, or 
 DividerStyle::Dot => px(4.),
 ```
 
-**Two kinds in one list.** A pill and a divider are different elements. The starter's `render` turns each into `AnyElement` with `.into_any_element()`, so both fit in one `.children(..)`.
+**Width, not padding.** The space between items comes from the bar's `.gap_2()`; a divider's width is only its mark. A blank 8-pixel divider plus two gaps reads as a clear break.
+
+**Mixed children.** A pill and a divider are different elements. The starter's `render` turns each into `AnyElement` with `.into_any_element()`, so both fit in one `.children(..)`.
 
 ## Your turn
 

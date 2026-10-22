@@ -2,11 +2,13 @@ On Kinetik's Arrange page you select a row and press Alt+Up to move it one place
 
 **Swap in place.** Slices and `Vec`s have `swap(a, b)`: the two entries trade places and nothing else moves. Moving slot 3 up is `order.swap(2, 3)`.
 
-**Two ways it cannot move.** The first slot has nothing before it. An index past the end points at nothing. Both happen: the first row is selected, or the list just got shorter. In those cases change nothing and give back `false`, so the page knows to ignore the key:
+**When it cannot move.** The first slot has nothing before it. An index past the end points at nothing. Both happen: the first row is selected, or the list just got shorter. In those cases change nothing and give back `false`, so the page knows to ignore the key:
 
 ```rust
 if index == 0 || index >= order.len() { return false; }
 ```
+
+**Then report it.** `true` tells the Arrange page the row moved, so it moves the selection with it and saves the new order.
 
 **Why a slice.** `move_up` takes `&mut [Slot]`, a borrowed list it may change, of any length. It works on the bar's order and, later, on the widget's and the overlay's.
 

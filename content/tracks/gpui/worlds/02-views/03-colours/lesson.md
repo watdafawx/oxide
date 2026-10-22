@@ -10,6 +10,8 @@ Kinetik's bar is dark, its values white, and a value past its warning limit turn
 if warning { rgb(0xff5c5c) } else { rgb(0xffffff) }
 ```
 
+**Why this red.** `0xff5c5c` is a soft red that reads well on dark grey; pure `0xff0000` glares on a dark taskbar. Change it here and every warning follows.
+
 ## Your turn
 
 - In `value_colour`, give back `rgb(0xff5c5c)` when `warning` is true and `rgb(0xffffff)` otherwise.

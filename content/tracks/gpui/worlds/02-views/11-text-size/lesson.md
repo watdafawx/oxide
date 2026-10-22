@@ -8,7 +8,9 @@ Kinetik lets you pick the bar's font size. A size of 4 is unreadable and 40 does
 px(setting.clamp(8.0, 24.0))
 ```
 
-**Fix it where it is read.** The setting stays what the person typed; the bar uses the clamped size. If the range ever changes, it changes in this one function.
+**Clamp on read.** The setting stays what the person typed; the bar uses the clamped size. If the range ever changes, it changes in this one function.
+
+**The same pattern later.** Every setting in the Settings world gets the same treatment: interval, opacity, divider height, each clamped where it is read.
 
 ## Your turn
 

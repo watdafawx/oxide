@@ -10,6 +10,8 @@ Kinetik's Arrange page is one list: every stat and divider on the bar, left to r
 Slot::Stat(StatKind::CpuUsage),
 ```
 
+**Order is data.** Nothing else in the code knows CPU comes first. Change this list, and the bar, the Arrange page and the two-line layout all follow.
+
 ## Your turn
 
 - In `default_order`, fill the `vec![...]` with the eleven slots in the order above.

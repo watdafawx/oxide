@@ -10,6 +10,8 @@ On a small taskbar one line of eight stats does not fit. Kinetik's two-line layo
 .children(bottom.map(|pill| PillView { pill, show_label }))
 ```
 
+**Smaller text.** Two lines of 13-pixel text do not fit in 32 pixels. In two-line mode the starter's `render` drops to extra-small text with a 15-pixel line height.
+
 ## Your turn
 
 - In `column`, change the `Column::Pills(top, bottom)` arm to give back a `div().flex().flex_col()` with the top `PillView` as a child and the bottom one through `.children(..)`, then `.into_any_element()`.

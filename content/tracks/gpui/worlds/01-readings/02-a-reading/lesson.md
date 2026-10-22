@@ -10,6 +10,8 @@ Windows only gives CPU temperatures to apps running as administrator. Without th
 None => "--".to_string(),
 ```
 
+**Callers stay honest.** Every place that shows a reading goes through `text`, so none of them can forget the missing case. The bar, the hover card and the overlay all print `--` the same way.
+
 ## Your turn
 
 - In `text`, change the `None` arm so it gives back `"--"`.

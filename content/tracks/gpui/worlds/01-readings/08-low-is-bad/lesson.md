@@ -8,6 +8,8 @@ A battery at 15 % should turn red, and one at 80 % should not. Your `is_warning`
 match limit.when { WarnWhen::Above => v >= limit.at, WarnWhen::Below => v <= limit.at }
 ```
 
+**Equal still warns.** A battery at exactly 20 % with a limit of 20 is already red, the same rule as 85 °C for the CPU: `<=`, not `<`.
+
 **One place to change.** Every pill on the bar asks `is_warning`. Fixing this one arm fixes the battery everywhere, and free disk space later gets it for free.
 
 ## Your turn

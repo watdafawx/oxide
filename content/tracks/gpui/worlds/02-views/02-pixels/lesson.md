@@ -10,6 +10,8 @@ On the real taskbar Kinetik's bar is exactly as tall as the space it gets: 32 pi
 
 **Centre the text.** A 32-pixel box with 26-pixel text inside leaves the text at the top. The starter already adds `.items_center()`, which centres a flex row's children from top to bottom.
 
+**Why not the window.** Here the window is taller than the bar; on the taskbar it will be exactly the bar. The bar's own height keeps it right in both.
+
 ## Your turn
 
 - In `render`, add `.h(px(32.))` to the outer `div()`.

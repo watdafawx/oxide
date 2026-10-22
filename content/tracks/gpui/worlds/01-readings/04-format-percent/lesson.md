@@ -8,6 +8,8 @@ Windows reports CPU usage as numbers like 12.638. A bar that shows `12.638%` jum
 format!("{value:.0}%")
 ```
 
+**Measure exact, show round.** The history keeps 12.638, so the hover card's average stays exact. Only the text on the bar is rounded.
+
 **Already in use.** Look at `reading.rs`: degrees and milliseconds use the same `:.0`. Its `text` now picks a formatter by unit, and calls your `format_percent` for every percentage on the bar.
 
 ## Your turn

@@ -2,7 +2,7 @@ The model from Readings is now part of this project, and `StatsBar::demo()` fill
 
 **One element per pill.** `pill_element` already turns one `Pill` into a box: label, value and colour. The bar needs one of those for every pill, and the number of pills changes with the order.
 
-**Not one child at a time.** `.child(..)` adds one element. `.children(..)` takes an iterator and adds every element it gives, in order.
+**Many at once.** `.child(..)` adds one element. `.children(..)` takes an iterator and adds every element it gives, in order.
 
 **Map, then hand over.** `self.pills.iter()` walks the pills, and `.map(pill_element)` turns each into an element. The `.children` call collects them, so no `collect` is needed:
 
