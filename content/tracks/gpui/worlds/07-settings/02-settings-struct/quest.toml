@@ -1,0 +1,21 @@
+title = "The Settings struct"
+summary = "Everything the window can change, in one struct with Kinetik's defaults, ready to save as JSON."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["serde", "default"]
+
+[[objectives]]
+test = "defaults_match_kinetik"
+label = "Settings::default() is Kinetik's: 1 s, the default bar, text labels, 85 % opacity, 13 px, gap 8, ping 1.1.1.1"
+
+[[hints]]
+text = "Fill in the `Settings { .. }` in `default()` with one value per field."
+[[hints]]
+text = "`interval_ms: 1000, order: default_order(), label_mode: LabelMode::Text, two_lines: false, opacity: 0.85, font_size: 13.0, gap: 8.0, colours: BTreeMap::new(), left_click: LeftClick::TaskManager, ping_address: \"1.1.1.1\".to_string(), all_taskbars: false, shift_left: 0,`"
+
+[[points]]
+after = 3
+prompt = "What does #[serde(default)] do when a saved file lacks a field?"
+pick = ["fills it from Default", "fails to load", "sets it to zero", "deletes the file"]
+answer = 0

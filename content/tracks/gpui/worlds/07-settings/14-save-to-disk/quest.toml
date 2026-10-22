@@ -1,0 +1,21 @@
+title = "Save to disk"
+summary = "Settings as JSON in %APPDATA%: written to a temporary file, then renamed over the old one."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["serde", "files", "io"]
+
+[[objectives]]
+test = "save_then_load_round_trips"
+label = "saving into a folder that does not exist yet, then loading, gives the same settings back, and leaves no .tmp file"
+
+[[hints]]
+text = "Four steps with `?`: make the folder with `fs::create_dir_all`, `serde_json::to_string_pretty`, `fs::write` to the `.tmp` path, `fs::rename` onto `path`."
+[[hints]]
+text = "`if let Some(folder) = path.parent() { fs::create_dir_all(folder)?; } let json = serde_json::to_string_pretty(settings)?; let temp = path.with_extension(\"tmp\"); fs::write(&temp, json)?; fs::rename(&temp, path)`"
+
+[[points]]
+after = 3
+prompt = "Why write to a .tmp file and rename?"
+pick = ["a crash mid-write leaves the old file whole", "renaming is faster", "Windows needs it", "to keep a backup"]
+answer = 0

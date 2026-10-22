@@ -1,0 +1,21 @@
+title = "A global"
+summary = "One Settings for the whole app: set it once, read it from anywhere with cx.global."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "global"]
+
+[[objectives]]
+test = "bar_reads_global_interval"
+label = "a bar made from the app's Settings uses its 2-second interval and its gap"
+
+[[hints]]
+text = "One line in `from_settings`: read the global instead of making defaults."
+[[hints]]
+text = "`let settings = cx.global::<Settings>();`"
+
+[[points]]
+after = 3
+prompt = "What happens if you call cx.global::<Settings>() before set_global?"
+pick = ["it panics: there is no Settings yet", "it gives the defaults", "it gives None", "it opens Settings"]
+answer = 0

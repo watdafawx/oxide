@@ -89,3 +89,19 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `window.dispatch_action(..)`, `Action::boxed_clone` | 06-interaction/10-menu-items | `menu_row` |
 | `tray-icon`, `TrayIconEvent::Click { .. }` with `..`, `MouseButtonState`, menu ids | 06-interaction/11-tray-icon | `tray_click_action`, `tray_menu_action` |
 | (no new terms) | 06-interaction/12-boss-interactive-bar | assembles world 06 |
+| `WindowHandle<T>`, `handle.update(..)` on a closed window, `activate_window`, `if let .. &&` | 07-settings/01-a-second-window | `open_settings_window` |
+| `#[derive(Serialize, Deserialize)]`, `#[serde(default)]`, `BTreeMap`, `impl Default` | 07-settings/02-settings-struct | `Settings` |
+| global, `impl Global`, `cx.set_global`, `cx.global::<T>()` | 07-settings/03-a-global | `StatsBar::from_settings` |
+| `cx.observe_global::<T>(..)`, `Subscription`, `T::update_global(cx, ..)` (`UpdateGlobal`) | 07-settings/04-live-preview | `watch_settings` |
+| window state vs saved setting, `enum Page` | 07-settings/05-sidebar-pages | `sidebar_row` |
+| `type` alias for a boxed closure, `.justify_end()`, `.rounded_full()` | 07-settings/06-a-toggle | `Toggle` |
+| share, range, snap with `round()` | 07-settings/07-slider-maths | `slider_value` |
+| `MouseMoveEvent::pressed_button`, `canvas` prepaint to record bounds, `Rc<Cell<..>>` | 07-settings/08-a-slider | `gap_slider` |
+| `HashMap/BTreeMap::insert` through `update_global` | 07-settings/09-colour-swatches | `swatch` |
+| `track_focus`, `on_key_down`, `KeyDownEvent`, `keystroke.key`, `key_char` | 07-settings/10-typing-an-address | `address_box` |
+| virtual list, `uniform_list`, `cx.processor`, `Range<usize>` | 07-settings/11-a-long-list | `arrange_list` |
+| `Vec::remove` + `insert`, `on_drag` / `on_drop` / `drag_over` (*starter*) | 07-settings/12-drag-to-reorder | `move_slot` |
+| `KeyBinding::new(keys, action, context)`, `cx.bind_keys`, `.key_context(..)` | 07-settings/13-keys-to-reorder | `bind_settings_keys` |
+| `fs::create_dir_all`, `serde_json::to_string_pretty`, temp file + `fs::rename`, `?` with `io::Result` | 07-settings/14-save-to-disk | `save` |
+| `serde_json::from_str`, `clamp_settings` (*starter*), `.bak` backup | 07-settings/15-fix-bad-values | `load` |
+| `App::observe_global` closure with only `cx`, `cx.set_global` to swap profiles | 07-settings/16-boss-settings | `apply_settings`, `persist_settings`, `Profiles` |

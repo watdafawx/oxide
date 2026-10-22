@@ -1,0 +1,38 @@
+title = "Boss: Settings"
+summary = "The bar follows Settings, Settings follow you across restarts, and profiles swap them in one go."
+kind = "boss"
+xp = 500
+minutes = 75
+tags = ["boss", "gpui", "settings"]
+
+[[objectives]]
+test = "one_settings_window"
+label = "OpenSettings twice from the bar opens one Settings window"
+[[objectives]]
+test = "toggle_hides_stat_on_bar"
+label = "switching CPU off in Settings takes it off the bar"
+[[objectives]]
+test = "slider_changes_bar_live"
+label = "the gap reaches the bar while it changes"
+[[objectives]]
+test = "arrange_drag_reorders_bar"
+label = "reordering in Settings reorders the bar"
+[[objectives]]
+test = "alt_up_reorders"
+label = "Alt+Up in the Arrange list reorders the bar"
+[[objectives]]
+test = "settings_survive_restart"
+label = "every change is saved to disk"
+[[objectives]]
+test = "switch_to_gaming_profile"
+label = "profiles save and switch whole setups"
+[[objectives]]
+test = "bad_file_does_not_crash"
+label = "a broken settings file still starts with the defaults"
+
+[[hints]]
+text = "Start with `apply_settings`: a `Look` from the five look fields, then `order`, `colours`, `ui.left_click`, and the items rebuilt with `bar_items`. Five objectives turn green."
+[[hints]]
+text = "`persist_settings`: `cx.observe_global::<Settings>(move |cx| { let _ = save(cx.global::<Settings>(), &path); })`. The closure owns `path` with `move`."
+[[hints]]
+text = "`save_current`: `self.saved.insert(name.to_string(), cx.global::<Settings>().clone());`. `switch_to`: `let Some(settings) = self.saved.get(name) else { return false; }; cx.set_global(settings.clone()); true`."

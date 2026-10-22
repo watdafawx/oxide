@@ -253,24 +253,22 @@ GPUI 0.2.2 ships no text box, toggle or slider widgets; the learner builds the f
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-a-second-window | `OpenSettings` opens a window; a stored `WindowHandle` keeps it to one | `opening_twice_keeps_one_window` | 4 | 25 | exercise ⚡ | gpui |
-| 02-settings-struct | `#[derive(Serialize, Deserialize, Default)] struct Settings` with Kinetik's defaults | `defaults_match_kinetik` | 4 | 25 | exercise ⚡ | unit |
-| 03-a-global | `impl Global for Settings`, `cx.set_global`, `cx.global::<Settings>()` | `bar_reads_global_interval` | 6 | 40 | exercise | gpui |
-| 04-live-preview | `cx.observe_global::<Settings>(..)`: the bar redraws when Settings change | `changing_font_size_redraws_bar` | 7 | 45 | exercise | gpui |
-| 05-sidebar-pages | `enum Page`, a sidebar, the selected page | `clicking_arrange_shows_arrange_page` | 5 | 30 | exercise ⚡ | visual |
-| 06-a-toggle | a `Toggle` component (`RenderOnce` + `on_click`) | `toggle_turns_gpu_temp_on` | 6 | 40 | exercise | visual |
-| 07-slider-maths | pure: value at x inside the track, snapped to step | `drag_to_middle_is_half`, `value_snaps_to_step` | 6 | 40 | exercise | unit |
-| 08-a-slider | `on_mouse_down` + `on_mouse_move` while pressed | `dragging_slider_changes_gap` | 7 | 45 | exercise | visual |
-| 09-colour-swatches | 15 swatches, picking one sets the stat's colour | `picking_swatch_sets_cpu_colour` | 4 | 25 | exercise ⚡ | visual |
-| 10-typing-an-address | `.track_focus`, `on_key_down`, `keystroke.key_char`; Backspace | `typing_sets_ping_address`, `backspace_removes_last_char` | 8 | 60 | exercise | visual |
-| 11-a-long-list | `uniform_list` for the 44-row Arrange list | `only_visible_rows_are_built` | 7 | 45 | exercise | visual |
-| 12-drag-to-reorder | `.on_drag(DraggedSlot, ..)` + `.on_drop(..)` call `move_slot(from, to)` | `drop_cpu_after_gpu_reorders` | 8 | 60 | exercise | unit, visual |
-| 13-keys-to-reorder | `KeyBinding::new("alt-up", MoveUp, Some("ArrangeList"))`, `.key_context` | `alt_up_moves_selected_row` | 6 | 40 | exercise | gpui |
-| 14-save-to-disk | `serde_json` to `%APPDATA%\KinetikStats\settings.json`, write a temp file then rename | `save_then_load_round_trips` | 6 | 40 | exercise | unit |
-| 15-fix-bad-values | clamp out-of-range values on load, back up an unreadable file (Kinetik v3.1.2) | `interval_99_is_clamped`, `unreadable_file_is_backed_up` | 5 | 30 | exercise ⚡ | unit |
-| 16-boss-settings | Stats, Arrange and Appearance pages, live preview, saved, profiles (Gaming / Work) | `one_settings_window`, `toggle_hides_stat_on_bar`, `slider_changes_bar_live`, `arrange_drag_reorders_bar`, `alt_up_reorders`, `settings_survive_restart`, `switch_to_gaming_profile`, `bad_file_does_not_crash` | 75 | 500 | boss | gpui, visual, unit |
-
-Profiles are taught inside the boss (a `BTreeMap<String, Settings>` named in the TODO), not a quest.
+| 01-a-second-window | `open_settings_window`: keep the `WindowHandle`, `handle.update(..)` fails once closed, `activate_window`; `if let .. &&` | `opening_twice_keeps_one_window` | 4 | 25 | exercise ⚡ | gpui |
+| 02-settings-struct | `Settings` with `Serialize, Deserialize` and `#[serde(default)]`; Kinetik's defaults | `defaults_match_kinetik` | 4 | 25 | exercise ⚡ | unit |
+| 03-a-global | `impl Global for Settings` (*starter*), `cx.set_global`, `cx.global::<Settings>()` | `bar_reads_global_interval` | 6 | 40 | exercise | gpui |
+| 04-live-preview | `cx.observe_global::<Settings>(..)`, keep the `Subscription`, `Settings::update_global` | `changing_font_size_redraws_bar` | 7 | 45 | exercise | gpui |
+| 05-sidebar-pages | `enum Page`, a sidebar, page is window state, not a setting | `clicking_arrange_shows_arrange_page` | 5 | 30 | exercise ⚡ | visual |
+| 06-a-toggle | `Toggle` component (`RenderOnce`, a `ToggleHandler` closure, `justify_end`) | `toggle_turns_battery_on` | 6 | 40 | exercise | visual |
+| 07-slider-maths | pure: share across the track, into the range, snapped to step | `drag_to_middle_is_half`, `value_snaps_to_step` | 6 | 40 | exercise | unit |
+| 08-a-slider | `on_mouse_down` + `on_mouse_move` with `pressed_button`; track bounds from a `canvas` | `dragging_slider_changes_gap` | 7 | 45 | exercise | visual |
+| 09-colour-swatches | 15 swatches, `update_global` inserts the stat's colour; the bar paints it | `picking_swatch_sets_cpu_colour` | 4 | 25 | exercise ⚡ | visual |
+| 10-typing-an-address | `track_focus`, `on_key_down`, `keystroke.key` / `key_char`; a minimal text box | `typing_sets_ping_address`, `backspace_removes_last_char` | 8 | 60 | exercise | visual |
+| 11-a-long-list | `uniform_list` + `cx.processor` for the Arrange list | `only_visible_rows_are_built` | 7 | 45 | exercise | visual |
+| 12-drag-to-reorder | `move_slot` (`remove` + `insert`); `on_drag` / `on_drop` (*starter*) | `drop_cpu_after_gpu_reorders`, `dragging_a_row_moves_it` | 8 | 60 | exercise | unit, visual |
+| 13-keys-to-reorder | `KeyBinding::new("alt-up", MoveUp, Some("ArrangeList"))`, `cx.bind_keys`, `.key_context` | `alt_up_moves_selected_row` | 6 | 40 | exercise | gpui |
+| 14-save-to-disk | `create_dir_all`, `serde_json::to_string_pretty`, write a temp file then rename | `save_then_load_round_trips` | 6 | 40 | exercise | unit |
+| 15-fix-bad-values | clamp out-of-range values on load, keep an unreadable file as `.bak` (Kinetik v3.1.2) | `interval_99_is_clamped`, `unreadable_file_is_backed_up` | 5 | 30 | exercise ⚡ | unit |
+| 16-boss-settings | `apply_settings` (the bar follows), `persist_settings` (saved on change), `Profiles` (Gaming / Work) | `one_settings_window`, `toggle_hides_stat_on_bar`, `slider_changes_bar_live`, `arrange_drag_reorders_bar`, `alt_up_reorders`, `settings_survive_restart`, `switch_to_gaming_profile`, `bad_file_does_not_crash` | 75 | 500 | boss | gpui, visual, unit |
 
 ### World 08: Desktop widget (`08-widget`), project "Desktop widget", 12 quests
 
@@ -414,6 +412,6 @@ The right-click menu and hover card as their own pop-up windows: inside the dock
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-06~~ written 2026-10-22, content-check green (81 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-07~~ written 2026-10-22, content-check green (97 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.
