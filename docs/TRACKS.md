@@ -67,7 +67,7 @@ around these; concepts covered stay the same):
 | 09 Systems | Server pinger | bytes, VarInts, the Server List Ping protocol over TCP; boss: ping a real server |
 | 10 Apps | Mod database and Oxide itself | rusqlite mod DB, axum API, egui screens; boss: port Oxide's UI to Rust |
 | 11 Mastery | Chunk indexer | macros for block registries, allocation counting, no_std ring buffer; boss: make a slow chunk indexer fast |
-| 12 Broadcast (planned) | Rocket League HUD server in Tauri | Stats API frames, one event enum, dedup and moments, OSC and WebSocket out, roster and player cuts, Tauri commands, replay golden test; boss: the HUD server. Plan: `docs/tracks/rust-12-broadcast.md` |
+| 12 Broadcast | Rocket League HUD server in Tauri | Stats API frames, one event enum, dedup and moments, OSC and WebSocket out, roster and player cuts, tokio vs rayon and `spawn_blocking`, Tauri commands and events, replay golden test; boss: the HUD server. Plan: `docs/tracks/rust-12-broadcast.md` |
 
 Other tracks follow the same rule: Java worlds build a Minecraft server status bot, a modpack
 updater and a Discord bot (not "OOP" then "Collections"); Minecraft worlds are mods by

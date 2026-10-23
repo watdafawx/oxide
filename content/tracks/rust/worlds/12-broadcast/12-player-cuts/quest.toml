@@ -1,0 +1,24 @@
+title = "Player cuts"
+summary = "Trim the empty edges of every player photo, centre it on a square, on every core with rayon."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["image", "rayon"]
+
+[[objectives]]
+test = "trim_then_square"
+label = "a 100 x 60 photo trims to its 30 x 20 block and squares to 30 x 30, centred"
+[[objectives]]
+test = "batch_writes_every_file"
+label = "cut_folder writes every PNG in the folder at 64 x 64 and skips other files"
+
+[[hints]]
+text = "Walk `img.enumerate_pixels()`; for pixels with alpha (`pixel[3]`) above 0 widen left, top, right and bottom. If nothing was found, give back a clone."
+[[hints]]
+text = "`imageops::crop_imm(img, left, top, right - left + 1, bottom - top + 1).to_image()`"
+
+[[points]]
+after = 4
+prompt = "What does changing .iter() to .par_iter() need from the closure?"
+pick = ["it must be safe to run on several threads at once", "it must be async", "it must return nothing", "nothing"]
+answer = 0

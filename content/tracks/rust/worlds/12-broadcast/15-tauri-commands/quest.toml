@@ -1,0 +1,21 @@
+title = "Tauri commands"
+summary = "The React HUD pages ask Rust for the HUD state through a Tauri command."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["tauri", "state"]
+
+[[objectives]]
+test = "command_returns_score"
+label = "invoking hud_state through the mock app gives the managed score"
+
+[[hints]]
+text = "`hud` is Tauri's managed `Mutex<HudState>`: lock it and clone what is inside."
+[[hints]]
+text = "`hud.lock().unwrap_or_else(|poisoned| poisoned.into_inner()).clone()`"
+
+[[points]]
+after = 3
+prompt = "What does Tauri add to an app that Electron ships itself?"
+pick = ["nothing: Tauri uses the system's WebView2 instead of bundling Chromium", "a Node.js runtime", "Chromium", "a Python interpreter"]
+answer = 0

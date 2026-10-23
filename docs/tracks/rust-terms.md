@@ -47,3 +47,22 @@ something. Helpers a starter contains (marked *starter*) are shown, not taught.
 | `.parse::<u32>()`, match on `Ok(n)` / `Err(_)` | 01-foundations/27-handle-both-paths | read a typed count |
 | `Vec`, `Vec::new()`, `.push`, `for x in &list`, `return`, `break`, recursion | 01-foundations/28-boss-crafting-calculator | taught in the boss lesson, shaped in the TODOs |
 | `split_once`, `div_ceil`, `starts_with`, `BTreeMap`, closures, `?`, `.iter().map().collect()` (*starter* / TODO only) | 01-foundations/28-boss-crafting-calculator | given helpers or named in a TODO, never taught |
+| `Deserializer::from_slice(..).into_iter()`, `byte_offset`, `is_eof`, `drain(..n)` | 12-broadcast/01-frames-on-the-wire | `split_frames` |
+| an envelope struct, `#[serde(alias = ..)]`, `match` on a name, `Other(String)` | 12-broadcast/02-one-event-shape | `normalize` |
+| tokio `TcpStream::read`, `Ok(0)` as closed, `mpsc::Sender::send(..).await?`; backoff (*starter*) | 12-broadcast/03-connect-and-retry | `read_frames` |
+| let-chains over a remembered value, `saturating_sub` on `Duration` | 12-broadcast/04-one-goal-one-trigger | `GoalDedup::is_repeat` |
+| `Option::is_some_and` | 12-broadcast/05-grace-period | `Grace::allows` |
+| fire-once flags, `HashMap::entry` counts, arrays indexed by team | 12-broadcast/06-moments | `MomentTracker::step` |
+| `#[serde(tag = "kind")]`, `#[serde(untagged)]`, `serde_json::Error::line` | 12-broadcast/07-trigger-config | `load_triggers` |
+| OSC: padded strings, type tags, `to_be_bytes`; `UdpSocket::send_to` | 12-broadcast/08-osc-by-hand | `encode` |
+| axum `WebSocket`, `broadcast::Receiver::recv`, `RecvError::Lagged` / `Closed` | 12-broadcast/09-overlay-socket | `forward` |
+| `csv::Reader::headers`, `position` by header name, `ok_or_else` | 12-broadcast/10-roster-from-a-sheet | `read_roster` |
+| Levenshtein with one row, `usize::from(bool)` | 12-broadcast/11-names-vs-files | `levenshtein` |
+| `image::RgbaImage`, `enumerate_pixels`, `imageops::crop_imm`; `par_iter` (*starter*) | 12-broadcast/12-player-cuts | `trim_transparent` |
+| tokio vs rayon vs `std::thread`, crossbeam channels, smol (read) | 12-broadcast/13-tokio-or-rayon | quiz |
+| `tokio::task::spawn_blocking`, `Send + 'static` closures | 12-broadcast/14-off-the-runtime | `off_the_runtime` |
+| `#[tauri::command]` with `State<Mutex<_>>`, poisoned locks with `into_inner` | 12-broadcast/15-tauri-commands | `hud_state` |
+| `Emitter::emit`, `Listener::listen_any`, `AppHandle<R: Runtime>` | 12-broadcast/16-tauri-events | `publish_moment` |
+| golden files, `Vec::get` past the end | 12-broadcast/17-replay-check | `diff_lines` |
+| semver with a build number, update channels, updater signatures (read) | 12-broadcast/18-update-channels | quiz |
+| a step function joining feed, gates, moments and triggers | 12-broadcast/19-boss-hud-server | `Pipeline::step` |

@@ -1,0 +1,8 @@
+Seating,Nickname,Account ID,Team Name,Photo Front,Role
+1,Wren,acc-01,Blue Herons,wren.png,Striker
+2, Fen ,acc-02,Blue Herons,fen.png,Midfield
+3,Ash,acc-03,Blue Herons,ash.png,Keeper
+,,,,,
+4,Pike,acc-04,Orange Owls,pike.png,Striker
+5,Moss,acc-05,Orange Owls,moss.png,Midfield
+6,Teal,acc-06,Orange Owls,teal.png,Keeper

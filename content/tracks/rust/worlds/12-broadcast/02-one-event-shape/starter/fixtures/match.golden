@@ -1,0 +1,15 @@
+  20000 goal Wren -> companion 1/0/3
+  50000 demo blue 1
+ 100000 goal Wren -> companion 1/0/3
+ 120000 demo blue 2
+ 150000 goal Pike -> companion 1/0/3
+ 180000 demo orange 1
+ 210000 goal Wren -> companion 1/0/3
+ 210000 hat_trick Wren -> osc /notch/hattrick
+ 230000 demo blue 3
+ 245000 goal Moss -> companion 1/0/3
+ 265000 goal Moss -> companion 1/0/3
+ 270000 thirty_seconds -> osc /notch/30s
+ 301000 overtime -> http http://127.0.0.1:9010/trigger/overtime
+ 320000 goal Pike -> companion 1/0/3
+ 321000 match_ended orange -> companion 1/0/4

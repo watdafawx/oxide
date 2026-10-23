@@ -1,0 +1,7 @@
+[
+  {"on": "goal", "output": {"kind": "companion", "page": 1, "row": 0, "column": 3}},
+  {"on": "hat_trick", "output": {"kind": "osc", "address": "/notch/hattrick", "args": [1]}},
+  {"on": "thirty_seconds", "output": {"kind": "osc", "address": "/notch/30s", "args": [1]}},
+  {"on": "overtime", "output": {"kind": "http", "url": "http://127.0.0.1:9010/trigger/overtime"}},
+  {"on": "match_ended", "output": {"kind": "companion", "page": 1, "row": 0, "column": 4}}
+]

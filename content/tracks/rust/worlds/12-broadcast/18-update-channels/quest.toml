@@ -1,0 +1,33 @@
+title = "Update channels"
+summary = "How rl-hud ships app, UI and asset updates separately, and what Tauri's updater checks."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["tauri", "updates", "semver"]
+
+[[quiz]]
+question = "Why ship team logos on their own channel instead of with the app?"
+choices = [
+  "logos change every event; a small download beats rebuilding and reinstalling the app",
+  "Tauri cannot bundle images",
+  "logos need admin rights",
+]
+answer = 0
+
+[[quiz]]
+question = "What does tauri-plugin-updater check before installing an update?"
+choices = [
+  "only that the version number is higher",
+  "that the file was signed with the private key matching the public key built into the app",
+  "that the download came over HTTP",
+]
+answer = 1
+
+[[quiz]]
+question = "A broadcast PC is mid-show. When should a forced update apply?"
+choices = [
+  "immediately, whatever is on air",
+  "never, forced updates are always wrong",
+  "only when the producer forces it on purpose, for a fix that must land now",
+]
+answer = 2

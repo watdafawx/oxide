@@ -1,0 +1,35 @@
+title = "Boss: the HUD server"
+summary = "Write the pipeline's step from scratch: the HUD, grace, goal dedup, moments and triggers, checked against a whole recorded match."
+kind = "boss"
+xp = 500
+minutes = 75
+tags = ["boss", "tokio", "tauri", "state-machine"]
+
+[[objectives]]
+test = "parses_feed"
+label = "the whole match over TCP: 9 goals and 322 state updates arrive"
+[[objectives]]
+test = "goal_dedup"
+label = "seven goals fire: not the repeat, not the stale goal in the grace period"
+[[objectives]]
+test = "moments_fire"
+label = "hat-trick, demo counts, 30 seconds left and overtime fire at the right times"
+[[objectives]]
+test = "triggers_sent"
+label = "each cue carries its triggers' outputs"
+[[objectives]]
+test = "overlay_updates"
+label = "the HUD ends 3-4 in overtime, last goal Pike"
+[[objectives]]
+test = "tauri_command_live"
+label = "the Tauri command shows the HUD the pipeline built"
+[[objectives]]
+test = "replay_identical"
+label = "the replay matches the golden file line for line"
+
+[[hints]]
+text = "Order matters: apply an `UpdateState` to `self.hud` first (always); then `if !self.grace.allows(now) { return Vec::new(); }`; then a goal that `self.dedup.is_repeat(..)` returns nothing."
+[[hints]]
+text = "Collect `(cue, detail)` pairs: `(\"goal\", scorer)` (and set `hud.last_goal`), `(\"match_ended\", team_name(winner))`, then every `self.moments.step(event)` as `(m.cue(), m.detail())`."
+[[hints]]
+text = "Turn each pair into `Action { at: now, cue, detail, outputs: self.outputs_for(cue) }` and collect."

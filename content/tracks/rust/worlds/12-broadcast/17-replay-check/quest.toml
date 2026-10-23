@@ -1,0 +1,24 @@
+title = "Replay check"
+summary = "Replay a recorded match through the server and diff everything it did against a saved run."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["testing", "golden-files"]
+
+[[objectives]]
+test = "replay_is_identical"
+label = "the recorded match replays to exactly the saved golden lines"
+[[objectives]]
+test = "changed_trigger_shows_diff"
+label = "changing the goal trigger shows each goal as - old and + new"
+
+[[hints]]
+text = "Walk positions `0..golden.len().max(now.len())`; compare `golden.get(i)` with `now.get(i)`; when they differ, push `- old` and/or `+ new` for whichever exists."
+[[hints]]
+text = "`match (golden.get(i), now.get(i)) { (Some(old), Some(new)) if old == new => {} (old, new) => { if let Some(old) = old { out.push(format!(\"- {old}\")); } if let Some(new) = new { out.push(format!(\"+ {new}\")); } } }`"
+
+[[points]]
+after = 3
+prompt = "Why can a replay give exactly the same lines every run?"
+pick = ["the pipeline takes time as an argument and touches no sockets", "computers are fast", "the file is small", "tokio is deterministic"]
+answer = 0

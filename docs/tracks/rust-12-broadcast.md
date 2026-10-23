@@ -1,6 +1,6 @@
 # Rust world 12: Broadcast tools (Tauri)
 
-Planning doc for a new world at the end of the Rust track, built from five of the owner's ESL
+Plan and record of the world at the end of the Rust track, built from five of the owner's ESL
 broadcast projects. Not content. Format and rules: `docs/CONTENT.md`. Research date: 2026-10-23.
 
 ## 0. What the ESL projects are, and which are worth moving to Rust
@@ -21,63 +21,69 @@ Names follow rl-hud: `Frame`, `GameEvent`, `Moment`, `Trigger`, `Output`, `HudSt
 | ESL idea | quest | Rust idea it teaches |
 |---|---|---|
 | Stats API sends JSON objects back to back on TCP | 01, 03 | `serde_json::Deserializer::into_iter`, a read buffer, tokio `TcpStream`, reconnect |
-| Stats API and SOS events into one shape | 02 | `#[serde(tag = ...)]` enums, `rename_all`, a catch-all variant |
-| duplicate `GoalScored`, Riot timestamp dedup, 2 s startup grace | 04, 05 | `Instant` windows, a small state struct |
+| Stats API and SOS events into one shape | 02 | an envelope, then `match` on the name; `rename_all`, `alias`, `Other(name)` |
+| duplicate `GoalScored`, Riot timestamp dedup, 2 s startup grace | 04, 05 | time windows on the feed's clock, let-chains, `is_some_and` |
 | moments: 30 s left, OT, hat-trick, demo counts | 06 | a state machine over events, fire-once flags |
-| `triggers.json`: event to OSC / Companion / HTTP | 07, 08 | serde enums as config, OSC packets by hand over UDP |
-| overlays get HUD state live | 09 | axum WebSocket, `tokio::sync::broadcast` |
-| roster CSV and sheet-type column mapping | 10 | `csv` + headers mapped by name |
+| `triggers.json`: cue to OSC / Companion / HTTP | 07, 08 | serde tagged and untagged enums as config, OSC packets by hand over UDP |
+| overlays get HUD state live | 09 | axum WebSocket, `tokio::sync::broadcast`, `Lagged` |
+| roster CSV and sheet-type column mapping | 10 | `csv` + headers found by name |
 | asset checker: sheet names vs files, renames | 11 | normalizing strings, Levenshtein by hand |
-| Apollo player cuts | 12 | `image`: crop, trim transparency, square canvas; `rayon` |
-| Electron to Tauri | 13, 14 | Tauri v2 commands, managed state, events, mock runtime tests |
-| rl-hud replay check | 15 | record frames, replay, diff outputs: golden tests |
-| update channels (app / UI / logos, force) | 16 | read: semver, channels, `tauri-plugin-updater` |
-| all of it | 17 | boss |
+| Apollo player cuts | 12 | `image`: trim transparency, square canvas, resize; `rayon` |
+| tokio, rayon, threads: which and why | 13, 14 | read; `spawn_blocking` to keep the feed flowing |
+| Electron to Tauri | 15, 16 | Tauri v2 commands, managed state, events, mock runtime tests |
+| rl-hud replay check | 17 | replay on the recording's clock, diff against a golden file |
+| update channels (app / UI / logos, force) | 18 | read: semver, channels, `tauri-plugin-updater` signatures |
+| all of it | 19 | boss |
 
-## 1. Quests (`12-broadcast`), project "HUD server", 17 quests
+## 1. Quests (`12-broadcast`), project "HUD server", 19 quests
 
-`requires` for 01: `rust/10-apps/11-boss-oxide-in-rust` (axum, serde, a first Tauri command) and
-it uses tokio from 08 Async and bytes from 09 Systems.
+`requires` for 01: `10-apps/11-boss-oxide-in-rust` (axum, serde, a first Tauri command); it uses
+tokio from 08 Async and bytes from 09 Systems. Every quest crate has the same dependencies, so the
+app's shared `.target` compiles them once.
 
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-frames-on-the-wire | split a buffer of back-to-back JSON objects with `Deserializer::from_slice(..).into_iter()`; keep the unfinished tail | `three_frames_from_one_read`, `half_frame_waits` | 4 | 25 | exercise ⚡ | unit |
-| 02-one-event-shape | `GameEvent` enum, `#[serde(tag = "Event", content = "Data")]`, PascalCase in, `Other` for unknown events; SOS names mapped to the same variants | `goal_scored_parses`, `sos_and_stats_api_agree`, `unknown_event_kept` | 7 | 45 | exercise | unit |
-| 03-connect-and-retry | tokio `TcpStream` to the Stats API port, frames into an `mpsc`, reconnect with backoff 1, 2, 4 s capped at 10; a local listener replays the fixture | `frames_arrive_in_order`, `reconnects_after_drop` | 8 | 60 | exercise | unit |
-| 04-one-goal-one-trigger | ignore a second `GoalScored` with the same scorer and time within 2 s | `double_goal_fires_once`, `two_real_goals_both_fire` | 5 | 30 | exercise ⚡ | unit |
-| 05-grace-period | no triggers in the first 2 s after a (re)connect: the game resends state on connect | `boot_burst_ignored` | 4 | 25 | exercise ⚡ | unit |
-| 06-moments | `MomentTracker::step`: 30 seconds left (once, re-armed above 30), overtime, hat-trick, demo count per team | `thirty_seconds_fires_once`, `hat_trick_on_third_goal`, `demos_counted_per_team` | 8 | 60 | exercise | unit |
-| 07-trigger-config | `triggers.json` into `Vec<Trigger>`: event name to `Output::Osc { address, args }`, `Output::Companion { page, button }`, `Output::Http { url }`; unknown output kinds are an error with the line | `goal_maps_to_companion_press`, `bad_output_kind_says_where` | 6 | 40 | exercise | unit |
-| 08-osc-by-hand | an OSC message in bytes: address and type tags padded to 4, `i` / `f` / `s` big-endian; sent with `UdpSocket` | `osc_bytes_match_spec`, `udp_packet_arrives` | 7 | 45 | exercise | unit |
-| 09-overlay-socket | axum WebSocket route; every `HudState` change goes out through `broadcast::Sender`; a slow overlay that lags is skipped, not waited for | `overlay_gets_goal`, `lagging_overlay_does_not_block` | 8 | 60 | exercise | unit |
-| 10-roster-from-a-sheet | roster CSV from a sheet export: columns found by header name through a mapping table (the sheet-type idea), blank rows skipped | `columns_mapped_by_header`, `missing_column_named_in_error` | 6 | 40 | exercise | unit |
-| 11-names-vs-files | normalize names (case, accents, spaces, `_`), Levenshtein written by hand, "likely rename" under distance 2 | `missing_and_extra_files`, `renamed_file_suggested` | 7 | 45 | exercise | unit |
-| 12-player-cuts | `image`: trim transparent edges, centre on a square canvas, resize to 500; `par_iter` over a folder | `trim_then_square`, `batch_writes_every_file` | 7 | 45 | exercise | unit |
-| 13-tauri-commands | Tauri v2: `#[tauri::command] fn hud_state`, `State<Mutex<HudState>>`, `invoke_handler`; tested with `tauri::test::mock_builder` and `get_ipc_response` | `command_returns_score` | 5 | 30 | exercise ⚡ | unit |
-| 14-tauri-events | `app.emit("goal", payload)` from the event loop; the React page listens; tested with a listener on the mock app | `goal_event_emitted_once` | 6 | 40 | exercise | unit |
-| 15-replay-check | record frames with timestamps to JSON lines, replay them through the pipeline on a fake clock, diff every output against a saved golden file | `replay_is_identical`, `changed_trigger_shows_diff` | 7 | 45 | exercise | unit |
-| 16-update-channels | semver, separate channels for app / UI / assets, "force" vs "offer", what `tauri-plugin-updater` checks (signature, feed JSON) | quiz: 3 | 4 | 15 | read | - |
-| 17-boss-hud-server | `HudServer::run` from scratch: feed (TCP or replay) to events, dedup, grace, moments, triggers out, overlay socket, Tauri command; replays the fixture match identically | `parses_feed`, `goal_dedup`, `moments_fire`, `triggers_sent`, `overlay_updates`, `tauri_command_live`, `replay_identical` | 75 | 500 | boss | unit |
+| 01-frames-on-the-wire | `split_frames`: `Deserializer::from_slice(..).into_iter()`, `byte_offset`, `is_eof`; `FrameBuffer` keeps the unfinished tail | `three_frames_from_one_read`, `half_frame_waits` | 4 | 25 | exercise ⚡ | unit |
+| 02-one-event-shape | `normalize`: `Envelope` (with SOS `alias`es), SOS names mapped, `match` on the name, `Other(name)` | `goal_scored_parses`, `sos_and_stats_api_agree`, `unknown_event_kept` | 7 | 45 | exercise | unit |
+| 03-connect-and-retry | `read_frames`: tokio `TcpStream` reads into a `FrameBuffer`, events into an `mpsc`; `run_feed` reconnects with backoff (*starter*) | `frames_arrive_in_order`, `reconnects_after_drop` | 8 | 60 | exercise | unit |
+| 04-one-goal-one-trigger | `GoalDedup::is_repeat`: same scorer and game time within 2 s | `double_goal_fires_once`, `two_real_goals_both_fire` | 5 | 30 | exercise ⚡ | unit |
+| 05-grace-period | `Grace::allows`: nothing before a connection or in its first 2 s | `boot_burst_ignored` | 4 | 25 | exercise ⚡ | unit |
+| 06-moments | `MomentTracker::step`: 30 seconds left once, overtime, hat-trick, demos per team | `thirty_seconds_fires_once`, `hat_trick_on_third_goal`, `demos_counted_per_team` | 8 | 60 | exercise | unit |
+| 07-trigger-config | `load_triggers`; `Output` (`tag = "kind"`) and `OscArg` (`untagged`) given; errors name their line | `goal_maps_to_companion_press`, `bad_output_kind_says_where` | 5 | 30 | exercise | unit |
+| 08-osc-by-hand | `encode`: address, type tags, big-endian args, 4-byte padding; `send_osc` over `UdpSocket` | `osc_bytes_match_spec`, `udp_packet_arrives` | 7 | 45 | exercise | unit |
+| 09-overlay-socket | `forward`: `broadcast::Receiver` to an axum WebSocket; `Lagged` skips, `Closed` ends | `overlay_gets_goal`, `lagging_overlay_does_not_block` | 8 | 60 | exercise | unit |
+| 10-roster-from-a-sheet | `read_roster`: `csv` headers found by name, cells trimmed, blank rows skipped | `columns_mapped_by_header`, `missing_column_named_in_error` | 6 | 40 | exercise | unit |
+| 11-names-vs-files | `levenshtein` with one row; `normalize_name` and `compare_names` given | `missing_and_extra_files`, `renamed_file_suggested` | 7 | 45 | exercise | unit |
+| 12-player-cuts | `trim_transparent` with `crop_imm`; `square`, `cut` and a `par_iter` `cut_folder` given | `trim_then_square`, `batch_writes_every_file` | 7 | 45 | exercise | unit |
+| 13-tokio-or-rayon | tokio for waiting, rayon for computing, threads for one long job; crossbeam, smol; `spawn_blocking` to mix | quiz: 3 | 4 | 15 | read | - |
+| 14-off-the-runtime | `off_the_runtime`: `spawn_blocking(..).await`, `Send + 'static` | `feed_keeps_flowing_while_cutting`, `cut_folder_from_async` | 4 | 25 | exercise ⚡ | unit |
+| 15-tauri-commands | `#[tauri::command] hud_state` with `State<Mutex<HudState>>`, poisoned locks; mock runtime | `command_returns_score` | 5 | 30 | exercise | unit |
+| 16-tauri-events | `publish_moment`: `app.emit("moment", payload)`; `listen_any` in the test | `moment_event_emitted_once` | 6 | 40 | exercise | unit |
+| 17-replay-check | `diff_lines` against `fixtures/match.golden`; `replay` and `Pipeline` given | `replay_is_identical`, `changed_trigger_shows_diff` | 7 | 45 | exercise | unit |
+| 18-update-channels | semver plus a build number, offer vs force, `tauri-plugin-updater` feed and signature, assets as data | quiz: 3 | 4 | 15 | read | - |
+| 19-boss-hud-server | `Pipeline::step` from scratch; `main.rs` replays the match, or `--live` reads the Stats API and serves `ws://127.0.0.1:8787/ws` | `parses_feed`, `goal_dedup`, `moments_fire`, `triggers_sent`, `overlay_updates`, `tauri_command_live`, `replay_identical` | 75 | 500 | boss | unit |
 
-Totals: 17 quests, 1,150 XP, about 2 h 55 min (174 min).
+Totals: 19 quests, 1,180 XP, about 3 h (181 min).
 
 ## 2. Fixtures (made up, generated so the numbers are exact)
 
-- `fixtures/match.jsonl`: one 5-minute 3v3 match as Stats API frames with timestamps. Teams
-  "Orange Owls" and "Blue Herons", six invented players. Contains one doubled `GoalScored`, a
-  hat-trick, four demos, 30 seconds left, and overtime.
-- `fixtures/sos-sample.jsonl`: the same three events in SOS shape, for quest 02.
-- `fixtures/roster.csv` and `fixtures/files/`: 12 players, two missing files, one renamed file.
-- `fixtures/cuts/`: three small PNGs with transparent borders.
-- `fixtures/triggers.json`: five triggers, one with a bad output kind (quest 07 only).
+- `fixtures/match.jsonl`: a 5-minute 3v3 match plus overtime, 338 frames with times. "Blue Herons"
+  (Wren, Fen, Ash) against "Orange Owls" (Pike, Moss, Teal). A stale goal in the boot burst, one
+  goal sent twice, Wren's hat-trick, four demolitions, 30 seconds left, overtime and an overtime
+  winner (3-4). Simplified Stats API shapes: `Data` is an object.
+- `fixtures/match.golden`: the 15 action lines a correct server prints for it.
+- `fixtures/triggers.json` (five triggers) and `fixtures/triggers-bad.json` (an unknown kind on line 3).
+- `fixtures/roster.csv`: six players, extra columns in another order, a blank row.
+- Photos are drawn in the tests, so there are no binary fixtures.
 
-## 3. Risks and spikes (before content)
+## 3. Spikes (run 2026-10-23, all pass)
 
-| id | question | why it matters |
+| id | question | result |
 |---|---|---|
-| B1 | Does `tauri = { version = "2", features = ["test"] }` build and run `mock_builder` tests under plain `cargo test` on Windows, with no frontend build and no WebView2 window? How long is the first build? | Quests 13, 14 and the boss. If not, Tauri moves to a lib crate tested without the runtime, and `look` steps run the real window. |
-| B2 | Target size with tauri + axum + image in one quest crate. | Disk: each quest crate is its own target. May need `CARGO_TARGET_DIR` shared per world (as the other tracks do). |
-| B3 | Does `serde_json::StreamDeserializer` report the byte offset of an unfinished trailing object cleanly (`byte_offset()` + `is_eof()`)? | Quest 01's whole idea. |
+| B1 | Tauri commands and events under plain `cargo test`, no window? | Yes: `mock_builder` + `get_ipc_response` for commands, `listen_any` + `emit` for events. Cold build of the world's dependency set: 43 s with crates cached. |
+| B2 | Build size | 1.3 GB per target. The app's shared `.target` holds it once for the whole world. |
+| B3 | `StreamDeserializer` and an unfinished last value | `byte_offset()` before `next()` plus `is_eof()` on the error gives the exact split point. |
+| B4 | `#[serde(other)]` in a `tag` + `content` enum when data is present | Fails ("expected unit"). Quest 02 reads an envelope and matches the name by hand instead, which keeps the unknown name. |
 
 ## 4. Later (not in this world)
 

@@ -1,0 +1,24 @@
+title = "Trigger config"
+summary = "triggers.json says which cue sends what: OSC, a Companion button, or HTTP. Read it, and say where it is wrong."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["serde", "config", "errors"]
+
+[[objectives]]
+test = "goal_maps_to_companion_press"
+label = "the five triggers read: goal presses Companion 1/0/3, hat_trick sends OSC"
+[[objectives]]
+test = "bad_output_kind_says_where"
+label = "an unknown output kind is an error naming its line and the kind"
+
+[[hints]]
+text = "`serde_json::from_str(text)` reads the whole list; `map_err` turns the error into words. `e.line()` is the line it stopped on."
+[[hints]]
+text = "`serde_json::from_str(text).map_err(|e| format!(\"triggers.json line {}: {e}\", e.line()))`"
+
+[[points]]
+after = 2
+prompt = "What does #[serde(tag = \"kind\")] do to the Output enum?"
+pick = ["the variant is chosen by the object's \"kind\" field", "it adds a kind field to Rust", "it renames the enum", "it makes kind optional"]
+answer = 0

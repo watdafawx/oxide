@@ -1,0 +1,25 @@
+title = "Frames on the wire"
+summary = "The Stats API sends JSON objects back to back with nothing between them. Split them, and keep a half frame for later."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["serde_json", "streams"]
+requires = ["10-apps/11-boss-oxide-in-rust"]
+
+[[objectives]]
+test = "three_frames_from_one_read"
+label = "one read with three frames gives three values and the bytes they used"
+[[objectives]]
+test = "half_frame_waits"
+label = "the recorded match, read in 700-byte chunks, comes out whole and in order"
+
+[[hints]]
+text = "`serde_json::Deserializer::from_slice(bytes).into_iter::<Value>()` gives one value at a time; `byte_offset()` says where it got to. An error with `is_eof()` means the last value is unfinished."
+[[hints]]
+text = "In a loop: `let start = stream.byte_offset(); match stream.next() { Some(Ok(frame)) => frames.push(frame), Some(Err(e)) if e.is_eof() => return (frames, start), Some(Err(_)) => return (frames, bytes.len()), None => return (frames, stream.byte_offset()) }`"
+
+[[points]]
+after = 2
+prompt = "A TCP read can stop in the middle of a JSON object. Why?"
+pick = ["TCP is a stream of bytes, not of messages", "the game is too slow", "JSON is too long", "Windows splits it"]
+answer = 0

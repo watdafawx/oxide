@@ -1,0 +1,24 @@
+title = "One goal, one trigger"
+summary = "The Stats API sometimes sends a goal twice. Fire the goal graphics once."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["state", "let-chains"]
+
+[[objectives]]
+test = "double_goal_fires_once"
+label = "the same scorer and game time again within 2 s is a repeat; the match has exactly one"
+[[objectives]]
+test = "two_real_goals_both_fire"
+label = "another game time, or another scorer, is a new goal"
+
+[[hints]]
+text = "One `if let Some((scorer, time, at)) = &self.last` chained with `&&` checks: same name, same `goal_time`, and `now.saturating_sub(*at) < REPEAT_WINDOW`."
+[[hints]]
+text = "After the `if`, remember this goal: `self.last = Some((goal.scorer.name.clone(), goal.goal_time, now)); false`"
+
+[[points]]
+after = 2
+prompt = "Why also compare the game time, not just the scorer?"
+pick = ["a player can score twice within seconds in a real match", "names can repeat", "the clock is more exact", "to save memory"]
+answer = 0

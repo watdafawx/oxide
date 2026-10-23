@@ -1,0 +1,33 @@
+title = "tokio, rayon or a thread?"
+summary = "Three ways to do things at once in Rust, and which job each one is for."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["tokio", "rayon", "threads"]
+
+[[quiz]]
+question = "The HUD waits on a TCP feed, overlay WebSockets and UDP sends, mostly doing nothing. Which fits?"
+choices = [
+  "tokio: thousands of waiting tasks on a few threads",
+  "rayon: it splits the waiting across every core",
+  "one std::thread per connection, each blocking on its socket",
+]
+answer = 0
+
+[[quiz]]
+question = "Cutting 300 player photos as fast as possible. Which fits?"
+choices = [
+  "tokio::spawn one task per photo",
+  "rayon: par_iter over the files, one chunk of work per core",
+  "a single thread, so the files stay in order",
+]
+answer = 1
+
+[[quiz]]
+question = "Why not call cut_folder (rayon) straight from an async task on the feed's runtime?"
+choices = [
+  "rayon cannot run inside tokio at all",
+  "it holds that runtime thread until it finishes, so the feed and overlays stall",
+  "async functions cannot call normal functions",
+]
+answer = 1
