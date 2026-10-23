@@ -37,8 +37,9 @@ $zip = Join-Path $dist "Oxide-$version-$suffix.zip"
 if ($LASTEXITCODE -ne 0) { throw "zipping failed" }
 
 if ($installers) {
-    Copy-Item target\release\bundle\nsis\*.exe $dist
-    Copy-Item target\release\bundle\msi\*.msi $dist
+    # Only this version's installers: older ones stay in the bundle folders between builds.
+    Copy-Item "target\release\bundle\nsis\Oxide_$($version)_*.exe" $dist
+    Copy-Item "target\release\bundle\msi\Oxide_$($version)_*.msi" $dist
 }
 Get-ChildItem $dist | ForEach-Object { "{0}  {1:n1} MB" -f $_.Name, ($_.Length / 1MB) }
 Write-Host ("done in {0:n0} s" -f $watch.Elapsed.TotalSeconds)
