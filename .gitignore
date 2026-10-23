@@ -16,3 +16,6 @@ Cargo.lock.bak
 content/**/Cargo.lock
 content/**/build/
 content/**/.gradle/
+
+# release output (scripts/release.ps1)
+/dist

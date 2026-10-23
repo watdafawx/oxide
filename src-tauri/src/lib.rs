@@ -525,6 +525,12 @@ fn content_dir(app: &AppHandle) -> PathBuf {
             return repo;
         }
     }
+    // Portable zip: a `content` folder next to oxide.exe.
+    if let Some(dir) = std::env::current_exe().ok().and_then(|exe| exe.parent().map(|p| p.join("content")))
+        && dir.join("tracks").is_dir()
+    {
+        return dir;
+    }
     if let Ok(res) = app.path().resource_dir() {
         let bundled = res.join("content");
         if bundled.join("tracks").is_dir() {
