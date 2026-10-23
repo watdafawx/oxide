@@ -4,9 +4,11 @@
 //! (`--message-format=json-render-diagnostics`), test results as the plain
 //! `test name ... ok` lines, both on stdout.
 
+use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::time::Instant;
+use std::process::{Child, Command, Stdio};
+use std::sync::mpsc;
+use std::time::{Duration, Instant};
 
 use anyhow::{Context, Result};
 use regex::Regex;
@@ -95,18 +97,142 @@ pub fn clean_for(quest: &Quest, workspace: &Path, target_dir: &Path) -> bool {
     }
 }
 
+/// How long the tests may run once they are built. A test still running after this is reported and stopped.
+pub const TEST_TIME_LIMIT: Duration = Duration::from_secs(60);
+/// How long a build may take. Generous: a cold build of a quest with big dependencies takes minutes.
+pub const BUILD_TIME_LIMIT: Duration = Duration::from_secs(15 * 60);
+
 /// Run the tests in `workspace` and grade `objectives`.
 pub fn run(workspace: &Path, target_dir: &Path, objectives: &[Objective]) -> Result<CheckResult> {
+    run_with_limits(workspace, target_dir, objectives, BUILD_TIME_LIMIT, TEST_TIME_LIMIT)
+}
+
+/// `run`, with the time limits given. A run that goes over is stopped, and the test that was still running
+/// fails with a note saying so, instead of the check spinning forever.
+pub fn run_with_limits(workspace: &Path, target_dir: &Path, objectives: &[Objective], build_limit: Duration, test_limit: Duration) -> Result<CheckResult> {
     let start = Instant::now();
-    let out = cargo(workspace, target_dir)
+    let mut child = cargo(workspace, target_dir)
         .args(["test", "--no-fail-fast", "--message-format=json-render-diagnostics", "--", "--test-threads=1"])
-        .output()
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
         .context("running cargo test (is cargo on PATH?)")?;
-    let stdout = String::from_utf8_lossy(&out.stdout);
-    let stderr = String::from_utf8_lossy(&out.stderr);
-    let mut r = parse(&stdout, &stderr, out.status.success(), objectives);
+    let lines = read_lines(child.stdout.take());
+    let errors = read_lines(child.stderr.take());
+
+    let mut stdout = String::new();
+    let mut tests_started: Option<Instant> = None;
+    let mut over: Option<(&str, Duration)> = None;
+    loop {
+        match lines.recv_timeout(Duration::from_millis(200)) {
+            Ok(line) => {
+                // Cargo says when the build is done; only then does the test clock start.
+                if tests_started.is_none() && line.starts_with('{') && line.contains("\"reason\":\"build-finished\"") {
+                    tests_started = Some(Instant::now());
+                }
+                stdout.push_str(&line);
+                stdout.push('\n');
+            }
+            Err(mpsc::RecvTimeoutError::Disconnected) => break,
+            Err(mpsc::RecvTimeoutError::Timeout) => {}
+        }
+        over = match tests_started {
+            Some(at) if at.elapsed() > test_limit => Some(("tests", test_limit)),
+            None if start.elapsed() > build_limit => Some(("build", build_limit)),
+            _ => None,
+        };
+        if over.is_some() {
+            kill_tree(&mut child);
+            // Whatever is still buffered; a grandchild holding the pipe open must not hang us here.
+            while let Ok(line) = lines.recv_timeout(Duration::from_secs(2)) {
+                stdout.push_str(&line);
+                stdout.push('\n');
+            }
+            break;
+        }
+    }
+    let status = child.wait().context("waiting for cargo test")?;
+    let mut stderr = String::new();
+    while let Ok(line) = errors.recv_timeout(Duration::from_millis(500)) {
+        stderr.push_str(&line);
+        stderr.push('\n');
+    }
+
+    let mut r = parse(&stdout, &stderr, status.success(), objectives);
+    if let Some((phase, limit)) = over {
+        mark_over_time(&mut r, &stdout, phase, limit);
+    }
     r.duration_ms = start.elapsed().as_millis() as u64;
     Ok(r)
+}
+
+/// Read a pipe line by line on its own thread, so the caller can wait with a time limit.
+fn read_lines(pipe: Option<impl std::io::Read + Send + 'static>) -> mpsc::Receiver<String> {
+    let (tx, rx) = mpsc::channel();
+    if let Some(pipe) = pipe {
+        std::thread::spawn(move || {
+            for line in BufReader::new(pipe).lines().map_while(Result::ok) {
+                if tx.send(line).is_err() {
+                    break;
+                }
+            }
+        });
+    }
+    rx
+}
+
+/// Stop cargo and the test program it started. Killing cargo alone leaves the test program running on Windows.
+fn kill_tree(child: &mut Child) {
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        let _ = Command::new("taskkill")
+            .args(["/F", "/T", "/PID", &child.id().to_string()])
+            .creation_flags(0x0800_0000) // CREATE_NO_WINDOW
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .status();
+    }
+    let _ = child.kill();
+}
+
+/// The test that had started but not finished: libtest prints `test name ... ` before running it.
+fn unfinished_test(stdout: &str) -> Option<String> {
+    // After 60 s libtest may add "test name has been running for over 60 seconds" to that same line.
+    let started = Regex::new(r"^test (\S+) \.\.\. ?(.*)$").unwrap();
+    stdout.lines().rev().find_map(|l| {
+        let c = started.captures(l)?;
+        let rest = c.get(2).map_or("", |m| m.as_str());
+        let finished = ["ok", "FAILED", "ignored"].iter().any(|r| rest.starts_with(r));
+        (!finished).then(|| c[1].to_string())
+    })
+}
+
+/// Turn a stopped run into a result that says what happened.
+fn mark_over_time(r: &mut CheckResult, stdout: &str, phase: &str, limit: Duration) {
+    r.ok = false;
+    let note = if phase == "build" {
+        format!("The build was still going after {} minutes, so Oxide stopped it. Another cargo may be holding the build folder; try again.", limit.as_secs() / 60)
+    } else {
+        format!("Still running after {} seconds, so Oxide stopped it. Look for a loop that never ends, or a wait for something that never comes.", limit.as_secs())
+    };
+    r.raw_tail.push_str(&format!("\n{note}\n"));
+    if phase == "build" {
+        r.diagnostics.push(Diagnostic { level: "error".into(), message: note, rendered: String::new(), file: None, line: None });
+        return;
+    }
+    // The tests compiled; an empty result list is from the stop, not from a compile error.
+    r.compiled = true;
+    r.diagnostics.retain(|d| d.message != "the tests could not run");
+    let hung = unfinished_test(stdout);
+    let objective = hung.as_deref().and_then(|h| r.objectives.iter_mut().find(|o| h == o.test || h.ends_with(&format!("::{}", o.test))));
+    match objective {
+        Some(o) => {
+            o.status = ObjectiveStatus::Failed;
+            o.output = Some(note);
+        }
+        None => r.other_failures.push(format!("{}: {note}", hung.as_deref().unwrap_or("a test"))),
+    }
 }
 
 /// `cargo clippy` with no warnings at all. Only worth running after `run` is ok.
@@ -341,5 +467,28 @@ test result: FAILED. 1 passed; 2 failed; 0 ignored
     fn all_green() {
         let r = parse("test adds ... ok\ntest result: ok. 1 passed\n", "", true, &objs(&["adds"]));
         assert!(r.ok);
+    }
+
+    #[test]
+    fn unfinished_test_is_the_one_without_a_result() {
+        let out = "running 3 tests\ntest tests::adds ... ok\ntest tests::spins ... ";
+        assert_eq!(unfinished_test(out).as_deref(), Some("tests::spins"));
+        let warned = "test tests::adds ... ok\ntest tests::spins ... test tests::spins has been running for over 60 seconds";
+        assert_eq!(unfinished_test(warned).as_deref(), Some("tests::spins"));
+        assert_eq!(unfinished_test("test tests::adds ... ok\n"), None);
+    }
+
+    #[test]
+    fn stopped_tests_fail_the_hung_objective() {
+        let out = "{\"reason\":\"build-finished\",\"success\":true}\nrunning 2 tests\ntest tests::adds ... ok\ntest tests::spins ... ";
+        let mut r = parse(out, "", false, &objs(&["adds", "spins", "later"]));
+        mark_over_time(&mut r, out, "tests", Duration::from_secs(60));
+        assert!(r.compiled, "it built; the stop is not a compile error");
+        assert!(r.diagnostics.is_empty());
+        assert!(!r.ok);
+        assert_eq!(r.objectives[0].status, ObjectiveStatus::Passed);
+        assert_eq!(r.objectives[1].status, ObjectiveStatus::Failed);
+        assert!(r.objectives[1].output.as_deref().unwrap().contains("Still running after 60 seconds"));
+        assert_eq!(r.objectives[2].status, ObjectiveStatus::NotRun);
     }
 }

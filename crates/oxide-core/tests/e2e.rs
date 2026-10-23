@@ -67,3 +67,27 @@ fn tutorial_hello_red_then_green() {
     let next = catalog.available(&done);
     assert_eq!(next[0].id, "rust/00-tutorial/02-fix-it");
 }
+
+/// A test that never ends is stopped after the time limit and reported, instead of the check spinning forever.
+#[test]
+fn hanging_test_is_stopped_and_named() {
+    use oxide_core::content::Objective;
+    let tmp = tempfile::tempdir().unwrap();
+    let dir = tmp.path().join("spin");
+    std::fs::create_dir_all(dir.join("src")).unwrap();
+    std::fs::write(dir.join("Cargo.toml"), "[package]\nname = \"spin\"\nversion = \"0.1.0\"\nedition = \"2024\"\n\n[workspace]\n").unwrap();
+    std::fs::write(
+        dir.join("src/lib.rs"),
+        "#[cfg(test)]\nmod tests {\n    #[test]\n    fn a_adds() { assert_eq!(1 + 1, 2); }\n    #[test]\n    fn b_spins() { loop { std::thread::sleep(std::time::Duration::from_millis(50)); } }\n}\n",
+    )
+    .unwrap();
+    let objectives: Vec<Objective> = ["a_adds", "b_spins"].iter().map(|t| Objective { test: t.to_string(), label: t.to_string() }).collect();
+    let target = tmp.path().join("target");
+    let started = std::time::Instant::now();
+    let r = grader::run_with_limits(&dir, &target, &objectives, std::time::Duration::from_secs(600), std::time::Duration::from_secs(3)).unwrap();
+    assert!(started.elapsed() < std::time::Duration::from_secs(120), "the check came back");
+    assert!(r.compiled && !r.ok);
+    assert_eq!(r.objectives[0].status, ObjectiveStatus::Passed);
+    assert_eq!(r.objectives[1].status, ObjectiveStatus::Failed);
+    assert!(r.objectives[1].output.as_deref().unwrap().contains("Still running after 3 seconds"), "{:?}", r.objectives[1].output);
+}
