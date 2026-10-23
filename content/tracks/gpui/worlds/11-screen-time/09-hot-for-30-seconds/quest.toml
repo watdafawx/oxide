@@ -1,0 +1,24 @@
+title = "Hot for 30 seconds"
+summary = "Alert only when a stat stays over its limit for half a minute, and only once."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["gpui", "debounce", "hashmap"]
+
+[[objectives]]
+test = "short_spike_no_alert"
+label = "a 10-second spike over the limit says nothing; the wait starts again after it"
+[[objectives]]
+test = "thirty_seconds_alerts_once"
+label = "a minute over the limit gives exactly one alert"
+
+[[hints]]
+text = "Under the limit: forget the stat in both sets and give back `None`. Over: remember since when (`entry(..).or_insert(now)`), and alert when 30 s have passed and `alerted.insert` says it is new."
+[[hints]]
+text = "`let since = *self.over_since.entry(kind).or_insert(now); if now.duration_since(since) >= HOT_FOR && self.alerted.insert(kind) { return reading.value.map(|value| Alert { kind, value }); } None`"
+
+[[points]]
+after = 3
+prompt = "What does HashSet::insert give back?"
+pick = ["true if the value was not there yet", "the old value", "the set's length", "nothing"]
+answer = 0

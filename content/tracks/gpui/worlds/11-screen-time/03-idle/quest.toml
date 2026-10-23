@@ -1,0 +1,24 @@
+title = "Nobody there"
+summary = "Five minutes without a key press means nobody is using the PC, unless a video or game fills the screen."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["win32", "duration"]
+
+[[objectives]]
+test = "idle_six_minutes_not_counted"
+label = "6 minutes idle with a normal window: nothing counted; 4 minutes: still counted"
+[[objectives]]
+test = "fullscreen_video_still_counts"
+label = "6 minutes idle with a full-screen window: still counted"
+
+[[hints]]
+text = "Two conditions joined with `&&`: idle at least `IDLE_LIMIT`, and not full screen."
+[[hints]]
+text = "`idle >= IDLE_LIMIT && !fullscreen`"
+
+[[points]]
+after = 3
+prompt = "Why does a full-screen window keep counting while idle?"
+pick = ["you watch a film or a cutscene without touching anything", "full-screen windows cannot be idle", "games move the mouse", "Windows resets the idle time"]
+answer = 0

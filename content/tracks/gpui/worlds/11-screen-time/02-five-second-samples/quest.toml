@@ -1,0 +1,21 @@
+title = "Five-second samples"
+summary = "Every 5 seconds, the program in front gets 5 more seconds, in its total and in this hour's."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["btreemap", "entry"]
+
+[[objectives]]
+test = "three_samples_add_15_seconds"
+label = "three samples of Chrome at 21:00 add 15 seconds to chrome.exe and to hour 21"
+
+[[hints]]
+text = "Two lines at the top of `Day::add`: one through `self.apps.entry(..)`, one into `self.hours[..]`."
+[[hints]]
+text = "`*self.apps.entry(app.to_string()).or_insert(0) += SAMPLE_SECS; self.hours[at.hour() as usize] += SAMPLE_SECS;`"
+
+[[points]]
+after = 2
+prompt = "Why sample every 5 seconds instead of timing each window exactly?"
+pick = ["it is simple, cheap, and 5 seconds is close enough for a day's totals", "Windows only allows it every 5 s", "to save memory", "it is more exact"]
+answer = 0

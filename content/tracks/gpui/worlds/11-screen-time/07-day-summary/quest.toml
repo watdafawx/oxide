@@ -1,0 +1,24 @@
+title = "A day's summary"
+summary = "Total time, first and last use, the most used program and the busiest hour."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["iterators", "max_by_key"]
+
+[[objectives]]
+test = "busiest_hour_is_21"
+label = "Chrome 08:00 to 08:30 and Minecraft 20:30 to 22:15: busiest hour 21, total 2 h 15 min"
+[[objectives]]
+test = "most_used_is_minecraft"
+label = "the most used program is minecraft.windows.exe; an empty day has none"
+
+[[hints]]
+text = "`max_by_key` over `day.apps` for the program; over the hours 0..24 that have any seconds for the hour."
+[[hints]]
+text = "`most_used: day.apps.iter().max_by_key(|(_, secs)| **secs).map(|(name, _)| name.clone()), busiest_hour: (0..24).filter(|&hour| day.hours[hour] > 0).max_by_key(|&hour| day.hours[hour]),`"
+
+[[points]]
+after = 3
+prompt = "Why filter out empty hours before max_by_key?"
+pick = ["an empty day would otherwise say its busiest hour is 23", "max_by_key fails on zeros", "to sort them", "it is faster"]
+answer = 0

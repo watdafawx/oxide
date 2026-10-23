@@ -1,0 +1,21 @@
+title = "Keep 400 days"
+summary = "Delete day files more than 400 days old, and nothing else in the folder."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["files", "dates"]
+
+[[objectives]]
+test = "day_401_is_deleted"
+label = "400 days back stays, 401 days back goes, notes.txt stays"
+
+[[hints]]
+text = "Inside the loop: the path, its stem parsed as a date, then one `if` with `&&` and `let Some(date) = date` that removes the file."
+[[hints]]
+text = "`if path.extension().is_some_and(|ext| ext == \"json\") && let Some(date) = date && (today - date).num_days() > KEEP_DAYS { std::fs::remove_file(&path)?; deleted += 1; }`"
+
+[[points]]
+after = 2
+prompt = "Why parse the name instead of using the file's modified time?"
+pick = ["copying or restoring a file changes its modified time, the name never does", "modified times are slow", "Windows has no modified time", "it is shorter"]
+answer = 0

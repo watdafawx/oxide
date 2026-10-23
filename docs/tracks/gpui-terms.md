@@ -144,3 +144,14 @@ requires. Helpers a starter contains are marked *starter*: shown, not taught.
 | `Query`, `StatusCode::UNAUTHORIZED`, constant-time compare, `getrandom` (*starter*) | 10-dashboard/10-secret-key | the key check |
 | `Ipv4Addr::LOCALHOST` / `UNSPECIFIED`, `SocketAddr::from((ip, port))` | 10-dashboard/11-local-only | `bind_addr` |
 | `std::thread::spawn` + `tokio::runtime::Runtime`, `axum::serve`, `observe_self` (*starter*) | 10-dashboard/12-boss-dashboard | `DashboardView::render`, `serve_dashboard` |
+| `rsplit` on a `char` array, `to_lowercase`; `GetForegroundWindow` to `QueryFullProcessImageNameW` behind a `Desk` trait (*starter*) | 11-screen-time/01-whats-in-front | `exe_name` |
+| `BTreeMap::entry().or_insert`, chrono `Timelike::hour` | 11-screen-time/02-five-second-samples | `Day::add` |
+| `Duration` constants and comparisons; `GetLastInputInfo`, `wrapping_sub` (*starter*) | 11-screen-time/03-idle | `away` |
+| short-circuit `\|\|`; `OpenInputDesktop` as a lock check (*starter*) | 11-screen-time/04-locked | `app_to_count` |
+| `NaiveDate::format`, `create_dir_all`, `serde_json::to_string_pretty`, `io::Error::other` | 11-screen-time/05-day-files | `day_path`, `save_day` |
+| `read_dir`, `file_stem`, `NaiveDate::parse_from_str`, date minus date, `let` chains | 11-screen-time/06-keep-400-days | `prune` |
+| `max_by_key` on a map and on a range, `filter` before it | 11-screen-time/07-day-summary | `summarize` |
+| array `map`, `.items_end()`, `.flex_1()`, `.flex_none()` | 11-screen-time/08-hour-chart | `bar_heights` |
+| `HashMap::entry` for "since when", `HashSet::insert` as a once-check, `background_executor().now()` | 11-screen-time/09-hot-for-30-seconds | `HotTimer::check` |
+| `\|` in match patterns; `tauri-winrt-notification` `Toast` (*starter*) | 11-screen-time/10-toast | `toast_text` |
+| a sampler and a page from scratch | 11-screen-time/11-boss-screen-time | `ScreenTime::sample`, `ScreenTimeView::render` |

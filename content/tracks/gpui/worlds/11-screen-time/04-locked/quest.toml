@@ -1,0 +1,21 @@
+title = "Locked"
+summary = "A locked PC counts nothing, even with a game still full screen behind the lock."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["win32"]
+
+[[objectives]]
+test = "locked_pc_not_counted"
+label = "locked: nothing counted, full screen or not"
+
+[[hints]]
+text = "Ask `desk.locked()` in the same `if` as `away(..)`, with `||`."
+[[hints]]
+text = "`if desk.locked() || away(desk.idle(), desk.fullscreen()) { return None; }`"
+
+[[points]]
+after = 2
+prompt = "Why can full screen not stand in for 'someone is watching' here?"
+pick = ["the game behind the lock screen still covers its monitor", "locking ends the game", "full screen turns off when locked", "it can"]
+answer = 0

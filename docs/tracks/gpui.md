@@ -107,6 +107,8 @@ Rules that follow:
 - An observer registered during app startup (`App::observe_global` in `Application::run`) does not
   hear changes made before that startup code returns. Save or apply such changes by hand (World 10's
   first-start key).
+- The bar notifies only when what it draws changes, so `cx.observe(&bar, ..)` misses a value
+  that holds steady. Anything that must look every tick runs its own timer (World 11's `watch_alerts`).
 
 ## 2. Requires (cross-track)
 
@@ -338,19 +340,22 @@ Frame maths is graded on `fixtures/capture.csv`: 1200 made-up frames shaped like
 
 ### World 11: Screen time and alerts (`11-screen-time`), project "Screen time", 11 quests
 
+Every Windows call sits behind a `Desk` trait (foreground program, idle time, full screen, locked, local time);
+tests use `FakeDesk`. Day files are graded in a temp folder; the real one is `%LocalAppData%\KinetikStats\ScreenTime`.
+
 | slug | new | objectives | min | XP | kind | runs |
 |---|---|---|---|---|---|---|
-| 01-whats-in-front | `GetForegroundWindow` to process to exe name, behind `WinApi` | `exe_name_from_full_path` | 4 | 25 | exercise ⚡ | unit, fake |
-| 02-five-second-samples | each 5 s sample adds 5 s to the app in front | `three_samples_add_15_seconds` | 5 | 30 | exercise | unit |
-| 03-idle | `GetLastInputInfo`: after 5 min idle stop counting, unless a video or game fills the screen | `idle_six_minutes_not_counted`, `fullscreen_video_still_counts` | 7 | 45 | exercise | unit |
-| 04-locked | a locked PC does not count | `locked_pc_not_counted` | 4 | 25 | exercise ⚡ | unit |
-| 05-day-files | one JSON file per day in `%LocalAppData%\KinetikStats\ScreenTime`, names only, never window titles | `day_file_named_by_date`, `no_window_titles_saved` | 6 | 40 | exercise | unit |
-| 06-keep-400-days | delete day files older than 400 days | `day_401_is_deleted` | 4 | 25 | exercise ⚡ | unit |
-| 07-day-summary | total, first and last use, most used app, busiest hour | `busiest_hour_is_21`, `most_used_is_minecraft` | 7 | 45 | exercise | unit |
-| 08-hour-chart | 24 bars, heights relative to the busiest | `busiest_bar_is_tallest` | 6 | 40 | exercise | visual |
-| 09-hot-for-30-seconds | alert only after 30 s above the limit, and once | `short_spike_no_alert`, `thirty_seconds_alerts_once` | 7 | 45 | exercise | gpui |
-| 10-toast | `tauri-winrt-notification` toast text for each alert kind | `hot_gpu_toast_text`, look | 5 | 30 | exercise | unit, look |
-| 11-boss-screen-time | counting, idle, lock, day files, summary page with chart, alerts | `counts_foreground_app`, `idle_and_lock_pause`, `files_per_day_pruned`, `summary_right`, `chart_drawn`, `alerts_debounced` | 60 | 450 | boss | unit, visual, gpui |
+| 01-whats-in-front | `GetForegroundWindow` to `QueryFullProcessImageNameW` in `RealDesk` (*starter*); `exe_name`: last path piece, lower-cased | `exe_name_from_full_path` | 4 | 25 | exercise ⚡ | unit, fake |
+| 02-five-second-samples | `Day::add`: 5 s to the program and to its hour (`entry().or_insert`, chrono `hour()`) | `three_samples_add_15_seconds` | 5 | 30 | exercise | unit |
+| 03-idle | `away`: 5 min idle stops counting unless the window in front covers its monitor (`GetLastInputInfo` in the starter) | `idle_six_minutes_not_counted`, `fullscreen_video_still_counts` | 7 | 45 | exercise | unit |
+| 04-locked | `app_to_count`: locked first, with `\|\|` (`OpenInputDesktop` fails on the lock screen) | `locked_pc_not_counted` | 4 | 25 | exercise ⚡ | unit |
+| 05-day-files | `day_path` (`2026-10-22.json`) and `save_day`; `Day` holds names and seconds only, never titles | `day_file_named_by_date`, `no_window_titles_saved` | 6 | 40 | exercise | unit |
+| 06-keep-400-days | `prune`: parse the stem as a date, delete `json` files over 400 days old, leave anything else | `day_401_is_deleted` | 4 | 25 | exercise ⚡ | unit |
+| 07-day-summary | `summarize`: most used program and busiest hour with `max_by_key` | `busiest_hour_is_21`, `most_used_is_minecraft` | 7 | 45 | exercise | unit |
+| 08-hour-chart | `bar_heights` relative to the busiest hour; the page opens from the bar menu's "Screen time" row | `busiest_bar_is_tallest` | 6 | 40 | exercise | unit, visual |
+| 09-hot-for-30-seconds | `HotTimer::check`: since when over the limit, one alert after 30 s, reset when back under; executor clock | `short_spike_no_alert`, `thirty_seconds_alerts_once` | 7 | 45 | exercise | gpui |
+| 10-toast | `toast_text` per kind; `show_toast` with `tauri-winrt-notification` and PowerShell's app id (*starter*) | `hot_gpu_toast_text` | 5 | 30 | exercise | unit |
+| 11-boss-screen-time | `ScreenTime::sample` and `ScreenTimeView::render` from scratch; `main.rs` runs the sampler, the page and toasts | `counts_foreground_app`, `idle_and_lock_pause`, `files_per_day_pruned`, `summary_right`, `chart_drawn`, `alerts_debounced` | 60 | 450 | boss | unit, visual, gpui |
 
 ### World 12: Ship it (`12-ship`), project "Kinetik Stats 1.0", 11 quests
 
@@ -422,6 +427,6 @@ The right-click menu and hover card as their own pop-up windows: inside the dock
 
 1. ~~Spikes R1-R3, R5~~ done 2026-10-22, all pass (section 5).
 2. ~~`content/tracks/gpui/track.toml` + `docs/tracks/gpui-terms.md`~~ done; ledger grows with each world.
-3. ~~Worlds 00-10~~ written 2026-10-22, content-check green (136 quests): a window in 15 minutes, a real-looking
+3. ~~Worlds 00-11~~ written 2026-10-22, content-check green (147 quests): a window in 15 minutes, a real-looking
    bar by the end of world 02. Next worlds: one content session each, `cargo run -p content-check -- gpui/<world>` green, commit per world.
 4. Owner plays world 00-02 in the app before worlds 03+ are written.

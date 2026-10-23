@@ -1,0 +1,21 @@
+title = "The hour chart"
+summary = "24 bars, one per hour, the busiest one full height and the rest in proportion."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "chart"]
+
+[[objectives]]
+test = "busiest_bar_is_tallest"
+label = "hour 21 is drawn full height, hour 8 half, hour 22 a quarter; an empty day is flat"
+
+[[hints]]
+text = "Find the biggest hour; if it is 0 give back zeros; otherwise `hours.map(..)` each to its share of `tallest`."
+[[hints]]
+text = "`let busiest = hours.iter().copied().max().unwrap_or(0); if busiest == 0 { return [0.0; 24]; } hours.map(|secs| tallest * secs as f32 / busiest as f32)`"
+
+[[points]]
+after = 2
+prompt = "Why heights relative to the busiest hour, not to 3600 seconds?"
+pick = ["a light day still fills the chart and is easy to read", "3600 is not an hour", "to avoid dividing by zero", "GPUI needs it"]
+answer = 0

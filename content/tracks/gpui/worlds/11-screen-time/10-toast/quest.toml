@@ -1,0 +1,21 @@
+title = "A toast"
+summary = "Turn an alert into a Windows notification: a short title and the value now."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["match", "notifications"]
+
+[[objectives]]
+test = "hot_gpu_toast_text"
+label = "GPU at 87 °C gives \"GPU is hot\" and \"87°C for 30 seconds or more.\""
+
+[[hints]]
+text = "A `match` on `alert.kind` for the title, with `|` for kinds that share words; the value through `Reading::text`."
+[[hints]]
+text = "`StatKind::CpuTemp | StatKind::GpuTemp => format!(\"{} is hot\", alert.kind.label()),` and so on; then `(title, format!(\"{now} for 30 seconds or more.\"))`"
+
+[[points]]
+after = 2
+prompt = "Why does the app use PowerShell's app id for its toasts?"
+pick = ["Windows only shows toasts for registered app ids, and a portable exe has none", "it is faster", "PowerShell draws the toast", "for the icon"]
+answer = 0

@@ -1,0 +1,24 @@
+title = "A file per day"
+summary = "Each day's totals as a small JSON file named by its date, on this PC only."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["files", "serde", "privacy"]
+
+[[objectives]]
+test = "day_file_named_by_date"
+label = "22 October 2026 is saved as 2026-10-22.json and reads back the same"
+[[objectives]]
+test = "no_window_titles_saved"
+label = "the file holds program names only: no paths, no window titles"
+
+[[hints]]
+text = "`day_path`: `dir.join(..)` a name from `date.format(\"%Y-%m-%d\")`. `save_day`: make the folder, turn the day into JSON, write it."
+[[hints]]
+text = "`std::fs::create_dir_all(dir)?; let text = serde_json::to_string_pretty(day).map_err(std::io::Error::other)?; std::fs::write(day_path(dir, day.date), text)`"
+
+[[points]]
+after = 2
+prompt = "Why name the files year-month-day?"
+pick = ["they sort by date as plain text", "Windows needs it", "it is shorter", "JSON needs it"]
+answer = 0

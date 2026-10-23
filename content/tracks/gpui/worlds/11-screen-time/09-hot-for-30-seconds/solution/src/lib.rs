@@ -1,0 +1,238 @@
+//! Kinetik Stats: screen time and alerts.
+
+pub mod demo;
+pub mod format;
+pub mod history;
+pub mod limits;
+pub mod order;
+pub mod pills;
+pub mod reading;
+pub mod stat;
+
+pub use format::{format_bytes, format_percent, format_speed};
+pub use history::{History, Summary};
+pub use limits::{Limit, Limits, WarnWhen, is_warning};
+pub use order::{DividerStyle, Slot, default_order, move_up};
+pub use pills::{BarItem, Column, Pill, Snapshot, bar_items, hover_summary, two_line_columns};
+pub use reading::Reading;
+pub use stat::{StatKind, Unit};
+pub mod alerts;
+pub mod bar;
+pub mod dashboard;
+pub mod disk;
+pub mod dock;
+pub mod docker;
+pub mod frames;
+pub mod gpu;
+pub mod interact;
+pub mod live;
+pub mod net;
+pub mod overlay;
+pub mod ping;
+pub mod power;
+pub mod real;
+pub mod screen;
+pub mod screen_view;
+pub mod sensor;
+pub mod settings;
+pub mod settings_window;
+pub mod thermal;
+pub mod ui;
+pub mod uptime;
+pub mod view;
+pub mod web;
+pub mod widget;
+pub mod win;
+pub mod window;
+
+#[allow(unused_imports)]
+pub use alerts::*;
+pub use bar::{SensorRead, StatsBar, clamp_interval, read_sensors, wanted_kinds};
+pub use dashboard::*;
+pub use disk::DiskSensor;
+pub use dock::{Call, FakeWin, Layer, Rect, Taskbar, WinApi, bar_visible, covers_monitor, dock_bar, taskbars_to_use, to_logical};
+pub use docker::Docker;
+pub use frames::*;
+pub use gpu::{GpuSensor, NvidiaGpu};
+pub use interact::*;
+pub use live::*;
+pub use net::NetSpeedSensor;
+pub use overlay::*;
+pub use ping::PingSensor;
+pub use power::BatterySensor;
+pub use real::{CpuSensor, RamSensor};
+pub use screen::*;
+#[allow(unused_imports)]
+pub use screen_view::*;
+pub use sensor::{Missing, ScriptedSensor, Sensor, missing_text};
+pub use settings::*;
+pub use settings_window::*;
+pub use thermal::ThermalSensor;
+pub use ui::{BarUi, FakeLauncher, LeftClick, Launcher, ProcessUse, RealLauncher};
+pub use view::{LabelMode, Look};
+#[allow(unused_imports)]
+pub use web::*;
+pub use widget::*;
+pub use win::{RealWin, find_taskbar, hwnd_of};
+pub use window::bar_window_options;
+
+#[allow(unused_imports)]
+use std::net::{Ipv4Addr, SocketAddr};
+#[allow(unused_imports)]
+use std::sync::{Arc, Mutex};
+#[allow(unused_imports)]
+use axum::{Json, Router, extract::{Query, State}, http::StatusCode, response::{Html, IntoResponse, Response}, routing::get};
+#[allow(unused_imports)]
+use gpui::{App, Context, Div, Entity, IntoElement, PathBuilder, Pixels, Point, Render, RenderOnce, Window, canvas, div, point, prelude::*, px, rgb, size};
+#[allow(unused_imports)]
+use serde::Serialize;
+#[allow(unused_imports)]
+use crate::stat::ALL;
+#[allow(unused_imports)]
+use chrono::{NaiveDate, NaiveDateTime, Timelike};
+#[allow(unused_imports)]
+use std::collections::{BTreeMap, HashMap, HashSet};
+#[allow(unused_imports)]
+use std::path::{Path, PathBuf};
+#[allow(unused_imports)]
+use std::time::{Duration, Instant};
+
+impl HotTimer {
+    /// Look at one reading taken at `now`. An alert the first time it has been over its limit for 30 seconds;
+    /// back under the limit starts the wait again.
+    pub fn check(&mut self, reading: &Reading, limits: &Limits, now: Instant) -> Option<Alert> {
+        let kind = reading.kind;
+        if !is_warning(reading, limits) {
+            self.over_since.remove(&kind);
+            self.alerted.remove(&kind);
+            return None;
+        }
+        let since = *self.over_since.entry(kind).or_insert(now);
+        if now.duration_since(since) >= HOT_FOR && self.alerted.insert(kind) {
+            return reading.value.map(|value| Alert { kind, value });
+        }
+        None
+    }
+}
+
+/// Every sensor this PC has so far; the rest of the bar is scripted.
+pub fn live_sensors() -> Vec<Box<dyn Sensor>> {
+    let mut sensors: Vec<Box<dyn Sensor>> = vec![
+        Box::new(CpuSensor::new()),
+        Box::new(RamSensor::new()),
+        Box::new(NetSpeedSensor::download()),
+        Box::new(NetSpeedSensor::upload()),
+        Box::new(DiskSensor::new()),
+        Box::new(GpuSensor::usage()),
+        Box::new(GpuSensor::temperature()),
+        Box::new(ThermalSensor::new()),
+        Box::new(BatterySensor),
+        Box::new(PingSensor::new()),
+    ];
+    let real: Vec<StatKind> = sensors.iter().map(|s| s.kind()).collect();
+    for kind in [StatKind::CpuUsage, StatKind::CpuTemp, StatKind::GpuUsage, StatKind::GpuTemp, StatKind::RamUsed, StatKind::NetDown, StatKind::NetUp, StatKind::Ping] {
+        if !real.contains(&kind) {
+            let script = (0..300).map(|i| 20.0 + (i % 7) as f64 * 5.0).collect();
+            sensors.push(Box::new(ScriptedSensor::new(kind, script)));
+        }
+    }
+    sensors
+}
+
+#[cfg(test)]
+#[allow(unused_imports, dead_code, unused_variables, unused_mut)]
+mod tests {
+    use super::*;
+    use gpui::{TestAppContext, UpdateGlobal, VisualTestContext, WindowHandle, prelude::*};
+    use std::time::Duration;
+
+    /// 22 October 2026 at h:m:s.
+    fn at(h: u32, m: u32, s: u32) -> NaiveDateTime {
+        NaiveDate::from_ymd_opt(2026, 10, 22).unwrap().and_hms_opt(h, m, s).unwrap()
+    }
+
+    /// A fresh, empty folder for one test's day files.
+    fn scratch(name: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("kinetik-screen-{name}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        dir
+    }
+
+    /// Chrome 08:00 to 08:30 and Minecraft 20:30 to 22:15, a sample every 5 seconds.
+    fn evening_day() -> Day {
+        let mut day = Day::new(at(0, 0, 0).date());
+        for (app, from, until) in [("chrome.exe", at(8, 0, 0), at(8, 30, 0)), ("minecraft.windows.exe", at(20, 30, 0), at(22, 15, 0))] {
+            let mut time = from;
+            while time < until {
+                day.add(app, time);
+                time += chrono::TimeDelta::seconds(5);
+            }
+        }
+        day
+    }
+
+    /// Opens the screen time page over `day`.
+    fn screen_page(cx: &mut TestAppContext, day: Day) -> (Entity<ScreenTime>, VisualTestContext) {
+        let screen = cx.new(|_| {
+            let mut screen = ScreenTime::new(scratch("page"), day.date);
+            screen.day = day;
+            screen
+        });
+        let mut slot = None;
+        cx.update(|cx| toggle_screen_window(cx, &mut slot, screen.clone()));
+        let handle = slot.expect("the screen time page opened");
+        let mut vcx = VisualTestContext::from_window(handle.into(), cx);
+        vcx.run_until_parked();
+        (screen, vcx)
+    }
+
+    fn bounds(cx: &mut VisualTestContext, name: &str) -> gpui::Bounds<gpui::Pixels> {
+        let name: &'static str = Box::leak(name.to_string().into_boxed_str());
+        cx.debug_bounds(name).unwrap_or_else(|| panic!("nothing named {name} was drawn"))
+    }
+
+    /// A bar whose GPU temperature reads `temps`, one a second, watched by alerts that only remember.
+    fn hot_bar(cx: &mut TestAppContext, temps: Vec<f64>) -> (Entity<StatsBar>, Entity<Alerts>) {
+        cx.update(|cx| cx.set_global(Settings::default()));
+        let bar = cx.new(|cx| {
+            let sensors: Vec<Box<dyn Sensor>> = vec![Box::new(ScriptedSensor::new(StatKind::GpuTemp, temps))];
+            let mut bar = StatsBar::from_settings(sensors, cx);
+            bar.start(cx);
+            bar
+        });
+        let alerts = cx.update(|cx| watch_alerts(&bar, |_| {}, cx));
+        (bar, alerts)
+    }
+
+    fn run_seconds(cx: &mut TestAppContext, seconds: u32) {
+        for _ in 0..seconds {
+            cx.executor().advance_clock(Duration::from_secs(1));
+            cx.run_until_parked();
+        }
+    }
+
+    fn fired(cx: &mut TestAppContext, alerts: &Entity<Alerts>) -> usize {
+        alerts.read_with(cx, |alerts, _| alerts.fired.len())
+    }
+
+    #[gpui::test]
+    fn short_spike_no_alert(cx: &mut TestAppContext) {
+        let temps = [vec![90.0; 10], vec![60.0; 5], vec![90.0; 40]].concat();
+        let (_bar, alerts) = hot_bar(cx, temps);
+        run_seconds(cx, 25);
+        assert_eq!(fired(cx, &alerts), 0, "10 seconds hot, 5 cool, 10 hot again: no alert");
+        run_seconds(cx, 25);
+        assert_eq!(fired(cx, &alerts), 1, "30 seconds hot in a row: one alert");
+    }
+
+    #[gpui::test]
+    fn thirty_seconds_alerts_once(cx: &mut TestAppContext) {
+        let (_bar, alerts) = hot_bar(cx, vec![90.0; 60]);
+        run_seconds(cx, 29);
+        assert_eq!(fired(cx, &alerts), 0, "not yet");
+        run_seconds(cx, 31);
+        assert_eq!(fired(cx, &alerts), 1, "once, however long it stays hot");
+        let alert = alerts.read_with(cx, |alerts, _| alerts.fired[0].clone());
+        assert_eq!(alert, Alert { kind: StatKind::GpuTemp, value: 90.0 });
+    }
+}
