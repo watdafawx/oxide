@@ -13,6 +13,7 @@ use std::time::Duration;
 use chrono::Local;
 use oxide_core::content::{Catalog, Quest, QuestKind, Track};
 use oxide_core::grader::{self, CheckResult};
+use oxide_core::profiles::{ProfileInfo, Profiles};
 use oxide_core::progress::{Completion, Profile, Progress, Settings, ACHIEVEMENTS};
 use oxide_core::{watcher, workspace};
 use serde::Serialize;
@@ -34,7 +35,12 @@ struct FocusTimer {
 struct AppState {
     catalog: Catalog,
     progress: Mutex<Progress>,
-    quests_root: PathBuf,
+    /// The active profile's quests folder; swapped by `switch_profile`.
+    quests_root: Mutex<PathBuf>,
+    profiles: Mutex<Profiles>,
+    /// Where exports go: next to oxide.exe for the portable zip, Documents otherwise.
+    exports_dir: PathBuf,
+    /// Shared by every profile, so switching never recompiles dependencies.
     target_dir: PathBuf,
     /// The one workspace being watched (the quest the learner has open).
     watch: Mutex<Option<(String, watcher::Handle)>>,
@@ -44,6 +50,13 @@ struct AppState {
     focus: Mutex<Option<FocusTimer>>,
     /// The program started with `run_program`, if any.
     running: Mutex<Option<run::Running>>,
+}
+
+impl AppState {
+    /// The active profile's quests folder.
+    fn quests_dir(&self) -> PathBuf {
+        self.quests_root.lock().unwrap().clone()
+    }
 }
 
 #[derive(Serialize)]
@@ -107,7 +120,7 @@ impl AppState {
         let quest = self.resolve(self.quest(id)?);
         let lesson = quest.lesson().map_err(err)?;
         let run = self.progress.lock().unwrap().run(id).map_err(err)?;
-        let dir = workspace::dir_for(&self.quests_root, id);
+        let dir = workspace::dir_for(&self.quests_dir(), id);
         let workspace = (quest.has_project() && quest.runner.is_project(&dir))
             .then(|| dir.to_string_lossy().into_owned());
         let has_program = workspace.is_some() && run::has_program(&quest, &dir);
@@ -164,7 +177,7 @@ fn emit_profile(app: &AppHandle, state: &AppState) {
 /// Run cargo for `quest_id`, award XP on the first green, emit the events. Blocking.
 fn do_check(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<(CheckResult, Option<Completion>)> {
     let quest = &state.resolve(state.quest(quest_id)?);
-    let dir = workspace::dir_for(&state.quests_root, quest_id);
+    let dir = workspace::dir_for(&state.quests_dir(), quest_id);
     if !quest.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
@@ -225,7 +238,7 @@ fn check_from_watcher(app: AppHandle, quest_id: String) {
 }
 
 fn watch_quest(app: &AppHandle, state: &AppState, quest_id: &str) -> CmdResult<()> {
-    let dir = workspace::dir_for(&state.quests_root, quest_id);
+    let dir = workspace::dir_for(&state.quests_dir(), quest_id);
     let exts = state.quest(quest_id)?.runner.extensions();
     let app2 = app.clone();
     let id = quest_id.to_string();
@@ -299,7 +312,7 @@ fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
     let quest = state.resolve(state.quest(&id)?);
     state.progress.lock().unwrap().start_quest(&id, Local::now()).map_err(err)?;
     if quest.has_project() {
-        let dir = workspace::start(&state.quests_root, &quest).map_err(err)?;
+        let dir = workspace::start(&state.quests_dir(), &quest).map_err(err)?;
         // The in-app editor is the default; an external editor opens only when configured.
         let editor = state.progress.lock().unwrap().settings().map_err(err)?.editor;
         if !editor.trim().is_empty()
@@ -317,7 +330,7 @@ fn start_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
 
 #[tauri::command]
 fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
-    let dir = workspace::dir_for(&state.quests_root, &id);
+    let dir = workspace::dir_for(&state.quests_dir(), &id);
     if !state.quest(&id)?.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
@@ -337,7 +350,7 @@ fn open_editor(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<
 fn reset_quest(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<QuestDetail> {
     let quest = state.resolve(state.quest(&id)?);
     *state.watch.lock().unwrap() = None;
-    workspace::reset(&state.quests_root, &quest).map_err(err)?;
+    workspace::reset(&state.quests_dir(), &quest).map_err(err)?;
     state.progress.lock().unwrap().break_combo().map_err(err)?;
     emit_profile(&app, &state);
     state.last_checks.lock().unwrap().remove(&id);
@@ -452,7 +465,7 @@ fn stop_focus(state: State<AppState>, completed: bool) -> CmdResult<()> {
 #[tauri::command]
 fn run_program(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<()> {
     let quest = state.resolve(state.quest(&id)?);
-    let dir = workspace::dir_for(&state.quests_root, &id);
+    let dir = workspace::dir_for(&state.quests_dir(), &id);
     if !quest.runner.is_project(&dir) {
         return Err("start the quest first".into());
     }
@@ -472,7 +485,7 @@ fn stop_program(state: State<AppState>) {
 /// The started workspace of a quest, for the in-app editor.
 fn workspace_of(state: &AppState, id: &str) -> CmdResult<PathBuf> {
     let quest = state.resolve(state.quest(id)?);
-    let dir = workspace::dir_for(&state.quests_root, id);
+    let dir = workspace::dir_for(&state.quests_dir(), id);
     if !dir.join(quest.runner.marker()).exists() {
         return Err("start the quest first".into());
     }
@@ -512,7 +525,90 @@ fn active_dates(state: State<AppState>) -> CmdResult<Vec<String>> {
     state.progress.lock().unwrap().active_dates().map_err(err)
 }
 
+// ---------------------------------------------------------------- profiles
+
+#[tauri::command]
+fn list_profiles(state: State<AppState>) -> Vec<ProfileInfo> {
+    state.profiles.lock().unwrap().list()
+}
+
+#[tauri::command]
+fn create_profile(state: State<AppState>, name: String) -> CmdResult<Vec<ProfileInfo>> {
+    let mut profiles = state.profiles.lock().unwrap();
+    profiles.create(&name).map_err(err)?;
+    Ok(profiles.list())
+}
+
+#[tauri::command]
+fn rename_profile(state: State<AppState>, id: String, name: String) -> CmdResult<Vec<ProfileInfo>> {
+    let mut profiles = state.profiles.lock().unwrap();
+    profiles.rename(&id, &name).map_err(err)?;
+    Ok(profiles.list())
+}
+
+#[tauri::command]
+fn delete_profile(state: State<AppState>, id: String) -> CmdResult<Vec<ProfileInfo>> {
+    let mut profiles = state.profiles.lock().unwrap();
+    profiles.delete(&id).map_err(err)?;
+    Ok(profiles.list())
+}
+
+/// Make another profile the active one: its progress and quests folder, from now on. Anything running for
+/// the old profile (a focus timer, a program, the file watcher) is stopped first.
+#[tauri::command]
+fn switch_profile(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<Profile> {
+    let (db, quests) = {
+        let profiles = state.profiles.lock().unwrap();
+        if profiles.active().id == id {
+            return state.profile_now();
+        }
+        (profiles.db_path(&id), profiles.quests_path(&id))
+    };
+    let progress = Progress::open(&db).map_err(err)?;
+    std::fs::create_dir_all(&quests).map_err(err)?;
+    stop_focus_inner(&state, false)?;
+    run::stop(&state.running);
+    *state.watch.lock().unwrap() = None;
+    state.last_checks.lock().unwrap().clear();
+    *state.progress.lock().unwrap() = progress;
+    *state.quests_root.lock().unwrap() = quests;
+    state.profiles.lock().unwrap().set_active(&id).map_err(err)?;
+    emit_profile(&app, &state);
+    state.profile_now()
+}
+
+/// Save a profile as one zip in the exports folder and show it in Explorer. Gives back the zip's path.
+#[tauri::command]
+fn export_profile(app: AppHandle, state: State<AppState>, id: String) -> CmdResult<String> {
+    use tauri_plugin_opener::OpenerExt;
+    let profiles = state.profiles.lock().unwrap();
+    let name = profiles.list().into_iter().find(|p| p.id == id).ok_or("no such profile")?.name;
+    let safe: String = name.chars().map(|c| if c.is_alphanumeric() || c == ' ' || c == '-' { c } else { '_' }).collect();
+    let dest = state.exports_dir.join(format!("{} {}.oxide-profile.zip", safe.trim(), Local::now().format("%Y-%m-%d %H%M")));
+    let progress = state.progress.lock().unwrap();
+    let open = (profiles.active().id == id).then_some(&*progress);
+    profiles.export(&id, open, &dest).map_err(err)?;
+    let _ = app.opener().reveal_item_in_dir(&dest);
+    Ok(dest.to_string_lossy().into_owned())
+}
+
+/// Add the profile in an exported zip (sent as base64) as a new profile.
+#[tauri::command]
+fn import_profile(state: State<AppState>, data: String) -> CmdResult<Vec<ProfileInfo>> {
+    use base64::Engine;
+    let bytes = base64::engine::general_purpose::STANDARD.decode(data.trim()).map_err(err)?;
+    let mut profiles = state.profiles.lock().unwrap();
+    profiles.import(&bytes).map_err(err)?;
+    Ok(profiles.list())
+}
+
 // ---------------------------------------------------------------- setup
+
+/// The portable zip's folder: oxide.exe with a `content` folder next to it. Its saves go there too.
+fn portable_dir() -> Option<PathBuf> {
+    let dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
+    dir.join("content").join("tracks").is_dir().then_some(dir)
+}
 
 fn content_dir(app: &AppHandle) -> PathBuf {
     if let Some(p) = std::env::var_os("OXIDE_CONTENT") {
@@ -526,10 +622,8 @@ fn content_dir(app: &AppHandle) -> PathBuf {
         }
     }
     // Portable zip: a `content` folder next to oxide.exe.
-    if let Some(dir) = std::env::current_exe().ok().and_then(|exe| exe.parent().map(|p| p.join("content")))
-        && dir.join("tracks").is_dir()
-    {
-        return dir;
+    if let Some(dir) = portable_dir() {
+        return dir.join("content");
     }
     if let Ok(res) = app.path().resource_dir() {
         let bundled = res.join("content");
@@ -560,11 +654,25 @@ pub fn run() {
                 .map_err(|p| anyhow::anyhow!("content at {}:\n{p}", content.display()))?;
             log::info!("{} worlds, {} quests from {}", catalog.worlds.len(), catalog.quests().count(), content.display());
 
-            let db = handle.path().app_data_dir()?.join("progress.db");
-            let progress = Progress::open(&db)?;
-            let quests_root = workspace::root();
+            // Saves: next to oxide.exe for the portable zip, in AppData otherwise. A save from before profiles
+            // (AppData's progress.db and ~/oxide-quests) becomes the first profile, its files left in place.
+            let (data_root, legacy, exports_dir) = match portable_dir() {
+                Some(dir) => (dir.join("data"), None, dir.join("exports")),
+                None => {
+                    let app_data = handle.path().app_data_dir()?;
+                    let docs = directories::UserDirs::new()
+                        .and_then(|u| u.document_dir().map(|d| d.to_path_buf()))
+                        .unwrap_or_else(|| app_data.clone());
+                    (app_data.clone(), Some((app_data.join("progress.db"), workspace::root())), docs.join("Oxide exports"))
+                }
+            };
+            let target_dir = grader::shared_target_dir(&legacy.as_ref().map_or(data_root.clone(), |(_, quests)| quests.clone()));
+            let profiles = Profiles::load(&data_root, legacy)?;
+            let active = profiles.active().id.clone();
+            let progress = Progress::open(&profiles.db_path(&active))?;
+            let quests_root = profiles.quests_path(&active);
             std::fs::create_dir_all(&quests_root)?;
-            let target_dir = grader::shared_target_dir(&quests_root);
+            log::info!("profile {active}: progress {}, quests {}", profiles.db_path(&active).display(), quests_root.display());
 
             app.manage(mcp::Mcp::default());
             if mcp::enabled()
@@ -576,7 +684,9 @@ pub fn run() {
             app.manage(AppState {
                 catalog,
                 progress: Mutex::new(progress),
-                quests_root,
+                quests_root: Mutex::new(quests_root),
+                profiles: Mutex::new(profiles),
+                exports_dir,
                 target_dir,
                 watch: Mutex::new(None),
                 last_checks: Mutex::new(HashMap::new()),
@@ -612,6 +722,13 @@ pub fn run() {
             get_settings,
             set_settings,
             active_dates,
+            list_profiles,
+            create_profile,
+            rename_profile,
+            delete_profile,
+            switch_profile,
+            export_profile,
+            import_profile,
             mcp::mcp_reply,
         ])
         .run(tauri::generate_context!())

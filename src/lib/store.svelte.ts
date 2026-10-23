@@ -1,7 +1,7 @@
 import { goto } from "$app/navigation";
 import { api, listen } from "./api";
 import { configureSound, play } from "./sound";
-import type { Achievement, CheckResult, Completion, Profile, Quest, RunStream, Track, World } from "./types";
+import type { Achievement, CheckResult, Completion, Profile, ProfileInfo, Quest, RunStream, Track, World } from "./types";
 
 /** `shown`: how many objective rows have been revealed so far (they tick one at a time); Infinity = all */
 export interface CheckState { running: boolean; result: CheckResult | null; tick: number; shown: number }
@@ -15,6 +15,8 @@ export interface Toast { id: number; kind: "error" | "info"; text: string }
 
 class App {
   profile = $state<Profile | null>(null);
+  /** every saved profile; the active one has `active: true` */
+  profiles = $state<ProfileInfo[]>([]);
   achievements = $state<Achievement[]>([]);
   checks = $state<Record<string, CheckState>>({});
   focus = $state<{ remaining: number; total: number; quest_id: string } | null>(null);
@@ -66,7 +68,7 @@ class App {
       this.runLine(quest_id, { stream: "system", line: code === null ? "stopped" : `exited with code ${code}` });
     });
     try {
-      [this.profile, this.achievements, this.tracks] = await Promise.all([api.getProfile(), api.listAchievements(), api.listTracks()]);
+      [this.profile, this.achievements, this.tracks, this.profiles] = await Promise.all([api.getProfile(), api.listAchievements(), api.listTracks(), api.listProfiles()]);
       const all = await Promise.all(this.tracks.map((t) => api.listWorlds(t.id)));
       this.tracks.forEach((t, i) => (this.catalog[t.id] = all[i]));
     } catch (e) {
@@ -83,6 +85,20 @@ class App {
     if (!r) return;
     r.lines.push(l);
     if (r.lines.length > MAX_LINES) r.lines.splice(0, r.lines.length - MAX_LINES);
+  }
+
+  get activeProfile(): ProfileInfo | null {
+    return this.profiles.find((p) => p.active) ?? null;
+  }
+
+  /** Switch profile, then reload: every screen re-reads the new profile's progress. */
+  async switchProfile(id: string) {
+    try {
+      await api.switchProfile(id);
+      location.reload();
+    } catch (e) {
+      this.error(e);
+    }
   }
 
   /** active track: settings.track, "" = first */

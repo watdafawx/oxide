@@ -6,11 +6,13 @@
 //! - [`lua`]: the same for Lua quests, in an embedded Lua 5.2.
 //! - [`watcher`]: re-grade when a file in the workspace is saved.
 //! - [`progress`]: XP, levels, streaks, achievements in SQLite.
+//! - [`profiles`]: named profiles, each with its own progress and quests folder; export / import.
 
 pub mod content;
 pub mod gradle;
 pub mod grader;
 pub mod lua;
+pub mod profiles;
 pub mod progress;
 pub mod watcher;
 pub mod workspace;

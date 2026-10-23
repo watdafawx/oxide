@@ -147,6 +147,13 @@ interface Home {
 | `stop_program` | | `void` | kills the running program |
 | `get_settings` / `set_settings` | `{ settings }` | `Settings` | switching track = `set_settings` with a new `track`, then reload `home` |
 | `active_dates` | | `string[]` | `YYYY-MM-DD`, for the streak calendar |
+| `list_profiles` | | `ProfileInfo[]` | `{ id, name, created, active }`. Each profile has its own progress database and quests folder. Saves live in AppData, or in `data\` next to oxide.exe for the portable zip; a save from before profiles becomes "Player", its files left where they were |
+| `create_profile` | `{ name }` | `ProfileInfo[]` | name 1-40 characters |
+| `rename_profile` | `{ id, name }` | `ProfileInfo[]` | |
+| `delete_profile` | `{ id }` | `ProfileInfo[]` | deletes the profile's folder; refuses the active profile |
+| `switch_profile` | `{ id }` | `Profile` | stops focus, a running program and the watcher, then swaps progress and quests folder; emits `profile:changed`. The UI reloads after it |
+| `export_profile` | `{ id }` | `string` | path of the `.oxide-profile.zip` (Documents\Oxide exports, or `exports\` next to the portable exe), shown in Explorer. Holds a progress snapshot and quest code, no build output |
+| `import_profile` | `{ data }` | `ProfileInfo[]` | `data` = the zip as base64; added as a new profile ("Name (2)" when taken) |
 
 Errors: commands reject with a string message. Show it in a toast, no stack traces.
 

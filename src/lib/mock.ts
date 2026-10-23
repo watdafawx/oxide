@@ -1,6 +1,6 @@
 // Fake backend for `pnpm dev` in a plain browser. Exercises every command and event.
 import type { MockHandlers } from "./api";
-import type {
+import type { ProfileInfo,
   Achievement, CheckResult, Settings, Completion, EventMap, ObjectiveResult, Profile, Quest, QuestDetail, Track, World,
 } from "./types";
 import helloLesson from "../../content/tracks/rust/worlds/00-tutorial/01-hello/lesson.md?raw";
@@ -205,6 +205,8 @@ function mkDates(): string[] {
   return out;
 }
 const dates = mkDates();
+
+let mockProfiles: ProfileInfo[] = [{ id: "player", name: "Player", created: "2026-10-19", active: true }];
 
 const state = {
   xp: 0,
@@ -516,4 +518,29 @@ export const mockHandlers: MockHandlers = {
   async get_settings() { return { ...state.settings }; },
   async set_settings({ settings }) { state.settings = { ...settings }; pushProfile(); return { ...state.settings }; },
   async active_dates() { return dates; },
+  async list_profiles() { return mockProfiles.map((p) => ({ ...p })); },
+  async create_profile({ name }) {
+    if (!name.trim()) throw new Error("a profile needs a name");
+    mockProfiles.push({ id: name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-"), name: name.trim(), created: new Date().toISOString().slice(0, 10), active: false });
+    return mockProfiles.map((p) => ({ ...p }));
+  },
+  async rename_profile({ id, name }) {
+    const p = mockProfiles.find((x) => x.id === id);
+    if (p) p.name = name.trim();
+    return mockProfiles.map((p) => ({ ...p }));
+  },
+  async delete_profile({ id }) {
+    if (mockProfiles.find((x) => x.id === id)?.active) throw new Error("switch to another profile before deleting this one");
+    mockProfiles = mockProfiles.filter((x) => x.id !== id);
+    return mockProfiles.map((p) => ({ ...p }));
+  },
+  async switch_profile({ id }) {
+    mockProfiles.forEach((p) => (p.active = p.id === id));
+    return profile();
+  },
+  async export_profile({ id }) { return `C:\\Users\\you\\Documents\\Oxide exports\\${id}.oxide-profile.zip`; },
+  async import_profile() {
+    mockProfiles.push({ id: "imported", name: "Imported", created: "2026-10-01", active: false });
+    return mockProfiles.map((p) => ({ ...p }));
+  },
 };

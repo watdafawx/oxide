@@ -1,7 +1,7 @@
 // Typed wrappers over Tauri commands/events (docs/API.md).
 // Without Tauri (plain `pnpm dev`) everything is routed to ./mock.
 import type {
-  Achievement, CheckResult, Completion, EventMap, FileEntry, Home, Profile, QuestDetail, Settings, Track, World,
+  Achievement, CheckResult, Completion, EventMap, FileEntry, Home, Profile, ProfileInfo, QuestDetail, Settings, Track, World,
 } from "./types";
 import { mockHandlers, mockListen } from "./mock";
 
@@ -35,6 +35,13 @@ export interface Commands {
   get_settings: { args: NoArgs; ret: Settings };
   set_settings: { args: { settings: Settings }; ret: Settings };
   active_dates: { args: NoArgs; ret: string[] };
+  list_profiles: { args: NoArgs; ret: ProfileInfo[] };
+  create_profile: { args: { name: string }; ret: ProfileInfo[] };
+  rename_profile: { args: { id: string; name: string }; ret: ProfileInfo[] };
+  delete_profile: { args: { id: string }; ret: ProfileInfo[] };
+  switch_profile: { args: { id: string }; ret: Profile };
+  export_profile: { args: { id: string }; ret: string };
+  import_profile: { args: { data: string }; ret: ProfileInfo[] };
 }
 
 export type MockHandlers = {
@@ -88,4 +95,12 @@ export const api = {
   getSettings: () => call("get_settings", E),
   setSettings: (settings: Settings) => call("set_settings", { settings }),
   activeDates: () => call("active_dates", E),
+  listProfiles: () => call("list_profiles", E),
+  createProfile: (name: string) => call("create_profile", { name }),
+  renameProfile: (id: string, name: string) => call("rename_profile", { id, name }),
+  deleteProfile: (id: string) => call("delete_profile", { id }),
+  switchProfile: (id: string) => call("switch_profile", { id }),
+  exportProfile: (id: string) => call("export_profile", { id }),
+  /** `data`: the exported zip, base64 */
+  importProfile: (data: string) => call("import_profile", { data }),
 };

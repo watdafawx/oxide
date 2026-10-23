@@ -44,6 +44,9 @@ export interface Settings {
   sounds: SoundToggles;
 }
 
+/** One saved profile (list_profiles). */
+export interface ProfileInfo { id: string; name: string; created: string; active: boolean }
+
 export interface Profile {
   xp: number;
   level: number;

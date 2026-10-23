@@ -97,6 +97,9 @@
       {/if}
       {#if !isTauri}<span class="rounded-full border border-line px-2 py-0.5 text-xs text-dim" title="Running against src/lib/mock.ts">mock</span>{/if}
       {#if app.profile}
+        {#if app.profiles.length > 1 && app.activeProfile}
+          <a href="/profile" class="text-sm font-semibold text-dim hover:text-ink" title="Switch profile on the Profile page" data-testid="profile-name">{app.activeProfile.name}</a>
+        {/if}
         <span class="rounded-full bg-rust px-3 py-1 text-sm font-bold text-black">Lv {app.profile.level}</span>
       {/if}
     </div>

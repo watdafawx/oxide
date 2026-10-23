@@ -212,6 +212,14 @@ impl Progress {
         Self::init(conn)
     }
 
+    /// A consistent copy of the whole database at `path` (SQLite's `VACUUM INTO`), safe while it is open.
+    pub fn backup_to(&self, path: &Path) -> Result<()> {
+        self.conn
+            .execute("VACUUM INTO ?1", [path.to_string_lossy()])
+            .with_context(|| format!("copying progress to {}", path.display()))?;
+        Ok(())
+    }
+
     pub fn in_memory() -> Result<Self> {
         Self::init(Connection::open_in_memory()?)
     }

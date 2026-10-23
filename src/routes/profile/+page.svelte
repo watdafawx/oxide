@@ -84,6 +84,56 @@
     }),
   );
   const stats = $derived(p ? [["Level", p.level], ["Total XP", p.xp], ["Best streak", `${p.best_streak}d`]] : []);
+
+  // ---------- profiles: each has its own XP, progress and quest code
+  let newName = $state("");
+  let renaming = $state<string | null>(null);
+  let renameTo = $state("");
+  let confirmDelete = $state<string | null>(null);
+  let busy = $state(false);
+  let importInput = $state<HTMLInputElement | null>(null);
+
+  async function profileAction(fn: () => Promise<unknown>) {
+    if (busy) return;
+    busy = true;
+    try {
+      await fn();
+    } catch (e) {
+      app.error(e);
+    } finally {
+      busy = false;
+    }
+  }
+  const createProfile = () =>
+    profileAction(async () => {
+      app.profiles = await api.createProfile(newName);
+      newName = "";
+    });
+  const renameProfile = (id: string) =>
+    profileAction(async () => {
+      app.profiles = await api.renameProfile(id, renameTo);
+      renaming = null;
+    });
+  const deleteProfile = (id: string) =>
+    profileAction(async () => {
+      app.profiles = await api.deleteProfile(id);
+      confirmDelete = null;
+    });
+  const exportProfile = (id: string) =>
+    profileAction(async () => {
+      const path = await api.exportProfile(id);
+      app.toast("info", `Saved to ${path}`);
+    });
+  function importFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = () =>
+      profileAction(async () => {
+        const data = String(reader.result).split(",", 2)[1] ?? "";
+        app.profiles = await api.importProfile(data);
+        app.toast("info", `Imported ${file.name}. Switch to it below.`);
+      });
+    reader.readAsDataURL(file);
+  }
 </script>
 
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-10">
@@ -112,6 +162,48 @@
       </div>
     {/each}
   </div>
+
+  <section data-testid="profiles">
+    <h2 class="mb-1 text-xl font-bold">Profiles</h2>
+    <p class="mb-3 text-sm text-dim">Each profile keeps its own XP, progress, settings and quest code. Export one to back it up or take it to another PC.</p>
+    <div class="flex flex-col divide-y divide-line rounded-2xl border border-line bg-panel">
+      {#each app.profiles as pr (pr.id)}
+        <div class="flex flex-wrap items-center gap-3 px-5 py-3" data-testid="profile-row" data-active={pr.active}>
+          {#if renaming === pr.id}
+            <form class="flex flex-1 gap-2" onsubmit={(e) => { e.preventDefault(); renameProfile(pr.id); }}>
+              <input class="flex-1 rounded-xl border border-line bg-bg px-3 py-1.5" bind:value={renameTo} maxlength="40" aria-label="New name" />
+              <button class="btn btn-primary !py-1.5" type="submit" disabled={busy || !renameTo.trim()}>Save</button>
+              <button class="btn btn-ghost !py-1.5" type="button" onclick={() => (renaming = null)}>Cancel</button>
+            </form>
+          {:else}
+            <div class="flex flex-1 flex-col">
+              <span class="font-semibold">{pr.name}{#if pr.active}<span class="ml-2 rounded-full bg-rust/20 px-2 py-0.5 text-xs text-rust-hi">active</span>{/if}</span>
+              <span class="text-xs text-dim">since {pr.created}</span>
+            </div>
+            {#if !pr.active}
+              <button class="btn btn-primary !py-1.5 text-sm" disabled={busy} onclick={() => app.switchProfile(pr.id)}>Switch</button>
+            {/if}
+            <button class="btn btn-ghost !py-1.5 text-sm" disabled={busy} onclick={() => { renaming = pr.id; renameTo = pr.name; }}>Rename</button>
+            <button class="btn btn-ghost !py-1.5 text-sm" disabled={busy} onclick={() => exportProfile(pr.id)}>Export</button>
+            {#if !pr.active}
+              {#if confirmDelete === pr.id}
+                <button class="btn !py-1.5 text-sm bg-red-600 text-white hover:bg-red-500" disabled={busy} onclick={() => deleteProfile(pr.id)}>Delete {pr.name} and its code</button>
+                <button class="btn btn-ghost !py-1.5 text-sm" onclick={() => (confirmDelete = null)}>Keep</button>
+              {:else}
+                <button class="btn btn-ghost !py-1.5 text-sm text-dim hover:text-red-400" disabled={busy} onclick={() => (confirmDelete = pr.id)}>Delete</button>
+              {/if}
+            {/if}
+          {/if}
+        </div>
+      {/each}
+      <form class="flex flex-wrap items-center gap-2 px-5 py-3" onsubmit={(e) => { e.preventDefault(); createProfile(); }}>
+        <input class="flex-1 rounded-xl border border-line bg-bg px-3 py-1.5" bind:value={newName} placeholder="New profile name" maxlength="40" aria-label="New profile name" data-testid="new-profile-name" />
+        <button class="btn btn-primary !py-1.5 text-sm" type="submit" disabled={busy || !newName.trim()}>Create</button>
+        <button class="btn btn-ghost !py-1.5 text-sm" type="button" disabled={busy} onclick={() => importInput?.click()}>Import…</button>
+        <input type="file" accept=".zip" class="hidden" bind:this={importInput} onchange={(e) => { const f = e.currentTarget.files?.[0]; if (f) importFile(f); e.currentTarget.value = ""; }} />
+      </form>
+    </div>
+  </section>
 
   <section>
     <h2 class="mb-3 text-xl font-bold">Last 12 weeks</h2>
