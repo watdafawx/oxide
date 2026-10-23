@@ -1,3 +1,4 @@
-title = "Kinetik in Rust"
-blurb = "Rebuild Kinetik Stats with GPUI: a taskbar bar, a widget, a game overlay, shipped."
+title = "System monitor app"
+blurb = "Build a Windows system monitor with GPUI: live CPU and GPU stats on the taskbar, a desktop widget, an FPS overlay for games."
 runner = "cargo"
+parent = "rust"

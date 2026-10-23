@@ -32,11 +32,14 @@ const obj = (test: string, label: string) => ({ test, label });
 const tracks: Track[] = [
   { id: "rust", title: "Rust", blurb: "Systems programming with ownership, traits and fearless concurrency.", runner: "cargo" },
   { id: "lua", title: "Lua", blurb: "Small, fast scripting. Great for mods and game logic.", runner: "lua" },
+  { id: "gpui", title: "System monitor app", blurb: "Build a Windows system monitor with GPUI: live CPU and GPU stats on the taskbar, a desktop widget, an FPS overlay for games.", runner: "cargo", parent: "rust" },
 ];
 
 const T = "rust/00-tutorial", F = "rust/01-foundations", O = "rust/02-ownership", L = "lua/01-lua-core";
 const C = "rust/03-collections", E = "rust/04-errors", TR = "rust/05-traits", SP = "rust/06-smart-pointers";
 const quests: Quest[] = [
+  q("gpui/00-setup", 1, "01-what-gpui-is", { track_id: "gpui", title: "What GPUI is", summary: "Zed's UI framework.", kind: "read", xp: 15, minutes: 3,
+    requires: [`${TR}/01-entities`] }),
   q(T, 1, "01-hello", { title: "Say hello", summary: "Write one function and watch the tick turn green.", kind: "exercise", xp: 30, minutes: 3,
     tags: ["functions", "strings"], objectives: [obj("greets_by_name", 'greeting("Ferris") returns "Hello, Ferris!"')],
     hints: [{ text: '`format!` builds a String the same way `println!` prints one: `format!("Hi {name}")`.' }, { text: 'Replace `todo!()` with `format!("Hello, {name}!")`.' }] }),
@@ -156,6 +159,7 @@ const worlds: World[] = [
   { id: E, track_id: "rust", index: 4, slug: "errors", title: "Errors and Modules", blurb: "A modpack manifest loader.", quests: [] },
   { id: TR, track_id: "rust", index: 5, slug: "traits", title: "Traits and Generics", blurb: "An entity system.", quests: [] },
   { id: SP, track_id: "rust", index: 6, slug: "smart-pointers", title: "Smart Pointers", blurb: "A machine graph.", quests: [] },
+  { id: "gpui/00-setup", track_id: "gpui", index: 0, slug: "setup", title: "Setup", blurb: "A GPUI window.", quests: [] },
   { id: L, track_id: "lua", index: 1, slug: "lua-core", title: "Lua Core", blurb: "Functions, tables and loops.", quests: [] },
 ];
 worlds.forEach((w) => (w.quests = quests.filter((x) => x.world_id === w.id)));

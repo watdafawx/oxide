@@ -284,6 +284,8 @@ struct TrackToml {
     runner: Runner,
     /// JDK major version for gradle quests: 21 or 25.
     jdk: Option<u32>,
+    /// Another track's id: this track is a project inside it, listed under it in the track menu.
+    parent: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -293,6 +295,8 @@ pub struct Track {
     pub blurb: String,
     pub runner: Runner,
     pub jdk: Option<u32>,
+    /// The track this one sits under in the track menu, if any.
+    pub parent: Option<String>,
     pub dir: PathBuf,
     pub lib_dir: Option<PathBuf>,
 }
@@ -410,7 +414,7 @@ pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
             };
             let lib_dir = Some(tdir.join("lib")).filter(|p| p.is_dir());
             specs.push((
-                Track { id, title: meta.title, blurb: meta.blurb, runner: meta.runner, jdk: meta.jdk, dir: tdir.clone(), lib_dir },
+                Track { id, title: meta.title, blurb: meta.blurb, runner: meta.runner, jdk: meta.jdk, parent: meta.parent, dir: tdir.clone(), lib_dir },
                 tdir.join("worlds"),
             ));
         }
@@ -424,6 +428,7 @@ pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
                 blurb: "From hello world to shipping real apps.".into(),
                 runner: Runner::Cargo,
                 jdk: None,
+                parent: None,
                 dir: content_dir.to_path_buf(),
                 lib_dir: None,
             },
@@ -432,6 +437,13 @@ pub fn load(content_dir: &Path) -> Result<Catalog, Problems> {
     }
     if specs.is_empty() {
         problems.push(format!("{}: no tracks/ or worlds/ folder", content_dir.display()));
+    }
+    for (track, _) in &specs {
+        if let Some(parent) = &track.parent
+            && (parent == &track.id || !specs.iter().any(|(t, _)| &t.id == parent && t.parent.is_none()))
+        {
+            problems.push(format!("{}: parent \"{parent}\" is not a top-level track", track.dir.join("track.toml").display()));
+        }
     }
 
     for (track, worlds_dir) in specs {

@@ -19,6 +19,20 @@
     { href: "/map", label: "Map" },
     { href: "/profile", label: "Profile" },
   ];
+  // Top-level tracks, each followed by the project tracks that sit under it (`parent` in track.toml).
+  const menu = $derived(
+    app.tracks
+      .filter((t) => !t.parent || !app.tracks.some((x) => x.id === t.parent))
+      .flatMap((t) => [{ t, child: false }, ...app.tracks.filter((c) => c.parent === t.id).map((c) => ({ t: c, child: true }))]),
+  );
+  /** The quest a track's first quest still waits for, as "Track › World › Quest", or null when it is open. */
+  function waitsFor(trackId: string): string | null {
+    const first = app.catalog[trackId]?.[0]?.quests[0];
+    const p = app.profile;
+    const missing = first && p ? first.requires.find((r) => !p.completed.includes(r)) : undefined;
+    return missing ? app.questPath(missing) : null;
+  }
+
   const active = (href: string) => (href === "/" ? page.url.pathname === "/" || page.url.pathname.startsWith("/quest") : page.url.pathname.startsWith(href));
 
   function onKey(e: KeyboardEvent) {
@@ -57,14 +71,19 @@
           </button>
           {#if app.trackMenu}
             <div class="pop absolute right-0 z-40 mt-2 w-72 rounded-2xl border border-line bg-panel p-2 shadow-xl" role="menu" data-testid="track-menu">
-              {#each app.tracks as t (t.id)}
+              {#each menu as { t, child } (t.id)}
+                {@const lock = child ? waitsFor(t.id) : null}
                 <button
                   role="menuitem"
-                  class="flex w-full flex-col rounded-xl px-3 py-2 text-left hover:bg-panel-2 {t.id === cur.id ? 'bg-panel-2' : ''}"
+                  class="flex w-full flex-col rounded-xl px-3 py-2 text-left hover:bg-panel-2 {t.id === cur.id ? 'bg-panel-2' : ''} {child ? 'ml-4 w-[calc(100%-1rem)] border-l-2 border-line rounded-l-none' : ''}"
+                  data-testid={child ? "track-child" : undefined}
                   onclick={() => app.switchTrack(t.id)}
                 >
-                  <span class="flex items-center justify-between font-semibold">{t.title}{#if t.id === cur.id}<span class="text-rust-hi">✓</span>{/if}</span>
+                  <span class="flex items-center justify-between font-semibold">
+                    <span>{#if lock}<span class="mr-1" aria-label="locked">🔒</span>{/if}{t.title}</span>{#if t.id === cur.id}<span class="text-rust-hi">✓</span>{/if}
+                  </span>
                   <span class="text-sm text-dim">{t.blurb}</span>
+                  {#if lock}<span class="mt-1 text-xs text-dim">Unlocks after {lock}</span>{/if}
                 </button>
               {/each}
             </div>

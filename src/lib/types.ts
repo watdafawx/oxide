@@ -2,7 +2,7 @@
 export type QuestKind = "exercise" | "boss" | "read";
 export type Runner = "cargo" | "lua" | "gradle";
 
-export interface Track { id: string; title: string; blurb: string; runner: Runner }
+export interface Track { id: string; title: string; blurb: string; runner: Runner; /** listed under this track in the menu */ parent?: string | null }
 
 export interface Objective { test: string; label: string }
 export interface Hint { text: string }
