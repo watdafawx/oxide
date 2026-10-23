@@ -34,7 +34,7 @@
       "icons/icon.ico"
     ],
     "resources": {
-      "bundle-content/tracks": "content/tracks"
+      "bundle-content/content/tracks": "content/tracks"
     }
   }
 }

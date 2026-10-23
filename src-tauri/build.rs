@@ -29,7 +29,7 @@ fn stage(from: &Path, to: &Path) -> std::io::Result<()> {
 fn main() {
     // `bundle.resources` can't exclude files, so the bundle maps this clean copy instead of `content/tracks`.
     let src = Path::new("../content/tracks");
-    let dst = Path::new("bundle-content/tracks");
+    let dst = Path::new("bundle-content/content/tracks");
     if std::env::var("PROFILE").as_deref() == Ok("release") {
         println!("cargo:rerun-if-changed=../content/tracks");
         let _ = fs::remove_dir_all(dst);

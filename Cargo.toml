@@ -21,7 +21,16 @@ oxide-core = { path = "crates/oxide-core" }
 # Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
 [profile.release]
 codegen-units = 1
-lto = true
+# Thin LTO: release builds 138 s instead of 168 s for a 3 % bigger exe (measured 2026-10-23).
+lto = "thin"
 opt-level = 3
 panic = "abort"
 strip = true
+
+# Local test builds (`scripts/release.ps1 -Fast`): release speed at runtime, no LTO, parallel and
+# incremental codegen. 78 s after a code change instead of 138 s. Not for published releases.
+[profile.fast]
+inherits = "release"
+lto = false
+codegen-units = 256
+incremental = true

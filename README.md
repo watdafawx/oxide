@@ -40,7 +40,7 @@ Outputs (workspace target dir, not committed):
 | `target/release/bundle/nsis/Oxide_0.1.0_x64-setup.exe` | 3.4 MiB |
 | `target/release/bundle/msi/Oxide_0.1.0_x64_en-US.msi` | 5.9 MiB |
 
-`src-tauri/build.rs` stages `content/tracks` into `src-tauri/bundle-content/` (skipping `target`, `build`,
+`src-tauri/build.rs` stages `content/tracks` into `src-tauri/bundle-content/content/tracks` (release builds only) (skipping `target`, `build`,
 `.gradle`, `node_modules`) and the bundle ships that copy as `content/tracks`. Release builds read the
 bundled copy; debug builds read the repo. `OXIDE_CONTENT` overrides both. A second launch focuses the
 running window (single-instance plugin).
