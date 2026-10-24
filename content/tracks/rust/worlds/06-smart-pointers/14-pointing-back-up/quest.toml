@@ -1,0 +1,32 @@
+title = "Point back up"
+summary = "Children are owned downward with Rc and point up with a Weak: the first breadcrumb."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["weak", "rc", "refcell", "tree"]
+
+[[objectives]]
+test = "new_child_links_both_ways"
+label = "new_child(&parent, title) is in parent.children, and its parent link finds the parent"
+[[objectives]]
+test = "parent_link_is_weak"
+label = "The parent's strong count stays 1; only its weak count goes up"
+[[objectives]]
+test = "parent_title_is_none_after_parent_dropped"
+label = "parent_title gives None once the parent is gone (no unwrap)"
+
+[[hints]]
+text = "Build the child with `parent: Rc::downgrade(parent)` and `children: RefCell::new(Vec::new())`, inside `Rc::new`. Then `parent.children.borrow_mut().push(Rc::clone(&child));` and return `child`."
+[[hints]]
+text = "`parent_title`: `match note.parent.upgrade() { Some(p) => Some(p.title.clone()), None => None }`"
+
+[[points]]
+after = 1
+prompt = "Which way does Weak go in a tree?"
+pick = ["parent to child", "child back up to parent", "both ways", "neither, trees use Box"]
+answer = 1
+[[points]]
+after = 3
+prompt = "The root's parent link points at nothing."
+code = "parent: ___,"
+blank = "Weak::new()"

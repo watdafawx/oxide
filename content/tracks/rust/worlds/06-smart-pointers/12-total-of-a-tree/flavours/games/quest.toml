@@ -1,0 +1,25 @@
+title = "Throughput of the line"
+summary = "Recursion through Rc<RefCell>: the rate of a machine and everything it feeds."
+
+[[objectives]]
+test = "total_throughput_adds_the_whole_line"
+label = "total_throughput(&assembler) adds its rate and the rate of every machine downstream"
+[[objectives]]
+test = "machine_count_counts_every_machine"
+label = "machine_count(&assembler) counts the machine and every machine downstream"
+
+[[hints]]
+text = "Borrow once at the top: `let a = assembler.borrow();`. Start from `a.rate` and loop `for target in &a.feeds`, calling `total_throughput(target)`."
+[[hints]]
+text = "`let mut sum = a.rate; for target in &a.feeds { sum += total_throughput(target); } sum`. For the count, start at 1 and add `machine_count(target)`."
+
+[[points]]
+after = 1
+prompt = "With no `End` variant, what is the base case here?"
+pick = ["a machine that feeds nothing: the loop does nothing", "the first machine", "a machine with rate 0", "there is none, it runs forever"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Several `borrow()` readers on different machines at once:"
+pick = ["panic", "do not compile", "are fine: many readers are allowed", "need try_borrow"]
+answer = 2

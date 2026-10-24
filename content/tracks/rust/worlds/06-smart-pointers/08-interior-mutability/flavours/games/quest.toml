@@ -1,0 +1,29 @@
+title = "A chest many inserters write into"
+summary = "Why Rust forbids changing a shared chest, and how RefCell allows it by checking while the factory runs."
+
+[[quiz]]
+question = "Why does Rust normally refuse a change through a plain `&` reference?"
+choices = [
+  "A `&` is a copy of the chest, so the change would be lost",
+  "Someone else may be reading it, and a change can leave that reader pointing at freed memory",
+  "Changes through references are slow, so they need `mut` on the type",
+]
+answer = 1
+
+[[quiz]]
+question = "One inserter holds a live borrow_mut() on a chest's RefCell. A second inserter calls borrow_mut() on the same chest. What happens?"
+choices = [
+  "It does not compile, because the borrow checker sees two &mut borrows of the same chest",
+  "The second inserter waits until the first one is done, like a lock would",
+  "The program panics with \"already borrowed\" (try_borrow_mut would give Err)",
+]
+answer = 2
+
+[[quiz]]
+question = "When is Cell<T> enough instead of RefCell<T>?"
+choices = [
+  "For a small Copy value you only get and set, like a swing counter",
+  "For a chest's Vec you want to push onto through a shared reference",
+  "Whenever the value is shared between threads",
+]
+answer = 0

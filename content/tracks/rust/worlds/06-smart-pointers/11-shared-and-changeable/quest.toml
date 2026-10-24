@@ -1,0 +1,32 @@
+title = "Shared and changeable"
+summary = "Stack Rc and RefCell: a tree of notes you can edit through any handle."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["rc", "refcell", "tree"]
+
+[[objectives]]
+test = "new_note_has_no_children"
+label = "new_note(words) makes a shared note with that word count and no children"
+[[objectives]]
+test = "add_child_links_parent"
+label = "add_child(&parent, child) appends the child to parent.children"
+[[objectives]]
+test = "edit_through_any_handle_shows_up"
+label = "A change made through your own handle shows up inside the tree"
+
+[[hints]]
+text = "`new_note`: build the `Note` with `children: Vec::new()`, then wrap it: `Rc::new(RefCell::new(...))`."
+[[hints]]
+text = "`add_child`: `parent.borrow_mut().children.push(child);` The `Rc` you were given moves into the `Vec`."
+
+[[points]]
+after = 1
+prompt = "Which type has several owners and can still be changed?"
+pick = ["Rc<T>", "RefCell<T>", "Box<T>", "Rc<RefCell<T>>"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Reach through both layers to write the field."
+code = "switch.___().brightness = 40;"
+blank = "borrow_mut"

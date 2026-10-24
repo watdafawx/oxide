@@ -1,0 +1,26 @@
+title = "End it early"
+summary = "drop(x) ends a value before its scope does, and frees what it borrowed."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["drop", "borrowing"]
+
+[[objectives]]
+test = "save_deletes_temp_file_before_logging_saved"
+label = "save(log) leaves \"delete save.tmp\" then \"saved\" in the log, in that order"
+
+[[hints]]
+text = "Make the file with `TempFile::new(\"save.tmp\", log)` and keep it in a variable. End it with `drop` before you touch `log` again."
+[[hints]]
+text = "`let file = TempFile::new(\"save.tmp\", log); drop(file); log.push(\"saved\".to_string());`"
+
+[[points]]
+after = 1
+prompt = "Why can't you push onto `log` while the file is alive?"
+pick = ["the log is full", "the file still holds the &mut borrow of the log", "a Vec cannot hold text", "push needs a lifetime"]
+answer = 1
+[[points]]
+after = 2
+prompt = "End the file right here."
+code = "___(file);"
+blank = "drop"

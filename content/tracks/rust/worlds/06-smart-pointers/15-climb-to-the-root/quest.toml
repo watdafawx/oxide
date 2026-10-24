@@ -1,0 +1,29 @@
+title = "Climb to the root"
+summary = "while let follows parent links up until there are none: the full breadcrumb."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["while-let", "weak", "tree"]
+
+[[objectives]]
+test = "breadcrumb_lists_root_down_to_note"
+label = "breadcrumb(&note) lists the titles from the root down to the note"
+[[objectives]]
+test = "has_ancestor_finds_titles_above"
+label = "has_ancestor(&note, title) is true only when some note above has that title"
+
+[[hints]]
+text = "Start with `let mut current = Some(Rc::clone(note));` and loop `while let Some(n) = current { ... }`. In the body, push the title, then `current = n.borrow().parent.upgrade();`. Reverse at the end."
+[[hints]]
+text = "`has_ancestor` starts one step up: `let mut current = note.borrow().parent.upgrade();`. In the loop, `if n.borrow().title == title { return true; }` before stepping up; after the loop, `false`."
+
+[[points]]
+after = 1
+prompt = "When does `while let Some(n) = current` stop?"
+pick = ["after one round", "when current is None", "when n has no children", "never"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Walking up gives Milk, Groceries, Home. What flips it to start at Home?"
+code = "crumbs.___();"
+blank = "reverse"

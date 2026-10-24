@@ -1,35 +1,30 @@
-title = "Box it up"
-summary = "A list that contains itself needs a Box to have a size."
+title = "A list inside a list"
+summary = "A type that contains itself has no size. A Box gives it one."
 kind = "exercise"
 xp = 35
-minutes = 6
-tags = ["box", "heap", "enums"]
+minutes = 5
+tags = ["box", "heap", "pointer"]
+starter_fails_to_compile = true
 
 [[objectives]]
-test = "prepend_puts_new_head_in_front"
-label = "prepend(list, x) returns a new list with x at the front"
+test = "a_two_task_plan_builds"
+label = "Plan compiles, and a two-task plan starts with its 30-minute task"
 [[objectives]]
-test = "sum_adds_every_element"
-label = "sum(&list) adds up all the i32s"
-[[objectives]]
-test = "len_counts_elements"
-label = "len(&list) counts the Cons cells"
+test = "add_first_puts_new_task_in_front"
+label = "add_first(plan, minutes) gives a longer plan with the new task first"
 
 [[hints]]
-text = "`Cons(x, Box::new(list))` builds a bigger list. `Box::new` puts a value on the heap."
+text = "Only one thing in the enum changes: the type of the second field of `Task`. Read the `help:` line under the error."
 [[hints]]
-text = "`sum` and `len` are recursive: `match list { Cons(v, rest) => ..., Nil => 0 }`."
-[[hints]]
-text = "`Cons(v, rest) => v + sum(rest)`. `rest` is a `&Box<List>`, which derefs to `&List` for you."
-
-[[points]]
-after = 2
-prompt = "Which type puts a value on the heap?"
-pick = ["Box<T>", "&T", "Option<T>", "[T; 1]"]
-answer = 0
+text = "Write `Task(u32, Box<Plan>)`. In `add_first`: `Plan::Task(minutes, Box::new(plan))`."
 
 [[points]]
 after = 3
-prompt = "Put the rest of the list behind a pointer."
-code = "Cons(i32, ___),"
-blank = "Box<List>"
+prompt = "When does Rust need to know how big a `Plan` is?"
+pick = ["when it is printed", "when the program is built", "when it is dropped", "never"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Put the rest of the plan behind an owning pointer."
+code = "Task(u32, ___),"
+blank = "Box<Plan>"

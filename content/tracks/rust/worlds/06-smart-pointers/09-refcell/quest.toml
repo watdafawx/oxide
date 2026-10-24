@@ -1,0 +1,29 @@
+title = "Change it behind &"
+summary = "Count opens and add tags through a shared reference, with RefCell."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["refcell", "interior-mutability"]
+
+[[objectives]]
+test = "open_counts_through_shared_ref"
+label = "Note::open(&self) adds 1 to the open count, though self is not mut"
+[[objectives]]
+test = "add_tag_pushes_onto_the_list"
+label = "add_tag(&RefCell<Vec<String>>, tag) pushes the tag onto the list"
+
+[[hints]]
+text = "Both changes go through `borrow_mut()`. A number needs `*` in front to be changed; a method like `push` does not."
+[[hints]]
+text = "`*self.opens.borrow_mut() += 1;` and `tags.borrow_mut().push(tag.to_string());`"
+
+[[points]]
+after = 2
+prompt = "Which method gives write access to a RefCell?"
+pick = ["borrow", "borrow_mut", "try_borrow", "unwrap"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Reach the number inside the RefMut."
+code = "___self.opens.borrow_mut() += 1;"
+blank = "*"

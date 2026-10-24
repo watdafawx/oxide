@@ -1,0 +1,28 @@
+title = "One recipe, many assemblers"
+summary = "Rc lets many assemblers keep one Recipe alive. Rc::clone only bumps a counter."
+
+[[objectives]]
+test = "share_recipe_returns_same_recipe"
+label = "share_recipe(&rc) gives another assembler the same Recipe"
+[[objectives]]
+test = "assembler_count_reports_users"
+label = "assembler_count(&rc) reports how many assemblers use the recipe"
+[[objectives]]
+test = "temporary_assembler_raises_then_lowers_count"
+label = "A temporary assembler raises the count, then lowers it again"
+
+[[hints]]
+text = "`Rc::clone(recipe)` makes another owner; `Rc::strong_count(recipe)` reads the counter."
+[[hints]]
+text = "For the last one: `let inside = { let extra = Rc::clone(recipe); Rc::strong_count(&extra) };` then return `(inside, Rc::strong_count(recipe))`."
+
+[[points]]
+after = 1
+prompt = "What does Rust say when you give one value to two owners?"
+pick = ["cannot borrow as mutable", "use of moved value", "type annotations needed", "value dropped here"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Add a cheap second owner."
+code = "let b = ___(&gear);"
+blank = "Rc::clone"

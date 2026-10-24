@@ -4,7 +4,7 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["gpui", "state"]
-requires = ["02-views/12-boss-static-bar", "rust/06-smart-pointers/11-boss-tree-editor", "rust/08-async/11-boss-mod-downloader"]
+requires = ["02-views/12-boss-static-bar", "rust/06-smart-pointers/17-boss-tree-editor", "rust/08-async/11-boss-mod-downloader"]
 
 [[objectives]]
 test = "bar_shows_its_snapshot"

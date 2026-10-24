@@ -1,0 +1,26 @@
+title = "Clean up at the brace"
+summary = "Drop runs your code at the moment a value dies."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["drop", "scope", "raii"]
+
+[[objectives]]
+test = "temp_file_is_deleted_at_the_brace"
+label = "When a TempFile's block ends, \"delete <name>\" is in the log"
+
+[[hints]]
+text = "`self.log` is a `&mut Vec<String>`, so `self.log.push(...)` adds a line."
+[[hints]]
+text = "`self.log.push(format!(\"delete {}\", self.name));`"
+
+[[points]]
+after = 1
+prompt = "When is a value dropped?"
+pick = ["when the program ends", "when you print it", "when its type is defined", "at the closing brace of its scope"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Run code when a Lamp dies."
+code = "impl ___ for Lamp {"
+blank = "Drop"

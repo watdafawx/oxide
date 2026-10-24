@@ -1,0 +1,29 @@
+title = "A link that lets go"
+summary = "Two Rcs that point at each other are never freed. A Weak points without owning."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["weak", "rc", "cycles", "leak"]
+
+[[objectives]]
+test = "watching_does_not_add_an_owner"
+label = "watch(&note) gives a Weak: the strong count stays 1, the weak count becomes 1"
+[[objectives]]
+test = "still_there_is_none_once_the_note_is_gone"
+label = "still_there(&link) gives the note's text while it lives, and None after it is dropped"
+
+[[hints]]
+text = "`watch` is one call: `Rc::downgrade(note)`. In `still_there`, `link.upgrade()` gives an `Option<Rc<String>>` to match on."
+[[hints]]
+text = "`match link.upgrade() { Some(note) => Some(note.to_string()), None => None }`"
+
+[[points]]
+after = 2
+prompt = "Memory that is never freed although nothing can reach it is a..."
+pick = ["borrow", "panic", "memory leak", "move"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Get an owner back from the Weak, if the value still lives."
+code = "let maybe = link.___();"
+blank = "upgrade"

@@ -1,2 +1,2 @@
 title = "Smart pointers"
-blurb = "Box, Rc, RefCell, Weak, Cow and Arc: put values on the heap, share them, and change them safely."
+blurb = "Box, Drop, Rc, RefCell and Weak: why a value needs a home on the heap, several owners, or a change through a shared reference."

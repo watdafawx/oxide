@@ -1,0 +1,29 @@
+title = "Walk the chain"
+summary = "A function that calls itself adds up a whole plan."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["recursion", "box", "match"]
+
+[[objectives]]
+test = "total_minutes_adds_every_task"
+label = "total_minutes(&plan) adds the minutes of every task"
+[[objectives]]
+test = "task_count_counts_tasks"
+label = "task_count(&plan) counts the tasks"
+
+[[hints]]
+text = "Match on the plan: `match plan { Plan::Done => 0, Plan::Task(minutes, rest) => ... }`. The `Task` arm calls the same function on `rest`."
+[[hints]]
+text = "`Plan::Task(minutes, rest) => minutes + total_minutes(rest)`. For the count: `Plan::Task(_, rest) => 1 + task_count(rest)`."
+
+[[points]]
+after = 2
+prompt = "What is a function that calls itself called?"
+pick = ["a loop", "a closure", "recursion", "an iterator"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Which arm answers without calling the function again?"
+pick = ["the `Done` arm", "the `Task` arm", "both arms", "neither arm"]
+answer = 0

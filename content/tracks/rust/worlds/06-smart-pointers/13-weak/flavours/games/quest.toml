@@ -1,0 +1,25 @@
+title = "A link that lets go"
+summary = "A pole and a machine that own each other are never freed. A Weak points without owning."
+
+[[objectives]]
+test = "linking_does_not_add_an_owner"
+label = "link_to(&pole) gives a Weak: the strong count stays 1, the weak count becomes 1"
+[[objectives]]
+test = "pole_still_there_is_none_once_removed"
+label = "pole_still_there(&link) gives the pole's name while it stands, and None after it is removed"
+
+[[hints]]
+text = "`link_to` is one call: `Rc::downgrade(pole)`. In `pole_still_there`, `link.upgrade()` gives an `Option<Rc<String>>` to match on."
+[[hints]]
+text = "`match link.upgrade() { Some(pole) => Some(pole.to_string()), None => None }`"
+
+[[points]]
+after = 2
+prompt = "Memory that is never freed although nothing can reach it is a..."
+pick = ["borrow", "panic", "memory leak", "move"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Get an owner back from the Weak, if the pole still stands."
+code = "let maybe = link.___();"
+blank = "upgrade"

@@ -1,0 +1,25 @@
+title = "Remove that exact tech"
+summary = "Rc::ptr_eq tells the same tech from a look-alike, so detach removes only the one you mean."
+
+[[objectives]]
+test = "is_same_tells_look_alikes_apart"
+label = "is_same(&a, &b) is true for two handles to one tech, false for two techs that look alike"
+[[objectives]]
+test = "detach_removes_only_that_tech"
+label = "detach(&tech) takes exactly that tech out of its prerequisite's unlocks"
+
+[[hints]]
+text = "`is_same` is one call: `Rc::ptr_eq(a, b)`. For `detach`, first get the prerequisite in its own statement: `let pre = tech.borrow().prerequisite.upgrade();`."
+[[hints]]
+text = "`if let Some(pre) = pre { pre.borrow_mut().unlocks.retain(|t| !Rc::ptr_eq(t, tech)); }`"
+
+[[points]]
+after = 1
+prompt = "Two separate techs both called Electronics. What does Rc::ptr_eq say?"
+pick = ["true, the names match", "false, they are two different values", "it does not compile", "it panics"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep every unlock except this exact tech."
+code = "unlocks.retain(|t| !Rc::___(t, tech));"
+blank = "ptr_eq"

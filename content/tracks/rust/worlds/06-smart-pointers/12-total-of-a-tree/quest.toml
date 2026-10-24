@@ -1,0 +1,29 @@
+title = "Add up the tree"
+summary = "Recursion through Rc<RefCell>: the words in a note and everything under it."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["recursion", "rc", "refcell", "tree"]
+
+[[objectives]]
+test = "total_words_adds_the_whole_tree"
+label = "total_words(&note) adds the note's words and those of every note below it"
+[[objectives]]
+test = "note_count_counts_every_note"
+label = "note_count(&note) counts the note and every note below it"
+
+[[hints]]
+text = "Borrow once at the top: `let n = note.borrow();`. Start from `n.words` and loop `for child in &n.children`, calling `total_words(child)`."
+[[hints]]
+text = "`let mut sum = n.words; for child in &n.children { sum += total_words(child); } sum`. For the count, start at 1 and add `note_count(child)`."
+
+[[points]]
+after = 1
+prompt = "With no `Done` variant, what is the base case here?"
+pick = ["a note with no children: the loop does nothing", "the root note", "a note with 0 words", "there is none, it runs forever"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Several `borrow()` readers on different notes at once:"
+pick = ["panic", "do not compile", "are fine: many readers are allowed", "need try_borrow"]
+answer = 2

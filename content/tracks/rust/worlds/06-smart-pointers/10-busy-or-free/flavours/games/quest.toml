@@ -1,0 +1,22 @@
+title = "Is the chest busy?"
+summary = "Ask a chest's RefCell whether it is borrowed, instead of panicking."
+
+[[objectives]]
+test = "chest_busy_only_while_a_borrow_is_alive"
+label = "chest_busy is true while any borrow is alive, and false again once it is dropped"
+
+[[hints]]
+text = "`chest.try_borrow_mut()` gives a `Result`. You only need to know whether it is an `Err`."
+[[hints]]
+text = "The whole body is `chest.try_borrow_mut().is_err()`."
+
+[[points]]
+after = 1
+prompt = "What does try_borrow_mut give when the chest is busy?"
+pick = ["Err", "a panic", "None", "an empty RefMut"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Does a live borrow() make the chest busy for a writer?"
+pick = ["no, readers never count", "only on another thread", "yes, any live borrow blocks a writer", "only if it is in a variable"]
+answer = 2

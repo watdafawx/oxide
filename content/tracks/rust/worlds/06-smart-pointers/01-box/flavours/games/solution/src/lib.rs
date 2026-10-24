@@ -1,57 +1,31 @@
-/// A conveyor belt: each segment holds some items, then continues into the rest of the belt.
-/// The Box gives the recursive part a known size.
+/// A conveyor belt: the items on one segment, then the rest of the belt. `End` ends it.
 #[derive(Debug, PartialEq)]
 pub enum Belt {
     Segment(u32, Box<Belt>),
     End,
 }
 
-use Belt::{End, Segment};
-
-/// Returns a longer belt with a new segment carrying `items` at the front.
+/// A longer belt: a new segment carrying `items` in front of `belt`.
 pub fn extend(belt: Belt, items: u32) -> Belt {
-    Segment(items, Box::new(belt))
-}
-
-/// Adds up the items on every segment. An empty belt carries 0.
-pub fn total_items(belt: &Belt) -> u32 {
-    match belt {
-        Segment(n, rest) => n + total_items(rest),
-        End => 0,
-    }
-}
-
-/// Counts the segments.
-pub fn segment_count(belt: &Belt) -> usize {
-    match belt {
-        Segment(_, rest) => 1 + segment_count(rest),
-        End => 0,
-    }
+    Belt::Segment(items, Box::new(belt))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    fn three() -> Belt {
-        Segment(1, Box::new(Segment(2, Box::new(Segment(3, Box::new(End))))))
+    #[test]
+    fn a_two_segment_belt_builds() {
+        let belt = Belt::Segment(8, Box::new(Belt::Segment(4, Box::new(Belt::End))));
+        match belt {
+            Belt::Segment(first, _) => assert_eq!(first, 8, "the first segment carries 8 items"),
+            Belt::End => panic!("the belt should start with a segment"),
+        }
     }
 
     #[test]
     fn extend_puts_new_segment_in_front() {
-        let belt = extend(Segment(2, Box::new(End)), 1);
-        assert_eq!(belt, Segment(1, Box::new(Segment(2, Box::new(End)))));
-    }
-
-    #[test]
-    fn total_items_adds_every_segment() {
-        assert_eq!(total_items(&three()), 6);
-        assert_eq!(total_items(&End), 0, "an empty belt carries nothing");
-    }
-
-    #[test]
-    fn segment_count_counts_segments() {
-        assert_eq!(segment_count(&three()), 3);
-        assert_eq!(segment_count(&End), 0, "an empty belt has no segments");
+        let belt = extend(Belt::Segment(4, Box::new(Belt::End)), 8);
+        assert_eq!(belt, Belt::Segment(8, Box::new(Belt::Segment(4, Box::new(Belt::End)))));
     }
 }
