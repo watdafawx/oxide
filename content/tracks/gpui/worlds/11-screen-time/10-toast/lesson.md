@@ -8,6 +8,8 @@ An alert becomes a Windows notification, the little card that slides in at the b
 StatKind::CpuTemp | StatKind::GpuTemp => format!("{} is hot", alert.kind.label()),
 ```
 
+**The titles.** Temperatures are "hot" ("GPU is hot"), usage is "busy" ("CPU is busy"), and the rest each get their own: "Ping is high", "Battery is low", "C: is nearly full". Any other kind falls back to "<label> warning".
+
 **Showing it.** `show_toast` is written for you: `Toast::new(..).title(..).text1(..).show()`. A toast that fails to show is ignored, never a crash.
 
 **Whose toast.** Windows shows toasts only for apps it knows. A portable exe is not registered, so Kinetik borrows PowerShell's app id, which every Windows PC has.

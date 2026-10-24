@@ -4,7 +4,7 @@ You pressed Run and a window said CPU 12%. Before the bar grows, it helps to kno
 
 **GPUI keeps going.** `run` does not return while the app is alive. It waits for things to happen: a mouse move, a resize, a timer. That waiting is the app's **event loop**.
 
-**Render when needed.** When the window first opens, and whenever something changes, GPUI calls your view's `render` and draws what it describes. Nothing else touches the screen.
+**Render when needed.** When the window first opens, when it resizes, and when your code says the view changed (you will meet `notify` in Live), GPUI calls your view's `render` and draws what it describes. Nothing else touches the screen.
 
 **Closing ends it.** `main.rs` registered `cx.on_window_closed(|cx| cx.quit())`. Closing the window runs that closure, `quit` ends the event loop, and the program exits. Kinetik itself never quits this way: its bar has no close button, and you leave from the right-click menu.
 

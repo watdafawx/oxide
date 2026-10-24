@@ -1,6 +1,6 @@
 Every new stack you pick up starts full, with 64 items. Spelling out the name and the number every time you make one is a good way to typo the number once, in one place, and spend an hour finding it. Give the rule one home.
 
-**A function with no self.** Inside an `impl` block you can put a function that has no `self` at all. It does not work on an existing stack; it makes a new one. That type is called an **associated function**.
+**A function with no self.** Inside an `impl` block you can put a function that has no `self` at all. It does not work on an existing stack; it makes a new one. That kind of function is called an **associated function**.
 
 **Call it with two colons.** Because there is no stack to put a dot after, you call it through the type's name: `Chest::new("tools")`. Two colons, the type, then the function.
 

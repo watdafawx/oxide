@@ -10,7 +10,7 @@ Hover a `--` in Kinetik and it tells you why: the CPU temperature needs administ
 if hres == WBEM_E_ACCESS_DENIED { Missing::NeedsAdmin } else { Missing::NoDevice }
 ```
 
-**On this PC.** This desktop's WMI says "not supported", so its CPU temperature reads as not on this PC, not as needs administrator. Kinetik's driver route is the only way to get it here.
+**On many desktops.** The desktop this track was written on gets "not supported" from WMI, so its CPU temperature reads as not on this PC, not as needs administrator. Kinetik's driver route is the only way to get it here.
 
 ## Your turn
 

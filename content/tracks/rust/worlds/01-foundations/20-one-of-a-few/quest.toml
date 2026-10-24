@@ -13,7 +13,7 @@ test = "freight_travels_alone"
 label = "max_per_pallet gives 1 for freight"
 
 [[hints]]
-text = "Write one `match type { ... }` as the whole body of `max_per_pallet`, with an arm for each of the three choices."
+text = "Write one `match kind { ... }` as the whole body of `max_per_pallet`, with an arm for each of the three choices."
 [[hints]]
 text = "`Mail::Letter => 64,` then `Mail::Parcel => 16,` then `Mail::Freight => 1,`."
 

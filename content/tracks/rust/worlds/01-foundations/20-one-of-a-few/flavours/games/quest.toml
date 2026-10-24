@@ -9,7 +9,7 @@ test = "tools_stack_alone"
 label = "max_stack gives 1 for a tool"
 
 [[hints]]
-text = "Write one `match type { ... }` as the whole body of `max_stack`, with an arm for each of the three choices."
+text = "Write one `match kind { ... }` as the whole body of `max_stack`, with an arm for each of the three choices."
 [[hints]]
 text = "`ItemKind::Block => 64,` then `ItemKind::Tool => 1,` then `ItemKind::Food => 16,`."
 

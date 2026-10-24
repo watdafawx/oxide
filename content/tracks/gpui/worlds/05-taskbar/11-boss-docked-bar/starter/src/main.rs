@@ -20,9 +20,11 @@ fn main() {
                     bar.start(cx);
                     let mut docker = Docker::new(RealWin, hwnd, 600);
                     docker.on_open();
-                    cx.spawn(async move |_, cx| {
+                    cx.spawn(async move |this, cx| {
                         loop {
                             cx.background_executor().timer(Duration::from_secs(1)).await;
+                            // Stop when the bar is gone, like the live loop in Live.
+                            if this.update(cx, |_, _| ()).is_err() { break; }
                             docker.tick();
                         }
                     })

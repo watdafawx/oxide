@@ -1,5 +1,5 @@
 title = "Change it in place"
-summary = "Take items out of a stack: the first time a method needs &mut self."
+summary = "Take boxes off a pallet: the first time a method needs &mut self."
 kind = "exercise"
 xp = 45
 minutes = 5

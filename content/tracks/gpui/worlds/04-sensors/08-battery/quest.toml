@@ -24,6 +24,6 @@ pick = ["you checked what the compiler cannot", "the code cannot crash", "it run
 answer = 0
 [[points]]
 after = 4
-prompt = "Which test says \"bit 8 is set in the flag\"?"
+prompt = "Which test says \"the bit worth 8 is set in the flag\"?"
 pick = ["flag & 8 != 0", "flag == 8", "flag > 8", "flag | 8 != 0"]
 answer = 0

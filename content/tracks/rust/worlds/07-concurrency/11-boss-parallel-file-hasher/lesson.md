@@ -16,8 +16,7 @@ You are building the core of a checksum tool: point it at a folder, get one hash
 - Files: `fs::read_dir(dir)` is a `Result` holding an iterator of `Result<DirEntry, _>`. `.flatten()` on that iterator skips the `Err`s. `entry.path()` gives a `PathBuf`; `path.is_dir()` is a `bool`. `fs::read(path)` gives the file's bytes.
 - `let Ok(entries) = fs::read_dir(dir) else { return Vec::new() };` unpacks the `Ok` or leaves the function early.
 - Bytes and bits: `for &byte in data` walks a `&[u8]`; `hash ^= x` is XOR-assign (both sides `u64`, so widen a byte with `u64::from(byte)`); `hash.wrapping_mul(p)` multiplies and wraps instead of overflowing.
-- `format!("{n:016x}")` prints `n` as 16 lowercase hex digits, zero padded. `lines.join("
-")` glues a `Vec<String>` together.
+- `format!("{n:016x}")` prints `n` as 16 lowercase hex digits, zero padded. `lines.join("\n")` glues a `Vec<String>` together.
 - `vec_a.extend(vec_b)` appends all of `vec_b`; `workers.max(1)` is at least 1.
 - A pool worker's loop: `let job = job_rx.lock().unwrap().recv();` (the guard dies at the `;`), then `break` when it is `Err` (channel closed).
 

@@ -8,7 +8,7 @@ The bar's window is a rectangle, but Kinetik's bar is a rounded pill with the ta
 window_background: WindowBackgroundAppearance::Transparent,
 ```
 
-**Measured, not hoped.** Spike R3 in the plan put this window over white, black and red backdrops: the empty pixels matched the backdrop exactly, and the pill drew its own colour. Nothing leaks.
+**Measured, not hoped.** A test put this window over white, black and red backdrops: the empty pixels matched the backdrop exactly, and the pill drew its own colour. Nothing leaks.
 
 **The pill remains.** The bar's `pill_background(opacity)` from Views is now the only background there is: a rounded, slightly see-through grey on top of your taskbar.
 

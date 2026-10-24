@@ -1,4 +1,4 @@
-On this PC sysinfo lists six adapters: Ethernet, a Hyper-V switch, a Teredo tunnel, ZeroTier, and two filter-driver copies of ZeroTier. Summing all of them counts the same download two or three times. The bar has to skip the ones that only mirror real traffic.
+On the desktop this track was written on, sysinfo lists six adapters: Ethernet, a Hyper-V switch, a Teredo tunnel, ZeroTier, and two filter-driver copies of ZeroTier. Summing all of them counts the same download two or three times. The bar has to skip the ones that only mirror real traffic.
 
 **Who to skip.** Loopback talks to itself. Teredo and isatap are tunnels whose traffic also crosses a real adapter. `vEthernet` is Hyper-V's virtual switch. Names with `Filter` are VPN and game-booster drivers that list a second copy of an adapter.
 

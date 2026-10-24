@@ -8,8 +8,8 @@ Your name tag needs a rule for how many letters fit on it. The test knows the ru
 
 ```text
 assertion `left == right` failed
-  left: 19        <- what your code returned
- right: 20        <- what the test wanted
+  left: 7         <- what your code returned
+ right: 8         <- what the test wanted
 ```
 
 **The fix.** The `right` side is the answer the test wants. Put that number in the function, save, and the objective turns green.

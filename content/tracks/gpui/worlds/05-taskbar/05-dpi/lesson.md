@@ -10,7 +10,7 @@ point(px(rect.left as f32 / scale), px(rect.top as f32 / scale))
 
 **Then open there.** `main.rs` now docks for real: `find_taskbar`, `dock_bar`, `to_logical`, and `bar_window_options` with those bounds. On an auto-hidden taskbar it opens just above where the taskbar would be, so you can see it.
 
-**The 8 pixels.** Spike R3 found GPUI adds Windows' invisible 8-pixel frame outside the bounds you ask for. The bounds are the drawn area, which is what you want; never compare them with `GetWindowRect`.
+**The 8 pixels.** Testing showed GPUI adds Windows' invisible 8-pixel frame outside the bounds you ask for. The bounds are the drawn area, which is what you want; never compare them with `GetWindowRect`.
 
 ## Your turn
 

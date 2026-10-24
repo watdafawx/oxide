@@ -7,7 +7,7 @@ tags = ["match", "notifications"]
 
 [[objectives]]
 test = "hot_gpu_toast_text"
-label = "GPU at 87 °C gives \"GPU is hot\" and \"87°C for 30 seconds or more.\""
+label = "GPU at 87 °C gives \"GPU is hot\" and \"87°C for 30 seconds or more.\"; busy CPU and low battery get \"CPU is busy\" and \"Battery is low\""
 
 [[hints]]
 text = "A `match` on `alert.kind` for the title, with `|` for kinds that share words; the value through `Reading::text`."

@@ -8,7 +8,7 @@ With three monitors, each has its own taskbar. Kinetik's General page has "Show 
 taskbars.iter().filter(|t| all_taskbars || t.primary).copied().collect()
 ```
 
-**Right monitor, please.** Spike R3 found a trap: GPUI checks that a new window lands on its target display, and a window meant for monitor 2 without `display_id` set falls back to a default-sized window on the primary. The boss sets `display_id` for each bar.
+**Right monitor, please.** Testing found a trap: GPUI checks that a new window lands on its target display, and a window meant for monitor 2 without `display_id` set falls back to a default-sized window on the primary. The boss sets `display_id` for each bar.
 
 **Shown with one setting.** The boss reads "Show on all taskbars" as a plain `bool` for now; the Settings world gives it a toggle and saves it.
 

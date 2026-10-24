@@ -10,7 +10,7 @@ Right-click Kinetik's bar and a menu opens where you clicked. Yours has two rows
 
 **Close by clicking away.** `menu` (written below) uses `on_mouse_down_out`: a mouse-down anywhere outside the menu sets `menu_at` back to `None`. That is how every desktop menu behaves.
 
-**Inside the window.** The menu is drawn inside the bar's own window. Docked on the taskbar that window is only as tall as the bar, so the menu would be cut off there; this world runs the bar in a normal window, and a pop-up window for the menu is on the plan's list for later.
+**Inside the window.** The menu is drawn inside the bar's own window. Docked on the taskbar that window is only as tall as the bar, so the menu would be cut off there; this world runs the bar in a normal window, and a separate pop-up window for the menu would fix that, but it is out of scope here.
 
 ## Your turn
 

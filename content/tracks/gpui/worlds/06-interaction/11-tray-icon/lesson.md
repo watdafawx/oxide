@@ -10,7 +10,7 @@ TrayIconEvent::Click { button: tray_icon::MouseButton::Left, button_state: Mouse
 
 **Menus by id.** The tray menu's rows were made with ids `"settings"` and `"exit"`. A `match` on the id's text picks the action; anything else is `None`.
 
-**Same loop as R5.** Spike R5 checked that tray events arrive while GPUI runs its own message loop. They do; the 100 ms poll picks them up.
+**GPUI's loop is fine.** Tray events still arrive while GPUI runs its own message loop; the 100 ms poll picks them up.
 
 ## Your turn
 

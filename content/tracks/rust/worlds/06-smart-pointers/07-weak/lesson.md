@@ -13,7 +13,7 @@ drop(parent);                    // drop(x) ends a value early
 println!("{:?}", weak.upgrade()); // None
 ```
 
-- Replacing what sits inside a `RefCell` is `*cell.borrow_mut() = new_value;`. The pole and machine lists live in `RefCell`s so they can change through `&`.
+- Replacing what sits inside a `RefCell` is `*cell.borrow_mut() = new_value;`. The parent and children lists live in `RefCell`s so they can change through `&`.
 - `Rc::downgrade(&rc)` -> `Weak` (adds a *weak* count, strong count unchanged).
 - `weak.upgrade()` -> `Option<Rc<T>>`. `None` once every strong owner is gone.
 - Rule of thumb: **owning direction = `Rc`, back-pointer = `Weak`.**

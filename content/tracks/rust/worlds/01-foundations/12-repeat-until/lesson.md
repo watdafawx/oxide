@@ -16,9 +16,9 @@ while left > 0 {
 turns        // 10 -> 7 -> 4 -> 1 -> -2: four turns
 ```
 
-**Signed on purpose.** The last scoop takes more than is left, so `left` ends below zero: -2. A `u32` cannot do that. That is why a pile that can overshoot is an `i32`.
+**Signed on purpose.** The last scoop takes more than is left, so `left` ends below zero: -2. A `u32` cannot do that. That is why a pile that can overshoot is an `i32`. (Quest 7's `saturating_sub` would also work: it stops at 0 instead. Here you want to see the -2, so the pile stays signed.)
 
-**Parameters stay put.** A parameter cannot change, just like a plain `let`. To change one, make a changeable copy with the same name: `let mut sheets = sheets;`. That is shadowing, and it needs no new rule.
+**Parameters stay put.** A **parameter** is one of the inputs named in a function's first line, inside the `( )`. It cannot change, just like a plain `let`. To change one, make a changeable copy with the same name: `let mut sheets = sheets;`. That is shadowing, and it needs no new rule.
 
 ## Your turn
 

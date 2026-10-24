@@ -4,7 +4,7 @@ kind = "exercise"
 xp = 40
 minutes = 4
 tags = ["list", "arraylist"]
-requires = []
+requires = ["02-oop/12-boss-bank-ledger"]
 
 [[objectives]]
 test = "removesByIndexAndValue"

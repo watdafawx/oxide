@@ -1,5 +1,5 @@
 title = "Choices that carry data"
-summary = "A variant can hold a value: durability, servings, days."
+summary = "A variant can hold a value: how many days a courier or the post takes."
 kind = "exercise"
 xp = 45
 minutes = 5
