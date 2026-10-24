@@ -1,3 +1,0 @@
--- Every mod's data-updates.lua has run by now: the last chance to touch all items.
--- TODO: loop over every item prototype; when its stack size is above 50, halve it
---       (rounded down). Run this loop only once, in this file.

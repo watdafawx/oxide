@@ -1,0 +1,28 @@
+title = "Paths start with a root"
+summary = "Point kit-alloy's icon at the mod's own folder with __kit-mod__/."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["icons", "paths", "quick-win"]
+
+[[objectives]]
+test = "icon_path_uses_mod_root"
+label = "the icon is __kit-mod__/graphics/icons/kit-alloy.png and passes the path check"
+
+[[hints]]
+text = "The path is missing its first part: the root that says which mod's folder it is in."
+
+[[hints]]
+text = "`icon = \"__kit-mod__/graphics/icons/kit-alloy.png\",`."
+
+[[points]]
+after = 1
+prompt = "Which path is valid?"
+pick = ["graphics/icons/x.png", "__base__/graphics/icons/iron-plate.png", "base/graphics/x.png", "__base__ graphics/x.png"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Add the Kit Mod's root."
+code = "icon = \"___/graphics/icons/kit-alloy.png\""
+blank = "__kit-mod__"

@@ -1,0 +1,16 @@
+local t = require("oxide.test")
+local mock = require("mock_factorio")
+local text = require("info_json")
+
+t.test("text_is_valid_json", function()
+  local ok, err = pcall(mock.decode_json, text)
+  t.truthy(ok, "not valid JSON yet: " .. tostring(err))
+end)
+
+t.test("keeps_name_title_and_author", function()
+  local info = mock.decode_json(text)
+  t.eq(info.name, "kit-mod")
+  t.eq(info.title, "Kit Mod")
+  t.is_type(info.author, "string", "keep the author line")
+  t.ne(info.author, "", "author is empty")
+end)

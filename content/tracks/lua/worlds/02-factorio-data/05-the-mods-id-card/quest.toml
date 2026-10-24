@@ -1,0 +1,36 @@
+title = "The mod's ID card"
+summary = "Give info.json a version, the game version it is made for, and what it depends on."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["info-json", "metadata"]
+
+[[objectives]]
+test = "has_required_fields"
+label = "name \"kit-mod\", a title, an author and a three-number version like 0.1.0"
+
+[[objectives]]
+test = "factorio_version_is_2_0"
+label = "factorio_version is \"2.0\" (two numbers only)"
+
+[[objectives]]
+test = "depends_on_base"
+label = "dependencies lists base 2.0.0 or newer, and the whole file passes the info.json check"
+
+[[hints]]
+text = "Three lines change: `version` is empty, `factorio_version` is the ancient one, and `dependencies` is an empty list."
+
+[[hints]]
+text = "`\"version\": \"0.1.0\"`, `\"factorio_version\": \"2.0\"` and `\"dependencies\": [\"base >= 2.0.0\"]`."
+
+[[points]]
+after = 3
+prompt = "Fill in the game version this mod is made for."
+code = "\"factorio_version\": ___,"
+blank = "\"2.0\""
+
+[[points]]
+after = 4
+prompt = "Which prefix marks an optional dependency?"
+pick = ["!", "~", "?", "+"]
+answer = 2

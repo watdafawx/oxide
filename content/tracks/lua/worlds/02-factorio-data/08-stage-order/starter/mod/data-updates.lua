@@ -1,2 +1,0 @@
--- Every mod's data.lua has run by now, so other-widget exists.
--- TODO: move the other-widget item into the kit-parts subgroup

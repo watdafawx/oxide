@@ -1,0 +1,32 @@
+title = "JSON is not Lua"
+summary = "Fix three Lua habits that stop the mod's info.json from being read."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["json", "info-json", "quick-win"]
+
+[[objectives]]
+test = "text_is_valid_json"
+label = "the text in info_json.lua reads as JSON"
+
+[[objectives]]
+test = "keeps_name_title_and_author"
+label = "it still says name \"kit-mod\", title \"Kit Mod\" and an author"
+
+[[hints]]
+text = "Look at the `name` line and at the last line before the closing `}`. Each has a Lua habit JSON does not allow."
+
+[[hints]]
+text = "The name line must read `\"name\": \"kit-mod\",` (quoted key, colon), and the author line has no comma after it: `\"author\": \"you\"`."
+
+[[points]]
+after = 2
+prompt = "What goes between a key and its value in JSON?"
+pick = ["=", ":", "->", "a space"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Is a comma after the last entry allowed in JSON?"
+pick = ["yes, like in Lua", "only in lists", "no"]
+answer = 2

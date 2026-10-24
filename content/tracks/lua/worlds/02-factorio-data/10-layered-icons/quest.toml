@@ -1,0 +1,32 @@
+title = "Layered icons"
+summary = "Build kit-alloy's icon from two layers, one of them a tinted vanilla plate."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["icons", "tint"]
+
+[[objectives]]
+test = "icons_has_two_layers"
+label = "icons holds the Kit Mod's own picture, then the vanilla iron plate on top"
+
+[[objectives]]
+test = "tint_is_a_valid_color"
+label = "the top layer has a tint that is a real colour and not plain white"
+
+[[hints]]
+text = "Replace the single `icon = ...` line with `icons = { {...}, {...} }`: two layer tables, bottom first."
+
+[[hints]]
+text = "Layer 1 is `{ icon = \"__kit-mod__/graphics/icons/kit-alloy.png\" }`. Layer 2 is `{ icon = \"__base__/graphics/icons/iron-plate.png\", tint = { r = 0.9, g = 0.5, b = 0.2, a = 0.8 } }`."
+
+[[points]]
+after = 1
+prompt = "Which layer is drawn on top?"
+pick = ["the first one in the list", "the last one in the list", "the biggest one"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "Which tint changes nothing?"
+pick = ["{ r = 1, g = 1, b = 1 }", "{ r = 0.9, g = 0.5, b = 0.2 }", "{ r = 0, g = 0, b = 0 }"]
+answer = 0

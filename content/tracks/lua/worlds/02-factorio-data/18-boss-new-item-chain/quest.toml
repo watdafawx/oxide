@@ -1,0 +1,52 @@
+title = "Boss: Kit Mod"
+summary = "Ship the whole Kit Mod: kit-alloy, kit-crate, two recipes, two technologies and a chest."
+kind = "boss"
+xp = 400
+minutes = 30
+tags = ["boss", "items", "recipes", "technology", "entity"]
+
+[[objectives]]
+test = "alloy_item_and_recipe_register"
+label = "kit-alloy item and recipe exist and pass the field check (done for you)"
+[[objectives]]
+test = "crate_item_and_recipe_register"
+label = "kit-crate item and a recipe for 4 kit-alloy + 1 iron-gear-wheel"
+[[objectives]]
+test = "entity_item_matches_place_result"
+label = "kit-crate container (48 slots) whose item places it and whose mining gives the item back"
+[[objectives]]
+test = "references_resolve"
+label = "every ingredient, result, prerequisite and unlock names something that exists"
+[[objectives]]
+test = "tech_chain_unlocks_both_recipes"
+label = "kit-metallurgy unlocks kit-alloy, kit-storage unlocks kit-crate"
+[[objectives]]
+test = "prerequisites_form_a_chain"
+label = "automation, then kit-metallurgy, then kit-storage"
+[[objectives]]
+test = "recipes_start_locked"
+label = "both kit recipes have enabled = false"
+[[objectives]]
+test = "icons_are_valid"
+label = "every prototype in data.raw passes the field check, icons included"
+
+[[hints]]
+text = "Work top to bottom: crate item, crate recipe, container, then the second technology. Copy the shape of the alloy lines and rename."
+[[hints]]
+text = "Recipe ingredients: `{ type = \"item\", name = \"kit-alloy\", amount = 4 }` and `{ type = \"item\", name = \"iron-gear-wheel\", amount = 1 }`."
+[[hints]]
+text = "kit-storage: `prerequisites = { \"kit-metallurgy\" }`, `effects = { { type = \"unlock-recipe\", recipe = \"kit-crate\" } }`, `unit = { count = 50, time = 20, ingredients = { { \"automation-science-pack\", 1 } } }`."
+[[hints]]
+text = "Run `src/main.lua`: it prints your prototypes and the raw plate cost of a kit-crate. If it says `place_result ... is not an entity prototype`, the container is missing or misnamed. For the alloy line: the recipe gets `enabled = false` and kit-metallurgy gets `prerequisites = { \"automation\" }` and `effects = { { type = \"unlock-recipe\", recipe = \"kit-alloy\" } }`."
+
+[[points]]
+after = 1
+prompt = "Which item field places the container?"
+pick = ["minable", "place_result", "result", "icon"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Which setting keeps a recipe locked until research?"
+pick = ["hidden = true", "energy_required = 0", "enabled = false", "enabled = true"]
+answer = 2

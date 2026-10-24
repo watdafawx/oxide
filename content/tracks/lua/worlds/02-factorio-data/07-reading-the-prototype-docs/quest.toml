@@ -1,0 +1,21 @@
+title = "Reading the prototype docs"
+summary = "Find mandatory fields, defaults and inheritance on lua-api.factorio.com."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["docs", "prototypes"]
+
+[[quiz]]
+question = "On the recipe prototype page, ingredients and results are optional and energy_required has a default. Which fields must you write?"
+choices = ["type, name and energy_required", "only type and name", "ingredients and results"]
+answer = 1
+
+[[quiz]]
+question = "A property says \"Mandatory if icons is not defined\". What does that mean for icon?"
+choices = ["Write both icon and icons", "icon is never needed in 2.0", "Give either icon or icons"]
+answer = 2
+
+[[quiz]]
+question = "ToolPrototype (science packs) lists only durability. Where are stack_size and icon documented?"
+choices = ["On the page ToolPrototype inherits from", "Nowhere: tools have none", "On the control-stage pages"]
+answer = 0

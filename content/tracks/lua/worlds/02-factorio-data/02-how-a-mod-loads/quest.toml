@@ -1,0 +1,21 @@
+title = "How a mod loads"
+summary = "Prototypes, the data stage, data.raw and vanilla: what happens before a map exists."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["factorio", "prototypes", "stages"]
+
+[[quiz]]
+question = "What is a prototype?"
+choices = ["one plate lying in a chest", "a table that describes one kind of thing", "a mod that is not finished yet"]
+answer = 1
+
+[[quiz]]
+question = "Why can data.lua not call game.print?"
+choices = ["game.print is banned inside data files", "The data stage runs before any game or map exists", "game only exists on servers"]
+answer = 1
+
+[[quiz]]
+question = "What do modders mean by vanilla?"
+choices = ["the game as it ships, without mods", "a mod with no graphics", "the newest version of a mod"]
+answer = 0

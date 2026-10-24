@@ -1,2 +1,3 @@
 title = "Factorio data stage"
-blurb = "Turn the recipe calculator into a real mod: items, recipes, techs and a chest, all from data.lua."
+blurb = "Build the Kit Mod: a new alloy, a chest made from it and the research that unlocks both, all from data.lua."
+project = "Kit Mod"

@@ -1,0 +1,36 @@
+title = "Locked behind research"
+summary = "Lock the kit-alloy recipe and let a technology unlock it after automation."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["technology", "unlock-recipe"]
+
+[[objectives]]
+test = "recipe_starts_locked"
+label = "the kit-alloy recipe has enabled = false"
+
+[[objectives]]
+test = "tech_unlocks_the_recipe"
+label = "kit-metallurgy has an unlock-recipe effect for kit-alloy"
+
+[[objectives]]
+test = "prerequisites_exist"
+label = "its only prerequisite is vanilla's automation technology"
+
+[[hints]]
+text = "One line goes in the recipe, two in the technology: `enabled`, `prerequisites` and `effects`."
+
+[[hints]]
+text = "`enabled = false,` in the recipe; `prerequisites = { \"automation\" },` and `effects = { { type = \"unlock-recipe\", recipe = \"kit-alloy\" } },` in the technology."
+
+[[points]]
+after = 1
+prompt = "Which setting keeps a recipe locked until research?"
+pick = ["enabled = true", "hidden = true", "enabled = false", "energy_required = 0"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Which field lists the technologies needed first?"
+pick = ["prerequisites", "effects", "unit", "results"]
+answer = 0

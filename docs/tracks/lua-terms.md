@@ -36,3 +36,28 @@ Paths below are relative to `lua/01-lua-core/`.
 | `coroutine.yield`, `coroutine.wrap`, generator in a `for ... in` | 24-pause-and-resume | one scaled count at a time |
 | `while` (*starter*, boss scanner), `string.sub`, `:match` (*starter*) | 25-boss-expression-evaluator | already written in the boss starter |
 | recursive descent, token, parser, evaluator | 25-boss-expression-evaluator | three machines in a row |
+
+## 02-factorio-data
+
+Paths below are relative to `lua/02-factorio-data/`.
+
+| term | quest | how it is introduced |
+|---|---|---|
+| item, stack, entity, recipe, technology, tech tree, science pack, lab | 01-how-factorio-is-built | the five pieces the game is made of (read) |
+| mod folder, `info.json` (named), `data.lua`, `control.lua` (named), prototype, data stage, `data.raw[type][name]`, control stage (named), no `game` in the data stage, vanilla / `base`, `mock_factorio` | 02-how-a-mod-loads | blueprints, not things; why the list is frozen (read) |
+| global (a name without `local`), why globals clash and hide typos, `data` as the global Factorio hands you, `local data` hides it | 03-a-table-every-file-sees | read stack sizes from `data.raw`, stop a leaked `total` |
+| JSON (quoted keys, `:`, `[ ]`, no trailing comma), mod portal, `[[ long string ]]` | 04-json-is-not-lua | fix Lua habits in info.json text |
+| `name`, `version` (three numbers), `title`, `author`, `factorio_version = "2.0"`, `dependencies`, `"base >= 2.0.0"`, `?` / `!` prefixes, dependencies set load order | 05-the-mods-id-card | the mod's ID card |
+| `data:extend({ ... })` (method on `data`), array (docs' word for list), `type`, `name`, `icon`, `stack_size`, checked at end of stage | 06-your-first-item | kit-alloy |
+| prototype docs: mandatory, optional, default, "Mandatory if", inherits from, `double` | 07-reading-the-prototype-docs | read a page in a minute (read) |
+| item group (tab), subgroup (row), `order` string sorting, `"z[name]"` bracket habit | 08-where-it-shows | kit-alloy in the parts row, sorted last |
+| file path root `__base__/`, `__kit-mod__/`, forward slashes | 09-paths-start-with-a-root | point at the mod's own picture |
+| `icons` layers (bottom to top), `tint`, colour `{r, g, b, a}` 0..1 (or 0..255) | 10-layered-icons | vanilla plate with a colour wash |
+| recipe, `ingredients`, `results`, entry `{type = "item", name, amount}`, fluid (named), `energy_required` (default 0.5), old `{name, amount}` / `result` rejected in recipes | 11-a-recipe | 2 iron + 1 copper -> kit-alloy |
+| `table.deepcopy` (a Factorio global), silent overwrite on same type+name | 12-copy-and-tweak | kit-gear from vanilla's gear |
+| `enabled = false`, technology, `effects`, `unlock-recipe`, `prerequisites`, `icon_size = 256` | 13-locked-behind-research | kit-metallurgy after automation |
+| `unit` (`count`, `time`, `ingredients`), `tool` type, short `{name, amount}` pair (research only), `research_trigger` / `count_formula` (for the curious) | 14-the-research-bill | 30 red packs |
+| load order (dependencies, then name), `data-updates.lua`, `data-final-fixes.lua`, rounds over every mod, `string.sub` (*starter*) | 15-wait-for-the-other-mod | catch an add-on's item in the kit-parts row |
+| item vs entity prototype, `place_result`, `minable` (`mining_time`, `result`), `container`, `inventory_size`, `flags`, `placeable-neutral`, `player-creation` | 16-item-and-entity | the kit-crate chest |
+| tiles, `collision_box`, `selection_box`, y grows downward, centred boxes | 17-how-much-room-it-takes | kit-crate's boxes |
+| `print` (named, *starter* `main.lua`) | 18-boss-new-item-chain | the whole Kit Mod |

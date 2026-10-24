@@ -1,0 +1,32 @@
+title = "How much room it takes"
+summary = "Give kit-crate a centred collision box and a selection box the mouse can hit."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["entity", "collision-box"]
+
+[[objectives]]
+test = "collision_box_is_centred"
+label = "collision_box mirrors around the centre and stays inside one tile"
+
+[[objectives]]
+test = "selection_box_covers_it"
+label = "selection_box exists and covers the collision box"
+
+[[hints]]
+text = "A centred box has the same number on both sides of 0: left is minus right, top is minus bottom."
+
+[[hints]]
+text = "`collision_box = { { -0.35, -0.35 }, { 0.35, 0.35 } },` and `selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },`."
+
+[[points]]
+after = 1
+prompt = "In a box, which number is the top edge?"
+pick = ["the bigger y", "the smaller (negative) y", "always 0"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "Mirror the box around the centre."
+code = "collision_box = { { ___, -0.4 }, { 0.4, 0.4 } },"
+blank = "-0.4"
