@@ -1,0 +1,29 @@
+title = "Take it out"
+summary = "You can't move a String out of the middle of a list. remove(i) hands it over and closes the gap."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["ownership", "move", "vec"]
+
+[[objectives]]
+test = "take_hands_over_the_item"
+label = "take(&mut items, \"lamp\") gives back Some(\"lamp\") and the list no longer has it"
+[[objectives]]
+test = "take_missing_gives_none"
+label = "take of something that isn't there gives back None and changes nothing"
+
+[[hints]]
+text = "Walk the positions with `for i in 0..items.len()`, compare `items[i] == wanted`, and leave with `return` as soon as you find it."
+[[hints]]
+text = "`if items[i] == wanted { return Some(items.remove(i)); }` inside the loop, and `None` after it."
+
+[[points]]
+after = 2
+prompt = "What does `items.remove(2)` give you?"
+pick = ["a borrow of item 2", "a copy of item 2", "item 2 itself, owned", "nothing"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Hand over the matching item."
+code = "if items[i] == wanted {\n    return Some(items.___(i));\n}"
+blank = "remove"

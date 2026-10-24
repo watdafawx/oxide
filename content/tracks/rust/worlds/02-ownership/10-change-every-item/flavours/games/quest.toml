@@ -1,0 +1,25 @@
+title = "Change every item"
+summary = "for x in &mut list lets the server change every player at once."
+
+[[objectives]]
+test = "boost_all_adds_xp_to_everyone"
+label = "boost_all adds 10 xp to every player"
+[[objectives]]
+test = "tag_all_afk_marks_every_name"
+label = "tag_all_afk adds \" [AFK]\" to the end of every name"
+
+[[hints]]
+text = "Two loops over `&mut server.xp` and `&mut server.names`. Each `x` is a `&mut u32`, so it needs a `*`; each `name` is a `&mut String`, so methods work directly."
+[[hints]]
+text = "`for x in &mut server.xp { *x += 10; }` and `for name in &mut server.names { name.push_str(\" [AFK]\"); }`."
+
+[[points]]
+after = 2
+prompt = "Add one to every level in the list."
+code = "for l in &mut levels {\n    ___ += 1;\n}"
+blank = "*l"
+[[points]]
+after = 4
+prompt = "After `for x in list { }` with no `&`, can you still use `list`?"
+pick = ["Yes, loops only look", "No, the loop took the whole list"]
+answer = 1

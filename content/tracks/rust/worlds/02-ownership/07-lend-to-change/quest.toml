@@ -1,0 +1,29 @@
+title = "Lend to change"
+summary = "&mut lends a value so a function may change it in place."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["borrowing", "mutable", "references"]
+
+[[objectives]]
+test = "add_exclaim_appends"
+label = "add_exclaim(&mut s) adds \"!!\" to the end of the caller's String"
+[[objectives]]
+test = "push_twice_adds_two"
+label = "push_twice(&mut v, x) pushes x onto the caller's Vec two times"
+
+[[hints]]
+text = "Both parameters are already `&mut`, and methods work on them directly: `s.push_str(...)`, `v.push(...)`."
+[[hints]]
+text = "`s.push_str(\"!!\");` and `v.push(x);` written twice. `x` is an `i32`, so it copies."
+
+[[points]]
+after = 2
+prompt = "What must the caller write so `polite` may change `word`?"
+pick = ["polite(word)", "polite(&word)", "polite(mut word)", "polite(&mut word)"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Add 7 to the end of the caller's list."
+code = "fn add_seven(v: &mut Vec<i32>) {\n    v.___(7);\n}"
+blank = "push"

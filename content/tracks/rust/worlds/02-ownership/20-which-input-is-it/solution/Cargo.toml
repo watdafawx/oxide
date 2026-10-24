@@ -1,0 +1,6 @@
+[package]
+name = "own_which_input_is_it"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

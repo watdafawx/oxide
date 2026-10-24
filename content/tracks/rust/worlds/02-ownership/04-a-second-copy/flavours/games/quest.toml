@@ -1,0 +1,22 @@
+title = "A second copy"
+summary = "The log keeps the chat line you hand it. Clone when you need yours too."
+
+[[objectives]]
+test = "length_and_line_returns_both"
+label = "length_and_line() builds and gives back (14, \"<Ferris> hello\")"
+
+[[hints]]
+text = "The call `log_length(line)` moves `line` into the log, and the tuple on the next line still wants it."
+[[hints]]
+text = "Hand the log a copy and keep yours: `let len = log_length(line.clone());`."
+
+[[points]]
+after = 1
+prompt = "After `log_length(line)`, can you still use `line`?"
+pick = ["Yes, functions only look", "No, it moved into the function"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Make a second String so both names keep working."
+code = "let line = String::from(\"gg\");\nlet logged = ___;"
+blank = "line.clone()"

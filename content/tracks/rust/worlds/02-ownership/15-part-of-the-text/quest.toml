@@ -1,0 +1,29 @@
+title = "Part of the text"
+summary = "A string slice borrows a window into text: the first word, without copying it."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["slices", "str", "ranges"]
+
+[[objectives]]
+test = "first_word_stops_at_space"
+label = "first_word(\"hello world\") gives back \"hello\" (the whole text if there is no space)"
+[[objectives]]
+test = "after_first_word_is_the_rest"
+label = "after_first_word(\"hello big world\") gives back \"big world\" (\"\" if there is no space)"
+
+[[hints]]
+text = "Both start with `match text.find(' ')`. In the `Some(i)` arm, slice before `i` or after it."
+[[hints]]
+text = "`Some(i) => &text[..i], None => text` for the first word, and `Some(i) => &text[i + 1..], None => \"\"` for the rest."
+
+[[points]]
+after = 2
+prompt = "Which slice is the first three letters of `s`?"
+pick = ["&s[3..]", "&s[1..3]", "&s[..3]", "&s[..=3]"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Everything after the space at position `i`."
+code = "let rest = &line[___..];"
+blank = "i + 1"

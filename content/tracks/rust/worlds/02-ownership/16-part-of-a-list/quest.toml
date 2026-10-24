@@ -1,0 +1,29 @@
+title = "Part of a list"
+summary = "Slices work on lists too: borrow the middle or the last three, without copying."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["slices", "ranges", "borrowing"]
+
+[[objectives]]
+test = "middle_drops_both_ends"
+label = "middle(&[1, 2, 3, 4]) gives back &[2, 3] (empty for 2 items or fewer)"
+[[objectives]]
+test = "last_three_takes_the_tail"
+label = "last_three gives back the last 3 items (or all of them if there are fewer)"
+
+[[hints]]
+text = "`middle` needs an `if nums.len() <= 2` with `&[]` in one branch. `last_three` works out where to start, then slices to the end."
+[[hints]]
+text = "`&nums[1..nums.len() - 1]` in the other branch. `let start = nums.len().saturating_sub(3);` then `&nums[start..]`."
+
+[[points]]
+after = 2
+prompt = "Take any borrowed list of i32."
+code = "fn total(nums: ___) -> i32 {"
+blank = "&[i32]"
+[[points]]
+after = 3
+prompt = "What should `middle` give back for a list of 2?"
+pick = ["a panic", "None", "an empty slice, &[]", "the whole list"]
+answer = 2

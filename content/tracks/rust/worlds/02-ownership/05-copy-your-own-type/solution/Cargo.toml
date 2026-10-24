@@ -1,0 +1,6 @@
+[package]
+name = "own_copy_your_own_type"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

@@ -1,0 +1,22 @@
+title = "New text is owned"
+summary = "A command can't hand back a borrow of a message it just built. Hand over the String."
+
+[[objectives]]
+test = "announce_gives_back_new_text"
+label = "announce(\"restart in 5\") builds and gives back \"[Server] restart in 5\""
+
+[[hints]]
+text = "Two edits, both in `announce`: the type after `->`, and the last line."
+[[hints]]
+text = "`pub fn announce(message: &str) -> String`, and end the body with `line` instead of `&line`."
+
+[[points]]
+after = 2
+prompt = "Why can't `announce` give back `&line`?"
+pick = ["line is dropped at announce's }, so the borrow would dangle", "&str can't hold brackets", "Functions can never give back references"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Hand the new text to the caller."
+code = "fn announce(message: &str) -> ___ {"
+blank = "String"

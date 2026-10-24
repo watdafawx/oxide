@@ -1,0 +1,49 @@
+title = "Boss: the server console"
+summary = "Players, a stash, and commands that change the server: borrow to look, borrow mutably to act, never clone a player."
+
+[[objectives]]
+test = "player_name_borrows_from_server"
+label = "Server::player_name(i) lends out the player's name as a &str"
+[[objectives]]
+test = "list_shows_every_player_position"
+label = "list() shows every player and their x,y,z position"
+[[objectives]]
+test = "list_adds_items_only_for_holders"
+label = "list() adds [items: ...] only for players who hold something"
+[[objectives]]
+test = "tp_moves_the_player"
+label = "tp(\"Steve\", pos) moves the player and gives back their name"
+[[objectives]]
+test = "tp_unknown_player_moves_nobody"
+label = "tp of an unknown player gives back Err and nobody moves"
+[[objectives]]
+test = "give_moves_stash_item_to_inventory"
+label = "give(\"Steve\", \"diamond\") removes the item from the stash and adds it to the inventory"
+[[objectives]]
+test = "give_missing_item_is_an_error"
+label = "give of something that isn't in the stash gives back Err and changes nothing"
+[[objectives]]
+test = "run_plays_a_whole_console_script"
+label = "run(&[...]) plays console lines (list, tp, give, kick) on a fresh server, one reply per line"
+
+[[hints]]
+text = "Start with `player_name`: lend out `&self.players[i].name`. Read-only methods take `&self`, methods that change the server take `&mut self`."
+[[hints]]
+text = "list: `for p in &self.server.players`, build `format!(\"{} @ {},{},{}\", p.name, p.pos.x, p.pos.y, p.pos.z)`, add `[items: ...]` with `push_str` inside `if !p.inventory.is_empty()`, push each line into a `Vec<String>`, then `lines.join(\"; \")`."
+[[hints]]
+text = "tp: `for p in &mut self.server.players { if p.name == name { p.pos = to; return Ok(&p.name); } }`, then the `Err` after the loop."
+[[hints]]
+text = "give: first find the player's position with a `for i in 0..self.server.players.len()` loop into a `let mut found = None;`. Then the loop from \"Take it out\" over the stash, pushing onto `self.server.players[who].inventory`. kick: the same loop over players with `remove(i)`."
+[[hints]]
+text = "run: `let (cmd, rest) = match line.split_once(' ') { Some(parts) => parts, None => (*line, \"\") };`. For `tp` and `give`, `rest.split_once(' ')` again; `parse_pos(coords)` gives `Option<BlockPos>`."
+
+[[points]]
+after = 3
+prompt = "Which `self` lets `tp` change the server?"
+pick = ["&self", "self", "&mut self", "mut"]
+answer = 2
+[[points]]
+after = 6
+prompt = "Glue the lines together with a separator."
+code = "let text = lines.___(\"; \");"
+blank = "join"

@@ -1,0 +1,22 @@
+title = "Hand it over"
+summary = "Put a chat line into the log and your name for it stops working. That is a move."
+
+[[objectives]]
+test = "log_line_keeps_text_and_width"
+label = "log_line(\"<Steve> hi\") builds a ChatEntry with that text and width 10"
+
+[[hints]]
+text = "The struct literal moves `line` into the `text` field, then calls `line.len()` on a value that has already moved. Ask for the length first."
+[[hints]]
+text = "`let w = line.len();` on its own line, then `ChatEntry { text: line, width: w }`."
+
+[[points]]
+after = 3
+prompt = "After `let logged = line;` with a `String`, who owns the chat line?"
+pick = ["line", "both", "nobody", "logged"]
+answer = 3
+[[points]]
+after = 5
+prompt = "Use it before it moves."
+code = "let line = String::from(\"<Alex> gg\");\nlet w = ___;\nlet entry = ChatEntry { text: line, width: w };"
+blank = "line.len()"

@@ -1,0 +1,27 @@
+title = "A second copy"
+summary = "A function that takes a String keeps it. Clone when you need yours too."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["ownership", "move", "clone"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "length_and_name_returns_both"
+label = "length_and_name() builds and gives back (6, \"ferris\")"
+
+[[hints]]
+text = "The call `name_length(name)` moves `name` into the function, and the tuple on the next line still wants it."
+[[hints]]
+text = "Hand the function a copy and keep yours: `let len = name_length(name.clone());`."
+
+[[points]]
+after = 1
+prompt = "After `name_length(name)`, can you still use `name`?"
+pick = ["Yes, functions only look", "No, it moved into the function"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Make a second String so both names keep working."
+code = "let a = String::from(\"hi\");\nlet b = ___;"
+blank = "a.clone()"

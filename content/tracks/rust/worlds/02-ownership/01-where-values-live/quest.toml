@@ -1,0 +1,21 @@
+title = "Where values live"
+summary = "Stack, heap, and who cleans up. A short read that makes the rest of this world make sense."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["memory", "ownership"]
+
+[[quiz]]
+question = "A `String` holds the text \"milk, eggs\". Where are the letters?"
+choices = ["On the stack, right next to the variable", "On the heap; the variable holds their address", "Inside the compiler, until the program ends"]
+answer = 1
+
+[[quiz]]
+question = "Why can a `u32` count live on the stack?"
+choices = ["It never changes", "Numbers are too small for the heap", "Its size is always 4 bytes, known before the program runs"]
+answer = 2
+
+[[quiz]]
+question = "What does Rust use instead of a garbage collector?"
+choices = ["Every heap value has one owner, and it is freed when that owner goes away", "You call `free` yourself, as in C", "It never frees memory until the program ends"]
+answer = 0

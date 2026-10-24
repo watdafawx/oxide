@@ -1,0 +1,25 @@
+title = "Part of the text"
+summary = "Slice the command word and its arguments out of a console line, without copying."
+
+[[objectives]]
+test = "command_name_stops_at_first_space"
+label = "command_name(\"kick Steve griefing\") gives back \"kick\" (the whole line if there is no space)"
+[[objectives]]
+test = "command_args_are_the_rest"
+label = "command_args(\"kick Steve griefing\") gives back \"Steve griefing\" (\"\" if there is no space)"
+
+[[hints]]
+text = "Both start with `match line.find(' ')`. In the `Some(i)` arm, slice before `i` or after it."
+[[hints]]
+text = "`Some(i) => &line[..i], None => line` for the name, and `Some(i) => &line[i + 1..], None => \"\"` for the arguments."
+
+[[points]]
+after = 2
+prompt = "Which slice is the first two letters of `line`?"
+pick = ["&line[2..]", "&line[1..2]", "&line[..2]", "&line[..=2]"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Everything after the space at position `i`."
+code = "let args = &line[___..];"
+blank = "i + 1"

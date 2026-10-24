@@ -1,0 +1,30 @@
+title = "One writer at a time"
+summary = "Many readers, or one writer, never both. Fix the code that reads while it writes."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["borrowing", "mutable", "borrow-checker"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "add_and_report_names_the_first_item"
+label = "add_and_report builds, adds the item, and reports the first one and the new count"
+[[objectives]]
+test = "move_last_between_vecs"
+label = "move_last(&mut from, &mut to) moves the last item from one list to the other"
+
+[[hints]]
+text = "In `add_and_report`, the borrow `first` is made before `push` and used after it. Make it after the push instead. In `move_last`, `pop` gives an `Option`."
+[[hints]]
+text = "Swap the two lines so `items.push(...)` comes first, then `let first = &items[0];`. For `move_last`: `if let Some(x) = from.pop() { to.push(x); }`."
+
+[[points]]
+after = 1
+prompt = "How many `&mut` writers may a value have at the same moment?"
+pick = ["none", "two", "exactly one", "any number"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Which order builds?"
+pick = ["borrow the first item, push, use the borrow", "push, then borrow the first item and use it"]
+answer = 1

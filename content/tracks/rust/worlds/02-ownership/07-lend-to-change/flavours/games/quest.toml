@@ -1,0 +1,25 @@
+title = "Lend to change"
+summary = "&mut lets a console command change the server's data in place."
+
+[[objectives]]
+test = "tag_as_op_appends_tag"
+label = "tag_as_op(&mut name) adds \" [OP]\" to the end of the caller's String"
+[[objectives]]
+test = "queue_twice_pushes_command_twice"
+label = "queue_twice(&mut queue, cmd) pushes the command onto the queue two times"
+
+[[hints]]
+text = "Both parameters are already `&mut`, and methods work on them directly: `name.push_str(...)`, `queue.push(...)`."
+[[hints]]
+text = "`name.push_str(\" [OP]\");`, and `queue.push(command.to_string());` written twice: the queue owns Strings, so each push needs its own."
+
+[[points]]
+after = 2
+prompt = "What must the caller write so `rename` may change `player`?"
+pick = ["rename(player)", "rename(&player)", "rename(mut player)", "rename(&mut player)"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Add a command to the end of the caller's queue."
+code = "fn add_save(queue: &mut Vec<String>) {\n    queue.___(\"save-all\".to_string());\n}"
+blank = "push"

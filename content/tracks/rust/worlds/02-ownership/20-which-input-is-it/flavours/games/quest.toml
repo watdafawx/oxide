@@ -1,0 +1,25 @@
+title = "Which input is it?"
+summary = "Two commands in, one argument out: write the 'a that ties the answer to both lines."
+
+[[objectives]]
+test = "longer_arg_picks_longer_argument"
+label = "longer_arg(a, b) builds and gives back the longer argument"
+[[objectives]]
+test = "longer_arg_tie_keeps_first_command"
+label = "On a tie, longer_arg gives back the first command's argument (a borrow, not a copy)"
+
+[[hints]]
+text = "Only the first line of `longer_arg` changes. Both `Command`s and the result need the same lifetime."
+[[hints]]
+text = "`pub fn longer_arg<'a>(a: Command<'a>, b: Command<'a>) -> &'a str {`"
+
+[[points]]
+after = 2
+prompt = "Why does `command_name(line: &str) -> &str` need no `'a`?"
+pick = ["With one borrowed input, the answer must borrow from it", "Slices never need lifetimes", "It gives back a String"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Declare the lifetime."
+code = "fn longer_arg<___>(a: Command<'a>, b: Command<'a>) -> &'a str {"
+blank = "'a"

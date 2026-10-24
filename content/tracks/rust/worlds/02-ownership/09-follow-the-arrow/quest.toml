@@ -1,0 +1,29 @@
+title = "Follow the arrow"
+summary = "A reference points at a value. `*` gets you the value itself."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["references", "deref"]
+
+[[objectives]]
+test = "add_points_changes_the_callers_score"
+label = "add_points(&mut score, 5) adds 5 to the caller's score"
+[[objectives]]
+test = "count_over_counts_bigger_scores"
+label = "count_over(&board, 10) counts the scores bigger than 10"
+
+[[hints]]
+text = "Both functions hold references to numbers, so both need a `*` in front: once to add to the number, once to compare it."
+[[hints]]
+text = "`*score += n;`. In `count_over`: `let mut count = 0; for s in &board.scores { if *s > limit { count += 1; } } count`."
+
+[[points]]
+after = 2
+prompt = "Add one to the number `n` points at."
+code = "fn add_one(n: &mut u32) {\n    ___ += 1;\n}"
+blank = "*n"
+[[points]]
+after = 4
+prompt = "Why does `bag.items.len()` work on a `&Backpack` with no `*`?"
+pick = ["Backpacks are Copy", "The dot follows the reference for you", "len makes a copy of the bag"]
+answer = 1

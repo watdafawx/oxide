@@ -1,0 +1,26 @@
+title = "Match on text"
+summary = "match compares with &str literals. Lend your String as a &str with .as_str()."
+kind = "exercise"
+xp = 20
+minutes = 3
+tags = ["strings", "str", "match"]
+
+[[objectives]]
+test = "rank_owned_matches_on_as_str"
+label = "rank_owned gives \"admin\" 3, \"mod\" 2 and anyone else 1"
+
+[[hints]]
+text = "Three arms in a `match name.as_str() { ... }`; the last one is `_`."
+[[hints]]
+text = "`match name.as_str() { \"admin\" => 3, \"mod\" => 2, _ => 1 }`."
+
+[[points]]
+after = 2
+prompt = "Lend the String as text a match can compare."
+code = "match role.___ {"
+blank = "as_str()"
+[[points]]
+after = 3
+prompt = "Does `.as_str()` move or copy the String?"
+pick = ["It moves it", "It copies the letters", "Neither: it only borrows"]
+answer = 2
