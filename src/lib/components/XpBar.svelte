@@ -15,7 +15,7 @@
 
 {#if p}
   <div class="flex items-center gap-5 rounded-2xl border border-line bg-panel px-5 py-3" data-testid="xpbar">
-    <span class="rounded-lg bg-rust px-3 py-1 font-extrabold text-black">Lv {p.level}</span>
+    <span class="rounded-lg bg-rust px-3 py-1 font-extrabold text-on-rust">Lv {p.level}</span>
     <div class="min-w-0 flex-1">
       <div class="h-3 overflow-hidden rounded-full bg-panel-2">
         <div class="h-full rounded-full bg-gradient-to-r from-rust to-amber-300 transition-all duration-700" style="width:{pct}%"></div>

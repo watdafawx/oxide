@@ -3,12 +3,13 @@
   import { app } from "$lib/store.svelte";
   import XpBar from "$lib/components/XpBar.svelte";
   import { preview } from "$lib/sound";
-  import type { Settings, SoundKey } from "$lib/types";
+  import { LOOKS } from "$lib/store.svelte";
+  import type { Look, Settings, SoundKey } from "$lib/types";
 
   let dates = $state<Set<string>>(new Set());
   let autosave = $state((() => { try { return localStorage.getItem("oxide:autosave") !== "0"; } catch { return true; } })());
   const setAutosave = (v: boolean) => { autosave = v; try { localStorage.setItem("oxide:autosave", v ? "1" : "0"); } catch { /* private mode */ } };
-  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games", volume: 0.6, sounds: { objective: true, clear: true, level: true, achievement: true, crit: true } });
+  let form = $state<Settings>({ editor: "", sound: true, focus_minutes: 25, track: "", flavour: "games", volume: 0.6, sounds: { objective: true, clear: true, level: true, achievement: true, crit: true }, look: "workbench", complete: true, explain: true });
   const soundRows: [SoundKey, string, string][] = [
     ["objective", "Objective tick", "a rising note per objective"],
     ["clear", "All green", "a soft chord"],
@@ -48,6 +49,23 @@
       await api.setSettings({ ...app.profile.settings, flavour: f });
       app.profile = await api.getProfile();
       form.flavour = f;
+    } catch (e) {
+      app.error(e);
+    }
+  }
+
+  const lookInfo: Record<Look, { name: string; blurb: string; bg: string; panel: string; line: string; acc: string; ink: string }> = {
+    workbench: { name: "Workbench", blurb: "Like a code editor: lesson on the side, code in the middle, problems and hints below.", bg: "#0f1318", panel: "#151a21", line: "#263040", acc: "#37c6b0", ink: "#e3e9f0" },
+    notebook: { name: "Notebook", blurb: "Light and calm. Reads like a book, with hints as notes in the margin.", bg: "#f6f1e8", panel: "#fffdf8", line: "#e2d9ca", acc: "#c24e1c", ink: "#1f1b16" },
+    arcade: { name: "Arcade", blurb: "Game first: quest log, big Run button, and Ferris gives the hints.", bg: "#0e0b1a", panel: "#17122b", line: "#2e2550", acc: "#ff7a3d", ink: "#f1edff" },
+  };
+  /** the editor switches apply right away, like the look */
+  async function setEditorOpt(key: "complete" | "explain", v: boolean) {
+    if (!app.profile) return;
+    try {
+      await api.setSettings({ ...app.profile.settings, [key]: v });
+      app.profile = await api.getProfile();
+      form[key] = v;
     } catch (e) {
       app.error(e);
     }
@@ -137,7 +155,7 @@
 </script>
 
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-10">
-  <h1 class="text-3xl font-extrabold">Profile</h1>
+  <h1 class="font-[family-name:var(--font-display)] text-3xl font-extrabold">Profile</h1>
   <XpBar />
 
   {#if trackXp.length}
@@ -163,6 +181,36 @@
     {/each}
   </div>
 
+      <section class="flex flex-col gap-2" data-testid="look-picker">
+    <h2 class="text-xl font-bold">Look</h2>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {#each LOOKS as l}
+        {@const k = lookInfo[l]}
+        <button type="button" class="flex flex-col overflow-hidden rounded-[var(--radius-box)] border-2 text-left transition {app.look === l ? 'border-rust' : 'border-line hover:border-dim'}" onclick={() => app.setLook(l)} data-look-option={l} aria-pressed={app.look === l}>
+          <!-- tiny preview of the layout -->
+          <span class="flex h-20 gap-1 p-1.5" style="background:{k.bg}">
+            {#if l === "workbench"}
+              <span class="w-2 rounded-sm" style="background:{k.panel}"></span>
+              <span class="w-8 rounded-sm" style="background:{k.panel}"></span>
+              <span class="flex flex-1 flex-col gap-1"><span class="flex-1 rounded-sm border" style="border-color:{k.line}"></span><span class="h-4 rounded-sm" style="background:{k.panel}"></span><span class="h-1 rounded-sm" style="background:{k.acc}"></span></span>
+            {:else if l === "notebook"}
+              <span class="mx-auto flex w-24 flex-col gap-1 pt-1"><span class="h-2 w-16 rounded-sm" style="background:{k.ink}"></span><span class="h-1 rounded-sm" style="background:{k.line}"></span><span class="h-1 rounded-sm" style="background:{k.line}"></span><span class="flex-1 rounded-sm border" style="background:{k.panel};border-color:{k.line}"></span></span>
+              <span class="mt-6 h-6 w-8 rounded-sm" style="background:#fdf4dc"></span>
+            {:else}
+              <span class="flex w-8 flex-col gap-1"><span class="h-4 rounded" style="border:1.5px solid {k.acc}"></span><span class="h-4 rounded" style="background:{k.panel}"></span></span>
+              <span class="flex flex-1 flex-col gap-1"><span class="flex-1 rounded border" style="background:{k.panel};border-color:{k.line}"></span><span class="h-3 rounded" style="background:{k.panel}"></span></span>
+              <span class="w-8 rounded" style="background:{k.panel}"><span class="m-1 block h-3 w-3 rounded-full" style="background:{k.acc}"></span></span>
+            {/if}
+          </span>
+          <span class="flex flex-col gap-0.5 bg-panel px-3 py-2">
+            <span class="flex items-center justify-between font-semibold">{k.name}{#if app.look === l}<span class="text-sm text-rust">✓</span>{/if}</span>
+            <span class="text-xs leading-snug text-dim">{k.blurb}</span>
+          </span>
+        </button>
+      {/each}
+    </div>
+    <span class="text-sm text-dim">Applies right away, and is saved with this profile. Ctrl+K also switches looks.</span>
+  </section>
   <section data-testid="profiles">
     <h2 class="mb-1 text-xl font-bold">Profiles</h2>
     <p class="mb-3 text-sm text-dim">Each profile keeps its own XP, progress, settings and quest code. Export one to back it up or take it to another PC.</p>
@@ -244,35 +292,48 @@
         <input class="rounded-xl border border-line bg-bg px-4 py-2.5 font-mono" bind:value={form.editor} placeholder="code (leave empty to code in Oxide only)" />
         <span class="text-sm text-dim">Quests are edited right in Oxide. Set this to also get an "Open in …" button; it runs with the quest folder as its argument.</span>
       </label>
+      <div class="flex flex-col gap-2" data-testid="editor-help">
+        <span class="font-semibold">Code editor help</span>
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-5 w-5 accent-[var(--color-rust)]" checked={app.profile?.settings.complete ?? true} onchange={(e) => setEditorOpt("complete", e.currentTarget.checked)} data-testid="opt-complete" />
+          <span class="font-medium whitespace-nowrap">Suggestions while typing</span>
+          <span class="text-sm text-dim">Names, methods and keywords with a short note. Ctrl+Space shows them any time.</span>
+        </label>
+        <label class="flex items-center gap-3">
+          <input type="checkbox" class="h-5 w-5 accent-[var(--color-rust)]" checked={app.profile?.settings.explain ?? true} onchange={(e) => setEditorOpt("explain", e.currentTarget.checked)} data-testid="opt-explain" />
+          <span class="font-medium whitespace-nowrap">Explain errors in plain words</span>
+          <span class="text-sm text-dim">A note under the broken line, with a fix button when there is an easy one.</span>
+        </label>
+      </div>
       <div class="flex flex-col gap-1.5">
         <span class="font-semibold">Style</span>
         <div class="flex w-fit gap-1 rounded-xl border border-line bg-bg p-1" data-testid="flavour">
           {#each flavours as f}
-            <button type="button" class="rounded-lg px-4 py-1.5 font-medium {app.profile?.settings.flavour === f ? 'bg-rust text-black' : 'text-dim hover:text-ink'}" onclick={() => setFlavour(f)}>{flavourLabel(f)}</button>
+            <button type="button" class="rounded-lg px-4 py-1.5 font-medium {app.profile?.settings.flavour === f ? 'bg-rust text-on-rust' : 'text-dim hover:text-ink'}" onclick={() => setFlavour(f)}>{flavourLabel(f)}</button>
           {/each}
         </div>
         <span class="text-sm text-dim">Game tells a story around each quest. Plain is just the lesson. Applies right away.</span>
       </div>
       <label class="flex items-center gap-3">
-        <input type="checkbox" class="h-5 w-5 accent-orange-500" checked={autosave} onchange={(e) => setAutosave(e.currentTarget.checked)} data-testid="autosave" />
+        <input type="checkbox" class="h-5 w-5 accent-[var(--color-rust)]" checked={autosave} onchange={(e) => setAutosave(e.currentTarget.checked)} data-testid="autosave" />
         <span class="font-semibold">Autosave code</span>
         <span class="text-sm text-dim">1.5 s after you stop typing. Ctrl+S always works.</span>
       </label>
       <div class="flex flex-col gap-3" data-testid="sound-settings">
         <label class="flex items-center gap-3">
-          <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sound} />
+          <input type="checkbox" class="h-5 w-5 accent-[var(--color-rust)]" bind:checked={form.sound} />
           <span class="font-semibold">Sound</span>
         </label>
         <label class="flex items-center gap-3">
           <span class="w-16 text-sm text-dim">Volume</span>
-          <input type="range" min="0" max="1" step="0.05" class="w-56 accent-orange-500" bind:value={form.volume} data-testid="volume" />
+          <input type="range" min="0" max="1" step="0.05" class="w-56 accent-[var(--color-rust)]" bind:value={form.volume} data-testid="volume" />
           <span class="w-10 text-sm text-dim tabular-nums">{Math.round(form.volume * 100)}%</span>
         </label>
         <div class="flex flex-col gap-1 rounded-xl border border-line bg-bg p-3">
           {#each soundRows as [key, label, hint]}
             <div class="flex items-center gap-3 py-1">
               <label class="flex flex-1 items-center gap-3">
-                <input type="checkbox" class="h-5 w-5 accent-orange-500" bind:checked={form.sounds[key]} data-testid="sound-{key}" />
+                <input type="checkbox" class="h-5 w-5 accent-[var(--color-rust)]" bind:checked={form.sounds[key]} data-testid="sound-{key}" />
                 <span class="font-medium">{label}</span>
                 <span class="text-sm text-dim">{hint}</span>
               </label>

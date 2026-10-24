@@ -9,7 +9,8 @@
   import TypedCode from "$lib/components/TypedCode.svelte";
   import PointStep from "$lib/components/PointStep.svelte";
   import { kindClass, kindLabel, mmss } from "$lib/ui";
-  import { tick, untrack } from "svelte";
+  import { onDestroy, tick, untrack } from "svelte";
+  import { explain, langOfPath, type Lang } from "$lib/assist";
   import type { CheckResult, ObjectiveResult, QuestDetail } from "$lib/types";
 
   type Stage = "check" | "build";
@@ -202,7 +203,7 @@
   const stageXp = $derived<Record<Stage, string>>({ check: "+5 XP", build: `+${q?.xp ?? 0} XP` });
   const lessonVisible = $derived(staged && stage === "build" && hasLearn && !lessonShut);
   /** an open lesson gets its own column beside the code; folded, the code gets the width back */
-  const lessonSide = $derived(hasLearn && !lessonShut);
+  const lessonSide = $derived(hasLearn && !lessonShut && app.look !== "notebook");
 
   function initStage(d: QuestDetail) {
     const saved = ls.get(`oxide:stage:${d.quest.id}`);
@@ -313,6 +314,8 @@
   const runProgram = async () => {
     app.startRun(id);
     openBuild = {};
+    wbTab = "console";
+    consoleOpen = true;
     stdin = "";
     await tick();
     panelEl?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -350,6 +353,37 @@
 
   const freeHintReady = $derived(stuckNow && !freeUsed && (detail?.hints_used ?? 0) === 0 && !!q?.hints.length);
   const hintsShown = $derived(q ? q.hints.slice(0, (detail?.hints_used ?? 0) + (freeUsed ? 1 : 0)) : []);
+  // ---- per-look bits ----
+  type WbTab = "problems" | "objectives" | "hints" | "console";
+  let wbTab = $state<WbTab>("objectives");
+  let consoleOpen = $state(true);
+  const allDiags = $derived(result?.diagnostics ?? []);
+  const runnerLang: Record<string, Lang> = { cargo: "rust", lua: "lua", gradle: "java" };
+  const diagLang = (d: { file: string | null }): Lang => (d.file ? langOfPath(d.file) : "other") === "other" ? (runnerLang[q?.runner ?? ""] ?? "other") : langOfPath(d.file!);
+  const firstError = $derived.by(() => { const d = allDiags.find((x) => x.level === "error"); return d ? explain(d, diagLang(d)) : null; });
+  const worldTitle = $derived(q ? (app.catalog[q.track_id]?.find((w) => w.id === q.world_id)?.title ?? "") : "");
+  const wbTabs = $derived<{ id: WbTab; label: string; n: number }[]>([
+    { id: "problems", label: "Problems", n: allDiags.length },
+    { id: "objectives", label: "Objectives", n: rows.length ? passedCount : 0 },
+    { id: "hints", label: "Hints", n: hintsShown.length },
+    ...(detail?.has_program ? [{ id: "console" as const, label: "Console", n: 0 }] : []),
+  ]);
+  // a new result picks the useful tab: problems when it doesn't build, objectives otherwise
+  let tabSeen = 0;
+  $effect(() => {
+    const t = check?.tick ?? 0;
+    if (t === tabSeen || !check?.result) return;
+    tabSeen = t;
+    untrack(() => { if (wbTab !== "hints") wbTab = check!.result!.compiled ? "objectives" : "problems"; });
+  });
+  // feed the Workbench status bar
+  $effect(() => {
+    const errs = allDiags.filter((d) => d.level === "error").length;
+    const note = checking ? "Checking…" : !result ? (started ? "Save to run the checks" : "Start the quest") : result.ok ? "All green" : !result.compiled ? (firstError?.title ?? "Doesn't build") : `${passedCount}/${rows.length} objectives`;
+    app.status = { errors: errs, warnings: allDiags.length - errs, note };
+  });
+  onDestroy(() => (app.status = null));
+
   const quizReady = $derived(!!q && q.quiz.length > 0 && q.quiz.every((_, i) => answers[i] !== undefined));
   const icon = { passed: "✓", failed: "✕", notrun: "•" } as const;
   const tone = { passed: "border-ok/50 bg-ok/10 text-ok", failed: "border-bad/50 bg-bad/10 text-bad", notrun: "border-line bg-panel-2 text-dim" } as const;
@@ -368,38 +402,11 @@
 {#if !q || !detail}
   <div class="mx-auto max-w-6xl px-6 py-10"><div class="h-96 animate-pulse rounded-3xl bg-panel"></div></div>
 {:else if staged && parts}
-{#snippet consolePane()}
-        <section bind:this={panelEl} class="mt-6 overflow-hidden rounded-2xl border border-line bg-[#0d0c0b]" data-testid="console">
-          <header class="flex items-center justify-between border-b border-line px-4 py-2">
-            <h2 class="text-sm font-bold text-dim">Console{#if running}<span class="ml-2 inline-block h-2 w-2 animate-pulse rounded-full bg-ok"></span>{/if}</h2>
-            <button class="btn btn-ghost !rounded-lg !px-3 !py-1 text-sm" disabled={!running} onclick={stopProgram} data-testid="stop">Stop</button>
-          </header>
-          <div bind:this={consoleEl} class="max-h-80 min-h-32 overflow-auto px-4 py-3 font-mono text-sm leading-relaxed" data-testid="console-lines">
-            {#each consoleRows as r}
-              {#if r.kind === "build"}
-                <button class="block w-full text-left text-dim/80 hover:text-dim" data-testid="build-fold" onclick={() => (openBuild[r.at] = !openBuild[r.at])}>
-                  {openBuild[r.at] ? "▾" : "▸"} build output ({r.lines.length} {r.lines.length === 1 ? "line" : "lines"})
-                </button>
-                {#if openBuild[r.at]}
-                  {#each r.lines as bl}<div class="whitespace-pre-wrap break-words pl-4 text-dim/70">{bl}</div>{/each}
-                {/if}
-              {:else}
-                <div class="whitespace-pre-wrap break-words {lineClass[r.l.stream]}">{r.l.stream === "input" ? "› " : ""}{r.l.line}</div>
-              {/if}
-            {/each}
-          </div>
-          <form class="flex items-center gap-2 border-t border-line px-4 py-2 font-mono text-sm" onsubmit={(e) => { e.preventDefault(); if (running) sendInput(); }}>
-            <span class="text-ok">›</span>
-            <input class="min-w-0 flex-1 bg-transparent text-ink outline-none placeholder:text-dim/50 disabled:opacity-40" placeholder={running ? "type a line, press Enter" : "program not running"} disabled={!running} bind:value={stdin} data-testid="stdin" autocomplete="off" spellcheck="false" />
-          </form>
-        </section>
-{/snippet}
-
 {#snippet toolbar()}
     <div class="flex flex-wrap items-center gap-2" data-testid="toolbar">
       {#if done}
         {@render nextBtn()}
-      {:else}
+      {:else if app.look !== "arcade"}
         <button class="btn btn-primary !rounded-lg !px-4 !py-1.5 text-sm" disabled={busy || checking} onclick={runChecks}>Run checks</button>
       {/if}
       {#if detail!.has_program}
@@ -421,58 +428,6 @@
     </div>
 {/snippet}
 
-{#snippet checksPanel()}
-  <section bind:this={objEl} class="mb-4 scroll-mt-24 rounded-2xl border p-3 {flash ? 'border-white bg-white' : 'border-line bg-panel'}" data-testid="objectives">
-    <div class="flex items-center gap-2 text-sm">
-      <span class="font-bold">Objectives</span>
-      <span class="text-dim tabular-nums">{passedCount}/{rows.length}</span>
-      {#if checking}
-        <span class="ml-2 flex items-center gap-2 text-amber-200" data-testid="checking"><span class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-300 border-t-transparent"></span>Checking…</span>
-      {:else if result}
-        <span class="ml-auto text-xs text-dim">{result.ok ? "All green" : result.compiled ? "Some tests failing" : q!.runner === "lua" ? "Script error" : "Doesn't compile"} · {(result.duration_ms / 1000).toFixed(1)}s</span>
-      {:else}
-        <span class="ml-auto text-xs text-dim" data-testid="help">Save (Ctrl+S) and checks run.</span>
-      {/if}
-    </div>
-    <ul class="mt-2 flex flex-col gap-1.5">
-      {#each rows as r (r.test + (check?.tick ?? 0))}
-        <li class="rounded-lg border {tone[r.status]} {checking ? 'opacity-60' : ''}" data-status={r.status}>
-          <button class="flex w-full items-start gap-2.5 px-2.5 py-1.5 text-left text-sm {r.status === 'failed' && r.output ? 'cursor-pointer' : 'cursor-default'}" onclick={() => r.output && (expanded[r.test] = !expanded[r.test])}>
-            <span class="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold {r.status === 'passed' ? 'tick bg-ok text-black' : r.status === 'failed' ? 'bg-bad text-black' : 'bg-line text-dim'}">{icon[r.status]}</span>
-            <span class="flex-1 text-ink">{r.label}</span>
-            {#if r.status === "failed" && r.output}<span class="text-xs text-dim">{expanded[r.test] ? "hide" : "why?"}</span>{/if}
-          </button>
-          {#if expanded[r.test] && r.output}
-            <pre class="mx-2.5 mb-2.5 max-h-48 overflow-auto rounded-lg bg-black/40 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink">{r.output}</pre>
-          {/if}
-        </li>
-      {/each}
-    </ul>
-    {#each errors as d}
-      <details class="mt-2 rounded-lg border border-bad/50 bg-bad/10 px-3 py-2" data-testid="diagnostic">
-        <summary class="cursor-pointer font-mono text-sm font-bold {d.level === 'error' ? 'text-bad' : 'text-amber-300'}">
-          {d.file ?? "compiler"}{d.line ? `:${d.line}` : ""} <span class="font-sans font-normal text-dim">{d.message}</span>
-        </summary>
-        <pre class="mt-2 max-h-56 overflow-auto rounded-lg bg-black/40 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap">{d.rendered}</pre>
-      </details>
-    {/each}
-
-    {#if freeHintReady}
-      <div class="pop mt-3 rounded-lg border border-rust bg-rust/10 px-3 py-2 text-sm" data-testid="stuck-box">
-        Stuck for a bit? The next hint is free: it won't count, so your no-hint badge and combo are safe.
-      </div>
-    {/if}
-    {#if hintsShown.length}
-      <ol class="mt-3 flex flex-col gap-1.5">
-        {#each hintsShown as h, i}
-          <li class="pop rounded-lg border border-line bg-panel-2 px-3 py-2 text-sm"><span class="mr-1 font-bold text-rust-hi">💡 {i + 1}.</span>{@html renderMarkdown(h.text, lang).replace(/^<p>|<\/p>\s*$/g, "")}</li>
-        {/each}
-      </ol>
-    {/if}
-  </section>
-{/snippet}
-
-
 {#snippet lessonBlock()}
   <section bind:this={lessonEl} class="scroll-mt-20 rounded-2xl border border-line bg-panel {lessonSide ? '' : 'mb-6'}" data-testid="learn">
     <button class="flex w-full items-center gap-3 text-left {lessonSide ? 'sticky top-0 z-10 rounded-t-2xl bg-panel px-5 py-3' : 'px-6 py-3'}" aria-expanded={!lessonShut} onclick={() => setLesson(lessonShut)} data-testid="lesson-toggle">
@@ -483,7 +438,7 @@
     </button>
     {#if !lessonShut}
       <div class="border-t border-line px-5 py-5">
-        {#if cards?.why}<div class="prose-ox mb-5 rounded-xl border-l-4 border-rust bg-[#221a15] px-4 py-3 text-base text-dim" data-testid="why">{@html cards.why}</div>{/if}
+        {#if cards?.why}<div class="prose-ox mb-5 rounded-xl border-l-4 border-rust bg-tint px-4 py-3 text-base text-dim" data-testid="why">{@html cards.why}</div>{/if}
         <div class="flex flex-col gap-6" data-testid="lesson-list">
           {#each steps as st}
             {#if st.kind === "card" && cards}
@@ -494,7 +449,7 @@
                 {#each card.codes as c, ci}<div class="mt-3"><TypedCode code={c} playKey="{id}:{st.i}:{ci}" animate={false} /></div>{/each}
               </div>
             {:else if st.kind === "point" && q}
-              <div class="rounded-xl border border-dashed border-rust/50 bg-[#221a15]/60 px-4 py-4">
+              <div class="rounded-xl border border-dashed border-rust/50 bg-tint/60 px-4 py-4">
                 <div class="mb-2 text-xs font-bold tracking-widest text-rust-hi uppercase">Quick point · +2 XP</div>
                 <PointStep point={q.points[st.pi]} {lang} compact solved={!!solved[st.pi]} onsolve={() => solvePoint(st.pi)} />
               </div>
@@ -506,110 +461,369 @@
   </section>
 {/snippet}
 
-  <div class="mx-auto max-w-[140rem] px-6 py-5">
-    <header class="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2" data-testid="quest-head">
-      <h1 class="text-2xl font-extrabold">{q.title}</h1>
-      <span class="rounded-full border px-3 py-0.5 text-sm font-semibold {kindClass[q.kind]}">{kindLabel[q.kind]}</span>
-      <span class="text-sm text-dim">{q.minutes} min</span>
-      <span class="text-sm font-bold text-rust-hi">+{q.xp} XP</span>
-      {#if done}<span class="rounded-full bg-ok/15 px-3 py-0.5 text-sm font-semibold text-ok">Cleared ✓</span>{/if}
-      <div class="ml-auto flex flex-wrap items-center justify-end gap-2">
-      {#if stage === "build" && started}
+{#snippet stageBar()}
+  {#if stageList.length > 1}
+    <div class="flex gap-2" data-testid="stage-bar">
+      {#each stageList as s, k}
+        {@const here = stageList.indexOf(stage)}
+        {@const isDone = k < here || (done && s === "build" && s !== stage)}
         <button
-          class="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-semibold {checking ? 'border-amber-300/40 bg-amber-300/10 text-amber-200' : !result ? 'border-line bg-panel text-dim' : passedCount === rows.length ? 'border-ok/50 bg-ok/10 text-ok' : 'border-bad/50 bg-bad/10 text-bad'}"
-          onclick={() => objEl?.scrollIntoView({ behavior: "smooth", block: "start" })} data-testid="obj-pill" title="Jump to objectives"
+          class="flex items-center gap-2 rounded-lg border px-3 py-1 text-sm font-semibold {s === stage ? 'border-rust bg-tint text-ink' : 'border-line bg-panel text-dim hover:text-ink'}"
+          onclick={() => goStage(s)} data-testid="stage" data-stage={s} data-state={s === stage ? "on" : isDone ? "done" : ""}
         >
-          {#if checking}<span class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-300 border-t-transparent"></span>Checking…
-          {:else}<span class="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-black {!result ? 'bg-line' : passedCount === rows.length ? 'bg-ok' : 'bg-bad'}">{!result ? "•" : passedCount === rows.length ? "✓" : "✕"}</span>{passedCount}/{rows.length} objectives{/if}
+          <span class="flex h-5 w-5 items-center justify-center rounded-full border text-xs {s === stage ? 'border-rust bg-rust text-on-rust' : isDone ? 'border-ok bg-ok text-bg' : 'border-line'}">{k + 1}</span>
+          {stageNames[s]}
+          <span class="font-normal text-rust-hi">{stageXp[s]}</span>
         </button>
-        {@render toolbar()}
-      {/if}
-      {#if stageList.length > 1}
-        <div class="flex gap-2" data-testid="stage-bar">
-          {#each stageList as s, k}
-            {@const here = stageList.indexOf(stage)}
-            {@const isDone = k < here || (done && s === "build" && s !== stage)}
-            <button
-              class="flex items-center gap-2 rounded-lg border px-3 py-1 text-sm font-semibold {s === stage ? 'border-rust bg-[#2a1d14] text-ink' : 'border-line bg-panel text-dim hover:text-ink'}"
-              onclick={() => goStage(s)} data-testid="stage" data-stage={s} data-state={s === stage ? "on" : isDone ? "done" : ""}
-            >
-              <span class="flex h-5 w-5 items-center justify-center rounded-full border text-xs {s === stage ? 'border-rust bg-rust text-black' : isDone ? 'border-ok bg-ok text-black' : 'border-line'}">{k + 1}</span>
-              {stageNames[s]}
-              <span class="font-normal text-rust-hi">{stageXp[s]}</span>
-            </button>
-          {/each}
-        </div>
-      {/if}
-      </div>
-    </header>
+      {/each}
+    </div>
+  {/if}
+{/snippet}
 
-    {#if stage === "check"}
-      <div class="max-w-[68rem]">
-        <div class="rounded-2xl border border-line bg-panel px-8 py-7" data-testid="check-stage">
-          {#if cq}
-            <p class="mb-5 text-2xl leading-snug font-semibold" data-testid="check-q">{cq.question}</p>
-            {#each cq.choices as c, ci}
-              <button
-                class="mb-2.5 flex w-full items-center gap-4 rounded-xl border px-5 py-3.5 text-left text-lg {chkRight === ci ? 'border-ok bg-ok/10' : chkWrong.includes(ci) ? 'border-bad bg-bad/10' : 'border-line bg-panel-2 hover:border-rust'}"
-                onclick={() => pickAnswer(ci)} data-testid="choice" data-state={chkRight === ci ? "right" : chkWrong.includes(ci) ? "wrong" : ""}
-              >
-                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-line text-sm font-bold text-dim">{"ABCDEFGH"[ci]}</span>{c}
-              </button>
-            {/each}
-            {#if chkWrong.length && chkRight === null}<p class="mt-3 text-dim">Not that one. Guessing is free.</p>{/if}
-          {/if}
-          <div class="mt-6 flex items-center gap-4">
-            <span class="flex-1"></span>
-            <button class="btn btn-primary" disabled={chkRight === null} onclick={afterCheck} data-testid="check-next">{q && chkQ < q.quiz.length - 1 ? "Next question" : "Build it →"}</button>
-          </div>
-        </div>
-      </div>
-    {:else}
-      <div class="grid gap-6 {lessonSide ? 'lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]' : ''}">
-        {#if lessonSide}
-          <div class="min-w-0 lg:sticky lg:top-6 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto lg:rounded-2xl" data-testid="lesson-col">{@render lessonBlock()}</div>
+{#snippet objPill()}
+  <button
+    class="flex items-center gap-2 rounded-lg border px-3 py-1 text-sm font-semibold {checking ? 'border-amber-300/40 bg-amber-300/10 text-amber-200' : !result ? 'border-line bg-panel text-dim' : passedCount === rows.length ? 'border-ok/50 bg-ok/10 text-ok' : 'border-bad/50 bg-bad/10 text-bad'}"
+    onclick={() => { if (app.look === "workbench") wbTab = "objectives"; else objEl?.scrollIntoView({ behavior: "smooth", block: "start" }); }} data-testid="obj-pill" title="Objectives"
+  >
+    {#if checking}<span class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-300 border-t-transparent"></span>Checking…
+    {:else}<span class="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-bg {!result ? 'bg-line' : passedCount === rows.length ? 'bg-ok' : 'bg-bad'}">{!result ? "•" : passedCount === rows.length ? "✓" : "✕"}</span>{passedCount}/{rows.length} objectives{/if}
+  </button>
+{/snippet}
+
+{#snippet badges()}
+  <span class="rounded-full border px-3 py-0.5 text-xs font-semibold {kindClass[q!.kind]}">{kindLabel[q!.kind]}</span>
+  <span class="text-sm text-dim">{q!.minutes} min</span>
+  <span class="text-sm font-bold text-rust-hi">+{q!.xp} XP</span>
+  {#if done}<span class="rounded-full bg-ok/15 px-3 py-0.5 text-sm font-semibold text-ok">Cleared ✓</span>{/if}
+{/snippet}
+
+{#snippet taskBox(arcade: boolean)}
+  <section class="{arcade ? '' : 'rounded-[var(--radius-box)] border border-rust/40 bg-panel p-4'}" data-testid="task">
+    {#if !arcade}<h2 class="mb-2 text-xs font-bold tracking-widest text-rust-hi uppercase">Your turn</h2>{/if}
+    <ul class="flex flex-col gap-2">
+      {#each parts!.tasks as t, i}
+        {#if ticks.includes(i) || i === firstOpen}
+          <li>
+            <label class="flex cursor-pointer items-start gap-3 border px-3 py-2.5 text-base {arcade ? 'rounded-xl border-2' : 'rounded-[var(--radius-box)]'} {i === firstOpen ? 'border-rust bg-tint' : 'border-line bg-panel-2'} {ticks.includes(i) ? 'opacity-60' : ''}" data-testid="task-row" data-state={i === firstOpen ? "current" : "done"}>
+              <input type="checkbox" class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-rust)]" checked={ticks.includes(i)} onchange={() => toggleTick(i)} data-testid="task-tick" />
+              <span class="prose-ox min-w-0 {ticks.includes(i) ? 'line-through' : ''}">{@html t}</span>
+            </label>
+          </li>
         {/if}
-        <article class="min-w-0">
-          {#if hasLearn && !lessonSide}{@render lessonBlock()}{:else if !hasLearn && cards?.why}<div class="prose-ox mb-5 rounded-xl border-l-4 border-rust bg-[#221a15] px-5 py-3 text-base text-dim" data-testid="why">{@html cards.why}</div>{/if}
-          <section class="mb-4 rounded-2xl border border-rust/40 bg-panel p-4" data-testid="task">
-            <h2 class="mb-2 text-xs font-bold tracking-widest text-rust-hi uppercase">Your turn</h2>
-            <ul class="flex flex-col gap-2">
-              {#each parts.tasks as t, i}
-                {#if ticks.includes(i) || i === firstOpen}
-                  <li>
-                    <label class="flex cursor-pointer items-start gap-3 rounded-xl border px-3 py-2.5 text-base {i === firstOpen ? 'border-rust bg-rust/10' : 'border-line bg-panel-2'} {ticks.includes(i) ? 'opacity-60' : ''}" data-testid="task-row" data-state={i === firstOpen ? "current" : "done"}>
-                      <input type="checkbox" class="mt-1 h-5 w-5 shrink-0 accent-orange-500" checked={ticks.includes(i)} onchange={() => toggleTick(i)} data-testid="task-tick" />
-                      <span class="prose-ox min-w-0 {ticks.includes(i) ? 'line-through' : ''}">{@html t}</span>
-                    </label>
-                  </li>
-                {/if}
-              {/each}
-              {#if ghostCount > 0}
-                <li class="flex items-center gap-3 rounded-xl border border-dashed border-line px-3 py-2 text-base text-dim opacity-60" data-testid="task-ghost">
-                  <span class="h-5 w-5 shrink-0 rounded-md border-2 border-dim"></span>{ghostCount} more {ghostCount === 1 ? "step" : "steps"}
-                </li>
-              {/if}
-            </ul>
-            {#if !started}
-              <button class="btn btn-primary btn-lg mt-4 w-full" disabled={busy} onclick={start}>Start quest</button>
-            {/if}
-          </section>
+      {/each}
+      {#if ghostCount > 0}
+        <li class="flex items-center gap-3 rounded-[var(--radius-box)] border border-dashed border-line px-3 py-2 text-base text-dim opacity-60" data-testid="task-ghost">
+          <span class="h-5 w-5 shrink-0 rounded-md border-2 border-dim"></span>{ghostCount} more {ghostCount === 1 ? "step" : "steps"}
+        </li>
+      {/if}
+    </ul>
+    {#if !started}
+      <button class="btn btn-primary btn-lg mt-4 w-full" disabled={busy} onclick={start}>Start quest</button>
+    {/if}
+  </section>
+{/snippet}
 
-          {#if started}
-            {@render checksPanel()}
-            {#key `${detail.workspace}|${resetN}`}
-              <CodeEditor {id} diagnostics={result?.diagnostics ?? []} {checking} todo={todoIdx} tasks={parts.tasks.length} hot={stuckNow} onsave={onEditorSave} onlesson={hasLearn ? showLesson : undefined} />
-            {/key}
-            {#if q.flavour === "games" && rows.length}<div class="mt-4"><QuestScene quest={q} objectives={sceneRows} /></div>{/if}
-          {/if}
-          {#if run}{@render consolePane()}{/if}
-        </article>
+{#snippet objList()}
+  <ul class="flex flex-col gap-1.5" data-testid="objectives-list">
+    {#each rows as r (r.test + (check?.tick ?? 0))}
+      <li class="rounded-lg border {tone[r.status]} {checking ? 'opacity-60' : ''}" data-status={r.status}>
+        <button class="flex w-full items-start gap-2.5 px-2.5 py-1.5 text-left text-sm {r.status === 'failed' && r.output ? 'cursor-pointer' : 'cursor-default'}" onclick={() => r.output && (expanded[r.test] = !expanded[r.test])}>
+          <span class="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold {r.status === 'passed' ? 'tick bg-ok text-bg' : r.status === 'failed' ? 'bg-bad text-bg' : 'bg-line text-dim'}">{icon[r.status]}</span>
+          <span class="flex-1 text-ink">{r.label}</span>
+          {#if r.status === "failed" && r.output}<span class="text-xs text-dim">{expanded[r.test] ? "hide" : "why?"}</span>{/if}
+          {#if r.status === "notrun" && result && !result.compiled}<span class="text-xs text-dim">waits for the build</span>{/if}
+        </button>
+        {#if expanded[r.test] && r.output}
+          <pre class="mx-2.5 mb-2.5 max-h-48 overflow-auto rounded-lg bg-code p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink">{r.output}</pre>
+        {/if}
+      </li>
+    {/each}
+  </ul>
+{/snippet}
+
+{#snippet resultLine()}
+  {#if checking}
+    <span class="flex items-center gap-2 text-amber-200" data-testid="checking"><span class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-300 border-t-transparent"></span>Checking…</span>
+  {:else if result}
+    <span class="text-dim">{result.ok ? "All green" : result.compiled ? "Some tests failing" : q!.runner === "lua" ? "Script error" : "Doesn't build yet"} · {(result.duration_ms / 1000).toFixed(1)}s</span>
+  {:else}
+    <span class="text-dim" data-testid="help">Save (Ctrl+S) and checks run.</span>
+  {/if}
+{/snippet}
+
+{#snippet problems()}
+  {#if allDiags.length}
+    <ul class="flex flex-col" data-testid="diag-list">
+      {#each allDiags as d}
+        {@const x = explain(d, diagLang(d))}
+        <li class="flex items-baseline gap-3 px-1 py-1.5 text-sm" data-testid="diagnostic">
+          <span class="font-bold {d.level === 'error' ? 'text-bad' : 'text-amber-300'}">{d.level === "error" ? "✕" : "▲"}</span>
+          <span class="min-w-0 flex-1"><b class="font-semibold">{x.title}.</b> <span class="text-dim">{d.message}</span></span>
+          <span class="shrink-0 font-mono text-xs text-dim">{d.file ?? "compiler"}{d.line ? `:${d.line}` : ""}</span>
+        </li>
+      {/each}
+    </ul>
+  {:else if result}
+    <p class="px-1 py-2 text-sm text-dim">{result.compiled ? "No compiler problems." : "The build failed; see the compiler output in the editor."}</p>
+  {:else}
+    <p class="px-1 py-2 text-sm text-dim">Nothing yet. Save and the compiler looks at your code.</p>
+  {/if}
+{/snippet}
+
+{#snippet hintBox(note: boolean)}
+  {#if q!.hints.length}
+    {#if freeHintReady}
+      <div class="pop mb-2 rounded-[var(--radius-box)] border border-rust bg-tint px-3 py-2 text-sm" data-testid="stuck-box">
+        Stuck for a bit? The next hint is free: it won't count, so your no-hint badge and combo are safe.
       </div>
     {/if}
+    <ol class="flex flex-col gap-2">
+      {#each q!.hints as h, i}
+        {@const open = i < hintsShown.length}
+        <li class="rounded-[var(--radius-box)] border px-3 py-2 text-sm {open ? 'pop border-amber-300/60 bg-amber-300/10' : 'border-line bg-panel-2 text-dim'}">
+          <div class="flex justify-between text-xs font-bold tracking-wider uppercase {open ? 'text-amber-300' : ''}"><span>{note ? `Hint ${i + 1} of ${q!.hints.length}` : ["Nudge", "Clue", "Show the fix"][i] ?? `Hint ${i + 1}`}</span></div>
+          {#if open}<div class="mt-1 text-ink">{@html renderMarkdown(h.text, lang).replace(/^<p>|<\/p>\s*$/g, "")}</div>{/if}
+        </li>
+      {/each}
+    </ol>
+    <button class="btn {freeHintReady ? 'btn-primary' : 'btn-ghost'} mt-2 w-full !rounded-lg !py-1.5 text-sm" disabled={busy || hintsShown.length >= q!.hints.length} onclick={hint} data-testid="hint">
+      {hintsShown.length >= q!.hints.length ? "No more hints" : freeHintReady ? "Show next hint (free)" : "Show next hint"} <span class="text-dim">{detail!.hints_used}/{q!.hints.length}</span>
+    </button>
+  {:else}
+    <p class="text-sm text-dim">This quest has no hints. Hover a word in the code for a short note, or press Ctrl+Space for ideas.</p>
+  {/if}
+{/snippet}
+
+{#snippet consoleBody(tall: boolean)}
+  <div bind:this={consoleEl} class="{tall ? 'min-h-0 flex-1' : 'max-h-80 min-h-32'} overflow-auto px-4 py-3 font-mono text-sm leading-relaxed" data-testid="console-lines">
+    {#each consoleRows as r}
+      {#if r.kind === "build"}
+        <button class="block w-full text-left text-dim/80 hover:text-dim" data-testid="build-fold" onclick={() => (openBuild[r.at] = !openBuild[r.at])}>
+          {openBuild[r.at] ? "▾" : "▸"} build output ({r.lines.length} {r.lines.length === 1 ? "line" : "lines"})
+        </button>
+        {#if openBuild[r.at]}
+          {#each r.lines as bl}<div class="whitespace-pre-wrap break-words pl-4 text-dim/70">{bl}</div>{/each}
+        {/if}
+      {:else}
+        <div class="whitespace-pre-wrap break-words {lineClass[r.l.stream]}">{r.l.stream === "input" ? "› " : ""}{r.l.line}</div>
+      {/if}
+    {:else}
+      <div class="text-dim">Press ▶ Run to start the program.</div>
+    {/each}
   </div>
+  <form class="flex items-center gap-2 border-t border-line px-4 py-2 font-mono text-sm" onsubmit={(e) => { e.preventDefault(); if (running) sendInput(); }}>
+    <span class="text-ok">›</span>
+    <input class="min-w-0 flex-1 bg-transparent text-ink outline-none placeholder:text-dim/50 disabled:opacity-40" placeholder={running ? "type a line, press Enter" : "program not running"} disabled={!running} bind:value={stdin} data-testid="stdin" autocomplete="off" spellcheck="false" />
+    {#if running}<button type="button" class="btn btn-ghost !rounded-lg !px-3 !py-0.5 font-sans text-xs" onclick={stopProgram} data-testid="stop">Stop</button>{/if}
+  </form>
+{/snippet}
+
+{#snippet consoleCard()}
+  <section bind:this={panelEl} class="mt-6 overflow-hidden rounded-[var(--radius-box)] border border-line bg-code" data-testid="console">
+    <header class="flex items-center justify-between border-b border-line px-4 py-2">
+      <h2 class="text-sm font-bold text-dim">Console{#if running}<span class="ml-2 inline-block h-2 w-2 animate-pulse rounded-full bg-ok"></span>{/if}</h2>
+    </header>
+    {@render consoleBody(false)}
+  </section>
+{/snippet}
+
+{#snippet editor(fill: boolean, list: boolean)}
+  {#key `${detail!.workspace}|${resetN}`}
+    <CodeEditor {id} diagnostics={result?.diagnostics ?? []} {checking} todo={todoIdx} tasks={parts!.tasks.length} hot={stuckNow} onsave={onEditorSave} onlesson={hasLearn && lessonShut ? showLesson : undefined} {fill} {list} />
+  {/key}
+{/snippet}
+
+{#snippet checkStage()}
+  <div class="max-w-[68rem]">
+    <div class="rounded-[var(--radius-box)] border border-line bg-panel px-8 py-7" data-testid="check-stage">
+      {#if cq}
+        <p class="mb-5 text-2xl leading-snug font-semibold" data-testid="check-q">{cq.question}</p>
+        {#each cq.choices as c, ci}
+          <button
+            class="mb-2.5 flex w-full items-center gap-4 rounded-xl border px-5 py-3.5 text-left text-lg {chkRight === ci ? 'border-ok bg-ok/10' : chkWrong.includes(ci) ? 'border-bad bg-bad/10' : 'border-line bg-panel-2 hover:border-rust'}"
+            onclick={() => pickAnswer(ci)} data-testid="choice" data-state={chkRight === ci ? "right" : chkWrong.includes(ci) ? "wrong" : ""}
+          >
+            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-line text-sm font-bold text-dim">{"ABCDEFGH"[ci]}</span>{c}
+          </button>
+        {/each}
+        {#if chkWrong.length && chkRight === null}<p class="mt-3 text-dim">Not that one. Guessing is free.</p>{/if}
+      {/if}
+      <div class="mt-6 flex items-center gap-4">
+        <span class="flex-1"></span>
+        <button class="btn btn-primary" disabled={chkRight === null} onclick={afterCheck} data-testid="check-next">{q && chkQ < q.quiz.length - 1 ? "Next question" : "Build it →"}</button>
+      </div>
+    </div>
+  </div>
+{/snippet}
+
+{#if stage === "check"}
+  <div class="mx-auto max-w-5xl px-6 py-8">
+    <header class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2" data-testid="quest-head">
+      <h1 class="font-[family-name:var(--font-display)] text-3xl font-extrabold">{q.title}</h1>
+      {@render badges()}
+      <div class="ml-auto">{@render stageBar()}</div>
+    </header>
+    {@render checkStage()}
+  </div>
+{:else if app.look === "workbench"}
+  <!-- Workbench: lesson on the left, editor in the middle, panel with tabs below -->
+  <div class="grid h-full min-h-0 grid-cols-[minmax(17rem,25rem)_minmax(0,1fr)]" data-layout="workbench">
+    <aside class="flex min-h-0 flex-col overflow-y-auto border-r border-line bg-panel" data-testid="lesson-col">
+      <header class="flex flex-col gap-2 border-b border-line px-4 py-3" data-testid="quest-head">
+        <h1 class="text-lg leading-tight font-bold">{q.title}</h1>
+        <div class="flex flex-wrap items-center gap-2">{@render badges()}</div>
+        {@render stageBar()}
+      </header>
+      <div class="p-3">{@render taskBox(false)}</div>
+      {#if hasLearn}<div class="px-3 pb-3">{@render lessonBlock()}</div>{:else if cards?.why}<div class="prose-ox mx-3 mb-3 rounded-xl border-l-4 border-rust bg-tint px-4 py-3 text-base text-dim" data-testid="why">{@html cards.why}</div>{/if}
+    </aside>
+    <div class="flex min-h-0 min-w-0 flex-col">
+      {#if started}
+        <div class="flex flex-wrap items-center gap-2 border-b border-line bg-panel px-3 py-1.5">
+          {@render objPill()}
+          <span class="flex-1"></span>
+          {@render toolbar()}
+        </div>
+        <div class="min-h-0 flex-1 p-2">{@render editor(true, false)}</div>
+        <section class="flex h-60 shrink-0 flex-col border-t border-line bg-panel {flash ? '!bg-white' : ''}" bind:this={objEl} data-testid="objectives">
+          <div class="flex items-center gap-5 border-b border-line px-4 text-xs font-bold tracking-wider uppercase" role="tablist">
+            {#each wbTabs as tb}
+              <button role="tab" aria-selected={wbTab === tb.id} class="py-2 {wbTab === tb.id ? 'text-ink shadow-[inset_0_-2px_0_var(--color-rust)]' : 'text-dim hover:text-ink'}" onclick={() => (wbTab = tb.id)} data-testid="panel-tab-{tb.id}">
+                {tb.label}{#if tb.n}<span class="ml-1.5 rounded-full px-1.5 text-[10px] {tb.id === 'problems' ? 'bg-bad text-bg' : 'bg-panel-2 text-dim'}">{tb.n}</span>{/if}
+              </button>
+            {/each}
+            <span class="ml-auto text-xs font-normal tracking-normal normal-case">{@render resultLine()}</span>
+          </div>
+          <div class="min-h-0 flex-1 {wbTab === 'console' ? 'flex flex-col' : 'overflow-y-auto px-4 py-3'}">
+            {#if wbTab === "problems"}{@render problems()}
+            {:else if wbTab === "objectives"}{@render objList()}
+            {:else if wbTab === "hints"}<div class="max-w-2xl">{@render hintBox(false)}</div>
+            {:else}<div bind:this={panelEl} class="flex min-h-0 flex-1 flex-col bg-code" data-testid="console">{@render consoleBody(true)}</div>{/if}
+          </div>
+        </section>
+      {:else}
+        <div class="grid flex-1 place-items-center p-8 text-center text-dim">
+          <div><div class="mb-2 text-4xl">✎</div>Start the quest on the left and your code opens here.</div>
+        </div>
+      {/if}
+    </div>
+  </div>
+{:else if app.look === "notebook"}
+  <!-- Notebook: one calm column, hints in the margin -->
+  <div class="mx-auto grid max-w-[78rem] gap-10 px-8 pt-10 pb-24 lg:grid-cols-[minmax(0,48rem)_17rem]" data-layout="notebook">
+    <article class="min-w-0">
+      <header class="mb-6" data-testid="quest-head">
+        <div class="mb-1 text-xs font-bold tracking-[0.14em] text-rust uppercase">{worldTitle} · {q.minutes} min · +{q.xp} XP</div>
+        <h1 class="mb-3 font-[family-name:var(--font-display)] text-5xl leading-tight font-bold">{q.title}</h1>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="rounded-full border px-3 py-0.5 text-xs font-semibold {kindClass[q.kind]}">{kindLabel[q.kind]}</span>
+          {#if done}<span class="rounded-full bg-ok/15 px-3 py-0.5 text-sm font-semibold text-ok">Cleared ✓</span>{/if}
+          {#if started}{@render objPill()}{/if}
+          <span class="ml-auto">{@render stageBar()}</span>
+        </div>
+      </header>
+      {#if hasLearn}<div class="mb-6">{@render lessonBlock()}</div>{:else if cards?.why}<div class="prose-ox mb-6 rounded-xl border-l-4 border-rust bg-tint px-5 py-3 text-lg text-dim" data-testid="why">{@html cards.why}</div>{/if}
+      <div class="mb-6">{@render taskBox(false)}</div>
+      {#if started}
+        <div class="mb-2 text-xs font-bold tracking-[0.14em] text-dim uppercase">Your code</div>
+        <div class="shadow-[0_14px_34px_-20px_rgba(60,40,20,.45)]">{@render editor(false, true)}</div>
+        <section bind:this={objEl} class="mt-3 rounded-[var(--radius-box)] border p-4 {flash ? 'border-white bg-white' : result && !result.ok ? 'border-bad/40 bg-bad/5' : result?.ok ? 'border-ok/40 bg-ok/5' : 'border-line bg-panel'}" data-testid="objectives">
+          <div class="mb-2 flex items-center gap-2 text-sm"><span class="font-bold">Checks</span><span class="text-dim tabular-nums">{passedCount}/{rows.length}</span><span class="ml-auto text-xs">{@render resultLine()}</span></div>
+          {@render objList()}
+        </section>
+        <div class="mt-4">{@render toolbar()}</div>
+        {#if q.flavour === "games" && rows.length}<div class="mt-6"><QuestScene quest={q} objectives={sceneRows} /></div>{/if}
+      {/if}
+      {#if run}{@render consoleCard()}{/if}
+    </article>
+    <aside class="flex flex-col gap-4 lg:sticky lg:top-6 lg:self-start" data-testid="margin">
+      <div class="rounded-[var(--radius-box)] border border-[#ecd7a6] bg-[#fdf4dc] p-4">
+        <div class="mb-2 text-xs font-bold tracking-[0.12em] text-amber-300 uppercase">Hints</div>
+        {@render hintBox(true)}
+      </div>
+      <div class="rounded-[var(--radius-box)] border border-line bg-panel p-4 text-sm">
+        <div class="mb-1 text-xs font-bold tracking-[0.12em] text-dim uppercase">While you type</div>
+        Press <kbd class="rounded border border-line px-1 font-mono text-xs">Ctrl</kbd>+<kbd class="rounded border border-line px-1 font-mono text-xs">Space</kbd> for ideas. Hover a word to see what it does. Red lines get a note in plain words underneath.
+      </div>
+      <button class="btn {focusHere ? 'btn-primary' : 'btn-ghost'} w-full font-mono text-sm" disabled={busy} onclick={focus}>
+        {#if focusHere}⏱ {mmss(focusHere.remaining)} · stop{:else}⏱ Focus {app.profile?.settings.focus_minutes ?? 25} min{/if}
+      </button>
+    </aside>
+  </div>
+{:else}
+  <!-- Arcade: quest log, editor with a big RUN, Ferris helps, challenges below -->
+  <div class="grid h-full min-h-0 grid-cols-[19rem_minmax(0,1fr)_17rem] grid-rows-[minmax(0,1fr)_auto] gap-3 p-3" data-layout="arcade">
+    <section class="flex min-h-0 flex-col overflow-hidden rounded-[var(--radius-box)] border-2 border-line bg-panel" data-testid="lesson-col">
+      <div class="flex items-center justify-between border-b-2 border-line px-4 py-2.5 text-xs font-bold tracking-widest text-dim uppercase"><span>Quest log</span><span>{worldTitle}</span></div>
+      <div class="min-h-0 flex-1 overflow-y-auto">
+        <div class="p-3">{@render taskBox(true)}</div>
+        {#if stageList.length > 1}<div class="px-3 pb-3">{@render stageBar()}</div>{/if}
+        {#if hasLearn}<div class="border-t-2 border-line p-3">{@render lessonBlock()}</div>{/if}
+      </div>
+    </section>
+    <section class="flex min-h-0 min-w-0 flex-col gap-2.5">
+      <header class="flex flex-wrap items-center gap-3" data-testid="quest-head">
+        <h1 class="text-2xl font-bold">{q.title}</h1>
+        {@render badges()}
+        <span class="flex-1"></span>
+        {#if started && !done}
+          <button class="rounded-xl bg-rust px-5 py-2 font-extrabold text-on-rust shadow-[0_4px_0_color-mix(in_srgb,var(--color-rust)_55%,black)] active:translate-y-0.5 disabled:opacity-50" disabled={busy || checking} onclick={runChecks} data-testid="run-checks">▶ RUN <span class="font-normal opacity-70">Ctrl+S</span></button>
+        {/if}
+      </header>
+      {#if started}
+        <div class="min-h-0 flex-1">{@render editor(true, false)}</div>
+        <div class="flex flex-wrap items-center gap-2">{@render toolbar()}</div>
+      {:else}
+        <div class="grid flex-1 place-items-center rounded-[var(--radius-box)] border-2 border-dashed border-line text-center text-dim">
+          <div><div class="mb-2 text-4xl">🗺️</div>Accept the quest in the log to open your code.</div>
+        </div>
+      {/if}
+    </section>
+    <aside class="flex min-h-0 flex-col overflow-hidden rounded-[var(--radius-box)] border-2 border-line bg-panel" data-testid="companion">
+      <div class="border-b-2 border-line px-4 py-2.5 text-xs font-bold tracking-widest text-dim uppercase">Ferris</div>
+      <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3">
+        <svg width="58" height="42" viewBox="0 0 56 44" aria-hidden="true" class="{checking ? 'animate-bounce' : ''}"><ellipse cx="28" cy="28" rx="22" ry="13" fill="var(--color-rust)"/><circle cx="21" cy="17" r="5" fill="#fff"/><circle cx="35" cy="17" r="5" fill="#fff"/><circle cx="22" cy="18" r="2.3" fill="#111"/><circle cx="36" cy="18" r="2.3" fill="#111"/><path d="M6 24 2 14M50 24l4-10" stroke="var(--color-rust)" stroke-width="4" stroke-linecap="round"/></svg>
+        <div class="rounded-[14px_14px_14px_4px] border-2 border-line bg-panel-2 px-3 py-2.5 text-sm leading-relaxed" data-testid="ferris-says">
+          {#if checking}Checking your code…
+          {:else if done}Quest cleared! {#if nextHere?.quest}Ready for the next one?{/if}
+          {:else if firstError}<b class="text-amber-300">{firstError.title.replace(/`/g, "")}.</b> {firstError.body.replace(/`/g, "")}
+          {:else if result && !result.ok}{passedCount} of {rows.length} passing. Open a red challenge below to see why.
+          {:else if result?.ok}All green. Nice work!
+          {:else if started}Edit the code, then hit RUN (or just save). I'll tell you what the compiler says.
+          {:else}New quest! Read the log on the left, then accept it.{/if}
+        </div>
+        {@render hintBox(false)}
+        <button class="btn {focusHere ? 'btn-primary' : 'btn-ghost'} w-full font-mono text-sm" disabled={busy} onclick={focus}>
+          {#if focusHere}⏱ {mmss(focusHere.remaining)} · stop{:else}⏱ Focus {app.profile?.settings.focus_minutes ?? 25} min{/if}
+        </button>
+      </div>
+    </aside>
+    <div class="col-span-3 grid grid-cols-[19rem_minmax(0,1fr)_17rem] gap-3">
+      <div class="min-w-0">{#if q.flavour === "games" && rows.length && started}<QuestScene quest={q} objectives={sceneRows} />{/if}</div>
+      <section bind:this={objEl} class="rounded-[var(--radius-box)] border-2 p-3 {flash ? 'border-white bg-white' : 'border-line bg-panel'}" data-testid="objectives">
+        <div class="mb-2 flex items-center gap-2 text-xs font-bold tracking-widest text-dim uppercase"><span>Challenges {passedCount}/{rows.length}</span><span class="ml-auto font-normal tracking-normal normal-case">{@render resultLine()}</span></div>
+        {#if result && !result.compiled}
+          <div class="mb-2 rounded-xl border-2 border-bad bg-bad/10 px-3 py-1.5 text-sm"><b class="text-bad">✕ Build</b> · {allDiags.filter((d) => d.level === "error").length} error{allDiags.filter((d) => d.level === "error").length === 1 ? "" : "s"}{#if allDiags[0]?.line}, line {allDiags[0].line}{/if}</div>
+        {/if}
+        {@render objList()}
+      </section>
+      <div class="flex flex-col justify-center rounded-[var(--radius-box)] border-2 border-line bg-panel px-4 py-3">
+        <div class="text-xs font-bold tracking-widest text-dim uppercase">Reward</div>
+        <div class="text-2xl font-bold">+{q.xp} XP</div>
+        {#if run}<button class="mt-2 text-left text-sm text-rust-hi underline" onclick={() => (consoleOpen = !consoleOpen)}>{consoleOpen ? "Hide" : "Show"} console</button>{/if}
+      </div>
+    </div>
+  </div>
+  {#if run && consoleOpen}
+    <div class="fixed right-6 bottom-6 z-40 flex h-80 w-[36rem] max-w-[calc(100vw-3rem)] flex-col overflow-hidden rounded-[var(--radius-box)] border-2 border-line bg-code shadow-2xl" bind:this={panelEl} data-testid="console">
+      <header class="flex items-center justify-between border-b-2 border-line px-4 py-2 text-sm font-bold text-dim">Console{#if running}<span class="ml-2 inline-block h-2 w-2 animate-pulse rounded-full bg-ok"></span>{/if}<button class="ml-auto text-dim hover:text-ink" onclick={() => (consoleOpen = false)} aria-label="Close console">✕</button></header>
+      {@render consoleBody(true)}
+    </div>
+  {/if}
+{/if}
 
   {#if xpToast}
-    {#key xpToast.key}<div class="pop fixed top-20 right-7 z-50 rounded-xl border border-rust bg-[#2a1d14] px-4 py-2 font-extrabold text-rust-hi" data-testid="xp-toast">+{xpToast.n} XP</div>{/key}
+    {#key xpToast.key}<div class="pop fixed top-20 right-7 z-50 rounded-xl border border-rust bg-tint px-4 py-2 font-extrabold text-rust-hi" data-testid="xp-toast">+{xpToast.n} XP</div>{/key}
   {/if}
 {:else}
   <div class="mx-auto grid max-w-[96rem] gap-8 px-6 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
@@ -629,7 +843,7 @@
             {#each parts.tasks as t, i}
               <li>
                 <label class="flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 text-lg {i === firstOpen ? 'border-rust bg-rust/10' : 'border-line bg-panel-2'} {ticks.includes(i) ? 'opacity-60' : ''}">
-                  <input type="checkbox" class="mt-1.5 h-5 w-5 shrink-0 accent-orange-500" checked={ticks.includes(i)} onchange={() => toggleTick(i)} data-testid="task-tick" />
+                  <input type="checkbox" class="mt-1.5 h-5 w-5 shrink-0 accent-[var(--color-rust)]" checked={ticks.includes(i)} onchange={() => toggleTick(i)} data-testid="task-tick" />
                   <span class="prose-ox min-w-0 {ticks.includes(i) ? 'line-through' : ''}">{@html t}</span>
                 </label>
               </li>
@@ -666,7 +880,7 @@
       {/if}
 
       {#if run}
-        <section bind:this={panelEl} class="mt-10 overflow-hidden rounded-2xl border border-line bg-[#0d0c0b]" data-testid="console">
+        <section bind:this={panelEl} class="mt-10 overflow-hidden rounded-2xl border border-line bg-code" data-testid="console">
           <header class="flex items-center justify-between border-b border-line px-4 py-2">
             <h2 class="text-sm font-bold text-dim">Console{#if running}<span class="ml-2 inline-block h-2 w-2 animate-pulse rounded-full bg-ok"></span>{/if}</h2>
             <button class="btn btn-ghost !rounded-lg !px-3 !py-1 text-sm" disabled={!running} onclick={stopProgram} data-testid="stop">Stop</button>
@@ -703,7 +917,7 @@
               <legend class="mb-2 font-semibold">{qz.question}</legend>
               {#each qz.choices as c, ci}
                 <label class="mb-1.5 flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2 {answers[qi] === ci ? 'border-rust bg-rust/10' : 'border-line hover:border-dim'}">
-                  <input type="radio" name="q{qi}" class="accent-orange-500" checked={answers[qi] === ci} onchange={() => { answers[qi] = ci; quizMsg = ""; }} />
+                  <input type="radio" name="q{qi}" class="accent-[var(--color-rust)]" checked={answers[qi] === ci} onchange={() => { answers[qi] = ci; quizMsg = ""; }} />
                   <span>{c}</span>
                 </label>
               {/each}
@@ -769,7 +983,7 @@
                 <div class="mb-2 font-mono text-sm font-bold {d.level === 'error' ? 'text-bad' : 'text-amber-300'}">
                   {d.file ?? "compiler"}{d.line ? `:${d.line}` : ""} <span class="font-sans font-normal text-dim">{d.message}</span>
                 </div>
-                <pre class="max-h-56 overflow-auto rounded-lg bg-black/40 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap">{d.rendered}</pre>
+                <pre class="max-h-56 overflow-auto rounded-lg bg-code p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap">{d.rendered}</pre>
               </div>
             {/each}
 
@@ -780,12 +994,12 @@
                     class="flex w-full items-start gap-3 px-3 py-2.5 text-left {r.status === 'failed' && r.output ? 'cursor-pointer' : 'cursor-default'}"
                     onclick={() => r.output && (expanded[r.test] = !expanded[r.test])}
                   >
-                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold {r.status === 'passed' ? 'tick bg-ok text-black' : r.status === 'failed' ? 'bg-bad text-black' : 'bg-line text-dim'}">{icon[r.status]}</span>
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold {r.status === 'passed' ? 'tick bg-ok text-bg' : r.status === 'failed' ? 'bg-bad text-bg' : 'bg-line text-dim'}">{icon[r.status]}</span>
                     <span class="flex-1 text-ink">{r.label}</span>
                     {#if r.status === "failed" && r.output}<span class="text-xs text-dim">{expanded[r.test] ? "hide" : "why?"}</span>{/if}
                   </button>
                   {#if expanded[r.test] && r.output}
-                    <pre class="mx-3 mb-3 max-h-48 overflow-auto rounded-lg bg-black/40 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink">{r.output}</pre>
+                    <pre class="mx-3 mb-3 max-h-48 overflow-auto rounded-lg bg-code p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink">{r.output}</pre>
                   {/if}
                 </li>
               {/each}

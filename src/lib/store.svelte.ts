@@ -1,7 +1,12 @@
 import { goto } from "$app/navigation";
 import { api, listen } from "./api";
 import { configureSound, play } from "./sound";
-import type { Achievement, CheckResult, Completion, Profile, ProfileInfo, Quest, RunStream, Track, World } from "./types";
+import type { Achievement, CheckResult, Completion, Look, Profile, ProfileInfo, Quest, RunStream, Track, World } from "./types";
+
+export const LOOKS: Look[] = ["workbench", "notebook", "arcade"];
+const cachedLook = (): Look => {
+  try { const v = localStorage.getItem("oxide:look") as Look; return LOOKS.includes(v) ? v : "workbench"; } catch { return "workbench"; }
+};
 
 /** `shown`: how many objective rows have been revealed so far (they tick one at a time); Infinity = all */
 export interface CheckState { running: boolean; result: CheckResult | null; tick: number; shown: number }
@@ -27,6 +32,10 @@ class App {
   /** program console per quest id (Run on the quest page) */
   runs = $state<Record<string, RunState>>({});
   trackMenu = $state(false);
+  /** Ctrl+K palette */
+  palette = $state(false);
+  /** what the quest page puts in the Workbench status bar */
+  status = $state<{ errors: number; warnings: number; note: string } | null>(null);
   celebration = $state<Completion | null>(null);
   /** bumped on a crit: the objectives card flashes white for a frame */
   critFlash = $state(0);
@@ -105,6 +114,22 @@ class App {
   get track(): Track | null {
     const id = this.profile?.settings.track;
     return this.tracks.find((t) => t.id === id) ?? this.tracks[0] ?? null;
+  }
+
+  /** app look from the profile; before it loads, the last one used on this PC */
+  get look(): Look {
+    const v = this.profile?.settings.look as Look | undefined;
+    return v && LOOKS.includes(v) ? v : cachedLook();
+  }
+
+  async setLook(look: Look) {
+    if (!this.profile || look === this.look) return;
+    try {
+      await api.setSettings({ ...this.profile.settings, look });
+      this.profile = await api.getProfile();
+    } catch (e) {
+      this.error(e);
+    }
   }
 
   async switchTrack(id: string) {

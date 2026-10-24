@@ -216,6 +216,7 @@ const state = {
   settings: {
     editor: "", sound: true, focus_minutes: 25, track: "rust", flavour: "games", volume: 0.6,
     sounds: { objective: true, clear: true, level: true, achievement: true, crit: true },
+    look: "workbench", complete: true, explain: true,
   } as Settings,
   combo: 0,
   freezes: 1,
@@ -454,6 +455,14 @@ export const mockHandlers: MockHandlers = {
         result.diagnostics = [{
           level: "error", message: "cannot find value `oops` in this scope", file: primaryOf(id), line,
           rendered: "error[E0425]: cannot find value `oops` in this scope\n --> " + primaryOf(id) + ":" + line + ":5",
+        }];
+      } else if (/(format!|to_string|String::from)\(.*\);\s*\n\}/.test(text.split("#[cfg(test)]")[0]) && qq.runner === "cargo") {
+        // last line of a function ends in `;`: the classic "returns ()" error
+        const line = text.slice(0, text.search(/\);\s*\n\}/)).split("\n").length;
+        result = grade(qq, "compile");
+        result.diagnostics = [{
+          level: "error", message: "mismatched types", file: primaryOf(id), line,
+          rendered: "error[E0308]: mismatched types\n --> " + primaryOf(id) + ":" + line + ":5\n  |\n  = note: expected struct `String`\n          found unit type `()`\nhelp: remove this semicolon to return this value",
         }];
       } else result = grade(qq, text.includes("format!") ? "pass" : "fail");
       state.attempts[id] = (state.attempts[id] ?? 0) + 1;

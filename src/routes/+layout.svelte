@@ -7,11 +7,19 @@
   import { isTauri } from "$lib/api";
   import { mmss } from "$lib/ui";
   import Celebration from "$lib/components/Celebration.svelte";
+  import CommandPalette from "$lib/components/CommandPalette.svelte";
 
   let { children } = $props();
 
   onMount(() => {
     void app.init();
+  });
+
+  // the look lives on <html> so app.css can swap the color variables
+  $effect(() => {
+    const l = app.look;
+    document.documentElement.dataset.look = l;
+    try { localStorage.setItem("oxide:look", l); } catch { /* private mode */ }
   });
 
   const nav = [
@@ -33,6 +41,12 @@
     return missing ? app.questPath(missing) : null;
   }
 
+  const onQuest = $derived(page.url.pathname.startsWith("/quest"));
+  const questId = $derived(onQuest ? decodeURIComponent(page.url.pathname.slice("/quest/".length)) : "");
+  const crumb = $derived(onQuest ? app.questPath(questId) : (nav.find((n) => n.href !== "/" && page.url.pathname.startsWith(n.href))?.label ?? "Home"));
+  const p = $derived(app.profile);
+  const xpPct = $derived(p ? Math.min(100, (p.xp_into_level / Math.max(1, p.xp_for_next)) * 100) : 0);
+
   const active = (href: string) => (href === "/" ? page.url.pathname === "/" || page.url.pathname.startsWith("/quest") : page.url.pathname.startsWith(href));
 
   function onKey(e: KeyboardEvent) {
@@ -43,78 +57,161 @@
       app.trackMenu = !app.trackMenu;
       return;
     }
+    if (e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey) && !e.altKey) { e.preventDefault(); app.palette = !app.palette; return; }
+    if (app.palette) return;
     if (e.key === "Escape" && app.trackMenu) { app.trackMenu = false; return; }
+    // the editor already used this Esc (closed suggestions, left a snippet): don't also leave the quest
+    if (e.defaultPrevented) return;
     if (e.key === "Escape" && page.url.pathname.startsWith("/quest") && !app.celebration) void goto("/");
   }
 </script>
 
 <svelte:window onkeydown={onKey} onclick={(e) => { if (app.trackMenu && !(e.target as HTMLElement).closest("[data-track-menu]")) app.trackMenu = false; }} />
 
-<div class="flex h-screen flex-col">
-  <header class="flex items-center gap-2 border-b border-line bg-panel px-6 py-3">
-    <a href="/" class="mr-4 text-xl font-extrabold tracking-tight text-rust">Oxide</a>
-    <nav class="flex gap-1">
-      {#each nav as n}
-        <a href={n.href} class="rounded-lg px-4 py-1.5 font-medium transition {active(n.href) ? 'bg-panel-2 text-ink' : 'text-dim hover:text-ink'}">{n.label}</a>
-      {/each}
-    </nav>
-    <div class="ml-auto flex items-center gap-3">
-      {#if app.track}
-        {@const cur = app.track}
-        <div class="relative" data-track-menu>
-          <button
-            class="flex items-center gap-2 rounded-full border border-line bg-panel-2 px-3 py-1 text-sm font-semibold hover:border-rust/50"
-            aria-haspopup="menu" aria-expanded={app.trackMenu} data-testid="track-pill"
-            onclick={() => (app.trackMenu = !app.trackMenu)}
-          >
-            {cur.title} <span class="text-dim">▾</span><kbd class="rounded border border-line px-1 text-xs text-dim">t</kbd>
-          </button>
-          {#if app.trackMenu}
-            <div class="pop absolute right-0 z-40 mt-2 w-72 rounded-2xl border border-line bg-panel p-2 shadow-xl" role="menu" data-testid="track-menu">
-              {#each menu as { t, child } (t.id)}
-                {@const lock = child ? waitsFor(t.id) : null}
-                <button
-                  role="menuitem"
-                  class="flex w-full flex-col rounded-xl px-3 py-2 text-left hover:bg-panel-2 {t.id === cur.id ? 'bg-panel-2' : ''} {child ? 'ml-4 w-[calc(100%-1rem)] border-l-2 border-line rounded-l-none' : ''}"
-                  data-testid={child ? "track-child" : undefined}
-                  onclick={() => app.switchTrack(t.id)}
-                >
-                  <span class="flex items-center justify-between font-semibold">
-                    <span>{#if lock}<span class="mr-1" aria-label="locked">🔒</span>{/if}{t.title}</span>{#if t.id === cur.id}<span class="text-rust-hi">✓</span>{/if}
-                  </span>
-                  <span class="text-sm text-dim">{t.blurb}</span>
-                  {#if lock}<span class="mt-1 text-xs text-dim">Unlocks after {lock}</span>{/if}
-                </button>
-              {/each}
-            </div>
-          {/if}
+{#snippet trackPill(compact: boolean)}
+  {#if app.track}
+    {@const cur = app.track}
+    <div class="relative" data-track-menu>
+      <button
+        class="flex items-center gap-2 rounded-full border border-line bg-panel-2 font-semibold hover:border-rust/50 {compact ? 'px-2.5 py-0.5 text-xs' : 'px-3 py-1 text-sm'}"
+        aria-haspopup="menu" aria-expanded={app.trackMenu} data-testid="track-pill"
+        onclick={() => (app.trackMenu = !app.trackMenu)}
+      >
+        {cur.title} <span class="text-dim">▾</span><kbd class="rounded border border-line px-1 text-xs text-dim">t</kbd>
+      </button>
+      {#if app.trackMenu}
+        <div class="pop absolute right-0 z-40 mt-2 w-72 rounded-[var(--radius-box)] border border-line bg-panel p-2 shadow-xl" role="menu" data-testid="track-menu">
+          {#each menu as { t, child } (t.id)}
+            {@const lock = child ? waitsFor(t.id) : null}
+            <button
+              role="menuitem"
+              class="flex w-full flex-col rounded-xl px-3 py-2 text-left hover:bg-panel-2 {t.id === cur.id ? 'bg-panel-2' : ''} {child ? 'ml-4 w-[calc(100%-1rem)] border-l-2 border-line rounded-l-none' : ''}"
+              data-testid={child ? "track-child" : undefined}
+              onclick={() => app.switchTrack(t.id)}
+            >
+              <span class="flex items-center justify-between font-semibold">
+                <span>{#if lock}<span class="mr-1" aria-label="locked">🔒</span>{/if}{t.title}</span>{#if t.id === cur.id}<span class="text-rust-hi">✓</span>{/if}
+              </span>
+              <span class="text-sm text-dim">{t.blurb}</span>
+              {#if lock}<span class="mt-1 text-xs text-dim">Unlocks after {lock}</span>{/if}
+            </button>
+          {/each}
         </div>
       {/if}
-      {#if app.focus}
-        <a href={app.focus.quest_id ? `/quest/${app.focus.quest_id}` : "/"} class="rounded-full border border-rust/40 bg-rust/10 px-3 py-1 font-mono text-sm text-rust-hi">
-          ⏱ {mmss(app.focus.remaining)}
-        </a>
-      {/if}
-      {#if !isTauri}<span class="rounded-full border border-line px-2 py-0.5 text-xs text-dim" title="Running against src/lib/mock.ts">mock</span>{/if}
-      {#if app.profile}
-        {#if app.profiles.length > 1 && app.activeProfile}
-          <a href="/profile" class="text-sm font-semibold text-dim hover:text-ink" title="Switch profile on the Profile page" data-testid="profile-name">{app.activeProfile.name}</a>
-        {/if}
-        <span class="rounded-full bg-rust px-3 py-1 text-sm font-bold text-black">Lv {app.profile.level}</span>
-      {/if}
     </div>
-  </header>
+  {/if}
+{/snippet}
 
-  <main class="min-h-0 flex-1 overflow-y-auto">
-    {@render children()}
-  </main>
-</div>
+{#snippet extras()}
+  {#if app.focus}
+    <a href={app.focus.quest_id ? `/quest/${app.focus.quest_id}` : "/"} class="rounded-full border border-rust/40 bg-rust/10 px-3 py-0.5 font-mono text-sm text-rust-hi">
+      ⏱ {mmss(app.focus.remaining)}
+    </a>
+  {/if}
+  {#if !isTauri}<span class="rounded-full border border-line px-2 py-0.5 text-xs text-dim" title="Running against src/lib/mock.ts">mock</span>{/if}
+  {#if p && app.profiles.length > 1 && app.activeProfile}
+    <a href="/profile" class="text-sm font-semibold text-dim hover:text-ink" title="Switch profile on the Profile page" data-testid="profile-name">{app.activeProfile.name}</a>
+  {/if}
+{/snippet}
+
+{#if app.look === "workbench"}
+  <!-- Workbench: an IDE. Title bar, icon rail, status bar. -->
+  <div class="flex h-screen flex-col text-[15px]" data-shell="workbench">
+    <header class="flex h-11 shrink-0 items-center gap-4 border-b border-line bg-panel px-3">
+      <a href="/" class="font-extrabold whitespace-nowrap text-brand">◆ Oxide</a>
+      <span class="min-w-0 truncate text-sm text-dim" data-testid="crumb">{crumb}</span>
+      <button class="mx-auto flex w-[26rem] max-w-[34vw] shrink items-center gap-2 rounded-md border border-line bg-bg px-3 py-1 text-left text-sm text-dim hover:border-rust/50" onclick={() => (app.palette = true)} data-testid="palette-open">
+        <span>⌕</span><span class="flex-1 truncate">Jump to a quest, page or look</span><kbd class="rounded border border-line px-1 text-xs">Ctrl K</kbd>
+      </button>
+      <div class="flex shrink-0 items-center gap-3">
+        {@render extras()}
+        {@render trackPill(true)}
+        {#if p}
+          <div class="flex items-center gap-2 text-xs text-dim" title="{p.xp_into_level} / {p.xp_for_next} XP">
+            <span class="font-bold text-ink">Lv {p.level}</span>
+            <span class="h-1.5 w-20 overflow-hidden rounded-full bg-panel-2"><span class="block h-full bg-rust" style="width:{xpPct}%"></span></span>
+            <span class="tabular-nums">{p.xp_into_level}/{p.xp_for_next}</span>
+          </div>
+        {/if}
+      </div>
+    </header>
+    <div class="flex min-h-0 flex-1">
+      <nav class="flex w-12 shrink-0 flex-col items-center gap-1 border-r border-line bg-panel py-2" aria-label="Main">
+        {#each nav.slice(0, 2) as n}
+          <a href={n.href} title={n.label} aria-label={n.label} class="flex h-9 w-9 items-center justify-center rounded-md text-lg {active(n.href) ? 'bg-panel-2 text-ink shadow-[inset_2px_0_0_var(--color-rust)]' : 'text-dim hover:text-ink'}">{n.href === "/" ? "⌂" : "◫"}</a>
+        {/each}
+        <a href="/profile" title="Profile" aria-label="Profile" class="mt-auto flex h-9 w-9 items-center justify-center rounded-md text-lg {active('/profile') ? 'bg-panel-2 text-ink shadow-[inset_2px_0_0_var(--color-rust)]' : 'text-dim hover:text-ink'}">◉</a>
+      </nav>
+      <main class="min-h-0 min-w-0 flex-1 overflow-y-auto">
+        {@render children()}
+      </main>
+    </div>
+    <footer class="flex h-6 shrink-0 items-center gap-4 overflow-hidden bg-rust px-3 text-xs font-semibold whitespace-nowrap text-on-rust" data-testid="statusbar">
+      {#if onQuest && app.status}
+        <span>✕ {app.status.errors}  ▲ {app.status.warnings}</span><span class="truncate">{app.status.note}</span>
+      {:else}
+        <span>{app.track?.title ?? "Oxide"}</span>
+      {/if}
+      <span class="ml-auto flex gap-4">{#if p}<span>🔥 {p.streak_days}d</span>{/if}<span>Ctrl+K jump</span>{#if onQuest}<span>Ctrl+S save &amp; check</span><span>Ctrl+Space suggest</span>{/if}</span>
+    </footer>
+  </div>
+{:else if app.look === "notebook"}
+  <!-- Notebook: calm, light, reads like a book -->
+  <div class="flex h-screen flex-col" data-shell="notebook">
+    <header class="flex h-14 shrink-0 items-center gap-6 border-b border-line px-7">
+      <a href="/" class="font-[family-name:var(--font-display)] text-2xl font-bold text-brand">Oxide</a>
+      <nav class="flex gap-5">
+        {#each nav as n}
+          <a href={n.href} class="py-1 font-medium {active(n.href) ? 'text-ink shadow-[0_2px_0_var(--color-rust)]' : 'text-dim hover:text-ink'}">{n.label}</a>
+        {/each}
+      </nav>
+      <div class="ml-auto flex items-center gap-4 text-sm text-dim">
+        {@render extras()}
+        {@render trackPill(false)}
+        {#if p}<span>{p.streak_days}-day streak</span><span class="rounded-full border-[1.5px] border-rust px-2.5 font-bold text-rust" title="{p.xp_into_level} / {p.xp_for_next} XP">Level {p.level}</span>{/if}
+      </div>
+    </header>
+    <main class="min-h-0 flex-1 overflow-y-auto">
+      {@render children()}
+    </main>
+  </div>
+{:else}
+  <!-- Arcade: a game HUD -->
+  <div class="flex h-screen flex-col" data-shell="arcade">
+    <header class="flex h-16 shrink-0 items-center gap-4 border-b-2 border-line bg-gradient-to-b from-panel-2 to-panel px-4">
+      <a href="/" class="mr-2 text-2xl font-bold tracking-wide text-brand [text-shadow:0_0_18px_color-mix(in_srgb,var(--color-brand)_50%,transparent)]">OXIDE</a>
+      <nav class="flex gap-1 rounded-xl bg-bg p-1">
+        {#each nav as n}
+          <a href={n.href} class="rounded-lg px-4 py-1.5 font-bold {active(n.href) ? 'bg-rust text-on-rust' : 'text-dim hover:text-ink'}">{n.label === "Profile" ? "Me" : n.label}</a>
+        {/each}
+      </nav>
+      <div class="ml-auto flex items-center gap-2.5">
+        {@render extras()}
+        {#if p}<span class="rounded-[10px] border border-line bg-bg px-2.5 py-1 font-bold" title="Streak">🔥 {p.streak_days}</span>{/if}
+        {@render trackPill(false)}
+        {#if p}
+          <div class="flex items-center gap-2.5 rounded-xl border border-line bg-bg py-1 pr-3 pl-1" title="{p.xp_into_level} / {p.xp_for_next} XP">
+            <span class="grid h-9 w-9 place-items-center rounded-full" style="background:conic-gradient(var(--color-rust) {xpPct}%, var(--color-panel-2) 0)">
+              <span class="grid h-7 w-7 place-items-center rounded-full bg-bg text-sm font-bold">{p.level}</span>
+            </span>
+            <span class="leading-tight"><span class="block text-sm font-bold">Level {p.level}</span><span class="block text-xs text-dim tabular-nums">{p.xp_into_level} / {p.xp_for_next} XP</span></span>
+          </div>
+        {/if}
+      </div>
+    </header>
+    <main class="min-h-0 flex-1 overflow-y-auto">
+      {@render children()}
+    </main>
+  </div>
+{/if}
+
+<CommandPalette bind:open={app.palette} />
 
 <Celebration />
 
 <div class="pointer-events-none fixed right-4 bottom-4 z-50 flex flex-col gap-2">
   {#each app.toasts as t (t.id)}
-    <div class="pop pointer-events-auto max-w-sm rounded-xl border px-4 py-3 shadow-xl {t.kind === 'error' ? 'border-bad/50 bg-[#2a1614] text-bad' : 'border-line bg-panel-2 text-ink'}">
+    <div class="pop pointer-events-auto max-w-sm rounded-xl border px-4 py-3 shadow-xl {t.kind === 'error' ? 'border-bad/50 bg-panel-2 text-bad' : 'border-line bg-panel-2 text-ink'}">
       {t.text}
     </div>
   {/each}

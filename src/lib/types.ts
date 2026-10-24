@@ -42,7 +42,14 @@ export interface Settings {
   /** master volume 0-1 */
   volume: number;
   sounds: SoundToggles;
+  /** "workbench" | "notebook" | "arcade" */
+  look: Look;
+  /** editor suggests names as you type */
+  complete: boolean;
+  /** plain-English note under compiler errors */
+  explain: boolean;
 }
+export type Look = "workbench" | "notebook" | "arcade";
 
 /** One saved profile (list_profiles). */
 export interface ProfileInfo { id: string; name: string; created: string; active: boolean }

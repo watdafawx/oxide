@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onDestroy, onMount, untrack } from "svelte";
   import { EditorState, StateEffect, StateField, type Extension } from "@codemirror/state";
-  import { Decoration, type DecorationSet, EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers } from "@codemirror/view";
-  import { bracketMatching, indentOnInput, StreamLanguage, syntaxHighlighting } from "@codemirror/language";
+  import { Decoration, type DecorationSet, EditorView, WidgetType, drawSelection, highlightActiveLine, highlightActiveLineGutter, hoverTooltip, keymap, lineNumbers } from "@codemirror/view";
+  import { bracketMatching, HighlightStyle, indentOnInput, StreamLanguage, syntaxHighlighting } from "@codemirror/language";
+  import { tags as t } from "@lezer/highlight";
   import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
   import { lintGutter, setDiagnostics, type Diagnostic as CmDiag } from "@codemirror/lint";
-  import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
-  import { oneDarkHighlightStyle } from "@codemirror/theme-one-dark";
+  import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
+  import { completionSource, docDom, explain, langOfPath, lookup, rich, type Lang } from "$lib/assist";
   import { rust } from "@codemirror/lang-rust";
   import { java } from "@codemirror/lang-java";
   import { lua } from "@codemirror/legacy-modes/mode/lua";
@@ -16,8 +17,12 @@
   import type { Diagnostic, FileEntry } from "$lib/types";
 
   let {
-    id, diagnostics: rawDiagnostics = [], checking = false, todo = null, tasks = 0, hot = false, onsave, onlesson,
+    id, diagnostics: rawDiagnostics = [], checking = false, todo = null, tasks = 0, hot = false, onsave, onlesson, fill = false, list = true,
   }: {
+    /** grow to fill the parent's height instead of the drag-to-resize height */
+    fill?: boolean;
+    /** show the list of compiler messages under the editor */
+    list?: boolean;
     id: string; diagnostics?: Diagnostic[]; checking?: boolean;
     /** highlight (and scroll to) the Nth TODO comment of the open, editable file; null = none */
     todo?: number | null;
@@ -96,23 +101,119 @@
     ls.set("oxide:editor-h", String(height));
   }
 
-  // ---- theme ----
+  // ---- theme: colors come from the look (app.css) ----
   const theme = EditorView.theme({
-    "&": { height: "100%", backgroundColor: "#0d0c0b", color: "#f2ebe4", fontSize: "15px" },
+    "&": { height: "100%", backgroundColor: "var(--color-code)", color: "var(--color-ink)", fontSize: "15px" },
     ".cm-scroller": { fontFamily: "var(--font-mono)", lineHeight: "1.6" },
-    ".cm-content": { caretColor: "#fb923c", padding: "8px 0" },
-    ".cm-cursor": { borderLeftColor: "#fb923c" },
+    ".cm-content": { caretColor: "var(--color-rust)", padding: "8px 0" },
+    ".cm-cursor": { borderLeftColor: "var(--color-rust)", borderLeftWidth: "2px" },
     "&.cm-focused": { outline: "none" },
-    ".cm-gutters": { backgroundColor: "#0d0c0b", color: "#6f655b", border: "none", borderRight: "1px solid #38332e" },
-    ".cm-activeLine": { backgroundColor: "#ffffff08" },
-    ".cm-activeLineGutter": { backgroundColor: "#ffffff0d", color: "#f2ebe4" },
-    ".cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection": { backgroundColor: "#f9731640" },
-    "&.cm-focused .cm-matchingBracket": { backgroundColor: "#f9731655", outline: "1px solid #f97316aa" },
-    ".cm-tooltip": { backgroundColor: "#262320", border: "1px solid #38332e", color: "#f2ebe4", borderRadius: "8px" },
-    ".cm-todo": { backgroundColor: "#f973162a", boxShadow: "inset 3px 0 0 #f97316" },
-    ".cm-todo-hot": { backgroundColor: "#f9731655", outline: "1px solid #f97316" },
+    ".cm-gutters": { backgroundColor: "var(--color-code)", color: "var(--cm-gutter)", border: "none", borderRight: "1px solid var(--color-line)" },
+    ".cm-activeLine": { backgroundColor: "var(--cm-active)" },
+    ".cm-activeLineGutter": { backgroundColor: "var(--cm-active)", color: "var(--color-ink)" },
+    ".cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection": { backgroundColor: "var(--cm-select)" },
+    "&.cm-focused .cm-matchingBracket": { backgroundColor: "var(--cm-select)", outline: "1px solid var(--color-rust)" },
+    ".cm-tooltip": { backgroundColor: "var(--color-panel-2)", border: "1px solid var(--color-line)", color: "var(--color-ink)", borderRadius: "8px", boxShadow: "0 14px 34px rgba(0,0,0,.3)" },
+    ".cm-tooltip-autocomplete > ul": { fontFamily: "var(--font-mono)", maxHeight: "16em" },
+    ".cm-tooltip-autocomplete > ul > li": { padding: "3px 10px 3px 6px" },
+    ".cm-tooltip-autocomplete > ul > li[aria-selected]": { backgroundColor: "var(--color-tint)", color: "var(--color-ink)" },
+    ".cm-completionMatchedText": { textDecoration: "none", color: "var(--color-rust)", fontWeight: "700" },
+    ".cm-completionDetail": { color: "var(--color-dim)", fontStyle: "normal", marginLeft: "1em" },
+    ".cm-completionInfo": { padding: "8px 12px", maxWidth: "320px" },
+    ".cm-completionIcon": { opacity: "0.7" },
+    ".cm-tooltip-hover": { padding: "8px 12px", maxWidth: "360px" },
+    ".cm-todo": { backgroundColor: "color-mix(in srgb, var(--color-rust) 16%, transparent)", boxShadow: "inset 3px 0 0 var(--color-rust)" },
+    ".cm-todo-hot": { backgroundColor: "color-mix(in srgb, var(--color-rust) 32%, transparent)", outline: "1px solid var(--color-rust)" },
     ".cm-diagnostic": { padding: "4px 8px", fontFamily: "var(--font-sans)", fontSize: "14px" },
-  }, { dark: true });
+    ".cm-lintRange-error": { backgroundImage: "none", textDecoration: "underline wavy var(--color-bad)", textUnderlineOffset: "4px", textDecorationSkipInk: "none" },
+  });
+  const highlight = HighlightStyle.define([
+    { tag: [t.keyword, t.controlKeyword, t.definitionKeyword, t.modifier, t.operatorKeyword, t.self], color: "var(--syn-k)" },
+    { tag: [t.function(t.variableName), t.function(t.propertyName), t.function(t.definition(t.variableName))], color: "var(--syn-f)" },
+    { tag: [t.macroName], color: "var(--syn-m)" },
+    { tag: [t.string, t.special(t.string), t.character], color: "var(--syn-s)" },
+    { tag: [t.typeName, t.className, t.namespace], color: "var(--syn-t)" },
+    { tag: [t.comment, t.lineComment, t.blockComment, t.docComment], color: "var(--syn-c)", fontStyle: "italic" },
+    { tag: [t.number, t.bool, t.null, t.atom], color: "var(--syn-n)" },
+    { tag: [t.attributeName, t.meta, t.annotation, t.processingInstruction], color: "var(--syn-a)" },
+    { tag: [t.variableName, t.propertyName], color: "var(--syn-v)" },
+    { tag: [t.invalid], color: "var(--color-bad)" },
+  ]);
+
+  // ---- plain-English error notes, drawn as a box under the broken line ----
+  class ExplainWidget extends WidgetType {
+    d: Diagnostic;
+    lang: Lang;
+    constructor(d: Diagnostic, lang: Lang) { super(); this.d = d; this.lang = lang; }
+    eq(o: ExplainWidget) { return o.d.message === this.d.message && o.d.line === this.d.line && o.d.rendered === this.d.rendered; }
+    toDOM(v: EditorView) {
+      const x = explain(this.d, this.lang);
+      const box = document.createElement("div");
+      box.className = "ox-explain";
+      box.dataset.testid = "explain";
+      // keep the box inside the visible code area so it never scrolls sideways
+      const room = v.scrollDOM.clientWidth - (v.dom.querySelector(".cm-gutters") as HTMLElement | null)?.offsetWidth! - 32;
+      if (room > 200) box.style.maxWidth = `${Math.min(room, 736)}px`;
+      const head = document.createElement("div");
+      head.className = "ox-explain-head";
+      const b = document.createElement("b");
+      b.textContent = x.title;
+      const code = /error\[(E\d{4})\]/.exec(this.d.rendered ?? "")?.[1];
+      const small = document.createElement("small");
+      small.textContent = code ? `${code} · ${this.d.message}` : this.d.message === x.body ? "" : this.d.message;
+      head.append(b, small);
+      const p = document.createElement("p");
+      rich(p, x.body);
+      box.append(head, p);
+      if (x.tip) { const tp = document.createElement("p"); tp.className = "ox-explain-tip"; rich(tp, x.tip); box.append(tp); }
+      const acts = document.createElement("div");
+      acts.className = "ox-explain-acts";
+      const raw = document.createElement("pre");
+      raw.className = "ox-explain-raw";
+      raw.textContent = this.d.rendered || this.d.message;
+      raw.hidden = true;
+      if (x.fix) {
+        const fx = x.fix;
+        const btn = document.createElement("button");
+        btn.className = "ox-pri";
+        btn.textContent = fx.label;
+        btn.dataset.testid = "explain-fix";
+        btn.onclick = () => {
+          if (fx.apply(v)) { p.textContent = "Done. It checks again when it saves."; btn.remove(); v.focus(); }
+          else btn.textContent = "Couldn't apply it here: edit by hand";
+        };
+        acts.append(btn);
+      }
+      const show = document.createElement("button");
+      show.textContent = "Compiler output";
+      show.onclick = () => { raw.hidden = !raw.hidden; show.textContent = raw.hidden ? "Compiler output" : "Hide compiler output"; };
+      acts.append(show);
+      box.append(acts, raw);
+      return box;
+    }
+    ignoreEvent() { return true; }
+  }
+  const setExplain = StateEffect.define<DecorationSet>();
+  const explainField = StateField.define<DecorationSet>({
+    create: () => Decoration.none,
+    update(v, tr) {
+      v = v.map(tr.changes);
+      for (const e of tr.effects) if (e.is(setExplain)) v = e.value;
+      return v;
+    },
+    provide: (f) => EditorView.decorations.from(f),
+  });
+
+  /** hover a known word: a short note */
+  const hoverHelp = (lang: Lang) => hoverTooltip((v, pos) => {
+    const line = v.state.doc.lineAt(pos);
+    const rel = pos - line.from;
+    const m = [...line.text.matchAll(/[A-Za-z_]\w*!?/g)].find((w) => w.index! <= rel && rel <= w.index! + w[0].length);
+    if (!m) return null;
+    const e = lookup(lang, m[0], line.text[m.index! - 1] === "." || line.text[m.index! - 1] === ":");
+    if (!e) return null;
+    return { pos: line.from + m.index!, end: line.from + m.index! + m[0].length, above: true, create: () => ({ dom: docDom(e) as HTMLElement }) };
+  }, { hoverTime: 450 });
 
   const langFor = (path: string): Extension => {
     if (path.endsWith(".rs")) return rust();
@@ -123,15 +224,19 @@
   };
 
   function mkState(path: string, text: string, ro: boolean): EditorState {
+    const lang = langOfPath(path);
+    const opts = app.profile?.settings;
     return EditorState.create({
       doc: text,
       extensions: [
         lineNumbers(), highlightActiveLineGutter(), highlightActiveLine(), drawSelection(), history(),
         indentOnInput(), bracketMatching(), closeBrackets(), lintGutter(),
-        syntaxHighlighting(oneDarkHighlightStyle), theme, langFor(path), todoField,
+        syntaxHighlighting(highlight), theme, langFor(path), todoField, explainField,
+        autocompletion({ override: [completionSource(lang)], activateOnTyping: opts?.complete ?? true, icons: true, closeOnBlur: true }),
+        hoverHelp(lang),
         keymap.of([
           { key: "Mod-s", preventDefault: true, run: () => { void save(); return true; } },
-          indentWithTab, ...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap,
+          ...completionKeymap, indentWithTab, ...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap,
         ]),
         EditorState.readOnly.of(ro), EditorView.editable.of(!ro),
         EditorView.updateListener.of((u) => {
@@ -165,6 +270,16 @@
       out.push({ from, to: Math.min(to, doc.length), severity: d.level === "error" ? "error" : "warning", message: d.message });
     }
     view.dispatch(setDiagnostics(view.state, out));
+    // plain-English boxes: errors only, one per line, at most three
+    const boxes = [];
+    const lines = new Set<number>();
+    if (app.profile?.settings.explain ?? true)
+      for (const d of diagnostics) {
+        if (d.level !== "error" || !d.line || !matches(active, d.file) || d.line > doc.lines || lines.has(d.line) || lines.size >= 3) continue;
+        lines.add(d.line);
+        boxes.push(Decoration.widget({ widget: new ExplainWidget(d, langOfPath(active)), block: true, side: 1 }).range(doc.line(d.line).to));
+      }
+    view.dispatch({ effects: setExplain.of(Decoration.set(boxes, true)) });
   }
 
   /** put the TODO highlight on the `todo`-th TODO line of the open file (editable files only) */
@@ -298,9 +413,9 @@
   }
 </script>
 
-<section class="overflow-hidden rounded-2xl border border-line bg-panel" data-testid="editor">
+<section class="overflow-hidden rounded-[var(--radius-box)] border border-line bg-panel {fill ? 'flex h-full min-h-0 flex-col' : ''}" data-testid="editor">
   <header class="flex flex-wrap items-center gap-2 border-b border-line px-3 py-2">
-    <h2 class="mr-1 text-sm font-bold tracking-widest text-dim uppercase">Code</h2>
+    <h2 class="mr-1 text-xs font-bold tracking-widest text-dim uppercase">Code</h2>
     <div class="flex min-w-0 flex-1 flex-wrap gap-1" role="tablist">
       {#each files as f (f.path)}
         <button
@@ -328,16 +443,16 @@
     {/if}
     <button class="btn btn-primary !rounded-lg !px-3 !py-1 text-sm" disabled={!anyDirty || saving || activeRO} onclick={() => save()} data-testid="save">Save <span class="font-normal opacity-70">Ctrl+S</span></button>
   </header>
-  <div style="height:{height}px" class="relative">
+  <div style={fill ? "" : `height:${height}px`} class="relative {fill ? 'min-h-0 flex-1' : ''}">
     <div bind:this={host} class="h-full" data-testid="cm"></div>
     {#if loading}<div class="absolute inset-0 animate-pulse bg-panel/80"></div>{/if}
-    {#if activeRO}<div class="pointer-events-none absolute right-3 bottom-3 rounded-lg bg-black/70 px-3 py-1 text-xs text-dim">🔒 read only: this is the spec</div>{/if}
+    {#if activeRO}<div class="pointer-events-none absolute right-3 bottom-3 rounded-lg border border-line bg-panel-2 px-3 py-1 text-xs text-dim">🔒 read only: this is the spec</div>{/if}
   </div>
-  <div
+  {#if !fill}<div
     class="h-2.5 cursor-row-resize border-t border-line bg-panel-2 hover:bg-line focus:bg-rust/40 focus:outline-none" role="slider" aria-orientation="vertical" aria-valuenow={height} aria-valuemin={180} aria-label="Editor height" tabindex="0"
     onpointerdown={drag} onkeydown={dragKey} data-testid="resize"
-  ></div>
-  {#if diagnostics.length}
+  ></div>{/if}
+  {#if list && diagnostics.length}
     <ul class="flex max-h-40 flex-col overflow-auto border-t border-line text-sm" data-testid="diag-list">
       {#each diagnostics as d}
         {@const target = files.find((f) => matches(f.path, d.file))}
@@ -352,3 +467,21 @@
     </ul>
   {/if}
 </section>
+
+<style>
+  :global(.ox-explain) { margin: 4px 16px 8px 4px; border-left: 3px solid var(--color-bad); background: color-mix(in srgb, var(--color-bad) 9%, var(--color-code)); border-radius: 0 8px 8px 0; padding: 9px 13px; font: 14px/1.5 var(--font-sans); color: var(--color-ink); max-width: 46rem; white-space: normal; }
+  :global(.ox-explain-head) { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  :global(.ox-explain-head b) { color: var(--color-bad); }
+  :global(.ox-explain-head small) { font-family: var(--font-mono); color: var(--color-dim); font-size: 12px; }
+  :global(.ox-explain p) { margin: 3px 0 7px; }
+  :global(.ox-explain-tip) { color: var(--color-dim); }
+  :global(.ox-explain code, .ox-info code) { font-family: var(--font-mono); font-size: .9em; background: var(--color-panel-2); padding: 0 5px; border-radius: 4px; }
+  :global(.ox-explain-acts) { display: flex; gap: 8px; flex-wrap: wrap; }
+  :global(.ox-explain-acts button) { border: 1px solid var(--color-line); background: var(--color-panel); color: var(--color-ink); border-radius: 6px; padding: 2px 10px; font-size: 13px; cursor: pointer; }
+  :global(.ox-explain-acts button.ox-pri) { background: var(--color-rust); border-color: var(--color-rust); color: var(--color-on-rust); font-weight: 600; }
+  :global(.ox-explain-raw) { margin: 8px 0 0; max-height: 14rem; overflow: auto; background: var(--color-code); border: 1px solid var(--color-line); border-radius: 6px; padding: 8px 10px; font: 12px/1.5 var(--font-mono); white-space: pre-wrap; }
+  :global(.ox-info) { font: 13px/1.45 var(--font-sans); }
+  :global(.ox-info p) { margin: 6px 0 0; color: var(--color-ink); }
+  :global(.ox-sig) { font-weight: 600; }
+  :global(.ox-eg) { margin-top: 6px; font: 12px var(--font-mono); background: var(--color-code); border-radius: 6px; padding: 5px 8px; color: var(--color-dim); }
+</style>

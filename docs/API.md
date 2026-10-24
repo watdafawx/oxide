@@ -52,6 +52,9 @@ interface Settings {
   flavour: string;   // "games" (default) | "plain" | any name from list_flavours
   volume: number;    // 0-1, default 0.6; master volume for the synthesized sounds
   sounds: { objective: boolean; clear: boolean; level: boolean; achievement: boolean; crit: boolean }; // per-sound toggles, default all true; `sound` stays the master switch
+  look: string;      // "workbench" (default) | "notebook" | "arcade": app layout and colors
+  complete: boolean; // editor autocomplete, default true
+  explain: boolean;  // plain-English note under compiler errors, default true
 }
 
 interface Profile {

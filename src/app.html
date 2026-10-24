@@ -5,6 +5,10 @@
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oxide</title>
+    <script>
+      // pick the saved look before first paint (the profile confirms it once it loads)
+      try { document.documentElement.dataset.look = localStorage.getItem("oxide:look") || "workbench"; } catch { document.documentElement.dataset.look = "workbench"; }
+    </script>
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">

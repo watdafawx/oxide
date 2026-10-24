@@ -95,6 +95,15 @@ pub struct Settings {
     pub volume: f32,
     #[serde(default)]
     pub sounds: SoundToggles,
+    /// App look: `workbench` (default), `notebook` or `arcade`.
+    #[serde(default = "default_look")]
+    pub look: String,
+    /// Editor suggests names as you type.
+    #[serde(default = "yes")]
+    pub complete: bool,
+    /// Compiler errors get a plain-English note under the line.
+    #[serde(default = "yes")]
+    pub explain: bool,
 }
 
 /// Per-sound switches; `Settings::sound` stays the master switch.
@@ -121,6 +130,14 @@ fn default_flavour() -> String {
     "games".into()
 }
 
+fn default_look() -> String {
+    "workbench".into()
+}
+
+fn yes() -> bool {
+    true
+}
+
 impl Default for Settings {
     fn default() -> Self {
         Self {
@@ -131,6 +148,9 @@ impl Default for Settings {
             flavour: default_flavour(),
             volume: default_volume(),
             sounds: SoundToggles::default(),
+            look: default_look(),
+            complete: true,
+            explain: true,
         }
     }
 }
@@ -762,12 +782,17 @@ mod tests {
             flavour: "plain".into(),
             volume: 0.3,
             sounds: SoundToggles { crit: false, ..Default::default() },
+            look: "arcade".into(),
+            complete: false,
+            explain: true,
         };
         p.set_settings(&s).unwrap();
         let got = p.settings().unwrap();
         assert_eq!(got.editor, "zed");
         assert!(!got.sounds.crit && got.sounds.clear);
         assert!((got.volume - 0.3).abs() < 1e-6);
+        assert_eq!(got.look, "arcade");
+        assert!(!got.complete && got.explain);
     }
 
     #[test]
@@ -775,6 +800,8 @@ mod tests {
         let s: Settings = serde_json::from_str(r#"{"editor":"","sound":true,"focus_minutes":25}"#).unwrap();
         assert!((s.volume - 0.6).abs() < 1e-6);
         assert!(s.sounds.objective && s.sounds.achievement);
+        assert_eq!(s.look, "workbench");
+        assert!(s.complete && s.explain);
     }
 
     #[test]

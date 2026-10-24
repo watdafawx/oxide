@@ -31,9 +31,9 @@
     </div>
   {:else}
     {#if parts && parts.length > 1}
-      <pre class="mt-5 rounded-xl border border-line bg-[#0d0c0b] p-5 font-mono text-xl leading-relaxed whitespace-pre-wrap">{parts[0]}<input class="blank" class:ok={solved || blankOk} bind:value disabled={solved} size={Math.max(6, (point.blank ?? "").length + 2)} spellcheck="false" autocomplete="off" data-testid="blank" />{parts.slice(1).join("___")}</pre>
+      <pre class="mt-5 rounded-xl border border-line bg-code p-5 font-mono text-xl leading-relaxed whitespace-pre-wrap">{parts[0]}<input class="blank" class:ok={solved || blankOk} bind:value disabled={solved} size={Math.max(6, (point.blank ?? "").length + 2)} spellcheck="false" autocomplete="off" data-testid="blank" />{parts.slice(1).join("___")}</pre>
     {:else}
-      {#if point.code}<pre class="mt-5 rounded-xl border border-line bg-[#0d0c0b] p-5 font-mono text-xl whitespace-pre-wrap">{point.code}</pre>{/if}
+      {#if point.code}<pre class="mt-5 rounded-xl border border-line bg-code p-5 font-mono text-xl whitespace-pre-wrap">{point.code}</pre>{/if}
       <input class="blank mt-5" class:ok={solved || blankOk} bind:value disabled={solved} size={Math.max(10, (point.blank ?? "").length + 2)} spellcheck="false" autocomplete="off" data-testid="blank" />
     {/if}
   {/if}
@@ -41,7 +41,7 @@
 </div>
 
 <style>
-  .blank { font-family: var(--font-mono); background: #0d0c0b; color: var(--color-ink); border: 1px solid var(--color-rust); border-radius: 0.5rem; padding: 0.1rem 0.5rem; outline: none; }
+  .blank { font-family: var(--font-mono); background: var(--color-code); color: var(--color-ink); border: 1px solid var(--color-rust); border-radius: 0.5rem; padding: 0.1rem 0.5rem; outline: none; }
   .compact :global(.text-2xl) { font-size: 1.125rem; }
   .compact :global(.text-xl) { font-size: 1rem; }
   .compact :global(.mt-5) { margin-top: 0.75rem; }
