@@ -1,0 +1,29 @@
+title = "The first four bytes"
+summary = "A reply is a slice of any length. Read a u32 from its start, and give None instead of crashing when it is too short."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["bytes", "slices", "try-into"]
+
+[[objectives]]
+test = "decodes_from_slices"
+label = "read_u32_le / read_u32_be read the first 4 bytes of a slice"
+[[objectives]]
+test = "short_slice_gives_none"
+label = "A slice shorter than 4 bytes gives None (no panic)"
+
+[[hints]]
+text = "Two steps, each with a `?`: take the first 4 bytes with `get(..4)`, then turn that slice into a `[u8; 4]` with `try_into`. The last line builds the number like in the previous quest."
+[[hints]]
+text = "`let first: [u8; 4] = bytes.get(..4)?.try_into().ok()?;` then `Some(u32::from_le_bytes(first))`. The `_be` version is the same with `from_be_bytes`."
+
+[[points]]
+after = 2
+prompt = "What does `bytes.get(..4)` give on a 3-byte slice?"
+pick = ["a panic", "None", "3 bytes", "zeros"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn the Result into an Option, then leave early on None."
+code = "let two: [u8; 2] = part.try_into().___?;"
+blank = "ok()"

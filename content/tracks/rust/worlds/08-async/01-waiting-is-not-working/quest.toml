@@ -1,0 +1,33 @@
+title = "Waiting is not working"
+summary = "Why async exists: one thread can wait on many downloads. What a future, a task and a runtime are."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["async", "threads", "runtime"]
+
+[[quiz]]
+question = "The podcast app spends most of its time waiting for servers to answer. Why does async help more than a faster CPU?"
+choices = [
+  "A faster CPU makes the network answer sooner, but costs more power",
+  "Waiting is not CPU work: one thread can keep many requests waiting at once",
+  "Async code runs every line twice as fast as normal code",
+]
+answer = 1
+
+[[quiz]]
+question = "Why not start one thread per episode download?"
+choices = [
+  "Threads cannot send network requests, only tasks can",
+  "Rust limits a program to one thread per CPU core",
+  "Every thread has its own stack and OS switching cost, which adds up over thousands of waits",
+]
+answer = 2
+
+[[quiz]]
+question = "What does the runtime (tokio) do?"
+choices = [
+  "It keeps the list of tasks and resumes each one when its answer arrives",
+  "It turns every async fn into its own operating-system thread",
+  "It downloads the crates a project needs before the build",
+]
+answer = 0

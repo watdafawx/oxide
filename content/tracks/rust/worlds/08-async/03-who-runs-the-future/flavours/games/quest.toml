@@ -1,0 +1,22 @@
+title = "Who runs the future?"
+summary = "A runtime drives futures. Start tokio by hand for the launcher, then see what #[tokio::main] writes for you."
+
+[[objectives]]
+test = "announce_now_runs_the_future_to_the_end"
+label = "announce_now(21) gives the status line from plain code, with its own runtime"
+
+[[hints]]
+text = "Two steps: `Runtime::new()` starts tokio (it returns a `Result`, so `.unwrap()` it), then `block_on` on that runtime runs a future and hands back its value."
+[[hints]]
+text = "`let rt = Runtime::new().unwrap();` then `rt.block_on(announce(id))` as the last line."
+
+[[points]]
+after = 1
+prompt = "Which call runs a future to the end from plain code?"
+pick = ["spawn", "block_on", "await", "join"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Let tokio start the launcher."
+code = "#[___]\nasync fn main() {\n    sync_modpack().await;\n}"
+blank = "tokio::main"

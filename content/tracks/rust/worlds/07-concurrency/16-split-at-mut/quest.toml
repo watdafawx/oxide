@@ -1,0 +1,22 @@
+title = "Two writers, two halves"
+summary = "split_at_mut cuts one &mut slice into two that never overlap, so two threads can change them at once."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["scope", "split_at_mut", "borrowing"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "kib_to_bytes_changes_both_halves"
+label = "kib_to_bytes builds, and two scoped threads multiply every size by 1024 in place"
+
+[[hints]]
+text = "Read the `help:` line under the E0499 error: it names the method that cuts a `&mut` slice in two."
+[[hints]]
+text = "Replace the two `let` lines with `let (left, right) = sizes.split_at_mut(mid);`."
+
+[[points]]
+after = 2
+prompt = "Cut one &mut slice into two at position mid."
+code = "let (left, right) = sizes.___(mid);"
+blank = "split_at_mut"

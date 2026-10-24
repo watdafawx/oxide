@@ -1,0 +1,32 @@
+title = "Many readers, one writer"
+summary = "RwLock lets any number of readers in together, or one writer alone."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rwlock", "locks"]
+
+[[objectives]]
+test = "known_count_reads_the_table"
+label = "known_count takes a read lock and returns how many checksums are known"
+[[objectives]]
+test = "remember_appends_under_a_write_lock"
+label = "remember takes a write lock and appends the checksum"
+[[objectives]]
+test = "writer_is_refused_while_someone_reads"
+label = "writer_is_refused holds a read guard and reports that try_write failed"
+
+[[hints]]
+text = "`known.read().unwrap()` gives a reader's guard, `known.write().unwrap()` a writer's. For the last one, keep the read guard in a named variable so it stays alive, then ask with `try_write()`."
+[[hints]]
+text = "`known.read().unwrap().len()`, `known.write().unwrap().push(sum.to_string());`, and `let _reader = lock.read().unwrap(); lock.try_write().is_err()`."
+
+[[points]]
+after = 1
+prompt = "Which lock lets many readers in at once?"
+pick = ["Mutex", "Cell", "RwLock", "Arc"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Ask for write access without waiting."
+code = "let free = known.___().is_ok();"
+blank = "try_write"

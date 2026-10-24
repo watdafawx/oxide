@@ -1,0 +1,25 @@
+title = "One counter, many tasks"
+summary = "Share the jars-installed counter between download tasks with Arc and tokio's Mutex, and see why std's Mutex can't be held across an .await."
+
+[[objectives]]
+test = "record_installed_adds_one"
+label = "record_installed adds one while holding the lock over the wait"
+[[objectives]]
+test = "install_all_loses_no_updates"
+label = "install_all: 10 tasks x 20 = 200, no lost updates"
+
+[[hints]]
+text = "In `record_installed`, keep the guard from `installed.lock().await` in a `let mut` and read and write through `*guard`, with the `yield_now().await` in between. In `install_all`, build the `Arc<Mutex<usize>>`, give each spawned task an `Arc::clone`, await all handles, then read `*installed.lock().await`."
+[[hints]]
+text = "`let mut guard = installed.lock().await; let current = *guard; yield_now().await; *guard = current + 1;` and for the tasks: `let installed = Arc::clone(&installed); handles.push(tokio::spawn(async move { for _ in 0..per_task { record_installed(&installed).await; } }));`."
+
+[[points]]
+after = 2
+prompt = "Wait for your turn at the lock."
+code = "let mut guard = total.lock().___;"
+blank = "await"
+[[points]]
+after = 3
+prompt = "Which guard must not be held across an .await in a spawned task?"
+pick = ["tokio::sync::MutexGuard", "std::sync::MutexGuard", "an Arc clone", "a JoinHandle"]
+answer = 1

@@ -1,0 +1,25 @@
+title = "The first four bytes of a reply"
+summary = "A server's reply is a slice of any length. Read the version from its start, and give None instead of crashing when it is cut short."
+
+[[objectives]]
+test = "protocol_decodes_from_slices"
+label = "read_protocol_le / read_protocol_be read the first 4 bytes of a reply"
+[[objectives]]
+test = "short_reply_gives_none"
+label = "A reply shorter than 4 bytes gives None (no panic)"
+
+[[hints]]
+text = "Two steps, each with a `?`: take the first 4 bytes with `get(..4)`, then turn that slice into a `[u8; 4]` with `try_into`. The last line builds the number like in the previous quest."
+[[hints]]
+text = "`let first: [u8; 4] = reply.get(..4)?.try_into().ok()?;` then `Some(u32::from_le_bytes(first))`. The `_be` version is the same with `from_be_bytes`."
+
+[[points]]
+after = 2
+prompt = "What does `reply.get(..4)` give on a 3-byte reply?"
+pick = ["a panic", "None", "3 bytes", "zeros"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn the Result into an Option, then leave early on None."
+code = "let two: [u8; 2] = part.try_into().___?;"
+blank = "ok()"

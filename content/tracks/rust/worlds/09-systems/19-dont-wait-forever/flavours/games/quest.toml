@@ -1,0 +1,22 @@
+title = "Don't wait for a server that's gone"
+summary = "A lost datagram is never reported. Give the query socket a deadline with set_read_timeout and a Duration."
+
+[[objectives]]
+test = "send_query_gives_up_when_nobody_answers"
+label = "send_query returns an Err after about 500 ms instead of hanging when there is no reply"
+
+[[hints]]
+text = "Replace the placeholder line with one call on `socket`, before `recv_from`: `set_read_timeout`, with `Some` of a `Duration` of 500 milliseconds. It returns a `Result`, so add `?`."
+[[hints]]
+text = "`socket.set_read_timeout(Some(Duration::from_millis(500)))?;`"
+
+[[points]]
+after = 1
+prompt = "A datagram is lost. What does a plain `recv_from` do?"
+pick = ["returns Ok(0)", "returns an Err", "waits forever", "sends it again"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Half a second."
+code = "Duration::___(500)"
+blank = "from_millis"

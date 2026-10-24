@@ -1,0 +1,25 @@
+title = "A stream of chunks"
+summary = "A Stream hands out items one at a time with an .await in between. Filter, map, take and collect mod jar sizes and chunks."
+
+[[objectives]]
+test = "big_jars_in_mb_filters_then_maps"
+label = "big_jars_in_mb keeps jars of at least 1024 KB and gives them in MB"
+[[objectives]]
+test = "first_n_chunk_offsets_stops_early"
+label = "first_n_chunk_offsets takes n offsets from an endless stream"
+
+[[hints]]
+text = "Both start with `stream::iter(..)` and end with `.collect().await`. The `filter` closure must give back a future, so wrap the test in `ready(..)`. The endless one needs `.take(n)` before `collect`, or it never ends."
+[[hints]]
+text = "`stream::iter(sizes_kb).filter(|kb| ready(*kb >= 1024)).map(|kb| kb / 1024).collect().await` and `stream::iter(0u64..).map(|chunk| chunk * 1024).take(n).collect().await`."
+
+[[points]]
+after = 1
+prompt = "Which call gets the next item of a stream?"
+pick = ["collect", "map", "next", "iter"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Turn a Vec into a stream."
+code = "let mods = stream::___(vec![\"jei\", \"sodium\", \"iris\"]);"
+blank = "iter"

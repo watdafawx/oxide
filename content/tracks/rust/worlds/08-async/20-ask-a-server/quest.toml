@@ -1,0 +1,29 @@
+title = "Ask a server"
+summary = "reqwest sends the GET. A 404 is not an error until you say so, then the body becomes JSON."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["async", "reqwest", "http", "json"]
+
+[[objectives]]
+test = "fetch_json_parses_the_body"
+label = "fetch_json(&client, url) returns the parsed JSON of a 200 answer"
+[[objectives]]
+test = "fetch_json_rejects_http_errors"
+label = "A 404 answer becomes an Err, not a JSON value"
+
+[[hints]]
+text = "Three steps, each with `?` except the last: `client.get(url).send().await` for the response, `error_for_status()` on it, then `.json().await` on the response, which reads the body into the `Value` the function returns."
+[[hints]]
+text = "`let response = client.get(url).send().await?; let response = response.error_for_status()?; response.json().await`."
+
+[[points]]
+after = 2
+prompt = "Send the request and wait for the answer."
+code = "let response = client.get(url).___().await?;"
+blank = "send"
+[[points]]
+after = 3
+prompt = "Which call turns a 404 answer into an Err?"
+pick = ["json", "send", "get", "error_for_status"]
+answer = 3

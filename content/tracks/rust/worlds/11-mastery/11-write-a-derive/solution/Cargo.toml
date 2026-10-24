@@ -1,0 +1,10 @@
+[package]
+name = "mastery_write_derive"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+describe_macro = { package = "mastery_describe_macro", path = "describe_macro" }
+
+[workspace]
+members = ["describe_macro"]

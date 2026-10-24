@@ -1,0 +1,17 @@
+title = "Addresses, ports and connections"
+summary = "What a server address, a port like 25565 and a connection are, and how TCP and UDP differ, before the pinger opens one."
+
+[[quiz]]
+question = "Your PC runs a Minecraft server and a Discord bot's web page. How does the launcher reach the Minecraft one?"
+choices = ["By the port number, 25565", "By the IP address", "By the order it connects in"]
+answer = 0
+
+[[quiz]]
+question = "You type `127.0.0.1:25565` in the server list. What does `127.0.0.1` mean?"
+choices = ["The first server on the internet", "Any free port", "This same computer"]
+answer = 2
+
+[[quiz]]
+question = "A server sends a reply over TCP in two writes, `hel` and `lo`. What can the pinger's reads get?"
+choices = ["Exactly `hel`, then `lo`, always", "The same bytes in order, but cut anywhere: `hello`, or `h` then `ello`", "The two parts in any order"]
+answer = 1

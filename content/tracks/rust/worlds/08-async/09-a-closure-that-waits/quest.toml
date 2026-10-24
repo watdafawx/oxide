@@ -1,0 +1,29 @@
+title = "A closure that waits"
+summary = "An async closure takes arguments and can .await inside. async move |..| owns what it captures."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["async", "closures", "async-closure"]
+
+[[objectives]]
+test = "labelled_awaits_inside_the_closure"
+label = "labelled passes an async closure to for_each_episode and gets \"daily: episode-1.mp3\""
+[[objectives]]
+test = "labeller_keeps_its_own_show_name"
+label = "labeller(show) returns an async move closure that still works after show's owner is gone"
+
+[[hints]]
+text = "Both closures have the same body: `let file = episode_file(id).await;` then `format!(\"{show}: {file}\")`. In `labelled` it goes inside `async |id| { .. }` as the second argument; `labeller` returns it as `async move |id| { .. }`."
+[[hints]]
+text = "`for_each_episode(ids, async |id| { let file = episode_file(id).await; format!(\"{show}: {file}\") }).await` and, as the whole body of `labeller`, `async move |id| { let file = episode_file(id).await; format!(\"{show}: {file}\") }`."
+
+[[points]]
+after = 1
+prompt = "Which error does a plain closure give when its body uses .await?"
+pick = ["E0382 use of moved value", "E0728 await only inside async", "E0308 mismatched types", "E0499 two mutable borrows"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Make a closure that owns `show` and can await."
+code = "let fetch = ___ |id| {\n    download(&show, id).await\n};"
+blank = "async move"

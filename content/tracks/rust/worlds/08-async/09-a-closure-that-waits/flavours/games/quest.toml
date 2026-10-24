@@ -1,0 +1,25 @@
+title = "A closure that waits"
+summary = "An async closure takes arguments and can .await inside. async move |..| owns what it captures."
+
+[[objectives]]
+test = "tagged_awaits_inside_the_closure"
+label = "tagged passes an async closure to for_each_mod and gets \"[Fabric] mod-1.jar\""
+[[objectives]]
+test = "tagger_keeps_its_own_loader_name"
+label = "tagger(loader) returns an async move closure that still works after loader's owner is gone"
+
+[[hints]]
+text = "Both closures have the same body: `let file = jar_name(id).await;` then `format!(\"[{loader}] {file}\")`. In `tagged` it goes inside `async |id| { .. }` as the second argument; `tagger` returns it as `async move |id| { .. }`."
+[[hints]]
+text = "`for_each_mod(ids, async |id| { let file = jar_name(id).await; format!(\"[{loader}] {file}\") }).await` and, as the whole body of `tagger`, `async move |id| { let file = jar_name(id).await; format!(\"[{loader}] {file}\") }`."
+
+[[points]]
+after = 1
+prompt = "Which error does a plain closure give when its body uses .await?"
+pick = ["E0382 use of moved value", "E0728 await only inside async", "E0308 mismatched types", "E0499 two mutable borrows"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Make a closure that owns `mirror` and can await."
+code = "let fetch = ___ |id| {\n    download(&mirror, id).await\n};"
+blank = "async move"

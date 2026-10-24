@@ -1,0 +1,22 @@
+title = "A word in the pattern"
+summary = "block!(\"stone\" => 1): tokens in a pattern that are not $captures must appear as written."
+
+[[objectives]]
+test = "block_builds_from_name_and_id"
+label = "block!(\"stone\" => 1) is Block { name: \"stone\", id: 1 }"
+
+[[hints]]
+text = "The pattern already reads `$name`, then a literal `=>`, then `$id`. The template is a struct literal: `Block { name: ..., id: ... }` with the two captures."
+[[hints]]
+text = "`($name:expr => $id:expr) => { Block { name: $name, id: $id } };`"
+
+[[points]]
+after = 1
+prompt = "In ($x:expr ; $z:expr), what is the ;?"
+pick = ["a capture", "a token the call must contain", "the end of the arm", "a comment"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which of these may follow an expr capture in a pattern?"
+pick = ["at", "->", "=>", "with"]
+answer = 2

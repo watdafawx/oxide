@@ -1,0 +1,25 @@
+title = "Dump a packet in hex"
+summary = "Binary is too long to read. Print a packet the way the protocol wiki does: two hex digits per byte."
+
+[[objectives]]
+test = "handshake_start_dumps_as_hex_pairs"
+label = "packet_dump(&[0x10, 0x00, 0xff, 0x05]) is \"10 00 ff 05\", the start of a handshake"
+[[objectives]]
+test = "small_bytes_keep_their_zero"
+label = "Small bytes keep their leading 0, and an empty packet gives an empty text"
+
+[[hints]]
+text = "Turn each byte into its two-digit text with `format!`, collect the pieces into a `Vec<String>`, then join them with a space."
+[[hints]]
+text = "`packet.iter().map(|b| format!(\"{:02x}\", b)).collect::<Vec<String>>().join(\" \")`"
+
+[[points]]
+after = 2
+prompt = "How many hex digits write one byte?"
+pick = ["4", "2", "8", "16"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Print 5 as `05`, in hex."
+code = "format!(\"{:___}\", 5u8)"
+blank = "02x"

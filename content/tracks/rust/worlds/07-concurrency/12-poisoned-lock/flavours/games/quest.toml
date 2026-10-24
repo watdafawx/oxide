@@ -1,0 +1,22 @@
+title = "A poisoned lock"
+summary = "A worker that panics while holding a lock poisons it. You can still choose to read the count."
+
+[[objectives]]
+test = "jars_hashed_reads_a_poisoned_counter"
+label = "jars_hashed returns the count even after a worker panicked while holding the lock"
+
+[[hints]]
+text = "Replace `unwrap()` on `lock()` with `unwrap_or_else`, and give it a closure that takes the error and returns the guard inside it."
+[[hints]]
+text = "`*done.lock().unwrap_or_else(|e| e.into_inner())`"
+
+[[points]]
+after = 1
+prompt = "A worker panicked while it held the lock. What does the next lock() return?"
+pick = ["Ok(guard)", "None", "Err(PoisonError)", "it waits forever"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Take the guard out of the poison error."
+code = "m.lock().unwrap_or_else(|e| e.___())"
+blank = "into_inner"

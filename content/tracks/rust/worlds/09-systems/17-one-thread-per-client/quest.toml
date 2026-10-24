@@ -1,0 +1,26 @@
+title = "One thread per client"
+summary = "A server that handles clients in turn freezes behind one quiet client. Give every connection its own thread."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["tcp", "threads", "networking"]
+
+[[objectives]]
+test = "serves_two_clients_at_once"
+label = "serve spawns a thread per connection, so a quiet client doesn't block the others"
+
+[[hints]]
+text = "Instead of calling `handle(stream)` right there, hand the stream to `thread::spawn(move || ...)` and push the `JoinHandle` it returns into a `Vec`. After the accept loop, `join` each handle."
+[[hints]]
+text = "`handles.push(thread::spawn(move || { let _ = handle(stream); }));` inside the loop, then `for h in handles { let _ = h.join(); }`."
+
+[[points]]
+after = 2
+prompt = "Why does the starter's server freeze?"
+pick = ["accept is slow", "handle never returns while a client stays connected", "TCP allows one client", "the port is taken"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Hand the stream to the new thread."
+code = "thread::spawn(___ || { let _ = handle(stream); })"
+blank = "move"

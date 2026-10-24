@@ -1,0 +1,29 @@
+title = "Connect and retry"
+summary = "Read the live feed with tokio, and connect again when the game restarts."
+kind = "exercise"
+xp = 60
+minutes = 8
+tags = ["tokio", "tcp", "channels"]
+
+[[objectives]]
+test = "frames_arrive_in_order"
+label = "every event of the recorded match arrives through the channel, in order"
+[[objectives]]
+test = "reconnects_after_drop"
+label = "when the game closes the connection, run_feed connects again and keeps reading"
+
+[[hints]]
+text = "Match the read like the example, but give the `Ok(n)` arm's number a name: `let read = match stream.read(&mut chunk).await { Ok(0) | Err(_) => return Ok(()), Ok(n) => n };`."
+[[hints]]
+text = "Then `for frame in frames.push(&chunk[..read]) { if let Some(event) = normalize(frame) { events.send(event).await?; } }`."
+
+[[points]]
+after = 2
+prompt = "What does a read of 0 bytes mean on a TCP stream?"
+pick = ["no data yet, try again", "an error in the JSON", "the buffer is full", "the other side closed the connection"]
+answer = 3
+[[points]]
+after = 3
+prompt = "In a pattern, what does Ok(0) | Err(_) match?"
+pick = ["a read of 0 bytes, or any error", "only a read of 0 bytes that also failed", "every read", "an error with code 0"]
+answer = 0

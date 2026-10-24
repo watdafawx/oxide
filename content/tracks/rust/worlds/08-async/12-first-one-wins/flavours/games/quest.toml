@@ -1,0 +1,25 @@
+title = "First one wins"
+summary = "tokio::select! races two mod mirrors, runs the branch of the first to answer, and drops the rest."
+
+[[objectives]]
+test = "fastest_mirror_picks_the_quicker_one"
+label = "fastest_mirror(10, 800) is \"mirror-a\", fastest_mirror(800, 10) is \"mirror-b\""
+[[objectives]]
+test = "fastest_mirror_does_not_wait_for_the_slow_one"
+label = "It returns as soon as one mirror answers, not after both"
+
+[[hints]]
+text = "One `tokio::select!` with two branches, one per mirror. `ping_mirror` gives back nothing useful, so each branch starts with `_ =` and its value after `=>` is the name."
+[[hints]]
+text = "`tokio::select! { _ = ping_mirror(a_ms) => \"mirror-a\", _ = ping_mirror(b_ms) => \"mirror-b\", }` is the whole body."
+
+[[points]]
+after = 1
+prompt = "Which macro runs the branch of the first future to finish?"
+pick = ["join!", "select!", "spawn", "timeout"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep the winner's value in a branch."
+code = "tokio::select! {\n    ___ = fetch_page(\"sodium\") => page,\n    _ = sleep(Duration::from_secs(2)) => String::new(),\n}"
+blank = "page"

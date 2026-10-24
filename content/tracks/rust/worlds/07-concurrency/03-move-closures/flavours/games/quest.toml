@@ -1,0 +1,25 @@
+title = "Hand the jar to the worker"
+summary = "A worker thread can outlive the function that started it, so its closure must own the jar it uses."
+
+[[objectives]]
+test = "label_in_thread_owns_the_jar_name"
+label = "label_in_thread builds \"Hashing <jar>\" on a thread that owns the name"
+[[objectives]]
+test = "total_in_thread_takes_the_jar_sizes"
+label = "total_in_thread moves the Vec of jar sizes into a thread and returns the sum"
+
+[[hints]]
+text = "Read the `help:` line under the E0373 error: it names the keyword that goes in front of the bars."
+[[hints]]
+text = "`thread::spawn(move || format!(\"Hashing {jar_name}\"))`. For the sizes: `thread::spawn(move || sizes.iter().sum::<u64>())`, then `.join().unwrap()`."
+
+[[points]]
+after = 2
+prompt = "Which keyword makes a closure own the variables it uses?"
+pick = ["ref", "own", "move", "mut"]
+answer = 2
+[[points]]
+after = 4
+prompt = "A `'static` value may be borrowed for how long?"
+pick = ["until the function returns", "as long as the program runs", "one line", "until the next join"]
+answer = 1

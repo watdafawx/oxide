@@ -1,0 +1,25 @@
+title = "A set of tasks"
+summary = "A JoinSet holds many mod download tasks and hands back each result as it finishes. abort_all cancels whatever is left."
+
+[[objectives]]
+test = "finish_order_follows_the_jars_finish_line"
+label = "finish_order gives the jar ids in the order the downloads finished"
+[[objectives]]
+test = "the_other_mirrors_are_cancelled_after_the_first"
+label = "first_mirror_and_cancel_rest keeps the first mirror and cancels the other two at once"
+
+[[hints]]
+text = "Both start with `let mut set = JoinSet::new();` and a loop of `set.spawn(download(id, ms));`. `while let Some(result) = set.join_next().await` takes results out as they finish; each is a `Result`, `Err` for a task that panicked or was cancelled. For the second, take one result, call `set.abort_all()`, then loop again and count the `Err`s whose `is_cancelled()` is true."
+[[hints]]
+text = "`let first = match set.join_next().await { Some(Ok(id)) => Some(id), _ => None };` then `set.abort_all();` then `while let Some(result) = set.join_next().await { if let Err(e) = result { if e.is_cancelled() { cancelled += 1; } } }`."
+
+[[points]]
+after = 2
+prompt = "Take the next finished result out of the set."
+code = "while let Some(result) = set.___().await {\n    println!(\"{result:?}\");\n}"
+blank = "join_next"
+[[points]]
+after = 3
+prompt = "Which call cancels every task still in the set?"
+pick = ["join_next", "abort_all", "spawn", "is_cancelled"]
+answer = 1

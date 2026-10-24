@@ -1,0 +1,26 @@
+title = "Tauri commands"
+summary = "The React HUD pages ask Rust for the HUD state through a Tauri command."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["tauri", "state"]
+
+[[objectives]]
+test = "command_returns_score"
+label = "invoking hud_state through the mock app gives the managed score"
+
+[[hints]]
+text = "Lock like the example: `hud.lock().unwrap_or_else(|poisoned| poisoned.into_inner())` gives the guard. Copy the state out of it."
+[[hints]]
+text = "`hud.lock().unwrap_or_else(|poisoned| poisoned.into_inner()).clone()`"
+
+[[points]]
+after = 0
+prompt = "What does Electron ship with every app that Tauri does not?"
+pick = ["a Rust compiler", "the React pages", "its own Chromium browser", "the WebView2 engine"]
+answer = 2
+[[points]]
+after = 4
+prompt = "lock() gives Err because another thread panicked holding it. What does this command do?"
+pick = ["takes the data anyway with into_inner", "crashes the app", "returns an empty HudState", "waits until the lock heals"]
+answer = 0

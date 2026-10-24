@@ -1,0 +1,17 @@
+title = "A crash stays put"
+summary = "A panic ends only its own worker. join reports it as an Err you can handle."
+
+[[objectives]]
+test = "average_jar_size_survives_an_empty_mods_folder"
+label = "average_jar_size returns None when the worker panics on zero jars"
+
+[[hints]]
+text = "Spawn a thread that computes `total_bytes / jar_count`, join it, and turn the `Result` from `join` into an `Option`."
+[[hints]]
+text = "`thread::spawn(move || total_bytes / jar_count).join().ok()`"
+
+[[points]]
+after = 2
+prompt = "A worker divided by zero. What does join hand back?"
+pick = ["Ok(0)", "None", "Err(..)", "the launcher crashes"]
+answer = 2

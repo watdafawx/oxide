@@ -1,0 +1,47 @@
+title = "Boss: Mod folder hasher"
+summary = "Hash every jar in the mods folder with a worker pool, count progress with an atomic, then check the answer with rayon."
+
+[[objectives]]
+test = "progress_counts_jars_across_workers"
+label = "Progress: an AtomicUsize jar counter with new / inc / done"
+[[objectives]]
+test = "fnv1a_matches_the_published_values"
+label = "fnv1a(&[u8]) -> u64 gives the published FNV-1a values"
+[[objectives]]
+test = "walk_finds_every_jar_sorted"
+label = "walk(dir) lists every jar and config in all subfolders, sorted by path"
+[[objectives]]
+test = "hash_mods_matches_a_one_by_one_run"
+label = "hash_mods(files, workers) returns (path, hash) pairs sorted by path"
+[[objectives]]
+test = "hash_mods_handles_odd_worker_counts"
+label = "An empty folder, one worker, or more workers than jars all work (and never hang)"
+[[objectives]]
+test = "hash_mods_tracked_counts_every_jar"
+label = "hash_mods_tracked bumps Progress once per hashed jar"
+[[objectives]]
+test = "hash_mods_rayon_matches_the_pool"
+label = "hash_mods_rayon gives the same sorted result using par_iter"
+[[objectives]]
+test = "report_lists_hex_hashes_per_jar"
+label = "report prints a count line and one '<16 hex digits>  <path>' line per jar"
+
+[[hints]]
+text = "Go in objective order. `Progress`, `fnv1a` and `walk` are each one earlier quest: the atomic counter (18), the fingerprint of a jar (21) and every file in the game folder (20)."
+[[hints]]
+text = "`hash_mods_tracked` is the pool from quest 23 inside `thread::scope(|s| { .. })`, with `s.spawn(move || ..)` for each worker. A worker that hashed a jar calls `progress.inc()` before it sends `(path, hash)` back."
+[[hints]]
+text = "Inside the scope, after starting the workers: send every path, `drop(job_tx)`, `drop(res_tx)`, then collect `res_rx` and sort. The scope's last expression is the result."
+[[hints]]
+text = "`hash_mods` is one call: `hash_mods_tracked(files, workers, &Progress::new())`. `report` starts with `vec![format!(\"{} files\", results.len())]`, pushes one `{hash:016x}` line per result and ends with `lines.join(\"\\n\")`."
+
+[[points]]
+after = 2
+prompt = "Workers must borrow `progress`. Which call lets them?"
+pick = ["thread::spawn", "Arc::new", "mpsc::channel", "thread::scope"]
+answer = 3
+[[points]]
+after = 5
+prompt = "Print 16 lowercase hex digits."
+code = "format!(\"{hash:___}\")"
+blank = "016x"

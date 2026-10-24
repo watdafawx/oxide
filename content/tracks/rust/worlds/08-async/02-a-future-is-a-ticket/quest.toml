@@ -1,0 +1,29 @@
+title = "A future is a ticket"
+summary = "An async fn hands back a future. .await waits for the value inside."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["async", "await", "future"]
+
+[[objectives]]
+test = "episode_file_names_the_file"
+label = "episode_file(7) is \"episode-7.mp3\""
+[[objectives]]
+test = "describe_awaits_the_file_name"
+label = "describe(7) awaits episode_file and gives \"Downloading episode-7.mp3\""
+
+[[hints]]
+text = "The body of an `async fn` is ordinary code: `episode_file` is one `format!`. In `describe`, the call `episode_file(id)` is a future, so it needs `.await` before you can use the text."
+[[hints]]
+text = "`format!(\"episode-{id}.mp3\")` for the first. For the second: `let file = episode_file(id).await;` then `format!(\"Downloading {file}\")`."
+
+[[points]]
+after = 2
+prompt = "What does calling an async fn give back?"
+pick = ["the finished String", "a new thread", "a future", "nothing at all"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Wait for the value."
+code = "let url = feed_url(\"daily\").___;"
+blank = "await"

@@ -1,0 +1,29 @@
+title = "Send and Sync"
+summary = "Two traits with no methods decide which values may cross threads. They are how E0277 knew about Rc."
+
+[[quiz]]
+question = "Which type is Send (may move to another thread) but NOT Sync (may not be shared by & between threads)?"
+choices = [
+  "i32",
+  "Rc<i32>",
+  "RefCell<i32>",
+]
+answer = 2
+
+[[quiz]]
+question = "Why does thread::spawn refuse a closure that holds an Rc<T>?"
+choices = [
+  "Rc's owner count is a plain number, so two threads could race on it",
+  "Rc lives on the heap, and heap values can never leave the main thread",
+  "Rc is only valid inside a single function",
+]
+answer = 0
+
+[[quiz]]
+question = "You write `struct ModJar { name: String, bytes: Vec<u8> }`. Is it Send?"
+choices = [
+  "No, until you write `impl Send` for it by hand",
+  "Only when it is wrapped in an Arc",
+  "Yes: the compiler marks it Send because every field is Send",
+]
+answer = 2

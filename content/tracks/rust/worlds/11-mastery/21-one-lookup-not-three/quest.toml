@@ -1,0 +1,26 @@
+title = "One lookup, not three"
+summary = "contains, get, insert hashes the word three times. entry finds or makes the slot in one."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["performance", "hashmap", "entry"]
+
+[[objectives]]
+test = "word_count_uses_one_operation_per_word"
+label = "word_count does one Counter operation per word"
+
+[[hints]]
+text = "Replace the whole `if`/`else` with one line: `entry` with an owned key, then `or_default()` for the slot, then `*` and `+= 1`."
+[[hints]]
+text = "`*counter.entry(word.to_string()).or_default() += 1;`"
+
+[[points]]
+after = 1
+prompt = "How many lookups does contains + get + insert do for a word seen before?"
+pick = ["one", "two", "three", "none"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Start a missing count at 0 (u32's default)."
+code = "*counter.entry(word.to_string()).___ += 1;"
+blank = "or_default()"

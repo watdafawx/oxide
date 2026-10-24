@@ -1,0 +1,6 @@
+[package]
+name = "conc_crash_stays_put"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

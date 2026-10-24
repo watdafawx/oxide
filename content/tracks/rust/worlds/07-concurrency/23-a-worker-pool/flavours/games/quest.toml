@@ -1,0 +1,25 @@
+title = "A pool of workers"
+summary = "A few hash workers share one job queue, Arc<Mutex<Receiver>>, and each takes the next jar when it is free."
+
+[[objectives]]
+test = "pool_hashes_every_jar"
+label = "hash_with_pool: a fixed number of workers hashes every jar; hashes sorted"
+[[objectives]]
+test = "pool_finishes_with_odd_worker_counts"
+label = "No jars, one worker, or more workers than jars all finish (and never hang)"
+
+[[hints]]
+text = "Each worker: `loop { let job = jobs.lock().unwrap().recv(); match job { Ok(size) => results.send(slow_hash(size)).unwrap(), Err(_) => break } }`. The guard is gone at the `;`, so the lock is free while the worker hashes."
+[[hints]]
+text = "In the parent, after starting the workers: send every size with `job_tx`, then `drop(job_tx)` and `drop(res_tx)`, then `let mut out: Vec<u64> = res_rx.iter().collect(); out.sort(); out`."
+
+[[points]]
+after = 2
+prompt = "Read Arc<Mutex<Receiver<u64>>> aloud."
+pick = ["a lockable list of shared senders", "a shared, lockable receiver of jar sizes", "a receiver of mutexes", "an Arc that receives"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Which keyword repeats until a break?"
+pick = ["while", "for", "loop", "match"]
+answer = 2

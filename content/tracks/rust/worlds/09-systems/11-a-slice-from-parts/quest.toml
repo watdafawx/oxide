@@ -1,0 +1,29 @@
+title = "Aside: a slice from its parts"
+summary = "A slice is an address plus a length. Rebuild one from raw parts, then hide the unsafe step behind a safe function."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["unsafe", "slices", "aside"]
+
+[[objectives]]
+test = "sums_raw_parts"
+label = "sum_raw adds up len items starting at a *const i32"
+[[objectives]]
+test = "safe_wrapper_sums_slice"
+label = "safe_sum(&[i32]) is a safe function over sum_raw"
+
+[[hints]]
+text = "`std::slice::from_raw_parts(ptr, len)` gives back a `&[i32]` (inside `unsafe`); then sum it like any slice. The safe wrapper passes the slice's own `as_ptr()` and `len()`."
+[[hints]]
+text = "`let items = unsafe { std::slice::from_raw_parts(ptr, len) }; items.iter().sum()` and `unsafe { sum_raw(slice.as_ptr(), slice.len()) }`."
+
+[[points]]
+after = 1
+prompt = "Which two numbers make up a `&[i32]`?"
+pick = ["length and capacity", "an address and a length", "first and last item", "an address and a type"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Rebuild the slice from its parts."
+code = "let items = unsafe { std::slice::___(ptr, len) };"
+blank = "from_raw_parts"

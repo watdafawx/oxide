@@ -1,0 +1,30 @@
+title = "Paths that work anywhere"
+summary = "A template is pasted where it is called. Name things by $crate:: and ::std:: so it works in any module."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["macros", "macro_rules", "paths"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "item_works_from_another_module"
+label = "item! works in a module that never imported Item"
+[[objectives]]
+test = "stock_map_works_without_imports"
+label = "stock_map! works in a module that never imported HashMap"
+
+[[hints]]
+text = "Don't add a `use` to the test module: fix the templates. Your own crate's items start with `$crate::`, the standard library's with `::std::`."
+[[hints]]
+text = "`$crate::Item { name: $name, count: $count }` and `let mut map = ::std::collections::HashMap::new();`"
+
+[[points]]
+after = 1
+prompt = "Where are the names in a template looked up?"
+pick = ["where the macro was written", "where the macro is called", "in the std crate only", "nowhere, macros skip names"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Name your crate's Item from any caller."
+code = "___::Item { name: $name, count: $count }"
+blank = "$crate"

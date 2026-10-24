@@ -3,6 +3,8 @@
 Plan and record of the world at the end of the Rust track, built from five of the owner's ESL
 broadcast projects. Not content. Format and rules: `docs/CONTENT.md`. Research date: 2026-10-23.
 
+> Rewritten in October 2026 (19 → 23 quests); the current list is in `docs/REWRITE-rust-12-broadcast.md`.
+
 ## 0. What the ESL projects are, and which are worth moving to Rust
 
 | project | today | what it does | move to Rust? |

@@ -1,0 +1,25 @@
+title = "A future is a ticket"
+summary = "An async fn hands back a future. .await waits for the jar name inside."
+
+[[objectives]]
+test = "jar_name_names_the_file"
+label = "jar_name(21) is \"mod-21.jar\""
+[[objectives]]
+test = "announce_awaits_the_jar_name"
+label = "announce(21) awaits jar_name and gives \"Downloading mod-21.jar\""
+
+[[hints]]
+text = "The body of an `async fn` is ordinary code: `jar_name` is one `format!`. In `announce`, the call `jar_name(id)` is a future, so it needs `.await` before you can use the text."
+[[hints]]
+text = "`format!(\"mod-{id}.jar\")` for the first. For the second: `let jar = jar_name(id).await;` then `format!(\"Downloading {jar}\")`."
+
+[[points]]
+after = 2
+prompt = "What does calling an async fn give back?"
+pick = ["the finished String", "a new thread", "a future", "nothing at all"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Wait for the value."
+code = "let url = mod_page(\"sodium\").___;"
+blank = "await"

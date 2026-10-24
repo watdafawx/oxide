@@ -1,0 +1,22 @@
+title = "Pasted twice, run twice"
+summary = "chunk_area!(next_side()) calls next_side() twice. Bind the argument once inside a block."
+
+[[objectives]]
+test = "chunk_area_runs_its_argument_once"
+label = "chunk_area!(next_side()) calls next_side() a single time and squares its answer"
+
+[[hints]]
+text = "Make the template a block that first stores `$x` in a local with `let`, then multiplies that local by itself. A block in a template needs a second pair of braces."
+[[hints]]
+text = "`($x:expr) => {{ let v = $x; v * v }};`"
+
+[[points]]
+after = 1
+prompt = "How many times does $x * $x run next_side()?"
+pick = ["once", "never", "twice", "it depends on the type"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Run the argument once."
+code = "($x:expr) => {{ let v = ___; v * v }};"
+blank = "$x"

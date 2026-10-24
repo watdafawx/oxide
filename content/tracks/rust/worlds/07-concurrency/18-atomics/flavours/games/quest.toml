@@ -1,0 +1,25 @@
+title = "A number with no lock"
+summary = "An atomic jar counter does read, add and write as one step: no lock, no guard, no lost update."
+
+[[objectives]]
+test = "jar_done_returns_the_count_from_before"
+label = "jar_done adds 1 to the jars-hashed counter and returns the value from before"
+[[objectives]]
+test = "count_in_workers_never_loses_an_update"
+label = "count_in_workers: scoped workers share one AtomicUsize and no update is lost"
+
+[[hints]]
+text = "`fetch_add(1, Ordering::Relaxed)` adds and hands back the OLD value. Atomic methods take `&self`, so scoped threads can all borrow the same counter."
+[[hints]]
+text = "`done.fetch_add(1, Ordering::Relaxed)`. In `count_in_workers`: `let done = AtomicUsize::new(0); thread::scope(|s| { for _ in 0..threads { s.spawn(|| for _ in 0..per_thread { jar_done(&done); }); } }); done.load(Ordering::Relaxed)`."
+
+[[points]]
+after = 2
+prompt = "Which call adds and returns the OLD value?"
+pick = ["load", "store", "swap", "fetch_add"]
+answer = 3
+[[points]]
+after = 4
+prompt = "A plain counter that nobody uses to coordinate other data. Which Ordering?"
+pick = ["SeqCst", "Relaxed", "Acquire", "none"]
+answer = 1

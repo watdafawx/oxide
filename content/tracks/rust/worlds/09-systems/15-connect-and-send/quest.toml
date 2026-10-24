@@ -1,0 +1,29 @@
+title = "Connect and send"
+summary = "Open a TCP connection, send every byte of a message, and read back exactly as many bytes as you sent."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["tcp", "io", "networking"]
+
+[[objectives]]
+test = "client_round_trips_through_server"
+label = "client_roundtrip connects, sends the message and reads the same number of bytes back"
+[[objectives]]
+test = "answer_in_pieces_is_read_whole"
+label = "An answer that arrives in several pieces is still read whole"
+
+[[hints]]
+text = "Three calls, each with `?`: `TcpStream::connect(addr)`, then `write_all(msg)` on the stream, then `read_exact` into a buffer of `msg.len()` zeros. The stream must be `let mut`."
+[[hints]]
+text = "`let mut stream = TcpStream::connect(addr)?; stream.write_all(msg)?; let mut buf = vec![0u8; msg.len()]; stream.read_exact(&mut buf)?; Ok(buf)`."
+
+[[points]]
+after = 1
+prompt = "Open a connection."
+code = "let mut stream = TcpStream::___(addr)?;"
+blank = "connect"
+[[points]]
+after = 3
+prompt = "Which call keeps reading until the buffer is full?"
+pick = ["read", "read_exact", "write_all", "accept"]
+answer = 1

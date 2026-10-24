@@ -1,0 +1,22 @@
+title = "Only on some targets"
+summary = "#[cfg(...)] keeps an item only when building for a matching target. One function, two versions."
+
+[[objectives]]
+test = "native_build_saves_to_the_saves_folder"
+label = "The file compiles with both versions, and on a desktop save_location() is \".minecraft/saves/\""
+
+[[hints]]
+text = "Put a `#[cfg(...)]` line above each function. The browser one wants `target_arch = \"wasm32\"`; the folder one wants the opposite, `not(...)` around the same condition."
+[[hints]]
+text = "`#[cfg(target_arch = \"wasm32\")]` above the `\"browser storage\"` version and `#[cfg(not(target_arch = \"wasm32\"))]` above the `\".minecraft/saves/\"` version."
+
+[[points]]
+after = 2
+prompt = "Which attribute have you seen above every test module?"
+pick = ["#[derive(Debug)]", "#[cfg(test)]", "#[macro_export]", "#[test]"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Keep this function for every target except the browser."
+code = "#[cfg(___(target_arch = \"wasm32\"))]"
+blank = "not"

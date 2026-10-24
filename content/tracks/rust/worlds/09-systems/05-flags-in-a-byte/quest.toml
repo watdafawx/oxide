@@ -1,0 +1,32 @@
+title = "Eight answers in one byte"
+summary = "Turn single bits on, off and test them with |, & and !, and give each bit a name with const."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["bits", "masks", "const"]
+
+[[objectives]]
+test = "flags_set_and_test"
+label = "MAINTENANCE is the third bit, and set_flag / has_flag turn bits on and test them"
+[[objectives]]
+test = "clear_flag_leaves_the_rest"
+label = "clear_flag turns only the given bits off"
+[[objectives]]
+test = "counts_set_bits"
+label = "count_set_bits returns how many bits are 1"
+
+[[hints]]
+text = "Each function is one operator: `|` to turn on, `&` with `!` to turn off, `&` and a comparison to test. `MAINTENANCE` is the bit worth 4."
+[[hints]]
+text = "`MAINTENANCE: u8 = 0b0000_0100`, `value | flag`, `value & flag == flag`, `value & !flag`, `value.count_ones()`."
+
+[[points]]
+after = 3
+prompt = "Which operator turns a bit on?"
+pick = ["&", "|", "!", "<<"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Turn the FULL bit off and keep the rest."
+code = "status & ___FULL"
+blank = "!"

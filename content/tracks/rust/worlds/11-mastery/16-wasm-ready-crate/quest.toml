@@ -1,0 +1,29 @@
+title = "Ready for the browser"
+summary = "Export word_count to JavaScript with wasm-bindgen, while cargo test keeps running natively."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["wasm", "wasm-bindgen", "cfg"]
+
+[[objectives]]
+test = "word_count_counts_words"
+label = "word_count(\"the quick  brown fox\") is 4"
+[[objectives]]
+test = "word_count_is_exported_for_wasm"
+label = "word_count carries a wasm32-only #[wasm_bindgen] (the test reads the source)"
+
+[[hints]]
+text = "The body is one chain: split on whitespace, count, convert to `u32` with `as u32`. The attribute goes on the line right above `pub fn word_count`: `cfg_attr(condition, attribute)`."
+[[hints]]
+text = "`#[cfg_attr(target_arch = \"wasm32\", wasm_bindgen::prelude::wasm_bindgen)]` above the function, and the body `text.split_whitespace().count() as u32`."
+
+[[points]]
+after = 1
+prompt = "Apply an attribute only on wasm."
+code = "#[___(target_arch = \"wasm32\", wasm_bindgen::prelude::wasm_bindgen)]"
+blank = "cfg_attr"
+[[points]]
+after = 3
+prompt = "Which crate type is a .wasm made from?"
+pick = ["bin", "rlib", "staticlib", "cdylib"]
+answer = 3

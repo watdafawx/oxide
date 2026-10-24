@@ -1,0 +1,29 @@
+title = "UDP: one packet, no connection"
+summary = "Send a single datagram, answer whoever sent one, and keep only the bytes that arrived."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["udp", "sockets", "networking"]
+
+[[objectives]]
+test = "server_replies_uppercase"
+label = "serve_once receives one datagram and sends it back in UPPERCASE to the sender"
+[[objectives]]
+test = "request_gets_reply"
+label = "request sends a datagram to the server and returns the reply"
+
+[[hints]]
+text = "`recv_from(&mut buf)?` gives `(n, from)`: how many bytes and who sent them. Answer with `send_to(bytes, from)?`. For `request`, bind your own socket first with `UdpSocket::bind(\"127.0.0.1:0\")?`."
+[[hints]]
+text = "`serve_once`: `let mut buf = [0u8; 512]; let (n, from) = socket.recv_from(&mut buf)?; socket.send_to(&buf[..n].to_ascii_uppercase(), from)?; Ok(())`. `request`: bind, `send_to(msg, server)?`, `recv_from`, then `Ok(buf[..n].to_vec())`."
+
+[[points]]
+after = 2
+prompt = "Which call tells you who sent the datagram?"
+pick = ["send_to", "bind", "recv_from", "connect"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Keep only the real bytes."
+code = "assert_eq!(&buf[___], b\"ping\");"
+blank = "..n"

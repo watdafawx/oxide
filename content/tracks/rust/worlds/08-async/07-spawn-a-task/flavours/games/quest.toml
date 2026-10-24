@@ -1,0 +1,25 @@
+title = "A task of its own"
+summary = "tokio::spawn hands each mod download to the runtime as a task. async move gives it its own data."
+
+[[objectives]]
+test = "spawn_jar_name_runs_in_its_own_task"
+label = "spawn_jar_name(\"sodium\", 6) runs in a task whose result is \"sodium-6.jar\""
+[[objectives]]
+test = "all_jar_sizes_spawns_first_then_awaits"
+label = "all_jar_sizes spawns one task per jar first, then awaits them in order (under 800 ms for 5)"
+
+[[hints]]
+text = "`spawn_jar_name` is one line: `tokio::spawn` around an `async move { .. }` block that builds the name with `format!`. In `all_jar_sizes`, `tokio::spawn(jar_size(id))` works as is, because the future owns its `id`."
+[[hints]]
+text = "`tokio::spawn(async move { format!(\"{slug}-{version}.jar\") })`. Then `let mut handles = Vec::new(); for id in ids { handles.push(tokio::spawn(jar_size(id))); }` and a second loop that does `sizes.push(handle.await.unwrap());`."
+
+[[points]]
+after = 2
+prompt = "What does tokio::spawn give back straight away?"
+pick = ["the task's result", "a JoinHandle", "a new thread", "a Mutex"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Let the task own the slug."
+code = "let icon = tokio::spawn(___ {\n    format!(\"{slug}/icon.png\")\n});"
+blank = "async move"

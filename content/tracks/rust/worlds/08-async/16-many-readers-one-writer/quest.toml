@@ -1,0 +1,29 @@
+title = "Many readers, one writer"
+summary = "An RwLock lets many tasks read a cache at once and one task write it. Build the feed-title cache."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["async", "rwlock", "cache"]
+
+[[objectives]]
+test = "cache_insert_then_get"
+label = "TitleCache::insert, get and count work"
+[[objectives]]
+test = "cache_is_shared_between_tasks"
+label = "8 tasks write to one Arc<TitleCache> and every entry is there"
+
+[[hints]]
+text = "Writes take `self.inner.write().await`, reads take `self.inner.read().await`; both give a guard you use like the `HashMap` itself. `get` must hand back an owned `String`, so copy it out of the map before the guard goes."
+[[hints]]
+text = "`self.inner.write().await.insert(feed.to_string(), title.to_string());`, `self.inner.read().await.get(feed).cloned()` and `self.inner.read().await.len()`."
+
+[[points]]
+after = 1
+prompt = "Many tasks want to read the cache at the same moment. With a Mutex, how many get in at once?"
+pick = ["all of them", "one", "two", "as many as there are threads"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Take the lock for reading."
+code = "let map = titles.___().await;"
+blank = "read"

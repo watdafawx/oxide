@@ -1,0 +1,29 @@
+title = "Shared and lockable"
+summary = "Arc gives every thread an owner, Mutex makes the changes take turns: Arc<Mutex<T>>."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["arc", "mutex", "shared-state"]
+
+[[objectives]]
+test = "count_with_threads_adds_up"
+label = "count_with_threads: every thread adds to one shared counter, and the total is exact"
+[[objectives]]
+test = "checked_names_gathers_every_thread"
+label = "checked_names: each thread pushes into one shared Vec"
+
+[[hints]]
+text = "Make `Arc::new(Mutex::new(0))` once. In the loop: `let mine = Arc::clone(&shared);`, then spawn a `move` closure that locks `mine`. Keep the handles, join them all, and only then read the value."
+[[hints]]
+text = "After joining: `*shared.lock().unwrap()` for the count. For the names: `let mut out = shared.lock().unwrap().clone(); out.sort(); out`."
+
+[[points]]
+after = 1
+prompt = "Which part gives every thread an owner?"
+pick = ["Arc", "Mutex", "Vec", "the guard"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Read the result before or after joining?"
+pick = ["before", "either, it is the same", "never", "after"]
+answer = 3

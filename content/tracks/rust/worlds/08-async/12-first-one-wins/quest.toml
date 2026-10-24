@@ -1,0 +1,29 @@
+title = "First one wins"
+summary = "tokio::select! waits on several futures, runs the branch of the first to finish, and drops the rest."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["async", "select"]
+
+[[objectives]]
+test = "first_answer_picks_the_faster_server"
+label = "first_answer(10, 800) is \"main\", first_answer(800, 10) is \"backup\""
+[[objectives]]
+test = "first_answer_does_not_wait_for_the_loser"
+label = "It returns as soon as one server answers, not after both"
+
+[[hints]]
+text = "One `tokio::select!` with two branches, one per server. `ask` gives back nothing useful, so each branch starts with `_ =` and its value after `=>` is the name."
+[[hints]]
+text = "`tokio::select! { _ = ask(main_ms) => \"main\", _ = ask(backup_ms) => \"backup\", }` is the whole body."
+
+[[points]]
+after = 1
+prompt = "Which macro runs the branch of the first future to finish?"
+pick = ["join!", "select!", "spawn", "timeout"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep the winner's value in a branch."
+code = "tokio::select! {\n    ___ = fetch_feed(\"daily\") => feed,\n    _ = sleep(Duration::from_secs(2)) => String::new(),\n}"
+blank = "feed"

@@ -1,0 +1,26 @@
+title = "Pasted twice, run twice"
+summary = "square!(next()) calls next() twice. Bind the argument once inside a block."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["macros", "macro_rules", "side-effects"]
+
+[[objectives]]
+test = "square_runs_its_argument_once"
+label = "square!(next()) calls next() a single time and squares its answer"
+
+[[hints]]
+text = "Make the template a block that first stores `$x` in a local with `let`, then multiplies that local by itself. A block in a template needs a second pair of braces."
+[[hints]]
+text = "`($x:expr) => {{ let v = $x; v * v }};`"
+
+[[points]]
+after = 1
+prompt = "How many times does $x * $x run next()?"
+pick = ["once", "never", "twice", "it depends on the type"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Run the argument once."
+code = "($x:expr) => {{ let v = ___; v * v }};"
+blank = "$x"

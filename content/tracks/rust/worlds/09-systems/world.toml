@@ -1,2 +1,2 @@
 title = "Systems"
-blurb = "Bytes, bits, unsafe, C, sockets and a Minecraft server pinger: the parts of Rust that talk to the machine."
+blurb = "Bits, bytes and hex, a careful byte reader, a short aside on unsafe and C, sockets, VarInts, and a server pinger that speaks a real binary protocol."

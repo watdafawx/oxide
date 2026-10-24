@@ -1,0 +1,25 @@
+title = "A Cancel button"
+summary = "A oneshot channel carries one message. Its receiver is a future, so the launcher's Cancel button can be a select! branch."
+
+[[objectives]]
+test = "cancel_stops_the_jar_download"
+label = "jar_or_cancel returns \"cancelled\" as soon as Cancel is pressed"
+[[objectives]]
+test = "no_cancel_lets_the_jar_finish"
+label = "...and the download's own \"done\" when nobody presses Cancel"
+
+[[hints]]
+text = "A `select!` with two branches. The cancel branch waits on `&mut cancel` (borrowed, not moved) and gives `\"cancelled\"`. The download branch binds its answer to a name and gives that back."
+[[hints]]
+text = "`tokio::select! { _ = &mut cancel => \"cancelled\", answer = fetch_jar(work_ms) => answer, }`."
+
+[[points]]
+after = 1
+prompt = "How many messages does a oneshot channel carry?"
+pick = ["one", "eight", "as many as you like", "none, it only closes"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Wait on the receiver without giving it away."
+code = "tokio::select! {\n    _ = ___ stop => \"stopped\",\n    _ = refresh_modpack() => \"refreshed\",\n}"
+blank = "&mut"

@@ -1,0 +1,22 @@
+title = "When a task panics"
+summary = "A panic stays inside its task. Awaiting the handle gives Err, and the launcher carries on."
+
+[[objectives]]
+test = "bytes_per_mirror_survives_a_panic"
+label = "bytes_per_mirror(9000, 3) is Some(3000), and bytes_per_mirror(9000, 0) is None instead of a crash"
+
+[[hints]]
+text = "Spawn the division in an `async move` block, then await the handle. Awaiting gives a `Result`, and `.ok()` from world 03 turns it into an `Option`."
+[[hints]]
+text = "`let handle = tokio::spawn(async move { total / mirrors });` then `handle.await.ok()`."
+
+[[points]]
+after = 2
+prompt = "A spawned task panics. What does awaiting its handle give?"
+pick = ["Ok(0)", "a crash of the whole launcher", "Err(JoinError)", "None"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Turn the Result into an Option."
+code = "let icon = handle.await.___();"
+blank = "ok"

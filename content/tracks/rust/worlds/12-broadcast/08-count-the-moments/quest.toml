@@ -1,0 +1,29 @@
+title = "Count the moments"
+summary = "Hat-tricks and demolition counts: a map per player, an array per team."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["state-machine", "hashmap", "match"]
+
+[[objectives]]
+test = "hat_trick_on_third_goal"
+label = "a hat-trick fires on a player's third goal, not again on the fourth"
+[[objectives]]
+test = "demos_counted_per_team"
+label = "each demolition counts for the attacker's team"
+
+[[hints]]
+text = "GoalScored: `let goals = self.goals.entry(goal.scorer.name.clone()).or_insert(0);`, add one, compare with 3. Demolish: `let team = demo.attacker.team_num.min(1);` and index `self.demos[team as usize]`."
+[[hints]]
+text = "The Demolish arm ends with `moments.push(Moment::Demo { team, count: self.demos[team as usize] });`, after `self.demos[team as usize] += 1;`."
+
+[[points]]
+after = 2
+prompt = "Wren scores a fourth goal. What fires?"
+pick = ["a second hat-trick", "nothing: the count is 4, not 3", "a hat-trick and a demo", "the hat-trick again, with 4 in the detail"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Why is demos an array and not a HashMap?"
+pick = ["a HashMap cannot hold numbers", "arrays are sorted", "maps cannot be indexed", "there are only two teams, 0 and 1"]
+answer = 3

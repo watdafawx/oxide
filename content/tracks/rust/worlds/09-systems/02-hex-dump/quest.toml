@@ -1,0 +1,29 @@
+title = "Write bytes in hex"
+summary = "Binary is too long to read. Print a reply the way protocol docs do: two hex digits per byte."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["hex", "bytes", "format"]
+
+[[objectives]]
+test = "dumps_bytes_as_hex_pairs"
+label = "hex_dump(&[0x10, 0x00, 0xff, 0x05]) is \"10 00 ff 05\""
+[[objectives]]
+test = "small_bytes_keep_two_digits"
+label = "Small bytes keep their leading 0, and no bytes give an empty text"
+
+[[hints]]
+text = "Turn each byte into its two-digit text with `format!`, collect the pieces into a `Vec<String>`, then join them with a space."
+[[hints]]
+text = "`bytes.iter().map(|b| format!(\"{:02x}\", b)).collect::<Vec<String>>().join(\" \")`"
+
+[[points]]
+after = 2
+prompt = "How many hex digits write one byte?"
+pick = ["4", "2", "8", "16"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Print 5 as `05`, in hex."
+code = "format!(\"{:___}\", 5u8)"
+blank = "02x"

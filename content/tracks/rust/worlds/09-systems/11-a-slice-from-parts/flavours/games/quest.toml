@@ -1,0 +1,25 @@
+title = "Aside: player counts from raw parts"
+summary = "A slice is an address plus a length. Rebuild one from raw parts, then hide the unsafe step behind a safe function."
+
+[[objectives]]
+test = "sums_players_from_raw_parts"
+label = "total_players_raw adds up len counts starting at a *const i32"
+[[objectives]]
+test = "safe_wrapper_totals_a_slice"
+label = "total_players(&[i32]) is a safe function over total_players_raw"
+
+[[hints]]
+text = "`std::slice::from_raw_parts(ptr, len)` gives back a `&[i32]` (inside `unsafe`); then sum it like any slice. The safe wrapper passes the slice's own `as_ptr()` and `len()`."
+[[hints]]
+text = "`let counts = unsafe { std::slice::from_raw_parts(ptr, len) }; counts.iter().sum()` and `unsafe { total_players_raw(counts.as_ptr(), counts.len()) }`."
+
+[[points]]
+after = 1
+prompt = "Which two numbers make up a `&[i32]`?"
+pick = ["length and capacity", "an address and a length", "first and last item", "an address and a type"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Rebuild the slice from its parts."
+code = "let counts = unsafe { std::slice::___(ptr, len) };"
+blank = "from_raw_parts"

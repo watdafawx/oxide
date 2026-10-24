@@ -1,0 +1,25 @@
+title = "A name per function"
+summary = "Two #[count_loads] functions both get a static CALLS and clash. Build new names with format_ident!."
+
+[[objectives]]
+test = "each_function_has_its_own_counter"
+label = "#[count_loads] fn load_chunk() gets LOAD_CHUNK_CALLS and load_chunk_calls(); three calls read 3"
+[[objectives]]
+test = "counters_do_not_mix"
+label = "save_chunk_calls() and unload_chunk_calls() count separately"
+
+[[hints]]
+text = "Import it with `use quote::{format_ident, quote};`. Build `counter` from `sig.ident` uppercased plus `_CALLS`, and `reader` from the name plus `_calls`. Then use `#counter` wherever the template says `CALLS`, and `#reader` instead of `calls`."
+[[hints]]
+text = "`let name = &sig.ident; let counter = format_ident!(\"{}_CALLS\", name.to_string().to_uppercase()); let reader = format_ident!(\"{}_calls\", name);` and in `quote!`: `static #counter`, `pub fn #reader()`, `#counter.load(..)`, `#counter.fetch_add(..)`."
+
+[[points]]
+after = 1
+prompt = "How many statics named CALLS do three #[count_loads] functions write?"
+pick = ["one", "two", "zero", "three"]
+answer = 3
+[[points]]
+after = 3
+prompt = "What does quote! paste for a String holding load_chunk_calls?"
+pick = ["the name load_chunk_calls", "the text \"load_chunk_calls\" in quotes", "nothing", "a compile error inside the macro"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "Player cuts"
+summary = "Crop every player photo to its visible box, and cut a whole folder on every core with rayon."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["image", "rayon"]
+
+[[objectives]]
+test = "trim_then_square"
+label = "a 100 x 60 photo trims to its 30 x 20 block and squares to 30 x 30, centred"
+[[objectives]]
+test = "batch_writes_every_file"
+label = "cut_folder writes every PNG in the folder at 64 x 64 and skips other files"
+
+[[hints]]
+text = "`match visible_box(img) { Some((left, top, right, bottom)) => .., None => img.clone() }`. The `Some` arm crops."
+[[hints]]
+text = "`Some((left, top, right, bottom)) => imageops::crop_imm(img, left, top, right - left + 1, bottom - top + 1).to_image(),`"
+
+[[points]]
+after = 2
+prompt = "The box runs from x = 20 to x = 49. How wide is it?"
+pick = ["29", "49", "30", "20"]
+answer = 2
+[[points]]
+after = 4
+prompt = "What does changing .iter() to .par_iter() need from the closure?"
+pick = ["it must be async", "it must be safe to run on several threads at once", "it must return nothing", "nothing at all"]
+answer = 1

@@ -1,0 +1,6 @@
+[package]
+name = "sys_read_a_header"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

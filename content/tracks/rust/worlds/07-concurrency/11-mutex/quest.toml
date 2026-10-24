@@ -1,0 +1,29 @@
+title = "One at a time"
+summary = "A Mutex holds a value behind a lock: lock it, change it, and the guard unlocks it for you."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["mutex", "lock", "guard"]
+
+[[objectives]]
+test = "bump_never_loses_a_file"
+label = "bump locks the counter and adds 1, and four threads lose no update"
+[[objectives]]
+test = "log_line_appends_under_the_lock"
+label = "log_line locks the log and pushes the line"
+
+[[hints]]
+text = "`lock()` hands back a `Result` holding the guard: `unwrap()` it. The guard acts like a `&mut` to the value inside, so use `*` for a number and call methods directly on a `Vec`."
+[[hints]]
+text = "`*done.lock().unwrap() += 1;` and `log.lock().unwrap().push(line.to_string());`"
+
+[[points]]
+after = 2
+prompt = "Take the lock."
+code = "let mut guard = log.___().unwrap();"
+blank = "lock"
+[[points]]
+after = 4
+prompt = "One thread locks the same Mutex twice without dropping the first guard. What happens?"
+pick = ["it gets the lock twice", "a compile error", "it waits for itself forever", "the value is copied"]
+answer = 2

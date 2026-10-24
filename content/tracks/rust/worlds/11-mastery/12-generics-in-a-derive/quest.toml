@@ -1,0 +1,27 @@
+title = "Generics in a derive"
+summary = "impl Triple { } is not enough for Triple<T>. split_for_impl gives the three pieces of a generic impl."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["macros", "proc-macro", "generics"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "generic_struct_gets_a_correct_impl"
+label = "#[derive(Describe)] on Triple<T: Clone> compiles and says \"Triple with 3 fields\""
+
+[[hints]]
+text = "Ask the generics for their three pieces with `input.generics.split_for_impl()` (it returns a tuple), then put them in the impl line: after `impl`, after `#name`, and before the `{`."
+[[hints]]
+text = "`let (impl_generics, type_generics, where_clause) = input.generics.split_for_impl();` and `impl #impl_generics #name #type_generics #where_clause {`"
+
+[[points]]
+after = 2
+prompt = "In impl<T: Clone> Triple<T>, where does the bound T: Clone go?"
+pick = ["after the type name", "after impl", "in a comment", "nowhere, it is implied"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which method gives the three pieces of a generic impl?"
+pick = ["into_parts", "split_for_impl", "generics_for", "clone"]
+answer = 1

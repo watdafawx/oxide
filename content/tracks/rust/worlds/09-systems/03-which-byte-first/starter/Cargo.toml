@@ -1,0 +1,6 @@
+[package]
+name = "sys_which_byte_first"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

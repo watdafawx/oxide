@@ -1,0 +1,25 @@
+title = "How many are online?"
+summary = "The server's status is JSON text. Parse it into a serde_json Value, dig out the online count, and turn \"missing\" into an error."
+
+[[objectives]]
+test = "reads_how_many_are_online"
+label = "online_players reads players.online out of the status JSON"
+[[objectives]]
+test = "missing_or_broken_status_is_an_error"
+label = "Broken JSON, or a missing or non-number count, is an Err"
+
+[[hints]]
+text = "Two steps. `serde_json::from_str(json)` into a `let v: Value`, with `map_err(|e| e.to_string())?` for the error. Then `v[\"players\"][\"online\"].as_u64()` gives an `Option<u64>`; `ok_or(..)` turns it into the `Result`."
+[[hints]]
+text = "`let v: Value = serde_json::from_str(json).map_err(|e| e.to_string())?;` then `v[\"players\"][\"online\"].as_u64().ok_or(\"missing players.online\".to_string())`."
+
+[[points]]
+after = 3
+prompt = "What does `v[\"nope\"]` give when the key is missing?"
+pick = ["a panic", "Value::Null", "an empty string", "Err"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Turn None into an error."
+code = "count.___(\"missing count\".to_string())"
+blank = "ok_or"

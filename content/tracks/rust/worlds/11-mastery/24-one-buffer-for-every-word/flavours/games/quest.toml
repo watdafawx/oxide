@@ -1,0 +1,22 @@
+title = "One buffer for every block"
+summary = "Lowercase each block name into one reused String, look it up as &str, and copy it only for a new name."
+
+[[objectives]]
+test = "allocates_for_new_names_only"
+label = "300 block names, 5 of them different: at most 20 allocations"
+
+[[hints]]
+text = "Make `let mut buf = String::new();` before the loop. In the loop: `buf.clear()`, then `buf.extend(...)` with the name's lowercased chars. Then `match counts.get_mut(buf.as_str())`: add 1 to a found count, or `insert` a clone of `buf` with 1."
+[[hints]]
+text = "```\nbuf.clear();\nbuf.extend(name.chars().flat_map(char::to_lowercase));\nmatch counts.get_mut(buf.as_str()) {\n    Some(n) => *n += 1,\n    None => {\n        counts.insert(buf.clone(), 1);\n    }\n}\n```"
+
+[[points]]
+after = 2
+prompt = "What does clear() keep?"
+pick = ["the text", "the room it allocated", "nothing", "the first letter"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Look up a String key without making a String."
+code = "match counts.get_mut(buf.___()) {"
+blank = "as_str"

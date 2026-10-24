@@ -1,0 +1,22 @@
+title = "The block registry"
+summary = "registry![\"stone\" => 1, \"dirt\" => 2]: repeat a pair, and call block! once per pair."
+
+[[objectives]]
+test = "registry_builds_every_block"
+label = "registry![\"stone\" => 1, \"dirt\" => 2,] is a Vec of both Blocks, in order"
+
+[[hints]]
+text = "The pattern is already right. In the template, build a `vec![ ]` whose repetition holds one `block!` call per pair; call it through `$crate::` so it works anywhere."
+[[hints]]
+text = "`vec![$( $crate::block!($name => $id) ),*]`"
+
+[[points]]
+after = 1
+prompt = "In $( $name:expr => $id:expr ),*, how many captures does one round take?"
+pick = ["one", "two", "three", "it depends on the call"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Call your own macro from a template, from any crate."
+code = "vec![$( ___!($name => $id) ),*]"
+blank = "$crate::block"

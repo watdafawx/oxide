@@ -1,0 +1,33 @@
+title = "Two hands on one number"
+summary = "What a data race is, what it corrupts, and how it differs from a race condition."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["data-race", "race-condition", "threads"]
+
+[[quiz]]
+question = "Two threads each run `done += 1` on the same number, with no lock. It started at 5. What can it end at?"
+choices = [
+  "Always 7, because += is a single step",
+  "6 or 7, depending on how the steps interleave",
+  "Always 5, because the two writes cancel out",
+]
+answer = 1
+
+[[quiz]]
+question = "Which of these is a data race?"
+choices = [
+  "Two threads read the same list at the same time, and nobody changes it",
+  "Two threads each change their own list",
+  "One thread pushes onto a list while another reads it, with nothing coordinating them",
+]
+answer = 2
+
+[[quiz]]
+question = "What does Rust promise about threads?"
+choices = [
+  "Safe Rust code with a data race does not compile; race conditions in your logic are still possible",
+  "Programs with threads can never hang or give a wrong answer",
+  "Threads always run in the order you start them",
+]
+answer = 0

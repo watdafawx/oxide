@@ -1,28 +1,21 @@
-**Why now:** the downloader's two nastiest bugs are a download that never starts and a download that freezes every other one; both come from these two facts.
+A bug report: "episode 3 never downloads, and there is no error". The code calls the download function, so why did nothing happen? The answer is how futures run, and it is the same rule that makes a thousand idle downloads cost almost nothing.
 
-Read once.
+**Calling builds, awaiting runs.** `let pending = save_episode(3);` runs none of the function's body. It builds a future and stops. Only when something awaits it (or spawns it, quest 07) does its first line run. A future is **lazy**: it waits to be asked.
 
-**1. Futures are lazy.**
-Calling `download_jar()` does not fetch anything. It builds a future: a paused state machine. The runtime **polls** it when you `.await` it (or `spawn` it, or put it in `join!`). Never polled, never run.
+**What poll means.** The runtime drives a future by **polling** it: calling it with "go as far as you can". The future runs until it reaches an `.await` on something that isn't ready, answers "not ready", and returns. The runtime moves on to another task.
 
-**2. Waiting must not block.**
-An async runtime has a few worker threads, each juggling many tasks. A task gives its thread back at every `.await`. If you call something that **blocks** (like `std::thread::sleep`, a big loop, a sync file read), the thread is stuck and every other task on it stalls.
+**Being woken.** With each poll the future also gets a **waker**, a handle that means "poll me again". When the answer arrives, the network code calls the waker and the runtime polls that future once more. It carries on right after the `.await` where it paused. Nobody checks in a loop, so waiting costs nothing.
 
 ```rust
-async fn download_ok() {
-    tokio::time::sleep(Duration::from_secs(1)).await; // thread is free meanwhile
-}
-
-async fn download_frozen() {
-    std::thread::sleep(Duration::from_secs(1)); // thread frozen, nothing else runs there
-}
-
-async fn download_forgot() {
-    download_ok(); // warning: unused future. Nothing happens!
+async fn sync_feed() {
+    save_episode(1);       // warning: unused implementer of `Future` that must be used
+    save_episode(2).await; // this one runs
 }
 ```
 
-Rule of thumb: inside `async`, use the async version (`tokio::time::sleep`, `tokio::fs`). For heavy CPU work, use `tokio::task::spawn_blocking`.
+**A forgotten await is silent.** The future from `save_episode(1)` is dropped at the `;` and its body never runs. There is no error and no panic, only the warning above. When something async "never happens", look for a missing `.await` first.
+
+**For the curious: a state machine.** The compiler turns each async fn into a struct that holds its local variables plus a number saying which `.await` it is paused at. That is why a task is small: it is exactly as big as what it must remember. Being lazy also makes cancelling cheap, since dropping that struct stops the work (quest 11).
 
 ## Your turn
 

@@ -1,0 +1,56 @@
+title = "Boss: Minecraft server pinger"
+summary = "Speak a real binary protocol, the Server List Ping: frame packets, send a handshake, read the reply safely and parse its JSON."
+kind = "boss"
+xp = 450
+minutes = 60
+tags = ["tcp", "varint", "protocol", "serde_json", "boss"]
+
+[[objectives]]
+test = "packet_encode_frames_length_and_id"
+label = "Packet::encode writes VarInt length, VarInt id, then the payload"
+[[objectives]]
+test = "status_request_is_two_bytes"
+label = "status_request() is the empty packet with id 0: [0x01, 0x00]"
+[[objectives]]
+test = "handshake_matches_protocol_bytes"
+label = "handshake(host, port) has the exact protocol layout (767, host, port, next state 1)"
+[[objectives]]
+test = "read_packet_parses_frames"
+label = "read_packet reads one frame from a stream and stops there"
+[[objectives]]
+test = "read_packet_rejects_bad_frames"
+label = "Truncated, zero, negative or absurd lengths are errors (no huge allocations)"
+[[objectives]]
+test = "parse_status_reads_fields"
+label = "parse_status pulls version, protocol, players and description out of the JSON"
+[[objectives]]
+test = "parse_status_flattens_description_components"
+label = "A description object with text and extra parts becomes one plain string"
+[[objectives]]
+test = "ping_talks_to_fake_server"
+label = "ping(addr) completes the whole conversation with a server on 127.0.0.1"
+
+[[hints]]
+text = "Order that works: `Packet::encode` -> `status_request` -> `handshake` (the helpers `write_varint` and `write_string` are already written) -> `read_packet` -> `parse_status` -> `ping`. Each objective only needs the ones before it."
+[[hints]]
+text = "A packet is `[VarInt length][VarInt id][payload]`, and the length counts the id plus the payload. So `encode` builds the body first (id, then payload), then writes `body.len()` in front of it into a second `Vec`."
+[[hints]]
+text = "`handshake` payload, in order: `write_varint(PROTOCOL_VERSION)`, `write_string(host)`, `extend_from_slice(&port.to_be_bytes())`, `write_varint(1)`; then `Packet { id: 0, payload }.encode()`. `status_request` is `Packet { id: 0, payload: Vec::new() }.encode()`."
+[[hints]]
+text = "`read_packet`: `let len = read_varint(r)?;` then `if !(1..=MAX_PACKET_LEN).contains(&len) { return Err(invalid(\"bad packet length\")); }`. Fill `vec![0u8; len as usize]` with `read_exact`, read the id from `io::Cursor::new(&body[..])`, and the payload is `body[cur.position() as usize..].to_vec()`."
+[[hints]]
+text = "`parse_status`: `let v: Value = serde_json::from_str(json).map_err(|e| invalid(&e.to_string()))?;` then for example `v[\"players\"][\"online\"].as_u64().ok_or(invalid(\"missing players.online\"))? as u32`. In `flatten_text`, the object arm is `v[\"text\"]` as text plus `flatten_text(part)` for each part of `v[\"extra\"].as_array()`."
+[[hints]]
+text = "`ping`: `let mut stream = TcpStream::connect_timeout(&addr, Duration::from_secs(3))?;` plus `set_read_timeout` and `set_write_timeout`, `write_all(&handshake(&addr.ip().to_string(), addr.port()))?`, `write_all(&status_request())?`, `let packet = read_packet(&mut stream)?;`, check `packet.id == 0`, then `parse_status(&read_string(&packet.payload)?)`."
+
+[[points]]
+after = 2
+prompt = "What does the packet length count?"
+pick = ["payload only", "id plus payload", "id only", "the whole stream"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Append the port as big-endian bytes."
+code = "payload.extend_from_slice(&port.___());"
+blank = "to_be_bytes"

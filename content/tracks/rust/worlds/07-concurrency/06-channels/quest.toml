@@ -1,0 +1,29 @@
+title = "A pipe between threads"
+summary = "A channel carries values from one thread to another: send on one end, receive on the other."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["mpsc", "channels", "threads"]
+
+[[objectives]]
+test = "send_all_delivers_in_order"
+label = "send_all sends every name from a thread, in order, then the channel closes"
+[[objectives]]
+test = "drain_collects_until_the_sender_hangs_up"
+label = "drain collects everything a Receiver yields"
+
+[[hints]]
+text = "`let (tx, rx) = mpsc::channel();` then spawn a `move` thread that loops over `names` and calls `tx.send(name).unwrap()`. Return `rx` without waiting."
+[[hints]]
+text = "For `drain`: `let mut got = Vec::new(); for size in rx { got.push(size); } got` (or `rx.iter().collect()`)."
+
+[[points]]
+after = 2
+prompt = "Which end goes into the thread that produces values?"
+pick = ["rx, the Receiver", "tx, the Sender", "both", "neither"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which call waits until a value arrives?"
+pick = ["send", "clone", "recv", "drop"]
+answer = 2

@@ -1,0 +1,32 @@
+title = "Two at once"
+summary = "Two awaits in a row wait in a row. tokio::join! lets both waits overlap."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["async", "join", "concurrency"]
+
+[[objectives]]
+test = "in_turn_returns_both_sizes"
+label = "sizes_in_turn asks for one size, then the other (about 600 ms)"
+[[objectives]]
+test = "together_returns_both_sizes"
+label = "sizes_together returns both sizes, in the order asked"
+[[objectives]]
+test = "together_overlaps_the_waits"
+label = "Both waits overlap: about 300 ms, not 600 ms"
+
+[[hints]]
+text = "`sizes_in_turn` is two `let` lines with `.await` and a tuple `(first, second)`. `sizes_together` passes both futures, without `.await`, to `tokio::join!`, which hands back the tuple itself."
+[[hints]]
+text = "`let first = episode_size(a).await; let second = episode_size(b).await; (first, second)` and then `tokio::join!(episode_size(a), episode_size(b))` as the whole body of `sizes_together`."
+
+[[points]]
+after = 1
+prompt = "Two awaits in a row take how long, if each waits 300 ms?"
+pick = ["about 300 ms", "about 600 ms", "about 150 ms", "no time at all"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Wait for both at the same time."
+code = "let (feed, cover) = tokio::___!(fetch_feed(\"daily\"), fetch_cover(\"daily\"));"
+blank = "join"

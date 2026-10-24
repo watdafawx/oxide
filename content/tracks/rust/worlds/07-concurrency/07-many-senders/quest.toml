@@ -1,0 +1,26 @@
+title = "Many senders, one receiver"
+summary = "Clone the Sender once per thread, and drop the original so the channel can close."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["mpsc", "channels", "threads"]
+
+[[objectives]]
+test = "fan_out_hears_every_worker_and_closes"
+label = "fan_out gets one value from every worker, and the channel closes after the last one"
+
+[[hints]]
+text = "Inside the loop, `let tx = tx.clone();` gives this worker its own Sender to move in. After the loop, the original `tx` is still alive in your function: drop it."
+[[hints]]
+text = "`for id in 0..workers { let tx = tx.clone(); thread::spawn(move || tx.send(id * 10).unwrap()); } drop(tx); rx`"
+
+[[points]]
+after = 1
+prompt = "What does mpsc stand for?"
+pick = ["many producers, single consumer", "main process, sub channel", "move, send, poll, close", "multi-thread pipe system"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Close the channel from this side."
+code = "___(tx);"
+blank = "drop"

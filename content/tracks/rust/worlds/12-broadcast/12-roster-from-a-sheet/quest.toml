@@ -1,0 +1,29 @@
+title = "Roster from a sheet"
+summary = "Read the roster from a sheet export, finding each column by its header."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["csv", "closures", "errors"]
+
+[[objectives]]
+test = "columns_mapped_by_header"
+label = "six players from the roster CSV, cells trimmed, the blank row skipped"
+[[objectives]]
+test = "missing_column_named_in_error"
+label = "a sheet without Photo Front says so by name"
+
+[[hints]]
+text = "`let mut reader = csv::Reader::from_reader(text.as_bytes());` and `let headers = reader.headers().map_err(|e| e.to_string())?.clone();`. Then a `column` closure: `headers.iter().position(|h| h.trim() == name).ok_or_else(..)`. Find all three with `?` before reading rows."
+[[hints]]
+text = "In the row loop: `let cell = |i: usize| record.get(i).unwrap_or(\"\").trim().to_string(); if cell(nick).is_empty() { continue; }` then push a `Player`."
+
+[[points]]
+after = 2
+prompt = "Why find columns by header instead of by position?"
+pick = ["it is faster", "CSV files have no positions", "producers add and move columns, but the header names stay", "the csv crate needs it"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Why look up all three columns before reading the first row?"
+pick = ["a wrong sheet fails at once, with a clear message", "the reader forgets the headers later", "rows are read backwards", "it uses less memory"]
+answer = 0

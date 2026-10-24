@@ -1,0 +1,29 @@
+title = "A second thread"
+summary = "thread::spawn starts work on a new thread; join waits for it and hands back its answer."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["threads", "spawn", "join"]
+
+[[objectives]]
+test = "start_check_hashes_on_a_thread"
+label = "start_check returns a JoinHandle whose answer is checksum(\"report.pdf\")"
+[[objectives]]
+test = "check_and_wait_returns_the_answer"
+label = "check_and_wait starts the thread, waits for it and returns its answer"
+
+[[hints]]
+text = "`thread::spawn` takes a closure with no parameters, `|| ...`. Whatever the closure's last expression is becomes the thread's answer."
+[[hints]]
+text = "In `start_check`: `thread::spawn(|| checksum(\"report.pdf\"))`. In `check_and_wait`: `start_check().join().unwrap()`."
+
+[[points]]
+after = 2
+prompt = "What does thread::spawn hand back right away?"
+pick = ["the answer", "a Vec of threads", "nothing", "a JoinHandle"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Wait for the thread and take its answer."
+code = "let hash = handle.___().unwrap();"
+blank = "join"

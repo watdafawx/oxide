@@ -1,0 +1,32 @@
+title = "Count every allocation"
+summary = "A counting allocator sees every request for heap memory. Write allocations_in, the meter's reading."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["allocator", "performance", "closures"]
+
+[[objectives]]
+test = "plain_arithmetic_allocates_nothing"
+label = "allocations_in(|| 40 + 2) is (42, 0)"
+[[objectives]]
+test = "a_reserved_vec_is_one_allocation"
+label = "Vec::with_capacity(100) is 1 allocation"
+[[objectives]]
+test = "a_growing_vec_allocates_again_and_again"
+label = "Pushing 100 items into Vec::new() takes several allocations"
+
+[[hints]]
+text = "Three lines and a tuple: store `allocations()` in a variable, call `f()` and keep its result, read `allocations()` again, return the result with the difference."
+[[hints]]
+text = "`let before = allocations(); let result = f(); let after = allocations(); (result, after - before)`"
+
+[[points]]
+after = 2
+prompt = "Which attribute replaces the program's allocator?"
+pick = ["#[allocator]", "#[global_allocator]", "#[no_mangle]", "#[heap]"]
+answer = 1
+[[points]]
+after = 4
+prompt = "How many times may an impl FnOnce closure be called?"
+pick = ["any number of times", "never", "once", "twice"]
+answer = 2

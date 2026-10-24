@@ -1,0 +1,25 @@
+title = "A cursor over a server reply"
+summary = "Read a reply front to back with a slice and a position, and fail cleanly when the server's bytes run out."
+
+[[objectives]]
+test = "takes_reply_bytes_in_order"
+label = "take(n) and u8() give the next bytes and move the cursor forward"
+[[objectives]]
+test = "short_reply_is_an_error"
+label = "Reading past the end gives Err(UnexpectedEof) and does not move the cursor"
+
+[[hints]]
+text = "In `take`, compare `self.remaining()` with `n` first and `return Err(..)` when it is too small. Then cut `&self.data[self.pos..self.pos + n]`, add `n` to `self.pos`, and return the cut in `Ok`."
+[[hints]]
+text = "`if self.remaining() < n { return Err(PingError::UnexpectedEof); }`, `let chunk = &self.data[self.pos..self.pos + n]; self.pos += n; Ok(chunk)`. And `u8` is `Ok(self.take(1)?[0])`."
+
+[[points]]
+after = 2
+prompt = "Which two things does a cursor hold?"
+pick = ["a Vec and a length", "a slice and a position", "two slices", "a String and an index"]
+answer = 1
+[[points]]
+after = 3
+prompt = "When must `take` check the length?"
+pick = ["after moving pos", "only in debug builds", "never: get does it", "before moving pos"]
+answer = 3

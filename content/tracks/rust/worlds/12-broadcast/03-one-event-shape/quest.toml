@@ -1,0 +1,32 @@
+title = "One event shape"
+summary = "The Stats API and BakkesMod SOS name the same events differently. Turn both into one enum."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["serde", "enums"]
+
+[[objectives]]
+test = "goal_scored_parses"
+label = "a GoalScored frame becomes GameEvent::GoalScored; the match has 9"
+[[objectives]]
+test = "sos_and_stats_api_agree"
+label = "game:demolish from SOS and Demolish from the Stats API give the same event"
+[[objectives]]
+test = "unknown_event_kept"
+label = "an unknown event keeps its name; broken data or a non-event gives None"
+
+[[hints]]
+text = "Start with `let envelope: Envelope = serde_json::from_value(frame).ok()?;`. Then `match stats_api_name(&envelope.event) { .. }` and wrap the result in `Some(..)`."
+[[hints]]
+text = "Each known arm reads its data: `\"GoalScored\" => GameEvent::GoalScored(serde_json::from_value(envelope.data).ok()?),`. The last arm is `other => GameEvent::Other(other.to_string()),`."
+
+[[points]]
+after = 2
+prompt = "Why read the envelope first instead of the whole event at once?"
+pick = ["serde cannot read nested JSON", "SOS frames have no data", "the name decides which struct the data becomes", "it makes the frame smaller"]
+answer = 2
+[[points]]
+after = 5
+prompt = "The game sends ReplayCreated, which the HUD does not use. What does normalize give?"
+pick = ["Some(GameEvent::Other(\"ReplayCreated\"))", "None", "a panic", "an empty GoalScored"]
+answer = 0

@@ -1,0 +1,25 @@
+title = "Many readers, one writer"
+summary = "An RwLock lets many download tasks read the installed-versions cache at once and one task write it."
+
+[[objectives]]
+test = "cache_insert_then_get"
+label = "VersionCache::insert, get and count work"
+[[objectives]]
+test = "cache_is_shared_between_tasks"
+label = "8 tasks write to one Arc<VersionCache> and every entry is there"
+
+[[hints]]
+text = "Writes take `self.inner.write().await`, reads take `self.inner.read().await`; both give a guard you use like the `HashMap` itself. `get` must hand back an owned `String`, so copy it out of the map before the guard goes."
+[[hints]]
+text = "`self.inner.write().await.insert(mod_id.to_string(), version.to_string());`, `self.inner.read().await.get(mod_id).cloned()` and `self.inner.read().await.len()`."
+
+[[points]]
+after = 1
+prompt = "Many tasks want to read the cache at the same moment. With a Mutex, how many get in at once?"
+pick = ["all of them", "one", "two", "as many as there are threads"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Take the lock for reading."
+code = "let map = versions.___().await;"
+blank = "read"

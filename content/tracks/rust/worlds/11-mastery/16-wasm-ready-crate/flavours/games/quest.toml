@@ -1,0 +1,25 @@
+title = "Ready for the browser"
+summary = "Export chunk_index to JavaScript with wasm-bindgen, while cargo test keeps running natively."
+
+[[objectives]]
+test = "chunk_index_counts_rows_of_32"
+label = "chunk_index(5, 1) is 37: a region row is 32 chunks"
+[[objectives]]
+test = "chunk_index_is_exported_for_wasm"
+label = "chunk_index carries a wasm32-only #[wasm_bindgen] (the test reads the source)"
+
+[[hints]]
+text = "The body is `x` plus 32 for every row `z`. The attribute goes on the line right above `pub fn chunk_index`: `cfg_attr(condition, attribute)`."
+[[hints]]
+text = "`#[cfg_attr(target_arch = \"wasm32\", wasm_bindgen::prelude::wasm_bindgen)]` above the function, and the body `x + z * 32`."
+
+[[points]]
+after = 1
+prompt = "Apply an attribute only on wasm."
+code = "#[___(target_arch = \"wasm32\", wasm_bindgen::prelude::wasm_bindgen)]"
+blank = "cfg_attr"
+[[points]]
+after = 3
+prompt = "Which crate type is a .wasm made from?"
+pick = ["bin", "rlib", "staticlib", "cdylib"]
+answer = 3

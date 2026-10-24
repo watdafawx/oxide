@@ -1,0 +1,28 @@
+title = "Stop every task"
+summary = "A CancellationToken is one stop button for every download worker. Each races it with select!, and shutdown waits until all have stopped."
+
+[[objectives]]
+test = "worker_downloads_then_stops_on_cancel"
+label = "A download worker keeps fetching chunks, then returns \"stopped\" after cancel"
+[[objectives]]
+test = "worker_stops_promptly"
+label = "The worker reacts to cancel within milliseconds, even in the middle of a wait"
+[[objectives]]
+test = "shutdown_stops_every_download"
+label = "shutdown presses the button and waits for all workers"
+
+[[hints]]
+text = "The worker is `tokio::spawn(async move { loop { tokio::select! { .. } } })` with two branches: `token.cancelled()` returns `\"stopped\"` from the task, the 5 ms `sleep` adds 1 to `chunks` with `fetch_add` (world 07). `shutdown` is `cancel()`, then a `for` loop over the handles."
+[[hints]]
+text = "`_ = token.cancelled() => return \"stopped\",` and `_ = sleep(Duration::from_millis(5)) => { chunks.fetch_add(1, Ordering::SeqCst); }`. In `shutdown`: `token.cancel(); let mut stopped = 0; for handle in handles { if handle.await.unwrap() == \"stopped\" { stopped += 1; } } stopped`."
+
+[[points]]
+after = 2
+prompt = "Which call presses the stop button?"
+pick = ["cancelled", "clone", "cancel", "new"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Race the work against the token."
+code = "tokio::___! {\n    _ = t.cancelled() => return \"stopped\",\n    _ = fetch_next_chunk() => {}\n}"
+blank = "select"

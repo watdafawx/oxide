@@ -1,0 +1,21 @@
+title = "Addresses, ports and connections"
+summary = "What a server, an IP address, a port and a connection are, and how TCP and UDP differ, before you open one."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["networking", "tcp", "udp"]
+
+[[quiz]]
+question = "One computer runs a web server and a database. How does a client say which one it wants?"
+choices = ["By the port number", "By the IP address", "By the order it connects in"]
+answer = 0
+
+[[quiz]]
+question = "What does `127.0.0.1` mean?"
+choices = ["The first server on the internet", "Any free port", "This same computer"]
+answer = 2
+
+[[quiz]]
+question = "A program sends bytes over TCP in two writes, `hel` and `lo`. What can the other side's reads get?"
+choices = ["Exactly `hel`, then `lo`, always", "The same bytes in order, but cut anywhere: `hello`, or `h` then `ello`", "The two parts in any order"]
+answer = 1
