@@ -1,0 +1,25 @@
+title = "Paths between rooms"
+summary = "super:: goes up a room, crate:: starts at the top, use makes a shortcut."
+
+[[objectives]]
+test = "library_mb_reads_the_constant_above"
+label = "resolver::library_mb(5) is 20, using super::MB_PER_LIBRARY"
+[[objectives]]
+test = "describe_calls_the_resolver"
+label = "describe(5) is \"5 libraries need 20 MB\""
+
+[[hints]]
+text = "In `library_mb`, the constant is one room up. For `describe`, put the `use` line outside every function, then build the text with `format!`."
+[[hints]]
+text = "`libraries * super::MB_PER_LIBRARY`, then `use resolver::library_mb;` and `format!(\"{libraries} libraries need {} MB\", library_mb(libraries))`."
+
+[[points]]
+after = 2
+prompt = "Reach the constant one room up."
+code = "minutes + ___::BREAK_MINUTES"
+blank = "super"
+[[points]]
+after = 3
+prompt = "Which path start means the top of the crate?"
+pick = ["self::", "super::", "std::", "crate::"]
+answer = 3

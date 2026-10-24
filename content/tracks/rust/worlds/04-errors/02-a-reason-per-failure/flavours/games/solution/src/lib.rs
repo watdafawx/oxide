@@ -1,0 +1,45 @@
+/// Newest manifest version this launcher understands.
+pub const NEWEST: u32 = 20;
+
+/// Every way a typed mod version can be wrong.
+/// (`#[derive(Debug, PartialEq)]` lets the tests compare and print errors. Two quests from now explain that line.)
+#[derive(Debug, PartialEq)]
+pub enum ManifestError {
+    MissingVersion,
+    BadVersion(String),
+    TooNew(u32),
+}
+
+/// Read the version part of `sodium@7`. parse_version(" 7 ") -> Ok(7)
+pub fn parse_version(text: &str) -> Result<u32, ManifestError> {
+    let text = text.trim();
+    if text.is_empty() {
+        return Err(ManifestError::MissingVersion);
+    }
+    let v = match text.parse::<u32>() {
+        Ok(v) => v,
+        Err(_) => return Err(ManifestError::BadVersion(text.to_string())),
+    };
+    if v > NEWEST {
+        return Err(ManifestError::TooNew(v));
+    }
+    Ok(v)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_good_version_is_ok() {
+        assert_eq!(parse_version(" 7 "), Ok(7));
+        assert_eq!(parse_version("20"), Ok(20), "the newest known version still loads");
+    }
+
+    #[test]
+    fn each_failure_has_its_own_variant() {
+        assert_eq!(parse_version("   "), Err(ManifestError::MissingVersion));
+        assert_eq!(parse_version("new"), Err(ManifestError::BadVersion("new".to_string())));
+        assert_eq!(parse_version("99"), Err(ManifestError::TooNew(99)));
+    }
+}

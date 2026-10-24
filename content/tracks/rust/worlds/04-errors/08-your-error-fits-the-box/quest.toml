@@ -1,0 +1,30 @@
+title = "Your error fits the box"
+summary = "Keep the std Error promise, with an empty impl, so your error goes in a Box<dyn Error>."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["error-trait", "trait", "box"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "a_good_priority_loads"
+label = "load_priority(\" 3 \") is Ok(3)"
+[[objectives]]
+test = "your_error_travels_in_the_box"
+label = "load_priority(\"9\") gives a boxed TaskError::TooHigh(9) saying \"9 is above 5\""
+
+[[hints]]
+text = "The missing piece is one line, outside every other block, below `impl fmt::Display for TaskError`."
+[[hints]]
+text = "`impl std::error::Error for TaskError {}`"
+
+[[points]]
+after = 3
+prompt = "Keep the Error promise with no methods written."
+code = "impl std::error::Error for TaskError ___"
+blank = "{}"
+[[points]]
+after = 4
+prompt = "Which two promises does Error ask for first?"
+pick = ["Clone and Copy", "From and Into", "Debug and Display", "PartialEq and Label"]
+answer = 2

@@ -1,0 +1,9 @@
+[package]
+name = "err_missing_file_is_fine"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+
+[workspace]

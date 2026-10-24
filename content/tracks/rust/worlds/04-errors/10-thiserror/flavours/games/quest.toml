@@ -1,0 +1,25 @@
+title = "thiserror: the impls, written for you"
+summary = "Derive Display, Error and From for ManifestError with a few attributes."
+
+[[objectives]]
+test = "messages_come_from_the_attributes"
+label = "MissingVersion prints \"no version\", BadVersion prints \"version is not a number: ...\""
+[[objectives]]
+test = "question_mark_converts_with_from"
+label = "parse_version turns a ParseIntError into BadVersion with ?"
+
+[[hints]]
+text = "Replace each `#[error(\"TODO\")]` with the real message. Then write `#[from]` right before `ParseIntError` inside `BadVersion(...)`."
+[[hints]]
+text = "`#[error(\"version is not a number: {0}\")] BadVersion(#[from] ParseIntError),`. In `parse_version`: `let text = text.trim(); if text.is_empty() { return Err(ManifestError::MissingVersion); } let v: u32 = text.parse()?; if v > NEWEST { return Err(ManifestError::TooNew(v)); } Ok(v)`."
+
+[[points]]
+after = 3
+prompt = "Which attribute writes the Display message?"
+pick = ["#[from]", "#[derive(Debug)]", "#[test]", "#[error(\"...\")]"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Let ? convert a ParseIntError into this variant."
+code = "BadVersion(___ ParseIntError),"
+blank = "#[from]"

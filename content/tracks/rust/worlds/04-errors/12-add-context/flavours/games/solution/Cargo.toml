@@ -1,0 +1,9 @@
+[package]
+name = "err_add_context"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+
+[workspace]

@@ -1,0 +1,25 @@
+title = "Write it back"
+summary = "fs::write saves the manifest to a file, replacing what was there."
+
+[[objectives]]
+test = "saves_one_line_per_mod"
+label = "save_mods writes every mod on its own line"
+[[objectives]]
+test = "a_write_error_names_the_path"
+label = "Saving into a folder that does not exist gives \"could not write <path>\""
+
+[[hints]]
+text = "A `for` loop over `mods` builds the text; the last line is the `fs::write(...)` with its context, like `save_note`."
+[[hints]]
+text = "`let mut text = String::new(); for line in mods { text.push_str(line); text.push('\\n'); }` then `fs::write(path, text).with_context(|| format!(\"could not write {}\", path.display()))`."
+
+[[points]]
+after = 1
+prompt = "What does fs::write hand back when it worked?"
+pick = ["The text it wrote", "Ok(())", "The number of mods", "Nothing, it cannot fail"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Add the line break after each line."
+code = "text.push('___');"
+blank = "\\n"

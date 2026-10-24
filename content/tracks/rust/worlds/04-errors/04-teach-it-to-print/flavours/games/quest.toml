@@ -1,0 +1,25 @@
+title = "Teach it to print"
+summary = "Keep the Display promise so the launcher can show the player a message."
+
+[[objectives]]
+test = "each_manifest_error_prints_a_message"
+label = "to_string() gives a clear message for MissingVersion, BadVersion and TooNew"
+[[objectives]]
+test = "explain_puts_the_error_in_a_sentence"
+label = "explain(\"new\") is \"skipped: 'new' is not a number\""
+
+[[hints]]
+text = "In `fmt`, one arm per variant, each a `write!(f, ...)` with no `;`. In `explain`, `match parse_version(text) { Ok(v) => ..., Err(e) => ... }`."
+[[hints]]
+text = "Arms in `fmt`: `ManifestError::MissingVersion => write!(f, \"no version\"),`, `ManifestError::BadVersion(text) => write!(f, \"'{text}' is not a number\"),`, `ManifestError::TooNew(v) => write!(f, \"version {v} is too new\"),`. In `explain`: `Ok(v) => format!(\"version {v}\"), Err(e) => format!(\"skipped: {e}\"),`."
+
+[[points]]
+after = 1
+prompt = "Which standard trait is the message for people?"
+pick = ["Debug", "PartialEq", "Display", "Label"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Write the text into the formatter."
+code = "ManifestError::MissingVersion => ___(f, \"no version\"),"
+blank = "write!"

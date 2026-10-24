@@ -1,0 +1,32 @@
+title = "One box for any error"
+summary = "Box<dyn Error> lets one function return different kinds of errors."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["box", "dyn", "errors"]
+
+[[objectives]]
+test = "reads_priority_and_hours"
+label = "parse_estimate(\"3,1.5\") is (3, 1.5), also with spaces and a trailing newline"
+[[objectives]]
+test = "missing_comma_says_so"
+label = "No comma gives an error saying \"missing comma\""
+[[objectives]]
+test = "bad_numbers_fit_in_the_box"
+label = "A bad priority and bad hours both come back as errors"
+
+[[hints]]
+text = "Copy the shape of the `parse_size` example: a `match` on `text.split_once(',')`, then two `parse()?` lines with a type on each `let`."
+[[hints]]
+text = "`let (left, right) = match text.split_once(',') { Some(pair) => pair, None => return Err(\"missing comma\".into()) };` then `let priority: u32 = left.trim().parse()?;`, `let hours: f64 = right.trim().parse()?;` and `Ok((priority, hours))`."
+
+[[points]]
+after = 2
+prompt = "Where does a Box keep its value?"
+pick = ["Inside the function's return value", "On the heap, memory asked for while running", "In a file", "Nowhere until it is printed"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn the sentence into a boxed error."
+code = "return Err(\"missing comma\".___());"
+blank = "into"

@@ -1,0 +1,25 @@
+title = "A room for code"
+summary = "mod makes a module; everything inside is private until you write pub."
+
+[[objectives]]
+test = "slots_left_is_open_to_callers"
+label = "pack::slots_left can be called from outside the pack"
+[[objectives]]
+test = "can_install_asks_the_pack"
+label = "can_install is true while the pack has room"
+
+[[hints]]
+text = "The build error points at `slots_left`: it needs one word in front of its `fn`. Then `can_install` is one comparison."
+[[hints]]
+text = "`pub fn slots_left(installed: u32) -> u32 {` and, in `can_install`, `pack::slots_left(installed) > 0`."
+
+[[points]]
+after = 2
+prompt = "Items in a module are… until you say otherwise."
+pick = ["public", "private", "copied", "deleted"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Let code outside the module call it."
+code = "___ fn minutes(hours: u32) -> u32 {"
+blank = "pub"

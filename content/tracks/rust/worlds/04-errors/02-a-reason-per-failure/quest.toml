@@ -1,0 +1,29 @@
+title = "A reason per failure"
+summary = "An enum with one variant for each way a priority can be wrong."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["enum", "result", "errors"]
+
+[[objectives]]
+test = "a_good_priority_is_ok"
+label = "parse_priority(\" 3 \") is Ok(3)"
+[[objectives]]
+test = "each_failure_has_its_own_variant"
+label = "Empty text, a word and a 9 give Empty, NotANumber and TooHigh"
+
+[[hints]]
+text = "Trim first, then three checks in order: empty, not a number, above 5. Each failing check is `return Err(PriorityError::...)`."
+[[hints]]
+text = "`let text = text.trim(); if text.is_empty() { return Err(PriorityError::Empty); }` then `let n = match text.parse::<u32>() { Ok(n) => n, Err(_) => return Err(PriorityError::NotANumber(text.to_string())) };` then `if n > 5 { return Err(PriorityError::TooHigh(n)); }` and `Ok(n)`."
+
+[[points]]
+after = 2
+prompt = "What does each kind of failure get in the error enum?"
+pick = ["Its own function", "Its own variant", "Its own String", "Its own file"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Leave the function with the error right here."
+code = "___ Err(DueError::NoDate);"
+blank = "return"

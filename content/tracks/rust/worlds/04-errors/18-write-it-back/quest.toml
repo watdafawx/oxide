@@ -1,0 +1,29 @@
+title = "Write it back"
+summary = "fs::write saves a String to a file, replacing what was there."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["files", "io", "anyhow"]
+
+[[objectives]]
+test = "saves_one_line_per_task"
+label = "save_tasks writes every task on its own line"
+[[objectives]]
+test = "a_write_error_names_the_path"
+label = "Saving into a folder that does not exist gives \"could not write <path>\""
+
+[[hints]]
+text = "A `for` loop over `tasks` builds the text; the last line is the `fs::write(...)` with its context, like `save_note`."
+[[hints]]
+text = "`let mut text = String::new(); for line in tasks { text.push_str(line); text.push('\\n'); }` then `fs::write(path, text).with_context(|| format!(\"could not write {}\", path.display()))`."
+
+[[points]]
+after = 1
+prompt = "What does fs::write hand back when it worked?"
+pick = ["The text it wrote", "Ok(())", "The number of lines", "Nothing, it cannot fail"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Add the line break after each line."
+code = "text.push('___');"
+blank = "\\n"

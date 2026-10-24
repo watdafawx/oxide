@@ -1,0 +1,25 @@
+title = "A promise of methods"
+summary = "A trait is a promised set of methods; impl Trait for Type keeps the promise."
+
+[[objectives]]
+test = "missing_version_is_labelled"
+label = "MissingVersion.label() is \"no version\""
+[[objectives]]
+test = "labels_show_what_the_player_typed"
+label = "BadVersion and TooNew labels show the text and the number"
+
+[[hints]]
+text = "Write a whole new block under the enum: `impl Label for ManifestError { fn label(&self) -> String { match self { ... } } }`, shaped like the `Loader` one."
+[[hints]]
+text = "The arms: `ManifestError::MissingVersion => \"no version\".to_string(),`, `ManifestError::BadVersion(text) => format!(\"'{text}' is not a number\"),`, `ManifestError::TooNew(v) => format!(\"version {v} is too new\"),`."
+
+[[points]]
+after = 1
+prompt = "A named list of methods a type can promise to have is a…"
+pick = ["struct", "module", "trait", "variant"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Keep the Label promise for Loader."
+code = "impl Label ___ Loader {"
+blank = "for"

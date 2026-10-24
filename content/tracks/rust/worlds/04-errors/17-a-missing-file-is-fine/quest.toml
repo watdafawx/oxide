@@ -1,0 +1,32 @@
+title = "A missing file is fine"
+summary = "Check io::ErrorKind::NotFound with a match guard, and pass every other error on."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["files", "io", "match"]
+
+[[objectives]]
+test = "a_missing_file_is_an_empty_list"
+label = "load_or_empty on a file that does not exist gives \"\""
+[[objectives]]
+test = "an_existing_file_is_read"
+label = "load_or_empty on a real file gives its text"
+[[objectives]]
+test = "other_errors_still_fail"
+label = "Reading a folder is still an error, naming the path"
+
+[[hints]]
+text = "Three arms, in this order: `Ok(text)`, the `Err(e) if ...` guard, then a plain `Err(e)`. The `delete_backup` example has the same shape."
+[[hints]]
+text = "`match fs::read_to_string(path) { Ok(text) => Ok(text), Err(e) if e.kind() == io::ErrorKind::NotFound => Ok(String::new()), Err(e) => Err(e).with_context(|| format!(\"could not read {}\", path.display())) }`."
+
+[[points]]
+after = 1
+prompt = "Which ErrorKind means the file is not there?"
+pick = ["PermissionDenied", "NotFound", "InvalidData", "Empty"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Add a condition to the arm."
+code = "Err(e) ___ e.kind() == io::ErrorKind::NotFound => Ok(String::new()),"
+blank = "if"

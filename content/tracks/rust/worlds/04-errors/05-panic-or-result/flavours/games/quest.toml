@@ -1,0 +1,12 @@
+title = "Corrupt manifest or a bug?"
+summary = "When the loader should crash on purpose, and when it should hand the problem back."
+
+[[quiz]]
+question = "A player's manifest lists a mod whose file is not in the mods folder. What should the loader do?"
+choices = ["Call panic!, because the pack cannot start without it", "Call unwrap() and hope the file is in the folder", "Return Err so the launcher decides what to do"]
+answer = 2
+
+[[quiz]]
+question = "When is expect(\"reason\") the right call?"
+choices = ["On a value that cannot fail, like your own built-in loader table, saying why", "On a version the player typed, to get a clearer message", "Instead of returning Err in any function, to save typing"]
+answer = 0

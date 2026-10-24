@@ -1,0 +1,25 @@
+title = "anyhow and bail!"
+summary = "One error type for the launcher, and bail! for a quick failure."
+
+[[objectives]]
+test = "ram_percent_parses_and_bad_text_fails"
+label = "parse_ram_percent(\" 50 \") is Ok(50), and \"lots\" is an error"
+[[objectives]]
+test = "too_much_ram_bails"
+label = "parse_ram_percent(\"150\") fails with \"150% is more than all the memory\""
+
+[[hints]]
+text = "Same shape as `parse_render_distance` in the lesson: one `parse()?` line, then an `if` with `bail!`, then `Ok(n)`."
+[[hints]]
+text = "`let n: u32 = text.trim().parse()?; if n > 100 { bail!(\"{n}% is more than all the memory\"); } Ok(n)`."
+
+[[points]]
+after = 1
+prompt = "anyhow::Result<u32> is short for…"
+pick = ["Result<u32, anyhow::Error>", "Option<u32>", "Result<u32, String>", "Box<u32>"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Return an error with this message right away."
+code = "___!(\"{n}% is more than all the memory\");"
+blank = "bail"

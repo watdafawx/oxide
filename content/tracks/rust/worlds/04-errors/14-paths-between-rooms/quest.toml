@@ -1,0 +1,29 @@
+title = "Paths between rooms"
+summary = "super:: goes up a room, crate:: starts at the top, use makes a shortcut."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["mod", "paths", "use"]
+
+[[objectives]]
+test = "minutes_for_reads_the_constant_above"
+label = "planner::minutes_for(4) is 120, using super::MINUTES_PER_TASK"
+[[objectives]]
+test = "describe_calls_the_planner"
+label = "describe(4) is \"4 tasks take 120 minutes\""
+
+[[hints]]
+text = "In `minutes_for`, the constant is one room up. For `describe`, put the `use` line outside every function, then build the text with `format!`."
+[[hints]]
+text = "`tasks * super::MINUTES_PER_TASK`, then `use planner::minutes_for;` and `format!(\"{tasks} tasks take {} minutes\", minutes_for(tasks))`."
+
+[[points]]
+after = 2
+prompt = "Reach the constant one room up."
+code = "minutes + ___::BREAK_MINUTES"
+blank = "super"
+[[points]]
+after = 3
+prompt = "Which path start means the top of the crate?"
+pick = ["self::", "super::", "std::", "crate::"]
+answer = 3

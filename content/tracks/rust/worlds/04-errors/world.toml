@@ -1,2 +1,3 @@
 title = "Errors & Modules"
-blurb = "Handle failure like a pro, then organise your code into modules and crates."
+blurb = "Errors as values, your own error types, thiserror and anyhow, modules, and files that remember."
+project = "A list that remembers"

@@ -1,0 +1,25 @@
+title = "Read a file"
+summary = "fs::read_to_string turns the manifest into a String, or an io::Error that names the file."
+
+[[objectives]]
+test = "counts_the_mods_in_a_file"
+label = "count_mods reads the manifest and counts its non-empty lines"
+[[objectives]]
+test = "a_missing_file_names_its_path"
+label = "A missing manifest gives \"could not read <path>\""
+
+[[hints]]
+text = "`load_text` is the first statement of `has_line` without the `?`. `count_mods` starts with `let text = load_text(path)?;` and a `let mut count = 0;`."
+[[hints]]
+text = "`fs::read_to_string(path).with_context(|| format!(\"could not read {}\", path.display()))` and `for line in text.lines() { if !line.trim().is_empty() { count += 1; } }` then `Ok(count)`."
+
+[[points]]
+after = 2
+prompt = "Which type names a file location?"
+pick = ["String", "Path", "io::Error", "Vec<u8>"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Make the Path printable inside format!."
+code = "format!(\"could not read {}\", path.___())"
+blank = "display"

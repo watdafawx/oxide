@@ -1,0 +1,16 @@
+title = "Errors are values"
+summary = "Why Rust has no exceptions, and what it does instead. A three-minute read."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["result", "mindset"]
+
+[[quiz]]
+question = "A todo file has a line with the priority \"high\" where a number belongs. In Rust, how does parse_priority tell its caller?"
+choices = ["It throws an exception that jumps to the nearest catch", "It returns an Err value that the caller has to look at", "It quietly returns 0 so the program keeps going"]
+answer = 1
+
+[[quiz]]
+question = "Why does Rust put the failure in the return type, like Result<u32, String>?"
+choices = ["So a caller cannot forget that the call can fail", "So the program runs faster than with exceptions", "So errors are printed to the screen automatically"]
+answer = 0
