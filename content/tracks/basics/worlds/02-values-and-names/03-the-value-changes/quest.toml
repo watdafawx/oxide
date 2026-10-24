@@ -1,0 +1,33 @@
+title = "The value changes"
+summary = "Seats go down and the till goes up: store a new value in the same name."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["assignment", "variables", "tracing"]
+requires = []
+
+[[objectives]]
+test = "six_seats_are_taken"
+label = "free_seats() gives 94: 100 seats, then a couple and a family of four"
+
+[[objectives]]
+test = "the_till_adds_every_sale"
+label = "till_total() gives 63: sales of 9, 18 and 36"
+
+[[hints]]
+text = "Each sale is its own line that stores a new value into the same name. Leave out `local` there: the name already exists."
+
+[[hints]]
+text = "`seats = seats - 2` then `seats = seats - 4`. For the till: `till = till + 9`, `till = till + 18`, `till = till + 36`."
+
+[[points]]
+after = 2
+prompt = "After `local seats = 100` and then `seats = seats - 1`, what is in `seats`?"
+pick = ["100", "-1", "99", "an error"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Fill the blank so a group of five is added to `sold`."
+code = "sold = ___ + 5"
+blank = "sold"

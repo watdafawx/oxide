@@ -1,0 +1,37 @@
+title = "Read the manual"
+summary = "Two functions you have never seen, and only their manual entries to go on."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["docs", "string.rep", "string.upper"]
+requires = []
+
+[[objectives]]
+test = "underlines_with_equals_signs"
+label = 'underline(width) gives that many "=" signs'
+
+[[objectives]]
+test = "team_names_in_capitals"
+label = 'banner(name) gives the name in capitals: "owls" becomes "OWLS"'
+
+[[objectives]]
+test = "score_stars_with_spaces"
+label = 'stars(n) gives n stars with a space between them: "* * *"'
+
+[[hints]]
+text = "All three are one call each. Match the arguments to the signature: `string.rep` wants the text first, then how many times. For `stars`, use the optional third argument."
+
+[[hints]]
+text = '`return string.rep("=", width)`, `return string.upper(name)` and `return string.rep("*", n, " ")`.'
+
+[[points]]
+after = 3
+prompt = "In a manual, what does `[, sep]` mean?"
+pick = ["sep is a list", "sep is optional", "sep is required", "sep causes an error"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "After `local loud = string.upper(name)`, what is `name`?"
+pick = ["in capitals now", "nil", "unchanged", "an error"]
+answer = 2

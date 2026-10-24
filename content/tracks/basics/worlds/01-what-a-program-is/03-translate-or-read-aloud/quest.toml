@@ -1,0 +1,22 @@
+title = "Translate or read aloud"
+summary = "Interpreters and compilers, and the two kinds of mistakes they find."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["interpreter", "compiler", "errors"]
+requires = []
+
+[[quiz]]
+question = "Lua carries out your code straight away, line by line. What is the program that does this called?"
+choices = ["a compiler", "an interpreter", "a processor"]
+answer = 1
+
+[[quiz]]
+question = "A Rust program refuses to build because a name is misspelled. What kind of error is that?"
+choices = ["a compile error: found before the program ran", "a runtime error: found while it ran", "a test failure"]
+answer = 0
+
+[[quiz]]
+question = "In a Lua program, a typo sits on a line that only runs on Sundays. When do you find out?"
+choices = ["as soon as you save the file", "never: Lua fixes small typos", "when that line runs, on a Sunday"]
+answer = 2

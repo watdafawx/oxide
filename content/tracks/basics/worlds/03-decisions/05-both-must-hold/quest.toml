@@ -1,0 +1,33 @@
+title = "Both must hold"
+summary = "Tall enough and old enough: join two conditions with and."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["and", "logic"]
+requires = []
+
+[[objectives]]
+test = "both_rules_must_hold"
+label = "may_ride(height, age) is true only from 140 cm and 10 years"
+
+[[objectives]]
+test = "fast_lane_needs_pass_and_long_queue"
+label = "use_fast_lane(has_pass, wait) is true only with a pass and a wait over 30 minutes"
+
+[[hints]]
+text = "Write each rule as its own comparison, then join the two with `and`. `has_pass` is already true or false."
+
+[[hints]]
+text = "`return height >= 140 and age >= 10` and `return has_pass and wait > 30`."
+
+[[points]]
+after = 1
+prompt = "What is `true and false`?"
+pick = ["false", "true", "nil", "an error"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Which combination makes `a and b` true?"
+pick = ["a false, b true", "a true, b false", "both false", "both true"]
+answer = 3

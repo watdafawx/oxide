@@ -1,0 +1,33 @@
+title = "This or that"
+summary = "The gate light is green or red, never both and never neither: else."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["if", "else", "branches"]
+requires = []
+
+[[objectives]]
+test = "light_is_green_from_120"
+label = 'light_colour(height) is "green" from 120 cm up and "red" below'
+
+[[objectives]]
+test = "photo_price_depends_on_print"
+label = "photo_price(wants_print) is 8 with a print and 3 without"
+
+[[hints]]
+text = "One `if ... else ... end` per function, with a `return` in each branch. `wants_print` is already true or false, so it can be the condition on its own."
+
+[[hints]]
+text = '`if height >= 120 then return "green" else return "red" end` and `if wants_print then return 8 else return 3 end`.'
+
+[[points]]
+after = 1
+prompt = "In an `if ... else ... end`, how many of the branches run?"
+pick = ["both", "none or one", "it depends on the else", "exactly one"]
+answer = 3
+
+[[points]]
+after = 3
+prompt = "With two separate ifs, `if x > 30` and `if x < 30`, what runs when x is 30?"
+pick = ["neither", "both", "the first", "an error"]
+answer = 0

@@ -1,0 +1,34 @@
+title = "Equal or not"
+summary = "The staff door opens for one code. The first try will not even load."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["==", "~=", "syntax errors"]
+requires = []
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "door_opens_for_the_right_code"
+label = "door_opens(code) is true for 4721 and false for anything else"
+
+[[objectives]]
+test = "alarm_for_wrong_codes"
+label = "sound_alarm(code) is true for any code that is not 4721"
+
+[[hints]]
+text = "The message points at the `if` line in `door_opens`. In a condition you are asking a question, and the question sign is two equals signs."
+
+[[hints]]
+text = "`if code == 4721 then` in `door_opens`, and `return code ~= 4721` in `sound_alarm`."
+
+[[points]]
+after = 2
+prompt = "What kind of error is `if code = 4721 then`?"
+pick = ["a test failure", "a syntax error, found before any line runs", "a runtime error on the last line", "no error at all"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = 'Which one asks "is code different from 4721?"'
+pick = ["code != 4721", "code =/= 4721", "code <> 4721", "code ~= 4721"]
+answer = 3

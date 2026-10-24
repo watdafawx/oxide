@@ -1,0 +1,33 @@
+title = "Text"
+summary = "Glue the film, the seat and the price into lines a ticket can print."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["strings", "concatenation"]
+requires = []
+
+[[objectives]]
+test = "builds_the_seat_line"
+label = 'seat_line(film, seat) gives text like "Up, seat 14"'
+
+[[objectives]]
+test = "builds_the_price_line"
+label = 'price_line(price) gives text like "Price: 9 euros"'
+
+[[hints]]
+text = 'Each line is a few pieces glued with `..`: names for what changes, quoted text for what stays the same. Spaces and commas go inside the quotes.'
+
+[[hints]]
+text = '`return film .. ", seat " .. seat` and `return "Price: " .. price .. " euros"`.'
+
+[[points]]
+after = 2
+prompt = 'What is `"Screen " .. "3"`?'
+pick = ['"Screen3"', '"Screen 3"', "an error", '"Screen" and "3" on two lines']
+answer = 1
+
+[[points]]
+after = 3
+prompt = 'What is `"Seat " .. 12`?'
+pick = ["an error", '"Seat "', "12", '"Seat 12"']
+answer = 3

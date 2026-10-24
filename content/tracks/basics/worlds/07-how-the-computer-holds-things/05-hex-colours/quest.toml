@@ -1,0 +1,33 @@
+title = "Hex colours"
+summary = 'Turn a colour code like "#FF8800" into its red, green and blue numbers.'
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["hexadecimal", "bytes", "strings"]
+requires = []
+
+[[objectives]]
+test = "reads_a_hex_byte"
+label = 'hex_byte(text) turns two hex digits into a number: "FF" is 255'
+
+[[objectives]]
+test = "splits_a_colour_code"
+label = 'to_rgb(code) gives {red, green, blue}: "#FF8800" is {255, 136, 0}'
+
+[[hints]]
+text = "`hex_byte` is one call to `tonumber` with the counting system as a second argument. In `to_rgb`, red is characters 2 to 3, green 4 to 5, blue 6 to 7."
+
+[[hints]]
+text = "`return tonumber(text, 16)`. In `to_rgb`: `local red = M.hex_byte(string.sub(code, 2, 3))`, the same for 4-5 and 6-7, then `return {red, green, blue}`."
+
+[[points]]
+after = 1
+prompt = "What is the hex digit `A` worth?"
+pick = ["1", "11", "10", "16"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "What number is `0xFF`?"
+pick = ["15", "255", "256", "FF"]
+answer = 1

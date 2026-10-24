@@ -1,0 +1,22 @@
+title = "Numbered boxes"
+summary = "Where values live while a program runs, and why a table is reached by reference."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["memory", "references", "garbage collector"]
+requires = []
+
+[[quiz]]
+question = "A variable holds a table. What does the variable actually store?"
+choices = ["a copy of every item", "the size of the table", "a reference: where the table is"]
+answer = 2
+
+[[quiz]]
+question = "In Lua and Java, who frees memory that nothing uses any more?"
+choices = ["the garbage collector", "you, by hand", "nobody: it stays full"]
+answer = 0
+
+[[quiz]]
+question = "Which area of memory is cleared as soon as a function returns?"
+choices = ["the heap", "the stack", "the disk"]
+answer = 1

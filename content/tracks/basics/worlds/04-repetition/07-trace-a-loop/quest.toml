@@ -1,0 +1,22 @@
+title = "Trace a loop"
+summary = "A pencil and a small table: how programmers see what a loop really does."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["tracing", "loops", "off-by-one"]
+requires = []
+
+[[quiz]]
+question = "In the traced loop, what is `total` after the round where `day` is 3?"
+choices = ["6", "12", "9", "20"]
+answer = 1
+
+[[quiz]]
+question = "`for i = 1, 10` should run 10 times, but your loop runs 11. What is that bug called?"
+choices = ["a syntax error", "an infinite loop", "an off-by-one error"]
+answer = 2
+
+[[quiz]]
+question = "`local n = 0` and then `while n < 3 do n = n + 1 end`. What is `n` afterwards?"
+choices = ["3", "2", "4"]
+answer = 0

@@ -1,0 +1,22 @@
+title = "Why it matters"
+summary = "Who cleans up memory, and how Rust and Java each answer the copy-or-share question."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["memory", "ownership", "null", "references"]
+requires = []
+
+[[quiz]]
+question = "In Rust, what happens to a value when its owner goes out of scope?"
+choices = ["it is freed right then", "a garbage collector frees it later", "it stays in memory forever"]
+answer = 0
+
+[[quiz]]
+question = "In Java, what does `a == b` ask about two objects?"
+choices = ["do they have the same contents", "are they the same object", "are they the same type"]
+answer = 1
+
+[[quiz]]
+question = "How does Rust deal with a value that might be missing?"
+choices = ["with null, like Java", "it cannot express that", "with an `Option` that you must check"]
+answer = 2

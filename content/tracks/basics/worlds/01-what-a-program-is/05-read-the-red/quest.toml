@@ -1,0 +1,33 @@
+title = "Read the red"
+summary = "The screen stops halfway with a red message. Read it, then fix it."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["errors", "debugging"]
+requires = []
+
+[[objectives]]
+test = "runs_to_the_end"
+label = "The program runs to its last line without an error"
+
+[[objectives]]
+test = "shows_the_price_third"
+label = "The third line is: Bikes from 10 euros a day"
+
+[[hints]]
+text = "The message names line 4 of `src/main.lua`. Compare the first word on that line with the first word on line 2."
+
+[[hints]]
+text = 'Line 4 should start with `print(`, not `prnt(`: `print("Bikes from 10 euros a day")`.'
+
+[[points]]
+after = 2
+prompt = "In `src/main.lua:4: attempt to call ...`, which line has the problem?"
+pick = ["line 1", "line 4", "the last line", "every line"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = "What does `nil` mean in Lua?"
+pick = ["zero", "an error code", "the last line", "nothing: there is no value"]
+answer = 3

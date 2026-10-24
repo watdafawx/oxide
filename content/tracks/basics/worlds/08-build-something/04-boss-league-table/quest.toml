@@ -1,0 +1,55 @@
+title = "Boss: League table"
+summary = "Four friends, one tournament: build the live league table from small, tested functions."
+kind = "boss"
+xp = 300
+minutes = 40
+tags = ["boss", "functions", "records", "lists", "decisions"]
+requires = []
+
+[[objectives]]
+test = "stage1_creates_a_team"
+label = "new_team(name) gives a team with that name and 0 wins, draws and losses"
+
+[[objectives]]
+test = "stage2_finds_a_team_by_name"
+label = "find(teams, name) gives the team with that name, or nil"
+
+[[objectives]]
+test = "stage3_counts_points_and_games"
+label = "points(team) is 3 per win and 1 per draw; played(team) counts every game"
+
+[[objectives]]
+test = "stage4_records_a_result"
+label = "record_result(teams, home, away, home_goals, away_goals) updates both teams"
+
+[[objectives]]
+test = "stage5_finds_the_leader"
+label = "leader(teams) names the team with the most points, the earlier one on a tie"
+
+[[objectives]]
+test = "stage6_builds_the_table_lines"
+label = 'table_lines(teams) gives one line per team, like "Owls 7 pts in 4 games"'
+
+[[hints]]
+text = "Work strictly in stage order and save after each one; every stage is small. Stage 1 is a table with four fields. Stage 2 is the stop-early search from world 4, comparing `team.name` with `name`."
+
+[[hints]]
+text = "Stage 4: find both teams first, then one `if` with three branches: home goals greater, away goals greater, or a draw. Each branch adds 1 to a field of each team."
+
+[[hints]]
+text = "Stage 5 is the champion pattern over `M.points(team)`, starting at `teams[1]` and replacing only on `>`. Stage 6 starts with `local lines = {}` and does `table.insert(lines, ...)` once per team, gluing the text with `..`."
+
+[[hints]]
+text = 'Stage 1: `return {name = name, wins = 0, draws = 0, losses = 0}`. Stage 2: `for _, team in ipairs(teams) do if team.name == name then return team end end return nil`. Stage 3: `return team.wins * 3 + team.draws` and `return team.wins + team.draws + team.losses`. Stage 6 line: `team.name .. " " .. M.points(team) .. " pts in " .. M.played(team) .. " games"`.'
+
+[[points]]
+after = 2
+prompt = "What should `find` give back when no team has that name?"
+pick = ["an empty team", "the first team", "nil", "an error"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "The home team scores 1, the away team 1. Which fields change?"
+pick = ["home wins and away losses", "both teams' draws", "nothing", "both teams' wins"]
+answer = 1

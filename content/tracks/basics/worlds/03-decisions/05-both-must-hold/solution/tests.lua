@@ -1,0 +1,17 @@
+local t = require("oxide.test")
+local coaster = require("coaster")
+
+t.test("both_rules_must_hold", function()
+  t.eq(coaster.may_ride(150, 12), true, "tall and old enough")
+  t.eq(coaster.may_ride(150, 8), false, "tall, but only 8")
+  t.eq(coaster.may_ride(130, 12), false, "old enough, but 130 cm")
+  t.eq(coaster.may_ride(130, 8), false, "neither")
+  t.eq(coaster.may_ride(140, 10), true, "exactly at both limits")
+end)
+
+t.test("fast_lane_needs_pass_and_long_queue", function()
+  t.eq(coaster.use_fast_lane(true, 45), true)
+  t.eq(coaster.use_fast_lane(true, 10), false, "short queue: no need")
+  t.eq(coaster.use_fast_lane(false, 45), false, "no pass")
+  t.eq(coaster.use_fast_lane(true, 30), false, "30 is not over 30")
+end)

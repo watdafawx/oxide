@@ -1,0 +1,33 @@
+title = "Say hello"
+summary = "Your first program: two lines on the shop's screen."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["print", "output", "strings"]
+requires = []
+
+[[objectives]]
+test = "greets_first"
+label = "The first line is: Welcome to the bike shop!"
+
+[[objectives]]
+test = "shows_the_hours_second"
+label = "The second line is: Open 9 to 5"
+
+[[hints]]
+text = "Only the text inside the quotes changes. Keep `print(`, the quotes and the closing `)` as they are."
+
+[[hints]]
+text = 'Line 2 of the file becomes `print("Welcome to the bike shop!")` and line 3 becomes `print("Open 9 to 5")`.'
+
+[[points]]
+after = 2
+prompt = 'Why does `print("Hi")` need the quotes?'
+pick = ["so the text is printed in bold", "so the line runs first", "so Lua reads Hi as text, not as an instruction", "they are optional"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "Fill the blank so the screen shows the opening hours."
+code = "print(___)"
+blank = '"Open 9 to 5"'

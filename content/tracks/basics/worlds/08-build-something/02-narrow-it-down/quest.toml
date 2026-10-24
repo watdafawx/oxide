@@ -1,0 +1,40 @@
+title = "Narrow it down"
+summary = "The table says 9 points where it should say 7. Find the bug by searching, not staring."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["debugging", "print", "tests"]
+requires = []
+
+[[objectives]]
+test = "points_are_3_per_win_and_1_per_draw"
+label = "points(wins, draws) gives 3 per win and 1 per draw"
+
+[[objectives]]
+test = "played_counts_every_game"
+label = "played(wins, draws, losses) counts every game"
+
+[[objectives]]
+test = "table_line_reads_right"
+label = 'table_line(...) gives text like "Owls 7 pts in 4 games"'
+
+[[hints]]
+text = "Start with the first red objective. Add `print(\"wins\", wins, \"draws\", draws, \"from_draws\", from_draws)` before the `return` in `points`, save, and compare with your own sum on paper."
+
+[[hints]]
+text = "A draw is worth 1, not 3. And `played` adds one of its parameters twice and forgets another."
+
+[[hints]]
+text = "In `points`: `local from_draws = draws * 1` (or just `draws`). In `played`: `return wins + draws + losses`. `table_line` was never wrong."
+
+[[points]]
+after = 2
+prompt = "`points` is red and `played` is green. Where is the bug most likely?"
+pick = ["in points", "in played", "in the test", "everywhere"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Your paper says 1, the print shows 3. What do you do next?"
+pick = ["look at the line that made the 3", "rewrite the whole function", "change several lines and try again", "ignore it"]
+answer = 0

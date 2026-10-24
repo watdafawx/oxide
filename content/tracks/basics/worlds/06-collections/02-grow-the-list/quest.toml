@@ -1,0 +1,33 @@
+title = "Grow the list"
+summary = "Every scan adds a price to the end; a wrong price gets corrected in its slot."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["lists", "table.insert", "assignment"]
+requires = []
+
+[[objectives]]
+test = "scanning_adds_to_the_end"
+label = "scan(basket, price) puts the price at the end of the basket"
+
+[[objectives]]
+test = "a_price_can_be_corrected"
+label = "fix_price(basket, slot, price) replaces the price in that slot"
+
+[[hints]]
+text = "`scan` uses the list tool from `table`; `fix_price` stores into one slot the way `=` stores into a name."
+
+[[hints]]
+text = "`table.insert(basket, price)` and `basket[slot] = price`."
+
+[[points]]
+after = 1
+prompt = "What does `basket[2] = 1.5` do?"
+pick = ["adds 1.5 at the end", "empties slot 2", "stores 1.5 in slot 2", "an error"]
+answer = 2
+
+[[points]]
+after = 2
+prompt = "Which one adds 3 to the end of `basket`?"
+pick = ["table.insert(basket, 3)", "basket + 3", "basket[0] = 3", "insert(3)"]
+answer = 0

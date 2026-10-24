@@ -1,0 +1,3 @@
+title = "How the computer holds things"
+blurb = "Memory, shared tables and real copies, bits, bytes and hex: the picture Rust and Java build on."
+project = "Pixel painter"

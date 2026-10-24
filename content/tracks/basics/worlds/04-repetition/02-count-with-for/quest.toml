@@ -1,0 +1,33 @@
+title = "Count with for"
+summary = "One push-up on day 1, two on day 2: add them up with a counting loop."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["for", "loops", "running total"]
+requires = []
+
+[[objectives]]
+test = "adds_up_every_day"
+label = "pushups_after(days) adds 1 + 2 + ... + days"
+
+[[objectives]]
+test = "zero_days_is_zero"
+label = "pushups_after(0) is 0"
+
+[[hints]]
+text = "Make the total before the loop, starting at 0. The loop counts `day` from 1 to `days`, and each round adds that day's push-ups, which is `day` itself."
+
+[[hints]]
+text = "`local total = 0`, then `for day = 1, days do total = total + day end`, then `return total`."
+
+[[points]]
+after = 1
+prompt = "How often does `for day = 1, 30 do` run its inside?"
+pick = ["30 times", "29 times", "31 times", "once"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Where must `local total = 0` go?"
+pick = ["inside the loop", "after the loop", "before the loop", "anywhere"]
+answer = 2

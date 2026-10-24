@@ -1,0 +1,33 @@
+title = "Two names, one table"
+summary = "Undo does nothing: the backup picture changes along with the real one."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["references", "copies", "tables"]
+requires = []
+
+[[objectives]]
+test = "paint_changes_the_picture_it_is_given"
+label = "paint(picture, i, colour) changes the caller's picture itself"
+
+[[objectives]]
+test = "snapshot_is_a_separate_copy"
+label = "snapshot(picture) gives a new list with the same colours, which changes on its own"
+
+[[hints]]
+text = "`paint` only needs to store into one slot; the caller sees it because it is the same table. `snapshot` needs a brand-new `{}` filled in a loop."
+
+[[hints]]
+text = "`picture[i] = colour`. For `snapshot`: `local copy = {}`, then `for i, colour in ipairs(picture) do copy[i] = colour end`, then `return copy`."
+
+[[points]]
+after = 1
+prompt = "`local a = 5`, `local b = a`, `b = 6`. What is `a` now?"
+pick = ["6", "5", "nil", "11"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = '`a` is a table, `local b = a`, then `b[1] = "red"`. What is `a[1]`?'
+pick = ["what it was before", "nil", '"red"', "an error"]
+answer = 2

@@ -1,0 +1,33 @@
+title = "More than two"
+summary = "Children, adults and seniors pay three different prices: elseif."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["elseif", "branches"]
+requires = []
+
+[[objectives]]
+test = "children_and_adults"
+label = "ticket_price(age) is 5 under 12 and 10 for adults"
+
+[[objectives]]
+test = "seniors_pay_6"
+label = "ticket_price(age) is 6 from 65 up, including exactly 65"
+
+[[hints]]
+text = "Three branches: one for under 12, one for 65 and up, and an `else` for everyone in between."
+
+[[hints]]
+text = "`if age < 12 then return 5 elseif age >= 65 then return 6 else return 10 end`."
+
+[[points]]
+after = 2
+prompt = "With `speed = 120`, which branch of the example runs?"
+pick = ['"fast"', '"medium"', "both", '"slow"']
+answer = 0
+
+[[points]]
+after = 3
+prompt = 'How does Lua write "else if" as one word?'
+pick = ["else if", "elif", "elseif", "elsif"]
+answer = 2

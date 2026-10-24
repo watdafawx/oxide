@@ -1,0 +1,33 @@
+title = "Counting down"
+summary = "5, 4, 3, 2, 1, go: loops that count backwards and in bigger steps."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["for", "step", "strings"]
+requires = []
+
+[[objectives]]
+test = "counts_down_to_go"
+label = 'countdown(from) gives text like "3 2 1 go"'
+
+[[objectives]]
+test = "a_break_every_15_minutes"
+label = "water_breaks(minutes) counts a break at 15, 30, 45 ... minutes"
+
+[[hints]]
+text = "`countdown` needs a negative step and a text accumulator that starts as `\"\"`. `water_breaks` needs a step of 15 and a counter."
+
+[[hints]]
+text = 'Countdown: `local text = ""`, `for i = from, 1, -1 do text = text .. i .. " " end`, `return text .. "go"`. Breaks: `for m = 15, minutes, 15 do count = count + 1 end`.'
+
+[[points]]
+after = 1
+prompt = "What does `for i = 0, 20, 5` count?"
+pick = ["0 5 10 15 20", "0 to 20, then 5", "5 10 15 20", "20 15 10 5 0"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "What does `for i = 5, 1 do` (with no step) run?"
+pick = ["5 4 3 2 1", "1 2 3 4 5", "nothing at all", "an error"]
+answer = 2

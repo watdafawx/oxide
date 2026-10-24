@@ -25,16 +25,18 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 type QuestInit = Partial<Quest> & Pick<Quest, "title" | "summary" | "kind" | "xp" | "minutes">;
 function q(world: string, index: number, slug: string, p: QuestInit): Quest {
   const track_id = world.split("/")[0];
-  return { id: `${world}/${slug}`, track_id, flavour: "games", runner: track_id === "lua" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], points: [], ...p };
+  return { id: `${world}/${slug}`, track_id, flavour: "games", runner: track_id === "lua" || track_id === "basics" ? "lua" : "cargo", world_id: world, index, slug, tags: [], requires: [], objectives: [], hints: [], quiz: [], points: [], ...p };
 }
 const obj = (test: string, label: string) => ({ test, label });
 
 const tracks: Track[] = [
+  { id: "basics", title: "Programming 101", blurb: "Never programmed before? Start here. Optional: every quest is open, skip what you know.", runner: "lua" },
   { id: "rust", title: "Rust", blurb: "Systems programming with ownership, traits and fearless concurrency.", runner: "cargo" },
   { id: "lua", title: "Lua", blurb: "Small, fast scripting. Great for mods and game logic.", runner: "lua" },
   { id: "gpui", title: "System monitor app", blurb: "Build a Windows system monitor with GPUI: live CPU and GPU stats on the taskbar, a desktop widget, an FPS overlay for games.", runner: "cargo", parent: "rust" },
 ];
 
+const B = "basics/01-what-a-program-is";
 const T = "rust/00-tutorial", F = "rust/01-foundations", O = "rust/02-ownership", L = "lua/01-lua-core";
 const C = "rust/03-collections", E = "rust/04-errors", TR = "rust/05-traits", SP = "rust/06-smart-pointers";
 const quests: Quest[] = [
@@ -98,6 +100,10 @@ const quests: Quest[] = [
     tags: ["tables", "loops"], requires: [`${L}/02-tables`, `${F}/02-functions`],
     objectives: [obj("map_works", "map(double, {1, 2}) returns {2, 4}"), obj("filter_works", "filter(is_even, {1, 2, 3, 4}) returns {2, 4}")],
     hints: [{ text: "`table.insert(out, v)` appends." }] }),
+  q(B, 1, "01-instructions-in-order", { title: "Instructions in order", summary: "A program is text the computer follows, line by line, exactly as written.", kind: "read", xp: 15, minutes: 3,
+    quiz: [{ question: "What is source code?", choices: ["what the program shows on the screen", "a secret key", "the instructions, written as text in a file"], answer: 2 }] }),
+  q(B, 2, "02-say-hello", { title: "Say hello", summary: "Your first program: two lines on the shop's screen.", kind: "exercise", xp: 30, minutes: 3,
+    tags: ["print"], objectives: [obj("greets_first", "The first line is: Welcome to the bike shop!"), obj("shows_the_hours_second", "The second line is: Open 9 to 5")] }),
 ];
 
 // the tutorial files predate the Why-now opener; give the mock one so the layout is visible
@@ -152,6 +158,7 @@ fn shout(s: &str) -> String {
 `;
 
 const worlds: World[] = [
+  { id: B, track_id: "basics", index: 1, slug: "what-a-program-is", title: "What a program is", blurb: "Write a first program, run it, read its errors.", quests: [] },
   { id: T, track_id: "rust", index: 0, slug: "tutorial", title: "Tutorial", blurb: "How Oxide works in ten minutes.", quests: [] },
   { id: F, track_id: "rust", index: 1, slug: "foundations", title: "Foundations", blurb: "Variables, functions, control flow.", quests: [] },
   { id: O, track_id: "rust", index: 2, slug: "ownership", title: "Ownership", blurb: "The idea that makes Rust Rust.", quests: [] },

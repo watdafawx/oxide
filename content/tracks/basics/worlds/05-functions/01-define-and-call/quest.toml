@@ -1,0 +1,33 @@
+title = "Define and call"
+summary = "Write whole functions yourself, from the first line to the end."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["functions", "define", "call"]
+requires = []
+
+[[objectives]]
+test = "defines_base_price"
+label = "M.base_price() exists and gives back 7"
+
+[[objectives]]
+test = "defines_topping_price"
+label = "M.topping_price() exists and gives back 1.5"
+
+[[hints]]
+text = "A definition has four parts: `function`, the name with `M.` in front and empty brackets, the `return` line, and `end`."
+
+[[hints]]
+text = "Write `function M.base_price()`, then `return 7`, then `end`. `topping_price` is the same shape with `return 1.5`."
+
+[[points]]
+after = 1
+prompt = "When do a function's steps run?"
+pick = ["when it is called", "when it is defined", "when the file is saved", "both"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Which one runs the function?"
+pick = ["M.base_price", "function M.base_price()", "M.base_price()", "end"]
+answer = 2

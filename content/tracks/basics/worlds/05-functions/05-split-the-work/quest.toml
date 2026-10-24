@@ -1,0 +1,40 @@
+title = "Split the work"
+summary = "Food, discount, delivery: one small function per rule, and one that puts them together."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["functions", "decomposition"]
+requires = []
+
+[[objectives]]
+test = "food_price_counts_toppings"
+label = "food_price(pizzas, toppings) is 7 plus 1.5 per topping, for every pizza"
+
+[[objectives]]
+test = "discount_over_50"
+label = "discount(food) is a tenth of the food price over 50, else 0"
+
+[[objectives]]
+test = "order_total_uses_every_rule"
+label = "order_total(pizzas, toppings, km) is food minus discount plus delivery"
+
+[[hints]]
+text = "Do them in order. `food_price` is the sum from the parameters quest. `discount` is one `if`: a tenth is `food / 10`."
+
+[[hints]]
+text = "`order_total` makes `local food = M.food_price(pizzas, toppings)`, then returns food, minus `M.discount(food)`, plus `M.delivery_fee(km)`."
+
+[[hints]]
+text = "`return pizzas * (7 + toppings * 1.5)`; `if food > 50 then return food / 10 end return 0`; `return food - M.discount(food) + M.delivery_fee(km)`."
+
+[[points]]
+after = 1
+prompt = "Why split one long function into small ones?"
+pick = ["Lua requires it", "it always runs faster", "each piece has one job you can name, test and fix", "it uses fewer lines"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "What is breaking a problem into smaller parts called?"
+pick = ["decomposition", "compilation", "iteration", "concatenation"]
+answer = 0

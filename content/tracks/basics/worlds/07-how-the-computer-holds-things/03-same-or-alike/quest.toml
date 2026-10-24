@@ -1,0 +1,33 @@
+title = "Same or alike"
+summary = "Two pictures look identical, yet == says no. Compare the contents yourself."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["equality", "references", "tables"]
+requires = []
+
+[[objectives]]
+test = "alike_pictures_match"
+label = "same_colours(a, b) is true when both lists hold the same colours in the same order"
+
+[[objectives]]
+test = "different_pictures_do_not_match"
+label = "same_colours(a, b) is false for a different length or any different colour"
+
+[[hints]]
+text = "First compare the lengths and give back false if they differ. Then loop over the slots: the first slot that differs means false. If the loop gets to the end, give back true."
+
+[[hints]]
+text = "`if #a ~= #b then return false end`, then `for i = 1, #a do if a[i] ~= b[i] then return false end end`, then `return true`."
+
+[[points]]
+after = 1
+prompt = "What is `{1, 2} == {1, 2}` in Lua?"
+pick = ["an error", "true", "nil", "false"]
+answer = 3
+
+[[points]]
+after = 3
+prompt = "When you compare two lists' contents, what is worth checking first?"
+pick = ["the lengths", "the last item", "the type of the first item", "nothing"]
+answer = 0

@@ -1,0 +1,33 @@
+title = "Kinds of values"
+summary = 'The keypad sends "3", not 3. Types, and converting on purpose.'
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["types", "tonumber", "tostring"]
+requires = []
+
+[[objectives]]
+test = "keypad_text_becomes_a_number"
+label = 'from_keypad("3") gives the number 3, and nil for text that is not a number'
+
+[[objectives]]
+test = "prices_what_was_typed"
+label = 'cost_of_typed("4") gives 36: four tickets at 9'
+
+[[hints]]
+text = "`tonumber(text)` turns text like `\"3\"` into the number 3. It already gives `nil` when the text is not a number, so there is nothing extra to check."
+
+[[hints]]
+text = "`return tonumber(typed)` in `from_keypad`, and `return tonumber(typed) * 9` in `cost_of_typed`."
+
+[[points]]
+after = 2
+prompt = 'What does `type("9")` give?'
+pick = ['"string"', '"number"', "9", '"text"']
+answer = 0
+
+[[points]]
+after = 3
+prompt = 'What is `"3" == 3`?'
+pick = ["true", "3", "an error", "false"]
+answer = 3

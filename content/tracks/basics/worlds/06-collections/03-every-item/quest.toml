@@ -1,0 +1,33 @@
+title = "Every item"
+summary = "Total the basket and count the expensive items: one loop for any size of list."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["lists", "ipairs", "loops"]
+requires = []
+
+[[objectives]]
+test = "totals_the_basket"
+label = "basket_total(basket) adds up every price, and is 0 for an empty basket"
+
+[[objectives]]
+test = "counts_the_expensive_items"
+label = "count_over(basket, limit) counts the prices above the limit"
+
+[[hints]]
+text = "Both use the same shape: an accumulator before the loop, `for _, price in ipairs(basket) do`, and the answer after the loop."
+
+[[hints]]
+text = "Total: `total = total + price` inside the loop. Count: `if price > limit then count = count + 1 end` inside the loop."
+
+[[points]]
+after = 2
+prompt = "In `for i, price in ipairs(basket)`, what is `price`?"
+pick = ["the whole list", "the slot number", "the total so far", "the item for this round"]
+answer = 3
+
+[[points]]
+after = 3
+prompt = "What does the name `_` say in a loop?"
+pick = ["a value I will not use", "an error", "the last item", "a comment"]
+answer = 0

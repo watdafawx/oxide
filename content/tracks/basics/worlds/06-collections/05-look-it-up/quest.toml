@@ -1,0 +1,33 @@
+title = "Look it up"
+summary = 'Turn "milk" into its price: a table you look up by name.'
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["maps", "tables", "keys", "nil"]
+requires = []
+
+[[objectives]]
+test = "looks_up_a_price"
+label = 'price_of(prices, item) gives the price stored under that item'
+
+[[objectives]]
+test = "knows_which_items_exist"
+label = "sells(prices, item) is true for items on the price list and false for the rest"
+
+[[hints]]
+text = "The item name is in a variable, so it goes in square brackets: the key is whatever `item` holds."
+
+[[hints]]
+text = "`return prices[item]` and `return prices[item] ~= nil`."
+
+[[points]]
+after = 2
+prompt = 'With `prices = {milk = 1.2}`, what is `prices["milk"]`?'
+pick = ["nil", '"milk"', "an error", "1.2"]
+answer = 3
+
+[[points]]
+after = 3
+prompt = "What does looking up a key that is not there give?"
+pick = ["0", "an error", "nil", '""']
+answer = 2

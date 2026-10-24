@@ -1,0 +1,33 @@
+title = "True or false"
+summary = "Sold out? Old enough? Comparisons give yes-or-no values."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["booleans", "comparisons"]
+requires = []
+
+[[objectives]]
+test = "sold_out_only_at_zero"
+label = "sold_out(free) is true only when no seats are free"
+
+[[objectives]]
+test = "late_show_is_15_and_up"
+label = "old_enough(age) is true from age 15"
+
+[[hints]]
+text = "Each function is a single `return` of one comparison. Think about the edge: is 15 itself old enough?"
+
+[[hints]]
+text = "`return free == 0` and `return age >= 15`."
+
+[[points]]
+after = 2
+prompt = "What is `12 >= 15`?"
+pick = ["12", "true", "false", "an error"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = 'Which one asks "is free equal to 0?"'
+pick = ["free = 0", "free == 0", "free ~= 0", "free => 0"]
+answer = 1

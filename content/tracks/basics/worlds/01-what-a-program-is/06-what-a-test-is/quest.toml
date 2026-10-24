@@ -1,0 +1,33 @@
+title = "What a test is"
+summary = "Read the checks that run your code, and give them the answer they ask for."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["tests", "functions", "return"]
+requires = []
+
+[[objectives]]
+test = "gives_the_opening_hours"
+label = "opening_hours() gives back the text the test expects"
+
+[[objectives]]
+test = "gives_the_closed_day"
+label = "closed_on() gives back the text the test expects"
+
+[[hints]]
+text = "In `tests.lua`, each `t.eq(...)` has two values: first what your function gave back, then what it should be. The second one is your answer."
+
+[[hints]]
+text = 'Replace `return nil` with `return "Open 9 to 5"` in `opening_hours` and with `return "Closed on Sundays"` in `closed_on`.'
+
+[[points]]
+after = 2
+prompt = "What does `return` do?"
+pick = ["shows the value on the screen", "hands the value back to the code that asked", "starts the function", "runs the function again"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = 'A test says: expected "Open 9 to 5", got nil. What did your function hand back?'
+pick = ['"Open 9 to 5"', "an error", "nothing (nil)", "the word got"]
+answer = 2
