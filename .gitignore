@@ -19,3 +19,6 @@ content/**/.gradle/
 
 # release output (scripts/release.ps1)
 /dist
+
+# design mockups (local only)
+/mockups

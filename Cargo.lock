@@ -582,7 +582,7 @@ dependencies = [
 
 [[package]]
 name = "content-check"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "oxide-core",
@@ -2715,7 +2715,7 @@ dependencies = [
 
 [[package]]
 name = "oxide"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -2738,7 +2738,7 @@ dependencies = [
 
 [[package]]
 name = "oxide-core"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "chrono",
