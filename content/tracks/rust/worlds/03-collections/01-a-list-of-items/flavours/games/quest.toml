@@ -1,0 +1,25 @@
+title = "A hotbar you can write down"
+summary = "Start a kit with vec!, and read its type: Vec<u32>."
+
+[[objectives]]
+test = "starter_kit_has_three_stacks"
+label = "starter_kit() gives back [1, 16, 8]"
+[[objectives]]
+test = "a_pickup_goes_on_the_end"
+label = "kit_after_pickup() adds 64 to the end of the starter kit"
+
+[[hints]]
+text = "In `starter_kit`, write the three stack sizes between the brackets of `vec![...]`, separated by commas."
+[[hints]]
+text = "`vec![1, 16, 8]`. In `kit_after_pickup`: `let mut kit = starter_kit();`, then `kit.push(64);`, then `kit` on the last line."
+
+[[points]]
+after = 2
+prompt = "What does the `!` in `vec!` tell you?"
+pick = ["It can fail", "It is a macro", "It is mutable", "It is negated"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Read the type: a list of what?"
+code = "let stacks: Vec<___> = vec![64, 16];"
+blank = "u32"

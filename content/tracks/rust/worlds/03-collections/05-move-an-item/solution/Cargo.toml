@@ -1,0 +1,6 @@
+[package]
+name = "coll_move_an_item"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

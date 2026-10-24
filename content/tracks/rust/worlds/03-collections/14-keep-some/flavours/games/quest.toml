@@ -1,0 +1,25 @@
+title = "Keep the rare drops"
+summary = "filter lets through only the items a rule says yes to."
+
+[[objectives]]
+test = "heavy_weights_keeps_weights_from_min"
+label = "heavy_weights gives back the weights of at least `min`"
+[[objectives]]
+test = "rare_drops_keeps_rare_entries"
+label = "rare_drops gives back the entries with a rarity of at least `min_rarity`"
+
+[[hints]]
+text = "Numbers: `.copied()` right after `.iter()` makes the items plain `u32`s, so the filter closure gets a `&u32` and needs one `*`."
+[[hints]]
+text = "`weights.iter().copied().filter(|w| *w >= min).collect()` and `table.iter().filter(|d| d.rarity >= min_rarity).collect()`."
+
+[[points]]
+after = 2
+prompt = "After `.iter()` on a `&[u32]`, what does a `filter` closure get?"
+pick = ["a &&u32", "a u32", "a &u32", "a Vec"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make the items plain numbers before filtering."
+code = "weights.iter().___().filter(|w| *w > 10)"
+blank = "copied"

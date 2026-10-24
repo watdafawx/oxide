@@ -1,0 +1,29 @@
+title = "See what's inside"
+summary = "Print a whole list for the log with {:?}, and meet the word trait."
+kind = "exercise"
+xp = 20
+minutes = 3
+tags = ["debug", "format"]
+
+[[objectives]]
+test = "stock_log_shows_the_counts"
+label = "stock_log(&[12, 6, 1]) gives back \"stock: [12, 6, 1]\""
+[[objectives]]
+test = "shelf_log_shows_the_names"
+label = "shelf_log(&[\"pen\", \"mug\"]) gives back \"shelf: [\\\"pen\\\", \\\"mug\\\"]\""
+
+[[hints]]
+text = "Both functions are one `format!` line. The only change from `{}` is the `:?` inside the braces."
+[[hints]]
+text = "`format!(\"stock: {:?}\", counts)` and `format!(\"shelf: {:?}\", names)`."
+
+[[points]]
+after = 2
+prompt = "Display is the skill of printing for a user. What does Rust call a skill like that?"
+pick = ["a macro", "a method", "a trait", "a module"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Print the list the programmer's way."
+code = "format!(\"{___}\", counts)"
+blank = ":?"

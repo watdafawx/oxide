@@ -1,0 +1,32 @@
+title = "Pass the error up"
+summary = "? after a Result gives you the value, or returns the error from your function right there."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["result", "option", "question-mark", "errors"]
+
+[[objectives]]
+test = "line_value_multiplies_two_parsed_numbers"
+label = "line_value(\"3\", \"150\") gives Ok(450)"
+[[objectives]]
+test = "line_value_passes_a_bad_number_up"
+label = "a field that is not a number comes back as Err, not a panic"
+[[objectives]]
+test = "first_two_total_uses_question_mark_on_option"
+label = "first_two_total adds the first two counts, or gives None if there are fewer"
+
+[[hints]]
+text = "Put `?` right after each `parse::<u32>()`. What is left after the `?` is the plain number, so the last line is `Ok(qty * price)`."
+[[hints]]
+text = "`let qty = qty.parse::<u32>()?;`, the same for `price`, then `Ok(qty * price)`. Option: `let a = counts.get(0)?; let b = counts.get(1)?; Some(a + b)`."
+
+[[points]]
+after = 2
+prompt = "What does `?` do with an `Err`?"
+pick = ["panics", "turns it into 0", "returns it from the function", "skips the line"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Give back the number, or pass the error up."
+code = "let qty = qty.parse::<u32>()___;"
+blank = "?"

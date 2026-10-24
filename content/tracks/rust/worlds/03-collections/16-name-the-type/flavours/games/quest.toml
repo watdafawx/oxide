@@ -1,0 +1,25 @@
+title = "Name the type in the chain"
+summary = "When nothing tells sum or collect what to build, say it with ::<u32> (the turbofish)."
+
+[[objectives]]
+test = "average_weight_divides_the_sum"
+label = "average_weight gives the sum of the weights divided by how many entries there are"
+[[objectives]]
+test = "full_stacks_worth_turns_items_into_stacks"
+label = "full_stacks_worth adds the items and says how many stacks of 64 that is, as an f64"
+
+[[hints]]
+text = "Name the type on the sum itself: `.map(|d| d.weight).sum::<u32>()`. Then divide by `table.len() as u32`."
+[[hints]]
+text = "`table.iter().map(|d| d.weight).sum::<u32>() / table.len() as u32` and `items.iter().sum::<u32>() as f64 / 64.0`."
+
+[[points]]
+after = 2
+prompt = "Tell `sum` to build a u32."
+code = "weights.iter().sum::___()"
+blank = "<u32>"
+[[points]]
+after = 3
+prompt = "In `collect::<Vec<_>>()`, what does the `_` mean?"
+pick = ["an empty Vec", "any number", "ignore the items", "you work out this part"]
+answer = 3

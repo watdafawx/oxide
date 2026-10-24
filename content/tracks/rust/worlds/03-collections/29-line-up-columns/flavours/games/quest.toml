@@ -1,0 +1,25 @@
+title = "Line up the columns"
+summary = "In format!, {:<12} pads to a width, {:>4} aligns right, {:.1} keeps one decimal."
+
+[[objectives]]
+test = "inventory_row_pads_name_and_count"
+label = "inventory_row pads the name to 12 on the left and the count to 4 on the right"
+[[objectives]]
+test = "size_cell_has_one_decimal"
+label = "size_cell shows the size with 1 decimal, right-aligned in 7"
+
+[[hints]]
+text = "Inside the braces, after the name and a colon: `<` or `>` for the side, then the width. `.1` means one decimal."
+[[hints]]
+text = "`format!(\"{name:<12}{count:>4}\")` and `format!(\"{size_mb:>7.1}\")`."
+
+[[points]]
+after = 1
+prompt = "`format!(\"[{:<6}]\", \"ab\")` gives..."
+pick = ["\"[    ab]\"", "\"[ab]\"", "\"[  ab  ]\"", "\"[ab    ]\""]
+answer = 3
+[[points]]
+after = 2
+prompt = "Show the size with one decimal."
+code = "format!(\"{size_mb:___}\")"
+blank = ".1"

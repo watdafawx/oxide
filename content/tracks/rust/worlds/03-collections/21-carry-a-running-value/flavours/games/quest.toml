@@ -1,0 +1,25 @@
+title = "Carry a hit through the armor"
+summary = "fold carries one value through the whole list, changing it at every item."
+
+[[objectives]]
+test = "damage_after_armor_applies_each_piece"
+label = "damage_after_armor takes each piece's percent off what is left, one after the other"
+[[objectives]]
+test = "durability_after_hits_never_goes_below_zero"
+label = "durability_after_hits takes every hit off the start durability, stopping at 0"
+
+[[hints]]
+text = "`fold(start, |acc, item| next_acc)`: the start is `damage` (or `start`), and the closure returns the value after this item."
+[[hints]]
+text = "`reductions.iter().fold(damage, |left, off| left * (1.0 - off / 100.0))` and `hits.iter().fold(start, |left, h| left.saturating_sub(*h))`."
+
+[[points]]
+after = 1
+prompt = "In `fold(0, |acc, n| acc + n)`, what is `acc` before the first item?"
+pick = ["the first item", "the last item", "nothing", "0"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Start the durability at 250."
+code = "hits.iter().fold(___, |left, h| left - h)"
+blank = "250"

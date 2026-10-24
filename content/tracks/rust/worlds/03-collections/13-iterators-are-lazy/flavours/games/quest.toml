@@ -1,0 +1,12 @@
+title = "Loot tables are lazy"
+summary = "Why .map() alone does nothing, and what makes a chain run."
+
+[[quiz]]
+question = "What does `weights.iter().map(|w| w * 2);` do on its own, with nothing after it?"
+choices = ["It doubles every weight in the table", "It returns a new Vec with the doubled weights", "Nothing yet: it only describes the work"]
+answer = 2
+
+[[quiz]]
+question = "Which part of `weights.iter().map(|w| w * 2).collect()` makes the work happen?"
+choices = [".iter()", ".collect()", ".map(|w| w * 2)"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "A list you can write down"
+summary = "Start a stock list with vec!, and read its type: Vec<u32>."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["vec", "macros"]
+
+[[objectives]]
+test = "opening_stock_lists_three_counts"
+label = "opening_stock() gives back [12, 6, 1]"
+[[objectives]]
+test = "a_new_product_goes_on_the_end"
+label = "after_new_product() adds 20 to the end of the opening stock"
+
+[[hints]]
+text = "In `opening_stock`, write the three counts between the brackets of `vec![...]`, separated by commas."
+[[hints]]
+text = "`vec![12, 6, 1]`. In `after_new_product`: `let mut stock = opening_stock();`, then `stock.push(20);`, then `stock` on the last line."
+
+[[points]]
+after = 2
+prompt = "What does the `!` in `vec!` tell you?"
+pick = ["It is a macro", "It can fail", "It is mutable", "It is negated"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Read the type: a list of what?"
+code = "let prices: Vec<___> = vec![150, 400];"
+blank = "u32"

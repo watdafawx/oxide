@@ -1,0 +1,25 @@
+title = "Move an item"
+summary = "remove takes an item out and hands it back; insert puts one in a slot."
+
+[[objectives]]
+test = "move_to_hotbar_puts_the_item_first"
+label = "move_to_hotbar takes the item in a slot and puts it in slot 0"
+[[objectives]]
+test = "move_to_end_puts_the_item_last"
+label = "move_to_end takes the item in a slot and puts it last"
+
+[[hints]]
+text = "`let item = inventory.remove(slot);` takes it out and hands it to you. Then put it back where it belongs."
+[[hints]]
+text = "Front: `inventory.insert(0, item);`. Back: `inventory.push(item);`."
+
+[[points]]
+after = 1
+prompt = "What does `inventory.remove(1)` give you?"
+pick = ["the item that was in slot 1", "nothing", "the new length", "a bool"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Put the pickaxe in the very first slot."
+code = "inventory.___(0, pickaxe);"
+blank = "insert"

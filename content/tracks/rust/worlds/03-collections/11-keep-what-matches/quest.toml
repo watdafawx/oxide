@@ -1,0 +1,29 @@
+title = "Keep what matches"
+summary = "retain takes a rule and throws out every item the rule says no to."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["vec", "retain", "closures"]
+
+[[objectives]]
+test = "drop_sold_out_removes_the_zeros"
+label = "drop_sold_out removes every count of 0"
+[[objectives]]
+test = "drop_discontinued_removes_one_product"
+label = "drop_discontinued removes every entry with the given name"
+
+[[hints]]
+text = "`retain` hands your closure a reference to each item, so compare with `*n` for numbers. Keep is `true`."
+[[hints]]
+text = "`counts.retain(|n| *n > 0);` and `products.retain(|p| p != gone);`."
+
+[[points]]
+after = 1
+prompt = "When the rule says `false` for an item, `retain`..."
+pick = ["keeps it", "throws it out", "panics", "moves it to the end"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep only the counts above 10."
+code = "counts.retain(|n| ___ > 10);"
+blank = "*n"

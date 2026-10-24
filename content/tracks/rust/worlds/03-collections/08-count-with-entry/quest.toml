@@ -1,0 +1,29 @@
+title = "Count each one"
+summary = "entry(key).or_insert(0) gives you the count for a key, creating it the first time."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["hashmap", "entry"]
+
+[[objectives]]
+test = "count_sales_tallies_each_product"
+label = "count_sales counts how often each product was sold"
+[[objectives]]
+test = "add_delivery_raises_or_creates_the_count"
+label = "add_delivery adds to a product's count, starting from 0 for a new one"
+
+[[hints]]
+text = "Inside the loop, `counts.entry(product.to_string()).or_insert(0)` is a `&mut u32` to that product's count. Put `*` in front and add to it."
+[[hints]]
+text = "`*counts.entry(product.to_string()).or_insert(0) += 1;` in the loop. In `add_delivery`: `*stock.entry(product.to_string()).or_insert(0) += amount;`."
+
+[[points]]
+after = 2
+prompt = "What does `or_insert(0)` hand back?"
+pick = ["a &mut to the value in the map", "the old value", "a bool", "a copy of the map"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Add one to the count for `product`."
+code = "*counts.entry(product.to_string()).___(0) += 1;"
+blank = "or_insert"

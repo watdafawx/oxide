@@ -1,0 +1,29 @@
+title = "Keys in order"
+summary = "A BTreeMap works like a HashMap but keeps its keys sorted, so reports print the same way every time."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["btreemap", "entry"]
+
+[[objectives]]
+test = "sales_report_counts_in_a_sorted_map"
+label = "sales_report counts each product in a BTreeMap, so the names come out a to z"
+[[objectives]]
+test = "report_lines_walk_the_map_in_order"
+label = "report_lines turns the map into \"name: count\" lines, a to z"
+
+[[hints]]
+text = "`sales_report` is the counter from the HashMap quest with `BTreeMap::new()`. Walking a map with `.iter()` gives `(key, value)` pairs."
+[[hints]]
+text = "`*counts.entry(product.to_string()).or_insert(0) += 1;` in the loop. Lines: `counts.iter().map(|(name, n)| format!(\"{name}: {n}\")).collect()`."
+
+[[points]]
+after = 1
+prompt = "Which map gives its keys back sorted?"
+pick = ["HashMap", "HashSet", "Vec", "BTreeMap"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Take each entry apart into its key and value."
+code = "counts.iter().map(|___| format!(\"{name}: {n}\"))"
+blank = "(name, n)"

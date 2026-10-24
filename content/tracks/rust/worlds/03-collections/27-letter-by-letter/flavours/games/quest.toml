@@ -1,0 +1,25 @@
+title = "Letter by letter"
+summary = "chars() walks the letters of a text; len() counts bytes, which is not the same."
+
+[[objectives]]
+test = "letter_count_counts_letters_not_bytes"
+label = "letter_count(\"Zoë\") gives 3, not 4"
+[[objectives]]
+test = "is_valid_id_checks_every_character"
+label = "is_valid_id is true only for ids made of a-z, 0-9, _ and :"
+
+[[hints]]
+text = "`name.chars()` is an iterator of `char`s. `.count()` counts them. For the id, `.all(...)` asks a question about every `char`."
+[[hints]]
+text = "`name.chars().count()`. Id: `!id.is_empty() && id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_' || c == ':')`."
+
+[[points]]
+after = 1
+prompt = "How many bytes is `\"Zoë\"`?"
+pick = ["3", "6", "4", "1"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Walk the letters of `name`."
+code = "for c in name.___() {"
+blank = "chars"

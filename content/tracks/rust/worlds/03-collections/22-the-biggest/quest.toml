@@ -1,0 +1,29 @@
+title = "The biggest one"
+summary = "max_by_key and min_by_key pick the item with the biggest or smallest key."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["iterators", "max_by_key", "min_by_key"]
+
+[[objectives]]
+test = "longest_name_picks_by_length"
+label = "longest_name gives the longest product name, or None for an empty list"
+[[objectives]]
+test = "fewest_left_picks_the_smallest_qty"
+label = "fewest_left gives the stock line with the smallest qty, or None"
+
+[[hints]]
+text = "Both are one consumer after `.iter()`. The closure says which number to compare: the name's length, or the line's qty."
+[[hints]]
+text = "`names.iter().max_by_key(|n| n.len())` and `lines.iter().min_by_key(|l| l.qty)`."
+
+[[points]]
+after = 1
+prompt = "Pick the line with the most items."
+code = "lines.iter().___(|l| l.qty)"
+blank = "max_by_key"
+[[points]]
+after = 2
+prompt = "What does `max_by_key` give back for an empty list?"
+pick = ["0", "a panic", "None", "an empty String"]
+answer = 2

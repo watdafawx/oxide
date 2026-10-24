@@ -1,0 +1,25 @@
+title = "The first match"
+summary = "find gives the first item a rule likes; any and all answer yes or no."
+
+[[objectives]]
+test = "first_stack_over_finds_the_first_big_stack"
+label = "first_stack_over gives the first stack bigger than `limit`, or None"
+[[objectives]]
+test = "has_fragile_tool_checks_for_a_worn_one"
+label = "has_fragile_tool says whether any tool has 1 durability or less"
+
+[[hints]]
+text = "`find` gives an `Option`; copy the numbers first so it is an `Option<u32>`. `any` gives a `bool`."
+[[hints]]
+text = "`stacks.iter().copied().find(|n| *n > limit)` and `durability.iter().any(|d| *d <= 1)`."
+
+[[points]]
+after = 1
+prompt = "What does `find` give when nothing matches?"
+pick = ["None", "0", "false", "a panic"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Is any stack full?"
+code = "stacks.iter().___(|n| *n == 64)"
+blank = "any"

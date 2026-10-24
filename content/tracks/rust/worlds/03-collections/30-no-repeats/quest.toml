@@ -1,0 +1,29 @@
+title = "No repeats"
+summary = "A HashSet holds each value at most once, and finds what two sets share."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["hashset", "collect"]
+
+[[objectives]]
+test = "distinct_products_ignores_repeats"
+label = "distinct_products says how many different products were sold"
+[[objectives]]
+test = "in_both_lists_shared_products"
+label = "in_both gives back the products on both lists, sorted, each once"
+
+[[hints]]
+text = "Collecting into a `HashSet` drops the repeats: `sales.iter().collect::<HashSet<_>>()`, then `.len()`. For two lists, make a set of each and use `a.intersection(&b)`."
+[[hints]]
+text = "`let a: HashSet<&str> = shop_a.iter().copied().collect();` (same for b), then `let mut both: Vec<String> = a.intersection(&b).map(|p| p.to_string()).collect(); both.sort(); both`."
+
+[[points]]
+after = 1
+prompt = "You insert pen, mug, pen into a HashSet. What is its len()?"
+pick = ["3", "1", "2", "0"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What do both sets have in common?"
+code = "let shared: Vec<_> = a.___(&b).collect();"
+blank = "intersection"

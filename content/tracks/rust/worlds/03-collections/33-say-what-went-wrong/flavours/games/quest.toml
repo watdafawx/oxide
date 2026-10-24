@@ -1,0 +1,25 @@
+title = "Say what went wrong"
+summary = "map_err turns a library's error into your own message, so ? can pass it on."
+
+[[objectives]]
+test = "parse_count_names_the_bad_text"
+label = "parse_count gives Ok(n), or Err(\"bad count 'x'\") naming the text"
+[[objectives]]
+test = "parse_give_says_which_argument_failed"
+label = "parse_give parses count and slot, and the error says which one was bad"
+
+[[hints]]
+text = "`.map_err(|_| format!(...))` after the `parse` replaces the error with your text and leaves an `Ok` alone. In `parse_give`, put `?` after each `map_err`."
+[[hints]]
+text = "`text.trim().parse::<u32>().map_err(|_| format!(\"bad count '{text}'\"))`. Give: `let count_n = ...map_err(...)?;`, the same for `slot` with \"bad slot\", then `Ok((count_n, slot_n))`."
+
+[[points]]
+after = 1
+prompt = "Why does `text.parse::<u32>()?` fail in a function that returns `Result<u32, String>`?"
+pick = ["parse cannot fail", "? only works on Option", "u32 cannot be parsed", "the error is a ParseIntError, not a String"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Replace the error with your own message."
+code = "text.parse::<u32>().___(|_| format!(\"bad count '{text}'\"))"
+blank = "map_err"

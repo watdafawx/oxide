@@ -1,0 +1,25 @@
+title = "One-number answers"
+summary = "sum adds up a chain; count says how many items came through."
+
+[[objectives]]
+test = "total_weight_adds_every_entry"
+label = "total_weight adds up the weight of every loot table entry"
+[[objectives]]
+test = "count_common_counts_with_a_chain"
+label = "count_common says how many entries weigh at least `min_weight`"
+
+[[hints]]
+text = "Both are one chain ending in a consumer that gives one number: `.sum()` or `.count()`. For the weights, `map` each entry to `d.weight` first."
+[[hints]]
+text = "`table.iter().map(|d| d.weight).sum()` and `table.iter().filter(|d| d.weight >= min_weight).count()`."
+
+[[points]]
+after = 1
+prompt = "Which consumer adds the items up?"
+pick = ["count", "collect", "sum", "map"]
+answer = 2
+[[points]]
+after = 2
+prompt = "How many entries are legendary?"
+code = "table.iter().filter(|d| d.rarity == 3).___()"
+blank = "count"

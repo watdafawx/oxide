@@ -1,0 +1,25 @@
+title = "Number the slots"
+summary = "enumerate pairs every item with its position: (0, item), (1, item), ..."
+
+[[objectives]]
+test = "hotbar_labels_count_from_one"
+label = "hotbar_labels turns [sword, bow] into [\"[1] sword\", \"[2] bow\"]"
+[[objectives]]
+test = "empty_slots_gives_positions"
+label = "empty_slots gives back the positions of the slots holding 0 items"
+
+[[hints]]
+text = "`items.iter().enumerate()` gives `(position, item)` pairs. Take them apart in the closure: `.map(|(i, item)| ...)`. Positions start at 0, so add 1 for players."
+[[hints]]
+text = "`.map(|(i, item)| format!(\"[{}] {item}\", i + 1)).collect()`. Empty slots: `stacks.iter().copied().enumerate().filter(|(_, n)| *n == 0).map(|(i, _)| i).collect()`."
+
+[[points]]
+after = 1
+prompt = "What is the first pair `enumerate` gives for [sword, bow]?"
+pick = ["(1, sword)", "(sword, 0)", "(0, sword)", "sword"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Take the pair apart in the closure."
+code = ".map(|___| format!(\"{i}: {item}\"))"
+blank = "(i, item)"

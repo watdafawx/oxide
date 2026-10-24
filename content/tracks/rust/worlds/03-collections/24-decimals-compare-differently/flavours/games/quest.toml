@@ -1,0 +1,25 @@
+title = "Decimals compare differently"
+summary = "f64 has no single natural order, so compare decimals with total_cmp."
+
+[[objectives]]
+test = "sorted_sizes_go_small_to_large"
+label = "sorted_sizes sorts mod jar sizes in MB from smallest to largest"
+[[objectives]]
+test = "smallest_jar_picks_the_lowest_size"
+label = "smallest_jar gives the mod jar with the lowest size_mb, or None"
+
+[[hints]]
+text = "`sort_by` and `min_by` both take a closure that compares two items. For decimals, the comparison is `x.total_cmp(&y)`."
+[[hints]]
+text = "`sizes.sort_by(|a, b| a.total_cmp(b));` (a and b are already references) and `jars.iter().min_by(|a, b| a.size_mb.total_cmp(&b.size_mb))`."
+
+[[points]]
+after = 2
+prompt = "Why can't `f64` be sorted with plain `sort()`?"
+pick = ["NaN is not bigger, smaller or equal to anything", "decimals are too slow", "f64 is not Copy", "sort only works on text"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Compare two jar sizes."
+code = "jars.iter().min_by(|a, b| a.size_mb.___(&b.size_mb))"
+blank = "total_cmp"

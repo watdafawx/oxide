@@ -1,0 +1,6 @@
+[package]
+name = "coll_a_list_of_items"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

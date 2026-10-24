@@ -1,0 +1,6 @@
+[package]
+name = "coll_look_change_or_take"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

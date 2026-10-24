@@ -1,0 +1,25 @@
+title = "Hand over a loot rule"
+summary = "A function can take a closure as a parameter: impl Fn(u32) -> bool."
+
+[[objectives]]
+test = "count_where_uses_the_callers_rule"
+label = "count_where counts the stacks that pass the rule it is given"
+[[objectives]]
+test = "change_all_applies_the_rule_to_every_drop"
+label = "change_all gives back every drop count changed by the rule it is given"
+
+[[hints]]
+text = "`rule` is called like any function. Inside the loop: `if rule(*n) { matches += 1; }`."
+[[hints]]
+text = "In `change_all`: `out.push(change(*n));` inside `for n in drops`."
+
+[[points]]
+after = 2
+prompt = "What does `impl Fn(u32) -> bool` accept?"
+pick = ["anything callable with a u32 that gives a bool", "only functions named Fn", "a bool", "a u32"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Take a rule that turns a drop count into a new count."
+code = "fn change_all(drops: &[u32], change: ___) -> Vec<u32>"
+blank = "impl Fn(u32) -> u32"

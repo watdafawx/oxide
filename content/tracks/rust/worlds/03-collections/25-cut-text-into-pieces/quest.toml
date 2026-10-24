@@ -1,0 +1,29 @@
+title = "Cut text into pieces"
+summary = "split cuts text at a separator, lines cuts it at line breaks, trim tidies each piece."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["strings", "split", "trim", "lines"]
+
+[[objectives]]
+test = "fields_split_and_trim"
+label = "fields turns \" pen, office ,1.50\" into [\"pen\", \"office\", \"1.50\"]"
+[[objectives]]
+test = "non_blank_lines_skip_empty_ones"
+label = "non_blank_lines gives back every line with text on it, trimmed"
+
+[[hints]]
+text = "`line.split(',')` is an iterator over the pieces. Map each piece to `piece.trim()` and collect. For lines, start from `text.lines()`."
+[[hints]]
+text = "`line.split(',').map(|f| f.trim()).collect()` and `text.lines().map(|l| l.trim()).filter(|l| !l.is_empty()).collect()`."
+
+[[points]]
+after = 1
+prompt = "What does `\"a,b,c\".split(',')` give?"
+pick = ["a Vec of three Strings", "the pieces a, b, c, one at a time", "\"abc\"", "the number 3"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Cut the spaces off both ends."
+code = "let clean = \"  pen \".___();"
+blank = "trim"

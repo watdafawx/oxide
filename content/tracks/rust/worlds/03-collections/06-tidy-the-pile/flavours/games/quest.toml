@@ -1,0 +1,25 @@
+title = "Tidy the loot pile"
+summary = "sort puts a list in order; dedup drops repeats, but only next-door ones."
+
+[[objectives]]
+test = "sorted_loot_is_a_to_z"
+label = "sorted_loot gives back the item names from a to z"
+[[objectives]]
+test = "unique_loot_has_no_repeats"
+label = "unique_loot gives back the names a to z with every repeat gone"
+
+[[hints]]
+text = "Both functions own their list, so start with `let mut drops = drops;`. `drops.sort();` changes it in place."
+[[hints]]
+text = "Sorted: `drops.sort(); drops`. Unique: `drops.sort(); drops.dedup(); drops`."
+
+[[points]]
+after = 2
+prompt = "`[bone, arrow, bone]` after only `dedup()` is..."
+pick = ["[bone, arrow]", "[arrow, bone]", "[bone, arrow, bone]", "[bone]"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Drop the repeats once the list is sorted."
+code = "drops.sort();\ndrops.___();"
+blank = "dedup"

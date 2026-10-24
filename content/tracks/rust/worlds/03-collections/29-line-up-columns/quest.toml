@@ -1,0 +1,29 @@
+title = "Line up the columns"
+summary = "In format!, {:<10} pads to a width, {:>5} aligns right, {:.2} keeps two decimals."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["format", "strings"]
+
+[[objectives]]
+test = "row_pads_name_and_qty"
+label = "row pads the name to 10 on the left and the qty to 5 on the right"
+[[objectives]]
+test = "price_cell_has_two_decimals"
+label = "price_cell shows the price with 2 decimals, right-aligned in 8"
+
+[[hints]]
+text = "Inside the braces, after the name and a colon: `<` or `>` for the side, then the width. `.2` means two decimals."
+[[hints]]
+text = "`format!(\"{name:<10}{qty:>5}\")` and `format!(\"{price:>8.2}\")`."
+
+[[points]]
+after = 1
+prompt = "`format!(\"[{:<6}]\", \"ab\")` gives..."
+pick = ["\"[    ab]\"", "\"[ab    ]\"", "\"[ab]\"", "\"[  ab  ]\""]
+answer = 1
+[[points]]
+after = 2
+prompt = "Show the price with two decimals."
+code = "format!(\"{price:___}\")"
+blank = ".2"

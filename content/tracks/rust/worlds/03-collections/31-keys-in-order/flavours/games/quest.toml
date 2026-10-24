@@ -1,0 +1,25 @@
+title = "Keys in order"
+summary = "A BTreeMap works like a HashMap but keeps its keys sorted, so the inventory prints the same way every time."
+
+[[objectives]]
+test = "sorted_inventory_counts_in_a_sorted_map"
+label = "sorted_inventory counts each item in a BTreeMap, so the names come out a to z"
+[[objectives]]
+test = "inventory_lines_walk_the_map_in_order"
+label = "inventory_lines turns the map into \"item x count\" lines, a to z"
+
+[[hints]]
+text = "`sorted_inventory` is the drop counter from the HashMap quest with `BTreeMap::new()`. Walking a map with `.iter()` gives `(key, value)` pairs."
+[[hints]]
+text = "`*counts.entry(item.to_string()).or_insert(0) += 1;` in the loop. Lines: `counts.iter().map(|(item, n)| format!(\"{item} x{n}\")).collect()`."
+
+[[points]]
+after = 1
+prompt = "Which map gives its keys back sorted?"
+pick = ["HashMap", "BTreeMap", "HashSet", "Vec"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Take each entry apart into its key and value."
+code = "counts.iter().map(|___| format!(\"{item} x{n}\"))"
+blank = "(item, n)"

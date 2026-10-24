@@ -1,0 +1,29 @@
+title = "Look, change or take"
+summary = "iter lends the items, iter_mut lends them to change, into_iter hands them over."
+kind = "exercise"
+xp = 55
+minutes = 7
+tags = ["iterators", "iter_mut", "into_iter", "ownership"]
+
+[[objectives]]
+test = "raise_prices_changes_the_list_in_place"
+label = "raise_prices adds `percent` percent to every product's price, in the caller's list"
+[[objectives]]
+test = "into_names_takes_the_names_without_copying"
+label = "into_names gives back every product's name, taking the products over"
+
+[[hints]]
+text = "To change each product: `for p in products.iter_mut() { ... }`, and change `p.price` inside. For the names, the function owns `products`, so it can hand them over with `into_iter()`."
+[[hints]]
+text = "`p.price += p.price * percent / 100;` inside the loop. Names: `products.into_iter().map(|p| p.name).collect()`."
+
+[[points]]
+after = 2
+prompt = "Which one lets you change the items in place?"
+pick = ["iter()", "into_iter()", "iter_mut()", "copied()"]
+answer = 2
+[[points]]
+after = 3
+prompt = "After `products.into_iter()`, can you still use `products`?"
+pick = ["Yes, it is unchanged", "No, it was moved", "Only to read it", "Only its length"]
+answer = 1

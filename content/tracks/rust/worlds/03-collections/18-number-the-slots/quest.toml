@@ -1,0 +1,29 @@
+title = "Number the shelves"
+summary = "enumerate pairs every item with its position: (0, item), (1, item), ..."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["iterators", "enumerate", "tuples"]
+
+[[objectives]]
+test = "numbered_counts_from_one"
+label = "numbered turns [pen, mug] into [\"1. pen\", \"2. mug\"]"
+[[objectives]]
+test = "low_shelves_gives_positions"
+label = "low_shelves gives back the positions of the counts under `limit`"
+
+[[hints]]
+text = "`names.iter().enumerate()` gives `(position, name)` pairs. Take them apart in the closure: `.map(|(i, name)| ...)`. Positions start at 0, so add 1 for people."
+[[hints]]
+text = "`.map(|(i, name)| format!(\"{}. {name}\", i + 1)).collect()`. Low shelves: `counts.iter().copied().enumerate().filter(|(_, n)| *n < limit).map(|(i, _)| i).collect()`."
+
+[[points]]
+after = 1
+prompt = "What is the first pair `enumerate` gives for [pen, mug]?"
+pick = ["(1, pen)", "(0, pen)", "(pen, 0)", "pen"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Take the pair apart in the closure."
+code = ".map(|___| format!(\"{i}: {name}\"))"
+blank = "(i, name)"

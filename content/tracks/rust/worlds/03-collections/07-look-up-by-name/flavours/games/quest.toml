@@ -1,0 +1,25 @@
+title = "Look it up by name"
+summary = "A HashMap finds a villager's price by item name; use brings it in from the standard library."
+
+[[objectives]]
+test = "villager_prices_hold_three_trades"
+label = "villager_prices maps bread to 1, arrow to 2 and diamond_sword to 30"
+[[objectives]]
+test = "trade_price_finds_known_items"
+label = "trade_price gives Some(emeralds) for a known item and None otherwise"
+
+[[hints]]
+text = "In `villager_prices`: `let mut prices = HashMap::new();`, then one `prices.insert(\"bread\".to_string(), 1);` per item, then `prices`."
+[[hints]]
+text = "`trade_price` is the same shape as `get` on a Vec: `prices.get(item).copied()`."
+
+[[points]]
+after = 1
+prompt = "Bring HashMap into this file."
+code = "___ std::collections::HashMap;"
+blank = "use"
+[[points]]
+after = 2
+prompt = "In `HashMap<String, u32>`, what is the key?"
+pick = ["the u32", "both", "neither", "the String"]
+answer = 3

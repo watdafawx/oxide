@@ -1,0 +1,25 @@
+title = "A slot by number"
+summary = "Slots are usize; .get asks safely and answers with an Option."
+
+[[objectives]]
+test = "stack_in_slot_is_none_past_the_hotbar"
+label = "stack_in_slot gives Some(size) for a real slot and None past the end"
+[[objectives]]
+test = "stack_or_empty_falls_back"
+label = "stack_or_empty gives the stack size, or 0 past the end"
+
+[[hints]]
+text = "`hotbar.get(slot)` gives an `Option<&u32>`. Add `.copied()` to turn it into the `Option<u32>` the function returns."
+[[hints]]
+text = "`hotbar.get(slot).copied()`, and in `stack_or_empty` add `.unwrap_or(0)` after that."
+
+[[points]]
+after = 1
+prompt = "Which type does Rust use for slots and lengths?"
+pick = ["usize", "u32", "i32", "u8"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Ask for slot 9 without risking a crash."
+code = "let maybe = hotbar.___(9);"
+blank = "get"

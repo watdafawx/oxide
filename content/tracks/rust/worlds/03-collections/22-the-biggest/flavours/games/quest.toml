@@ -1,0 +1,25 @@
+title = "The biggest stack"
+summary = "max_by_key and min_by_key pick the item with the biggest or smallest key."
+
+[[objectives]]
+test = "biggest_stack_picks_by_count"
+label = "biggest_stack gives the stack with the most items, or None for an empty inventory"
+[[objectives]]
+test = "shortest_name_picks_by_length"
+label = "shortest_name gives the shortest item name, or None"
+
+[[hints]]
+text = "Both are one consumer after `.iter()`. The closure says which number to compare: the stack's count, or the name's length."
+[[hints]]
+text = "`stacks.iter().max_by_key(|s| s.count)` and `names.iter().min_by_key(|n| n.len())`."
+
+[[points]]
+after = 1
+prompt = "Pick the stack with the most items."
+code = "stacks.iter().___(|s| s.count)"
+blank = "max_by_key"
+[[points]]
+after = 2
+prompt = "What does `max_by_key` give back for an empty list?"
+pick = ["None", "0", "a panic", "an empty String"]
+answer = 0

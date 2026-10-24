@@ -1,0 +1,29 @@
+title = "Keep what parses"
+summary = "filter_map with .ok() keeps the pieces that are numbers and drops the rest."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["strings", "parse", "filter_map", "option"]
+
+[[objectives]]
+test = "parse_counts_skips_bad_pieces"
+label = "parse_counts turns \"12, 6, x, 1\" into [12, 6, 1]"
+[[objectives]]
+test = "count_bad_counts_the_pieces_that_fail"
+label = "count_bad says how many pieces are not numbers"
+
+[[hints]]
+text = "Each piece: `s.trim().parse()` gives a `Result`; `.ok()` turns it into an `Option`. `filter_map` keeps the `Some`s and unwraps them."
+[[hints]]
+text = "`line.split(',').filter_map(|s| s.trim().parse().ok()).collect()`. Bad ones: `.filter(|s| s.trim().parse::<u32>().is_err()).count()`."
+
+[[points]]
+after = 1
+prompt = "What does `.ok()` turn `Err(...)` into?"
+pick = ["0", "None", "a panic", "an empty String"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep only the pieces that parse."
+code = "line.split(',').___(|s| s.trim().parse().ok())"
+blank = "filter_map"

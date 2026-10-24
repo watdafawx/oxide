@@ -1,0 +1,25 @@
+title = "Follow the reference"
+summary = "A loop over &hotbar hands you references; * gets the number they point at."
+
+[[objectives]]
+test = "count_breaking_finds_worn_tools"
+label = "count_breaking counts the tools with less than `limit` durability"
+[[objectives]]
+test = "biggest_stack_finds_the_fullest_slot"
+label = "biggest_stack gives back the biggest stack size, or 0 for an empty inventory"
+
+[[hints]]
+text = "Inside the loop, `d` is a `&u32`. Compare `*d`, not `d`: `if *d < limit { worn += 1; }`."
+[[hints]]
+text = "In `biggest_stack`: `if *n > best { best = *n; }` inside `for n in stacks`, then `best` on the last line."
+
+[[points]]
+after = 1
+prompt = "In `for d in &durability`, what is `d`?"
+pick = ["a u32", "the whole list", "a &u32, a reference to one value", "an index"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Compare the number the reference points at."
+code = "if ___d < 10 {"
+blank = "*"

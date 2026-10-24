@@ -1,0 +1,29 @@
+title = "All or nothing"
+summary = "Collect a chain of Results into one Result: every value, or the first error."
+kind = "exercise"
+xp = 55
+minutes = 7
+tags = ["result", "collect", "iterators"]
+
+[[objectives]]
+test = "parse_all_gives_every_number_or_the_first_error"
+label = "parse_all gives Ok with every qty, or the first error"
+[[objectives]]
+test = "parse_all_numbered_says_which_item_failed"
+label = "parse_all_numbered puts \"item N: \" in front of the error, counting from 1"
+
+[[hints]]
+text = "Map every field through `parse_qty` and `collect()`. The return type `Result<Vec<u32>, String>` tells `collect` to stop at the first `Err`."
+[[hints]]
+text = "`fields.iter().map(|f| parse_qty(f)).collect()`. Numbered: `.enumerate().map(|(i, f)| parse_qty(f).map_err(|e| format!(\"item {}: {e}\", i + 1))).collect()`."
+
+[[points]]
+after = 2
+prompt = "Collecting [Ok(3), Err(\"bad\"), Ok(5)] into `Result<Vec<u32>, String>` gives..."
+pick = ["Ok([3, 5])", "Err(\"bad\")", "Ok([3])", "a panic"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Put the position in front of the message."
+code = "parse_qty(f).___(|e| format!(\"item {}: {e}\", i + 1))"
+blank = "map_err"

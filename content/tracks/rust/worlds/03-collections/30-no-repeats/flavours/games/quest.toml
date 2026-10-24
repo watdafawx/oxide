@@ -1,0 +1,25 @@
+title = "No repeated enchantments"
+summary = "A HashSet holds each value at most once, and finds what two sets share."
+
+[[objectives]]
+test = "distinct_enchants_ignores_repeats"
+label = "distinct_enchants says how many different enchantments a book has"
+[[objectives]]
+test = "shared_enchants_lists_common_ones"
+label = "shared_enchants gives back the enchantments on both items, sorted, each once"
+
+[[hints]]
+text = "Collecting into a `HashSet` drops the repeats: `list.iter().collect::<HashSet<_>>()`, then `.len()`. For two items, make a set of each and use `a.intersection(&b)`."
+[[hints]]
+text = "`let a: HashSet<&str> = sword.iter().copied().collect();` (same for b), then `let mut both: Vec<String> = a.intersection(&b).map(|e| e.to_string()).collect(); both.sort(); both`."
+
+[[points]]
+after = 1
+prompt = "You insert sharpness, unbreaking, sharpness into a HashSet. What is its len()?"
+pick = ["2", "3", "1", "0"]
+answer = 0
+[[points]]
+after = 3
+prompt = "What do both sets have in common?"
+code = "let shared: Vec<_> = a.___(&b).collect();"
+blank = "intersection"
