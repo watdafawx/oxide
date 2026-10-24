@@ -44,6 +44,8 @@ const md = new Marked({
       return `<code>${esc(raw)}</code>`;
     },
     link({ href, text }) {
+      // a link to another quest (`/quest/<track>/<world>/<quest>`) stays in the app: no new window
+      if (/^\/quest\/[a-z0-9-]+(\/[a-z0-9-]+){2}$/.test(href)) return `<a href="${esc(href)}" data-quest-link>${text}</a>`;
       return `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
     },
   },

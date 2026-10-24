@@ -44,6 +44,23 @@ fn main() -> ExitCode {
         catalog.total_xp(),
         quests.len()
     );
+    // In-app links in a lesson, `[text](/quest/<track>/<world>/<quest>)`, must name a real quest.
+    let mut bad_links = 0;
+    for q in catalog.quests() {
+        for dir in std::iter::once(&q.dir).chain(q.variants.iter().map(|v| &v.dir)) {
+            let Ok(text) = std::fs::read_to_string(dir.join("lesson.md")) else { continue };
+            for (i, m) in text.match_indices("](/quest/") {
+                let target = text[i + m.len()..].split(')').next().unwrap_or("");
+                if catalog.quest(target).is_none() {
+                    println!("  FAIL  {}\n        lesson links to unknown quest `{target}`", dir.display());
+                    bad_links += 1;
+                }
+            }
+        }
+    }
+    if bad_links > 0 {
+        return ExitCode::FAILURE;
+    }
     if fast {
         return ExitCode::SUCCESS;
     }

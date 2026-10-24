@@ -15,6 +15,8 @@ let sheets = crates * 4;   // 48
 
 **What is already there.** The two functions in the starter are already written. You only fill in their `let` lines. The last line of each one, the bare name with no `;`, is how the function hands the value back. Leave it alone for now; it gets its own quest soon.
 
+**If this is new.** Programming 101 explains variables from zero: [A name for a value](/quest/basics/02-values-and-names/02-a-name-for-a-value).
+
 ## Your turn
 
 - In `crates_in_store`, change the `let` line so `crates` is 12.

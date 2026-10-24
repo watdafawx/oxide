@@ -20,6 +20,8 @@ return "Welcome to Oxide!";
 
 **One at a time.** Fix the first error, save, and read again. Later errors are sometimes side effects of the first, and fixing it can clear them all.
 
+**If this is new.** Programming 101 explains error messages from zero: [Read the red](/quest/basics/01-what-a-program-is/05-read-the-red).
+
 ## Your turn
 
 - Save and read the error: which line is it, and what is missing?

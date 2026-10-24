@@ -16,6 +16,8 @@ assertion `left == right` failed
 
 **Compiler errors.** If the code does not build at all, the message appears above the objectives with the file and line. Read the first line first: it usually names the problem.
 
+**If this is new.** Programming 101 explains tests and error messages from zero: [What a test is](/quest/basics/01-what-a-program-is/06-what-a-test-is) and [Read the red](/quest/basics/01-what-a-program-is/05-read-the-red).
+
 ## Your turn
 
 - Save `max_tag_len` once without changing it. Click the red objective and find `left` and `right`.

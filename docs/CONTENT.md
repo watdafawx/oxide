@@ -176,6 +176,10 @@ become a lesson paragraph.
 - Never put the solution in the lesson. Hints do that: hint 1 says where, the last hint says
   what to type.
 - Points (`[[points]]`) ask for the one thing the card above just showed, in its own words.
+- Link to another quest with a plain markdown link to its route: `[A list](/quest/basics/06-collections/01-a-list)`.
+  It opens in the app (other links open a browser); content-check fails on an id that does not exist.
+  The language tracks' first worlds point general ideas (variable, if, loop, function, list, map,
+  references, tests, errors) at Programming 101 with one `**If this is new.**` card, once per idea.
 
 ### Term ledger
 

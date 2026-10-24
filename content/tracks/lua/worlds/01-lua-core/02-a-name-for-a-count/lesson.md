@@ -15,6 +15,8 @@ local eggs = batches * 3   -- 12. Two dashes start a note for humans.
 
 **Already written.** The last line of each starter function, `return eggs`, hands the value back. Leave it alone for now.
 
+**If this is new.** Programming 101 explains variables from zero: [A name for a value](/quest/basics/02-values-and-names/02-a-name-for-a-value).
+
 ## Your turn
 
 - In `planned_batches`, change the `local` line so `batches` is 4.

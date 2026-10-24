@@ -24,6 +24,8 @@ local fine, left = pcall(M.refuel, 5)
 
 **A prefix.** Lua puts `file:line:` in front of the message. Write `error("...", 0)` to leave that out.
 
+**If this is new.** Programming 101 explains error messages from zero: [Read the red](/quest/basics/01-what-a-program-is/05-read-the-red).
+
 ## Your turn
 
 - In `craft`, raise `"not enough plates"` when `plates` is less than `needed`.

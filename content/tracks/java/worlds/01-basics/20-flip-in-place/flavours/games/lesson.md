@@ -16,6 +16,8 @@ samples[1] = tmp;
 
 **Meet in the middle.** To reverse, swap position `i` with position `length - 1 - i`, for each `i` in the first half. Go all the way and you would swap everything back again.
 
+**If this is new.** Programming 101 explains two names for one thing from zero: [Two names, one table](/quest/basics/07-how-the-computer-holds-things/02-two-names-one-table).
+
 ## Your turn
 
 - In `swapEnds`, swap the first and the last value of `samples`.

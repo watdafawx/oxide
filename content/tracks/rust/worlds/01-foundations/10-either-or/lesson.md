@@ -20,6 +20,8 @@ fn parcel_size(weight: u32) -> u32 {
 }
 ```
 
+**If this is new.** Programming 101 explains `if` and `else` from zero: [Only sometimes](/quest/basics/03-decisions/01-only-sometimes).
+
 ## Your turn
 
 - In `pallet_limit`, return 10 for a fragile pallet and 64 otherwise.

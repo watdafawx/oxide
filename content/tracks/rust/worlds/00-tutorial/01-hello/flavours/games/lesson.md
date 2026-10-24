@@ -14,6 +14,8 @@ format!("See you soon, {player}!")
 
 **Watch it go green.** Fill in the chat line, save, and the objective turns green. Red means "not yet", never "you broke it".
 
+**If you are new to coding.** [Programming 101](/quest/basics/01-what-a-program-is/01-instructions-in-order) teaches the ideas every language shares, once and in plain words: variables, choices, loops, functions, lists. It is optional and uses Lua; skip it if you have programmed before.
+
 ## Your turn
 
 - In `join_message`, replace `todo!()` with a `format!` line that says `Welcome to the server, ` then the player, then `!`.

@@ -15,6 +15,8 @@ local plates = gears * 2   -- 10. Two dashes start a note for humans.
 
 **Already written.** The last line of each starter function, `return plates`, hands the value back. Leave it alone for now.
 
+**If this is new.** Programming 101 explains variables from zero: [A name for a value](/quest/basics/02-values-and-names/02-a-name-for-a-value).
+
 ## Your turn
 
 - In `gears_wanted`, change the `local` line so `gears` is 5.

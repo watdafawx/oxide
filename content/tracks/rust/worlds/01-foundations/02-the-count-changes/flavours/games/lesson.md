@@ -18,6 +18,8 @@ logs -= 2;        // 13: `-=` takes away
 
 **The habit.** The habit to build: write `let` first. When you later need to change the value, the compiler tells you exactly which name needs `mut`. You do not have to guess ahead; the red message is the plan.
 
+**If this is new.** Programming 101 explains values that change from zero: [The value changes](/quest/basics/02-values-and-names/03-the-value-changes).
+
 ## Your turn
 
 - In `logs_after_pickup`, add `logs += 5;` under the `let`. Save and read the error.

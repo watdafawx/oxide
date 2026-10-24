@@ -17,6 +17,8 @@ for (int i = 1; i <= 3; i++) {
 
 **Off by one.** `i <= n` includes `n` itself, `i < n` stops one early. Counting one too many or one too few is the most common loop bug, so always check the first and last round.
 
+**If this is new.** Programming 101 explains counting loops from zero: [Count with for](/quest/basics/04-repetition/02-count-with-for).
+
 ## Your turn
 
 - In `sumTo`, add the numbers 1 up to and including `n` with a counted `for` loop.

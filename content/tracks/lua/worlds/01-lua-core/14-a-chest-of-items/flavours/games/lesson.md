@@ -20,6 +20,8 @@ local nothing = chest.stone            -- nil: no such key
 chest.coal = nil                       -- the key is gone
 ```
 
+**If this is new.** Programming 101 explains looking a value up by name from zero: [Look it up](/quest/basics/06-collections/05-look-it-up).
+
 ## Your turn
 
 - In `count_of`, return the item's count, or 0 when it is missing.

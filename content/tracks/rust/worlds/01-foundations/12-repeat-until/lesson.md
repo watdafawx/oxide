@@ -20,6 +20,8 @@ turns        // 10 -> 7 -> 4 -> 1 -> -2: four turns
 
 **Parameters stay put.** A **parameter** is one of the inputs named in a function's first line, inside the `( )`. It cannot change, just like a plain `let`. To change one, make a changeable copy with the same name: `let mut sheets = sheets;`. That is shadowing, and it needs no new rule.
 
+**If this is new.** Programming 101 explains `while` loops from zero: [While not there yet](/quest/basics/04-repetition/01-while-not-there-yet).
+
 ## Your turn
 
 - In `scoops_to_empty`, make a counter and a pile you can change, and loop while the pile is above 0.

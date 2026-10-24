@@ -23,6 +23,8 @@ public static String greeting() {
 
 **Exact means exact.** The checker compares letter by letter, capitals and punctuation included. One wrong character and `but was` shows you which. The first save also downloads Gradle, about 90 seconds, once.
 
+**If this is new.** Programming 101 explains tests and functions from zero: [What a test is](/quest/basics/01-what-a-program-is/06-what-a-test-is) and [Define and call](/quest/basics/05-functions/01-define-and-call).
+
 ## Your turn
 
 - Save once without changing anything and read the red message.

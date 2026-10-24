@@ -16,6 +16,8 @@ fn planks(logs: u32) -> u32 {
 
 **Use it.** Now you can **call** it: `planks(12)` is 48, `planks(7)` is 28. One rule, any number. This is the shape of every rule in the calculator from here on: name, what goes in, what comes out, one body.
 
+**If this is new.** Programming 101 explains functions from zero: [Define and call](/quest/basics/05-functions/01-define-and-call).
+
 ## Your turn
 
 - Fill in `planks`: four planks per log.

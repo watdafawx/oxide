@@ -22,6 +22,8 @@ if (ping > 200) {
 
 **Always braces.** Keep `{ }` around every block, even a one-line one. It stops a whole class of bugs.
 
+**If this is new.** Programming 101 explains `if` and `else` from zero: [Only sometimes](/quest/basics/03-decisions/01-only-sometimes).
+
 ## Your turn
 
 - In `clampPlayerCount`, return `min` when the count is below it, `max` when it is above it, otherwise the count.

@@ -15,6 +15,8 @@ local how_many = #recipe       -- 2
 local last = recipe[#recipe]   -- "copper-cable"
 ```
 
+**If this is new.** Programming 101 explains lists and indexes from zero: [A list](/quest/basics/06-collections/01-a-list).
+
 ## Your turn
 
 - In `first_ingredient`, return the item at index 1.
