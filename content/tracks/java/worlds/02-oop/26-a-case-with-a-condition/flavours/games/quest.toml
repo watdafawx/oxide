@@ -1,0 +1,25 @@
+title = "A case with a condition"
+summary = "A when guard picks out an empty drop before the plain ItemDropped case."
+
+[[objectives]]
+test = "chatLineForEveryEventType"
+label = "Chat.line has a line for every event"
+[[objectives]]
+test = "emptyDropGetsItsOwnLine"
+label = "An ItemDropped with count 0 says \"nothing dropped\""
+
+[[hints]]
+text = "Four cases: the two other events, then the guarded drop, then the plain drop. No `default`."
+[[hints]]
+text = "`case ItemDropped e when e.count() == 0 -> \"nothing dropped\";` right before `case ItemDropped e -> e.count() + \" x \" + e.item() + \" dropped\";`."
+
+[[points]]
+after = 1
+prompt = "Which word adds a condition to a case?"
+pick = ["if", "when", "where", "and"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Which case must come first?"
+pick = ["The plain ItemDropped e", "The guarded ItemDropped e when ...", "Either, Java sorts them", "PlayerJoined"]
+answer = 1

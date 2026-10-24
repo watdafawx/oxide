@@ -1,0 +1,25 @@
+title = "Maybe there is none"
+summary = "max on an empty pack has no answer, so it hands back an Optional. Read it with map and orElse."
+
+[[objectives]]
+test = "mostDownloadedIsEmptyForNoMods"
+label = "mostDownloaded returns an Optional: the most downloaded mod, or empty when there are no mods"
+[[objectives]]
+test = "headlineFallsBackToNone"
+label = "headline returns the most downloaded mod's name, or \"none\" when there are no mods"
+
+[[hints]]
+text = "mostDownloaded: `mods.stream().max(Comparator.comparingInt(Mod::downloads))`. headline: call `mostDownloaded`, then `.map(Mod::name)` and `.orElse(\"none\")`."
+[[hints]]
+text = "`return mostDownloaded(mods).map(Mod::name).orElse(\"none\");`"
+
+[[points]]
+after = 2
+prompt = "What does max hand back for an empty stream?"
+pick = ["null", "0", "An empty Optional", "It stops with an error"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Unpack it, with a fallback."
+code = "String name = top.map(Mod::name).___(\"none\");"
+blank = "orElse"

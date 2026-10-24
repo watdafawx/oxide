@@ -1,0 +1,29 @@
+title = "A fixed set of choices"
+summary = "An enum allows only RED, GREEN and YELLOW, and the compiler checks every switch over it."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["enums", "switch"]
+
+[[objectives]]
+test = "onlyGreenMeansDrive"
+label = "mayDrive() is true only for GREEN"
+[[objectives]]
+test = "nextWrapsAround"
+label = "next() goes RED -> GREEN -> YELLOW -> RED, with a switch"
+
+[[hints]]
+text = "Inside the enum, `this` is the current light. Compare it with `==` for `mayDrive`, and `switch (this)` for `next`."
+[[hints]]
+text = "`return this == GREEN;` and `return switch (this) { case RED -> GREEN; case GREEN -> YELLOW; case YELLOW -> RED; };`"
+
+[[points]]
+after = 1
+prompt = "Which word declares a fixed set of constants?"
+pick = ["class", "enum", "final", "static"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Why no default in a switch over all three lights?"
+pick = ["The compiler knows all three are covered", "default is not allowed in Java", "Enums cannot be switched on", "It runs faster"]
+answer = 0

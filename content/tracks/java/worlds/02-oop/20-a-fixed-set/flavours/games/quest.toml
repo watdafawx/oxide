@@ -1,0 +1,25 @@
+title = "Rarity, a fixed set of tiers"
+summary = "An enum allows only the four rarity tiers, and the compiler checks every switch over it."
+
+[[objectives]]
+test = "onlyCommonIsCommon"
+label = "isCommon() is true only for COMMON"
+[[objectives]]
+test = "upgradeWrapsAroundAfterEpic"
+label = "upgrade() goes COMMON -> UNCOMMON -> RARE -> EPIC -> COMMON, with a switch"
+
+[[hints]]
+text = "Inside the enum, `this` is the current rarity. Compare it with `==` for `isCommon`, and `switch (this)` for `upgrade`."
+[[hints]]
+text = "`return this == COMMON;` and `return switch (this) { case COMMON -> UNCOMMON; case UNCOMMON -> RARE; case RARE -> EPIC; case EPIC -> COMMON; };`"
+
+[[points]]
+after = 1
+prompt = "Which word declares a fixed set of constants?"
+pick = ["class", "enum", "final", "static"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Why no default in a switch over all four tiers?"
+pick = ["The compiler knows all four are covered", "default is not allowed in Java", "Enums cannot be switched on", "It runs faster"]
+answer = 0

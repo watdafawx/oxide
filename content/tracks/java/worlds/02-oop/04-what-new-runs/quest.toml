@@ -1,0 +1,29 @@
+title = "What runs when you write new"
+summary = "A constructor, so every account starts with an owner and a valid balance."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["classes", "constructors"]
+
+[[objectives]]
+test = "constructorSetsOwnerAndBalance"
+label = "new Account(\"Ann\", 500) has owner Ann and balance 500"
+[[objectives]]
+test = "negativeOpeningStartsAtZero"
+label = "An opening balance below 0 starts the account at 0"
+
+[[hints]]
+text = "Everything goes in the constructor, the block named `Account` with no return type. Set both fields from the parameters `name` and `opening`."
+[[hints]]
+text = "`owner = name;` then `if (opening < 0) { balance = 0; } else { balance = opening; }`."
+
+[[points]]
+after = 1
+prompt = "When does a constructor run?"
+pick = ["Every time a method is called", "Once, inside new", "When the program ends", "Only when the checker asks"]
+answer = 1
+[[points]]
+after = 2
+prompt = "What does a constructor have that a method does not?"
+pick = ["The class's own name, and no return type", "Two return types", "The word static", "A semicolon after the name"]
+answer = 0

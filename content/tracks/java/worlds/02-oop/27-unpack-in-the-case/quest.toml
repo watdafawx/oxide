@@ -1,0 +1,29 @@
+title = "Unpack it in the case"
+summary = "A record pattern takes a Rectangle apart into its width and height right in the case line."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["pattern-matching", "records"]
+
+[[objectives]]
+test = "squareIsDetected"
+label = "isSquare is true for a 2 x 2 Rectangle and false for 2 x 3"
+[[objectives]]
+test = "otherShapesAreNotSquares"
+label = "isSquare is false for a Circle and a Triangle"
+
+[[hints]]
+text = "One case takes the rectangle apart with `Rectangle(double w, double h)` and compares the two. The other two cases hand back `false`."
+[[hints]]
+text = "`return switch (shape) { case Rectangle(double w, double h) -> w == h; case Circle c -> false; case Triangle t -> false; };`"
+
+[[points]]
+after = 1
+prompt = "Unpack a Cat record into its two components."
+code = "case ___ -> name + \" has \" + lives + \" lives\";"
+blank = "Cat(String name, int lives)"
+[[points]]
+after = 2
+prompt = "Which names can the components get in the pattern?"
+pick = ["Any names you like", "Only the record's own names", "Only one letter each", "None, you must call accessors"]
+answer = 0

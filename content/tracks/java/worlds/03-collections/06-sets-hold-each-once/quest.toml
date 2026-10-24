@@ -1,0 +1,29 @@
+title = "Sets hold each once"
+summary = "Drop repeats with a HashSet, and spot the first repeat with what add hands back."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["set", "hashset"]
+
+[[objectives]]
+test = "distinctDropsRepeats"
+label = "distinct returns every tag once"
+[[objectives]]
+test = "firstRepeatFindsTheEarliestDuplicate"
+label = "firstRepeat returns the first tag seen a second time, or null when none repeats"
+
+[[hints]]
+text = "distinct: a set built from the list keeps one of each: `new HashSet<>(tags)`. firstRepeat: add each tag to an empty set and look at what `add` returns."
+[[hints]]
+text = "firstRepeat: `Set<String> seen = new HashSet<>(); for (String t : tags) { if (!seen.add(t)) { return t; } } return null;`"
+
+[[points]]
+after = 2
+prompt = "What does adding a value that is already in the set do?"
+pick = ["Nothing, and add returns false", "Adds a second copy", "Throws an error", "Replaces the old one and returns true"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Keep one of each tag."
+code = "Set<String> unique = new ___<>(tags);"
+blank = "HashSet"

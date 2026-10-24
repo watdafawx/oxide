@@ -1,0 +1,22 @@
+title = "Join into text"
+summary = "Turn the pack into one line of names with map and joining."
+
+[[objectives]]
+test = "packLineJoinsNamesWithCommas"
+label = "packLine turns mods into \"[Sodium, Iris Shaders]\", and no mods into \"[]\""
+
+[[hints]]
+text = "First `map(Mod::name)` so the stream holds text. Then `joining` takes the separator, the prefix and the suffix."
+[[hints]]
+text = "`return mods.stream().map(Mod::name).collect(joining(\", \", \"[\", \"]\"));`"
+
+[[points]]
+after = 1
+prompt = "Join with a separator, a prefix and a suffix."
+code = "names.stream().collect(___(\", \", \"[\", \"]\"));"
+blank = "joining"
+[[points]]
+after = 2
+prompt = "What does joining(\", \", \"[\", \"]\") give for no mods?"
+pick = ["null", "An empty text", "\"[]\"", "An error"]
+answer = 2

@@ -1,0 +1,29 @@
+title = "Remove by slot or by value"
+summary = "remove(1) on a List<Integer> means slot 1. Remove the value 1 instead."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["list", "boxing", "overloading"]
+
+[[objectives]]
+test = "dropSlotRemovesThePosition"
+label = "dropSlot removes whatever sits at the given position"
+[[objectives]]
+test = "dropNumberRemovesTheValue"
+label = "dropNumber removes the ticket number itself, even when it is also a valid position"
+
+[[hints]]
+text = "The starter already copies the list. dropSlot: `copy.remove(slot);`. For dropNumber, `copy.remove(number)` would be read as a position."
+[[hints]]
+text = "dropNumber: `copy.remove(Integer.valueOf(number));` then `return copy;`."
+
+[[points]]
+after = 3
+prompt = "On a List<Integer>, what does tickets.remove(1) take out?"
+pick = ["The value 1", "Every 1 in the list", "Nothing: it does not compile", "Whatever is in slot 1"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Remove the value 512, not slot 512."
+code = "tickets.remove(___(512));"
+blank = "Integer.valueOf"

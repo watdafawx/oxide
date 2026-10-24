@@ -1,0 +1,25 @@
+title = "A default body"
+summary = "Write status() once in the interface, and everything Damageable gets it."
+
+[[objectives]]
+test = "statusUsesNameAndHealth"
+label = "status() is \"Zombie: 20 hp\", or \"Zombie: dead\" at 0 hp"
+[[objectives]]
+test = "newMobsGetStatusForFree"
+label = "A Damageable written later gets status() without writing it"
+
+[[hints]]
+text = "The body goes in `Damageable.status()`, not in the classes. It can call `name()` and `health()`, the other methods of the interface."
+[[hints]]
+text = "`if (health() <= 0) { return name() + \": dead\"; }` then `return name() + \": \" + health() + \" hp\";`"
+
+[[points]]
+after = 1
+prompt = "Which word gives an interface method a body?"
+pick = ["static", "default", "abstract", "final"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Call the interface's own fuelTicks method inside label."
+code = "return name() + \" burns \" + ___;"
+blank = "fuelTicks()"

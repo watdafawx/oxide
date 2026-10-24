@@ -1,0 +1,25 @@
+title = "Group a stream"
+summary = "End a stream with collect(groupingBy(...)), and count each loader's mods with counting()."
+
+[[objectives]]
+test = "groupByLoaderBucketsMods"
+label = "groupByLoader maps each loader to its mods, in pack order"
+[[objectives]]
+test = "countByLoaderCountsEachBucket"
+label = "countByLoader maps each loader to how many mods use it"
+
+[[hints]]
+text = "Both end with `.collect(...)`. groupByLoader: `groupingBy(Mod::loader)`. countByLoader: give `groupingBy` a second argument, `counting()`."
+[[hints]]
+text = "`return mods.stream().collect(groupingBy(Mod::loader));` and `return mods.stream().collect(groupingBy(Mod::loader, counting()));`"
+
+[[points]]
+after = 2
+prompt = "Which collector builds a map from key to list?"
+pick = ["counting", "groupingBy", "toList", "joining"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Make each group a count."
+code = "mods.stream().collect(groupingBy(Mod::loader, ___));"
+blank = "counting()"

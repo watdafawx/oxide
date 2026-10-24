@@ -1,0 +1,29 @@
+title = "A half-finished parent"
+summary = "An abstract class shares the name field and makes every child say how it is paid."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["inheritance", "abstract"]
+
+[[objectives]]
+test = "salariedPaysATwelfthOfTheYear"
+label = "Salaried pays the yearly pay / 12"
+[[objectives]]
+test = "hourlyPaysRateTimesHours"
+label = "Hourly pays rate * hours"
+
+[[hints]]
+text = "`Employee` declares `monthlyPay()` with no body. Fill in the body in each child, using its own fields."
+[[hints]]
+text = "`return yearlyPay / 12;` in `Salaried`, `return hourlyRate * hours;` in `Hourly`."
+
+[[points]]
+after = 1
+prompt = "Which word makes a class that cannot be built with new?"
+pick = ["final", "abstract", "static", "private"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Declare a method every child must write."
+code = "public ___ int mealsPerDay();"
+blank = "abstract"

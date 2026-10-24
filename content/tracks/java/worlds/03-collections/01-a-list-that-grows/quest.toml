@@ -1,0 +1,30 @@
+title = "A list that grows"
+summary = "Collect items in an ArrayList that makes room as you add."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["list", "arraylist", "generics"]
+requires = ["02-oop/30-boss-bank-ledger"]
+
+[[objectives]]
+test = "shoppingListKeepsAddOrder"
+label = "shoppingList returns milk, eggs, bread in that order"
+[[objectives]]
+test = "labelsGrowPastAnySize"
+label = "labels(100) builds item0 to item99 in a loop"
+
+[[hints]]
+text = "Start each method with `ArrayList<String> items = new ArrayList<>();`, call `add`, and return the list."
+[[hints]]
+text = "labels: `for (int i = 0; i < count; i++) { items.add(\"item\" + i); }` then `return items;`."
+
+[[points]]
+after = 2
+prompt = "Which call puts an item at the end of the list?"
+pick = ["push", "append", "add", "put"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Say what the list holds."
+code = "ArrayList<___> items = new ArrayList<>();"
+blank = "String"

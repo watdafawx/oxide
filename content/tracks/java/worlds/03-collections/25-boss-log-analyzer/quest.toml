@@ -1,0 +1,41 @@
+title = "Boss: Log Analyzer"
+summary = "Read raw server log lines, then answer with streams: lines per level, the noisiest sources, errors per minute."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["stream", "collectors", "boss"]
+
+[[objectives]]
+test = "parsesLine"
+label = "parse cuts \"10:15:30 ERROR db Connection refused\" into time, level, source and message"
+[[objectives]]
+test = "countsPerLevel"
+label = "countsPerLevel counts how many lines each level has"
+[[objectives]]
+test = "topSourcesRanked"
+label = "topSources lists the n noisiest sources, most lines first, ties A to Z"
+[[objectives]]
+test = "errorsPerMinuteBucketed"
+label = "errorsPerMinute counts ERROR lines per HH:mm, in time order"
+
+[[hints]]
+text = "parse: `String[] parts = line.split(\" \", 4);` then `return new LogLine(parts[0], parts[1], parts[2], parts[3]);`."
+[[hints]]
+text = "countsPerLevel: `return lines.stream().collect(groupingBy(LogLine::level, counting()));`."
+[[hints]]
+text = "topSources, step 1: count per source the same way, giving a `Map<String, Long>`. Then loop over its `entrySet()` and add `new SourceCount(e.getKey(), e.getValue())` to a `List<SourceCount>`."
+[[hints]]
+text = "topSources, step 2: `ranked.sort(Comparator.comparing(SourceCount::count).reversed().thenComparing(SourceCount::source));` then `return ranked.stream().limit(n).map(SourceCount::source).toList();`."
+[[hints]]
+text = "errorsPerMinute: `filter(l -> l.level().equals(\"ERROR\"))`, then `collect(groupingBy(l -> l.time().substring(0, 5), counting()))`, and wrap the result: `return new TreeMap<>(...);`."
+
+[[points]]
+after = 2
+prompt = "Cut the line into at most 4 parts."
+code = "String[] parts = line.split(\" \", ___);"
+blank = "4"
+[[points]]
+after = 5
+prompt = "Which map keeps its keys sorted?"
+pick = ["HashMap", "TreeMap", "LinkedHashMap", "Map.of"]
+answer = 1

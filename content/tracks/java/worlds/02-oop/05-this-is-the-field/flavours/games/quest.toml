@@ -1,0 +1,25 @@
+title = "This one is the field"
+summary = "When a parameter has the field's name, this.id picks the field."
+
+[[objectives]]
+test = "idIsStored"
+label = "new Item(\"stick\", 64).id() is stick, not null"
+[[objectives]]
+test = "maxStackIsStored"
+label = "new Item(\"ender_pearl\", 16).maxStack() is 16, not 0"
+
+[[hints]]
+text = "Both lines in the constructor assign a parameter to itself. Put `this.` in front of the name on the left."
+[[hints]]
+text = "`this.id = id;` and `this.maxStack = maxStack;`."
+
+[[points]]
+after = 2
+prompt = "Inside the constructor, plain `id` means..."
+pick = ["the field", "the parameter", "the class", "nothing"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Store the parameter `level` in the field `level`."
+code = "___ = level;"
+blank = "this.level"

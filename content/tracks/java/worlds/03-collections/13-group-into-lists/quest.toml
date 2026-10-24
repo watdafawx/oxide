@@ -1,0 +1,26 @@
+title = "Group into lists"
+summary = "Build a map from a key to a list with computeIfAbsent, which makes the list the first time."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["map", "computeIfAbsent", "lambda"]
+
+[[objectives]]
+test = "byLengthGroupsWordsInOrder"
+label = "byLength maps each word length to the words with that length, in input order"
+
+[[hints]]
+text = "For each word: `groups.computeIfAbsent(w.length(), k -> new ArrayList<>())` hands back the list for that length. Add the word to it."
+[[hints]]
+text = "`for (String w : words) { groups.computeIfAbsent(w.length(), k -> new ArrayList<>()).add(w); } return groups;`"
+
+[[points]]
+after = 2
+prompt = "What does computeIfAbsent hand back?"
+pick = ["The value for the key, made first if missing", "true when it made a new value", "Nothing", "The old map"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make a new empty list for a missing key."
+code = "groups.computeIfAbsent(3, k -> ___).add(\"cat\");"
+blank = "new ArrayList<>()"

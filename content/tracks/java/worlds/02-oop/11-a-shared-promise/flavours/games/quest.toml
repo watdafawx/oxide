@@ -1,0 +1,25 @@
+title = "Anything that can be hurt"
+summary = "An interface lists what every Damageable can do; Zombie and ArmorStand keep the promise."
+
+[[objectives]]
+test = "zombieLosesHealthWhenDamaged"
+label = "Zombie is named \"Zombie\", starts at 20 hp and damage(7) leaves 13"
+[[objectives]]
+test = "armorStandTakesHalfDamage"
+label = "ArmorStand is named \"Armor stand\", starts at 6 hp and takes half of each hit, rounded down"
+
+[[hints]]
+text = "Each `name` is one `return` line. Each `damage` changes the class's own `health` field, never below 0. Replace each `throw` line."
+[[hints]]
+text = "Zombie: `return \"Zombie\";` and `health = Math.max(0, health - amount);`. ArmorStand: `return \"Armor stand\";` and the same with `amount / 2`."
+
+[[points]]
+after = 2
+prompt = "Which word makes a class keep an interface's promise?"
+pick = ["extends", "implements", "interface", "static"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Can a variable of type Damageable hold a Zombie?"
+pick = ["Yes, a Zombie is Damageable", "No, the types differ", "Only if it is static", "Only inside Zombie"]
+answer = 0

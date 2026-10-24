@@ -1,0 +1,29 @@
+title = "Constants that carry data"
+summary = "Give each traffic light its own number of seconds, and add up a full cycle with values()."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["enums", "constructors"]
+
+[[objectives]]
+test = "enumCarriesSeconds"
+label = "RED lasts 30 seconds, GREEN 25, YELLOW 5"
+[[objectives]]
+test = "fullCycleAddsEveryLight"
+label = "fullCycle() adds up every light: 60 seconds"
+
+[[hints]]
+text = "Change the numbers in brackets after each constant. For `fullCycle`, a running total over `values()`."
+[[hints]]
+text = "`RED(30), GREEN(25), YELLOW(5);` and `int total = 0; for (TrafficLight light : values()) { total += light.seconds(); } return total;`"
+
+[[points]]
+after = 1
+prompt = "What do the brackets in RED(30) do?"
+pick = ["Call the enum's constructor with 30", "Multiply RED by 30", "Make 30 copies of RED", "Nothing, they are a comment"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Get every constant as an array."
+code = "for (Planet p : Planet.___()) {"
+blank = "values"

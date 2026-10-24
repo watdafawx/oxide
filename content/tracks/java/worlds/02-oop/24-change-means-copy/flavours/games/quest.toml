@@ -1,0 +1,25 @@
+title = "Move means copy"
+summary = "A record never changes, so offset hands back a new position instead."
+
+[[objectives]]
+test = "offsetReturnsMovedCopy"
+label = "offset(dx, dy, dz) returns a new BlockPos and leaves the original alone"
+[[objectives]]
+test = "offsetFollowsTheSameRules"
+label = "Moving above the build limit is refused, because the copy goes through the constructor"
+
+[[hints]]
+text = "Inside a record you can read the components directly. Build the copy with `new` and the three moved numbers."
+[[hints]]
+text = "`return new BlockPos(x + dx, y + dy, z + dz);`"
+
+[[points]]
+after = 1
+prompt = "How do you \"move\" a record?"
+pick = ["Assign to its field", "Build a new one with the new values", "Call a setter", "Make the field static"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Why is moving past y = 319 refused for free?"
+pick = ["The copy goes through the compact constructor", "Records reject all big numbers", "offset checks by itself", "It is not refused"]
+answer = 0

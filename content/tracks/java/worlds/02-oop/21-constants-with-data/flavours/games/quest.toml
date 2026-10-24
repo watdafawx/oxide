@@ -1,0 +1,25 @@
+title = "Tiers that carry data"
+summary = "Give each rarity its colour and drop weight, and add up the weights with values()."
+
+[[objectives]]
+test = "rarityCarriesColorAndWeight"
+label = "COMMON weighs 60, UNCOMMON 25, RARE (aqua) 10, EPIC (light_purple) 5"
+[[objectives]]
+test = "totalWeightAddsEveryTier"
+label = "totalWeight() adds up every tier: 100"
+
+[[hints]]
+text = "Change the second number in brackets after each constant. For `totalWeight`, a running total over `values()`."
+[[hints]]
+text = "`COMMON(\"white\", 60), UNCOMMON(\"yellow\", 25), RARE(\"aqua\", 10), EPIC(\"light_purple\", 5);` and `int total = 0; for (Rarity rarity : values()) { total += rarity.weight(); } return total;`"
+
+[[points]]
+after = 1
+prompt = "What do the brackets in RARE(\"aqua\", 10) do?"
+pick = ["Call the enum's constructor with them", "Multiply RARE by 10", "Make 10 copies of RARE", "Nothing, they are a comment"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Get every constant as an array."
+code = "for (Dimension d : Dimension.___()) {"
+blank = "values"

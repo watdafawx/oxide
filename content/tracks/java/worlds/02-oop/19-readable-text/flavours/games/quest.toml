@@ -1,0 +1,25 @@
+title = "Text you can read"
+summary = "Override toString so a BlockPos prints as (10, 64, -3), not BlockPos@1b2c3d."
+
+[[objectives]]
+test = "toStringReadsLikeACoordinate"
+label = "toString() is \"(10, 64, -3)\""
+[[objectives]]
+test = "joiningTextUsesToString"
+label = "\"Chest at \" + pos reads \"Chest at (1, 70, 2)\""
+
+[[hints]]
+text = "Join brackets, the three fields and `\", \"` with `+`."
+[[hints]]
+text = "`return \"(\" + x + \", \" + y + \", \" + z + \")\";`"
+
+[[points]]
+after = 1
+prompt = "What does an object print as before you override toString?"
+pick = ["Its fields", "Its class name and a number", "Nothing", "An error"]
+answer = 1
+[[points]]
+after = 2
+prompt = "When does Java call toString for you?"
+pick = ["When an object is joined to text with +", "Only when you call it", "When the object is built", "Never"]
+answer = 0

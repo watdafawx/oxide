@@ -1,0 +1,22 @@
+title = "Split in two"
+summary = "partitioningBy sorts the pack into an outdated pile and an up-to-date pile, both always there."
+
+[[objectives]]
+test = "byOutdatedSplitsThePack"
+label = "byOutdated puts outdated mods under true and up-to-date ones under false, both keys always present"
+
+[[hints]]
+text = "`collect(partitioningBy(rule))`, where the rule is a lambda that is true when the mod's version does not equal `latest.get(m.id())`."
+[[hints]]
+text = "`return mods.stream().collect(partitioningBy(m -> !m.version().equals(latest.get(m.id()))));`"
+
+[[points]]
+after = 1
+prompt = "How many keys does a partitioningBy map have?"
+pick = ["One per item", "As many as there are matches", "None when the stream is empty", "Exactly two: true and false"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Split the pack into two piles."
+code = "mods.stream().collect(___(m -> m.downloads() > 10000));"
+blank = "partitioningBy"

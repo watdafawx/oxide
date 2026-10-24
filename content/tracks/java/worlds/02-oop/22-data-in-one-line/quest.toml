@@ -1,0 +1,29 @@
+title = "Data in one line"
+summary = "A record: list the fields, and Java writes the constructor, accessors, equals, hashCode and toString."
+kind = "exercise"
+xp = 40
+minutes = 4
+tags = ["records"]
+
+[[objectives]]
+test = "parcelIsARecord"
+label = "Parcel is a record with label() and grams()"
+[[objectives]]
+test = "recordEqualsByValue"
+label = "Two parcels with the same fields are equal, and toString shows the fields"
+
+[[hints]]
+text = "Delete the whole class, comment included, and write one line in its place: `record`, the name, and the two components in brackets, then `{}`."
+[[hints]]
+text = "`public record Parcel(String label, int grams) {}`"
+
+[[points]]
+after = 1
+prompt = "Declare the record's components."
+code = "public record Tag(___) {}"
+blank = "String name, int level"
+[[points]]
+after = 3
+prompt = "What is the accessor for the component grams called?"
+pick = ["getGrams()", "grams()", "grams", "Grams.get()"]
+answer = 1

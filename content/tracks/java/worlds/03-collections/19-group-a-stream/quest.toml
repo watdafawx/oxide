@@ -1,0 +1,29 @@
+title = "Group a stream"
+summary = "End a stream with collect(groupingBy(...)), and count each group with counting()."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["stream", "collectors", "groupingBy"]
+
+[[objectives]]
+test = "groupByLengthBucketsWords"
+label = "groupByLength maps each length to its words, in input order"
+[[objectives]]
+test = "countByLengthCountsEachBucket"
+label = "countByLength maps each length to how many words have it"
+
+[[hints]]
+text = "Both end with `.collect(...)`. groupByLength: `groupingBy(String::length)`. countByLength: give `groupingBy` a second argument, `counting()`."
+[[hints]]
+text = "`return words.stream().collect(groupingBy(String::length));` and `return words.stream().collect(groupingBy(String::length, counting()));`"
+
+[[points]]
+after = 2
+prompt = "Which collector builds a map from key to list?"
+pick = ["counting", "groupingBy", "toList", "joining"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Make each group a count."
+code = "words.stream().collect(groupingBy(String::length, ___));"
+blank = "counting()"

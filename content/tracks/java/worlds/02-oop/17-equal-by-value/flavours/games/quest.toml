@@ -1,0 +1,25 @@
+title = "Equal by value"
+summary = "Override equals so two BlockPos objects at the same spot count as the same."
+
+[[objectives]]
+test = "samePositionIsEqual"
+label = "Two BlockPos with the same x, y, z are equal; any difference makes them unequal"
+[[objectives]]
+test = "notEqualToOtherThings"
+label = "A BlockPos is never equal to null or to a String"
+
+[[hints]]
+text = "First line: if `o` is not a BlockPos, hand back false (`instanceof` with a name). Then compare the three ints with `==`."
+[[hints]]
+text = "`if (!(o instanceof BlockPos other)) { return false; }` then `return x == other.x && y == other.y && z == other.z;`"
+
+[[points]]
+after = 2
+prompt = "Which class does every class extend in the end?"
+pick = ["Object", "Main", "String", "Class"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Check the kind and name it in one go."
+code = "if (!(o ___ ChunkPos other)) {"
+blank = "instanceof"

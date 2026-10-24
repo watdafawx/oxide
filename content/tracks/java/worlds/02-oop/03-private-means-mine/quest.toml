@@ -1,0 +1,29 @@
+title = "Private means mine"
+summary = "Lock a field away so only the class's own methods can change it."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["classes", "private", "encapsulation"]
+
+[[objectives]]
+test = "coinsFieldIsPrivate"
+label = "The coins field is private"
+[[objectives]]
+test = "takeNeverGoesBelowZero"
+label = "take(n) takes coins only when there are enough, and says whether it did"
+
+[[hints]]
+text = "Put `private` in front of the field line. In `take`, check `amount` against `coins` with an `if` before you change anything."
+[[hints]]
+text = "`private int coins;`. In `take`: `if (amount > coins) { return false; }` then `coins = coins - amount;` and `return true;`."
+
+[[points]]
+after = 1
+prompt = "Which word keeps a field inside its class?"
+pick = ["public", "static", "private", "void"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Who may call a public method?"
+pick = ["Only the class itself", "Any code that has the object", "Only the test file", "Nobody"]
+answer = 1

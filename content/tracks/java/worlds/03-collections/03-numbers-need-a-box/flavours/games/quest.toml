@@ -1,0 +1,25 @@
+title = "Numbers need a box"
+summary = "Keep download counts in a List<Integer>, and let Java box and unbox them."
+
+[[objectives]]
+test = "totalAddsEveryDownloadCount"
+label = "totalDownloads adds up every count in the list"
+[[objectives]]
+test = "withBonusAddsToEachCount"
+label = "withBonus returns a new list with the bonus added to every count"
+
+[[hints]]
+text = "totalDownloads: an `int` running total and `for (int d : downloads)`. withBonus: a new `List<Integer>`, and `add(d + bonus)` for each count."
+[[hints]]
+text = "withBonus: `List<Integer> out = new ArrayList<>(); for (int d : downloads) { out.add(d + bonus); } return out;`"
+
+[[points]]
+after = 3
+prompt = "Which type goes in the brackets for download counts?"
+pick = ["int", "long", "Number", "Integer"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Java turning an int into an Integer on the way in is called..."
+pick = ["casting", "boxing", "widening", "parsing"]
+answer = 1

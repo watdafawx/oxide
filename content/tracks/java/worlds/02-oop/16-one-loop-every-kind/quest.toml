@@ -1,0 +1,29 @@
+title = "One loop for every kind"
+summary = "Add up a mixed team's pay without ever asking who is which kind."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["polymorphism", "arrays"]
+
+[[objectives]]
+test = "payrollSumsAMixedTeam"
+label = "Payroll.total adds up a mix of Salaried and Hourly"
+[[objectives]]
+test = "payrollPaysAKindItHasNeverSeen"
+label = "Payroll.total also pays a kind of Employee written after it"
+
+[[hints]]
+text = "A running total and an enhanced `for` over `staff`, calling `monthlyPay()` on each one. No question about the kind."
+[[hints]]
+text = "`int sum = 0; for (Employee employee : staff) { sum += employee.monthlyPay(); } return sum;`"
+
+[[points]]
+after = 1
+prompt = "Can one Employee[] hold a Salaried and an Hourly?"
+pick = ["Yes, both are Employees", "No, an array holds one class", "Only if they are static", "Only with two arrays"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Which monthlyPay runs for an Hourly in the array?"
+pick = ["Employee's, which has no body", "Hourly's", "Salaried's", "The first one written"]
+answer = 1

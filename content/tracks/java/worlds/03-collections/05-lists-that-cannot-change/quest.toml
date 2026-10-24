@@ -1,0 +1,29 @@
+title = "Lists that cannot change"
+summary = "List.of is read-only, and List.copyOf takes a snapshot that later changes cannot touch."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["list", "immutable"]
+
+[[objectives]]
+test = "openingDaysAreReadOnly"
+label = "openingDays returns Mon, Tue, Wed as a list that refuses changes"
+[[objectives]]
+test = "snapshotIgnoresLaterChanges"
+label = "snapshot returns a read-only copy that does not follow later changes"
+
+[[hints]]
+text = "openingDays: `return List.of(\"Mon\", \"Tue\", \"Wed\");`."
+[[hints]]
+text = "snapshot: `return List.copyOf(source);`. It copies the items, so the copy no longer follows the original."
+
+[[points]]
+after = 2
+prompt = "What happens when you add to a List.of list?"
+pick = ["It grows like an ArrayList", "It stops with UnsupportedOperationException", "Nothing: the add is ignored", "It does not compile"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Take a read-only snapshot."
+code = "List<String> frozen = List.___(source);"
+blank = "copyOf"

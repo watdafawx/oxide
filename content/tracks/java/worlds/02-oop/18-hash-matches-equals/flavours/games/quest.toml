@@ -1,0 +1,25 @@
+title = "A hash that matches equals"
+summary = "Override hashCode with the same fields as equals, so a HashSet finds the same block twice."
+
+[[objectives]]
+test = "equalPositionsHaveEqualHashCodes"
+label = "Equal BlockPos objects have equal hash codes"
+[[objectives]]
+test = "hashSetFindsEqualPosition"
+label = "A HashSet finds an equal BlockPos and holds it only once"
+
+[[hints]]
+text = "`hashCode` must use exactly the fields `equals` compares. `Objects.hash(...)` takes them all and mixes them into one number."
+[[hints]]
+text = "`return Objects.hash(x, y, z);`"
+
+[[points]]
+after = 2
+prompt = "If a.equals(b), what must also match?"
+pick = ["toString()", "hashCode()", "the variable names", "nothing else"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Mix the fields into one hash number."
+code = "return Objects.___(x, z);"
+blank = "hash"

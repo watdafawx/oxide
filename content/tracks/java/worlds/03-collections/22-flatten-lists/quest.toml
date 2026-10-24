@@ -1,0 +1,26 @@
+title = "Flatten lists"
+summary = "Turn a list of lists into one list with flatMap."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["stream", "flatMap"]
+
+[[objectives]]
+test = "allItemsFlattensEveryOrder"
+label = "allItems turns a list of orders (each a list of items) into one list, in order"
+
+[[hints]]
+text = "Each order is a `List<String>`, and `List::stream` turns one into a stream. `flatMap` takes exactly that."
+[[hints]]
+text = "`return orders.stream().flatMap(List::stream).toList();`"
+
+[[points]]
+after = 2
+prompt = "Which step turns each item into a stream and glues them together?"
+pick = ["flatMap", "map", "filter", "collect"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Turn each inner list into a stream."
+code = "orders.stream().flatMap(___).toList();"
+blank = "List::stream"

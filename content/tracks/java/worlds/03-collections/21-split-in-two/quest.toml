@@ -1,0 +1,26 @@
+title = "Split in two"
+summary = "partitioningBy sorts a stream into a true pile and a false pile, both always there."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["stream", "collectors", "partitioningBy"]
+
+[[objectives]]
+test = "passFailSplitsAtFifty"
+label = "passFail puts scores of 50 or more under true and the rest under false, both keys always present"
+
+[[hints]]
+text = "`collect(partitioningBy(rule))`, where the rule is a lambda that is true for a score of 50 or more."
+[[hints]]
+text = "`return scores.stream().collect(partitioningBy(s -> s >= 50));`"
+
+[[points]]
+after = 1
+prompt = "How many keys does a partitioningBy map have?"
+pick = ["One per item", "As many as there are matches", "None when the stream is empty", "Exactly two: true and false"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Split the scores into two piles."
+code = "scores.stream().collect(___(s -> s >= 50));"
+blank = "partitioningBy"

@@ -1,0 +1,29 @@
+title = "Set once, never again"
+summary = "Mark the fields that must never change after the constructor with final."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["classes", "final"]
+
+[[objectives]]
+test = "ownerIsFinal"
+label = "The owner field is final"
+[[objectives]]
+test = "depositAddsToBalance"
+label = "deposit(n) adds n to the balance, which stays changeable"
+
+[[hints]]
+text = "`final` goes after `private` on the owner line only. The balance has to change in `deposit`, so it cannot be final."
+[[hints]]
+text = "`private final String owner;`. In `deposit`: `this.balance = this.balance + cents;`."
+
+[[points]]
+after = 1
+prompt = "Where may a final field get its value?"
+pick = ["In any method", "In the constructor", "Nowhere", "Only in a test"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which field should be final?"
+pick = ["A balance that changes", "The account's owner", "A visitor count", "A loop counter"]
+answer = 1

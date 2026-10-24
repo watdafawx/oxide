@@ -1,0 +1,25 @@
+title = "What runs when you write new"
+summary = "A constructor, so every item stack starts with an item and a valid count."
+
+[[objectives]]
+test = "constructorSetsItemAndCount"
+label = "new ItemStack(\"oak_log\", 17) holds 17 oak_log"
+[[objectives]]
+test = "overfullStackIsCappedAt64"
+label = "A count above 64 starts the stack at 64"
+
+[[hints]]
+text = "Everything goes in the constructor, the block named `ItemStack` with no return type. Set both fields from the parameters `name` and `amount`."
+[[hints]]
+text = "`item = name;` then `if (amount > 64) { count = 64; } else { count = amount; }`."
+
+[[points]]
+after = 1
+prompt = "When does a constructor run?"
+pick = ["Every time a method is called", "Once, inside new", "When the server stops", "Only when the checker asks"]
+answer = 1
+[[points]]
+after = 2
+prompt = "What does a constructor have that a method does not?"
+pick = ["The class's own name, and no return type", "Two return types", "The word static", "A semicolon after the name"]
+answer = 0

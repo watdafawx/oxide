@@ -1,0 +1,29 @@
+title = "Your first stream"
+summary = "Say what you want, not how to loop: stream, filter, toList."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["stream", "filter"]
+
+[[objectives]]
+test = "passingKeepsPlayersAtOrAboveMin"
+label = "passing keeps the players with a score of at least min, in order"
+[[objectives]]
+test = "longWordsKeepsWordsLongerThanN"
+label = "longWords keeps the words longer than n, in order"
+
+[[hints]]
+text = "Both are one line: `list.stream()`, then `.filter(...)` with a lambda, then `.toList()`."
+[[hints]]
+text = "`return players.stream().filter(p -> p.score() >= min).toList();` and `return words.stream().filter(w -> w.length() > n).toList();`"
+
+[[points]]
+after = 2
+prompt = "Which step keeps the items that match a rule?"
+pick = ["filter", "map", "toList", "sort"]
+answer = 0
+[[points]]
+after = 4
+prompt = "When does a stream do its work?"
+pick = ["At stream()", "At each filter", "At the last step, like toList()", "Never, it only plans"]
+answer = 2

@@ -1,0 +1,25 @@
+title = "Your first stream"
+summary = "Say what you want, not how to loop: stream, filter, toList."
+
+[[objectives]]
+test = "outdatedKeepsModsBehindLatest"
+label = "outdated keeps the mods that are not on their latest version, in pack order"
+[[objectives]]
+test = "onLoaderKeepsModsForThatLoader"
+label = "onLoader keeps the mods that use the given loader, in pack order"
+
+[[hints]]
+text = "Both are one line: `mods.stream()`, then `.filter(...)` with a lambda, then `.toList()`."
+[[hints]]
+text = "`return mods.stream().filter(m -> !m.version().equals(latest.get(m.id()))).toList();` and `return mods.stream().filter(m -> m.loader().equals(loader)).toList();`"
+
+[[points]]
+after = 2
+prompt = "Which step keeps the items that match a rule?"
+pick = ["filter", "map", "toList", "sort"]
+answer = 0
+[[points]]
+after = 4
+prompt = "When does a stream do its work?"
+pick = ["At stream()", "At each filter", "At the last step, like toList()", "Never, it only plans"]
+answer = 2

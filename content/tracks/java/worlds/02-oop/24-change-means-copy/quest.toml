@@ -1,0 +1,29 @@
+title = "Change means copy"
+summary = "A record never changes, so withGrams hands back a new parcel instead."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["records", "immutability"]
+
+[[objectives]]
+test = "withMethodReturnsCopy"
+label = "withGrams(n) returns a new Parcel and leaves the original alone"
+[[objectives]]
+test = "copyFollowsTheSameRules"
+label = "withGrams(-5) is refused, because the copy goes through the constructor"
+
+[[hints]]
+text = "Inside a record you can read the components directly. Build the copy with `new`, the old label and the new weight."
+[[hints]]
+text = "`return new Parcel(label, newGrams);`"
+
+[[points]]
+after = 1
+prompt = "How do you \"change\" a record?"
+pick = ["Assign to its field", "Build a new one with the new value", "Call a setter", "Make the field static"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Why is withGrams(-5) refused for free?"
+pick = ["The copy goes through the compact constructor", "Records reject all negative numbers", "with methods check by themselves", "It is not refused"]
+answer = 0

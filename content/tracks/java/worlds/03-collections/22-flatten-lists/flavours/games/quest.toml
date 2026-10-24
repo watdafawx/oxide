@@ -1,0 +1,22 @@
+title = "Flatten lists"
+summary = "Turn every instance's mod list into one list with flatMap."
+
+[[objectives]]
+test = "allModsFlattensEveryInstance"
+label = "allMods turns a list of instances (each a list of mods) into one list, in order"
+
+[[hints]]
+text = "Each instance is a `List<Mod>`, and `List::stream` turns one into a stream. `flatMap` takes exactly that."
+[[hints]]
+text = "`return instances.stream().flatMap(List::stream).toList();`"
+
+[[points]]
+after = 2
+prompt = "Which step turns each item into a stream and glues them together?"
+pick = ["flatMap", "map", "filter", "collect"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Turn each inner list into a stream."
+code = "instances.stream().flatMap(___).toList();"
+blank = "List::stream"

@@ -1,0 +1,25 @@
+title = "Events the compiler counts"
+summary = "Seal Event to three records, then switch over the kind with no default."
+
+[[objectives]]
+test = "eventIsSealed"
+label = "Event is sealed to exactly PlayerJoined, BlockBroken and ItemDropped"
+[[objectives]]
+test = "chatLineForEveryEventType"
+label = "Chat.line handles all three events with no default"
+
+[[hints]]
+text = "In `Event.java`: `sealed` before `interface`, and `permits` with the three records after the name. In `line`: `return switch (event) { ... };` with one `case PlayerJoined e ->` style line per record."
+[[hints]]
+text = "`public sealed interface Event permits PlayerJoined, BlockBroken, ItemDropped {}` and `case PlayerJoined e -> e.player() + \" joined the game\"; case BlockBroken e -> e.player() + \" broke \" + e.block(); case ItemDropped e -> e.count() + \" x \" + e.item() + \" dropped\";`"
+
+[[points]]
+after = 3
+prompt = "Which word lists the allowed kinds?"
+pick = ["implements", "permits", "extends", "case"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Match a Welcome and name it w."
+code = "case ___ -> \"Hello \" + w.player();"
+blank = "Welcome w"

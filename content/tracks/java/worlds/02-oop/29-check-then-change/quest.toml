@@ -1,0 +1,29 @@
+title = "Check, then change"
+summary = "Throw before you touch anything, so a refused payment leaves both wallets as they were."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["throw", "exceptions", "encapsulation"]
+
+[[objectives]]
+test = "overspendingThrowsAndChangesNothing"
+label = "spend(more than there is) throws NotEnoughMoneyException and changes nothing"
+[[objectives]]
+test = "refusedPaymentChangesNeitherWallet"
+label = "A refused pay leaves both wallets unchanged; an allowed one moves the money"
+
+[[hints]]
+text = "In `spend`, an `if` that throws comes before the subtraction. In `pay`, swap the two lines so `spend` runs, and maybe throws, before `to` gets anything."
+[[hints]]
+text = "`if (amount > cents) { throw new NotEnoughMoneyException(owner + \" has \" + cents + \" cents, not \" + amount); }`. In `pay`: `spend(amount);` then `to.cents += amount;`."
+
+[[points]]
+after = 2
+prompt = "Which class does your own exception extend?"
+pick = ["Object", "RuntimeException", "String", "Wallet"]
+answer = 1
+[[points]]
+after = 4
+prompt = "In pay, which line goes first?"
+pick = ["to.cents += amount;", "spend(amount);", "Either, the result is the same", "return;"]
+answer = 1

@@ -1,0 +1,25 @@
+title = "A half-finished parent"
+summary = "An abstract Mob shares the name field and makes every mob say how hard it hits."
+
+[[objectives]]
+test = "zombieHitsForThree"
+label = "A Zombie hits for 3"
+[[objectives]]
+test = "skeletonHitsTwoPerArrow"
+label = "A Skeleton hits for 2 per arrow"
+
+[[hints]]
+text = "`Mob` declares `attackDamage()` with no body. Fill in the body in each child, using its own fields."
+[[hints]]
+text = "`return 3;` in `Zombie`, `return arrows * 2;` in `Skeleton`."
+
+[[points]]
+after = 1
+prompt = "Which word makes a class that cannot be built with new?"
+pick = ["final", "abstract", "static", "private"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Declare a method every child must write."
+code = "public ___ int durability();"
+blank = "abstract"

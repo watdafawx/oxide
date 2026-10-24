@@ -1,0 +1,25 @@
+title = "A list that grows"
+summary = "Collect your modpack's mods in an ArrayList that makes room as you add."
+
+[[objectives]]
+test = "starterPackKeepsAddOrder"
+label = "starterPack returns sodium, iris, lithium in that order"
+[[objectives]]
+test = "placeholdersGrowPastAnySize"
+label = "placeholderNames(100) builds mod0 to mod99 in a loop"
+
+[[hints]]
+text = "Start each method with `ArrayList<String> mods = new ArrayList<>();`, call `add`, and return the list."
+[[hints]]
+text = "placeholderNames: `for (int i = 0; i < count; i++) { mods.add(\"mod\" + i); }` then `return mods;`."
+
+[[points]]
+after = 2
+prompt = "Which call puts a mod at the end of the list?"
+pick = ["push", "append", "add", "put"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Say what the list holds."
+code = "ArrayList<___> mods = new ArrayList<>();"
+blank = "String"

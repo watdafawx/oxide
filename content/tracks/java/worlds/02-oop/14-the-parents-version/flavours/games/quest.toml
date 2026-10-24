@@ -1,0 +1,25 @@
+title = "The parent's version"
+summary = "super: hand values to Mob's constructor and build on Mob's describe()."
+
+[[objectives]]
+test = "zombieStartsWith20Hp"
+label = "new Zombie(\"Bob\") has 20 hp"
+[[objectives]]
+test = "zombieDescriptionKeepsMobPrefix"
+label = "Zombie's describe() is Mob's text plus \" burns in daylight\""
+
+[[hints]]
+text = "In the constructor, pass 20 instead of 0. For `describe`, write an `@Override` method that starts from `super.describe()`."
+[[hints]]
+text = "`super(name, 20);` and `@Override public String describe() { return super.describe() + \" burns in daylight\"; }`."
+
+[[points]]
+after = 1
+prompt = "Run the parent's constructor first."
+code = "public Cat(String name) {\n    ___(name, 9);\n}"
+blank = "super"
+[[points]]
+after = 3
+prompt = "What does super.describe() run?"
+pick = ["The child's describe again", "The parent's describe", "Every describe in the mod", "Nothing, it is only a name"]
+answer = 1

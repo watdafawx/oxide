@@ -1,0 +1,29 @@
+title = "A Dog is an Animal"
+summary = "extends: Dog starts from everything Animal has and replaces only its sound."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["inheritance", "override"]
+
+[[objectives]]
+test = "dogOverridesSound"
+label = "A Dog's sound() is \"Woof\", and it still has Animal's name()"
+[[objectives]]
+test = "parentCodeUsesTheDogsSound"
+label = "Animal's describe() on a Dog says \"Rex says Woof\""
+
+[[hints]]
+text = "Add a method to `Dog` with exactly the same first line as `sound()` in `Animal`, with `@Override` above it."
+[[hints]]
+text = "`@Override public String sound() { return \"Woof\"; }` inside `Dog`."
+
+[[points]]
+after = 1
+prompt = "Which word means \"is a\"?"
+pick = ["implements", "extends", "static", "this"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Animal's describe() calls sound() on a Dog. Whose sound runs?"
+pick = ["Animal's \"...\"", "Dog's \"Woof\"", "Both, one after the other", "Neither, it is an error"]
+answer = 1

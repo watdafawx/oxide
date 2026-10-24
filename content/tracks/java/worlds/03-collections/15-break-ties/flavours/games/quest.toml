@@ -1,0 +1,22 @@
+title = "Break ties"
+summary = "Group the mod list by loader, then A to Z inside each loader, with thenComparing."
+
+[[objectives]]
+test = "byLoaderThenNameBreaksTiesAtoZ"
+label = "byLoaderThenName sorts by loader A to Z, and mods of the same loader A to Z by name"
+
+[[hints]]
+text = "Start from `Comparator.comparing(Mod::loader)` and add `.thenComparing(...)` after it."
+[[hints]]
+text = "`copy.sort(Comparator.comparing(Mod::loader).thenComparing(Mod::name)); return copy;`"
+
+[[points]]
+after = 1
+prompt = "Which call adds a tie-break?"
+pick = ["reversed", "comparing", "thenComparing", "sort"]
+answer = 2
+[[points]]
+after = 2
+prompt = "In comparing(A).thenComparing(B).reversed(), what does reversed flip?"
+pick = ["Only B", "Only A", "Both A and B", "Nothing"]
+answer = 2

@@ -1,0 +1,29 @@
+title = "Numbers need a box"
+summary = "Keep whole numbers in a List<Integer>, and let Java box and unbox them."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["list", "boxing", "integer"]
+
+[[objectives]]
+test = "totalAddsEveryScore"
+label = "total adds up every score in the list"
+[[objectives]]
+test = "curvedAddsBonusToEach"
+label = "curved returns a new list with the bonus added to every score"
+
+[[hints]]
+text = "total: an `int` running total and `for (int s : scores)`. curved: a new `List<Integer>`, and `add(s + bonus)` for each score."
+[[hints]]
+text = "curved: `List<Integer> out = new ArrayList<>(); for (int s : scores) { out.add(s + bonus); } return out;`"
+
+[[points]]
+after = 3
+prompt = "Which type goes in the brackets for whole numbers?"
+pick = ["int", "long", "Number", "Integer"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Java turning an int into an Integer on the way in is called..."
+pick = ["casting", "boxing", "widening", "parsing"]
+answer = 1
