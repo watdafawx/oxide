@@ -1,0 +1,29 @@
+title = "Click now, act after"
+summary = "Open the clicked quest without fighting the borrow checker: remember the click inside the loop, act after it."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["egui", "borrowing", "e0502"]
+
+[[objectives]]
+test = "clicking_a_quest_opens_it"
+label = "clicking the Loops button opens Loops, once"
+[[objectives]]
+test = "clicking_another_switches_to_it"
+label = "clicking Variables afterwards switches the open quest to Variables"
+
+[[hints]]
+text = "Before the loop: `let mut clicked: Option<String> = None;`. Inside the `if`, only store a copy of the title. After the loop, when `clicked` holds a title, call `self.open_quest(..)` with it."
+[[hints]]
+text = "Inside the `if`: `clicked = Some(title.clone());`. After the `for` loop: `if let Some(title) = clicked { self.open_quest(&title); }`."
+
+[[points]]
+after = 2
+prompt = "Why does self.open_quest(title) inside the loop fail?"
+pick = ["open_quest is private", "The loop still borrows self.titles while open_quest wants all of self mutably", "Buttons cannot call methods", "title is a number"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Remember the click for after the loop."
+code = "if ui.button(title.as_str()).clicked() {\n    clicked = ___;\n}"
+blank = "Some(title.clone())"

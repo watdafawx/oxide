@@ -1,0 +1,29 @@
+title = "Read every row"
+summary = "Turn a SELECT with many rows into a Vec: prepare, query_map, collect."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["rusqlite", "sql", "query_map"]
+
+[[objectives]]
+test = "list_quests_returns_every_row_in_id_order"
+label = "list_quests() gives every row as a QuestRow, oldest id first"
+[[objectives]]
+test = "biggest_first_sorts_titles_by_xp"
+label = "biggest_first() gives the titles, highest XP first"
+
+[[hints]]
+text = "Three steps: `let mut stmt = conn.prepare(sql)?;`, then `stmt.query_map([], |row| ...)?`, then `.collect()`. Inside the closure, each `row.get(n)?` reads one column; wrap the finished `QuestRow` in `Ok(..)`."
+[[hints]]
+text = "`let mut stmt = conn.prepare(\"SELECT id, title, xp FROM quests ORDER BY id\")?;` then `stmt.query_map([], |row| Ok(QuestRow { id: row.get(0)?, title: row.get(1)?, xp: row.get(2)? }))?.collect()`. For `biggest_first`: `\"SELECT title FROM quests ORDER BY xp DESC\"` and `|row| row.get(0)`."
+
+[[points]]
+after = 2
+prompt = "What does query_map hand back?"
+pick = ["A Vec of rows, ready to use", "One Result per row, one after the other", "Only the first row", "The number of rows"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Turn the rows into Result<Vec<_>>."
+code = "stmt.query_map([], |row| row.get(0))?.___()"
+blank = "collect"

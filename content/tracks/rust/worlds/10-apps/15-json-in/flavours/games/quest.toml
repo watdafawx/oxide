@@ -1,0 +1,25 @@
+title = "JSON in"
+summary = "Read a JSON request body into a struct with the Json extractor, and let axum refuse the wrong shape."
+
+[[objectives]]
+test = "total_size_adds_the_files"
+label = "POST /total-size with {\"sizes_mb\": [120, 30]} answers {\"total_mb\": 150}"
+[[objectives]]
+test = "a_body_of_the_wrong_shape_is_refused"
+label = "a body without a sizes_mb list is refused with 422 before your code runs"
+
+[[hints]]
+text = "The body is an extractor too: give `total_size` the parameter `Json(req): Json<SizesRequest>`. Then add up `req.sizes_mb` with `.iter().sum()` and answer with a `Total` as JSON."
+[[hints]]
+text = "`async fn total_size(Json(req): Json<SizesRequest>) -> Json<Total> { Json(Total { total_mb: req.sizes_mb.iter().sum() }) }`."
+
+[[points]]
+after = 1
+prompt = "Which derive does the request body's struct need?"
+pick = ["Serialize", "Deserialize", "Clone", "Default"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Read the body into req."
+code = "async fn install(___: Json<Install>) -> Json<Total>"
+blank = "Json(req)"

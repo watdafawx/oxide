@@ -1,0 +1,21 @@
+title = "How a screen is drawn"
+summary = "Frames, widgets and the event loop; immediate mode (egui) against retained mode; and what a webview (Tauri) is."
+kind = "read"
+xp = 15
+minutes = 5
+tags = ["ui", "egui", "tauri", "immediate-mode"]
+
+[[quiz]]
+question = "In egui, how does the XP label change after you earn 50 XP?"
+choices = ["You call a setter on the label widget you created earlier", "Your ui function runs again on the next frame and draws the label from the new XP", "egui watches the variable and redraws the label by itself"]
+answer = 1
+
+[[quiz]]
+question = "Oxide's screen is already a polished web page (HTML, CSS, Svelte), and Rust does the files and database. Which stack fits?"
+choices = ["Tauri: a webview shows the page, and Rust commands do the native work", "egui, because it can open the web page's HTML files directly", "Neither: a desktop app cannot use a web page as its screen"]
+answer = 0
+
+[[quiz]]
+question = "Why can egui screens be tested without opening a window?"
+choices = ["Because egui never draws anything, it only prints text", "Because the screen is just your function reading your state, so a test can run it and click by label", "Because tests use a screenshot of the real window"]
+answer = 1

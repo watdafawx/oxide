@@ -1,0 +1,29 @@
+title = "JSON in"
+summary = "Read a JSON request body into a struct with the Json extractor, and let axum refuse the wrong shape."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["axum", "json", "extractors"]
+
+[[objectives]]
+test = "xp_total_adds_the_amounts"
+label = "POST /xp-total with {\"amounts\": [50, 30]} answers {\"total\": 80}"
+[[objectives]]
+test = "a_body_of_the_wrong_shape_is_refused"
+label = "a body without an amounts list is refused with 422 before your code runs"
+
+[[hints]]
+text = "The body is an extractor too: give `xp_total` the parameter `Json(req): Json<XpRequest>`. Then add up `req.amounts` with `.iter().sum()` and answer with a `Total` as JSON."
+[[hints]]
+text = "`async fn xp_total(Json(req): Json<XpRequest>) -> Json<Total> { Json(Total { total: req.amounts.iter().sum() }) }`."
+
+[[points]]
+after = 1
+prompt = "Which derive does the request body's struct need?"
+pick = ["Serialize", "Deserialize", "Clone", "Default"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Read the body into req."
+code = "async fn award(___: Json<Award>) -> Json<Total>"
+blank = "Json(req)"

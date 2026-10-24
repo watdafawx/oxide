@@ -121,7 +121,7 @@ taught here and go in `docs/tracks/gpui-terms.md`.
 | `00-setup/01-what-gpui-is` | `rust/05-traits/21-boss-shape-renderer` (traits, closures, `impl Trait`) |
 | `03-live/01-state-in-a-view` | `02-views/12-boss-static-bar`, `rust/06-smart-pointers/17-boss-tree-editor`, `rust/08-async/25-boss-mod-downloader` |
 | `04-sensors/01-what-needs-admin` | `03-live/13-boss-live-bar`, `rust/07-concurrency/24-boss-parallel-file-hasher` |
-| `10-dashboard/09-web-server` | `10-dashboard/08-snapshot-json`, `rust/10-apps/06-axum-json-api` |
+| `10-dashboard/09-web-server` | `10-dashboard/08-snapshot-json`, `rust/10-apps/17-remember-between-requests` |
 
 Everything else: previous quest (default).
 

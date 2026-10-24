@@ -4,7 +4,7 @@ kind = "exercise"
 xp = 45
 minutes = 7
 tags = ["axum", "tokio", "web"]
-requires = ["10-dashboard/08-snapshot-json", "rust/10-apps/06-axum-json-api"]
+requires = ["10-dashboard/08-snapshot-json", "rust/10-apps/17-remember-between-requests"]
 
 [[objectives]]
 test = "get_stats_returns_json"

@@ -1,0 +1,25 @@
+title = "Fill the download bar"
+summary = "Turn megabytes into a fraction between 0 and 1 with as f32 and clamp, and draw it as an egui ProgressBar."
+
+[[objectives]]
+test = "fraction_is_progress_through_the_download"
+label = "download_fraction(25, 100) is 0.25, never below 0 or above 1, and 0.0 when total_mb is 0"
+[[objectives]]
+test = "the_bar_screen_shows_text_and_bar"
+label = "DownloadBar's screen shows 40 / 100 MB and a progress bar"
+
+[[hints]]
+text = "`download_fraction`: return `0.0` early when `total_mb == 0`; otherwise turn both numbers into `f32` with `as`, divide, and `.clamp(0.0, 1.0)`. In `ui`: a `ui.label(format!(..))`, then `ui.add(egui::ProgressBar::new(..))`."
+[[hints]]
+text = "`if total_mb == 0 { return 0.0; } (done_mb as f32 / total_mb as f32).clamp(0.0, 1.0)` and `ui.label(format!(\"{} / {} MB\", self.done_mb, self.total_mb)); ui.add(egui::ProgressBar::new(download_fraction(self.done_mb, self.total_mb)));`"
+
+[[points]]
+after = 3
+prompt = "What is 2.5_f32.clamp(0.0, 1.0)?"
+pick = ["2.5", "0.0", "1.0", "a panic"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Draw a widget you built yourself."
+code = "ui.___(egui::ProgressBar::new(0.4));"
+blank = "add"

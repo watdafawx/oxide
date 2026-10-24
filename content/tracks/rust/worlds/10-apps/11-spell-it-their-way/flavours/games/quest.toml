@@ -1,0 +1,25 @@
+title = "Spell it the mod site's way"
+summary = "Rename enum variants and a field with serde attributes, so Rust names and the mod site's JSON names can differ."
+
+[[objectives]]
+test = "statuses_are_lowercase_words"
+label = "ModStatus::NotInstalled is written as \"notinstalled\", ModStatus::Enabled as \"enabled\""
+[[objectives]]
+test = "the_kind_field_is_called_type"
+label = "ModFile's kind field is written and read as \"type\""
+
+[[hints]]
+text = "Both are attributes, no code: `rename_all` goes above the enum and changes every variant; `rename` goes above one field and changes just that key."
+[[hints]]
+text = "Above `pub enum ModStatus`: `#[serde(rename_all = \"lowercase\")]`. Above `pub kind: String,`: `#[serde(rename = \"type\")]`."
+
+[[points]]
+after = 1
+prompt = "How does serde write ModStatus::NotInstalled with no attribute?"
+pick = ["\"notinstalled\"", "\"NotInstalled\"", "2", "\"not_installed\""]
+answer = 1
+[[points]]
+after = 3
+prompt = "Write this field as the key \"type\"."
+code = "___\npub kind: String,"
+blank = "#[serde(rename = \"type\")]"

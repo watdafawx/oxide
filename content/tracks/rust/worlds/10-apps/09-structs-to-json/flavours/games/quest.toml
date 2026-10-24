@@ -1,0 +1,25 @@
+title = "A modpack profile to JSON and back"
+summary = "Derive Serialize and Deserialize so the ModpackProfile turns into JSON text and back with serde_json."
+
+[[objectives]]
+test = "to_json_writes_every_field"
+label = "to_json(&profile) writes name, mod_count, favourites and last_played (null when None)"
+[[objectives]]
+test = "from_json_reads_it_back"
+label = "from_json reads JSON text into a ModpackProfile, and to_json then from_json gives the same profile"
+
+[[hints]]
+text = "Add `Serialize, Deserialize` to the `#[derive(..)]` line of `ModpackProfile`. Then each function is one serde_json call: `to_string` takes a reference to the value, `from_str` takes the text."
+[[hints]]
+text = "`#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]`, then `serde_json::to_string(profile)` in `to_json` and `serde_json::from_str(json)` in `from_json`."
+
+[[points]]
+after = 1
+prompt = "Which derive lets serde read JSON into the struct?"
+pick = ["Serialize", "Debug", "Deserialize", "Clone"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Turn the value into JSON text."
+code = "let json = serde_json::___(&world)?;"
+blank = "to_string"

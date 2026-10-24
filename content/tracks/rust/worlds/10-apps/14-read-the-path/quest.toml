@@ -1,0 +1,29 @@
+title = "Read the path, answer in JSON"
+summary = "Take a number out of GET /level/{xp} with the Path extractor and answer with Json."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["axum", "path", "json", "extractors"]
+
+[[objectives]]
+test = "level_route_answers_in_json"
+label = "GET /level/250 answers 200 with {\"xp\": 250, \"level\": 3}"
+[[objectives]]
+test = "a_path_that_is_not_a_number_is_400"
+label = "GET /level/lots is refused with 400 Bad Request"
+
+[[hints]]
+text = "Give `level` the parameter `Path(xp): Path<u32>` and return `Json(LevelInfo { .. })` using `level_for(xp)`. Then add a second `.route(..)` to `app` with the path `/level/{xp}`."
+[[hints]]
+text = "`async fn level(Path(xp): Path<u32>) -> Json<LevelInfo> { Json(LevelInfo { xp, level: level_for(xp) }) }` and `.route(\"/level/{xp}\", get(level))`."
+
+[[points]]
+after = 2
+prompt = "Which extractor reads the {xp} part of /level/{xp}?"
+pick = ["Json", "Path", "State", "Body"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Answer with this value as JSON."
+code = "async fn streak(Path(days): Path<u32>) -> Json<Streak> {\n    ___(Streak { days })\n}"
+blank = "Json"

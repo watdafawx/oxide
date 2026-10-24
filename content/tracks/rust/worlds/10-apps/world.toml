@@ -1,2 +1,3 @@
 title = "Apps"
-blurb = "Real app plumbing: SQLite, JSON, web APIs, and egui and Tauri screens, ending with Oxide's own UI in Rust."
+blurb = "Tables and SQL, JSON, a small web API, and screens in egui and Tauri, ending with Oxide's own home screen in Rust."
+project = "Oxide's progress app (games: a mod manager)"

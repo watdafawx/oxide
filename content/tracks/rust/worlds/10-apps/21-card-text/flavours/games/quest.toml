@@ -1,0 +1,25 @@
+title = "Text for a mod card"
+summary = "Turn mod rows into the lines the screen will draw, as plain functions. A quick win."
+
+[[objectives]]
+test = "card_line_shows_a_checkbox"
+label = "card_line gives \"[x] sodium\" for an enabled mod and \"[ ] sodium\" for a disabled one"
+[[objectives]]
+test = "pack_summary_counts_enabled_mods"
+label = "pack_summary gives \"2 of 3 mods enabled\""
+
+[[hints]]
+text = "`if enabled { .. } else { .. }` picks the mark, and `format!` joins it to the name. For the summary, count the pairs whose bool is true with `.iter().filter(..).count()`."
+[[hints]]
+text = "`let mark = if enabled { \"[x]\" } else { \"[ ]\" }; format!(\"{mark} {name}\")` and `let on = mods.iter().filter(|(_, e)| *e).count(); format!(\"{on} of {} mods enabled\", mods.len())`."
+
+[[points]]
+after = 1
+prompt = "Pick the mark with an if expression."
+code = "let mark = ___;"
+blank = "if enabled { \"[x]\" } else { \"[ ]\" }"
+[[points]]
+after = 2
+prompt = "In |(_, e)|, what does the _ do?"
+pick = ["Skips the first half of the pair", "Matches only empty names", "Counts the pair twice", "Turns the name into a bool"]
+answer = 0

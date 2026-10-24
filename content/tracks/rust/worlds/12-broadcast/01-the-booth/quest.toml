@@ -4,7 +4,7 @@ kind = "read"
 xp = 15
 minutes = 4
 tags = ["broadcast", "overview"]
-requires = ["10-apps/11-boss-oxide-in-rust"]
+requires = ["10-apps/28-boss-oxide-in-rust"]
 
 [[quiz]]
 question = "The goal just went in and a two-second animation of the scorer's name fills the screen. What is that called?"

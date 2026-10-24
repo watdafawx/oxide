@@ -1,0 +1,25 @@
+title = "Click now, act after"
+summary = "Select the clicked mod without fighting the borrow checker: remember the click inside the loop, act after it."
+
+[[objectives]]
+test = "clicking_a_mod_selects_it"
+label = "clicking the sodium button selects sodium, once"
+[[objectives]]
+test = "clicking_another_switches_to_it"
+label = "clicking iris afterwards switches the selection to iris"
+
+[[hints]]
+text = "Before the loop: `let mut clicked: Option<String> = None;`. Inside the `if`, only store a copy of the name. After the loop, when `clicked` holds a name, call `self.select(..)` with it."
+[[hints]]
+text = "Inside the `if`: `clicked = Some(name.clone());`. After the `for` loop: `if let Some(name) = clicked { self.select(&name); }`."
+
+[[points]]
+after = 2
+prompt = "Why does self.select(name) inside the loop fail?"
+pick = ["select is private", "The loop still borrows self.names while select wants all of self mutably", "Buttons cannot call methods", "name is a number"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Remember the click for after the loop."
+code = "if ui.button(name.as_str()).clicked() {\n    clicked = ___;\n}"
+blank = "Some(name.clone())"

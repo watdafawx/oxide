@@ -1,0 +1,32 @@
+title = "A screen you can test"
+summary = "Draw the daily-goal picker with egui buttons and a label, and click them from a test without a window."
+kind = "exercise"
+xp = 55
+minutes = 8
+tags = ["egui", "kittest", "ui", "testing"]
+
+[[objectives]]
+test = "plus_button_raises_the_goal"
+label = "the screen shows Daily goal: 3, and clicking + makes it Daily goal: 4"
+[[objectives]]
+test = "minus_button_never_goes_below_one"
+label = "clicking - lowers the goal but never below 1"
+[[objectives]]
+test = "reset_button_goes_back_to_three"
+label = "the Reset button sets the goal back to 3"
+
+[[hints]]
+text = "In `ui`: `ui.horizontal(|ui| { .. })` holds the `-` button, the label and the `+` button; the Reset button goes after it. Each button is `if ui.button(\"..\").clicked() { self.method(); }`, and the label is `ui.label(self.label())`."
+[[hints]]
+text = "`ui.horizontal(|ui| { if ui.button(\"-\").clicked() { self.fewer(); } ui.label(self.label()); if ui.button(\"+\").clicked() { self.more(); } }); if ui.button(\"Reset\").clicked() { self.reset(); }`"
+
+[[points]]
+after = 3
+prompt = "When is ui.button(\"+\").clicked() true?"
+pick = ["On every frame after the first click", "On the frame the button was clicked", "Only inside a test", "When the mouse is over it"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Click the button from the test."
+code = "harness.get_by_label(\"+\").___();"
+blank = "click"

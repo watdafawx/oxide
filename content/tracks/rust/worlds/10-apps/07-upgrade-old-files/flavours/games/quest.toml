@@ -1,0 +1,25 @@
+title = "Next month's manager, this month's mods"
+summary = "Number the database's shape with user_version and upgrade old mod files one step at a time."
+
+[[objectives]]
+test = "migrate_builds_the_latest_mod_schema"
+label = "migrate() on a new database ends at version 2 with a favourite column, and is safe to run twice"
+[[objectives]]
+test = "migrate_upgrades_an_old_file_and_keeps_mods"
+label = "migrate() upgrades a version-1 database without losing its mods"
+
+[[hints]]
+text = "Inside one transaction: read `version(&tx)?`, then `if v < 1 { ... }` creates the table and `if v < 2 { ... }` adds the column. Write the new number with `tx.pragma_update(None, \"user_version\", 2)?` and finish with `tx.commit()`."
+[[hints]]
+text = "`if v < 1 { tx.execute(\"CREATE TABLE mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)\", [])?; }` and `if v < 2 { tx.execute(\"ALTER TABLE mods ADD COLUMN favourite INTEGER NOT NULL DEFAULT 0\", [])?; }`."
+
+[[points]]
+after = 2
+prompt = "An old database is at version 1. Which steps run?"
+pick = ["Only the v < 2 step", "Both steps, every time", "Only the v < 1 step", "None: it is already migrated"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Write the new version number."
+code = "tx.___(None, \"user_version\", 2)?;"
+blank = "pragma_update"

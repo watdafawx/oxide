@@ -1,0 +1,29 @@
+title = "Say no with a status"
+summary = "Answer an empty list with 400 Bad Request and a JSON error, by returning a Result from the handler."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["axum", "status-codes", "errors"]
+
+[[objectives]]
+test = "an_empty_list_is_400_with_an_error"
+label = "POST /xp-total with {\"amounts\": []} answers 400 and {\"error\": ...}"
+[[objectives]]
+test = "a_full_list_still_answers_200"
+label = "a list with amounts still answers 200 with the total"
+
+[[hints]]
+text = "Change the return type to `Result<Json<Total>, (StatusCode, Json<ApiError>)>`. Check `req.amounts.is_empty()` first and `return Err((..))`; wrap the old answer in `Ok(..)`."
+[[hints]]
+text = "`if req.amounts.is_empty() { return Err((StatusCode::BAD_REQUEST, Json(ApiError { error: \"amounts must not be empty\".into() }))); }` then `Ok(Json(Total { total: req.amounts.iter().sum() }))`."
+
+[[points]]
+after = 2
+prompt = "A handler returns Err((StatusCode::BAD_REQUEST, Json(e))). What does the client get?"
+pick = ["200 with the error inside", "500, because it is an Err", "400 with e as the JSON body", "Nothing: the request is dropped"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Pick the status for \"your request makes no sense\"."
+code = "return Err((StatusCode::___, Json(err)));"
+blank = "BAD_REQUEST"

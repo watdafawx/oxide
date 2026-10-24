@@ -1,0 +1,25 @@
+title = "One mod database behind the API"
+summary = "Share a rusqlite Connection between handlers with Arc<Mutex<..>>, and serve POST and GET /mods."
+
+[[objectives]]
+test = "adding_a_mod_returns_201_and_the_row"
+label = "POST /mods stores the mod and answers 201 with its new id"
+[[objectives]]
+test = "listing_returns_mods_in_order"
+label = "GET /mods answers every stored mod, oldest first"
+
+[[hints]]
+text = "Start each handler with `let conn = db.lock().unwrap();`, then use `conn` exactly like in the SQL quests. Put `.map_err(internal)?` after every rusqlite call, so a database error becomes a 500."
+[[hints]]
+text = "`add_mod`: `conn.execute(\"INSERT INTO mods (name) VALUES (?1)\", params![new.name]).map_err(internal)?;` then `let id = conn.last_insert_rowid();` and `Ok((StatusCode::CREATED, Json(ModRow { id, name: new.name })))`. `list_mods`: `let mut stmt = conn.prepare(\"SELECT id, name FROM mods ORDER BY id\").map_err(internal)?;` then `let mods = stmt.query_map([], |r| Ok(ModRow { id: r.get(0)?, name: r.get(1)? })).map_err(internal)?.collect::<Result<Vec<_>, _>>().map_err(internal)?;` and `Ok(Json(mods))`."
+
+[[points]]
+after = 2
+prompt = "What do handlers share the connection through?"
+pick = ["Rc<Connection>", "Arc<Mutex<Connection>>", "Box<Connection>", "a fresh Connection per request"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn a database error into a 500."
+code = "conn.execute(sql, params![id]).___(internal)?;"
+blank = "map_err"

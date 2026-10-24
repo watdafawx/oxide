@@ -1,0 +1,25 @@
+title = "Not found is 404"
+summary = "Serve GET and DELETE /mods/{id}: .optional() tells \"no such mod\" apart from a broken database."
+
+[[objectives]]
+test = "fetching_a_missing_mod_is_404"
+label = "GET /mods/{id} answers the mod, or 404 when there is no such id"
+[[objectives]]
+test = "deleting_answers_204_once_then_404"
+label = "DELETE /mods/{id} answers 204 No Content once, then 404"
+
+[[hints]]
+text = "`get_mod`: `query_row(..).optional().map_err(internal)?` gives an `Option<ModRow>`; `match` it into `Ok(Json(m))` or `Err(StatusCode::NOT_FOUND)`. `remove_mod`: `execute` gives the number of deleted rows; 0 means 404."
+[[hints]]
+text = "`let found = conn.query_row(\"SELECT id, name FROM mods WHERE id = ?1\", params![id], |r| Ok(ModRow { id: r.get(0)?, name: r.get(1)? })).optional().map_err(internal)?;` and `let deleted = conn.execute(\"DELETE FROM mods WHERE id = ?1\", params![id]).map_err(internal)?; if deleted == 0 { Err(StatusCode::NOT_FOUND) } else { Ok(StatusCode::NO_CONTENT) }`."
+
+[[points]]
+after = 2
+prompt = "What does .optional() turn \"no row\" into?"
+pick = ["Ok(None)", "Err(NotFound)", "a panic", "Ok(Some(0))"]
+answer = 0
+[[points]]
+after = 4
+prompt = "A DELETE changed 0 rows. Which status?"
+pick = ["204 No Content", "200 OK", "500 Internal Server Error", "404 Not Found"]
+answer = 3

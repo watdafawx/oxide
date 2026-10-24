@@ -1,0 +1,17 @@
+title = "What a request is, for a mod server"
+summary = "How a launcher asks a mod server for data over HTTP: method, path, body, and the status code that comes back."
+
+[[quiz]]
+question = "The launcher wants to add a new mod to the server's list. Which request fits?"
+choices = ["GET /mods with no body", "POST /mods with the mod as JSON in the body", "DELETE /mods/new"]
+answer = 1
+
+[[quiz]]
+question = "The launcher asks for GET /mods/99, and there is no mod 99. Which status should come back?"
+choices = ["404 Not Found", "200 OK with an empty body", "500 Internal Server Error"]
+answer = 0
+
+[[quiz]]
+question = "What is a route?"
+choices = ["The network cable between the launcher and the server", "A method and a path matched to the function that answers them", "The list of every request the server has seen"]
+answer = 1

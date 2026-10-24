@@ -1,0 +1,25 @@
+title = "Read the path, answer in JSON"
+summary = "Take a number out of GET /tier/{mb} with the Path extractor and answer with Json."
+
+[[objectives]]
+test = "tier_route_answers_in_json"
+label = "GET /tier/250 answers 200 with {\"mb\": 250, \"tier\": 3}"
+[[objectives]]
+test = "a_path_that_is_not_a_number_is_400"
+label = "GET /tier/lots is refused with 400 Bad Request"
+
+[[hints]]
+text = "Give `tier` the parameter `Path(mb): Path<u32>` and return `Json(TierInfo { .. })` using `tier_for(mb)`. Then add a second `.route(..)` to `app` with the path `/tier/{mb}`."
+[[hints]]
+text = "`async fn tier(Path(mb): Path<u32>) -> Json<TierInfo> { Json(TierInfo { mb, tier: tier_for(mb) }) }` and `.route(\"/tier/{mb}\", get(tier))`."
+
+[[points]]
+after = 2
+prompt = "Which extractor reads the {mb} part of /tier/{mb}?"
+pick = ["Json", "Path", "State", "Body"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Answer with this value as JSON."
+code = "async fn chunk(Path(x): Path<i32>) -> Json<Chunk> {\n    ___(Chunk { x })\n}"
+blank = "Json"

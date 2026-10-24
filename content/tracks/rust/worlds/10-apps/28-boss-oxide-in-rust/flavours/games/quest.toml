@@ -1,0 +1,48 @@
+title = "Boss: the mod manager in Rust"
+summary = "Build the mod manager's home card, pack screen and tier-up pop-up in egui, driven by a fake Api and tested without a window."
+
+[[objectives]]
+test = "mb_fraction_is_progress_through_tier"
+label = "mb_fraction(&LibraryStats) is mb_into_tier / mb_for_next, between 0 and 1"
+[[objectives]]
+test = "home_shows_next_pack_card"
+label = "Home shows Mod manager, Tier 1, 40 / 100 MB and the next pack's card with an Install button"
+[[objectives]]
+test = "install_opens_the_pack_screen"
+label = "clicking Install calls Api::open_pack and shows 0/2 mods verified"
+[[objectives]]
+test = "broken_verify_shows_zero_of_n"
+label = "Verify files with a broken result keeps every mod unticked, with no toast"
+[[objectives]]
+test = "clean_verify_ticks_all_and_shows_mb_toast"
+label = "a clean VerifyResult ticks 2/2 and its Install shows a +50 MB toast"
+[[objectives]]
+test = "tier_up_shows_modal_until_continue"
+label = "an Install that raises the tier opens the Tier up! modal; Continue closes it"
+[[objectives]]
+test = "escape_returns_home"
+label = "Esc on the pack screen goes back to Home and reloads it from the Api"
+
+[[hints]]
+text = "Go in test order. `mb_fraction` is quest 23 with `LibraryStats`; `verified_count` is `.iter().filter(..).count()` on `result.files`, comparing each `status` with `FileStatus::Verified`."
+[[hints]]
+text = "The state methods only change fields. `open`: `let detail = self.api.open_pack(id);` then `self.last = detail.last_verify.clone(); self.detail = Some(detail); self.toast = None; self.screen = Screen::Pack;`. `go_home`: `self.home = self.api.home();`, the home screen, and `None` for detail, last and toast."
+[[hints]]
+text = "`verify`: `let id = match &self.detail { Some(d) => d.pack.id.clone(), None => return };` then `let outcome = self.api.verify(&id); self.last = Some(outcome.result);` and `if let Some(install) = outcome.install { if install.mb_added > 0 { self.toast = Some(format!(\"+{} MB\", install.mb_added)); } if install.tier_after > install.tier_before { self.tier_up = Some(install); } }`."
+[[hints]]
+text = "`home_ui`: `ui.heading(\"Mod manager\")`, two `ui.label(format!(..))`, `ui.add(egui::ProgressBar::new(mb_fraction(&self.home.stats)))`, `ui.separator()`. Then `let mut install: Option<String> = None; match &self.home.next { Some(pack) => { ..; if ui.button(\"Install\").clicked() { install = Some(pack.id.clone()); } } None => { ui.label(\"Everything installed\"); } }` and after it `if let Some(id) = install { self.open(&id); }`."
+[[hints]]
+text = "`pack_ui`: `let verified = match &self.last { Some(r) => verified_count(r), None => 0 };`. A mod is done when `self.last` is `Some(r)` and `r.files.iter().any(|f| f.file == m.file && f.status == FileStatus::Verified)`. At the end: `let verify = ui.button(\"Verify files\").clicked(); let back = ui.button(\"Back\").clicked(); let esc = self.tier_up.is_none() && ui.input(|i| i.key_pressed(egui::Key::Escape));` then `if verify { self.verify(); } if back || esc { self.go_home(); }`."
+[[hints]]
+text = "`tier_up_modal` is quest 25: `let tier = match &self.tier_up { Some(install) => install.tier_after, None => return };`, then the `Modal` with `ui.heading(\"Tier up!\")`, `ui.label(format!(\"You reached tier {tier}\"))` and a Continue button that sets `close`, then `if close || response.should_close() { self.tier_up = None; }`."
+
+[[points]]
+after = 3
+prompt = "Which method is the only one that may call the Api's open_pack?"
+pick = ["home_ui", "open", "pack_ui", "tier_up_modal"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Read the Esc key this frame."
+code = "let esc = ui.input(|i| i.___(egui::Key::Escape));"
+blank = "key_pressed"

@@ -1,0 +1,29 @@
+title = "All or nothing"
+summary = "Add a whole world of quests in one transaction, so one bad title leaves the table untouched."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["rusqlite", "transactions"]
+
+[[objectives]]
+test = "add_world_inserts_every_quest"
+label = "add_world inserts every quest and returns how many it added"
+[[objectives]]
+test = "a_blank_title_keeps_none_of_them"
+label = "if one insert fails, none of the world's quests stay"
+
+[[hints]]
+text = "`let tx = conn.transaction()?;` starts it. Run each INSERT on `tx` instead of `conn`, in a `for` loop, with `?` after each. Then `tx.commit()?;` and return the count."
+[[hints]]
+text = "`for (title, xp) in quests { tx.execute(\"INSERT INTO quests (title, xp) VALUES (?1, ?2)\", params![title, xp])?; }` then `tx.commit()?;` and `Ok(quests.len())`."
+
+[[points]]
+after = 2
+prompt = "Which call makes the inserts stay?"
+pick = ["tx.execute()", "tx.commit()", "drop(tx)", "conn.prepare()"]
+answer = 1
+[[points]]
+after = 3
+prompt = "An insert fails and ? returns early. What happens to the inserts before it?"
+pick = ["They stay, the rest are skipped", "They are rolled back: dropping tx undoes them", "The program panics", "They are committed twice"]
+answer = 1
