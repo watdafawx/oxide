@@ -1,5 +1,5 @@
 [package]
-name = "trait_default_methods"
+name = "traits_default_methods"
 version = "0.1.0"
 edition = "2024"
 

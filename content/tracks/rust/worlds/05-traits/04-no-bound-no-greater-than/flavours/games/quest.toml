@@ -1,0 +1,25 @@
+title = "Rust asks what T can do"
+summary = "Compare two T values on the scoreboard: the compiler wants a bound from the standard library."
+
+[[objectives]]
+test = "top_works_for_many_types"
+label = "top finds the max of kill counts, damage and player names"
+[[objectives]]
+test = "announce_top_prints_it"
+label = "announce_top prints \"top: <item>\""
+
+[[hints]]
+text = "Write the loop in `top` first, comparing with `>`. The error then says which trait to add after `T`."
+[[hints]]
+text = "The signature becomes `pub fn top<T: PartialOrd>(xs: &[T]) -> &T`. `announce_top` is `format!(\"top: {}\", top(xs))`."
+
+[[points]]
+after = 3
+prompt = "Which trait lets you compare with `<` and `>`?"
+pick = ["Display", "PartialOrd", "Clone", "Default"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Ask for both abilities."
+code = "fn show_lower<T: Display ___ PartialOrd>(a: T, b: T) -> String {"
+blank = "+"

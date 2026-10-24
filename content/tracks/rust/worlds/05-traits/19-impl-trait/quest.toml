@@ -1,0 +1,29 @@
+title = "impl Trait, the short way"
+summary = "Name the idea behind impl Fn: take and return impl Trait."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["impl-trait", "iterators", "generics"]
+
+[[objectives]]
+test = "shout_accepts_anything_displayable"
+label = "shout takes any impl Display"
+[[objectives]]
+test = "evens_returns_an_iterator"
+label = "evens returns an impl Iterator of even numbers"
+
+[[hints]]
+text = "`shout` can turn `x` into text with `.to_string()` because `Display` promises that. `evens` returns a lazy chain over a range: no `collect`."
+[[hints]]
+text = "`shout`: `format!(\"{}!\", x.to_string().to_uppercase())`. `evens`: `(0..limit).filter(|n| n % 2 == 0)`."
+
+[[points]]
+after = 1
+prompt = "Accept any type that implements Display."
+code = "fn tag(x: ___) -> String {"
+blank = "impl Display"
+[[points]]
+after = 3
+prompt = "One branch returns a filtered range, the other a reversed one. What happens?"
+pick = ["it builds fine", "Rust picks the first type", "`if` and `else` have incompatible types", "it panics at run time"]
+answer = 2

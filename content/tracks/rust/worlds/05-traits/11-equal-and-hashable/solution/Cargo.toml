@@ -1,0 +1,6 @@
+[package]
+name = "traits_equal_and_hashable"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

@@ -1,0 +1,25 @@
+title = "Walk a row of chunks"
+summary = "Implement Iterator for a row of chunks: one method, next."
+
+[[objectives]]
+test = "next_walks_the_row_then_stops"
+label = "next() gives chunk x = 0, 1, 2 at z = 5, then None"
+[[objectives]]
+test = "row_collects_like_a_range"
+label = "ChunkRow::new(-1, 1, 0).collect() is the three chunks"
+
+[[hints]]
+text = "`next` has two cases: past `last_x` there is nothing left, so `None`. Otherwise build the `ChunkPos` at `self.x`, step `self.x` up by one, and hand back the chunk you built."
+[[hints]]
+text = "`if self.x > self.last_x { None } else { let chunk = ChunkPos { x: self.x, z: self.z }; self.x += 1; Some(chunk) }`."
+
+[[points]]
+after = 2
+prompt = "Name the element type."
+code = "impl Iterator for Ticks {\n    type ___ = u32;"
+blank = "Item"
+[[points]]
+after = 3
+prompt = "Why does next take &mut self?"
+pick = ["so it can return a reference", "the iterator changes where it is on every call", "all trait methods must", "so the caller can't use it"]
+answer = 1

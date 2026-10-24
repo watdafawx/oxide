@@ -1,0 +1,25 @@
+title = "Times a number"
+summary = "Mul<f64>: scale a velocity by a number, both ways round."
+
+[[objectives]]
+test = "velocity_times_number"
+label = "Vec3 * f64 scales all three parts"
+[[objectives]]
+test = "number_times_velocity"
+label = "f64 * Vec3 gives the same answer"
+
+[[hints]]
+text = "In `Mul<f64> for Vec3`, `self` is the vector and `k` the number. In `Mul<Vec3> for f64`, it is the other way round: `self` is the number and `v` the vector."
+[[hints]]
+text = "`Vec3::new(self.x * k, self.y * k, self.z * k)`, and in the second impl `Vec3::new(self * v.x, self * v.y, self * v.z)`."
+
+[[points]]
+after = 1
+prompt = "Multiply a Vec3 by an f64."
+code = "impl Mul<___> for Vec3 {"
+blank = "f64"
+[[points]]
+after = 4
+prompt = "Which impl does the orphan rule refuse?"
+pick = ["impl Mul<Vec3> for f64", "impl Display for Vec3", "impl Display for Vec<u32>", "impl Mul<f64> for Vec3"]
+answer = 2

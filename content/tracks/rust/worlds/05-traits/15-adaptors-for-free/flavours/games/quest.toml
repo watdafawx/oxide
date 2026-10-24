@@ -1,0 +1,25 @@
+title = "Write one, get dozens"
+summary = "Your chunk iterator already has filter, map and sum: use them."
+
+[[objectives]]
+test = "slime_chunks_keep_even_x"
+label = "slime_chunks keeps the chunks whose x is even"
+[[objectives]]
+test = "total_distance_sq_adds_up_the_row"
+label = "total_distance_sq(-2, 2, 1) is 15"
+
+[[hints]]
+text = "`ChunkRow::new(first_x, last_x, z)` is a normal iterator now: chain `filter` or `map` on it, then `collect` or `sum`."
+[[hints]]
+text = "`slime_chunks`: `ChunkRow::new(first_x, last_x, z).filter(|c| c.x.rem_euclid(2) == 0).collect()`. `total_distance_sq`: `.map(|c| c.x * c.x + c.z * c.z).sum()`."
+
+[[points]]
+after = 1
+prompt = "map, filter and sum are which kind of trait method?"
+pick = ["required", "default", "associated const", "private"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which method does `for x in thing` call first?"
+pick = ["next", "iter", "into_iter", "collect"]
+answer = 2

@@ -4,7 +4,7 @@ kind = "read"
 xp = 15
 minutes = 3
 tags = ["gpui"]
-requires = ["rust/05-traits/12-boss-shape-renderer"]
+requires = ["rust/05-traits/21-boss-shape-renderer"]
 
 [[quiz]]
 question = "What does your Rust code hand GPUI for each frame?"

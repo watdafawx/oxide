@@ -1,0 +1,25 @@
+title = "Make + work on Vec3"
+summary = "`pos + velocity` is a trait method: implement Add and Neg for Vec3."
+
+[[objectives]]
+test = "position_plus_velocity"
+label = "Vec3 + Vec3 adds each part (position + velocity)"
+[[objectives]]
+test = "negated_vector_flips_parts"
+label = "-Vec3 flips all three parts"
+
+[[hints]]
+text = "Both methods build a new `Vec3` from the parts of `self` (and `other` for `add`). `type Output = Vec3;` is already set."
+[[hints]]
+text = "`add`: `Vec3::new(self.x + other.x, self.y + other.y, self.z + other.z)`. `neg`: `Vec3::new(-self.x, -self.y, -self.z)`."
+
+[[points]]
+after = 1
+prompt = "Which trait gives your type `+`?"
+pick = ["Sum", "Plus", "Mul", "Add"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Say what `a + b` produces."
+code = "impl Add for Xp {\n    type ___ = Xp;"
+blank = "Output"

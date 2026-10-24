@@ -1,0 +1,29 @@
+title = "Methods for some types only"
+summary = "A bounded impl block gives methods only to pairs whose T can do the job."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["generics", "impl", "trait-bounds"]
+
+[[objectives]]
+test = "larger_picks_the_bigger_field"
+label = "larger() returns a reference to the bigger field"
+[[objectives]]
+test = "describe_larger_formats_text"
+label = "describe_larger() prints \"The larger is <x>\""
+
+[[hints]]
+text = "`larger` lives in the `PartialOrd` block, so `>=` works on the fields. `describe_larger` lives in the block that needs both traits, so it can call `larger` and print the result."
+[[hints]]
+text = "`larger`: `if self.first >= self.second { &self.first } else { &self.second }`. `describe_larger`: `format!(\"The larger is {}\", self.larger())`."
+
+[[points]]
+after = 2
+prompt = "Only pairs that can be printed get this method."
+code = "impl<T: ___> Pair<T> {"
+blank = "Display"
+[[points]]
+after = 4
+prompt = "Where does `.to_string()` on any printable value come from?"
+pick = ["every type writes its own", "a blanket impl of ToString for every Display type", "the String struct", "derive(Debug)"]
+answer = 1

@@ -1,0 +1,19 @@
+title = "Two ways to find a method"
+summary = "Generics make one copy per type; dyn looks the method up while the program runs. Know which to pick."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["generics", "dyn", "dispatch"]
+
+[[quiz]]
+question = "You call `fn area_of<T: Shape>(s: &T)` with a Circle and with a Rect. What does the compiler build?"
+choices = ["One function that looks `area` up in a table on every call", "Nothing: one generic function can only take one type", "Two copies of `area_of`, one per type, each calling its own `area` directly"]
+answer = 2
+[[quiz]]
+question = "You want one list holding a Circle, a Rect and a Triangle. What do you need?"
+choices = ["Vec<Box<dyn Shape>>", "Vec<T> where T: Shape", "Vec<Shape>"]
+answer = 0
+[[quiz]]
+question = "Why is there no `dyn Clone`?"
+choices = ["Clone is not a trait", "`clone` returns `Self`, and a trait object has forgotten what `Self` is", "Box cannot hold anything that can be cloned"]
+answer = 1

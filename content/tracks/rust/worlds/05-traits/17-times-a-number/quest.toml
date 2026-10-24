@@ -1,0 +1,29 @@
+title = "Times a number"
+summary = "Mul<f64>: an operator whose right-hand side is a different type, both ways round."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["operators", "mul", "generics", "orphan-rule"]
+
+[[objectives]]
+test = "vector_times_number"
+label = "Vec2 * f64 scales both parts"
+[[objectives]]
+test = "number_times_vector"
+label = "f64 * Vec2 gives the same answer"
+
+[[hints]]
+text = "In `Mul<f64> for Vec2`, `self` is the vector and `k` the number. In `Mul<Vec2> for f64`, it is the other way round: `self` is the number and `v` the vector."
+[[hints]]
+text = "`Vec2 { x: self.x * k, y: self.y * k }`, and in the second impl `Vec2 { x: self * v.x, y: self * v.y }`."
+
+[[points]]
+after = 1
+prompt = "Multiply a Vec2 by an f64."
+code = "impl Mul<___> for Vec2 {"
+blank = "f64"
+[[points]]
+after = 4
+prompt = "Which impl does the orphan rule refuse?"
+pick = ["impl Mul<Vec2> for f64", "impl Display for Vec2", "impl Display for Vec<u32>", "impl Mul<f64> for Vec2"]
+answer = 2

@@ -12,14 +12,14 @@ pub struct Creeper {
 
 impl Entity for Zombie {
     fn describe(&self) -> String {
-        // TODO: return "<name> the zombie", e.g. "Steve the zombie"
+        // TODO: return the label "<name> the zombie", e.g. "Steve the zombie"
         todo!()
     }
 }
 
 impl Entity for Creeper {
     fn describe(&self) -> String {
-        // TODO: return "creeper (fuse <fuse>)", e.g. "creeper (fuse 30)"
+        // TODO: return the label "creeper (fuse <fuse>)", e.g. "creeper (fuse 30)"
         todo!()
     }
 }
@@ -36,7 +36,6 @@ mod tests {
 
     #[test]
     fn creeper_describes_itself() {
-        let c = Creeper { fuse: 30 };
-        assert_eq!(c.describe(), "creeper (fuse 30)");
+        assert_eq!(Creeper { fuse: 30 }.describe(), "creeper (fuse 30)");
     }
 }

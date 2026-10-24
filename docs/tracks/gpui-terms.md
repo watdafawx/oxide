@@ -2,7 +2,7 @@
 
 Every GPUI, crate and project term the track introduces, in order, with the quest that does.
 A lesson may use only rows at or above its own quest, plus the Rust track's ledger
-(`docs/tracks/rust-terms.md`) up to `rust/05-traits/12-boss-shape-renderer`, which this track
+(`docs/tracks/rust-terms.md`) up to `rust/05-traits/21-boss-shape-renderer`, which this track
 requires. Helpers a starter contains are marked *starter*: shown, not taught.
 
 | term | quest | how it is introduced |

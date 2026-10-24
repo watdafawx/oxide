@@ -1,0 +1,29 @@
+title = "Rust asks what T can do"
+summary = "Compare two T values: the compiler wants a bound from the standard library."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["generics", "trait-bounds", "where"]
+
+[[objectives]]
+test = "largest_works_for_many_types"
+label = "largest finds the max of whole numbers, decimals and names"
+[[objectives]]
+test = "announce_largest_prints_it"
+label = "announce_largest prints \"largest: <item>\""
+
+[[hints]]
+text = "Write the loop in `largest` first, comparing with `>`. The error then says which trait to add after `T`."
+[[hints]]
+text = "The signature becomes `pub fn largest<T: PartialOrd>(xs: &[T]) -> &T`. `announce_largest` is `format!(\"largest: {}\", largest(xs))`."
+
+[[points]]
+after = 3
+prompt = "Which trait lets you compare with `<` and `>`?"
+pick = ["Display", "PartialOrd", "Clone", "Default"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Ask for both abilities."
+code = "fn show_smaller<T: Display ___ PartialOrd>(a: T, b: T) -> String {"
+blank = "+"

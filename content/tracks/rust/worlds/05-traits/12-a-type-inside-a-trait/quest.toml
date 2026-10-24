@@ -1,0 +1,32 @@
+title = "A type inside a trait"
+summary = "Each converter picks its own result type: an associated type."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["associated-types", "traits"]
+
+[[objectives]]
+test = "celsius_converts_to_fahrenheit"
+label = "Celsius::convert() returns Fahrenheit as an f64"
+[[objectives]]
+test = "words_counts_words"
+label = "Words::convert() returns the word count as a usize"
+[[objectives]]
+test = "report_prints_any_output"
+label = "report() prints \"result: <output>\" for any converter"
+
+[[hints]]
+text = "Each `convert` returns that impl's `Output` type. `report` can print `item.convert()` because its `where` clause says `C::Output: Display`."
+[[hints]]
+text = "Celsius: `self.0 * 9.0 / 5.0 + 32.0`. Words: `self.0.split_whitespace().count()`. `report`: `format!(\"result: {}\", item.convert())`."
+
+[[points]]
+after = 2
+prompt = "Fill in the slot for this impl."
+code = "impl Convert for Words {\n    ___ Output = usize;"
+blank = "type"
+[[points]]
+after = 3
+prompt = "With an associated type, how many Convert impls can Celsius have?"
+pick = ["one", "one per output type", "as many as it likes", "none"]
+answer = 0

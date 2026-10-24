@@ -1,0 +1,25 @@
+title = "Two hands, any item"
+summary = "Put a type parameter on a struct, and meet Self and methods that take self by value."
+
+[[objectives]]
+test = "hands_hold_any_item"
+label = "Hands::new holds two swords, two stack counts or two block names"
+[[objectives]]
+test = "swap_hands_crosses_them_over"
+label = "swap_hands() gives back the hands with main and off crossed"
+
+[[hints]]
+text = "`new` returns `Self`, which is `Hands<T>` here: build it with a struct literal. `swap_hands` takes `self`, so it may move both fields into the new value."
+[[hints]]
+text = "`new`: `Hands { main_hand, off_hand }`. `swap_hands`: `Hands { main_hand: self.off_hand, off_hand: self.main_hand }`."
+
+[[points]]
+after = 2
+prompt = "Which line declares T for the methods?"
+pick = ["impl Hands<T>", "impl T", "impl<T> Hands<T>", "impl::<T> Hands"]
+answer = 2
+[[points]]
+after = 4
+prompt = "After `let h2 = h.swap_hands();`, can you still use `h`?"
+pick = ["No, swap_hands took h by value", "Yes, it only borrowed h", "Only its main hand", "Only if T is a number"]
+answer = 0

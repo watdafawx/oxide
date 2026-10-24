@@ -1,0 +1,29 @@
+title = "Which is closer?"
+summary = "Implement PartialOrd so that < and == always agree, and see why it is only partial."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["partialord", "ordering", "operators"]
+
+[[objectives]]
+test = "lengths_compare_by_size"
+label = "Length < Length compares the numbers, and NaN has no order"
+[[objectives]]
+test = "closer_picks_the_shorter_vector"
+label = "closer(a, b) returns the vector with the smaller length"
+
+[[hints]]
+text = "`partial_cmp` only has to compare the `f64` inside each `Length`, and `f64` has its own `partial_cmp`. `closer` compares `a.length()` with `b.length()` using `<=`."
+[[hints]]
+text = "`self.0.partial_cmp(&other.0)`. `closer`: `if a.length() <= b.length() { a } else { b }`."
+
+[[points]]
+after = 2
+prompt = "Two vectors are `<=` each other both ways but not `==`. What breaks?"
+pick = ["nothing, that is fine", "only printing", "sorting, max and lookups give odd answers", "the program won't build"]
+answer = 2
+[[points]]
+after = 4
+prompt = "What does `partial_cmp` return when two values have no order?"
+pick = ["Some(Equal)", "None", "Some(Less)", "it panics"]
+answer = 1

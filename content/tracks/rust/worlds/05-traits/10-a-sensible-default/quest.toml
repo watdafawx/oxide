@@ -1,0 +1,29 @@
+title = "A sensible default"
+summary = "Default: derive it when zeros are right, write it when they are not."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["default", "derive", "std-traits"]
+
+[[objectives]]
+test = "margins_default_to_zero"
+label = "fresh_margins() gives all four margins at 0"
+[[objectives]]
+test = "pen_defaults_to_thin_black"
+label = "Pen::default() is 1 wide and \"black\", even through unwrap_or_default"
+
+[[hints]]
+text = "`Margins` only needs `Default` added to its derive line; then `fresh_margins` can return `Margins::default()`. `Pen` already has an `impl Default`: change the value it returns."
+[[hints]]
+text = "`#[derive(Debug, PartialEq, Default)]` on `Margins`. In `Pen::default`: `Pen { width: 1, color: \"black\".to_string() }`."
+
+[[points]]
+after = 1
+prompt = "Make one from nothing."
+code = "let pen = Pen::___();"
+blank = "default"
+[[points]]
+after = 2
+prompt = "What does a derived Default put in a u32 field?"
+pick = ["1", "nothing, it must be written", "0", "u32::MAX"]
+answer = 2

@@ -1,0 +1,25 @@
+title = "impl Trait, the short way"
+summary = "Name the idea behind impl Fn: take and return impl Trait for chat banners and spawn ticks."
+
+[[objectives]]
+test = "banner_accepts_any_display"
+label = "banner takes any impl Display"
+[[objectives]]
+test = "spawn_ticks_yields_every_fifth_tick"
+label = "spawn_ticks returns an impl Iterator of every fifth tick"
+
+[[hints]]
+text = "`banner` can turn `text` into a String with `.to_string()` because `Display` promises that. `spawn_ticks` returns a lazy chain over a range: no `collect`."
+[[hints]]
+text = "`banner`: `format!(\"{}!\", text.to_string().to_uppercase())`. `spawn_ticks`: `(0..limit).filter(|t| t % 5 == 0)`."
+
+[[points]]
+after = 1
+prompt = "Accept any type that implements Display."
+code = "fn tag(x: ___) -> String {"
+blank = "impl Display"
+[[points]]
+after = 3
+prompt = "One branch returns a filtered range, the other a reversed one. What happens?"
+pick = ["it builds fine", "Rust picks the first type", "`if` and `else` have incompatible types", "it panics at run time"]
+answer = 2

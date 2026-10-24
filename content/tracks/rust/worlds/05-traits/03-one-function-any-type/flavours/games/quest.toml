@@ -1,0 +1,25 @@
+title = "One function, any mob"
+summary = "Write a loop once for every type that implements Entity: a generic function."
+
+[[objectives]]
+test = "total_health_sums_any_mob"
+label = "total_health adds up a wave of zombies and a wave of creepers"
+[[objectives]]
+test = "strongest_picks_the_most_health"
+label = "strongest returns the mob with the most health"
+
+[[hints]]
+text = "Both bodies loop over `mobs` and call `.health()` on each one. The bound `T: Entity` is what allows that call."
+[[hints]]
+text = "`total_health`: `mobs.iter().map(|m| m.health()).sum()`. `strongest`: start with `let mut best = &mobs[0];`, then `for m in mobs { if m.health() > best.health() { best = m; } }` and return `best`."
+
+[[points]]
+after = 2
+prompt = "In `fn total_health<T>(mobs: &[T])`, what is `T`?"
+pick = ["one mob from the slice", "a trait", "a type each call fills in", "a variable that can change"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Allow `health()` on every T."
+code = "fn strongest<T___>(mobs: &[T]) -> &T {"
+blank = ": Entity"

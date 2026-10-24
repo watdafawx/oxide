@@ -1,0 +1,29 @@
+title = "A constant inside a trait"
+summary = "Every converter has a fixed name: an associated const."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["associated-consts", "traits"]
+
+[[objectives]]
+test = "names_are_set"
+label = "Each converter sets its own NAME"
+[[objectives]]
+test = "label_uses_name_and_output"
+label = "label() prints \"<NAME>: <output>\""
+
+[[hints]]
+text = "Set each `NAME` to its text in the `impl`. In `label`, read the constant from the type, `C::NAME`, not from `item`."
+[[hints]]
+text = "`const NAME: &str = \"celsius->fahrenheit\";` and `\"word-count\"`. `label`: `format!(\"{}: {}\", C::NAME, item.convert())`."
+
+[[points]]
+after = 2
+prompt = "How do you read the const on Metre?"
+pick = ["Metre.SYMBOL", "Metre::SYMBOL", "Metre->SYMBOL", "SYMBOL(Metre)"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Declare the constant every Unit must set."
+code = "trait Unit {\n    ___ SYMBOL: &str;\n}"
+blank = "const"

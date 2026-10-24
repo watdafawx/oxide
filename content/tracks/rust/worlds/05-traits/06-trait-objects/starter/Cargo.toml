@@ -1,6 +1,0 @@
-[package]
-name = "trait_trait_objects"
-version = "0.1.0"
-edition = "2024"
-
-[workspace]

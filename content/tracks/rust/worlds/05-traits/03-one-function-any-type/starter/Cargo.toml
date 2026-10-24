@@ -1,0 +1,6 @@
+[package]
+name = "traits_one_function_any_type"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

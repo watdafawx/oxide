@@ -1,0 +1,49 @@
+title = "Boss: hitbox renderer"
+summary = "A Hitbox trait, three hitbox shapes, an ASCII canvas, generic helpers and a Scaled wrapper."
+
+[[objectives]]
+test = "aabb_area_and_name"
+label = "Aabb: area() is w * h and name() is \"box\""
+[[objectives]]
+test = "aabb_contains_includes_edges"
+label = "Aabb::contains includes its edges"
+[[objectives]]
+test = "cylinder_is_a_hitbox"
+label = "Cylinder: area, bounds, name and contains"
+[[objectives]]
+test = "wedge_is_a_hitbox"
+label = "Wedge: area, bounds, name and contains"
+[[objectives]]
+test = "canvas_draws_hitboxes"
+label = "Canvas::render draws # where a hitbox contains the cell centre"
+[[objectives]]
+test = "total_area_and_biggest_hitbox"
+label = "total_area and biggest work for any T: Hitbox"
+[[objectives]]
+test = "sort_by_area_orders_hitboxes"
+label = "sort_by_area sorts smallest to biggest hitbox"
+[[objectives]]
+test = "scaled_hitbox_is_a_hitbox"
+label = "Scaled<H> is itself a Hitbox, even inside a Canvas"
+
+[[hints]]
+text = "Start with `Aabb`: `area` and `name` are one line each, and `contains` is four comparisons joined with `&&`, edges included (`>=` and `<=`)."
+[[hints]]
+text = "Cylinder and Wedge: the doc comment above each struct is the formula. Name the distances first, `let dx = x - self.cx;`, and the test reads like the comment."
+[[hints]]
+text = "`render`: an outer loop over rows builds one `String` per row; an inner loop over columns pushes `'#'` or `'.'` depending on `hitboxes.iter().any(..)`. Collect the rows in a `Vec<String>` and `join` them with a newline."
+[[hints]]
+text = "The generic helpers are one chain each: `map(..).sum()`, `max_by` with `total_cmp`, and `sort_by` with `total_cmp`, as in the sorting quest."
+[[hints]]
+text = "`Scaled` asks `self.inner` for everything and adjusts it: the area by `factor * factor`, the bounds' `w` and `h` by `factor`, the name with `scaled ` in front, and `contains` with the mapping in its doc comment."
+
+[[points]]
+after = 3
+prompt = "The canvas takes a list of mixed hitboxes."
+code = "pub fn render(&self, hitboxes: &[___]) -> String {"
+blank = "Box<dyn Hitbox>"
+[[points]]
+after = 4
+prompt = "Which bound makes total_area generic over hitboxes?"
+pick = ["T = Hitbox", "Hitbox<T>", "T: Hitbox", "dyn Hitbox"]
+answer = 2
