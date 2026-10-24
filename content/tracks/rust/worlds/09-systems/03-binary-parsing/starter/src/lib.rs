@@ -24,8 +24,8 @@ impl<'a> Cursor<'a> {
     /// Returns the next `n` bytes and moves forward. If fewer than `n` are
     /// left, returns `UnexpectedEof` and leaves the position unchanged.
     pub fn take(&mut self, n: usize) -> Result<&'a [u8], ParseError> {
-        // TODO: if self.remaining() < n return Err(UnexpectedEof);
-        //       otherwise slice data[pos..pos + n], advance pos, return it
+        // TODO: if fewer than n bytes remain, return UnexpectedEof;
+        //       otherwise slice out the next n bytes, move pos past them, return the slice
         todo!()
     }
 
@@ -35,12 +35,12 @@ impl<'a> Cursor<'a> {
     }
 
     pub fn u16_be(&mut self) -> Result<u16, ParseError> {
-        // TODO: take(2), then u16::from_be_bytes([b[0], b[1]])
+        // TODO: take 2 bytes, then build a big-endian u16 from them
         todo!()
     }
 
     pub fn u32_be(&mut self) -> Result<u32, ParseError> {
-        // TODO: take(4), then u32::from_be_bytes
+        // TODO: take 4 bytes, then build a big-endian u32 from them
         todo!()
     }
 }
@@ -56,7 +56,7 @@ pub struct Header {
 
 /// Parses a header from the start of `data`. Extra bytes after it are ignored.
 pub fn parse_header(data: &[u8]) -> Result<Header, ParseError> {
-    // TODO: let mut c = Cursor::new(data); read the four fields in order with `?`
+    // TODO: make a cursor over data and read the four fields in order, passing errors up with `?`
     todo!()
 }
 

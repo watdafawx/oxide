@@ -39,25 +39,27 @@ pub struct Count {
 
 /// GET /hello/{name} -> {"greeting": "Hello, <name>!"}
 async fn hello(Path(name): Path<String>) -> Json<Greeting> {
-    // TODO: return Json(Greeting { greeting: format!("Hello, {name}!") })
+    // TODO: return a Greeting wrapped in Json; its text is "Hello, <name>!"
     todo!()
 }
 
 /// POST /sum {"numbers": [1, 2]} -> {"total": 3}. An empty list is a 400 with an ApiError.
 async fn sum(Json(req): Json<SumRequest>) -> Result<Json<Total>, (StatusCode, Json<ApiError>)> {
-    // TODO: if req.numbers.is_empty() return Err((StatusCode::BAD_REQUEST, Json(ApiError { .. }))), else Ok(Json(Total { total: req.numbers.iter().sum() }))
+    // TODO: an empty list is an Err with status 400 and an ApiError body;
+    //       otherwise Ok with the Total of the numbers as JSON
     todo!()
 }
 
 /// POST /bump -> 201 and the new count.
 async fn bump(State(state): State<AppState>) -> (StatusCode, Json<Count>) {
-    // TODO: let count = state.count.fetch_add(1, Ordering::SeqCst) + 1; return (StatusCode::CREATED, Json(Count { count }))
+    // TODO: add 1 to the shared counter (fetch_add gives the OLD value), then answer
+    //       201 Created with the new count as JSON
     todo!()
 }
 
 /// GET /count -> the current count.
 async fn count(State(state): State<AppState>) -> Json<Count> {
-    // TODO: Json(Count { count: state.count.load(Ordering::SeqCst) })
+    // TODO: read the shared counter and return it as a JSON Count
     todo!()
 }
 

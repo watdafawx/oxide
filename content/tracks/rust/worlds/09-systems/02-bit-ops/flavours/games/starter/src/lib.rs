@@ -6,13 +6,13 @@ pub const HARDCORE: u8 = 1 << 2;
 
 /// Returns `rules` with the bits of `rule` turned on.
 pub fn enable_rule(rules: u8, rule: u8) -> u8 {
-    // TODO: |
+    // TODO: turn the rule's bit on with bitwise OR
     todo!()
 }
 
 /// Returns `rules` with the bits of `rule` turned off.
 pub fn disable_rule(rules: u8, rule: u8) -> u8 {
-    // TODO: & !
+    // TODO: turn the rule's bit off: AND with the rule's bits flipped
     todo!()
 }
 
@@ -36,7 +36,7 @@ pub fn unpack_color(color: u32) -> (u8, u8, u8) {
 
 /// How many bits of `rules` are 1.
 pub fn count_enabled_rules(rules: u32) -> u32 {
-    // TODO: count_ones
+    // TODO: count the 1 bits (integers have a built-in method for this)
     todo!()
 }
 

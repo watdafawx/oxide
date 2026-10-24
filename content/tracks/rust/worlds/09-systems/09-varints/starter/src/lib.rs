@@ -10,20 +10,17 @@ pub enum VarIntError {
 
 /// Returns the VarInt bytes for `value`.
 pub fn encode_varint(value: i32) -> Vec<u8> {
-    // TODO: let mut v = value as u32;
-    //       loop: byte = low 7 bits; v >>= 7; if v != 0 set the 0x80 bit;
-    //       push byte; stop when v == 0
+    // TODO: work on the value as a u32 so negatives shift in zeros. Emit 7 bits per byte,
+    //       least significant group first; set the top bit (0x80) on every byte but the last
     todo!()
 }
 
 /// Decodes one VarInt from the start of `bytes`.
 /// Returns the value and how many bytes it used. Later bytes are ignored.
 pub fn decode_varint(bytes: &[u8]) -> Result<(i32, usize), VarIntError> {
-    // TODO: for (i, &b) in bytes.iter().enumerate():
-    //         if i >= 5 -> Err(TooLong)
-    //         result |= u32::from(b & 0x7f) << (7 * i)
-    //         if b & 0x80 == 0 -> return Ok((result as i32, i + 1))
-    //       after the loop -> Err(Truncated)
+    // TODO: add 7 bits from each byte into the result, each group above the one before;
+    //       a byte without the top bit is the last one (return the value and the bytes used).
+    //       More than 5 bytes is TooLong; running out of bytes first is Truncated
     todo!()
 }
 

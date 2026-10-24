@@ -4,8 +4,8 @@ use probe::{Counter, Name};
 
 /// Counts how often each whitespace-separated word appears.
 pub fn word_count(text: &str, counter: &mut Counter) {
-    // TODO: three operations per repeated word is too many. Do it in one with
-    // `counter.entry(word.to_string())` and `.or_default()`.
+    // TODO: three operations per repeated word is too many. Do it in one with the entry API:
+    // find or create the word's slot, then add 1 to it.
     for word in text.split_whitespace() {
         if counter.contains(word) {
             let n = counter.get(word).unwrap_or(0);
@@ -30,7 +30,7 @@ pub fn longest(names: &[Name]) -> Option<Name> {
 
 /// `[0, 1, 4, 9, ...]`: the first `n` squares.
 pub fn squares(n: usize) -> Vec<u64> {
-    // TODO: you know the length up front. Start from `Vec::with_capacity(n)`.
+    // TODO: you know the length up front. Start from a Vec with room for n items.
     let mut out = Vec::new();
     for i in 0..n as u64 {
         out.push(i * i);

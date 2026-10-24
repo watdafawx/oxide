@@ -19,7 +19,8 @@ impl Default for Settings {
 }
 
 #[derive(Debug, Clone, PartialEq, Default)]
-// TODO: also derive Serialize and Deserialize, and add #[serde(default)] so old saves load
+// TODO: also derive Serialize and Deserialize, and tell serde to fill missing fields from
+// Default so old saves load
 pub struct Profile {
     pub xp: u32,
     pub level: u32,
@@ -36,7 +37,7 @@ pub struct Profile {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-// TODO: also derive Serialize and Deserialize, and add #[serde(rename_all = "lowercase")]
+// TODO: also derive Serialize and Deserialize, and tell serde to write the variant names in lowercase
 pub enum ObjectiveStatus {
     Passed,
     Failed,
@@ -44,17 +45,17 @@ pub enum ObjectiveStatus {
 }
 
 pub fn to_json(profile: &Profile) -> serde_json::Result<String> {
-    // TODO: serde_json::to_string(profile)
+    // TODO: turn the profile into a JSON string with serde_json
     todo!()
 }
 
 pub fn from_json(json: &str) -> serde_json::Result<Profile> {
-    // TODO: serde_json::from_str(json)
+    // TODO: parse the JSON text back into a Profile with serde_json
     todo!()
 }
 
 pub fn status_to_json(status: ObjectiveStatus) -> serde_json::Result<String> {
-    // TODO: serde_json::to_string(&status)
+    // TODO: turn the status into a JSON string with serde_json
     todo!()
 }
 

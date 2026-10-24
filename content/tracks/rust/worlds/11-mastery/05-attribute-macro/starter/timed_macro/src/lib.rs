@@ -14,16 +14,16 @@ pub fn timed(_args: TokenStream, item: TokenStream) -> TokenStream {
     let _ = &counter;
 
     quote! {
-        // TODO: declare `static #counter: ::std::sync::atomic::AtomicUsize = ...::new(0);`
+        // TODO: declare a static named #counter: an AtomicUsize (full ::std path) starting at 0
 
         pub fn #calls_fn() -> usize {
-            // TODO: return `#counter.load(::std::sync::atomic::Ordering::SeqCst)`
+            // TODO: return the counter's current value (load it with SeqCst ordering)
             0
         }
 
         #(#attrs)*
         #vis #sig {
-            // TODO: `#counter.fetch_add(1, ::std::sync::atomic::Ordering::SeqCst);`
+            // TODO: add 1 to the counter first, then run the original body
             #block
         }
     }

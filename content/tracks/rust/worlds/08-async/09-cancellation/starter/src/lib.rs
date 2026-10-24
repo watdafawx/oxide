@@ -7,13 +7,14 @@ use tokio_util::sync::CancellationToken;
 
 /// Spawns a task: every 5 ms add 1 to `ticks`. When `token` is cancelled, return "stopped".
 pub fn spawn_worker(token: CancellationToken, ticks: Arc<AtomicUsize>) -> JoinHandle<&'static str> {
-    // TODO: tokio::spawn(async move { loop { select! { cancelled => return "stopped", sleep => tick } } })
+    // TODO: spawn a task that loops forever, racing the token's cancellation against a 5 ms sleep;
+    // on cancel return "stopped", after each sleep add 1 to `ticks`
     todo!()
 }
 
 /// Cancels the token, waits for every worker, returns how many said "stopped".
 pub async fn shutdown(token: CancellationToken, handles: Vec<JoinHandle<&'static str>>) -> usize {
-    // TODO: token.cancel(), then await each handle and count "stopped"
+    // TODO: press the token's stop button, then wait for every worker and count the "stopped" ones
     todo!()
 }
 

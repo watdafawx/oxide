@@ -8,7 +8,7 @@ async fn health() -> &'static str {
 
 /// The whole API: one route.
 pub fn app() -> Router {
-    // TODO: Router::new().route("/health", get(health))
+    // TODO: a new Router with one route: GET /health handled by `health`
     todo!()
 }
 

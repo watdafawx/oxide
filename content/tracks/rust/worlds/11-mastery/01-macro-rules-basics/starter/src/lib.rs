@@ -2,7 +2,8 @@
 #[macro_export]
 macro_rules! square {
     ($x:expr) => {
-        // TODO: change the arm body to double braces `{{ .. }}`, bind `$x` once with `let v = $x;`, and end with `v * v`.
+        // TODO: make the arm body one block (double braces), run `$x` only once by binding it to a
+        // local, and multiply that local by itself.
         // (This stub just returns `$x`, so the crate compiles.)
         $x
     };

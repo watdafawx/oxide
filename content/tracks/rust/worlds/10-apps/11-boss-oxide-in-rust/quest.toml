@@ -28,9 +28,9 @@ test = "escape_returns_home"
 label = "Esc on the quest screen goes back to Home (and refreshes it from the Api)"
 
 [[hints]]
-text = "Start with the plain functions `xp_fraction` and `passed_count`: no UI needed. Guard `xp_for_next == 0` and `.clamp(0.0, 1.0)`."
+text = "Start with the plain functions `xp_fraction` and `passed_count`: no UI needed. Guard `xp_for_next == 0`, then `(profile.xp_into_level as f32 / profile.xp_for_next as f32).clamp(0.0, 1.0)`. `passed_count` is `result.objectives.iter().filter(|o| o.status == ObjectiveStatus::Passed).count()`."
 [[hints]]
-text = "The state methods: `start` stores `self.api.start_quest(id)` in `self.detail` and flips `self.screen`; `run_checks` stores `outcome.result` in `self.last`, and for `Some(completion)` sets `self.toast` (when `xp_awarded > 0`) and `self.level_up` (when the level rose)."
+text = "The state methods: `start`: `let detail = self.api.start_quest(id); self.last = detail.last_check.clone(); self.detail = Some(detail); self.toast = None; self.screen = Screen::Quest;` `run_checks` stores `outcome.result` in `self.last`, and for `Some(completion)` sets `self.toast` (when `xp_awarded > 0`) and `self.level_up` (when the level rose)."
 [[hints]]
 text = "`home_ui`: `ui.heading`, `ui.label(format!(..))`, `ui.add(egui::ProgressBar::new(xp_fraction(..)))`, then `match &self.home.next` for the card. The Start button needs a click handler."
 [[hints]]

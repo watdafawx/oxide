@@ -8,13 +8,13 @@ end
 
 -- a chest holding items, e.g. {coal = 12}
 function Chest.new(items)
-  -- TODO: return setmetatable({items = items}, Chest)
+  -- TODO: make a table holding items and set its metatable so lookups fall back to Chest; return it
   return nil
 end
 
 -- add n of item to this chest
 function Chest:add(item, n)
-  -- TODO: self.items[item] = what is there (or 0) plus n
+  -- TODO: store what is there (or 0) plus n back under item
 end
 
 return Chest

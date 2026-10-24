@@ -23,7 +23,7 @@ text = "Lock first: `let conn = db.lock().unwrap();`. Then it is the same rusqli
 [[hints]]
 text = "`create`: execute the INSERT with `params![new.body]`, then `let id = conn.last_insert_rowid();` and return `Ok((StatusCode::CREATED, Json(Note { id, body: new.body })))`."
 [[hints]]
-text = "`get_one`: `conn.query_row(sql, params![id], |r| Ok(Note { id: r.get(0)?, body: r.get(1)? })).optional()` gives `Option<Note>`. `remove`: `conn.execute(\"DELETE ...\", params![id])` returns the number of rows deleted; 0 means 404."
+text = "`get_one`: `conn.query_row(sql, params![id], |r| Ok(Note { id: r.get(0)?, body: r.get(1)? })).optional()` gives `Option<Note>`. `remove`: `conn.execute(\"DELETE ...\", params![id])` returns the number of rows deleted; 0 means 404. Then `note.map(Json).ok_or(StatusCode::NOT_FOUND)`. `list`: `conn.prepare(\"SELECT id, body FROM notes ORDER BY id\").map_err(internal)?`, then `stmt.query_map([], |r| Ok(Note { id: r.get(0)?, body: r.get(1)? })).map_err(internal)?.collect::<Result<Vec<_>, _>>().map_err(internal)?` and wrap it in `Json`."
 
 [[points]]
 after = 2

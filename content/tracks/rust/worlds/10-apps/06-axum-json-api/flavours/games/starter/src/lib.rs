@@ -39,7 +39,7 @@ pub struct Count {
 
 /// GET /welcome/{player} -> {"welcome": "Welcome, <player>!"}
 async fn welcome(Path(player): Path<String>) -> Json<Welcome> {
-    // TODO: Json(Welcome { welcome: format!(..) })
+    // TODO: return a Welcome wrapped in Json; its text is "Welcome, <player>!"
     todo!()
 }
 
@@ -53,18 +53,20 @@ async fn total_size(
 
 /// POST /installs -> 201 and the new count.
 async fn install(State(state): State<AppState>) -> (StatusCode, Json<Count>) {
-    // TODO: fetch_add(1) and return (StatusCode::CREATED, Json(Count { count }))
+    // TODO: add 1 to the shared counter (fetch_add gives the OLD value), then answer
+    //       201 Created with the new count as JSON
     todo!()
 }
 
 /// GET /installs -> the current count.
 async fn installs(State(state): State<AppState>) -> Json<Count> {
-    // TODO: Json(Count { count: state.installs.load(Ordering::SeqCst) })
+    // TODO: read the shared counter and return it as a JSON Count
     todo!()
 }
 
 pub fn app() -> Router {
-    // TODO: .route("/welcome/{player}", get(welcome)), .route("/total-size", post(total_size)), .route("/installs", get(installs).post(install)), then .with_state(AppState::default())
+    // TODO: add the three routes (GET /welcome/{player}, POST /total-size, and GET + POST on
+    //       /installs), then give the router a fresh AppState
     Router::new()
 }
 

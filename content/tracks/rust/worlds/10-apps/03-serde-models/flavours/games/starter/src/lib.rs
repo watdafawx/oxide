@@ -19,7 +19,7 @@ impl Default for LauncherSettings {
     }
 }
 
-// TODO: also derive Serialize and Deserialize, and add #[serde(default)]
+// TODO: also derive Serialize and Deserialize, and tell serde to fill missing fields from Default
 #[derive(Debug, Clone, PartialEq, Default)]
 pub struct ModpackProfile {
     pub name: String,
@@ -33,7 +33,7 @@ pub struct ModpackProfile {
     pub settings: LauncherSettings,
 }
 
-// TODO: also derive Serialize and Deserialize, and add #[serde(rename_all = "lowercase")]
+// TODO: also derive Serialize and Deserialize, and tell serde to write the variant names in lowercase
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ModStatus {
     Enabled,
@@ -42,17 +42,17 @@ pub enum ModStatus {
 }
 
 pub fn to_json(profile: &ModpackProfile) -> serde_json::Result<String> {
-    // TODO: serde_json::to_string
+    // TODO: turn the profile into a JSON string with serde_json
     todo!()
 }
 
 pub fn from_json(json: &str) -> serde_json::Result<ModpackProfile> {
-    // TODO: serde_json::from_str
+    // TODO: parse the JSON text back into a profile with serde_json
     todo!()
 }
 
 pub fn status_to_json(status: ModStatus) -> serde_json::Result<String> {
-    // TODO: serde_json::to_string(&status)
+    // TODO: turn the status into a JSON string with serde_json
     let _ = status;
     todo!()
 }

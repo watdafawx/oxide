@@ -6,7 +6,7 @@
 /// `ptr` must be non-null, aligned, and point to a live, writable i32 that
 /// nothing else is accessing.
 pub unsafe fn increment(ptr: *mut i32) {
-    // TODO: unsafe { *ptr += 1; }  (with a // SAFETY: comment)
+    // TODO: add 1 through the pointer inside an unsafe block (with a // SAFETY: comment)
     todo!()
 }
 
@@ -15,7 +15,7 @@ pub unsafe fn increment(ptr: *mut i32) {
 /// # Safety
 /// If `ptr` is not null it must be aligned and point to a live i32.
 pub unsafe fn read_or_none(ptr: *const i32) -> Option<i32> {
-    // TODO: if ptr.is_null() { None } else { Some(unsafe { *ptr }) }
+    // TODO: None for a null pointer; otherwise read the value through it (only the read needs unsafe)
     todo!()
 }
 
@@ -25,14 +25,14 @@ pub unsafe fn read_or_none(ptr: *const i32) -> Option<i32> {
 /// `ptr` must be non-null, aligned, and point to `len` consecutive live i32s
 /// that are not mutated while this runs.
 pub unsafe fn sum_raw(ptr: *const i32, len: usize) -> i32 {
-    // TODO: let items = unsafe { std::slice::from_raw_parts(ptr, len) };
-    //       then sum them
+    // TODO: rebuild a slice from the pointer and the length (inside unsafe),
+    //       then sum it
     todo!()
 }
 
 /// Sums a slice. Safe to call with any slice.
 pub fn safe_sum(slice: &[i32]) -> i32 {
-    // TODO: call sum_raw(slice.as_ptr(), slice.len()) inside unsafe,
+    // TODO: call sum_raw with the slice's pointer and length inside unsafe,
     //       with a // SAFETY: comment saying why a slice is always valid
     todo!()
 }

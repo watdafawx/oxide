@@ -41,7 +41,7 @@ text = "`read_packet`: read the length with `read_varint`, reject anything outsi
 [[hints]]
 text = "`parse_status`: `let v: Value = serde_json::from_str(json)?` (map the error to `invalid(..)`), then `v[\"version\"][\"name\"].as_str()`, `v[\"players\"][\"online\"].as_u64()`, ... with `ok_or_else(|| invalid(\"...\"))?`. `flatten_text` for an object: `text` plus the flattened `extra` items."
 [[hints]]
-text = "`ping`: connect with timeouts, `write_all` handshake then status_request, `read_packet`, check `id == 0`, `read_string(&packet.payload)`, `parse_status`."
+text = "`ping`: `TcpStream::connect_timeout(&addr, Duration::from_secs(3))?` plus read and write timeouts, `write_all(&handshake(&addr.ip().to_string(), addr.port()))?` then `write_all(&status_request())?`, `read_packet`, check `id == 0`, `read_string(&packet.payload)`, `parse_status`."
 
 [[points]]
 after = 3

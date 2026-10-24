@@ -9,14 +9,14 @@ unsafe extern "C" {
 
 /// The absolute value of `n` (a distance from spawn), computed by C's `abs`.
 pub fn c_abs(n: i32) -> i32 {
-    // TODO: unsafe { abs(n) }
+    // TODO: call C's abs inside an unsafe block
     todo!()
 }
 
 /// The length of `motd` in bytes, computed by C's `strlen`.
 /// `None` if `motd` contains a NUL byte (it cannot be a C string).
 pub fn c_motd_len(motd: &str) -> Option<usize> {
-    // TODO: CString::new(motd).ok()?, then unsafe { strlen(c.as_ptr()) }
+    // TODO: make a CString copy of motd (None on an interior NUL), then pass its pointer to C's strlen
     todo!()
 }
 
@@ -26,7 +26,8 @@ pub fn c_motd_len(motd: &str) -> Option<usize> {
 /// `ptr` must be non-null and point to a NUL-terminated string that stays
 /// valid for the duration of the call.
 pub unsafe fn motd_from_c(ptr: *const c_char) -> String {
-    // TODO: CStr::from_ptr(ptr) in an unsafe block, then to_string_lossy().into_owned()
+    // TODO: wrap the pointer in a CStr (inside unsafe), then copy it into an owned String,
+    //       replacing invalid UTF-8
     todo!()
 }
 

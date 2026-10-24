@@ -6,30 +6,31 @@ pub struct Counter {
 
 impl Counter {
     pub fn increment(&mut self) {
-        // TODO: self.count += 1
+        // TODO: add 1 to the count
         todo!()
     }
 
     /// Never goes below 0.
     pub fn decrement(&mut self) {
-        // TODO: self.count = self.count.saturating_sub(1)
+        // TODO: take 1 off the count, stopping at 0 (u32 has a subtraction that saturates)
         todo!()
     }
 
     pub fn reset(&mut self) {
-        // TODO: self.count = 0
+        // TODO: put the count back to zero
         todo!()
     }
 
     /// The text of the label, e.g. `Count: 3`.
     pub fn label(&self) -> String {
-        // TODO: format!("Count: {}", self.count)
+        // TODO: the text "Count: " followed by the count
         todo!()
     }
 
     /// Draws `-`, the label and `+` in a row, and a `Reset` button below.
     pub fn ui(&mut self, ui: &mut egui::Ui) {
-        // TODO: ui.horizontal(|ui| { "-" button -> decrement, ui.label(self.label()), "+" button -> increment }); then a "Reset" button -> reset
+        // TODO: in a horizontal row: a "-" button, the label, a "+" button; below it a "Reset"
+        //       button. Each button calls its method when clicked
         todo!()
     }
 }

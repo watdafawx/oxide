@@ -8,7 +8,7 @@ async fn status() -> &'static str {
 
 /// The whole API: one route.
 pub fn app() -> Router {
-    // TODO: replace .fallback(status) with .route("/status", get(status))
+    // TODO: replace the fallback with a single route: GET /status handled by `status`
     Router::new().fallback(status)
 }
 

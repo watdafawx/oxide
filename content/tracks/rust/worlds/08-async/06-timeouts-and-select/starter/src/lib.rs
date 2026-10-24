@@ -10,7 +10,7 @@ pub async fn work(ms: u64) -> &'static str {
 
 /// Some("done") if work(work_ms) finishes within limit_ms, else None.
 pub async fn with_deadline(work_ms: u64, limit_ms: u64) -> Option<&'static str> {
-    // TODO: tokio::time::timeout(Duration::from_millis(limit_ms), work(work_ms)).await, then .ok()
+    // TODO: wrap the work in a timeout of limit_ms, then turn the Result into an Option
     todo!()
 }
 
@@ -22,7 +22,7 @@ pub async fn first_of(a_ms: u64, b_ms: u64) -> &'static str {
 
 /// Runs work(work_ms). If `cancel` fires first, stop and return "cancelled".
 pub async fn work_or_cancel(work_ms: u64, mut cancel: oneshot::Receiver<()>) -> &'static str {
-    // TODO: select! { _ = &mut cancel => ..., result = work(work_ms) => ... }
+    // TODO: race the cancel receiver (borrowed with &mut) against the work with select!
     todo!()
 }
 

@@ -11,8 +11,9 @@ data:extend({
   {
     type = "recipe",
     name = "kit-alloy",
-    -- TODO: this is the pre-2.0 shape. Use { type = "item", name = ..., amount = ... } tables,
-    --       `results` instead of `result`, and energy_required = 2.
+    -- TODO: this is the pre-2.0 shape. Make every ingredient a table with a type, a name and an
+    --       amount; put the product in a `results` list of the same kind of table instead of
+    --       `result`; and make crafting take 2 seconds.
     ingredients = { { "iron-plate", 2 }, { "copper-plate", 1 } },
     result = "kit-alloy",
   },

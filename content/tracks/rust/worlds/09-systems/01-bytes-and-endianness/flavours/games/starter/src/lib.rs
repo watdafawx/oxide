@@ -2,25 +2,25 @@
 
 /// `n` as 4 bytes, least significant byte first (little-endian).
 pub fn protocol_to_le(n: u32) -> [u8; 4] {
-    // TODO: to_le_bytes
+    // TODO: the 4 bytes of n, least significant first (u32 has a built-in for this)
     todo!()
 }
 
 /// `n` as 4 bytes, most significant byte first (big-endian, network order).
 pub fn protocol_to_be(n: u32) -> [u8; 4] {
-    // TODO: to_be_bytes
+    // TODO: the 4 bytes of n, most significant first
     todo!()
 }
 
 /// Reads a little-endian u32 from the first 4 bytes of a reply. `None` if fewer than 4 bytes.
 pub fn read_protocol_le(reply: &[u8]) -> Option<u32> {
-    // TODO: reply.get(..4)?, .try_into().ok()?, from_le_bytes
+    // TODO: the first 4 bytes (None if too short) as a [u8; 4], read little-endian
     todo!()
 }
 
 /// Reads a big-endian u32 from the first 4 bytes of a reply. `None` if fewer than 4 bytes.
 pub fn read_protocol_be(reply: &[u8]) -> Option<u32> {
-    // TODO: reply.get(..4)?, .try_into().ok()?, from_be_bytes
+    // TODO: the first 4 bytes (None if too short) as a [u8; 4], read big-endian
     todo!()
 }
 

@@ -2,13 +2,13 @@ use serde_json::Value;
 
 /// GET `url`, fail on 4xx/5xx, parse the body as JSON.
 pub async fn fetch_mod_json(url: &str) -> Result<Value, reqwest::Error> {
-    // TODO: reqwest::get(url).await? -> error_for_status()? -> json().await
+    // TODO: send a GET, turn a 4xx/5xx status into an error, then parse the body as JSON
     todo!()
 }
 
 /// The "title" field of the JSON at `url` (None if there is no string title).
 pub async fn mod_title(url: &str) -> Result<Option<String>, reqwest::Error> {
-    // TODO: fetch_mod_json, then value["title"].as_str() (an Option<&str>), then .map(|s| s.to_string()) to own it
+    // TODO: call fetch_mod_json, read the "title" field as a string (an Option<&str>), then turn it into an owned String
     todo!()
 }
 

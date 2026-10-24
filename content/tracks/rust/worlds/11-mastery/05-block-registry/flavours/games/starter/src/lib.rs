@@ -7,7 +7,7 @@ pub struct Biome {
 /// `biome!("plains" => 1)` is `Biome { name: "plains", id: 1 }`.
 #[macro_export]
 macro_rules! biome {
-    // TODO: build `$crate::Biome { name: $name, id: $id }` (replace the placeholder values)
+    // TODO: build the Biome from the two captures (replace the placeholder values)
     ($name:expr => $id:expr) => {
         $crate::Biome { name: "todo", id: 0 }
     };
@@ -16,7 +16,7 @@ macro_rules! biome {
 /// `biomes!["plains" => 1, "desert" => 2]` is a `Vec<Biome>` with both biomes.
 #[macro_export]
 macro_rules! biomes {
-    // TODO: expand to `vec![ ... ]` with one `$crate::biome!($name => $id)` per pair, repeated with `$( ... ),*`
+    // TODO: expand to a vec! with one biome! call (through $crate) per pair, repeated
     ($($name:expr => $id:expr),* $(,)?) => {
         Vec::<$crate::Biome>::new()
     };

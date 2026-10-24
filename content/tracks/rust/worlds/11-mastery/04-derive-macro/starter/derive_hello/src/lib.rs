@@ -10,9 +10,9 @@ pub fn derive_hello(input: TokenStream) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
 
     // TODO: build the sentence from `name` and `input.data`:
-    //   struct -> "Point with 2 fields"   (use `s.fields.len()`)
+    //   struct -> "Point with 2 fields"   (count the struct's fields)
     //   enum   -> "Shape (enum)"
-    // `match &input.data { syn::Data::Struct(s) => ..., syn::Data::Enum(_) => ..., ... }`
+    // `input.data` says which kind of item it is: match on it, one arm per kind.
     let text = String::from("TODO");
 
     quote! {

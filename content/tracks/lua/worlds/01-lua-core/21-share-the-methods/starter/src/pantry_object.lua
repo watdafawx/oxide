@@ -8,13 +8,13 @@ end
 
 -- a pantry holding items, e.g. {eggs = 12}
 function Pantry.new(items)
-  -- TODO: return setmetatable({items = items}, Pantry)
+  -- TODO: make a table holding items and set its metatable so lookups fall back to Pantry; return it
   return nil
 end
 
 -- add n of item to this pantry
 function Pantry:add(item, n)
-  -- TODO: self.items[item] = what is there (or 0) plus n
+  -- TODO: store what is there (or 0) plus n back under item
 end
 
 return Pantry

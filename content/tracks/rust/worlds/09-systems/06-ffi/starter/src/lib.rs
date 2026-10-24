@@ -9,15 +9,15 @@ unsafe extern "C" {
 
 /// The absolute value of `n`, computed by C's `abs`.
 pub fn c_abs(n: i32) -> i32 {
-    // TODO: unsafe { abs(n) }  (with a // SAFETY: comment)
+    // TODO: call C's abs inside an unsafe block (with a // SAFETY: comment)
     todo!()
 }
 
 /// The length of `s` in bytes, computed by C's `strlen`.
 /// `None` if `s` contains a NUL byte (it cannot be a C string).
 pub fn c_strlen(s: &str) -> Option<usize> {
-    // TODO: let c = CString::new(s).ok()?;  then unsafe { strlen(c.as_ptr()) }
-    //       (CString::new fails on an interior NUL, which gives None)
+    // TODO: make a NUL-terminated CString copy of s (it fails on an interior NUL, which gives None),
+    //       then pass its pointer to C's strlen inside unsafe
     todo!()
 }
 
@@ -27,7 +27,8 @@ pub fn c_strlen(s: &str) -> Option<usize> {
 /// `ptr` must be non-null and point to a NUL-terminated string that stays
 /// valid for the duration of the call.
 pub unsafe fn from_c(ptr: *const c_char) -> String {
-    // TODO: CStr::from_ptr(ptr) inside unsafe, then .to_string_lossy().into_owned()
+    // TODO: wrap the pointer in a CStr (inside unsafe), then copy it into an owned String,
+    //       replacing invalid UTF-8
     todo!()
 }
 

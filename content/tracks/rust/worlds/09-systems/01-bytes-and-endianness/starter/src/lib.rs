@@ -2,25 +2,26 @@
 
 /// `n` as 4 bytes, least significant byte first (little-endian).
 pub fn to_le(n: u32) -> [u8; 4] {
-    // TODO: n.to_le_bytes()
+    // TODO: ask n for its 4 bytes, least significant first (u32 has a built-in for this)
     todo!()
 }
 
 /// `n` as 4 bytes, most significant byte first (big-endian).
 pub fn to_be(n: u32) -> [u8; 4] {
-    // TODO: n.to_be_bytes()
+    // TODO: ask n for its 4 bytes, most significant first
     todo!()
 }
 
 /// Reads a little-endian u32 from the first 4 bytes. `None` if fewer than 4 bytes.
 pub fn read_u32_le(bytes: &[u8]) -> Option<u32> {
-    // TODO: bytes.get(..4)? -> .try_into().ok()? into a [u8; 4] -> u32::from_le_bytes
+    // TODO: take the first 4 bytes (None if too short), turn that slice into a [u8; 4],
+    //       then build a u32 from it, little-endian
     todo!()
 }
 
 /// Reads a big-endian u32 from the first 4 bytes. `None` if fewer than 4 bytes.
 pub fn read_u32_be(bytes: &[u8]) -> Option<u32> {
-    // TODO: same as read_u32_le, with from_be_bytes
+    // TODO: same as read_u32_le, but big-endian
     todo!()
 }
 

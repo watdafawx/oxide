@@ -8,7 +8,7 @@ end
 
 -- add n of item; the key may not exist yet
 function M.put_in(chest, item, n)
-  -- TODO: chest[item] = what is there (or 0) plus n
+  -- TODO: store what is there (or 0) plus n back under item
 end
 
 -- remove item from the chest and return how many there were (0 if none)

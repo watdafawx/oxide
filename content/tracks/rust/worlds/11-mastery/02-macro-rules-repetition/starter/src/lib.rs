@@ -2,7 +2,7 @@
 #[macro_export]
 macro_rules! vec_of_strings {
     ($($s:expr),* $(,)?) => {{
-        // TODO: build the Vec<String> with `vec![$($s.to_string()),*]`.
+        // TODO: build a vec! that repeats `.to_string()` on each captured `$s`, comma-separated.
         // (This stub ignores the arguments, so the crate compiles.)
         $(let _ = $s;)*
         Vec::<String>::new()
@@ -13,7 +13,7 @@ macro_rules! vec_of_strings {
 #[macro_export]
 macro_rules! hashmap {
     ($k:expr => $v:expr) => {{
-        // TODO: create a `::std::collections::HashMap`, insert `$k` => `$v`, return it.
+        // TODO: create a HashMap (full path from ::std), insert the key and the value, return the map.
         let _ = ($k, $v);
         ::std::collections::HashMap::new()
     }};
@@ -26,7 +26,7 @@ macro_rules! max {
         $x
     };
     ($x:expr, $($rest:expr),+) => {{
-        // TODO: return `::std::cmp::max($x, max!($($rest),+))`: the macro calls itself on the rest.
+        // TODO: the larger of `$x` and the max of the rest: the macro calls itself on `$rest`.
         // (This stub ignores the arguments, so the crate compiles.)
         let _ = ($x, $($rest),+);
         0

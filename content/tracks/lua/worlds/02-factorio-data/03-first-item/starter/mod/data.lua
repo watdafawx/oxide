@@ -3,7 +3,8 @@ data:extend({
   {
     type = "item",
     name = "kit-alloy",
-    -- TODO: add icon (a "__base__/graphics/icons/....png" path), stack_size = 100,
-    --       subgroup = "intermediate-product" and an order string like "z[kit-alloy]"
+    -- TODO: add the four missing fields: an icon (a path to a vanilla icon under __base__),
+    --       a stack size of 100, the "intermediate-product" subgroup, and an order string
+    --       such as "z[kit-alloy]"
   },
 })

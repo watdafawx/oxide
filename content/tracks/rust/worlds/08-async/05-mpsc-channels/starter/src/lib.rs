@@ -2,7 +2,7 @@ use tokio::sync::mpsc;
 
 /// Reads messages until the channel is closed.
 pub async fn drain(mut rx: mpsc::Receiver<String>) -> Vec<String> {
-    // TODO: while let Some(msg) = rx.recv().await { ... }
+    // TODO: keep receiving with a while let loop and push each message; stop when recv() gives None
     todo!()
 }
 

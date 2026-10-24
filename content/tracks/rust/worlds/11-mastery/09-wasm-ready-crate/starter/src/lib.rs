@@ -2,7 +2,8 @@
 // TODO: above `pub fn fib`, add the attribute that exports it to JavaScript, but only when
 // building for wasm32: `cfg_attr(<condition>, <attribute path>)`. See the hints.
 pub fn fib(n: u32) -> u64 {
-    // TODO: start `let (mut a, mut b) = (0u64, 1u64);`, loop `n` times with `(a, b) = (b, a + b);`, return `a`. Recursion would be far too slow for fib(90).
+    // TODO: keep two numbers starting at 0 and 1; n times, move to the next pair (b, a + b);
+    // the first one is the answer. Recursion would be far too slow for fib(90).
     todo!()
 }
 

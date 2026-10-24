@@ -41,7 +41,7 @@ async fn add_mod(
     State(db): State<Db>,
     Json(new): Json<NewMod>,
 ) -> Result<(StatusCode, Json<ModRow>), StatusCode> {
-    // TODO: lock db, INSERT with params![new.name], id = conn.last_insert_rowid(), return Ok((StatusCode::CREATED, Json(ModRow { id, name: new.name })))
+    // TODO: lock db, INSERT the name, read the new row's id, answer 201 Created with the ModRow as JSON
     todo!()
 }
 
@@ -53,13 +53,15 @@ async fn list_mods(State(db): State<Db>) -> Result<Json<Vec<ModRow>>, StatusCode
 
 /// GET /mods/{id} -> the mod, or 404.
 async fn get_mod(State(db): State<Db>, Path(id): Path<i64>) -> Result<Json<ModRow>, StatusCode> {
-    // TODO: lock db, query_row(.. WHERE id = ?1 ..).optional().map_err(internal)?, then found.map(Json).ok_or(StatusCode::NOT_FOUND)
+    // TODO: lock db, look up the one row with that id (no row is not an error: make it an
+    //       Option), then return it as JSON, or 404 when there was none
     todo!()
 }
 
 /// DELETE /mods/{id} -> 204, or 404 when nothing was deleted.
 async fn remove_mod(State(db): State<Db>, Path(id): Path<i64>) -> Result<StatusCode, StatusCode> {
-    // TODO: lock db, conn.execute("DELETE FROM mods WHERE id = ?1", params![id]) returns the row count; 0 -> Err(StatusCode::NOT_FOUND), else Ok(StatusCode::NO_CONTENT)
+    // TODO: lock db, DELETE the row with that id; execute tells you how many rows went:
+    //       none is 404, otherwise 204 No Content
     todo!()
 }
 

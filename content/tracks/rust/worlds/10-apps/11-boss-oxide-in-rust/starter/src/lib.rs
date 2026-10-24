@@ -98,13 +98,13 @@ pub trait Api {
 /// How full the XP bar is: `xp_into_level / xp_for_next`, always between 0.0 and 1.0.
 /// An `xp_for_next` of 0 gives 0.0.
 pub fn xp_fraction(profile: &Profile) -> f32 {
-    // TODO: return 0.0 when xp_for_next == 0, else (xp_into_level as f32 / xp_for_next as f32).clamp(0.0, 1.0)
+    // TODO: 0.0 when xp_for_next is 0; otherwise divide the two as f32 and keep the result in 0.0..=1.0
     todo!()
 }
 
 /// How many objectives in the result have the status `Passed`.
 pub fn passed_count(result: &CheckResult) -> usize {
-    // TODO: result.objectives.iter().filter(|o| o.status == ObjectiveStatus::Passed).count()
+    // TODO: count the objectives whose status is Passed
     todo!()
 }
 
@@ -167,7 +167,8 @@ impl<A: Api> OxideApp<A> {
     /// Opens the quest: `detail` from `api.start_quest(id)`, `last` from its `last_check`,
     /// no toast, and `screen = Screen::Quest`.
     pub fn start(&mut self, id: &str) {
-        // TODO: let detail = self.api.start_quest(id); self.last = detail.last_check.clone(); self.detail = Some(detail); self.toast = None; self.screen = Screen::Quest
+        // TODO: ask the api to start the quest; keep its last check in `last` and the detail in
+        //       `detail`; clear the toast; switch to the quest screen
         todo!()
     }
 
@@ -181,7 +182,7 @@ impl<A: Api> OxideApp<A> {
 
     /// Back to Home, reloading it from the Api and clearing the quest state.
     pub fn go_home(&mut self) {
-        // TODO: self.home = self.api.home(); screen = Home; detail, last and toast = None
+        // TODO: reload `home` from the api, switch to the home screen, clear detail, last and toast
         todo!()
     }
 
@@ -209,7 +210,8 @@ impl<A: Api> OxideApp<A> {
     /// and a `Continue` button. Clears `level_up` when Continue is clicked or the modal
     /// asks to close (`response.should_close()`).
     fn level_up_modal(&mut self, ctx: &egui::Context) {
-        // TODO: let Some(c) = self.level_up.clone(), show egui::Modal::new(egui::Id::unique("level_up")).show(ctx, ..), clear self.level_up on Continue or should_close()
+        // TODO: take a copy of the pending level-up, show it in an egui Modal, and clear
+        //       `level_up` on Continue or when the modal asks to close
         todo!()
     }
 }

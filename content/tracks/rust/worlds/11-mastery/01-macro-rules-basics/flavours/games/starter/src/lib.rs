@@ -1,7 +1,8 @@
 /// `chunk_area!(x)` expands to `x * x`.
 #[macro_export]
 macro_rules! chunk_area {
-    // TODO: change the arm body to double braces `{{ .. }}`; `let v = $x;` then end with `v * v` so $x runs once
+    // TODO: make the arm body one block (double braces); bind `$x` to a local once and multiply
+    // that local by itself, so $x runs only once
     ($x:expr) => {
         0 * $x
     };

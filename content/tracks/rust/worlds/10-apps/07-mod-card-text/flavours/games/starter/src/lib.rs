@@ -1,6 +1,6 @@
 /// `"[x] sodium"` when enabled, `"[ ] sodium"` when not.
 pub fn card_line(name: &str, enabled: bool) -> String {
-    // TODO: pick "[x]" or "[ ]" with an if expression, then format!("{mark} {name}")
+    // TODO: pick "[x]" or "[ ]" with an if expression, then join it and the name with a space
     todo!()
 }
 

@@ -13,6 +13,6 @@ public class Shapes {
 
     /** True for a Rectangle with width equal to height. Use a record pattern. */
     public static boolean isSquare(Shape shape) {
-        throw new UnsupportedOperationException("TODO: case Rectangle(double w, double h) -> ...");
+        throw new UnsupportedOperationException("TODO: switch with a record pattern that takes a Rectangle apart into its width and height");
     }
 }

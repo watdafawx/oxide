@@ -18,7 +18,7 @@ label = "every vanilla stack above 50 is halved exactly once; stacks of 50 stay"
 [[hints]]
 text = "`other` loads after `mod`, so in `mod/data.lua` its items do not exist yet. In `data-updates.lua` they do: `data.raw.item[\"other-widget\"].subgroup = \"kit-parts\"`."
 [[hints]]
-text = "In `data-final-fixes.lua` loop `for _, item in pairs(data.raw.item) do ... end` and set `item.stack_size = item.stack_size / 2` when it is above 50."
+text = "In `data-final-fixes.lua` loop `for _, item in pairs(data.raw.item) do ... end` and set `item.stack_size = math.floor(item.stack_size / 2)` when it is above 50."
 [[hints]]
 text = "Do the halving in exactly one stage. If it also runs in data-updates, other-widget ends at 25 and vanilla plates at 25 too."
 

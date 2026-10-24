@@ -40,8 +40,8 @@ pub async fn download_one(
     entry: &Entry,
     dir: &Path,
 ) -> Result<()> {
-    // TODO: client.get(entry.url(base)).send().await?.error_for_status()?
-    // TODO: bytes().await?, tokio::fs::write to the .part path, tokio::fs::rename
+    // TODO: GET the entry's url with the client and fail on a 4xx/5xx status
+    // TODO: read the body bytes, write them to the .part file, then rename it to the real name
     todo!()
 }
 
@@ -86,14 +86,15 @@ pub async fn download_all(
     token: CancellationToken,
 ) -> Result<()> {
     // TODO: Semaphore (in an Arc) + JoinSet; one task per entry; permit first, then download_with_retry
-    // TODO: loop { select! { token.cancelled() => abort + remove_partials + Err, set.join_next() => progress } }
+    // TODO: loop, racing the token's cancellation against the next finished task: on cancel stop
+    // every task, remove the partial files and return an error; otherwise report progress
     let _ = remove_partials; // delete this line once you use remove_partials
     todo!()
 }
 
 /// Names of manifest files that are missing in `dir` or have a different size.
 pub fn verify(dir: &Path, manifest: &[Entry]) -> Vec<String> {
-    // TODO: std::fs::metadata(dir.join(&entry.name)), compare len() with entry.size
+    // TODO: read each file's metadata and compare its length with entry.size
     todo!()
 }
 

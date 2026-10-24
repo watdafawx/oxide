@@ -8,7 +8,7 @@ pub struct Block {
 #[macro_export]
 macro_rules! block {
     ($name:expr => $id:expr) => {{
-        // TODO: return `$crate::Block { name: $name, id: $id }`.
+        // TODO: return a Block (through $crate) built from the two captures.
         // (This stub ignores the arguments, so the crate compiles.)
         let _ = ($name, $id);
         $crate::Block { name: "", id: 0 }
@@ -19,7 +19,7 @@ macro_rules! block {
 #[macro_export]
 macro_rules! registry {
     ($($name:expr => $id:expr),* $(,)?) => {{
-        // TODO: return `vec![$( $crate::block!($name => $id) ),*]`.
+        // TODO: return a vec! with one block! call (through $crate) per captured pair, repeated.
         // (This stub ignores the arguments, so the crate compiles.)
         $(let _ = ($name, $id);)*
         Vec::<$crate::Block>::new()

@@ -15,7 +15,7 @@ label = "square!(expr) runs the expression a single time"
 [[hints]]
 text = "A macro arm is `(pattern) => { expansion };`. The pattern `$x:expr` captures any expression."
 [[hints]]
-text = "`square!(next())` must not call `next()` twice. Bind first: `{ let v = $x; v * v }`."
+text = "`square!(next())` must not call `next()` twice. Bind first: `{ let v = $x; v * v }`. The whole arm: `($x:expr) => {{ let v = $x; v * v }};`"
 
 [[points]]
 after = 3

@@ -8,6 +8,6 @@ public class Chat {
 
     /** "x y z" for a BlockBroken, "nowhere" for any other event. Use a nested record pattern. */
     public static String where(Event event) {
-        throw new UnsupportedOperationException("TODO: case BlockBroken(String player, String block, BlockPos(int x, int y, int z)) -> ...");
+        throw new UnsupportedOperationException("TODO: switch with a nested record pattern that unpacks a BlockBroken and the BlockPos inside it");
     }
 }

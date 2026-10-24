@@ -16,27 +16,28 @@ pub struct Profile {
 
 /// Level 1 at 0 XP, one more level every 100 XP.
 pub fn level_for(xp: u32) -> u32 {
-    // TODO: xp / 100 + 1
+    // TODO: one level per full 100 XP, starting at level 1 (integer division)
     todo!()
 }
 
 /// Adds `amount` XP to the state and returns the new profile.
 pub fn award_xp_inner(state: &mut AppState, amount: u32) -> Profile {
-    // TODO: state.xp += amount; return Profile { xp: state.xp, level: level_for(state.xp) }
+    // TODO: add amount to the stored XP, then return a Profile with the new XP and its level
     todo!()
 }
 
 /// Records a started quest and returns every started id.
 /// Blank ids and ids that were already started are errors.
 pub fn start_quest_inner(state: &mut AppState, id: String) -> Result<Vec<String>, String> {
-    // TODO: Err for a blank id (id.trim().is_empty()), Err for state.started.contains(&id), else push and Ok(state.started.clone())
+    // TODO: reject a blank id and an id that was already started (both Err) BEFORE changing
+    //       the state; otherwise record it and return a copy of every started id
     todo!()
 }
 
 // (private on purpose: a pub command in the crate root clashes with the macro Tauri generates)
 #[tauri::command]
 fn award_xp(state: tauri::State<'_, Mutex<AppState>>, amount: u32) -> Profile {
-    // TODO: award_xp_inner(&mut state.lock().unwrap(), amount)
+    // TODO: lock the shared state and hand it to award_xp_inner
     todo!()
 }
 
@@ -46,7 +47,7 @@ fn start_quest(
     state: tauri::State<'_, Mutex<AppState>>,
     id: String,
 ) -> Result<Vec<String>, String> {
-    // TODO: start_quest_inner(&mut state.lock().unwrap(), id)
+    // TODO: lock the shared state and hand it to start_quest_inner
     todo!()
 }
 

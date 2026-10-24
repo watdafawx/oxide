@@ -10,7 +10,7 @@ pub async fn download(ms: u64) -> &'static str {
 
 /// Some("done") if download(work_ms) finishes within limit_ms, else None.
 pub async fn download_with_timeout(work_ms: u64, limit_ms: u64) -> Option<&'static str> {
-    // TODO: tokio::time::timeout(..., download(work_ms)).await, then turn Err into None
+    // TODO: wrap the download in a timeout of limit_ms, then turn Err into None
     todo!()
 }
 
@@ -22,7 +22,7 @@ pub async fn fastest_mirror(a_ms: u64, b_ms: u64) -> &'static str {
 
 /// Runs download(work_ms). If `cancel` fires first, stop and return "cancelled".
 pub async fn download_or_cancel(work_ms: u64, mut cancel: oneshot::Receiver<()>) -> &'static str {
-    // TODO: tokio::select! between `&mut cancel` and download(work_ms)
+    // TODO: race the cancel receiver against the download with select!
     todo!()
 }
 

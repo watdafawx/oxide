@@ -15,7 +15,7 @@ pub async fn first_n_squares(n: usize) -> Vec<u64> {
 
 /// ["a", "bb", "ccc"] -> 6
 pub async fn total_length(words: Vec<&str>) -> usize {
-    // TODO: stream::iter(words).fold(0, |acc, w| async move { ... }).await
+    // TODO: turn words into a stream and fold it, adding each word's length (the closure returns a future)
     todo!()
 }
 

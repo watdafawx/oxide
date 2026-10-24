@@ -7,23 +7,22 @@ use std::thread;
 /// Echoes every byte it reads back to the client until the client closes.
 pub fn handle(mut stream: TcpStream) -> io::Result<()> {
     // TODO: loop { read into a buffer; Ok(0) means the client closed -> return Ok(());
-    //              otherwise write_all(&buf[..n]) back }
+    //              otherwise write the n bytes you read back to the client }
     todo!()
 }
 
 /// Connects to `addr`, sends `msg`, and returns the same number of bytes read back.
 pub fn client_roundtrip(addr: SocketAddr, msg: &[u8]) -> io::Result<Vec<u8>> {
-    // TODO: TcpStream::connect(addr)?, set a read timeout (3s) so a dead server
-    //       can't hang you, write_all(msg)?, then read_exact into vec![0; msg.len()]
+    // TODO: connect to addr, set a read timeout (3s) so a dead server can't hang you,
+    //       write the whole message, then read back exactly msg.len() bytes
     todo!()
 }
 
 /// Accepts exactly `connections` clients. Each runs `handle` on its own thread.
 /// Returns after all of them are finished.
 pub fn serve(listener: TcpListener, connections: usize) {
-    // TODO: repeat `connections` times: listener.accept(), then
-    //       thread::spawn(move || { let _ = handle(stream); }); keep the handles.
-    //       At the end, join every handle.
+    // TODO: repeat `connections` times: accept a client, then run `handle` for it on a
+    //       new thread (move the stream in); keep the handles. At the end, join every handle.
     todo!()
 }
 

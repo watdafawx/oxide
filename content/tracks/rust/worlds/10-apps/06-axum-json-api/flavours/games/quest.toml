@@ -19,4 +19,4 @@ text = "`Path(player): Path<String>` extracts `{player}` from the URL. Return `J
 [[hints]]
 text = "Return `Result<Json<Total>, (StatusCode, Json<ApiError>)>`: `Err((StatusCode::BAD_REQUEST, Json(..)))` for an empty list."
 [[hints]]
-text = "`State(state): State<AppState>` gives the shared counter. `state.count.fetch_add(1, Ordering::SeqCst) + 1` is the new count. One route can have two methods: `get(count).post(bump)`."
+text = "`State(state): State<AppState>` gives the shared counter. `state.count.fetch_add(1, Ordering::SeqCst) + 1` is the new count. One route can have two methods: `get(count).post(bump)`. `installs` returns `Json(Count { count: state.installs.load(Ordering::SeqCst) })`. The router: `Router::new().route(\"/welcome/{player}\", get(welcome)).route(\"/total-size\", post(total_size)).route(\"/installs\", get(installs).post(install)).with_state(AppState::default())`."

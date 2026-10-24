@@ -41,25 +41,28 @@ async fn create(
     State(db): State<Db>,
     Json(new): Json<NewNote>,
 ) -> Result<(StatusCode, Json<Note>), StatusCode> {
-    // TODO: lock db, INSERT INTO notes (body) VALUES (?1), id = conn.last_insert_rowid(), return Ok((StatusCode::CREATED, Json(Note { id, body: new.body })))
+    // TODO: lock db, INSERT the body, read the new row's id, answer 201 Created with the Note as JSON
     todo!()
 }
 
 /// GET /notes -> [{"id":1,"body":".."}, ...] ordered by id.
 async fn list(State(db): State<Db>) -> Result<Json<Vec<Note>>, StatusCode> {
-    // TODO: lock db, prepare "SELECT id, body FROM notes ORDER BY id", query_map into Note, collect::<Result<Vec<_>, _>>().map_err(internal)?, wrap in Json
+    // TODO: lock db, SELECT every note ordered by id, turn each row into a Note, collect them
+    //       (map any error to `internal`), and return them as JSON
     todo!()
 }
 
 /// GET /notes/{id} -> the note, or 404.
 async fn get_one(State(db): State<Db>, Path(id): Path<i64>) -> Result<Json<Note>, StatusCode> {
-    // TODO: lock db, query_row(.. WHERE id = ?1 ..).optional().map_err(internal)?, then note.map(Json).ok_or(StatusCode::NOT_FOUND)
+    // TODO: lock db, look up the one row with that id (no row is not an error: make it an
+    //       Option), then return it as JSON, or 404 when there was none
     todo!()
 }
 
 /// DELETE /notes/{id} -> 204, or 404 when nothing was deleted.
 async fn remove(State(db): State<Db>, Path(id): Path<i64>) -> Result<StatusCode, StatusCode> {
-    // TODO: lock db, conn.execute("DELETE FROM notes WHERE id = ?1", params![id]) returns the row count; 0 -> Err(NOT_FOUND), else Ok(NO_CONTENT)
+    // TODO: lock db, DELETE the row with that id; execute tells you how many rows went:
+    //       none is 404, otherwise 204 No Content
     todo!()
 }
 

@@ -2,7 +2,7 @@ use tokio::sync::mpsc;
 
 /// Reads progress lines until the channel is closed.
 pub async fn drain_log(mut rx: mpsc::Receiver<String>) -> Vec<String> {
-    // TODO: while let Some(line) = rx.recv().await { ... }
+    // TODO: keep receiving with a while let loop and push each line; stop when recv() gives None
     todo!()
 }
 

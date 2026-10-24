@@ -6,7 +6,7 @@
 /// `ptr` must be non-null, aligned, and point to a live, writable i32 that
 /// nothing else is accessing.
 pub unsafe fn add_player(ptr: *mut i32) {
-    // TODO: unsafe { *ptr += 1; } with a // SAFETY: comment
+    // TODO: add 1 through the pointer inside an unsafe block, with a // SAFETY: comment
     todo!()
 }
 
@@ -25,7 +25,7 @@ pub unsafe fn player_count_or_none(ptr: *const i32) -> Option<i32> {
 /// `ptr` must be non-null, aligned, and point to `len` consecutive live i32s
 /// that are not mutated while this runs.
 pub unsafe fn total_players_raw(ptr: *const i32, len: usize) -> i32 {
-    // TODO: std::slice::from_raw_parts(ptr, len) in an unsafe block, then sum
+    // TODO: rebuild a slice from the pointer and the length in an unsafe block, then sum it
     todo!()
 }
 

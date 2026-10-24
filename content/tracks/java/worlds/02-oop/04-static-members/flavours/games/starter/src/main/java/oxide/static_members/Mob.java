@@ -13,7 +13,7 @@ public class Mob {
 
     /** Spawns a mob. The constructor is private, so this is the only way. */
     public static Mob spawn(String kind) {
-        throw new UnsupportedOperationException("TODO: build a Mob with new Mob(kind)");
+        throw new UnsupportedOperationException("TODO: build a new Mob of that kind and return it");
     }
 
     public int id() {

@@ -36,7 +36,7 @@ pub fn unpack_rgb(color: u32) -> (u8, u8, u8) {
 
 /// How many bits of `value` are 1.
 pub fn count_set_bits(value: u32) -> u32 {
-    // TODO: value.count_ones()
+    // TODO: count the 1 bits (integers have a built-in method for this)
     todo!()
 }
 

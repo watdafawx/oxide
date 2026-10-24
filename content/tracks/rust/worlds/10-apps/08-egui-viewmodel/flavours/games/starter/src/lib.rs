@@ -12,7 +12,7 @@ impl ModCounter {
 
     /// Never goes below 0.
     pub fn decrement(&mut self) {
-        // TODO: saturating_sub
+        // TODO: take 1 off, stopping at 0
         todo!()
     }
 
@@ -23,7 +23,7 @@ impl ModCounter {
 
     /// The text of the label, e.g. `Mods enabled: 3`.
     pub fn label(&self) -> String {
-        // TODO: format!("Mods enabled: {}", ...)
+        // TODO: the text "Mods enabled: " followed by the count
         todo!()
     }
 

@@ -1,6 +1,6 @@
 package oxide.records;
 
-/** TODO: turn this class into `public record Parcel(String label, int grams)`. */
+/** TODO: turn this class into a record with the same two components (label, then grams). */
 public final class Parcel {
     private final String label;
     private final int grams;

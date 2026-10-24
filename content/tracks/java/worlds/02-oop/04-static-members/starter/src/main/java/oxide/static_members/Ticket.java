@@ -13,7 +13,7 @@ public class Ticket {
 
     /** Builds a ticket. The constructor is private, so this is the only way. */
     public static Ticket of(String title) {
-        throw new UnsupportedOperationException("TODO: build a Ticket with new Ticket(title)");
+        throw new UnsupportedOperationException("TODO: build a new Ticket for the title and return it");
     }
 
     public int id() {

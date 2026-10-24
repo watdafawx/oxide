@@ -1,7 +1,9 @@
 /// Slime population after `generation` rounds: 0, 1, 1, 2, 3, 5, 8, ...
-// TODO: add `#[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]` above this function
+// TODO: above this function, add the attribute that exports it to JavaScript, but only when
+// building for wasm32: `cfg_attr(<condition>, <attribute path>)`. See the hints.
 pub fn slimes_after(generation: u32) -> u64 {
-    // TODO: `let (mut a, mut b) = (0u64, 1u64);`, loop `generation` times with `(a, b) = (b, a + b);`, return `a`
+    // TODO: keep two numbers starting at 0 and 1; `generation` times, move to the next pair
+    // (b, a + b); the first one is the answer
     let _ = generation;
     todo!()
 }

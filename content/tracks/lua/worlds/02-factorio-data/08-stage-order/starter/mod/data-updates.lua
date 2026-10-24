@@ -1,2 +1,2 @@
 -- Every mod's data.lua has run by now, so other-widget exists.
--- TODO: set data.raw.item["other-widget"].subgroup = "kit-parts"
+-- TODO: move the other-widget item into the kit-parts subgroup

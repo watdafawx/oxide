@@ -1,12 +1,12 @@
 /// "Downloading sodium.jar" for jar = "sodium.jar".
 pub async fn announce_download(jar: &str) -> String {
-    // TODO: format!("Downloading {jar}")
+    // TODO: build the "Downloading ..." text with format!
     todo!()
 }
 
 /// Adds two file sizes (in bytes).
 pub async fn total_size(a: u64, b: u64) -> u64 {
-    // TODO: a + b
+    // TODO: return the sum
     todo!()
 }
 

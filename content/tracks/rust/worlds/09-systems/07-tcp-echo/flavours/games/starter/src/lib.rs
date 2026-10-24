@@ -19,7 +19,7 @@ pub fn send_ping(addr: SocketAddr, msg: &[u8]) -> io::Result<Vec<u8>> {
 /// Accepts exactly `connections` clients. Each runs `echo_ping` on its own thread.
 /// Returns after all of them are finished.
 pub fn serve(listener: TcpListener, connections: usize) {
-    // TODO: accept in a loop, thread::spawn(move || echo_ping(stream)) for each, join all at the end
+    // TODO: accept in a loop, run echo_ping for each client on its own thread, join all at the end
     todo!()
 }
 

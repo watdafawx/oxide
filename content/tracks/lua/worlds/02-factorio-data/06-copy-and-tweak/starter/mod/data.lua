@@ -2,8 +2,8 @@
 local item = data.raw.item["iron-gear-wheel"]
 local recipe = data.raw.recipe["iron-gear-wheel"]
 
--- TODO: these two lines point at the vanilla tables themselves. Wrap each right-hand side in
---       table.deepcopy(...) so the edits below hit copies, not vanilla.
+-- TODO: these two lines point at the vanilla tables themselves. Make each one a deep copy
+--       instead, so the edits below hit copies, not vanilla.
 item.name = "kit-gear"
 item.stack_size = 200
 recipe.name = "kit-gear"

@@ -96,16 +96,16 @@ pub fn status_request() -> Vec<u8> {
 /// The Handshake packet (id 0) asking for status (next state 1), ready to send.
 /// Payload: VarInt protocol version, String host, u16 port big-endian, VarInt next state.
 pub fn handshake(host: &str, port: u16) -> Vec<u8> {
-    // TODO: build the payload in the order above (write_varint, write_string,
-    //       port.to_be_bytes(), write_varint), then Packet { id: 0, payload }.encode()
+    // TODO: build the payload in the order above with the given helpers (the port as
+    //       2 big-endian bytes), then wrap it in a packet with id 0 and encode it
     todo!()
 }
 
 /// Reads exactly one packet from `r`. The length must be 1..=MAX_PACKET_LEN.
 pub fn read_packet(r: &mut impl Read) -> io::Result<Packet> {
-    // TODO: len = read_varint(r)?; reject if not in 1..=MAX_PACKET_LEN (use invalid("..."));
-    //       read_exact into vec![0u8; len as usize]; then read the id with
-    //       read_varint on an io::Cursor over that buffer; payload = the rest
+    // TODO: read the VarInt length; reject it if not in 1..=MAX_PACKET_LEN (use invalid("..."));
+    //       read exactly that many bytes into a buffer; read the id as a VarInt from the
+    //       start of that buffer (a cursor helps); the payload is the rest
     todo!()
 }
 
@@ -132,21 +132,19 @@ fn flatten_text(v: &Value) -> String {
 
 /// Parses the status JSON. Missing or malformed required fields are `InvalidData` errors.
 pub fn parse_status(json: &str) -> io::Result<Status> {
-    // TODO: let v: Value = serde_json::from_str(json).map_err(|e| invalid(&e.to_string()))?;
-    //       v["version"]["name"].as_str(), v["version"]["protocol"].as_i64(),
-    //       v["players"]["online"].as_u64(), v["players"]["max"].as_u64()
-    //       -> each .ok_or_else(|| invalid("missing ..."))?
-    //       description_text: flatten_text(&v["description"])
+    // TODO: parse the text into a serde_json Value (a parse error becomes invalid(..));
+    //       read version.name, version.protocol, players.online and players.max with the
+    //       right as_* method, turning each missing one into an invalid("missing ...") error;
+    //       description_text comes from flatten_text on the "description" field
     todo!()
 }
 
 /// Pings the server at `addr`: handshake, status request, read and parse the response.
 pub fn ping(addr: SocketAddr) -> io::Result<Status> {
-    // TODO: TcpStream::connect_timeout(&addr, 3s)?; set read and write timeouts (3s);
-    //       write_all(&handshake(&addr.ip().to_string(), addr.port()))?;
-    //       write_all(&status_request())?;
-    //       let packet = read_packet(&mut stream)?; require packet.id == 0;
-    //       let json = read_string(&packet.payload)?; parse_status(&json)
+    // TODO: connect with a 3s timeout and set 3s read and write timeouts;
+    //       send the handshake (host = the address's IP as text, plus its port), then the
+    //       status request; read one packet and require id 0; read the JSON string from
+    //       its payload and parse it
     todo!()
 }
 

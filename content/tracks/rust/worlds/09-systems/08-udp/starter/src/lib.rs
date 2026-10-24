@@ -6,15 +6,16 @@ use std::time::Duration;
 
 /// Receives one datagram on `socket` and sends it back, uppercased, to the sender.
 pub fn serve_once(socket: &UdpSocket) -> io::Result<()> {
-    // TODO: recv_from into a buffer -> (n, from); then send_to(&buf[..n].to_ascii_uppercase(), from)
+    // TODO: receive into a buffer (you get the length and the sender's address);
+    //       then send the received bytes, uppercased, back to that sender
     todo!()
 }
 
 /// Sends `msg` to `server` from a fresh socket and returns the reply.
 /// Gives up with an `Err` after 500 ms of silence.
 pub fn request(server: SocketAddr, msg: &[u8]) -> io::Result<Vec<u8>> {
-    // TODO: bind 127.0.0.1:0, set_read_timeout(Some(Duration::from_millis(500))),
-    //       send_to(msg, server), recv_from into a buffer, return buf[..n].to_vec()
+    // TODO: bind a fresh socket on 127.0.0.1 port 0, set a 500 ms read timeout,
+    //       send msg to the server, receive the reply, return the bytes you got
     todo!()
 }
 

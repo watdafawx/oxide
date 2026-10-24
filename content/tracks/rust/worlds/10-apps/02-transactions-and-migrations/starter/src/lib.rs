@@ -9,7 +9,8 @@ pub fn version(conn: &Connection) -> Result<i64> {
 /// v1: `notes (id INTEGER PRIMARY KEY, body TEXT NOT NULL CHECK (body <> ''))`
 /// v2: `ALTER TABLE notes ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0`
 pub fn migrate(conn: &mut Connection) -> Result<()> {
-    // TODO: start a transaction, read version(&tx), run only the missing steps (v1, v2), tx.pragma_update(None, "user_version", 2)?, commit
+    // TODO: start a transaction, read the current version, run only the missing steps (v1, v2),
+    //       set user_version to 2, commit
     todo!()
 }
 

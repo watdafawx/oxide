@@ -20,13 +20,14 @@ pub fn open() -> Result<Connection> {
 
 /// Inserts an enabled mod and returns its new id.
 pub fn add_mod(conn: &Connection, name: &str) -> Result<i64> {
-    // TODO: conn.execute("INSERT INTO mods (name, enabled) VALUES (?1, 1)", params![name])?, then Ok(conn.last_insert_rowid())
+    // TODO: run an INSERT that puts `name` in through a ?1 placeholder (enabled = 1), then return the new row's id
     todo!()
 }
 
 /// Every mod, ordered by id.
 pub fn list_mods(conn: &Connection) -> Result<Vec<Mod>> {
-    // TODO: prepare "SELECT id, name, enabled FROM mods ORDER BY id", then query_map([], |row| Ok(Mod { id: row.get(0)?, ... }))?.collect()
+    // TODO: prepare a SELECT of id, name, enabled ordered by id, turn each row into a Mod
+    //       with query_map, then collect the rows
     todo!()
 }
 
