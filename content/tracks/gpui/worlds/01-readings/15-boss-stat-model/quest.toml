@@ -1,0 +1,38 @@
+title = "Boss: the stat model"
+summary = "Turn the bar order and a snapshot of readings into the pills the bar draws."
+kind = "boss"
+xp = 300
+minutes = 30
+tags = ["boss", "hashmap", "match", "option"]
+
+[[objectives]]
+test = "formats_each_kind"
+label = "bar_items writes each stat in its unit"
+[[objectives]]
+test = "missing_shows_dashes"
+label = "a stat missing from the snapshot shows --"
+[[objectives]]
+test = "hot_cpu_is_flagged"
+label = "a CPU at 90 °C is a warning pill"
+[[objectives]]
+test = "low_battery_is_flagged"
+label = "a battery at 15% is a warning pill"
+[[objectives]]
+test = "dividers_pass_through"
+label = "dividers stay where the order puts them"
+[[objectives]]
+test = "default_bar_on_two_lines"
+label = "the default bar pairs up on two lines, CPU on top of its temperature"
+
+[[hints]]
+text = "Start with `let mut items = Vec::new();`, the loop and `match` from the lesson, and `items` as the last line. The divider arm is one push: `BarItem::Divider(*style)`."
+[[hints]]
+text = "In the stat arm, first the reading: `let reading = Reading { kind: *kind, value: snapshot.get(kind).copied() };`. The pill then takes `kind.label()`, `reading.text()` and `is_warning(&reading, limits)`."
+[[hints]]
+text = "`items.push(BarItem::Pill(Pill { kind: *kind, label: kind.label(), text: reading.text(), warning: is_warning(&reading, limits) }));`"
+
+[[points]]
+after = 2
+prompt = "What does snapshot.get(&kind) give back?"
+pick = ["An f64, 0.0 if the key is missing", "An Option<&f64>", "A Reading", "A Pill"]
+answer = 1

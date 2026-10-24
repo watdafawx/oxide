@@ -20,5 +20,10 @@ text = "`if let Some(i) = gpus.iter().position(|g| g.vendor == Vendor::Nvidia) {
 [[points]]
 after = 2
 prompt = "A laptop has Intel graphics (128 MB) and an AMD card (8 GB). Auto picks..."
-pick = ["the AMD card", "the Intel graphics", "neither", "both"]
-answer = 0
+pick = ["the Intel graphics", "the AMD card", "neither", "both"]
+answer = 1
+[[points]]
+after = 3
+prompt = "After enumerate(), what does each item look like?"
+pick = ["just the card", "just the index", "(index, card)", "(card, index)"]
+answer = 2

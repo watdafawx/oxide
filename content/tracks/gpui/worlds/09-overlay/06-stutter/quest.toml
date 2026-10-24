@@ -2,7 +2,7 @@ title = "Stutter"
 summary = "A spike is a frame that took more than twice the median: find them in the capture."
 kind = "exercise"
 xp = 40
-minutes = 6
+minutes = 7
 tags = ["sort", "statistics"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "spikes_found_in_capture"
 label = "the capture's spikes are frames 100, 400, 700, 812 and 1000"
 
 [[hints]]
-text = "Sort a copy to find the median (the middle value, or the average of the two middle ones), then keep the positions of frames above twice it."
+text = "`let mut sorted = ms.to_vec(); sorted.sort_by(|a, b| a.total_cmp(b)); let mid = sorted.len() / 2;` then an `if sorted.len().is_multiple_of(2) { .. } else { .. }` for the median. The last line is the lesson's example with `2.0 * median` for `20.0`."
 [[hints]]
-text = "`let mut sorted = ms.to_vec(); sorted.sort_by(f64::total_cmp); let mid = sorted.len() / 2; let median = if sorted.len().is_multiple_of(2) { (sorted[mid - 1] + sorted[mid]) / 2.0 } else { sorted[mid] }; ms.iter().enumerate().filter(|(_, m)| **m > 2.0 * median).map(|(i, _)| i).collect()`"
+text = "`if ms.is_empty() { return Vec::new(); } let mut sorted = ms.to_vec(); sorted.sort_by(|a, b| a.total_cmp(b)); let mid = sorted.len() / 2; let median = if sorted.len().is_multiple_of(2) { (sorted[mid - 1] + sorted[mid]) / 2.0 } else { sorted[mid] }; ms.iter().enumerate().filter(|(_, m)| **m > 2.0 * median).map(|(i, _)| i).collect()`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Why the median and not the average?"
-pick = ["the spikes themselves would drag the average up", "the median is faster", "the average can be negative", "they are the same here"]
-answer = 0
+pick = ["the median is faster", "the spikes themselves would drag the average up", "the average can be negative", "they are the same here"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Four sorted frame times: 8, 8, 9, 30. What is the median?"
+pick = ["8", "13.75", "9", "8.5"]
+answer = 3

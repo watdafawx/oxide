@@ -1,4 +1,4 @@
 title = "System monitor app"
-blurb = "Build a Windows system monitor with GPUI: live CPU and GPU stats on the taskbar, a desktop widget, an FPS overlay for games."
+blurb = "Build a Windows system monitor with GPUI: live CPU and GPU stats on the taskbar, a desktop widget, an FPS overlay for games. Needs the Rust track through Traits first; later worlds unlock with Rust smart pointers, concurrency and async."
 runner = "cargo"
 parent = "rust"

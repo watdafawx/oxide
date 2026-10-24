@@ -13,9 +13,9 @@ test = "small_counts_stay_in_bytes"
 label = "0 is 0 B, 1023 is 1023 B"
 
 [[hints]]
-text = "Replace the TODO line in `format_bytes` with a `while` loop. The lines below it already pick the text."
+text = "Replace the TODO with a `while` loop shaped like the seconds one: 1024 instead of 60, and stop when `unit` reaches the last index of `units`. Add `mut` to `value` and `unit`."
 [[hints]]
-text = "`while value >= 1024.0 && unit < units.len() - 1 { value /= 1024.0; unit += 1; }`"
+text = "`let mut value = bytes as f64; let mut unit = 0;` then `while value >= 1024.0 && unit < units.len() - 1 { value /= 1024.0; unit += 1; }`"
 
 [[points]]
 after = 2
@@ -24,6 +24,6 @@ pick = ["once", "twice", "three times", "never"]
 answer = 1
 [[points]]
 after = 3
-prompt = "Fill in the loop's condition."
-code = "while ___ && unit < units.len() - 1 {"
-blank = "value >= 1024.0"
+prompt = "Why do time and step need mut?"
+pick = ["The loop changes them", "while needs mut", "They are f64", "They are read twice"]
+answer = 0

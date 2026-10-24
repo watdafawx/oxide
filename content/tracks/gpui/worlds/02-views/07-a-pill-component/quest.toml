@@ -1,0 +1,26 @@
+title = "A pill component"
+summary = "PillView: a reusable element with its own render, built fresh inside the bar's."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "renderonce", "component"]
+
+[[objectives]]
+test = "pill_view_draws_label_then_value"
+label = "each PillView draws label-<Kind> and, to its right, value-<Kind>"
+
+[[hints]]
+text = "Move the last three links of `pill_element` into `PillView::render`, after `.gap_1()`, and read from `self.pill` instead of `pill`. `self` is yours, so the text needs no `.clone()`. Then delete `pill_element`."
+[[hints]]
+text = "`.child(div().debug_selector(move || format!(\"label-{kind:?}\")).child(self.pill.label))`, then the same with `value-` and `self.pill.text`, then `.text_color(value_colour(self.pill.warning))`."
+
+[[points]]
+after = 2
+prompt = "Which trait gives an element its own render that runs once and is used up?"
+pick = ["Render", "IntoElement", "RenderOnce", "Clone"]
+answer = 2
+[[points]]
+after = 3
+prompt = "The bar's numbers change every second and it must remember them. View or component?"
+pick = ["a component, with RenderOnce", "a view, with Render", "either, it makes no difference", "neither, a plain function"]
+answer = 1

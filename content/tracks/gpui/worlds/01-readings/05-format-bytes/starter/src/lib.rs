@@ -13,8 +13,8 @@ pub fn format_bytes(bytes: u64) -> String {
     let units = ["B", "KB", "MB", "GB", "TB"];
     let value = bytes as f64;
     let unit = 0;
-    // TODO: while value is 1024 or more (and unit < units.len() - 1),
-    // divide value by 1024.0 and add 1 to unit. Both need `mut` then.
+    // TODO: while value is still 1024 or more, divide it by 1024 and count
+    // the step in `unit`; never step past the last unit, "TB".
     if unit == 0 {
         format!("{bytes} B")
     } else {

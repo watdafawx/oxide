@@ -1,8 +1,8 @@
 title = "Usage bars"
 summary = "A bar under each percentage: a fill as wide as the value, with relative()."
 kind = "exercise"
-xp = 40
-minutes = 6
+xp = 30
+minutes = 4
 tags = ["gpui", "layout"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "bar_at_50_is_half_the_track"
 label = "CPU at 50% draws a fill half as wide as its track"
 
 [[hints]]
-text = "One call on the fill: its width as a share of the parent's."
+text = "It is one call on the fill, the inner `div`: a width (`.w(..)`) given as a share of the parent instead of in pixels."
 [[hints]]
-text = "`.w(relative(share))`"
+text = "Replace `.w(px(0.))` with `.w(relative(share))`."
 
 [[points]]
-after = 2
+after = 3
+prompt = "Why not give the fill a width in px?"
+pick = ["px only works for heights", "the track's width is only known at layout time", "px is slower", "px cannot be 0"]
+answer = 1
+[[points]]
+after = 4
 prompt = "What is relative(0.25) inside a 200 px wide parent?"
-pick = ["50 px", "25 px", "0.25 px", "200 px"]
-answer = 0
+pick = ["25 px", "0.25 px", "200 px", "50 px"]
+answer = 3

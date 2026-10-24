@@ -11,7 +11,7 @@ pub use stat::{ALL, StatKind, Unit};
 /// A network speed: "↓ 3.4 MB/s".
 pub fn format_speed(arrow: &str, bytes_per_sec: f64) -> String {
     let _ = (arrow, bytes_per_sec);
-    String::new() // TODO: the arrow, a space, format_bytes of the speed (as u64), then "/s"
+    String::new() // TODO: the arrow, a space, the speed written by format_bytes, then "/s"
 }
 
 #[cfg(test)]

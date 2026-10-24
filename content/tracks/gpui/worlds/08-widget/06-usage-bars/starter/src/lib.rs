@@ -74,7 +74,7 @@ pub fn usage_bar(kind: StatKind, share: f32) -> Div {
                 .h_full()
                 .rounded_full()
                 .bg(rgb(0x5ab0ff))
-                // TODO: as wide as `share` of the track: .w(relative(share))
+                // TODO: as wide as `share` of the track, whatever width the track has
                 .w(px(0.)),
         )
 }

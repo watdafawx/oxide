@@ -18,7 +18,12 @@ text = "First the exit check (`if let .. && !running(game)`), then a `match fron
 text = "`if let Some(game) = self.game && !running(game) { *self = AutoShow::default(); return Some(OverlayStep::Close); } match front { Front::Game(pid) if !self.shown => { self.game = Some(pid); self.shown = true; Some(OverlayStep::Show) } Front::Other if self.shown => { self.shown = false; Some(OverlayStep::Hide) } _ => None }`"
 
 [[points]]
-after = 3
+after = 2
 prompt = "Why check \"the game exited\" before \"what is in front\"?"
-pick = ["after a game exits, something else is in front; that must close, not just hide", "it is faster", "match needs it", "to show it again"]
-answer = 0
+pick = ["it is faster", "after a game exits, something else is in front; that must close, not just hide", "match needs it", "to show it again"]
+answer = 1
+[[points]]
+after = 3
+prompt = "What does *self = AutoShow::default(); do?"
+pick = ["copies self into a new AutoShow", "makes a second AutoShow next to it", "puts every field back to its start value", "deletes the AutoShow"]
+answer = 2

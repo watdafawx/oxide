@@ -1,11 +1,14 @@
-Locked, Kinetik's widget becomes click-through: clicks on it go to whatever is underneath. A widget over your browser should not eat the click meant for a link. Windows does this with two extended-style bits.
+Locked, Kinetik's widget becomes click-through: clicks on it go to whatever is underneath. A widget over your browser should not eat the click meant for a link. Windows does this with two bits in a window's extended style.
 
-**Two bits.** `WS_EX_LAYERED` (0x80000) and `WS_EX_TRANSPARENT` (0x20) together make Windows pass mouse clicks through a window. `CLICK_THROUGH` holds both.
+**Two bits.** A window's extended style is one `u32` where each bit is a yes-or-no switch. `WS_EX_LAYERED` (0x80000) and `WS_EX_TRANSPARENT` (0x20) together make Windows pass mouse clicks through a window. `CLICK_THROUGH` holds both bits.
 
-**Keep the others.** A window's extended style has many other bits: the tool-window bit, the no-activate bit, ones GPUI set. Overwriting the whole number would break those. Change only the two bits: `|` sets them, `& !` clears them:
+**Keep the others.** The same number has many other switches: the tool-window bit, the no-activate bit, ones GPUI set when it made the window. Writing `CLICK_THROUGH` over the whole number would switch all of those off. Change only your two bits and keep the rest.
+
+**Set with or.** `style | bits` gives a number with every bit that is on in either: your bits switch on, the others stay as they were. **Clear with and-not.** `!bits` flips every bit, so it is on everywhere except your bits; `style & !bits` keeps only the bits on in both, which switches exactly your bits off. Here both are done to the tool-window bit:
 
 ```rust
-if on { style | CLICK_THROUGH } else { style & !CLICK_THROUGH }
+let with_tool = style | TOOL_WINDOW;      // tool-window bit on, others kept
+let without_tool = style & !TOOL_WINDOW;  // tool-window bit off, others kept
 ```
 
 **Read, change, write.** `RealWin::set_click_through` reads the current style with `GetWindowLongPtrW`, passes it through your function, and writes it back.
@@ -14,5 +17,5 @@ if on { style | CLICK_THROUGH } else { style & !CLICK_THROUGH }
 
 ## Your turn
 
-- In `click_through_style`, give back `style` with `CLICK_THROUGH` added when `on`, removed when not.
+- In `click_through_style`, give back `style` with `CLICK_THROUGH` switched on when `on` is true, and switched off when it is false.
 - Save.

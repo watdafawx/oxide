@@ -4,15 +4,23 @@ RAM used is 8589934592 bytes; nobody reads that. Kinetik shows `8.0 GB`, a downl
 
 **Count the steps.** 3565158 divided by 1024 is 3481.6, still too big. Divide again: 3.4. Two steps, so the unit is `units[2]`, `MB`. The starter keeps that count in `unit` and the number in `value`.
 
-**The loop.** "Repeat while a condition holds" is a `while` loop. The second half of the condition stops at `TB`, the last unit in the list:
+**The loop.** "Repeat while a condition holds" is a `while` loop, and both numbers change inside it, so both need `mut`. Here is the same idea for a time in seconds, turned into minutes and then hours, with a second condition that stops at the last unit:
 
 ```rust
-while value >= 1024.0 && unit < units.len() - 1 {
+let mut time = 7200.0;
+let mut step = 0;
+while time >= 60.0 && step < 2 {
+    time /= 60.0;
+    step += 1;
+}
+// time is 2.0 and step is 2: hours
 ```
 
-**Then write it.** The `if` under the TODO is already written: no steps means plain bytes with no decimals, otherwise one decimal and the unit's name.
+**Then write it.** The `if` under the TODO is already written: no steps means plain bytes with no decimals, otherwise one decimal and the unit's name. Your loop's last unit is `TB`, the end of `units`.
+
+**For the curious.** Strictly, 1024 bytes is a kibibyte, `KiB`, and a kilobyte is 1000. Windows and Kinetik divide by 1024 and still write `KB`, so the bar matches Task Manager.
 
 ## Your turn
 
-- In `format_bytes`, replace the TODO with the `while` loop: inside it, divide `value` by `1024.0` and add 1 to `unit`.
+- In `format_bytes`, replace the TODO with a `while` loop that divides `value` by 1024 and counts the steps in `unit`, stopping before it runs past `TB`.
 - Save. Press Run: RAM now reads in GB.

@@ -97,7 +97,7 @@ impl Benchmark {
     /// One update: a row of the readings, only while recording.
     pub fn tick(&mut self, snapshot: &Snapshot, fps: Option<f64>) {
         let _ = (snapshot, fps);
-        // TODO: only while recording: push "tick,cpu,gpu,gpu temp,fps" (empty cells for missing) and count the tick
+        // TODO: only while recording: add a row of the tick number, CPU, GPU, GPU temperature and FPS (empty cells for missing), and count the tick
 
     }
 }

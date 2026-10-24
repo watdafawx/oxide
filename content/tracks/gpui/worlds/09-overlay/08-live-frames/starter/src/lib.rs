@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// Turn ferrisetw's error into a reason the overlay can show.
 pub fn live_error(error: TraceError) -> LiveError {
     let _ = error;
-    todo!("error 5 inside EtwNativeError(IoError(..)) is NeedsAdmin, anything else Failed with its Debug text")
+    todo!("Windows error 5, access denied, deep inside the trace error is NeedsAdmin; anything else is Failed with its Debug text")
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

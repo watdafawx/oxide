@@ -30,7 +30,7 @@ pub struct StatsBar {
 impl StatsBar {
     /// A bar showing `snapshot` in the default order.
     pub fn new(snapshot: Snapshot) -> Self {
-        // TODO: items are bar_items(&default_order(), &snapshot, &Limits::default())
+        // TODO: the items the bar draws, made from this snapshot with the default order and limits
         let items = Vec::new();
         StatsBar { snapshot, items, look: Look::default() }
     }

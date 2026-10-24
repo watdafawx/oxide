@@ -1,0 +1,21 @@
+title = "Read, then let go"
+summary = "Why render reads the bar inside a block before it lends cx out again."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["borrowing", "gpui"]
+
+[[quiz]]
+question = "While `let bar = self.bar.read(cx);` is still in use, why does `widget_header(cx)` fail to build?"
+choices = ["widget_header is private", "it needs cx as &mut, and cx is still borrowed for reading through bar", "bar is a copy of the StatsBar", "a view cannot read another entity"]
+answer = 1
+
+[[quiz]]
+question = "What ends the borrow of the bar in the boss's render?"
+choices = ["calling cx.notify()", "dropping the widget window", "a `return` before the header", "the closing brace of the block that holds `bar`"]
+answer = 3
+
+[[quiz]]
+question = "Why can the elements built inside the block be used after it?"
+choices = ["they keep their own copies of the texts and numbers", "GPUI copies the whole bar", "the block runs again later", "elements are global"]
+answer = 0

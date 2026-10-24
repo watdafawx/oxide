@@ -103,7 +103,7 @@ pub fn summarize(day: &Day) -> DaySummary {
         total: day.apps.values().sum(),
         first: day.first,
         last: day.last,
-        most_used: None,    // TODO: the program with the most seconds
+        most_used: None,    // TODO: the name of the program with the most seconds
         busiest_hour: None, // TODO: the hour with the most seconds, skipping empty hours
     }
 }

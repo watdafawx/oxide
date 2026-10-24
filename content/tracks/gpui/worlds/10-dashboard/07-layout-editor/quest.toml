@@ -10,12 +10,17 @@ test = "hidden_disk_card_is_gone"
 label = "with Free disk hidden, nine cards and no disk card"
 
 [[hints]]
-text = "Every kind in `ALL`, except those in `hidden`."
+text = "The lesson's example with a different test in the closure: \"not in `hidden`\" is `!hidden.contains(kind)`."
 [[hints]]
 text = "`ALL.into_iter().filter(|kind| !hidden.contains(kind)).collect()`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Where does the list of hidden cards live?"
-pick = ["in Settings, so it is saved and shared", "in the DashboardView", "in each Card", "in the web page"]
-answer = 0
+pick = ["in each Card", "in the DashboardView", "in the web page", "in Settings"]
+answer = 3
+[[points]]
+after = 3
+prompt = "hidden is [Battery]. What does hidden.contains(&StatKind::Battery) give?"
+pick = ["false", "Some(0)", "true", "Battery"]
+answer = 2

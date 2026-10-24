@@ -2,7 +2,7 @@ title = "A reading"
 summary = "A stat and its value, or two dashes when Kinetik could not read it."
 kind = "exercise"
 xp = 30
-minutes = 5
+minutes = 4
 tags = ["option", "struct"]
 
 [[objectives]]
@@ -10,7 +10,7 @@ test = "missing_temp_shows_dashes"
 label = "a CPU temperature with no value shows --"
 
 [[hints]]
-text = "Only the `None` arm of the `match` in `text` changes."
+text = "Only the `None` arm of the `match` in `text` changes: swap `String::new()` for two dashes, made into a `String` the way the lesson shows."
 [[hints]]
 text = "Make it `None => \"--\".to_string(),`."
 

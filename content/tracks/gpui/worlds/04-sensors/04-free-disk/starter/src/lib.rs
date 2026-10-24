@@ -57,7 +57,7 @@ impl Sensor for DiskSensor {
     fn read(&mut self) -> Option<f64> {
         self.disks.refresh(true);
         let _ = Path::new("C:\\");
-        None // TODO: find the disk whose mount_point() is C:\ (use ?), then Some(available_space as f64)
+        None // TODO: find drive C: among the disks (None if there is none), then give back its free space
     }
 }
 

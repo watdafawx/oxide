@@ -70,7 +70,7 @@ pub fn widget_header(cx: &mut Context<WidgetView>) -> Stateful<Div> {
         .text_xs()
         .text_color(rgb(0x9a9a9a))
         .child("Kinetik Stats")
-        // TODO: on a left press: return when the widget is locked, else count it and call (this.start_move)(window)
+        // TODO: on a left press, start a window drag through `start_move`, counting it; a locked widget does not move
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

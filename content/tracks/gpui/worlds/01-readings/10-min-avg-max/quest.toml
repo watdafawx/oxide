@@ -13,12 +13,17 @@ test = "summary_of_empty_is_none"
 label = "an empty history has no summary"
 
 [[hints]]
-text = "Replace the TODO with a `for v in self.values()` loop that updates `min`, `max` and `total`, then build the `Summary`."
+text = "Start with `if self.is_empty() { return None; }`. Then one `for v in self.values()` loop with three lines in it, like the `highest` loop, and `mut` on all three variables."
 [[hints]]
-text = "In the loop: `min = min.min(v); max = max.max(v); total += v;`. After it: `Some(Summary { min, avg: total / self.len() as f64, max })`."
+text = "In the loop: `min = min.min(v); max = max.max(v); total += v;`. The last line already builds `Some(Summary { min, avg: total / self.len() as f64, max })`."
 
 [[points]]
-after = 2
+after = 1
 prompt = "Why does min start at f64::MAX?"
-pick = ["Any real reading is smaller, so the first one replaces it", "MAX means no value", "So the average is right", "Rust needs a start value of MAX"]
-answer = 0
+pick = ["MAX means no value", "So the average is right", "Any real reading is smaller, so the first one replaces it", "Rust needs a start value of MAX"]
+answer = 2
+[[points]]
+after = 5
+prompt = "What does an empty history's average come out as, without the check?"
+pick = ["0", "NaN", "None", "a panic"]
+answer = 1

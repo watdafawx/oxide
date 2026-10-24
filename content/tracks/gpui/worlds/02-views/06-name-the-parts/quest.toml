@@ -1,0 +1,26 @@
+title = "Name the parts"
+summary = "Give the label and the value boxes of their own, each with a name a test can find."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["gpui", "closure", "debug-selector"]
+
+[[objectives]]
+test = "label_sits_left_of_value"
+label = "each pill draws label-<Kind> and, to its right, value-<Kind>"
+
+[[hints]]
+text = "Each of the two plain `.child(..)` calls at the end of `pill_element` gets a `div()` around its content, with a `.debug_selector(move || format!(..))` of its own, the same shape as the pill's name."
+[[hints]]
+text = "`.child(div().debug_selector(move || format!(\"label-{kind:?}\")).child(pill.label))` and `.child(div().debug_selector(move || format!(\"value-{kind:?}\")).child(pill.text.clone()))`"
+
+[[points]]
+after = 2
+prompt = "When does the closure given to debug_selector run?"
+pick = ["every frame, in every build", "when the window closes", "only in builds with test support", "never"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Copy the kind into a plain name the format braces can use."
+code = "let ___ = pill.kind;\ndiv().debug_selector(move || format!(\"pill-{kind:?}\"))"
+blank = "kind"

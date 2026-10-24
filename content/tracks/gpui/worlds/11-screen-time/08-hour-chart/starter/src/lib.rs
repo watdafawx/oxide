@@ -100,7 +100,7 @@ use std::time::{Duration, Instant};
 /// Bar heights for the 24 hours: the busiest hour gets `tallest`, the others their share of it. An empty day is all zeros.
 pub fn bar_heights(hours: &[u64; 24], tallest: f32) -> [f32; 24] {
     let _ = (hours, tallest);
-    [0.0; 24] // TODO: the busiest hour gets tallest, the others their share of it
+    [0.0; 24] // TODO: the busiest hour gets tallest, the others their share of it; an empty day stays flat
 
 }
 

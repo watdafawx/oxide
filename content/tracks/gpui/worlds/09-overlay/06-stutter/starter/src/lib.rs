@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// Stutter: the frames that took more than twice the median frame time, by position.
 pub fn spikes(ms: &[f64]) -> Vec<usize> {
     let _ = ms;
-    Vec::new() // TODO: the median, then the positions of frames over twice it
+    Vec::new() // TODO: the positions of the frames that took more than twice the median frame time
 
 }
 

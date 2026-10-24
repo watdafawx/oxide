@@ -1,0 +1,26 @@
+title = "Keep the task"
+summary = "A dropped Task is cancelled, a detached one outlives the bar: keep it in a field instead."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["gpui", "async", "task"]
+
+[[objectives]]
+test = "started_bar_reads_its_sensors"
+label = "after start, the bar has read its sensors once"
+
+[[hints]]
+text = "The last line of `start` throws the task away. Put it in the bar's `_poll` field instead; the field holds an `Option<Task<()>>`."
+[[hints]]
+text = "`self._poll = Some(task);`"
+
+[[points]]
+after = 1
+prompt = "What happens to a GPUI Task you drop?"
+pick = ["it runs anyway", "it panics", "it runs twice", "it is cancelled"]
+answer = 3
+[[points]]
+after = 2
+prompt = "A detached task loops forever. What happens when its bar is closed?"
+pick = ["it keeps running, for nothing", "it stops with the bar", "the app quits", "it restarts"]
+answer = 0

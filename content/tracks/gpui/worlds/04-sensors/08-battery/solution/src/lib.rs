@@ -51,7 +51,7 @@ pub fn read_power_status() -> Option<SYSTEM_POWER_STATUS> {
     Some(status)
 }
 
-/// BatteryFlag 128 is "no system battery"; a percent of 255 is "unknown"; bit 8 is "charging".
+/// The BatteryFlag bit worth 128 is "no system battery", the bit worth 8 is "charging"; a percent of 255 is "unknown".
 pub fn decode_battery(status: &SYSTEM_POWER_STATUS) -> Option<Battery> {
     if status.BatteryFlag & 128 != 0 || status.BatteryLifePercent == 255 {
         return None;

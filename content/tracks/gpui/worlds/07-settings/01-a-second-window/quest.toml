@@ -4,19 +4,19 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["gpui", "window"]
-requires = ["06-interaction/12-boss-interactive-bar"]
+requires = ["06-interaction/16-boss-interactive-bar"]
 
 [[objectives]]
 test = "opening_twice_keeps_one_window"
 label = "open_settings_window twice opens one window, not two"
 
 [[hints]]
-text = "At the top of `open_settings_window`: if `slot` holds a handle and activating it works, return early."
+text = "At the top of `open_settings_window`: `if let Some(handle) = slot && ..` with `handle.update(cx, |_, window, _| window.activate_window()).is_ok()` as the second half, then `return;`."
 [[hints]]
 text = "`if let Some(handle) = slot && handle.update(cx, |_, window, _| window.activate_window()).is_ok() { return; }`"
 
 [[points]]
 after = 3
 prompt = "When does handle.update(..) give back an error?"
-pick = ["when that window has been closed", "when it is behind another window", "never", "when it has focus"]
-answer = 0
+pick = ["when it is behind another window", "never", "when that window has been closed", "when it has focus"]
+answer = 2

@@ -13,12 +13,17 @@ test = "middle_does_not_snap"
 label = "a widget in the middle of the screen stays where it is, same size"
 
 [[hints]]
-text = "Check left, then right (only if left did not snap); then top, then bottom. Keep the width and height."
+text = "Snapping to the right edge puts the widget's left at `work.right - w`, where `w` is its width. For the bottom it is `work.bottom - h`."
 [[hints]]
-text = "`if (window.left - work.left).abs() <= margin { r.left = work.left; } else if (work.right - window.right).abs() <= margin { r.left = work.right - w; }` and the same for top and bottom; then `r.right = r.left + w; r.bottom = r.top + h;`"
+text = "`let mut r = window; let (w, h) = (window.width(), window.height()); if (window.left - work.left).abs() <= margin { r.left = work.left; } else if (work.right - window.right).abs() <= margin { r.left = work.right - w; }`, the same for top and bottom, then `r.right = r.left + w; r.bottom = r.top + h; r`"
 
 [[points]]
-after = 2
+after = 3
+prompt = "Why check the right edge only when the left one did not snap?"
+pick = ["the right edge is slower to check", "Windows forbids it", "a widget can only sit flush against one side per direction", "to save memory"]
+answer = 2
+[[points]]
+after = 5
 prompt = "The widget's right edge is 8 px from the screen's right edge, margin 12. Where does its left edge go?"
-pick = ["work.right minus its width", "work.left", "it stays", "work.right"]
-answer = 0
+pick = ["work.left", "work.right minus its width", "it stays", "work.right"]
+answer = 1

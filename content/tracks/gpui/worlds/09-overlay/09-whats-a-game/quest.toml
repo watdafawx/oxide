@@ -13,12 +13,17 @@ test = "windowed_app_does_not"
 label = "a smaller window, or explorer.exe covering the screen, is not"
 
 [[hints]]
-text = "Two checks joined with `&&`: `covers_monitor` from the taskbar world, and the exe not in `NOT_GAMES` (ignoring case)."
+text = "Two checks joined with `&&`: `covers_monitor(window, monitor)` from the Taskbar world, and `!NOT_GAMES.iter().any(..)` with `eq_ignore_ascii_case` inside."
 [[hints]]
 text = "`covers_monitor(window, monitor) && !NOT_GAMES.iter().any(|name| exe.eq_ignore_ascii_case(name))`"
 
 [[points]]
 after = 2
 prompt = "Why is explorer.exe excluded?"
-pick = ["the desktop is a window that covers the screen", "Explorer is slow", "it has no FPS", "it needs admin"]
-answer = 0
+pick = ["Explorer is slow", "it has no FPS", "the desktop is a window that covers the screen", "it needs admin"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What does \"Explorer.EXE\".eq_ignore_ascii_case(\"explorer.exe\") give?"
+pick = ["false", "true", "an error", "None"]
+answer = 1

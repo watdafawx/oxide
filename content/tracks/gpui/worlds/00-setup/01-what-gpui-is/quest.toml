@@ -13,5 +13,10 @@ answer = 1
 
 [[quiz]]
 question = "How long does the very first GPUI build take on this PC?"
-choices = ["About 2 seconds, on every save", "About 2 minutes, once", "About 2 minutes, on every save"]
-answer = 1
+choices = ["About 2 seconds, on every save", "About 2 minutes, on every save", "About 2 minutes, once"]
+answer = 2
+
+[[quiz]]
+question = "Which part of the Rust track does this track expect you to have finished first?"
+choices = ["Up to Traits now, three more Rust worlds later", "Only the Rust tutorial, nothing more", "None: this track teaches Rust as it goes"]
+answer = 0

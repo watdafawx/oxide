@@ -86,7 +86,7 @@ impl FrameWindow {
     /// Add the newest frame, then drop every frame older than ten seconds before it.
     pub fn push(&mut self, frame: Frame) {
         let _ = frame;
-        // TODO: push at the back, then pop from the front while the oldest is older than 10 s before this frame
+        // TODO: add the frame, then drop every frame more than WINDOW_SECONDS older than it
 
     }
 

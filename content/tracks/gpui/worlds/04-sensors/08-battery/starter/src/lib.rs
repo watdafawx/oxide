@@ -46,13 +46,15 @@ pub struct Battery {
 /// Ask Windows for the power status. `unsafe`: Rust cannot check what the Windows function does.
 pub fn read_power_status() -> Option<SYSTEM_POWER_STATUS> {
     let _ = GetSystemPowerStatus;
-    todo!("a default SYSTEM_POWER_STATUS, an unsafe call to GetSystemPowerStatus(&mut status) with .ok()?, then Some(status)")
+    todo!("a default status, Windows fills it in (unsafe), None if the call fails, else Some(status)")
 }
 
-/// BatteryFlag 128 is "no system battery"; a percent of 255 is "unknown"; bit 8 is "charging".
+/// The BatteryFlag bit worth 128 is "no system battery", the bit worth 8 is "charging"; a percent of 255 is "unknown".
 pub fn decode_battery(status: &SYSTEM_POWER_STATUS) -> Option<Battery> {
-    let _ = status;
-    todo!("None for flag 128 or percent 255; else the percent and whether bit 8 is set")
+    if status.BatteryFlag & 128 != 0 || status.BatteryLifePercent == 255 {
+        return None;
+    }
+    Some(Battery { percent: status.BatteryLifePercent as f64, charging: status.BatteryFlag & 8 != 0 })
 }
 
 /// The laptop battery's charge.

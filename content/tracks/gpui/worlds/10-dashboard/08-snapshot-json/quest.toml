@@ -10,12 +10,17 @@ test = "snapshot_json_has_cpu_usage"
 label = "the snapshot's JSON has CPU usage with its text 30% and value 30"
 
 [[hints]]
-text = "For each kind in `ALL`: a `Reading` from the snapshot, then a `WebStat` with its label, text, value and `is_warning`."
+text = "`let stats = ALL.into_iter().map(|kind| { .. }).collect();`. Inside the block: `let reading = Reading { kind, value: .. };` from the snapshot, then a `WebStat { .. }` with its five fields."
 [[hints]]
 text = "`let limits = Limits::default(); let stats = ALL.into_iter().map(|kind| { let reading = Reading { kind, value: bar.snapshot.get(&kind).copied() }; WebStat { kind, label: kind.label(), text: reading.text(), value: reading.value, warning: is_warning(&reading, &limits) } }).collect(); WebSnapshot { stats }`"
 
 [[points]]
 after = 3
+prompt = "How does serde write StatKind::CpuUsage?"
+pick = ["0", "\"CpuUsage\"", "\"CPU\"", "CpuUsage()"]
+answer = 1
+[[points]]
+after = 7
 prompt = "Why send both text and value?"
-pick = ["text to show as is, value for anything that wants to compute", "JSON needs both", "value is for warnings only", "to make it bigger"]
-answer = 0
+pick = ["JSON needs a number in every object", "the page works out warnings from value", "text to show, value to compute with", "serde writes both on its own"]
+answer = 2

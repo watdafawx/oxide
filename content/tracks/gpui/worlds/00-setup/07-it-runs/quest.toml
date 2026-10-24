@@ -1,0 +1,16 @@
+title = "It runs"
+summary = "What happens between Run and the window, and what ends it."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["gpui"]
+
+[[quiz]]
+question = "You close Kinetik's window. Why does the app stop?"
+choices = ["main.rs told GPUI to quit when a window closes", "Rust stops every program with no windows", "The window's view panics"]
+answer = 0
+
+[[quiz]]
+question = "When does GPUI call your view's render?"
+choices = ["Once, when the app starts, and never again", "On open, on resize, and when the code asks", "Sixty times a second, whether or not anything changed"]
+answer = 1

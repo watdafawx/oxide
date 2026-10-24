@@ -1,0 +1,21 @@
+title = "A toggle"
+summary = "An on/off switch component; the Stats page has one per stat, and switching it changes the bar."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["gpui", "component"]
+
+[[objectives]]
+test = "toggle_turns_battery_on"
+label = "clicking the Battery toggle adds Battery to the bar's order"
+
+[[hints]]
+text = "One call at the end of the chain in `Toggle::render`: `.on_click(move |_, window, cx| ..)`, a plain closure, not a `cx.listener`. Inside, call `on_toggle` with `!on`."
+[[hints]]
+text = "`.on_click(move |_, window, cx| on_toggle(!on, window, cx))`"
+
+[[points]]
+after = 3
+prompt = "Who decides what a toggle click changes?"
+pick = ["the Toggle itself", "the Settings global", "the on_toggle closure the Stats page passes in", "GPUI"]
+answer = 2

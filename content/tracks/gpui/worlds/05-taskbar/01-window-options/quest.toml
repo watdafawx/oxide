@@ -4,7 +4,7 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["gpui", "window"]
-requires = ["04-sensors/14-boss-sensor-hub"]
+requires = ["04-sensors/17-boss-sensor-hub"]
 
 [[objectives]]
 test = "bar_window_has_no_titlebar"
@@ -19,7 +19,12 @@ text = "Set five fields in the `WindowOptions { .. }` in `bar_window_options`; `
 text = "`titlebar: None, kind: WindowKind::PopUp, is_movable: false, is_resizable: false, focus: false,`"
 
 [[points]]
-after = 3
+after = 1
+prompt = "What fills the fields you leave out?"
+pick = ["nothing: the build fails", "..Default::default()", "the last window you opened", "WindowKind::PopUp"]
+answer = 1
+[[points]]
+after = 5
 prompt = "Why focus: false?"
-pick = ["clicking the bar must not pull focus from your game or editor", "focus is slow", "pop-ups cannot focus", "the title bar needs it"]
-answer = 0
+pick = ["focus is slow", "pop-ups cannot focus", "clicking the bar must not take the keyboard from your game", "the title bar needs it"]
+answer = 2

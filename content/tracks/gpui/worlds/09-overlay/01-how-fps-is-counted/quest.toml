@@ -4,7 +4,7 @@ kind = "read"
 xp = 15
 minutes = 4
 tags = ["fps", "etw"]
-requires = ["08-widget/12-boss-desktop-widget"]
+requires = ["08-widget/15-boss-desktop-widget"]
 
 [[quiz]]
 question = "How does Kinetik learn that a game drew a frame?"
@@ -18,5 +18,5 @@ answer = 0
 
 [[quiz]]
 question = "Why does the FPS counter need administrator?"
-choices = ["Listening to Windows' graphics event tracing requires it", "DirectX only answers administrators", "Games block other apps"]
-answer = 0
+choices = ["DirectX only answers administrators", "Games block other apps", "Listening to Windows' graphics event tracing requires it"]
+answer = 2

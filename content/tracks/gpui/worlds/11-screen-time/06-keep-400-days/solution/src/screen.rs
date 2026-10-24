@@ -244,7 +244,7 @@ pub fn day_path(dir: &Path, date: NaiveDate) -> PathBuf {
 /// Write a day to its file, making the folder first if it is missing.
 pub fn save_day(dir: &Path, day: &Day) -> std::io::Result<()> {
     std::fs::create_dir_all(dir)?;
-    let text = serde_json::to_string_pretty(day).map_err(std::io::Error::other)?;
+    let text = serde_json::to_string_pretty(day)?;
     std::fs::write(day_path(dir, day.date), text)
 }
 

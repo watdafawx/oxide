@@ -40,7 +40,7 @@ const DUMMY: [u32; 3] = [2732, 2982, 3010];
 /// Tenths of a kelvin to °C, or None for a known dummy value or anything outside 1 to 120 °C.
 pub fn acpi_to_celsius(tenths_kelvin: u32) -> Option<f64> {
     let _ = DUMMY;
-    Some(tenths_kelvin as f64) // TODO: None for DUMMY values; tenths / 10 - 273.15; None outside 1..=120 °C
+    Some(tenths_kelvin as f64) // TODO: None for a DUMMY value; else convert to °C, and None outside 1 to 120 °C
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

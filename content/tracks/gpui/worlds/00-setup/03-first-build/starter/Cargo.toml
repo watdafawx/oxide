@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-# TODO: the gpui line goes here
+# TODO: gpui, exactly version 0.2.2, with the test-support feature
 
 [workspace]

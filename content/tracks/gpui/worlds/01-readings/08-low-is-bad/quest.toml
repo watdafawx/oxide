@@ -13,7 +13,7 @@ test = "battery_at_80_is_fine"
 label = "a battery at 80% is not"
 
 [[hints]]
-text = "The change is in the `(Some(v), Some(limit))` arm of `is_warning`: it needs a `match` on `limit.when`."
+text = "The change is in the `(Some(v), Some(limit))` arm: its answer becomes a `match limit.when { .. }` with one arm per `WarnWhen` variant. Below is the mirror of above."
 [[hints]]
 text = "`match limit.when { WarnWhen::Above => v >= limit.at, WarnWhen::Below => v <= limit.at }`"
 

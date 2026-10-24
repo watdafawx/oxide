@@ -10,12 +10,12 @@ test = "percent_rounds_to_whole"
 label = "format_percent(12.6) is 13%, 12.4 is 12%, 100.0 is 100%"
 
 [[hints]]
-text = "Only the `format!` line in `format_percent` changes."
+text = "Only the `format!` line in `format_percent` changes. The lesson's `.1` asks for one digit after the point; you want none."
 [[hints]]
 text = "Make it `format!(\"{value:.0}%\")`."
 
 [[points]]
 after = 2
-prompt = "What does format!(\"{v:.0}\") give for v = 47.8?"
-pick = ["47.8", "47", "48", "47.80"]
-answer = 2
+prompt = "What does format!(\"{v:.1}\") give for v = 47.86?"
+pick = ["47.8", "47.9", "48", "47.86"]
+answer = 1

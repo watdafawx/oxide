@@ -36,7 +36,7 @@ impl Render for StatsBar {
             .flex_row()
             .items_center()
             .gap_2()
-            // TODO: the bar is 32 pixels high: .h(...)
+            // TODO: give the bar a fixed height of 32 pixels
             .child(div().debug_selector(|| "pill-cpu".into()).child("CPU 13%"))
             .child(div().debug_selector(|| "pill-ram".into()).child("RAM 8.0 GB"))
     }

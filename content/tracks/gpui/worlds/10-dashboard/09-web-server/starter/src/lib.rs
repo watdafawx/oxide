@@ -84,7 +84,7 @@ use crate::stat::ALL;
 /// GET /api/stats?key=...: the snapshot as JSON, for the right key only.
 pub async fn stats(State(state): State<WebState>, Query(param): Query<KeyParam>) -> Response {
     let _ = (state, param);
-    // TODO: lock the shared snapshot, clone it out, reply with Json(..)
+    // TODO: copy the shared snapshot out of its lock and send it back as JSON
     StatusCode::NOT_IMPLEMENTED.into_response()
 }
 

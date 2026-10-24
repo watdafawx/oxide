@@ -1,0 +1,29 @@
+title = "Stats in bar order"
+summary = "Pick the stats out of the bar's order and leave the dividers behind: filter_map with a match."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["iterator", "match"]
+
+[[objectives]]
+test = "dividers_are_left_out"
+label = "a GPU temperature, a divider, RAM and a divider give GPU temperature and RAM"
+[[objectives]]
+test = "stats_keep_the_bar_order"
+label = "the default bar gives its eight stats, left to right"
+
+[[hints]]
+text = "Flip the lesson's example around: the `Slot::Stat(kind)` arm keeps `Some(*kind)`, and the divider arm gives `None`."
+[[hints]]
+text = "`order.iter().filter_map(|slot| match slot { Slot::Stat(kind) => Some(*kind), Slot::Divider(_) => None }).collect()`"
+
+[[points]]
+after = 1
+prompt = "In filter_map, what does a closure give back to drop an item?"
+pick = ["false", "None", "an empty Vec", "()"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Matching a &Slot, what is kind in Slot::Stat(kind)?"
+pick = ["a StatKind", "a Slot", "a &StatKind, so *kind reads the value", "an Option<StatKind>"]
+answer = 2

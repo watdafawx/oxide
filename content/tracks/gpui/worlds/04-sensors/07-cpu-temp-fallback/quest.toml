@@ -18,7 +18,7 @@ text = "First the `DUMMY` check, then the conversion, then a range check on the 
 text = "`if DUMMY.contains(&tenths_kelvin) { return None; } let celsius = tenths_kelvin as f64 / 10.0 - 273.15; if (1.0..=120.0).contains(&celsius) { Some(celsius) } else { None }`"
 
 [[points]]
-after = 2
+after = 3
 prompt = "What is 2982 tenths of a kelvin in °C?"
-pick = ["25.05", "29.82", "2708.85", "298.2"]
-answer = 0
+pick = ["29.82", "2708.85", "25.05", "298.2"]
+answer = 2

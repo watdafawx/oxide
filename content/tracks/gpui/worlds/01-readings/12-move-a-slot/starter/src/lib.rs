@@ -20,7 +20,8 @@ pub use order::{DividerStyle, Slot, default_order};
 /// Returns false, and changes nothing, when it cannot move.
 pub fn move_up(order: &mut [Slot], index: usize) -> bool {
     let _ = (order, index);
-    // TODO: index 0 or past the end -> false. Otherwise swap index - 1 and index, then true.
+    // TODO: false, changing nothing, when this slot cannot move up (see the lesson).
+    // Otherwise swap it with the slot before it and give back true.
     false
 }
 

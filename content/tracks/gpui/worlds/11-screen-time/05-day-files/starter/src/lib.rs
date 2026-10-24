@@ -100,7 +100,7 @@ use std::time::{Duration, Instant};
 /// The file for one day: `2026-10-22.json` in `dir`.
 pub fn day_path(dir: &Path, date: NaiveDate) -> PathBuf {
     let _ = (dir, date);
-    todo!("dir joined with the date as %Y-%m-%d, plus .json")
+    todo!("the date written as year-month-day, plus .json, inside dir")
 }
 
 /// Write a day to its file, making the folder first if it is missing.

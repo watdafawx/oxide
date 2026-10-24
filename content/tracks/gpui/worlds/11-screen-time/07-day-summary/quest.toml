@@ -13,12 +13,17 @@ test = "most_used_is_minecraft"
 label = "the most used program is minecraft.windows.exe; an empty day has none"
 
 [[hints]]
-text = "`max_by_key` over `day.apps` for the program; over the hours 0..24 that have any seconds for the hour."
+text = "`most_used`: `day.apps.iter().max_by_key(..)` with `**secs` as the key, then `.map(..)` to clone the name. `busiest_hour`: `(0..24).filter(|&hour| ..)` with `day.hours[hour] > 0`, then `.max_by_key(..)`."
 [[hints]]
 text = "`most_used: day.apps.iter().max_by_key(|(_, secs)| **secs).map(|(name, _)| name.clone()), busiest_hour: (0..24).filter(|&hour| day.hours[hour] > 0).max_by_key(|&hour| day.hours[hour]),`"
 
 [[points]]
 after = 3
-prompt = "Why filter out empty hours before max_by_key?"
-pick = ["an empty day would otherwise say its busiest hour is 23", "max_by_key fails on zeros", "to sort them", "it is faster"]
+prompt = "Over day.apps.iter(), how many references deep is secs in |(_, secs)|?"
+pick = ["none", "one", "two", "three"]
+answer = 2
+[[points]]
+after = 6
+prompt = "Why filter out empty hours first?"
+pick = ["an empty day has no busiest hour", "max_by_key panics on zeros", "zeros would sort to the end", "so the chart lines up"]
 answer = 0

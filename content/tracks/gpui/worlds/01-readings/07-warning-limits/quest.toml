@@ -13,12 +13,17 @@ test = "fine_or_unknown_is_not_a_warning"
 label = "ping 20, a missing value and a kind with no limit are not warnings"
 
 [[hints]]
-text = "In `is_warning`, `match` on the pair `(reading.value, limits.limit_for(reading.kind))`."
+text = "`match` on the pair `(reading.value, limits.limit_for(reading.kind))`, with one arm for two `Some`s and `_` for the rest. Reaching the limit counts, so think about `>` versus `>=`."
 [[hints]]
 text = "Two arms: `(Some(v), Some(limit)) => v >= limit,` and `_ => false,`."
 
 [[points]]
-after = 3
+after = 2
 prompt = "Which pair means \"warn if the value reached the limit\"?"
 pick = ["(Some(v), None)", "(None, Some(limit))", "(Some(v), Some(limit))", "(None, None)"]
 answer = 2
+[[points]]
+after = 3
+prompt = "The limit is 85. Which comparison makes 85 °C red?"
+pick = ["v > limit", "v >= limit", "v == limit", "v < limit"]
+answer = 1

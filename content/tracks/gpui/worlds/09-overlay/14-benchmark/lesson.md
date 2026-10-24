@@ -4,10 +4,11 @@ Kinetik's Ctrl+Shift+F11 "records every stat, each update, to a CSV file", for c
 
 **One row per tick.** Each update while recording appends a row: the tick number, CPU and GPU usage, GPU temperature and FPS. A missing reading is an empty cell, as in the session summary.
 
-**Two small closures.** `cell` writes an `Option<f64>` with one decimal or empty; `get` reads a stat from the snapshot. With them, the row is one `format!`:
+**Two small closures.** The row needs the same two steps four times: read a stat from the snapshot, and write an `Option<f64>` as a cell. A closure kept in a `let` is a small helper that lives only inside this method: `get` reads a stat with `snapshot.get(&kind).copied()`, and `cell` writes a value with one decimal, or empty for `None`, the way the session summary did. Here two such helpers make a status line:
 
 ```rust
-let cell = |v: Option<f64>| v.map(|v| format!("{v:.1}")).unwrap_or_default();
+let pct = |v: f64| format!("{v:.0}%");
+let line = format!("CPU {} GPU {}", pct(cpu), pct(gpu));
 ```
 
 **Same scene, twice.** A benchmark is only useful as a comparison: record, change one setting, record again, and compare the two files.

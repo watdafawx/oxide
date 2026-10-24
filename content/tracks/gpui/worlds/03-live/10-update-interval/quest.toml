@@ -1,0 +1,26 @@
+title = "Update interval"
+summary = "Kinetik updates every 0.5 to 5 seconds: clamp the setting into that range."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["clamp", "duration"]
+
+[[objectives]]
+test = "interval_clamps_to_half_second"
+label = "100 ms becomes 500 ms, 9000 ms becomes 5 s, 1000 ms stays 1 s"
+
+[[hints]]
+text = "Clamp `ms` to the smallest and largest interval in milliseconds, inside `Duration::from_millis(..)`."
+[[hints]]
+text = "`Duration::from_millis(ms.clamp(500, 5000))`"
+
+[[points]]
+after = 3
+prompt = "What does with_interval hand back?"
+code = "pub fn with_interval(mut self, ms: u64) -> ___ {"
+blank = "Self"
+[[points]]
+after = 5
+prompt = "Why is the fastest interval half a second, not 1 ms?"
+pick = ["Windows forbids faster timers", "GPUI cannot draw faster", "reading sensors costs CPU, and nobody reads that fast", "Duration has no smaller unit"]
+answer = 2

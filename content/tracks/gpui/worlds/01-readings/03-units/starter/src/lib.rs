@@ -24,8 +24,8 @@ impl StatKind {
             StatKind::GpuUsage => Unit::Percent,
             StatKind::Battery => Unit::Percent,
             StatKind::RamUsed => Unit::Bytes,
-            // TODO: temperatures are Celsius, NetDown and NetUp are BytesPerSec,
-            // Ping is Millis. Then delete the `_` arm.
+            // TODO: a unit for each kind not listed yet (two temperatures,
+            // two network speeds, ping). Then delete the `_` arm.
             _ => Unit::Percent,
         }
     }

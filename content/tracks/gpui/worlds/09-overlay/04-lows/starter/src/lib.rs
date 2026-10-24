@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// The "1% low" (share 0.01) or "0.1% low" (0.001): the slowest frames, averaged, as frames per second.
 pub fn low_fps(ms: &[f64], share: f64) -> f64 {
     let _ = (ms, share);
-    0.0 // TODO: sort slowest first, average the slowest share (at least one), 1000 / that
+    0.0 // TODO: the average of the slowest `share` of the frames (at least one frame), as FPS
 
 }
 

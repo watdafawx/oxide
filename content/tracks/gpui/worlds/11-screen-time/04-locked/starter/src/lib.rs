@@ -99,7 +99,7 @@ use std::time::{Duration, Instant};
 
 /// The program to count for this sample, if any: nothing while the PC is locked or nobody is using it.
 pub fn app_to_count(desk: &dyn Desk) -> Option<String> {
-    // TODO: a locked PC counts nothing either
+    // TODO: a locked PC counts nothing either, so check the lock in this same if
     if away(desk.idle(), desk.fullscreen()) {
         return None;
     }

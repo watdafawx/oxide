@@ -55,8 +55,8 @@ use windows::core::w;
 pub fn find_taskbar() -> Option<Taskbar> {
     // SAFETY: plain window lookups; every handle is checked before use.
     unsafe {
-        // TODO: FindWindowW for "Shell_TrayWnd", then FindWindowExW for its "TrayNotifyWnd" child,
-        // both with .ok()?
+        // TODO: look up the window of class "Shell_TrayWnd", then its child of class "TrayNotifyWnd";
+        // give up with None when either is missing
         let taskbar: HWND = todo!("look up Shell_TrayWnd");
         let tray: HWND = todo!("look up its TrayNotifyWnd child");
         Some(Taskbar {

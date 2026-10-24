@@ -1,0 +1,21 @@
+title = "Only what is shown"
+summary = "Read only the stats on the bar: a hidden stat costs nothing."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["hashset", "performance"]
+
+[[objectives]]
+test = "hidden_gpu_is_never_read"
+label = "a bar without GPU temperature never reads the GPU temperature sensor"
+
+[[hints]]
+text = "In `tick` (in `bar.rs`), get the set of wanted kinds once, and `continue` the loop for any sensor whose kind is not in it."
+[[hints]]
+text = "Before the loop: `let wanted = wanted_kinds(&self.order);`. In the loop, after `let kind = ..`: `if !wanted.contains(&kind) { continue; }`"
+
+[[points]]
+after = 2
+prompt = "Why build `wanted` once before the loop, not inside it?"
+pick = ["HashSet cannot be built in a loop", "continue needs it", "the order does not change during one tick", "sensors read faster that way"]
+answer = 2

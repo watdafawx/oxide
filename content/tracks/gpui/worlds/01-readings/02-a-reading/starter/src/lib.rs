@@ -16,7 +16,7 @@ impl Reading {
     pub fn text(&self) -> String {
         match self.value {
             Some(v) => format!("{v}"),
-            None => String::new(), // TODO: no value shows two dashes: "--"
+            None => String::new(), // TODO: no value shows two dashes, not empty text
         }
     }
 }

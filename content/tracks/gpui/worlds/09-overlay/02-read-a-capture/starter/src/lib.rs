@@ -86,7 +86,7 @@ pub fn parse_capture(text: &str) -> Vec<Frame> {
         return Vec::new();
     };
     let _ = (lines, time, ms, kind);
-    // TODO: each line to a Frame (filter_map, ? on every cell and parse), then collect
+    // TODO: turn every remaining line into a Frame from its time, ms and kind cells; skip lines that do not parse
     Vec::new()
 }
 

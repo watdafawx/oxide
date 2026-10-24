@@ -21,7 +21,12 @@ text = "First the visible part of the taskbar with `intersect(..)?` and the 4 px
 text = "`let visible = taskbar.rect.intersect(&taskbar.monitor)?; if visible.height() < 4 { return None; } let right = taskbar.tray.left - TRAY_GAP - shift_left; Some(Rect::new(right - bar_width, visible.top, right, visible.bottom))`"
 
 [[points]]
-after = 3
-prompt = "This PC's taskbar is at y 1438 to 1486 on a 1440-high monitor. What does that mean?"
-pick = ["it is auto-hidden: 2 px peek out", "it is on a second monitor", "it is broken", "it is 1486 px tall"]
+after = 1
+prompt = "On a 1440-high monitor, which y is nearer the bottom edge?"
+pick = ["y 1400", "y 40", "y 0", "y 400"]
 answer = 0
+[[points]]
+after = 3
+prompt = "A taskbar sits at y 1438 to 1486 on a 1440-high monitor. What does that mean?"
+pick = ["it is on a second monitor", "it is auto-hidden: 2 px peek out", "it is broken", "it is 1486 px tall"]
+answer = 1

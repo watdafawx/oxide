@@ -1,0 +1,26 @@
+title = "Run it later"
+summary = "cx.spawn runs an async closure on the app's thread, between frames: the bar's first tick on its own."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "async", "spawn"]
+
+[[objectives]]
+test = "spawned_task_ticks_once"
+label = "after start, the spawned task has ticked the bar once"
+
+[[hints]]
+text = "In `start`: `cx.spawn(async move |this, cx| { .. })`, and inside it one `this.update(cx, ..)` that calls `bar.tick(cx)`, with `.ok()` after it. Then `.detach()` on what `spawn` gives back."
+[[hints]]
+text = "`cx.spawn(async move |this, cx| { this.update(cx, |bar, cx| bar.tick(cx)).ok(); }).detach();`"
+
+[[points]]
+after = 2
+prompt = "Which Rust world wrote async move { .. } blocks?"
+pick = ["Smart pointers", "Traits", "Async", "Ownership"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What is this, inside the spawned closure?"
+pick = ["a weak handle to the bar", "the bar itself, &mut StatsBar", "the window", "a copy of the bar"]
+answer = 0

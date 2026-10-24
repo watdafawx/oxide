@@ -10,7 +10,7 @@ test = "history_keeps_last_60"
 label = "after 100 readings, a 60-reading history holds 40 to 99"
 
 [[hints]]
-text = "In `push`, after `push_back`, check the length against `self.cap`."
+text = "After `push_back`, an `if` compares `self.values.len()` with `self.cap`. Over the cap, not at it: a history of 60 that holds 60 is full, not too full."
 [[hints]]
 text = "`if self.values.len() > self.cap { self.values.pop_front(); }`"
 

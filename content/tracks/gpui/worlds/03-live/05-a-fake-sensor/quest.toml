@@ -1,0 +1,21 @@
+title = "A fake sensor"
+summary = "A Sensor trait, and a scripted sensor that plays known numbers for tests."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["trait", "testing"]
+
+[[objectives]]
+test = "scripted_sensor_plays_in_order"
+label = "a script of 1, 2, 3 reads 1, 2, 3, then None"
+
+[[hints]]
+text = "In `read`, keep the value at `self.next` in a local first, then add 1 to `self.next`, then give the local back."
+[[hints]]
+text = "`let value = self.script.get(self.next).copied(); self.next += 1; value`"
+
+[[points]]
+after = 2
+prompt = "Why do tests use a ScriptedSensor instead of the real CPU?"
+pick = ["it is faster to compile", "the real CPU needs a window", "traits only work in tests", "its numbers are known in advance"]
+answer = 3

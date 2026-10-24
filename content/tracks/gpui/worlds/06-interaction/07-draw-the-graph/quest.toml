@@ -1,0 +1,26 @@
+title = "Draw the graph"
+summary = "A canvas paints a line through the graph points, straight onto the window."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["gpui", "canvas", "paint"]
+
+[[objectives]]
+test = "card_has_graph"
+label = "the hover card paints its graph between its title and its summary"
+
+[[hints]]
+text = "Make `let mut line = PathBuilder::stroke(px(1.5));`, then loop over `points.iter().enumerate()`: `move_to` for `i == 0`, `line_to` for the rest. The points are `&Point`, so pass `*p`."
+[[hints]]
+text = "`let mut line = PathBuilder::stroke(px(1.5)); for (i, p) in points.iter().enumerate() { if i == 0 { line.move_to(*p) } else { line.line_to(*p) } } if let Ok(path) = line.build() { window.paint_path(path, rgb(0x5ab0ff)); }`"
+
+[[points]]
+after = 1
+prompt = "Which closure of canvas(..) does the drawing?"
+pick = ["the first", "the second, which gets the bounds and the window", "neither: render draws", "the tooltip closure"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which call lifts the pen and puts it down at a point, without drawing?"
+pick = ["line_to", "build", "paint_path", "move_to"]
+answer = 3

@@ -10,12 +10,17 @@ test = "card_shows_peak"
 label = "after CPU 10, 20, 30 %: now 30%, avg 20%, peak 30%; GPU peak 70°C"
 
 [[hints]]
-text = "A `text` closure that writes any `Option<f64>` as a `Reading` of this kind; the history's `summary()` for avg and max."
+text = "The closure is `|value: Option<f64>| Reading { kind, value }.text()`. Then `bar.histories.get(&kind).and_then(..)` for the summary, and `bar.snapshot.get(&kind).copied()` for now."
 [[hints]]
 text = "`let text = |value: Option<f64>| Reading { kind, value }.text(); let summary = bar.histories.get(&kind).and_then(|h| h.summary()); CardNumbers { now: text(bar.snapshot.get(&kind).copied()), avg: text(summary.map(|s| s.avg)), peak: text(summary.map(|s| s.max)) }`"
 
 [[points]]
-after = 2
+after = 3
+prompt = "Which call turns Option<&History> into Option<Summary> with |h| h.summary()?"
+pick = ["map", "unwrap", "and_then", "filter"]
+answer = 2
+[[points]]
+after = 5
 prompt = "A stat with no history yet shows which average?"
-pick = ["--", "0", "the current value", "nothing at all"]
-answer = 0
+pick = ["0", "--", "the current value", "an empty card"]
+answer = 1

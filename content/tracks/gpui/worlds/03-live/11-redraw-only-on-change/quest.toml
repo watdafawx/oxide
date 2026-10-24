@@ -1,0 +1,21 @@
+title = "Redraw only on change"
+summary = "Same numbers as last second? Skip the redraw, the way Kinetik does."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "notify", "performance"]
+
+[[objectives]]
+test = "same_values_do_not_redraw"
+label = "three ticks of the same 5% notify only once"
+
+[[hints]]
+text = "In `tick`, the local `items` is already built. Wrap the store and the notify in an `if` that compares it with `self.items` using `!=`."
+[[hints]]
+text = "`let items = bar_items(..); if items != self.items { self.items = items; cx.notify(); }`"
+
+[[points]]
+after = 2
+prompt = "The new items equal the old ones. What should tick do?"
+pick = ["notify anyway", "clear the items", "nothing: no store, no notify", "stop the loop"]
+answer = 2

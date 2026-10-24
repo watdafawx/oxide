@@ -10,12 +10,17 @@ test = "changing_font_size_redraws_bar"
 label = "changing the font size in Settings changes the bar's look and redraws it"
 
 [[hints]]
-text = "In `watch_settings`, `cx.observe_global::<Settings>(..)` with a closure that applies and notifies; keep what it gives back."
+text = "In `watch_settings`, `let watch = cx.observe_global::<Settings>(|bar, cx| { .. });`. Inside: clone the global, `bar.apply_settings(&settings)`, `cx.notify()`. Then keep `watch` in `self.settings_watch`."
 [[hints]]
 text = "`let watch = cx.observe_global::<Settings>(|bar, cx| { let settings = cx.global::<Settings>().clone(); bar.apply_settings(&settings); cx.notify(); }); self.settings_watch = Some(watch);`"
 
 [[points]]
 after = 3
+prompt = "Why clone the settings before apply_settings?"
+pick = ["clones are faster to read", "apply_settings wants an owned value", "the global would be deleted", "the copy is the closure's own, so nothing stays borrowed from cx"]
+answer = 3
+[[points]]
+after = 4
 prompt = "Why keep the Subscription in a field?"
-pick = ["dropping it stops the watching", "GPUI needs it for drawing", "it holds the settings", "to save memory"]
-answer = 0
+pick = ["GPUI needs it for drawing", "dropping it stops the watching", "it holds the settings", "to save memory"]
+answer = 1

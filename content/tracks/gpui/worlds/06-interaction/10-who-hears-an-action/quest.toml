@@ -1,0 +1,36 @@
+title = "Who hears an action"
+summary = "Focus decides which element gets keys and actions first; the bar takes focus when it starts."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["gpui", "focus"]
+
+[[quiz]]
+question = "Where does a dispatched action start its trip?"
+choices = [
+  "At the window's root, then down",
+  "At the element under the mouse",
+  "At the focused element, then up through its parents",
+  "At every element at once",
+]
+answer = 2
+
+[[quiz]]
+question = "What does `.track_focus(&handle)` do?"
+choices = [
+  "Gives the element focus right now",
+  "Ties the element to that handle, so focusing the handle focuses it",
+  "Makes a new focus handle",
+  "Moves the handle out of the bar",
+]
+answer = 1
+
+[[quiz]]
+question = "Why does bar_layer match on `&this.ui.focus` and not on `this.ui.focus`?"
+choices = [
+  "To lend the handle instead of moving it out of the bar",
+  "Because an Option cannot be matched directly",
+  "To make a second focus handle",
+  "Because match only takes references",
+]
+answer = 0

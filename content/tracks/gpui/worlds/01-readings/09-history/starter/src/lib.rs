@@ -28,7 +28,7 @@ impl History {
     /// Add the newest reading; the oldest goes once there are more than `cap`.
     pub fn push(&mut self, value: f64) {
         self.values.push_back(value);
-        // TODO: if there are now more than self.cap values, drop the oldest with pop_front
+        // TODO: one reading too many now? Then the oldest goes.
     }
 
     pub fn len(&self) -> usize {

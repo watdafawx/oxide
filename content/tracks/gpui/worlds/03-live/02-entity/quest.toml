@@ -10,15 +10,15 @@ test = "entity_holds_bar_state"
 label = "new_bar gives an Entity whose CPU pill reads 42%"
 
 [[hints]]
-text = "`new_bar` is one line: `cx.new(..)` with a closure that makes the bar."
+text = "`new_bar` is one line: `cx.new(..)` with a closure that makes the bar from `snapshot` with `StatsBar::new`. The closure's own `cx` is not needed, so write `|_|`."
 [[hints]]
 text = "`cx.new(|_| StatsBar::new(snapshot))`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "What does cx.new(|_| StatsBar::new(s)) give back?"
-pick = ["an Entity<StatsBar>", "a StatsBar", "a &mut StatsBar", "a Window"]
-answer = 0
+pick = ["a StatsBar", "an Entity<StatsBar>", "a &mut StatsBar", "a Window"]
+answer = 1
 [[points]]
 after = 3
 prompt = "Read the bar's CPU text from a test."

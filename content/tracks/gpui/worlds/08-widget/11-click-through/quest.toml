@@ -13,12 +13,17 @@ test = "unlock_clears_them"
 label = "unlocking removes both bits and keeps every other bit"
 
 [[hints]]
-text = "`|` adds bits, `& !` removes them."
+text = "An `if on { .. } else { .. }` that gives back a value: `|` with `CLICK_THROUGH` in one branch, `& !` in the other."
 [[hints]]
 text = "`if on { style | CLICK_THROUGH } else { style & !CLICK_THROUGH }`"
 
 [[points]]
 after = 2
+prompt = "Why not just give back CLICK_THROUGH when locking?"
+pick = ["it is too big for a u32", "it would switch every other style bit off", "Windows ignores it", "it unlocks the widget"]
+answer = 1
+[[points]]
+after = 3
 prompt = "What is 0b1010 & !0b0010?"
-pick = ["0b1000", "0b1010", "0b0010", "0b1110"]
-answer = 0
+pick = ["0b1010", "0b0010", "0b1000", "0b1110"]
+answer = 2

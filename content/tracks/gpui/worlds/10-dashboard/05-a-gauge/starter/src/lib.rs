@@ -84,7 +84,7 @@ use crate::stat::ALL;
 /// A point on the gauge's half circle: share 0 on the left, 0.5 at the top, 1 on the right.
 pub fn gauge_point(center: Point<Pixels>, radius: Pixels, share: f32) -> Point<Pixels> {
     let _ = (radius, share);
-    center // TODO: the angle π × (1 − share), then centre + radius·cos across, − radius·sin up
+    center // TODO: the angle for this share (π on the left, 0 on the right), then the point on the circle at that angle
 
 }
 

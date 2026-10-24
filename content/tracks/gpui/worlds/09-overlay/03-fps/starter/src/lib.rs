@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// Frames per second over a run of frame times: how many frames, over how many seconds.
 pub fn average_fps(ms: &[f64]) -> f64 {
     let _ = ms;
-    0.0 // TODO: the count of frames over the seconds they took
+    0.0 // TODO: how many frames there are, over the seconds they took together; 0.0 when no time passed
 
 }
 

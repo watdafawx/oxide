@@ -1,19 +1,27 @@
-Kinetik's widget shows CPU cores as a per-thread bar chart: one little bar per thread, filled by its usage. A 16-thread CPU makes 16 bars; a Threadripper 32. They have to fit whatever width the widget has.
+Kinetik's widget shows the CPU as a per-thread bar chart: one little bar per thread, filled by its usage. A 16-thread CPU makes 16 bars; a Threadripper makes 64. They have to fit whatever width the widget has.
 
-**Per thread.** `real_cores` asks sysinfo for every thread's usage. The widget refreshes that list each time the bar reads its sensors.
+**Per thread.** `cores` holds one usage per thread, 0 to 100. The widget asks sysinfo again each time the bar reads its sensors, so the bars move once per interval, in step with the numbers.
 
-**Wrap like text.** A flex row with `.flex_wrap()` puts children side by side until the row is full, then starts a new row below, like words in a paragraph. No maths about how many fit.
+**Wrap like text.** A flex row with `.flex_wrap()` puts its children side by side until the row is full, then starts a new row below, like words in a paragraph. You do no maths about how many fit; a narrower widget simply gets more rows.
 
-**Fill from the bottom.** Each bar is a dark 28 by 20 box. `.items_end()` sits its child at the bottom, and the child's height is the usage, as a share:
+**One child per core.** `.children(..)` takes one element per item, as the bar's pills did in the Views world. `cores.iter().enumerate()` gives each usage with its position `i`, which names the bar `core-<i>` for the tests.
+
+**Fill from the bottom.** Each bar is a dark 28 by 20 box. In a flex row, a child shorter than the row sits at the top; `.items_end()` lines the children up along the bottom instead. Inside, the fill is `.w_full()`, the whole width, and as tall as the usage, as a share: `relative(usage / 100.0)`.
+
+**The same tools, on a row of tags.** Here a row of process names wraps, one small box each; your bars are boxes with a fill instead of text:
 
 ```rust
-.child(div().w_full().h(relative(usage / 100.0)).bg(rgb(0x5ab0ff)))
+div()
+    .flex()
+    .flex_wrap()
+    .gap_1()
+    .children(names.iter().map(|name| div().px_2().bg(rgb(0x2a2a2a)).child(name.clone())))
 ```
 
-**Fresh each read.** The widget asks `real_cores` again each time the bar reads its sensors, so the bars move once per interval, in step with the numbers.
+**For the curious.** `real_cores` in `widget.rs` keeps its sysinfo `System` in a `thread_local!`: one per thread, kept between calls, because CPU usage is measured as the change since the last refresh.
 
 ## Your turn
 
-- In `core_bars`, make the box a wrapping flex row with a small gap.
-- Add one child per core: a 28 by 20 box, filled from the bottom by its usage, named `core-<i>`.
-- Save. Press Run: your CPU's threads under the stats.
+- In `core_bars`, make the box a flex row that wraps, with `.gap_1()`.
+- Add one child per core: a 28 by 20 box named `core-<i>`, filled from the bottom by a full-width child as tall as its usage.
+- Save. Press Run: your CPU's threads appear under the stats.

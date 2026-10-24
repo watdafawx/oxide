@@ -84,7 +84,7 @@ use crate::stat::ALL;
 /// Where the web dashboard listens: only this PC (127.0.0.1), or every network card (0.0.0.0) when shared.
 pub fn bind_addr(share_on_lan: bool, port: u16) -> SocketAddr {
     let _ = share_on_lan;
-    SocketAddr::from((Ipv4Addr::UNSPECIFIED, port)) // TODO: 127.0.0.1 unless share_on_lan
+    SocketAddr::from((Ipv4Addr::UNSPECIFIED, port)) // TODO: only this PC, unless share_on_lan is on
 
 }
 

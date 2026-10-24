@@ -10,12 +10,17 @@ test = "frame_gen_doubles_displayed_fps"
 label = "the capture shows 118 FPS on screen from 59 drawn by the game"
 
 [[hints]]
-text = "Seconds from all frames' times; count only the frames that are not generated."
+text = "`let seconds: f64 = frames.iter().map(|f| f.ms).sum::<f64>() / 1000.0;`, return `0.0` if it is zero, then count with `filter(|f| !f.generated)`."
 [[hints]]
 text = "`let seconds: f64 = frames.iter().map(|f| f.ms).sum::<f64>() / 1000.0; if seconds == 0.0 { return 0.0; } frames.iter().filter(|f| !f.generated).count() as f64 / seconds`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Over which time does base FPS divide?"
-pick = ["the same time as FPS: all frames' time", "only the game's frames' time", "one second", "the generated frames' time"]
+pick = ["only the game's frames' time", "one second", "the same time as FPS: all frames' time", "the generated frames' time"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What does filter(|f| !f.generated) keep?"
+pick = ["the frames the game drew itself", "the made-up frames", "every frame", "the slow frames"]
 answer = 0

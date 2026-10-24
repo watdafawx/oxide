@@ -1,0 +1,32 @@
+title = "Boss: screen time"
+summary = "The sampler and the screen time page, written from scratch, with alerts running beside them."
+kind = "boss"
+xp = 450
+minutes = 50
+tags = ["boss", "gpui", "files"]
+
+[[objectives]]
+test = "counts_foreground_app"
+label = "the 5-second loop counts the program in front"
+[[objectives]]
+test = "idle_and_lock_pause"
+label = "idle and locked time is not counted; idle in full screen is"
+[[objectives]]
+test = "files_per_day_pruned"
+label = "each day gets its file, and a new day prunes old ones"
+[[objectives]]
+test = "summary_right"
+label = "the page shows total, first and last use, most used and busiest hour"
+[[objectives]]
+test = "chart_drawn"
+label = "24 bars stand on the chart's bottom edge, the busiest full height"
+[[objectives]]
+test = "alerts_debounced"
+label = "alerts wait 30 seconds and say it once"
+
+[[hints]]
+text = "`sample`: `let now = desk.now();`; if `now.date() != self.day.date`, set `self.day = Day::new(now.date())` and `let _ = prune(&self.dir, now.date());`. Then `if let Some(app) = app_to_count(desk)`: `self.day.add(&app, now)` and `let _ = save_day(&self.dir, &self.day);`."
+[[hints]]
+text = "`render`: `let day = self.screen.read(cx).day.clone();`, then `summarize(&day)`, `bar_heights(&day.hours, CHART_HEIGHT)` and the `or_dashes` closure from the read. A `div()` named `screen-time` with `.size_full().p_4().flex().flex_col().gap_2()`, a title, and `summary_line(\"total\", \"Total\", hours_minutes(summary.total))` and four more like it."
+[[hints]]
+text = "The chart: `div().debug_selector(|| \"chart\".into()).flex_none().w_full().h(px(CHART_HEIGHT)).flex().items_end().gap_1().children(heights.into_iter().enumerate().map(|(hour, height)| div().debug_selector(move || format!(\"hour-{hour}\")).flex_1().h(px(height)).bg(rgb(0x5ab0ff))))`"

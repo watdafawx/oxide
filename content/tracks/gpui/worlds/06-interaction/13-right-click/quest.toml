@@ -1,0 +1,24 @@
+title = "The right click"
+summary = "A right-button press on a pill opens the menu where you pressed; a press anywhere else closes it."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "menu", "events"]
+
+[[objectives]]
+test = "right_click_opens_menu"
+label = "a right click on a pill opens the menu at the mouse"
+[[objectives]]
+test = "click_elsewhere_closes_it"
+label = "a click outside the menu closes it"
+
+[[hints]]
+text = "This listener needs its event, so name it with its type: `cx.listener(|this, event: &MouseDownEvent, _, cx| { .. })` inside `.on_mouse_down(MouseButton::Right, ..)`."
+[[hints]]
+text = "`.on_mouse_down(MouseButton::Right, cx.listener(|this, event: &MouseDownEvent, _, cx| { this.ui.menu_at = Some(event.position); cx.notify(); }))`"
+
+[[points]]
+after = 2
+prompt = "Which field of the MouseDownEvent says where the menu should open?"
+pick = ["button", "click_count", "position", "modifiers"]
+answer = 2

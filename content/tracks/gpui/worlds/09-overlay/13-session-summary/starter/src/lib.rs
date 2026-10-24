@@ -89,7 +89,7 @@ pub struct SessionSummary {
 impl SessionSummary {
     /// One CSV line, in the header's order: minutes and FPS with one decimal, a missing temperature empty.
     pub fn csv_line(&self) -> String {
-        todo!("game, minutes, average FPS, 1% low with one decimal; the temperature, or empty")
+        todo!("the five header fields: game, minutes, FPS and 1% low with one decimal, then the temperature or an empty cell")
     }
 }
 

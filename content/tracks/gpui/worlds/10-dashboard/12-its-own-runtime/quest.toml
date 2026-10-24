@@ -1,0 +1,33 @@
+title = "A runtime of its own"
+summary = "axum needs tokio and GPUI has its own executor: the server gets a thread and a tokio runtime."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["tokio", "threads", "async"]
+
+[[quiz]]
+question = "Why does the web server get its own thread and tokio runtime?"
+choices = [
+  "GPUI does not allow networking on its main thread",
+  "axum needs tokio, and GPUI's executor is not tokio",
+  "a web server must always be the only thing in its process",
+]
+answer = 1
+
+[[quiz]]
+question = "What does runtime.block_on(future) do?"
+choices = [
+  "starts the future and returns at once",
+  "hands the future to GPUI's executor",
+  "runs it on tokio, waiting here until it ends",
+]
+answer = 2
+
+[[quiz]]
+question = "Why may the thread's closure use `Runtime::new()?`"
+choices = [
+  "the closure itself gives back an io::Result",
+  "? works anywhere inside a thread",
+  "Runtime::new can never fail",
+]
+answer = 0

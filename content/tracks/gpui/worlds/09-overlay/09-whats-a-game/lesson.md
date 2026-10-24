@@ -4,10 +4,12 @@
 
 **Not the desktop.** The desktop itself is a window of `explorer.exe` that covers the screen, and so is the lock screen. `NOT_GAMES` lists those; any of them is not a game.
 
-**Case does not matter.** Windows file names ignore case: `Explorer.EXE` is the same program. `eq_ignore_ascii_case` compares that way:
+**Case does not matter.** Windows file names ignore case: `Explorer.EXE` is the same program as `explorer.exe`. `==` would call them different; `eq_ignore_ascii_case` compares letters without caring about capitals.
+
+**Any of the list.** `iter().any(|name| ..)` from the Sensors world asks "does at least one name in the list match?", and `!` in front turns that into "none of them". Here it checks whether an exe is a launcher, whatever its capitals:
 
 ```rust
-!NOT_GAMES.iter().any(|name| exe.eq_ignore_ascii_case(name))
+let launcher = ["steam.exe", "EpicGamesLauncher.exe"].iter().any(|name| exe.eq_ignore_ascii_case(name));
 ```
 
 **Borderless, please.** Exclusive fullscreen games also cover their monitor, but no overlay can draw over them. Kinetik's tip: switch the game to borderless.

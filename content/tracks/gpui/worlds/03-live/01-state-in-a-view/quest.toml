@@ -4,19 +4,19 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["gpui", "state"]
-requires = ["02-views/12-boss-static-bar", "rust/06-smart-pointers/17-boss-tree-editor", "rust/08-async/11-boss-mod-downloader"]
+requires = ["02-views/14-boss-static-bar", "rust/06-smart-pointers/17-boss-tree-editor", "rust/08-async/25-boss-mod-downloader"]
 
 [[objectives]]
 test = "bar_shows_its_snapshot"
 label = "a bar made from a snapshot with CPU at 42 draws 42%"
 
 [[hints]]
-text = "Only the `items` line in `StatsBar::new` changes."
+text = "Only the `items` line in `StatsBar::new` changes: `bar_items` from Readings takes an order, a snapshot and the limits, each by reference."
 [[hints]]
 text = "`items: bar_items(&default_order(), &snapshot, &Limits::default()),`"
 
 [[points]]
 after = 2
 prompt = "Where does render get the pills it draws?"
-pick = ["from self.items", "from the demo snapshot", "from the window", "it reads the sensors"]
-answer = 0
+pick = ["from the demo snapshot", "from the window", "from self.items", "it reads the sensors"]
+answer = 2

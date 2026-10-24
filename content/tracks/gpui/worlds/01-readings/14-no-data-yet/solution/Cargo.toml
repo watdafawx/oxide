@@ -1,0 +1,8 @@
+[package]
+name = "kinetik_01_no_data_yet"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[workspace]

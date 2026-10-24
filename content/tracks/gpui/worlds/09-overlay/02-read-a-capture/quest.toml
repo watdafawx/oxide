@@ -10,12 +10,17 @@ test = "capture_has_1200_frames"
 label = "the capture in fixtures/ reads as 1200 frames, the second one generated"
 
 [[hints]]
-text = "For each line: split on commas, and build a `Frame` from the cells at `time`, `ms` and `kind`; skip lines that do not parse (`filter_map` and `?`)."
+text = "Follow the ping log example: split the line into `cells`, then build a `Frame` with three fields. `time` and `ms` are parsed, `generated` compares the `kind` cell with `\"Generated\"`."
 [[hints]]
 text = "`lines.filter_map(|line| { let cells: Vec<&str> = line.split(',').collect(); Some(Frame { time: cells.get(time)?.parse().ok()?, ms: cells.get(ms)?.parse().ok()?, generated: *cells.get(kind)? == \"Generated\" }) }).collect()`"
 
 [[points]]
-after = 3
+after = 2
 prompt = "Why find the columns by name instead of by position?"
-pick = ["other captures may order or add columns differently", "names are faster", "positions start at 1", "CSV has no positions"]
-answer = 0
+pick = ["names are faster", "positions start at 1", "other captures may order or add columns differently", "CSV has no positions"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Inside filter_map's closure, what does ? do with a None?"
+pick = ["panics", "gives back None for this line, so it is skipped", "turns it into 0", "ends the whole capture"]
+answer = 1

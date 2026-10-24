@@ -1,0 +1,24 @@
+title = "Drag to reorder"
+summary = "Drag a row onto another: take it out where it was, put it in where it was dropped."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["gpui", "drag", "vec"]
+
+[[objectives]]
+test = "drop_cpu_after_gpu_reorders"
+label = "move_slot from 0 to 3 puts CPU usage at 3 and shifts the others up"
+[[objectives]]
+test = "dragging_a_row_moves_it"
+label = "dragging row 0 onto row 3 in the window does the same"
+
+[[hints]]
+text = "`move_slot`: first an `if` that returns when `from` or `to` is not below `order.len()`, or when they are equal. Then `remove` at `from` and `insert` at `to`."
+[[hints]]
+text = "`if from >= order.len() || to >= order.len() || from == to { return; } let slot = order.remove(from); order.insert(to, slot);`"
+
+[[points]]
+after = 2
+prompt = "Moving slot 0 to 3 in [A, B, C, D, E] gives..."
+pick = ["[D, B, C, A, E]", "[B, C, A, D, E]", "[B, C, D, A, E]", "[A, B, C, D, E]"]
+answer = 2

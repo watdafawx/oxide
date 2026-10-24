@@ -10,12 +10,12 @@ test = "new_reading_redraws_bar"
 label = "set_reading changes the CPU text and notifies once"
 
 [[hints]]
-text = "One line is missing at the end of `set_reading`."
+text = "One line is missing at the end of `set_reading`: a call on the `cx` it was given, the `Context<StatsBar>`."
 [[hints]]
 text = "`cx.notify();`"
 
 [[points]]
 after = 2
 prompt = "You change the bar's items but skip cx.notify(). What do you see?"
-pick = ["the old numbers", "the new numbers", "a blank bar", "a compile error"]
-answer = 0
+pick = ["the new numbers", "a blank bar", "the old numbers", "a compile error"]
+answer = 2

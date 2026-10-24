@@ -105,7 +105,7 @@ pub fn prune(dir: &Path, today: NaiveDate) -> std::io::Result<usize> {
     let mut deleted = 0;
     for entry in std::fs::read_dir(dir)? {
         let _ = (entry, today);
-        // TODO: parse the stem as a date; remove json files more than KEEP_DAYS before today
+        // TODO: read the date from the file name; delete json day files more than KEEP_DAYS before today
     }
     Ok(deleted)
 }

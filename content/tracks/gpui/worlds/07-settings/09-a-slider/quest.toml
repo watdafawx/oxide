@@ -1,0 +1,21 @@
+title = "A slider"
+summary = "Press or drag on the Gap slider: the gap follows the mouse, and the bar follows the gap."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["gpui", "mouse"]
+
+[[objectives]]
+test = "dragging_slider_changes_gap"
+label = "pressing at the left and dragging to the middle sets the gap to 12"
+
+[[hints]]
+text = "Two listeners on the slider: `.on_mouse_down(MouseButton::Left, ..)` with `e: &MouseDownEvent`, and `.on_mouse_move(..)` with `e: &MouseMoveEvent` that acts only while `e.pressed_button == Some(MouseButton::Left)`. Both call `this.set_gap_at(e.position.x, cx)`."
+[[hints]]
+text = "`.on_mouse_down(MouseButton::Left, cx.listener(|this, e: &MouseDownEvent, _, cx| this.set_gap_at(e.position.x, cx))).on_mouse_move(cx.listener(|this, e: &MouseMoveEvent, _, cx| { if e.pressed_button == Some(MouseButton::Left) { this.set_gap_at(e.position.x, cx); } }))`"
+
+[[points]]
+after = 4
+prompt = "What tells on_mouse_move that you are dragging, not just moving?"
+pick = ["the position changed", "the slider has focus", "pressed_button is Some(Left)", "a click event came first"]
+answer = 2

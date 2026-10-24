@@ -1,0 +1,37 @@
+title = "What a listener is"
+summary = "The four inputs every mouse handler gets, and why cx.listener wraps the closure."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["gpui", "events", "closures"]
+requires = ["05-taskbar/12-boss-docked-bar"]
+
+[[quiz]]
+question = "In `cx.listener(|this, _, window, cx| ..)`, what is the second input?"
+choices = [
+  "The window the click happened in",
+  "The event, ignored here with `_`",
+  "The bar, to change",
+  "The app's context",
+]
+answer = 1
+
+[[quiz]]
+question = "Why does the closure get the bar as `this` instead of borrowing `bar` itself?"
+choices = [
+  "Closures can never borrow a struct",
+  "GPUI copies the bar into each listener",
+  "The borrow ends with drawing; cx.listener hands the bar back later",
+  "`this` is a faster name than `bar`",
+]
+answer = 2
+
+[[quiz]]
+question = "A `move` closure uses `kind`, a `StatKind`. Can the code after it still use `kind`?"
+choices = [
+  "Yes: `StatKind` is `Copy`, so `move` took a copy",
+  "No: `move` always uses the value up",
+  "Only if the closure has already run",
+  "Only inside another closure",
+]
+answer = 0

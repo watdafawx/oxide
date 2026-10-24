@@ -34,8 +34,8 @@ impl StatKind {
             StatKind::CpuUsage => "CPU",
             StatKind::CpuTemp => "CPU",
             StatKind::RamUsed => "RAM",
-            // TODO: GpuUsage and GpuTemp are "GPU", NetDown and NetUp are "NET",
-            // Ping is "PING", Battery is "BAT". Then delete the `_` arm.
+            // TODO: a label for each kind not listed yet: both GPU kinds, both network kinds,
+            // ping and the battery (see the lesson). Then delete the `_` arm.
             _ => "?",
         }
     }

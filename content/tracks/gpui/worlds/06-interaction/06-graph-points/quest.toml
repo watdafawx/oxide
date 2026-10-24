@@ -1,0 +1,24 @@
+title = "Graph points"
+summary = "Turn a history into points inside a box: newest on the right, highest at the top."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["maths", "geometry"]
+
+[[objectives]]
+test = "points_span_full_width"
+label = "the first point is on the left edge, the last on the right"
+[[objectives]]
+test = "highest_value_at_top"
+label = "the highest value is at the top edge, the lowest at the bottom, a flat line in the middle"
+
+[[hints]]
+text = "For each value: `x` moves across the width by `i / last` (turn `i` into an `f32` first); `share` is `(v - min) / (max - min)` as an `f32`, or 0.5 when `max == min`; `y` goes up from the bottom by that share of the height."
+[[hints]]
+text = "`let x = bounds.left() + bounds.size.width * (i as f32 / last); let share = if max > min { ((v - min) / (max - min)) as f32 } else { 0.5 }; let y = bounds.bottom() - bounds.size.height * share; point(x, y)`"
+
+[[points]]
+after = 3
+prompt = "Screen y grows downward. Where does the highest value go?"
+pick = ["at bounds.bottom()", "in the middle", "at y = max", "at bounds.top(), the smallest y"]
+answer = 3

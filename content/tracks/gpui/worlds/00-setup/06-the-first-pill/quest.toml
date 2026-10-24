@@ -1,0 +1,26 @@
+title = "The first pill"
+summary = "Put Kinetik's first pill in the window: a named box inside a box, built as a chain."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "render", "div"]
+
+[[objectives]]
+test = "bar_draws_a_cpu_pill"
+label = "StatsBar draws an element named pill-cpu"
+
+[[hints]]
+text = "All of it is in `render`. The outer `div()` gets one `.child(..)`, and that child is a second `div()` with a name and the text, built like the RAM box in the lesson."
+[[hints]]
+text = "`div().child(div().debug_selector(|| \"pill-cpu\".into()).child(\"CPU 12%\"))`"
+
+[[points]]
+after = 1
+prompt = "In div().child(\"RAM 8.0 GB\"), what does .child hand back?"
+pick = ["A new, empty box", "The same box, now holding the text", "Only the text", "Nothing"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn the text into the String the closure gives back."
+code = "div().debug_selector(|| \"pill-gpu\".___())"
+blank = "into"

@@ -1,29 +1,26 @@
 title = "The battery"
-summary = "Call a Windows function with unsafe, then decode what it filled in: 255 means no battery."
+summary = "Call a Windows function inside unsafe, and say in a comment what you promised."
 kind = "exercise"
-xp = 45
-minutes = 7
+xp = 35
+minutes = 5
 tags = ["unsafe", "ffi", "windows"]
 
 [[objectives]]
 test = "this_pc_power_status_reads"
-label = "read_power_status gets an answer from Windows on this PC"
-[[objectives]]
-test = "no_battery_flag_means_none"
-label = "flag 128 or a percent of 255 decode to None; 15% charging decodes right"
+label = "read_power_status gets an answer from Windows on your PC"
 
 [[hints]]
-text = "`read_power_status`: a default `SYSTEM_POWER_STATUS`, an `unsafe` call to `GetSystemPowerStatus(&mut status)` with `.ok()?`, then `Some(status)`. `decode_battery`: the flag and 255 checks first."
+text = "Three lines: `let mut status = SYSTEM_POWER_STATUS::default();`, the `unsafe` call with `&mut status` and `.ok()?`, then `Some(status)`."
 [[hints]]
-text = "`let mut status = SYSTEM_POWER_STATUS::default(); unsafe { GetSystemPowerStatus(&mut status) }.ok()?; Some(status)` and in decode: `if status.BatteryFlag & 128 != 0 || status.BatteryLifePercent == 255 { return None; } Some(Battery { percent: status.BatteryLifePercent as f64, charging: status.BatteryFlag & 8 != 0 })`"
+text = "`let mut status = SYSTEM_POWER_STATUS::default();` then a `// SAFETY: status is valid and writable for the whole call.` line, then `unsafe { GetSystemPowerStatus(&mut status) }.ok()?;` and `Some(status)`."
 
 [[points]]
 after = 2
 prompt = "What does unsafe { .. } promise?"
-pick = ["you checked what the compiler cannot", "the code cannot crash", "it runs faster", "it runs as administrator"]
-answer = 0
+pick = ["the code cannot crash", "it runs faster", "you checked what the compiler cannot", "it runs as administrator"]
+answer = 2
 [[points]]
-after = 4
-prompt = "Which test says \"the bit worth 8 is set in the flag\"?"
-pick = ["flag & 8 != 0", "flag == 8", "flag > 8", "flag | 8 != 0"]
-answer = 0
+after = 3
+prompt = "Who is the // SAFETY: comment for?"
+pick = ["the compiler", "the next person who reads the code", "Windows", "the test runner"]
+answer = 1

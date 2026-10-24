@@ -84,7 +84,7 @@ use crate::stat::ALL;
 /// Kinetik's four dashboard looks.
 pub fn theme(choice: DashTheme) -> Theme {
     let _ = choice;
-    todo!("one Theme per choice: Modern, Terminal (green), Amber, Yellow")
+    todo!("one Theme per look: Modern, Terminal, Amber, Yellow, with the colours from the lesson")
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

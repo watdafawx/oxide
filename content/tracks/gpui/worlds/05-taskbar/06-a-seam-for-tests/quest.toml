@@ -1,0 +1,21 @@
+title = "A seam for tests"
+summary = "Windows behind a trait: RealWin makes the calls, FakeWin records them so tests can check."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["trait", "testing", "win32"]
+
+[[quiz]]
+question = "Why does the Docker talk to a WinApi trait, not to Windows directly?"
+choices = ["Traits are faster than Win32 calls", "So tests can swap in a fake that records the calls", "Windows requires every app to use a trait"]
+answer = 1
+
+[[quiz]]
+question = "A test wants to know whether the bar was raised. Where does it look?"
+choices = ["In the FakeWin's calls list", "At the real taskbar on the screen", "In RealWin's return value"]
+answer = 0
+
+[[quiz]]
+question = "What does Docker<A: WinApi> mean?"
+choices = ["The Docker only works with RealWin", "The Docker holds a Box<dyn WinApi>", "The Docker works with any type that implements WinApi"]
+answer = 2

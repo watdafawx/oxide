@@ -55,7 +55,7 @@ impl NvidiaGpu {
 
     /// The first card's usage, 0 to 100.
     pub fn usage(&self) -> Option<f64> {
-        todo!("self.nvml.as_ref()?, then device_by_index(0).ok()?, then utilization_rates().ok()?.gpu")
+        todo!("the first card, as in temperature; then its utilization rates; None at the first gap")
     }
 
     /// The first card's temperature in °C.

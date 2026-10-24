@@ -1,0 +1,24 @@
+title = "Slider maths"
+summary = "A mouse x on the track becomes a value: clamped to the track, scaled to the range, snapped to the step."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["maths"]
+
+[[objectives]]
+test = "drag_to_middle_is_half"
+label = "the middle of a 0 to 24 slider is 12; left of the track is 0, right of it 24"
+[[objectives]]
+test = "value_snaps_to_step"
+label = "values snap to the step: a step of 4 turns 13.4 into 12"
+
+[[hints]]
+text = "Three `let`s: `share` from `(x - left) / width`, clamped to 0..=1; `raw` from `min + share * (max - min)`; `snapped` by counting steps from `min`, rounding, and multiplying back. Then clamp `snapped`."
+[[hints]]
+text = "`let share = ((x - left) / width).clamp(0.0, 1.0); let raw = min + share * (max - min); let snapped = min + ((raw - min) / step).round() * step; snapped.clamp(min, max)`"
+
+[[points]]
+after = 3
+prompt = "With min 0 and step 4, which values can the slider give?"
+pick = ["any number", "only 0 and 4", "0, 4, 8, 12, ...", "1, 5, 9, ..."]
+answer = 2

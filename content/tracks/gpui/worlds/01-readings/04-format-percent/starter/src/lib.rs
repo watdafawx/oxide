@@ -8,7 +8,7 @@ pub use stat::{ALL, StatKind, Unit};
 
 /// A percentage with no decimals: 12.6 shows "13%".
 pub fn format_percent(value: f64) -> String {
-    format!("{value}%") // TODO: no decimals: put :.0 after `value`
+    format!("{value}%") // TODO: a whole number: no digits after the point
 }
 
 #[cfg(test)]

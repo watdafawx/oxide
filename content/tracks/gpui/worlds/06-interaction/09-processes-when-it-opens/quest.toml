@@ -1,0 +1,21 @@
+title = "Processes when it opens"
+summary = "Call the function a field holds, so the hover card lists the top processes the moment it opens."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["fn-pointer", "tooltip"]
+
+[[objectives]]
+test = "card_lists_top_processes"
+label = "the card lists the two processes the bar reports, and no more"
+
+[[hints]]
+text = "In the tooltip closure: `let mut card = card.clone();`, then one assignment to `card.top`. Calling the function in a variable or field needs brackets around its name: `(top_processes)()`."
+[[hints]]
+text = "`let mut card = card.clone(); card.top = (top_processes)(); cx.new(|_| card).into()`"
+
+[[points]]
+after = 2
+prompt = "Which line calls the function stored in the field ui.top_processes?"
+pick = ["self.ui.top_processes()", "(self.ui.top_processes)()", "self.ui.top_processes", "fn self.ui.top_processes()"]
+answer = 1

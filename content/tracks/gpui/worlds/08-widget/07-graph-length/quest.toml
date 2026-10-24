@@ -10,12 +10,17 @@ test = "five_minutes_keeps_300_points"
 label = "5 minutes at 1 s is 300 readings; 30 s at 0.5 s is 60"
 
 [[hints]]
-text = "Seconds times 1000, divided by the interval in milliseconds."
+text = "Seconds times 1000, divided by the interval in milliseconds (at least 1). Widen `secs` to `u64` first, and turn the result into a `usize`."
 [[hints]]
 text = "`(secs as u64 * 1000 / interval_ms.max(1)) as usize`"
 
 [[points]]
 after = 2
+prompt = "Why turn secs into a u64 before multiplying?"
+pick = ["u32 cannot be multiplied", "to round up", "both sides of * must be the same type", "u64 is faster"]
+answer = 2
+[[points]]
+after = 3
 prompt = "Why .max(1) on the interval?"
-pick = ["dividing by 0 would panic", "intervals start at 1", "to round up", "it changes nothing"]
-answer = 0
+pick = ["intervals start at 1", "dividing by 0 would panic", "to round up", "it changes nothing"]
+answer = 1

@@ -1,8 +1,8 @@
 title = "Pages"
 summary = "A sidebar of pages: Stats, Arrange, Appearance. Clicking one shows it."
 kind = "exercise"
-xp = 30
-minutes = 5
+xp = 25
+minutes = 4
 tags = ["gpui", "state"]
 
 [[objectives]]
@@ -10,12 +10,12 @@ test = "clicking_arrange_shows_arrange_page"
 label = "clicking Arrange in the sidebar makes it the shown page"
 
 [[hints]]
-text = "Add `.on_click(cx.listener(..))` to the row in `sidebar_row`; the closure sets `this.page`."
+text = "Add `.on_click(cx.listener(move |this, _, _, cx| { .. }))` to the row in `sidebar_row`. `this` is now the `SettingsWindow`."
 [[hints]]
 text = "`.on_click(cx.listener(move |this, _, _, cx| { this.page = page; cx.notify(); }))`"
 
 [[points]]
 after = 2
 prompt = "Where does the window remember which page is shown?"
-pick = ["in the SettingsWindow's page field", "in the Settings global", "in the sidebar row", "in the URL"]
-answer = 0
+pick = ["in the Settings global", "in the sidebar row", "in the SettingsWindow's page field", "in a saved file"]
+answer = 2
