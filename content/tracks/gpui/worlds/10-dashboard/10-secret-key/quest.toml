@@ -13,12 +13,17 @@ test = "request_with_key_is_200"
 label = "the right key gets the stats"
 
 [[hints]]
-text = "At the top of `stats`: if the given key (or empty) does not match `state.key` with `keys_match`, return 401."
+text = "An `if !keys_match(.., &state.key) { .. }` before the lock. The first input is `param.key` borrowed as a `&str`, with `\"\"` when it is missing; inside the `if`, return the 401."
 [[hints]]
 text = "`if !keys_match(param.key.as_deref().unwrap_or(\"\"), &state.key) { return StatusCode::UNAUTHORIZED.into_response(); }`"
 
 [[points]]
 after = 3
-prompt = "Why not compare the keys with ==?"
-pick = ["== can stop at the first difference, and the time it takes leaks how much matched", "== does not work on strings", "it is slower", "keys are numbers"]
+prompt = "What does as_deref turn an Option<String> into?"
+pick = ["Option<&str>", "String", "&Option<String>", "Result<&str, ()>"]
 answer = 0
+[[points]]
+after = 4
+prompt = "Why not compare the keys with ==?"
+pick = ["== does not work on Strings", "its timing leaks how much matched", "== is slower than keys_match", "keys are numbers, not text"]
+answer = 1

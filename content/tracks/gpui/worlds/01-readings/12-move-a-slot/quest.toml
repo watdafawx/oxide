@@ -13,12 +13,17 @@ test = "first_slot_cannot_move_up"
 label = "slot 0, and an index past the end, do not move and give false"
 
 [[hints]]
-text = "First the `if` that gives back `false` when `index` is 0 or not below `order.len()`. Then swap."
+text = "First an `if` with `||` that returns `false` when `index` is 0 or when it is not below `order.len()`. Then swap `index - 1` and `index`."
 [[hints]]
 text = "`if index == 0 || index >= order.len() { return false; }` then `order.swap(index - 1, index);` and `true`."
 
 [[points]]
-after = 2
+after = 1
 prompt = "Which call swaps the slots at 2 and 3?"
-pick = ["order.swap(2, 3)", "order.move(3, 2)", "swap(order[2], order[3])", "order[2] = order[3]"]
+pick = ["order.move(3, 2)", "swap(order[2], order[3])", "order.swap(2, 3)", "order[2] = order[3]"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Why must the check come before `index - 1`?"
+pick = ["0 - 1 on a usize panics", "swap is slow", "false must come first", "Rust reads bottom up"]
 answer = 0

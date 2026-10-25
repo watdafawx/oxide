@@ -1,0 +1,36 @@
+title = "Skip a round"
+summary = "Leave the days you were ill out of the average, without stopping the loop."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["loops", "skip", "continue", "average"]
+requires = []
+
+[[objectives]]
+test = "skips_the_ill_days"
+label = "average_km(days) averages only the days that are not -1"
+
+[[objectives]]
+test = "all_ill_means_zero"
+label = "average_km(days) is 0 when every day was an ill day"
+
+[[hints]]
+text = "Two accumulators before the loop: a total and a count. Inside, an `if` lets through only the days whose `logged_km(day)` is not -1."
+
+[[hints]]
+text = "After the loop, check `if count == 0 then return 0 end` before dividing."
+
+[[hints]]
+text = "`local km = logged_km(day)`, then `if km ~= -1 then total = total + km count = count + 1 end` inside `for day = 1, days do`; after the loop, the zero check, then `return total / count`."
+
+[[points]]
+after = 2
+prompt = "Lua 5.2 has no `continue`. How do you skip a round?"
+pick = ["with `break`", "with `return`", "wrap the work in an `if`", "you cannot skip a round"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "Every day was skipped, so the count is 0. What should the average be?"
+pick = ["0", "nil", "total / 0", "an error"]
+answer = 0

@@ -1,0 +1,48 @@
+title = "Boss: Tech-tree editor"
+summary = "Build the engine of a tech-tree editor: add, move, remove and render technologies with their prerequisites."
+
+[[objectives]]
+test = "starting_tech_is_the_root"
+label = "name(0) is the starting tech; unknown ids give None"
+[[objectives]]
+test = "add_tech_returns_fresh_ids"
+label = "add(prerequisite, name) returns a new id each time, None for an unknown prerequisite"
+[[objectives]]
+test = "path_lists_prerequisites"
+label = "path(id) lists the techs to research, from the starting tech down to this one"
+[[objectives]]
+test = "render_indents_dependants"
+label = "render() prints the tech tree, two spaces of indent per level"
+[[objectives]]
+test = "remove_deletes_dependants"
+label = "remove(id) deletes the tech and everything that depends on it (never the starting tech)"
+[[objectives]]
+test = "reparent_moves_dependants"
+label = "reparent(id, new_prerequisite) re-attaches the tech and its dependants"
+[[objectives]]
+test = "reparent_refuses_cycles"
+label = "reparent refuses to make a tech depend on itself or on one of its own dependants"
+
+[[hints]]
+text = "Start with `name`: `match self.techs.get(&id) { Some(t) => Some(t.borrow().name.clone()), None => None }`. Then `add`: `let pre = self.techs.get(&prerequisite)?;` returns `None` early for an unknown prerequisite."
+[[hints]]
+text = "Still in `add`: take `self.next_id` and add 1 to it, build the `Tech` with `prerequisite: Rc::downgrade(pre)`, push an `Rc::clone` of the new tech onto the prerequisite's `unlocks`, and `insert` it into `self.techs`."
+[[hints]]
+text = "`path` is quest 15's research path, starting from `let mut current = self.techs.get(&id).cloned();`. An unknown id starts at `None`, so the loop never runs and the Vec stays empty."
+[[hints]]
+text = "`render`: a helper `fn render_tech(tech: &TechRef, depth: usize, out: &mut String)` borrows the tech, writes `\"  \".repeat(depth)`, the name and `'\\n'`, then calls itself for each unlock with `depth + 1`. Start it with `render_tech(&self.techs[&ROOT], 0, &mut out)`."
+[[hints]]
+text = "`remove`: `if id == ROOT { return false; }`, then `let tech = match self.techs.get(&id) { Some(t) => Rc::clone(t), None => return false };`. Detach it as in quest 16, collect it and every tech below it with a recursive helper, then `self.techs.retain(|_, t| !doomed.iter().any(|d| Rc::ptr_eq(d, t)));`."
+[[hints]]
+text = "`reparent`: walk up from `Some(Rc::clone(target))` like quest 15 and `return false` if `Rc::ptr_eq(&t, &tech)`. Then detach the tech, `tech.borrow_mut().prerequisite = Rc::downgrade(&target);` and push an `Rc::clone(&tech)` onto `target`'s unlocks."
+
+[[points]]
+after = 1
+prompt = "Which type points up to the prerequisite?"
+pick = ["Rc", "Weak", "Box", "Cow"]
+answer = 1
+[[points]]
+after = 9
+prompt = "Keep every unlock except this exact tech."
+code = "unlocks.retain(|c| !Rc::___(c, &tech))"
+blank = "ptr_eq"

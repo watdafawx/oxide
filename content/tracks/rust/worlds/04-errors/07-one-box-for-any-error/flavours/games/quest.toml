@@ -1,0 +1,28 @@
+title = "One box for any error"
+summary = "Box<dyn Error> lets one pack-header reader return different kinds of errors."
+
+[[objectives]]
+test = "reads_format_and_size"
+label = "parse_pack_header(\"3,4.5\") is (3, 4.5), also with spaces and a trailing newline"
+[[objectives]]
+test = "missing_comma_says_so"
+label = "No comma gives an error saying \"missing comma\""
+[[objectives]]
+test = "bad_numbers_fit_in_the_box"
+label = "A bad format and a bad size both come back as errors"
+
+[[hints]]
+text = "Copy the shape of the `parse_size` example: a `match` on `text.split_once(',')`, then two `parse()?` lines with a type on each `let`."
+[[hints]]
+text = "`let (left, right) = match text.split_once(',') { Some(pair) => pair, None => return Err(\"missing comma\".into()) };` then `let format: u32 = left.trim().parse()?;`, `let size_gb: f64 = right.trim().parse()?;` and `Ok((format, size_gb))`."
+
+[[points]]
+after = 2
+prompt = "Where does a Box keep its value?"
+pick = ["Inside the function's return value", "On the heap, memory asked for while running", "In the mods folder", "Nowhere until it is printed"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn the sentence into a boxed error."
+code = "return Err(\"missing comma\".___());"
+blank = "into"

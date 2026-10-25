@@ -1,0 +1,22 @@
+title = "Group into lists"
+summary = "Build a map from a loader to its mod names with computeIfAbsent, which makes the list the first time."
+
+[[objectives]]
+test = "namesByLoaderGroupsModsInOrder"
+label = "namesByLoader maps each loader to the names of its mods, in pack order"
+
+[[hints]]
+text = "For each mod: `groups.computeIfAbsent(mod.loader(), k -> new ArrayList<>())` hands back the list for that loader. Add the mod's name to it."
+[[hints]]
+text = "`for (Mod mod : mods) { groups.computeIfAbsent(mod.loader(), k -> new ArrayList<>()).add(mod.name()); } return groups;`"
+
+[[points]]
+after = 2
+prompt = "What does computeIfAbsent hand back?"
+pick = ["The value for the key, made first if missing", "true when it made a new value", "Nothing", "The old map"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Make a new empty list for a missing key."
+code = "groups.computeIfAbsent(\"quilt\", k -> ___).add(\"QSL\");"
+blank = "new ArrayList<>()"

@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// Base FPS: only the frames the game drew itself, over the same time.
 pub fn base_fps(frames: &[Frame]) -> f64 {
     let _ = frames;
-    0.0 // TODO: seconds from all frames, then the game's own frames over those seconds
+    0.0 // TODO: the frames the game drew itself, over the seconds all frames took; 0.0 when no time passed
 
 }
 

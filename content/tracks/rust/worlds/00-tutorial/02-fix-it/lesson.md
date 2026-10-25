@@ -8,13 +8,15 @@ Your name tag needs a rule for how many letters fit on it. The test knows the ru
 
 ```text
 assertion `left == right` failed
-  left: 19        <- what your code returned
- right: 20        <- what the test wanted
+  left: 7         <- what your code returned
+ right: 8         <- what the test wanted
 ```
 
 **The fix.** The `right` side is the answer the test wants. Put that number in the function, save, and the objective turns green.
 
 **Compiler errors.** If the code does not build at all, the message appears above the objectives with the file and line. Read the first line first: it usually names the problem.
+
+**If this is new.** Programming 101 explains tests and error messages from zero: [What a test is](/quest/basics/01-what-a-program-is/06-what-a-test-is) and [Read the red](/quest/basics/01-what-a-program-is/05-read-the-red).
 
 ## Your turn
 

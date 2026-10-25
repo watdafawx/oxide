@@ -62,7 +62,7 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 
 /// Open the widget, or close it if it is open: the Desktop widget menu row.
 pub fn toggle_widget_window(cx: &mut App, slot: &mut Option<WindowHandle<WidgetView>>, bar: Entity<StatsBar>) {
-    // TODO: if slot.take() gives a handle and removing its window works, return
+    // TODO: if a widget is already open, close its window and return
     let settings = cx.global::<Settings>().widget.clone();
     let screen = cx.primary_display().map(|d| d.bounds()).unwrap_or_default();
     let work = Rect::new(0, 0, f32::from(screen.size.width) as i32, f32::from(screen.size.height) as i32);

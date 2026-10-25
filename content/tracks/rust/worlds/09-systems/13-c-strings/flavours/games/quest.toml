@@ -1,0 +1,28 @@
+title = "Aside: hand a MOTD to C"
+summary = "C marks the end of text with a zero byte. Hand a MOTD to C with CString and read one back with CStr."
+
+[[objectives]]
+test = "c_motd_len_counts_bytes"
+label = "c_motd_len(&str) returns the length C's strlen counts"
+[[objectives]]
+test = "c_motd_len_rejects_interior_nul"
+label = "c_motd_len returns None for a MOTD containing a NUL byte"
+[[objectives]]
+test = "motd_from_c_reads_back_a_string"
+label = "motd_from_c reads a C string pointer into a Rust String"
+
+[[hints]]
+text = "`CString::new(motd)` gives a `Result`; `.ok()?` turns its error into an early `None`. Keep the `CString` in a variable and pass `c.as_ptr()` to `strlen` inside `unsafe`. For `motd_from_c`, `CStr::from_ptr(ptr)` borrows the C text."
+[[hints]]
+text = "`let c = CString::new(motd).ok()?; Some(unsafe { strlen(c.as_ptr()) })` and `unsafe { CStr::from_ptr(ptr) }.to_string_lossy().into_owned()`."
+
+[[points]]
+after = 1
+prompt = "How does C know where a text ends?"
+pick = ["it stores the length first", "a zero byte at the end", "a newline", "it doesn't"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which type is the owned, NUL-terminated copy?"
+pick = ["CStr", "String", "CString", "c_char"]
+answer = 2

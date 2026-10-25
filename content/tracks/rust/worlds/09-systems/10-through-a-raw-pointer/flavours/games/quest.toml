@@ -1,0 +1,25 @@
+title = "Aside: raw pointers into the player counts"
+summary = "A pointer is an address. Write a player count through a *mut, read one through a *const, and check for null first."
+
+[[objectives]]
+test = "adds_a_player_through_mut_pointer"
+label = "add_player adds 1 through a *mut i32"
+[[objectives]]
+test = "null_pointer_gives_none"
+label = "player_count_or_none returns None for a null pointer and the count otherwise"
+
+[[hints]]
+text = "Following a pointer is `*ptr`, the same star as for references, but it has to sit inside `unsafe { ... }`. `ptr.is_null()` needs no unsafe."
+[[hints]]
+text = "`add_player`: `unsafe { *ptr += 1; }`. `player_count_or_none`: `if ptr.is_null() { None } else { Some(unsafe { *ptr }) }`. Put a `// SAFETY:` comment above each block."
+
+[[points]]
+after = 3
+prompt = "Which step needs `unsafe`?"
+pick = ["making a raw pointer", "calling is_null", "following it with *", "printing it"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Check the pointer before following it."
+code = "if ptr.___() { return None; }"
+blank = "is_null"

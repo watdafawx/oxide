@@ -1,0 +1,17 @@
+title = "What JSON is, for modpacks"
+summary = "The text format launchers and mod sites use to hand data to each other: objects, arrays, strings, numbers, true, false and null."
+
+[[quiz]]
+question = "Which of these is valid JSON for a modpack with 120 mods and no last-played day?"
+choices = ["{mod_count: 120, last_played: None}", "{\"mod_count\": 120, \"last_played\": null}", "{'mod_count': 120, 'last_played': ''}"]
+answer = 1
+
+[[quiz]]
+question = "The mod manager is Rust and the mod site's server is written in another language. Why do they trade JSON text instead of a Rust struct?"
+choices = ["A struct's bytes in memory mean nothing to another program; text in an agreed format does", "JSON is faster to work with than a struct inside the same program", "Rust structs cannot be passed to functions in other files"]
+answer = 0
+
+[[quiz]]
+question = "What does deserialize mean?"
+choices = ["Turn a Rust value into JSON text", "Check that JSON text has no typos", "Read JSON text back into a Rust value"]
+answer = 2

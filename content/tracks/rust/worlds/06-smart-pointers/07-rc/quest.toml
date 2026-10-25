@@ -1,0 +1,32 @@
+title = "Two owners"
+summary = "Rc lets several owners keep one value alive. Rc::clone only bumps a counter."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rc", "shared-ownership"]
+
+[[objectives]]
+test = "share_returns_another_handle"
+label = "share(&note) returns a second owner of the same note"
+[[objectives]]
+test = "owner_count_reports_strong_count"
+label = "owner_count(&note) reports how many owners exist"
+[[objectives]]
+test = "count_inside_and_after_tracks_drops"
+label = "A temporary owner raises the count, then lowers it again"
+
+[[hints]]
+text = "`Rc::clone(shared)` makes another owner; `Rc::strong_count(shared)` reads the counter."
+[[hints]]
+text = "For the last one: `let inside = { let extra = Rc::clone(shared); Rc::strong_count(&extra) };` then return `(inside, Rc::strong_count(shared))`."
+
+[[points]]
+after = 1
+prompt = "What does Rust say when you give one value to two owners?"
+pick = ["cannot borrow as mutable", "use of moved value", "type annotations needed", "value dropped here"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Add a cheap second owner."
+code = "let b = ___(&a);"
+blank = "Rc::clone"

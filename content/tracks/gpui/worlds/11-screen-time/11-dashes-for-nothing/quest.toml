@@ -1,0 +1,33 @@
+title = "Dashes for nothing"
+summary = "The summary is full of Options: turn each into text for the page, or -- when there is nothing."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["option", "closures", "format"]
+
+[[quiz]]
+question = "When does `unwrap_or_else(|| \"--\".into())` run its closure?"
+choices = [
+  "every time it is called",
+  "only when the Option is None",
+  "only when the Option is Some",
+]
+answer = 1
+
+[[quiz]]
+question = "`clock(30600)` gives \"08:30\". What does `Some(30600).map(clock)` give?"
+choices = [
+  "Some(\"08:30\")",
+  "\"08:30\"",
+  "None",
+]
+answer = 0
+
+[[quiz]]
+question = "What does `format!(\"{:02}:00\", 8)` give?"
+choices = [
+  "\"8:00\"",
+  "\"80:00\"",
+  "\"08:00\"",
+]
+answer = 2

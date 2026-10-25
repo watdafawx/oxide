@@ -1,0 +1,25 @@
+title = "Look, change or take"
+summary = "iter lends the items, iter_mut lends them to change, into_iter hands them over."
+
+[[objectives]]
+test = "apply_looting_changes_the_table_in_place"
+label = "apply_looting doubles every entry's weight, in the caller's table"
+[[objectives]]
+test = "into_item_names_takes_the_names_without_copying"
+label = "into_item_names gives back every entry's item name, taking the table over"
+
+[[hints]]
+text = "To change each entry: `for d in table.iter_mut() { ... }`, and change `d.weight` inside. For the names, the function owns `table`, so it can hand the entries over with `into_iter()`."
+[[hints]]
+text = "`d.weight *= 2;` inside the loop. Names: `table.into_iter().map(|d| d.item).collect()`."
+
+[[points]]
+after = 2
+prompt = "Which one lets you change the items in place?"
+pick = ["iter()", "iter_mut()", "into_iter()", "copied()"]
+answer = 1
+[[points]]
+after = 3
+prompt = "After `table.into_iter()`, can you still use `table`?"
+pick = ["No, it was moved", "Yes, it is unchanged", "Only to read it", "Only its length"]
+answer = 0

@@ -3,6 +3,8 @@
 Plan and record of the world at the end of the Rust track, built from five of the owner's ESL
 broadcast projects. Not content. Format and rules: `docs/CONTENT.md`. Research date: 2026-10-23.
 
+> Rewritten in October 2026 (19 → 23 quests); the current list is in `docs/REWRITE-rust-12-broadcast.md`.
+
 ## 0. What the ESL projects are, and which are worth moving to Rust
 
 | project | today | what it does | move to Rust? |
@@ -37,7 +39,7 @@ Names follow rl-hud: `Frame`, `GameEvent`, `Moment`, `Trigger`, `Output`, `HudSt
 
 ## 1. Quests (`12-broadcast`), project "HUD server", 19 quests
 
-`requires` for 01: `10-apps/11-boss-oxide-in-rust` (axum, serde, a first Tauri command); it uses
+`requires` for 01: `10-apps/28-boss-oxide-in-rust` (axum, serde, a first Tauri command); it uses
 tokio from 08 Async and bytes from 09 Systems. Every quest crate has the same dependencies, so the
 app's shared `.target` compiles them once.
 

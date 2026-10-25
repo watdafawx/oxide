@@ -1,0 +1,29 @@
+title = "Names against files"
+summary = "Which players have no photo, which files belong to nobody, and which are just spelled differently?"
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["strings", "algorithms"]
+
+[[objectives]]
+test = "missing_and_extra_files"
+label = "Bram has no file; old_logo.png belongs to nobody; Zoë matches zoe.png"
+[[objectives]]
+test = "renamed_file_suggested"
+label = "Levenshtein distance is right, and Mos.png is suggested as Moss's file"
+
+[[hints]]
+text = "Loop `for (i, ca) in a.chars().enumerate()` and start `let mut row = vec![i + 1];`. Inside, `for (j, cb) in b.iter().enumerate()`, work out `let cost = usize::from(ca != *cb);`."
+[[hints]]
+text = "Each cell: `row.push((previous[j] + cost).min(previous[j + 1] + 1).min(row[j] + 1));`. After the inner loop, `previous = row;`. At the end, `previous[b.len()]`."
+
+[[points]]
+after = 5
+prompt = "While you build the next cell, which one is the cell to its left?"
+pick = ["previous[j]", "previous[j + 1]", "row[j]", "row[j + 1]"]
+answer = 2
+[[points]]
+after = 6
+prompt = "What is usize::from(true)?"
+pick = ["0", "1", "true", "it does not compile"]
+answer = 1

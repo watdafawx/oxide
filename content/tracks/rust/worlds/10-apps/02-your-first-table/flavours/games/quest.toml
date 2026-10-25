@@ -1,0 +1,22 @@
+title = "The mods table"
+summary = "Open a SQLite database in memory and create the mod manager's mods table from Rust."
+
+[[objectives]]
+test = "open_mod_db_creates_the_mods_table"
+label = "open_mod_db() gives a connection with an empty mods table: id, name, enabled"
+
+[[hints]]
+text = "Two steps, each ending in `?`: `Connection::open_in_memory()`, then `conn.execute(...)` with the CREATE TABLE text from the doc comment and `[]`. Finish with `Ok(conn)`."
+[[hints]]
+text = "`let conn = Connection::open_in_memory()?;` then `conn.execute(\"CREATE TABLE mods (id INTEGER PRIMARY KEY, name TEXT NOT NULL, enabled INTEGER NOT NULL)\", [])?;` then `Ok(conn)`."
+
+[[points]]
+after = 1
+prompt = "Which call makes a database that lives in memory?"
+pick = ["Connection::open", "Connection::new", "Connection::open_in_memory", "Connection::ram"]
+answer = 2
+[[points]]
+after = 2
+prompt = "This statement has no values to fill in. Finish the call."
+code = "conn.execute(\"CREATE TABLE packs (n INTEGER)\", ___)?;"
+blank = "[]"

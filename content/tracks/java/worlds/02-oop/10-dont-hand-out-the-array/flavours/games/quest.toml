@@ -1,0 +1,17 @@
+title = "Don't hand out the inventory"
+summary = "Private is not enough when a method hands out the field's array itself."
+
+[[quiz]]
+question = "`slots()` is `return slots;` and `slots` is a private `String[]`. What does `inv.slots()[0] = \"diamond\";` do?"
+choices = ["It fails to compile, because the field is private", "It changes the first slot inside the inventory", "It changes a copy, so the inventory is untouched"]
+answer = 1
+
+[[quiz]]
+question = "Which version of `slots()` keeps the inventory safe?"
+choices = ["`return slots.clone();`", "`return slots;` with the method made private", "`return this.slots;`"]
+answer = 0
+
+[[quiz]]
+question = "A getter hands back a private `int durability`. Can a caller change the field through it?"
+choices = ["Yes, by assigning to what the getter handed back", "Yes, but only from inside a loop", "No: the caller gets a copy of the number"]
+answer = 2

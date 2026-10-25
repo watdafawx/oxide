@@ -17,6 +17,8 @@ end
 
 **Choose inside.** An `if` inside the loop acts on only some of the items. Here it updates `biggest` only when this item beats it.
 
+**If this is new.** Programming 101 explains loops from zero: [Count with for](/quest/basics/04-repetition/02-count-with-for).
+
 ## Your turn
 
 - In `total_items`, start `local total = 0`, loop with `ipairs`, and add each `count`.

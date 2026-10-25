@@ -1,0 +1,24 @@
+title = "Stay on top"
+summary = "Raise the bar above the taskbar when it opens, and again whenever the taskbar comes to the front."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["win32", "trait", "testing"]
+
+[[objectives]]
+test = "topmost_set_after_open"
+label = "on_open asks Windows to make the bar topmost"
+[[objectives]]
+test = "topmost_set_again_after_taskbar_click"
+label = "the taskbar coming to the front raises the bar again; other windows do not"
+
+[[hints]]
+text = "Both methods are one call to `self.api.set_topmost(self.hwnd)`; the second is inside an `if`."
+[[hints]]
+text = "`on_open`: `self.api.set_topmost(self.hwnd);`. `on_foreground_change`: `if taskbar_in_front { self.api.set_topmost(self.hwnd); }`"
+
+[[points]]
+after = 2
+prompt = "The bar and the taskbar are both topmost. Which one is in front?"
+pick = ["always the taskbar", "always the bar", "the one raised last", "neither: they blend"]
+answer = 2

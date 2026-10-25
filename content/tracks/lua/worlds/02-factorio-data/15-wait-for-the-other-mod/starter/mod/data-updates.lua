@@ -1,0 +1,2 @@
+-- Every mod's data.lua has run by now, add-ons included.
+-- TODO: the kit-parts loop belongs here

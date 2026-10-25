@@ -1,0 +1,22 @@
+title = "A struct that borrows"
+summary = "Command<'a> borrows its parts from the typed line. Give it a lifetime so Rust can check it."
+
+[[objectives]]
+test = "parse_borrows_the_line"
+label = "Command builds with a lifetime, and parse(line) borrows both parts from the line"
+
+[[hints]]
+text = "The help under the first error shows the edits to the struct (both fields use the same `'a`). Then `parse` slices the line at the first space, as in \"Part of the text\"."
+[[hints]]
+text = "`pub struct Command<'a> { pub name: &'a str, pub arg: &'a str }`. In `parse`: `match line.find(' ') { Some(i) => Command { name: &line[..i], arg: &line[i + 1..] }, None => Command { name: line, arg: \"\" } }`."
+
+[[points]]
+after = 2
+prompt = "Make the field a borrow that lives for 'a."
+code = "struct Command<'a> {\n    name: ___,\n}"
+blank = "&'a str"
+[[points]]
+after = 3
+prompt = "What does adding `'a` do to how long the line lives?"
+pick = ["It makes the line live longer", "It copies the line", "Nothing: it only lets the compiler check the borrow"]
+answer = 2

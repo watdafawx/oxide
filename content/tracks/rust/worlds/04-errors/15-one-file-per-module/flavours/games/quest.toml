@@ -1,0 +1,25 @@
+title = "One file per module"
+summary = "mod manifest; loads src/manifest.rs, and siblings reach each other through crate::."
+
+[[objectives]]
+test = "manifest_file_is_wired_in"
+label = "lib.rs declares manifest and resolver, so manifest::version_of works"
+[[objectives]]
+test = "resolver_adds_up_through_the_manifest"
+label = "resolver::pack_fingerprint adds crate::manifest::version_of of every line"
+
+[[hints]]
+text = "Two lines at the top of `lib.rs`, each `pub mod` plus a file name without `.rs`. Then `pack_fingerprint` is a `for` loop with a running total."
+[[hints]]
+text = "`pub mod manifest;` and `pub mod resolver;`. In `resolver.rs`: `let mut total = 0; for line in lines { total += crate::manifest::version_of(line); } total`."
+
+[[points]]
+after = 1
+prompt = "Which line loads src/clock.rs as a module?"
+pick = ["use clock;", "mod clock;", "mod clock {}", "pub clock;"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Reach the sibling room from the top of the crate."
+code = "use ___::clock::minutes;"
+blank = "crate"

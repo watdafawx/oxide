@@ -1,8 +1,8 @@
 title = "Styles"
 summary = "Bars, Graphs, Bars and graphs, or Minimal: one setting picks what each stat draws."
 kind = "exercise"
-xp = 30
-minutes = 5
+xp = 25
+minutes = 3
 tags = ["match", "tuple"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "minimal_draws_no_graphs"
 label = "Minimal draws neither bars nor graphs; Bars and graphs draws both"
 
 [[hints]]
-text = "`parts` is a `match` on `style` giving a pair: (bars, graphs)."
+text = "Four arms: `WidgetStyle::Bars`, `WidgetStyle::Graphs`, `WidgetStyle::Both` and `WidgetStyle::Minimal`, each giving a pair `(bars, graphs)`."
 [[hints]]
-text = "`WidgetStyle::Bars => (true, false), WidgetStyle::Graphs => (false, true), WidgetStyle::Both => (true, true), WidgetStyle::Minimal => (false, false),`"
+text = "`match style { WidgetStyle::Bars => (true, false), WidgetStyle::Graphs => (false, true), WidgetStyle::Both => (true, true), WidgetStyle::Minimal => (false, false) }`"
 
 [[points]]
-after = 2
+after = 1
+prompt = "What does let (a, b) = (true, false); put in b?"
+pick = ["true", "(true, false)", "false", "nothing"]
+answer = 2
+[[points]]
+after = 3
 prompt = "What does Graphs give?"
-pick = ["(false, true)", "(true, false)", "(true, true)", "(false, false)"]
-answer = 0
+pick = ["(true, false)", "(false, true)", "(true, true)", "(false, false)"]
+answer = 1

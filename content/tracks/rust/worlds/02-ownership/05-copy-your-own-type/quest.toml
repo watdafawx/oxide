@@ -1,0 +1,30 @@
+title = "Copy your own type"
+summary = "Your structs move by default. Derive Clone and Copy to say they may be copied."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["clone", "copy", "derive", "attributes"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "mirror_returns_the_point_twice"
+label = "mirror(p) gives back (p, p): Point is Copy"
+[[objectives]]
+test = "two_labels_are_equal_copies"
+label = "two_labels(label) gives back two equal labels: Label is Clone"
+
+[[hints]]
+text = "Only the two `#[derive(...)]` lines change. The functions are already right once the types have the abilities they use."
+[[hints]]
+text = "`#[derive(Debug, PartialEq, Clone, Copy)]` above `Point`, and `#[derive(Debug, PartialEq, Clone)]` above `Label`."
+
+[[points]]
+after = 3
+prompt = "What is a line like `#[derive(Debug)]` above a struct?"
+pick = ["a comment", "a test", "an attribute: a note to the compiler", "a function call"]
+answer = 2
+[[points]]
+after = 5
+prompt = "Let `Size` be copied silently, like a number."
+code = "#[derive(Debug, ___)]\nstruct Size { w: u32, h: u32 }"
+blank = "Clone, Copy"

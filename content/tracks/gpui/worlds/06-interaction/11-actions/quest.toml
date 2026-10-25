@@ -1,0 +1,26 @@
+title = "Actions"
+summary = "Named commands: OpenSettings, OpenTaskManager, Exit. The bar handles them, wherever they come from."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "actions", "focus"]
+
+[[objectives]]
+test = "open_settings_action_is_handled"
+label = "dispatching OpenSettings reaches the bar's handler; OpenTaskManager still launches taskmgr"
+
+[[hints]]
+text = "Copy the shape of the `OpenTaskManager` line twice: only the type after `_:` and the body change. `Exit`'s body has two statements, so it needs `{ .. }`."
+[[hints]]
+text = "`.on_action(cx.listener(|this, _: &OpenSettings, _, cx| this.open_settings(cx)))` and `.on_action(cx.listener(|this, _: &Exit, _, cx| { this.ui.handled.push(\"exit\"); cx.quit(); }))`"
+
+[[points]]
+after = 2
+prompt = "In .on_action(cx.listener(|this, _: &OpenSettings, _, cx| ..)), what decides which action the handler is for?"
+pick = ["the order of the on_action calls", "the type of the event input, &OpenSettings", "the name of the closure", "the focus handle"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Why must the bar have focus for its on_action handlers to run?"
+pick = ["focus makes the bar visible", "actions need a keyboard", "on_action only runs on buttons", "actions travel from the focused element up to the window"]
+answer = 3

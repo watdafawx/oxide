@@ -1,0 +1,32 @@
+title = "Tasks that talk"
+summary = "A tokio mpsc channel carries progress from many download tasks to one reader. Clone the sender, drop the last one."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["async", "mpsc", "channels"]
+
+[[objectives]]
+test = "drain_collects_until_closed"
+label = "drain reads every message until the channel closes"
+[[objectives]]
+test = "gather_receives_from_all_senders"
+label = "gather spawns one task per id; each sends id * 10"
+[[objectives]]
+test = "gather_ends_with_zero_workers"
+label = "gather finishes (does not hang) when there are no tasks"
+
+[[hints]]
+text = "`drain` is the `while let Some(msg) = rx.recv().await` loop from the lesson. In `gather`, each task needs its own `tx.clone()` moved into its `async move` block, and the receiving loop only ends once the original `tx` is gone too."
+[[hints]]
+text = "`for id in 0..workers { let tx = tx.clone(); tokio::spawn(async move { tx.send(id * 10).await.unwrap(); }); }` then `drop(tx);`, then the `while let` loop into `out`, then `out.sort(); out`."
+
+[[points]]
+after = 2
+prompt = "Make a queue that holds 8 messages."
+code = "let (tx, mut rx) = mpsc::channel::<u32>(___);"
+blank = "8"
+[[points]]
+after = 4
+prompt = "Which forgotten call makes the receiver wait forever?"
+pick = ["tx.clone()", "rx.recv()", "send", "drop(tx)"]
+answer = 3

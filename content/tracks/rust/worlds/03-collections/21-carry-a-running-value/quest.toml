@@ -1,0 +1,29 @@
+title = "Carry a running value"
+summary = "fold carries one value through the whole list, changing it at every item."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["iterators", "fold"]
+
+[[objectives]]
+test = "after_discounts_applies_each_in_turn"
+label = "after_discounts takes each percent off what is left, one after the other"
+[[objectives]]
+test = "stock_after_sales_never_goes_below_zero"
+label = "stock_after_sales takes every sale off the start count, stopping at 0"
+
+[[hints]]
+text = "`fold(start, |acc, item| next_acc)`: the start is `price` (or `start`), and the closure returns the value after this item."
+[[hints]]
+text = "`percents.iter().fold(price, |left, off| left * (1.0 - off / 100.0))` and `sales.iter().fold(start, |left, n| left.saturating_sub(*n))`."
+
+[[points]]
+after = 1
+prompt = "In `fold(0, |acc, n| acc + n)`, what is `acc` before the first item?"
+pick = ["the first item", "0", "the last item", "nothing"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Start a running total at 100."
+code = "sales.iter().fold(___, |left, n| left - n)"
+blank = "100"

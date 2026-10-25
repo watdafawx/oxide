@@ -63,7 +63,7 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 /// Put the widget window where its Placement setting says.
 pub fn apply_placement(api: &mut impl WinApi, hwnd: isize, placement: Placement) {
     let _ = (api, hwnd, placement, Layer::Normal);
-    // TODO: Desktop -> Layer::Bottom, Normal -> Layer::Normal, OnTop -> Layer::Top; then api.set_layer
+    // TODO: pick the Layer this placement means, then set it on the window through `api`
 
 }
 

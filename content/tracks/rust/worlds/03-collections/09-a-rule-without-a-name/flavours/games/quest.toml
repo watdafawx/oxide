@@ -1,0 +1,25 @@
+title = "A loot rule without a name"
+summary = "A closure is a small function you write in place, and it can use the names around it."
+
+[[objectives]]
+test = "with_looting_adds_the_bonus_to_every_drop"
+label = "with_looting adds `bonus` to every drop count"
+[[objectives]]
+test = "repairs_needed_bring_each_tool_to_max"
+label = "repairs_needed says how much durability each tool is missing from `max`"
+
+[[hints]]
+text = "Above the loop, write the rule once: `let looted = |n: u32| n + bonus;`. In the loop, push `looted(*n)`."
+[[hints]]
+text = "For `repairs_needed`: `let missing = |d: u32| max.saturating_sub(d);`, then push `missing(*d)` for each tool."
+
+[[points]]
+after = 2
+prompt = "Which one is a closure?"
+pick = ["fn looted(n: u32) -> u32", "n => n + 1", "|n: u32| n + 1", "(n) -> n + 1"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Write the rule that adds `bonus` to a drop count."
+code = "let looted = ___ n + bonus;"
+blank = "|n: u32|"

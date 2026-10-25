@@ -15,7 +15,12 @@ text = "Divide each of the four numbers by `scale` before turning it into `px(..
 text = "`Bounds::new(point(px(rect.left as f32 / scale), px(rect.top as f32 / scale)), size(px(rect.width() as f32 / scale), px(rect.height() as f32 / scale)))`"
 
 [[points]]
+after = 1
+prompt = "What scale is 120 DPI?"
+pick = ["100 %", "120 %", "125 %", "150 %"]
+answer = 2
+[[points]]
 after = 2
 prompt = "At 125 % scaling, how many logical pixels is a 40-pixel-tall physical taskbar?"
-pick = ["32", "40", "50", "25"]
-answer = 0
+pick = ["40", "50", "25", "32"]
+answer = 3

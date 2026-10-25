@@ -1,0 +1,25 @@
+title = "A stack that remembers"
+summary = "An ItemStack object with a field that keeps its count between calls."
+
+[[objectives]]
+test = "newStackIsEmpty"
+label = "A new ItemStack has count() == 0"
+[[objectives]]
+test = "growAddsOne"
+label = "grow() adds one item, and each ItemStack keeps its own count"
+
+[[hints]]
+text = "Both methods use the field `count` that sits at the top of the class. Replace the whole `throw` line in `count`."
+[[hints]]
+text = "`count()` is `return count;`. `grow()` is `count++;`."
+
+[[points]]
+after = 2
+prompt = "Which line builds a new stack object?"
+pick = ["ItemStack s;", "new ItemStack()", "ItemStack.count", "class ItemStack"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Call grow on the stack `logs`."
+code = "___.grow();"
+blank = "logs"

@@ -10,12 +10,17 @@ test = "fifty_percent_ends_at_top"
 label = "on a radius 50 dial centred at (100, 100): 0 → (50, 100), 0.5 → (100, 50), 1 → (150, 100)"
 
 [[hints]]
-text = "The angle runs from π (left) down to 0 (right): `π × (1 − share)`. x adds `radius × cos`, y subtracts `radius × sin`."
+text = "First `let angle = ..` from `std::f32::consts::PI`, `1.0 - ..` and `share.clamp(0.0, 1.0)`. Then the same `point(..)` as the lesson's example, with your angle."
 [[hints]]
 text = "`let angle = std::f32::consts::PI * (1.0 - share.clamp(0.0, 1.0)); point(center.x + radius * angle.cos(), center.y - radius * angle.sin())`"
 
 [[points]]
-after = 3
-prompt = "Why subtract the sine for y?"
-pick = ["screen y grows downward, so up is minus", "sine is negative here", "to flip left and right", "it is a GPUI rule"]
-answer = 0
+after = 1
+prompt = "How many radians is half a turn?"
+pick = ["π/2", "2π", "π", "180"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Why subtract the sine part for y?"
+pick = ["sine is negative here", "screen y grows downward", "to flip left and right", "GPUI measures from the top right"]
+answer = 1

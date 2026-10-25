@@ -1,0 +1,29 @@
+title = "A default body"
+summary = "Write describe() once in the interface, and every shape gets it."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["interfaces", "default-methods"]
+
+[[objectives]]
+test = "describeUsesNameAndArea"
+label = "describe() is \"<name> with area <rounded area>\" for a Rectangle and a Circle"
+[[objectives]]
+test = "newShapesGetDescribeForFree"
+label = "A shape written later gets describe() without writing it"
+
+[[hints]]
+text = "The body goes in `Shape.describe()`, not in the classes. It can call `name()` and `area()`, the other methods of the interface."
+[[hints]]
+text = "`return name() + \" with area \" + Math.round(area());`"
+
+[[points]]
+after = 1
+prompt = "Which word gives an interface method a body?"
+pick = ["static", "default", "abstract", "final"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Call the interface's own area method inside describe."
+code = "return name() + \" covers \" + ___;"
+blank = "area()"

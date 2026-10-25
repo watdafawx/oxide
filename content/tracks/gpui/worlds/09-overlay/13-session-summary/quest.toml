@@ -10,12 +10,17 @@ test = "summary_line_matches_header"
 label = "the line has the header's five fields: game, minutes, FPS and low with one decimal, temperature"
 
 [[hints]]
-text = "One `format!` with five `{}` separated by commas; minutes are `seconds / 60`; a missing temperature is an empty cell."
+text = "`let temp = self.peak_gpu_temp.map(|t| format!(\"{t:.0}\")).unwrap_or_default();`, then one `format!` with five `{}` separated by commas, three of them `{:.1}`."
 [[hints]]
-text = "`let temp = self.peak_gpu_temp.map(|t| format!(\"{t:.0}\")).unwrap_or_default(); format!(\"{},{:.1},{:.1},{:.1},{}\", self.game, self.seconds as f64 / 60.0, self.average_fps, self.one_percent_low, temp)`"
+text = "`format!(\"{},{:.1},{:.1},{:.1},{}\", self.game, self.seconds as f64 / 60.0, self.average_fps, self.one_percent_low, temp)`"
 
 [[points]]
-after = 2
+after = 3
 prompt = "How is a missing GPU temperature written?"
-pick = ["an empty cell", "0", "--", "the word none"]
+pick = ["0", "--", "an empty cell", "the word none"]
+answer = 2
+[[points]]
+after = 4
+prompt = "What does None.map(|t| t + 1.0) give?"
+pick = ["None", "Some(1.0)", "0.0", "it panics"]
 answer = 0

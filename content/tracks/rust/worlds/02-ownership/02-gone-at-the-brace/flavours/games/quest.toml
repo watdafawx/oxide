@@ -1,0 +1,25 @@
+title = "Gone at the brace"
+summary = "A join message built inside an if vanishes at the }. Then Rust frees what it owns."
+
+[[objectives]]
+test = "first_join_is_announced"
+label = "join_message(\"Steve\", true) gives back \"Steve joined for the first time!\""
+[[objectives]]
+test = "rejoin_says_joined_the_game"
+label = "join_message(\"Steve\", false) gives back \"Steve joined the game\""
+
+[[hints]]
+text = "Each `let message` lives only inside its own branch. The `if` itself can be the value instead: no `let` inside, no `;` after each `format!`."
+[[hints]]
+text = "The whole body becomes `if first_join { format!(\"{name} joined for the first time!\") } else { format!(\"{name} joined the game\") }`."
+
+[[points]]
+after = 2
+prompt = "Where does a name made with `let` inside a block stop existing?"
+pick = ["When the server stops", "At the next `let`", "At that block's closing `}`", "Never"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What is it called when Rust frees a value at its `}`?"
+pick = ["moving", "dropping", "borrowing", "cloning"]
+answer = 1

@@ -52,7 +52,7 @@ pub const TRAY_GAP: i32 = 8;
 /// None when the taskbar is hidden (auto-hide) and shows less than 4 pixels on its monitor.
 pub fn dock_bar(taskbar: &Taskbar, bar_width: i32, shift_left: i32) -> Option<Rect> {
     let _ = (taskbar, bar_width, shift_left);
-    todo!("the visible part (intersect, under 4 px -> None), then the rectangle left of the tray")
+    todo!("the part of the taskbar on its monitor (None under 4 px high), then the rectangle left of the tray")
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

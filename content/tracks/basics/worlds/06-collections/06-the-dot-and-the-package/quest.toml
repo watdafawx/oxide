@@ -1,0 +1,33 @@
+title = "The dot and the package"
+summary = "Add and remove products, and finally see what the M in every starter is."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["maps", "dot", "modules"]
+requires = []
+
+[[objectives]]
+test = "adds_and_changes_prices"
+label = "set_price(prices, item, price) adds a new product or changes its price"
+
+[[objectives]]
+test = "removes_a_product"
+label = "discontinue(prices, item) takes the product off the price list"
+
+[[hints]]
+text = "Storing under a key works like storing into a slot. Removing a key means storing nothing in it."
+
+[[hints]]
+text = "`prices[item] = price` and `prices[item] = nil`."
+
+[[points]]
+after = 2
+prompt = 'Which one is the same as `prices["eggs"]`?'
+pick = ["prices.eggs", "prices(eggs)", "prices:eggs", "prices[eggs]"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "What is `M` in `local M = {}`?"
+pick = ["an empty table that will hold the file's functions", "a special keyword", "the main function", "a list of tests"]
+answer = 0

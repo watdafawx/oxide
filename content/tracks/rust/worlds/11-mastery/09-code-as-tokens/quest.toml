@@ -1,0 +1,25 @@
+title = "Code as tokens"
+summary = "What a macro really receives: tokens, a token stream, and the syntax tree built from it."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["macros", "proc-macro", "tokens"]
+
+[[quiz]]
+question = "How many tokens is `let total = 4 * 2;`?"
+choices = ["3", "7", "18, one per character"]
+answer = 1
+
+[[quiz]]
+question = "What does a procedural macro receive?"
+choices = [
+  "The values your variables hold while the program runs",
+  "The source file as one long piece of text",
+  "Your code as a stream of tokens, while the compiler builds it",
+]
+answer = 2
+
+[[quiz]]
+question = "Which crate turns a token stream into a syntax tree you can inspect?"
+choices = ["syn", "quote", "serde"]
+answer = 0

@@ -1,0 +1,29 @@
+title = "The visible box"
+summary = "Find the box around every pixel of a player photo that is not transparent."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["image", "min-max"]
+
+[[objectives]]
+test = "box_holds_every_visible_pixel"
+label = "the 30 x 20 block's box is (20, 10) to (49, 29); one faint pixel is a 1 x 1 box"
+[[objectives]]
+test = "empty_photo_has_no_box"
+label = "a fully transparent image has no box: None"
+
+[[hints]]
+text = "Start with `let (mut left, mut top, mut right, mut bottom) = (u32::MAX, u32::MAX, 0, 0);`, then `for (x, y, pixel) in img.enumerate_pixels()` and only look at pixels with `pixel[3] > 0`."
+[[hints]]
+text = "Inside the `if`: `left = left.min(x); top = top.min(y); right = right.max(x); bottom = bottom.max(y);`. After the loop: `if left > right { return None; }` and `Some((left, top, right, bottom))`."
+
+[[points]]
+after = 1
+prompt = "A pixel is Rgba([200, 40, 40, 0]). What does the viewer see there?"
+pick = ["red", "nothing: alpha 0 is fully transparent", "black", "a dark red"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Why does left start at u32::MAX and not at 0?"
+pick = ["0 is not a valid x", "u32 cannot hold 0", "so the first visible pixel's x is always smaller and replaces it", "to make the box as wide as the image"]
+answer = 2

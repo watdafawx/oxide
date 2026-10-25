@@ -34,8 +34,8 @@ test = "live_or_needs_admin"
 label = "the live trace starts or says it needs administrator"
 
 [[hints]]
-text = "Start with `FrameStats::compute`: the frame times, the newest time, the last 3 seconds of frame times, then `average_fps`, `base_fps`, `low_fps` twice and `spikes` on the recent ones. Four objectives turn green."
+text = "Start with `FrameStats::compute`: `let ms: Vec<f64> = frames.iter().map(|f| f.ms).collect();`, the newest time, and `let recent_ms: Vec<f64> = frames.iter().filter(|f| f.time >= newest - 3.0).map(|f| f.ms).collect();`. Then fill the struct from `average_fps`, `base_fps`, `low_fps` twice (0.01 and 0.001) and `spikes(&recent_ms)`. Four objectives turn green."
 [[hints]]
-text = "`OverlayController::tick`: while a game is remembered, keep the higher GPU temperature (`a.max(b)` when both are there, else whichever is). Then `let step = self.auto.step(front, running);`."
+text = "`OverlayController::tick`: `if self.auto.game.is_some() { self.peak_gpu_temp = match (self.peak_gpu_temp, gpu_temp) { (Some(a), Some(b)) => Some(a.max(b)), (Some(a), None) => Some(a), (None, b) => b }; }` then `let step = self.auto.step(front, running);`."
 [[hints]]
-text = "On `Some(OverlayStep::Show)` with no start time yet, remember `now`. On `Some(OverlayStep::Close)`, build a `SessionSummary` (seconds from the start, `stats.fps`, `stats.one_percent_low`, the peak, taken) and push its `csv_line()` to `sessions`. Give back `step`."
+text = "`match step { Some(OverlayStep::Show) if self.started.is_none() => self.started = Some(now), Some(OverlayStep::Close) => { .. } _ => {} }` and give back `step`. On Close: `let started = self.started.take().unwrap_or(now);`, build a `SessionSummary` with `game: game_exe.to_string()`, `seconds: (now - started).max(0.0) as u64`, `stats.fps`, `stats.one_percent_low` and `self.peak_gpu_temp.take()`, and push its `csv_line()` to `self.sessions`."

@@ -1,0 +1,29 @@
+title = "Slide bits into place"
+summary = "Shift bytes left and right with << and >> to pack four bytes of an address into one u32 and take them out again."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["bits", "shifts", "casts"]
+
+[[objectives]]
+test = "packs_an_address_into_u32"
+label = "pack_ipv4(192, 168, 50, 3) is 0xC0A8_3203"
+[[objectives]]
+test = "unpacks_u32_into_an_address"
+label = "unpack_ipv4 takes the four bytes back out, first byte first"
+
+[[hints]]
+text = "Packing: widen each byte with `u32::from`, shift `a` left by 24, `b` by 16, `c` by 8, and join the four with `|`. Unpacking: shift right by the same amounts and cut each with `as u8`."
+[[hints]]
+text = "`(u32::from(a) << 24) | (u32::from(b) << 16) | (u32::from(c) << 8) | u32::from(d)` and `((ip >> 24) as u8, (ip >> 16) as u8, (ip >> 8) as u8, ip as u8)`."
+
+[[points]]
+after = 1
+prompt = "What is `1 << 3`?"
+pick = ["3", "4", "8", "13"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Keep only the second-lowest byte."
+code = "let byte = (value >> 8) ___ u8;"
+blank = "as"

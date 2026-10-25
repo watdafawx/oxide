@@ -1,0 +1,30 @@
+title = "Gone at the brace"
+summary = "A name lives until the } of its block. Then Rust frees what it owns."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["scope", "drop"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "first_visit_says_welcome"
+label = "welcome(\"Ana\", true) gives back \"Welcome, Ana!\""
+[[objectives]]
+test = "next_visit_says_welcome_back"
+label = "welcome(\"Ana\", false) gives back \"Welcome back, Ana!\""
+
+[[hints]]
+text = "Each `let greeting` lives only inside its own branch. The `if` itself can be the value instead: no `let` inside, no `;` after each `format!`."
+[[hints]]
+text = "The whole body becomes `if first_visit { format!(\"Welcome, {name}!\") } else { format!(\"Welcome back, {name}!\") }`."
+
+[[points]]
+after = 2
+prompt = "Where does a name made with `let` inside a block stop existing?"
+pick = ["At the end of the program", "At the next `let`", "At that block's closing `}`", "Never"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What is it called when Rust frees a value at its `}`?"
+pick = ["moving", "dropping", "borrowing", "cloning"]
+answer = 1

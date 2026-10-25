@@ -76,7 +76,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 /// The overlay strip's place: centred at the top of the screen, 8 pixels down.
 pub fn overlay_bounds(screen: Bounds<Pixels>, width: Pixels, height: Pixels) -> Bounds<Pixels> {
     let _ = width;
-    // TODO: centred horizontally on the screen, 8 px from its top
+    // TODO: the strip centred left to right on the screen, 8 px below its top
     Bounds::new(screen.origin, size(width, height))
 }
 

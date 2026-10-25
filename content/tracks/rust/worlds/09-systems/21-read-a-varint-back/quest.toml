@@ -1,0 +1,29 @@
+title = "Read a VarInt back"
+summary = "Rebuild the number from its 7-bit groups, and say how many bytes it took so the next field can start."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["varint", "bits", "protocol"]
+
+[[objectives]]
+test = "decodes_value_and_length"
+label = "decode_varint returns (value, bytes used), ignores bytes after it, and says Truncated when it never ends"
+[[objectives]]
+test = "round_trips_edge_values"
+label = "decode(encode(x)) == x for 0, 127, 128, i32::MAX, -1 and i32::MIN"
+
+[[hints]]
+text = "Keep a `let mut result: u32 = 0;`. Loop with `for (i, &b) in bytes.iter().enumerate()`. Each byte adds `u32::from(b & 0x7f)` shifted left by `7 * i`, joined in with `|=`."
+[[hints]]
+text = "Inside the loop: `if b & 0x80 == 0 { return Ok((result as i32, i + 1)); }`. After the loop: `Err(VarIntError::Truncated)`."
+
+[[points]]
+after = 1
+prompt = "How far left does the group in byte number 2 (counting from 0) go?"
+pick = ["2 bits", "7 bits", "14 bits", "16 bits"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Why return how many bytes were used?"
+pick = ["for the tests", "the next field starts right after", "to check the sign", "to free memory"]
+answer = 1

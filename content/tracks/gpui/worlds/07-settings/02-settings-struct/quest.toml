@@ -7,15 +7,20 @@ tags = ["serde", "default"]
 
 [[objectives]]
 test = "defaults_match_kinetik"
-label = "Settings::default() is Kinetik's: 1 s, the default bar, text labels, 85 % opacity, 13 px, gap 8, ping 1.1.1.1"
+label = "Settings::default() has all twelve of Kinetik's defaults, as the lesson lists them"
 
 [[hints]]
-text = "Fill in the `Settings { .. }` in `default()` with one value per field."
+text = "Fill in `Settings { .. }` in `default()` with one `field: value,` per field, in the order of the struct. The order is `default_order()`, the colours an empty `BTreeMap::new()`, the address a `String`."
 [[hints]]
-text = "`interval_ms: 1000, order: default_order(), label_mode: LabelMode::Text, two_lines: false, opacity: 0.85, font_size: 13.0, gap: 8.0, colours: BTreeMap::new(), left_click: LeftClick::TaskManager, ping_address: \"1.1.1.1\".to_string(), all_taskbars: false, shift_left: 0,`"
+text = "`Settings { interval_ms: 1000, order: default_order(), label_mode: LabelMode::Text, two_lines: false, opacity: 0.85, font_size: 13.0, gap: 8.0, colours: BTreeMap::new(), left_click: LeftClick::TaskManager, ping_address: \"1.1.1.1\".to_string(), all_taskbars: false, shift_left: 0 }`"
 
 [[points]]
 after = 3
-prompt = "What does #[serde(default)] do when a saved file lacks a field?"
-pick = ["fills it from Default", "fails to load", "sets it to zero", "deletes the file"]
+prompt = "An old settings file has no gap in it. What does #[serde(default)] do?"
+pick = ["fails to load the file", "sets gap to 0", "fills gap from Settings::default(), 8.0", "deletes the file"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Why a BTreeMap for the colours, not a HashMap?"
+pick = ["it keeps its keys in order, so the saved JSON is the same every time", "it is faster to look up", "HashMap cannot hold colours", "serde only knows BTreeMap"]
 answer = 0

@@ -1,0 +1,26 @@
+title = "Wrap a function"
+summary = "An attribute macro gets the function it sits on and returns its replacement. Make #[counted] count calls."
+kind = "exercise"
+xp = 55
+minutes = 8
+tags = ["macros", "proc-macro", "attributes"]
+
+[[objectives]]
+test = "counts_each_call_and_keeps_the_result"
+label = "After three calls to add, calls() is 3, and add still adds"
+
+[[hints]]
+text = "Edit `counted_macro/src/lib.rs`. Replace `#func` with the function rebuilt from its parts: `#(#attrs)*`, then `#vis #sig`, then a body `{ ... }` holding the counter bump followed by `#block`."
+[[hints]]
+text = "```\n#(#attrs)*\n#vis #sig {\n    CALLS.fetch_add(1, ::std::sync::atomic::Ordering::SeqCst);\n    #block\n}\n```"
+
+[[points]]
+after = 1
+prompt = "If an attribute macro returns an empty stream, what happens to the function?"
+pick = ["it stays as it was", "it is gone", "it becomes private", "the compiler adds it back"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Repeat every attribute of the function."
+code = "___\n#vis #sig { #block }"
+blank = "#(#attrs)*"

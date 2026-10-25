@@ -4,13 +4,15 @@ A stack count is never below zero. The change in a stack can be: drop five logs 
 
 **Changes need a sign.** `i32` is **signed**: it can hold -5 as well as 5. Use it for a difference or a change, anything that can go below zero.
 
-**Try the obvious thing.** Write a function that returns `after - before` and give it the return type `u32`. Rust refuses, because the answer might be negative:
+**Try the obvious thing.** Write a function that takes two `i32` numbers, returns `after - before`, and give it the return type `u32`. Rust refuses before the program ever runs:
 
 ```text
 error[E0308]: mismatched types
   |     after - before
   |     ^^^^^^^^^^^^^^ expected `u32`, found `i32`
 ```
+
+**Types, not values.** Rust did not work out that the answer could be negative; it never looks at the numbers. It only compared the type you promised (`u32`) with the type you produced (an `i32` minus an `i32` is an `i32`). The return type is a promise about every value the function could ever give back. A change can be negative, so its promise is `i32`.
 
 **Small types.** The number in the name is how much room the type has. `u8` holds 0 to 255. `i8` holds -128 to 127. Put 200 in an `i8` and the compiler says it does not fit. Pick the smallest type that holds every value you need.
 

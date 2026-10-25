@@ -1,30 +1,29 @@
 title = "Same verb, different types"
-summary = "Implement a trait for two structs."
+summary = "Two structs need the same method: write a trait and implement it for both."
 kind = "exercise"
 xp = 30
 minutes = 4
 tags = ["traits"]
 
 [[objectives]]
-test = "dog_describes_itself"
-label = "Dog::describe() returns \"Rex the dog\""
+test = "circle_describes_itself"
+label = "Circle::describe() returns \"circle with radius 2\""
 [[objectives]]
-test = "robot_describes_itself"
-label = "Robot::describe() returns \"robot #7\""
+test = "square_describes_itself"
+label = "Square::describe() returns \"square with side 3\""
 
 [[hints]]
-text = "Inside `impl Describe for Dog { ... }` the method body can use `self.name`."
+text = "Inside `impl Describe for Circle { ... }` the body can read the circle's field as `self.radius`."
 [[hints]]
-text = "Use `format!(\"{} the dog\", self.name)`. For the robot: `format!(\"robot #{}\", self.id)`."
-
-[[points]]
-after = 2
-prompt = "Which keyword lists method signatures?"
-pick = ["trait", "struct", "enum", "impl"]
-answer = 0
+text = "`format!(\"circle with radius {}\", self.radius)`. For the square: `format!(\"square with side {}\", self.side)`."
 
 [[points]]
 after = 3
-prompt = "Fill in the bodies for Cat."
-code = "___ Describe for Cat {"
+prompt = "What does a trait list?"
+pick = ["fields and their types", "method signatures, without bodies", "the variants of an enum", "finished methods for one type"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Make Line keep the Describe promise."
+code = "___ Describe for Line {"
 blank = "impl"

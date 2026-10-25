@@ -1,0 +1,25 @@
+title = "Count with merge"
+summary = "Add to a map's value in one call: merge puts the first value, then combines with Integer::sum."
+
+[[objectives]]
+test = "modsPerLoaderCountsEachMod"
+label = "modsPerLoader returns how many mods use each loader"
+[[objectives]]
+test = "downloadsPerLoaderAddsTheCounts"
+label = "downloadsPerLoader adds up the downloads of every mod per loader"
+
+[[hints]]
+text = "Both: a new `HashMap`, and for each mod one `merge` call. Count: the value to merge is `1`. Downloads: the value is `mod.downloads()`. The combine rule is `Integer::sum` in both."
+[[hints]]
+text = "`for (Mod mod : mods) { totals.merge(mod.loader(), mod.downloads(), Integer::sum); }` (and `1` instead of `mod.downloads()` for the count)."
+
+[[points]]
+after = 2
+prompt = "What does merge do when the key is missing?"
+pick = ["Throws an error", "Puts 0", "Does nothing", "Puts the given value"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Add the new downloads to the old total."
+code = "totals.merge(\"fabric\", 9500, ___);"
+blank = "Integer::sum"

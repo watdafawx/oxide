@@ -1,0 +1,29 @@
+title = "A switch the compiler counts"
+summary = "Seal Shape to three records, then switch over the kind with no default."
+kind = "exercise"
+xp = 55
+minutes = 7
+tags = ["sealed", "pattern-matching", "switch"]
+
+[[objectives]]
+test = "shapeIsSealed"
+label = "Shape is sealed to exactly Circle, Rectangle and Triangle"
+[[objectives]]
+test = "switchComputesEveryArea"
+label = "Shapes.area handles all three shapes with no default"
+
+[[hints]]
+text = "In `Shape.java`: `sealed` before `interface`, and `permits` with the three records after the name. In `area`: `return switch (shape) { ... };` with one `case Circle c ->` style line per record."
+[[hints]]
+text = "`public sealed interface Shape permits Circle, Rectangle, Triangle {}` and `case Circle c -> Math.PI * c.radius() * c.radius(); case Rectangle r -> r.width() * r.height(); case Triangle t -> t.base() * t.height() / 2;`"
+
+[[points]]
+after = 3
+prompt = "Which word lists the allowed kinds?"
+pick = ["implements", "permits", "extends", "case"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Match a Cat and name it c."
+code = "case ___ -> \"meow\";"
+blank = "Cat c"

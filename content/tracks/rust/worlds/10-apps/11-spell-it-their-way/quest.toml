@@ -1,0 +1,29 @@
+title = "Spell it their way"
+summary = "Rename enum variants and a field with serde attributes, so Rust names and the screen's JSON names can differ."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["serde", "json", "rename"]
+
+[[objectives]]
+test = "statuses_are_lowercase_words"
+label = "Status::NotRun is written as \"notrun\", Status::Passed as \"passed\""
+[[objectives]]
+test = "the_kind_field_is_called_type"
+label = "QuestCard's kind field is written and read as \"type\""
+
+[[hints]]
+text = "Both are attributes, no code: `rename_all` goes above the enum and changes every variant; `rename` goes above one field and changes just that key."
+[[hints]]
+text = "Above `pub enum Status`: `#[serde(rename_all = \"lowercase\")]`. Above `pub kind: String,`: `#[serde(rename = \"type\")]`."
+
+[[points]]
+after = 1
+prompt = "How does serde write Status::NotRun with no attribute?"
+pick = ["\"notrun\"", "\"NotRun\"", "2", "\"not_run\""]
+answer = 1
+[[points]]
+after = 3
+prompt = "Write this field as the key \"type\"."
+code = "___\npub kind: String,"
+blank = "#[serde(rename = \"type\")]"

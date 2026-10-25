@@ -65,7 +65,7 @@ use serde::{Deserialize, Serialize};
 impl StatsBar {
     /// A bar set up from the app's Settings.
     pub fn from_settings(sensors: Vec<Box<dyn Sensor>>, cx: &App) -> Self {
-        // TODO: read the app's Settings with cx.global::<Settings>()
+        // TODO: read the app's Settings global instead of making fresh defaults
         let _ = cx;
         let settings = &Settings::default();
         let mut bar = StatsBar::new(sensors).with_interval(settings.interval_ms);

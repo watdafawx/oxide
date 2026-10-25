@@ -1,0 +1,32 @@
+title = "Borrow until you must own"
+summary = "Hand the text back untouched when it is fine; pay for a copy only when you change it."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["cow", "strings", "allocation"]
+
+[[objectives]]
+test = "clean_input_is_borrowed"
+label = "A line without tabs comes back as Cow::Borrowed (no copy)"
+[[objectives]]
+test = "tabs_become_single_spaces"
+label = "Each tab becomes one space"
+[[objectives]]
+test = "changed_input_is_owned"
+label = "A line with tabs comes back as Cow::Owned"
+
+[[hints]]
+text = "Check first with `input.contains('\\t')`. Only that case builds new text."
+[[hints]]
+text = "With a tab: `Cow::Owned(input.replace('\\t', \" \"))`. Without: `Cow::Borrowed(input)`."
+
+[[points]]
+after = 1
+prompt = "What is the slow part of making a new String?"
+pick = ["printing it", "asking the heap for memory and copying the bytes", "checking its type", "dropping the old &str"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Get a String out of the Cow."
+code = "let owned = no_commas(\"a,b\").___();"
+blank = "into_owned"

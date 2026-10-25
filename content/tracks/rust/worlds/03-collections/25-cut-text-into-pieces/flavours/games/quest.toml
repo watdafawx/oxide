@@ -1,0 +1,25 @@
+title = "Cut text into pieces"
+summary = "split cuts text at a separator, lines cuts it at line breaks, trim tidies each piece."
+
+[[objectives]]
+test = "command_args_split_and_trim"
+label = "command_args turns \" Steve, diamond ,3\" into [\"Steve\", \"diamond\", \"3\"]"
+[[objectives]]
+test = "mod_lines_skip_empty_ones"
+label = "mod_lines gives back every line of a mod list with text on it, trimmed"
+
+[[hints]]
+text = "`line.split(',')` is an iterator over the pieces. Map each piece to `piece.trim()` and collect. For lines, start from `text.lines()`."
+[[hints]]
+text = "`line.split(',').map(|a| a.trim()).collect()` and `text.lines().map(|l| l.trim()).filter(|l| !l.is_empty()).collect()`."
+
+[[points]]
+after = 1
+prompt = "What does `\"a,b,c\".split(',')` give?"
+pick = ["a Vec of three Strings", "\"abc\"", "the number 3", "the pieces a, b, c, one at a time"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Cut the spaces off both ends."
+code = "let clean = \"  sodium \".___();"
+blank = "trim"

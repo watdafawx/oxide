@@ -1,0 +1,6 @@
+[package]
+name = "own_a_struct_that_borrows"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

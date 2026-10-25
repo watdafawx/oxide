@@ -10,12 +10,17 @@ test = "three_samples_add_15_seconds"
 label = "three samples of Chrome at 21:00 add 15 seconds to chrome.exe and to hour 21"
 
 [[hints]]
-text = "Two lines at the top of `Day::add`: one through `self.apps.entry(..)`, one into `self.hours[..]`."
+text = "Two lines: the lesson's `entry(..).or_insert(0)` line on `self.apps` with `app.to_string()` and `SAMPLE_SECS`, and `self.hours[..] += SAMPLE_SECS` with the hour as a `usize`."
 [[hints]]
 text = "`*self.apps.entry(app.to_string()).or_insert(0) += SAMPLE_SECS; self.hours[at.hour() as usize] += SAMPLE_SECS;`"
 
 [[points]]
 after = 2
-prompt = "Why sample every 5 seconds instead of timing each window exactly?"
-pick = ["it is simple, cheap, and 5 seconds is close enough for a day's totals", "Windows only allows it every 5 s", "to save memory", "it is more exact"]
-answer = 0
+prompt = "What does entry(..).or_insert(0) give back?"
+pick = ["a copy of the count", "a &mut to the count", "the whole map", "a bool"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Add 5 to the count the reference points at."
+code = "___count += 5;"
+blank = "*"

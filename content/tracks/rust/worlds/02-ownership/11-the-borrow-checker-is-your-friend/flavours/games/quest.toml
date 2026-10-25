@@ -1,0 +1,21 @@
+title = "The borrow checker guards the server"
+summary = "Three questions, six lines of console code. Say which line moves and which ones borrow."
+
+[[quiz]]
+question = "In the lesson's trace, which line moves the chat line out of `log`?"
+choices = ["let c = &log;", "let both = format!(\"{c} {d}\");", "let e = log;"]
+answer = 2
+
+[[quiz]]
+question = "With `let mut online: Vec<String> = Vec::new();`, which pair of lines builds?"
+choices = [
+  "let r1 = &mut online; let r2 = &mut online; r1.push(\"Steve\".to_string()); r2.push(\"Alex\".to_string());",
+  "let r = &mut online; let t = &online; r.push(\"Steve\".to_string()); let n = t.len();",
+  "let r1 = &online; let r2 = &online; let n = r1.len() + r2.len();",
+]
+answer = 2
+
+[[quiz]]
+question = "Why may a reference never outlive the value it points at?"
+choices = ["It would point at freed memory", "References are slower than owners", "The compiler can only count to one"]
+answer = 0

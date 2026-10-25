@@ -15,6 +15,8 @@ copy.eggs = 0
 
 **A real copy.** Make a new empty `{}` and copy every key and value across with a `pairs` loop. The new table is its own thing. Change it and the original stays as it was.
 
+**If this is new.** Programming 101 explains two names for one table from zero: [Two names, one table](/quest/basics/07-how-the-computer-holds-things/02-two-names-one-table).
+
 ## Your turn
 
 - In `copy_pantry`, start with a new empty table.

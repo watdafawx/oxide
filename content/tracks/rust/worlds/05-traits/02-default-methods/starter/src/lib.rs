@@ -7,7 +7,7 @@ pub trait Greeter {
     }
 
     fn shout(&self) -> String {
-        // TODO: return self.greet() in uppercase
+        // TODO: return this type's greet() in uppercase
         todo!()
     }
 }

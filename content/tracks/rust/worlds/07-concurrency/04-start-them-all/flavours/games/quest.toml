@@ -1,0 +1,25 @@
+title = "Start them all, then wait"
+summary = "One thread per jar runs in parallel only if every thread starts before you join any."
+
+[[objectives]]
+test = "hash_all_keeps_the_folder_order"
+label = "hash_all returns one hash per jar size, in the order of the folder"
+[[objectives]]
+test = "hash_all_hashes_the_jars_at_the_same_time"
+label = "Six slow jars finish in about the time of one"
+
+[[hints]]
+text = "Two loops. The first one only spawns and pushes each handle into a `Vec`. The second one joins them, in the same order, and pushes each hash."
+[[hints]]
+text = "`for size in sizes { handles.push(thread::spawn(move || slow_hash(size))); }` then `for handle in handles { hashes.push(handle.join().unwrap()); }`."
+
+[[points]]
+after = 1
+prompt = "Spawn, then join, inside the same loop. How do the workers run?"
+pick = ["all at once", "one after another", "in random order", "not at all"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Joining handles in the order they were pushed gives hashes in which order?"
+pick = ["the folder order", "the order they finished", "sorted", "reversed"]
+answer = 0

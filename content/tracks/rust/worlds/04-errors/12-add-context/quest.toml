@@ -1,0 +1,29 @@
+title = "Add context"
+summary = "Put a sentence on top of an error, keep the root cause, and build text only on failure."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["anyhow", "context", "closures"]
+
+[[objectives]]
+test = "context_sits_on_top_of_the_root_cause"
+label = "A bad priority says \"priority must be a number\" and keeps the parse error as root cause"
+[[objectives]]
+test = "with_context_names_the_line"
+label = "priority_on_line(3, \"high\") reads \"line 3: priority must be a number: ...\""
+
+[[hints]]
+text = "Both bodies are one line. `context` goes right after `.parse::<u32>()`; `with_context` goes right after the call to `parse_priority(text)`."
+[[hints]]
+text = "`text.trim().parse::<u32>().context(\"priority must be a number\")` and `parse_priority(text).with_context(|| format!(\"line {line}\"))`."
+
+[[points]]
+after = 1
+prompt = "After .context(..), what is the original error called?"
+pick = ["The context", "The root cause", "The panic", "The source file"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Build the message only when there is an error."
+code = "parse_priority(text).___(|| format!(\"line {line}\"))"
+blank = "with_context"

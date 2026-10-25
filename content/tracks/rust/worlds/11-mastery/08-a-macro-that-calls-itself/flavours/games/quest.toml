@@ -1,0 +1,25 @@
+title = "A macro that calls itself"
+summary = "tallest!(64, 120, 90): peel off the first height and call tallest! on the rest."
+
+[[objectives]]
+test = "tallest_of_two"
+label = "tallest!(64, 120) is 120"
+[[objectives]]
+test = "tallest_of_many"
+label = "tallest!(12, 40, 63, 64, 200, 90, 70) is 200"
+
+[[hints]]
+text = "Only the second arm's template changes. It is the larger of `$x` and the tallest of the rest; the rest is `tallest!` called on `$($rest),+`, through `$crate::`."
+[[hints]]
+text = "`::std::cmp::max($x, $crate::tallest!($($rest),+))`"
+
+[[points]]
+after = 2
+prompt = "Which arm must come first?"
+pick = ["the one with the most arguments", "the one with a single argument", "either, order never matters", "the one using $crate"]
+answer = 1
+[[points]]
+after = 3
+prompt = "How many tallest! expansions does tallest!(64, 120, 90) make in all?"
+pick = ["one", "two", "four", "three"]
+answer = 3

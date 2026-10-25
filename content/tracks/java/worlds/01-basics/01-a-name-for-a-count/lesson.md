@@ -18,6 +18,8 @@ int people = boats * crew;   // 12
 
 **Hand it back.** The last line of each method is `return` followed by the name or the sum. The method's `int` in front of its name says it hands back a whole number.
 
+**If this is new.** Programming 101 explains variables from zero: [A name for a value](/quest/basics/02-values-and-names/02-a-name-for-a-value).
+
 ## Your turn
 
 - In `totalApples`, make `int small` 12 and `int big` 3, then return their sum.

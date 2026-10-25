@@ -1,0 +1,33 @@
+title = "Where a name lives"
+summary = "A price made inside one function is nowhere to be found in another: scope, local and global."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["scope", "local", "global"]
+requires = []
+
+[[objectives]]
+test = "toppings_add_to_the_base_price"
+label = "with_toppings(n) gives the base price plus 1.5 per topping"
+
+[[objectives]]
+test = "slices_leave_no_global_behind"
+label = "slices_for(people) gives 3 per person and leaves no global called total"
+
+[[hints]]
+text = "`price` only exists inside `base_price`. To get the base price somewhere else, call the function that gives it back."
+
+[[hints]]
+text = "In `with_toppings`: `return M.base_price() + toppings * 1.5`. In `slices_for`, the first line becomes `local total = 0`."
+
+[[points]]
+after = 2
+prompt = "Where does a `local` made inside a function exist?"
+pick = ["only inside that function", "everywhere in the file", "only on its own line", "in every function that uses the same name"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Why are globals risky?"
+pick = ["Lua forbids them", "they cannot hold text", "any function can change them, so a bug shows up far from its cause", "they are slow to type"]
+answer = 2

@@ -1,0 +1,33 @@
+title = "How far apart are two names?"
+summary = "The edit distance between two words, worked out by hand with a table of small answers."
+kind = "read"
+xp = 15
+minutes = 5
+tags = ["algorithms", "dynamic-programming"]
+
+[[quiz]]
+question = "In the fen / fan table, why is the top row 0, 1, 2, 3?"
+choices = [
+  "they are the positions of the letters in fan",
+  "every cell starts at its column number and only goes down",
+  "turning nothing into f, fa and fan takes 1, 2 and 3 inserts",
+]
+answer = 2
+
+[[quiz]]
+question = "A cell's neighbours are: left 2, above 1, up-left 1, and its two letters differ. What goes in the cell?"
+choices = [
+  "1",
+  "2",
+  "3",
+]
+answer = 1
+
+[[quiz]]
+question = "Why can the code keep just two rows of the table?"
+choices = [
+  "each cell needs only the row above it and the cell to its left",
+  "names are never longer than two letters",
+  "the bottom row is always a copy of the top row",
+]
+answer = 0

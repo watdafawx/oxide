@@ -1,0 +1,26 @@
+title = "Hover"
+summary = "Light up the pill under the mouse, and remember which stat it is."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "events"]
+
+[[objectives]]
+test = "hover_sets_hovered_stat"
+label = "moving onto the CPU pill sets ui.hovered; moving away clears it"
+
+[[hints]]
+text = "Two calls: `.hover(|style| ..)` for the look, `.on_hover(cx.listener(..))` for the state. On `false`, check `this.ui.hovered == Some(kind)` before clearing."
+[[hints]]
+text = "`.hover(|style| style.bg(rgba(0xffffff14)))` and `.on_hover(cx.listener(move |this, hovered: &bool, _, cx| { if *hovered { this.ui.hovered = Some(kind); } else if this.ui.hovered == Some(kind) { this.ui.hovered = None; } cx.notify(); }))`"
+
+[[points]]
+after = 2
+prompt = "Which call changes only how the pill looks under the mouse?"
+pick = [".on_hover(..)", ".on_click(..)", ".hover(..)", ".id(..)"]
+answer = 2
+[[points]]
+after = 3
+prompt = "hovered is a &bool. Fill the blank so the if reads the bool behind it."
+code = "if ___ { this.ui.hovered = Some(kind); }"
+blank = "*hovered"

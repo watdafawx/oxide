@@ -1,0 +1,25 @@
+title = "Keys must be truly equal"
+summary = "A HashSet key needs Eq and Hash: make ChunkPos a key, and see why an f64 can't be one."
+
+[[objectives]]
+test = "loaded_chunks_counts_each_chunk_once"
+label = "loaded_chunks counts each chunk once"
+[[objectives]]
+test = "visit_counts_tallies_each_chunk"
+label = "visit_counts tallies how often each chunk was visited"
+
+[[hints]]
+text = "Write `loaded_chunks` first: collect the positions into a `HashSet<ChunkPos>` and take its `len()`. The errors name the two traits to add to `ChunkPos`'s derive line."
+[[hints]]
+text = "Derive line: `#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]`. `loaded_chunks`: `visits.iter().copied().collect::<HashSet<ChunkPos>>().len()`. `visit_counts`: `for c in visits { *counts.entry(*c).or_insert(0) += 1; }`."
+
+[[points]]
+after = 2
+prompt = "What does a HashSet need to turn each key into a number?"
+pick = ["Display", "Default", "Ord", "Hash"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Why can't a struct with an f64 field derive Eq?"
+pick = ["f64 is too big", "NaN is not equal to itself", "f64 has no ==", "Eq only works on enums"]
+answer = 1

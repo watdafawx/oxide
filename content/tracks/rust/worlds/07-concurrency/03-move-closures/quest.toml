@@ -1,0 +1,30 @@
+title = "Why move?"
+summary = "A thread can outlive the function that started it, so its closure must own what it uses."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["threads", "move", "ownership", "static"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "label_in_thread_owns_the_file_name"
+label = "label_in_thread builds \"Checking <name>\" on a thread that owns the name"
+[[objectives]]
+test = "total_in_thread_takes_the_sizes"
+label = "total_in_thread moves the Vec of sizes into a thread and returns the sum"
+
+[[hints]]
+text = "Read the `help:` line under the E0373 error: it names the keyword that goes in front of the bars."
+[[hints]]
+text = "`thread::spawn(move || format!(\"Checking {file_name}\"))`. For the sizes: `thread::spawn(move || sizes.iter().sum::<u64>())`, then `.join().unwrap()`."
+
+[[points]]
+after = 2
+prompt = "Which keyword makes a closure own the variables it uses?"
+pick = ["ref", "own", "move", "mut"]
+answer = 2
+[[points]]
+after = 4
+prompt = "A `'static` value may be borrowed for how long?"
+pick = ["until the function returns", "as long as the program runs", "one line", "until the next join"]
+answer = 1

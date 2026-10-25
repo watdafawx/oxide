@@ -1,27 +1,30 @@
-**Why now:** your machine graph starts with belts. A belt is a run of segments, and each segment carries some items and then *continues into the next belt*. A belt that contains a belt that contains a belt: Rust needs a **`Box<T>`** to know how big that is.
+Your machine graph starts with belts. A belt is a run of segments: the items on this tile, then the rest of the belt. That sentence mentions a belt inside a belt. Rust needs to know how many bytes every value takes before the program runs, and this one has no end.
 
-A `Box` is a pointer to a value on the heap. It has a fixed size (one pointer) and it **owns** what it points to: when the Box goes out of scope, the value is freed.
+**Where values live.** A quick refresher from the ownership world. Each function call gets the **stack**, a fixed-size area for its local values that is thrown away when the function returns. Values that can grow, like the text of a `String`, live on the **heap**, a big shared area, and the function keeps only their address. When a value's owner reaches its closing brace, the value is **dropped**, which means its memory is freed.
 
-```rust
-enum Belt {
-    Segment(u32, Box<Belt>),  // items on this tile, then the rest of the belt
-    End,
-}
-use Belt::{End, Segment};
+**Try the obvious thing.** Write the belt as "items on this segment, then the rest": `enum Belt { Segment(u32, Belt), End }`. The starter has exactly that, and the compiler refuses it:
 
-let belt = Segment(8, Box::new(Segment(4, Box::new(End))));
+```text
+error[E0072]: recursive type `Belt` has infinite size
 ```
 
-Without the Box, `Belt` would be infinitely big and the compiler refuses it.
+**Why infinite.** To make room for a `Belt` on the stack, the compiler adds up its parts: 4 bytes for the `u32`, plus a whole `Belt`, which is 4 bytes plus a whole `Belt`, forever. It needs that number **at compile time**, while `cargo` builds the program, because that is when it lays out each function's stack space.
 
-Matching works as usual, and `&Box<Belt>` auto-derefs to `&Belt` when you pass it on.
+**A pointer is an address.** A **pointer** is a number that says where in memory a value lives. Its size never changes, whatever it points at: 8 bytes on a 64-bit computer. Keep the rest of the belt somewhere else and store only its address, and the size stops growing.
 
-To walk it, match on it: the `End` arm returns a plain number and stops, the other arm calls the *same function* on the rest of the chain and adds its own part. A function that calls itself like this is **recursion**.
+**Box: an owning pointer.** `Box::new(value)` moves the value to the heap and gives you a `Box<T>`, a pointer that **owns** it. When the `Box` is dropped, the value on the heap is freed with it. So `Segment(u32, Box<Belt>)` is "4 bytes for the items, 8 for the address", a size the compiler can count.
+
+```rust
+enum Pipe {
+    Run(u32, Box<Pipe>),   // fluid in this pipe, then the rest of the line
+    Tank,
+}
+
+let line = Pipe::Run(100, Box::new(Pipe::Run(40, Box::new(Pipe::Tank))));
+```
 
 ## Your turn
 
-In `src/lib.rs` fill in:
-
-- `extend`: wrap the old belt in a Box and put a new segment with `items` in front.
-- `total_items`: recursion over `Segment` / `End`.
-- `segment_count`: same shape, counting segments.
+- Save and read the E0072 error. Its `help:` line names the fix.
+- In `Belt`, put the second field of `Segment` in a `Box`. The first objective turns green.
+- In `extend`, return a new `Segment` with `items` in front and the old belt in a `Box`.

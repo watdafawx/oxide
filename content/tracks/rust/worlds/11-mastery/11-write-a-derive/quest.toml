@@ -1,0 +1,30 @@
+title = "Write a derive"
+summary = "#[derive(Describe)]: parse the type, then write its impl with quote!."
+kind = "exercise"
+xp = 55
+minutes = 8
+tags = ["macros", "proc-macro", "syn", "quote"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "struct_says_name_and_field_count"
+label = "A struct's describe() says its name and field count: \"Point with 2 fields\""
+[[objectives]]
+test = "enum_says_enum"
+label = "An enum's describe() says \"Shape (enum)\""
+
+[[hints]]
+text = "Edit `describe_macro/src/lib.rs`, not the root crate. Inside `quote! { }` write the impl as you would by hand, with `#name` where the type's name goes and `#text` where the sentence goes. End with `.into()`."
+[[hints]]
+text = "```\nquote! {\n    impl #name {\n        pub fn describe(&self) -> String {\n            String::from(#text)\n        }\n    }\n}\n.into()\n```"
+
+[[points]]
+after = 2
+prompt = "Which DeriveInput field holds the type's name?"
+pick = ["data", "generics", "attrs", "ident"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Splice the name in."
+code = "quote! { impl ___ { } }"
+blank = "#name"

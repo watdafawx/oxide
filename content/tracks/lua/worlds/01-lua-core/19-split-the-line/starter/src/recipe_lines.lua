@@ -8,7 +8,8 @@ end
 
 -- "3 eggs,2 flour" -> {"3 eggs", "2 flour"}
 function M.split_commas(line)
-  -- TODO: loop with string.gmatch(line, "[^,]+") and table.insert each piece
+  -- TODO: loop with string.gmatch over runs of characters that are not a comma,
+  -- and insert each piece into a list
   return nil
 end
 

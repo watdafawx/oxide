@@ -1,0 +1,22 @@
+title = "Never trust the server's bytes"
+summary = "A broken or hostile VarInt can go on forever. Stop at five bytes and say TooLong instead of crashing the launcher."
+
+[[objectives]]
+test = "broken_packets_give_errors"
+label = "More than 5 bytes is TooLong; running out of bytes is Truncated"
+
+[[hints]]
+text = "The check goes at the very top of the loop, before the shift: look at the position `i`."
+[[hints]]
+text = "`if i >= 5 { return Err(VarIntError::TooLong); }` as the first line inside the `for`."
+
+[[points]]
+after = 2
+prompt = "How many bytes can a VarInt for an i32 have at most?"
+pick = ["4", "5", "7", "8"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Stop at a sixth byte."
+code = "if i >= ___ { return Err(VarIntError::TooLong); }"
+blank = "5"

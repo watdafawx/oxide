@@ -1,0 +1,17 @@
+title = "Tables, rows and SQL for your mods"
+summary = "What a database is, why a mod manager keeps its mod list in one, and the five SQL statements."
+
+[[quiz]]
+question = "Which SQL statement reads rows back out of the mods table?"
+choices = ["INSERT INTO mods ...", "SELECT ... FROM mods", "CREATE TABLE mods ..."]
+answer = 1
+
+[[quiz]]
+question = "Two mods are both called \"Sodium\" (one is a fork). How does the manager point at exactly one of them?"
+choices = ["By its id, the INTEGER PRIMARY KEY the database handed out", "By its name, because SQLite refuses two equal names", "By its position in the file, counting from the top"]
+answer = 0
+
+[[quiz]]
+question = "What does `SELECT name FROM mods WHERE enabled = 0 ORDER BY name` give back?"
+choices = ["Every name, with the enabled column removed from the table", "The names of the disabled mods, in alphabetical order", "The first disabled mod, and nothing else"]
+answer = 1

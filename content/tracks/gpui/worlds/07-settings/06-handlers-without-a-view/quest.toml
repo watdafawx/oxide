@@ -1,0 +1,36 @@
+title = "Handlers without a view"
+summary = "App, Context and Window: which cx a closure gets, and why a component's click handler is a boxed plain closure."
+kind = "read"
+xp = 15
+minutes = 5
+tags = ["gpui", "context", "closures"]
+
+[[quiz]]
+question = "Why can't `Toggle` use `cx.listener(..)` for its click?"
+choices = [
+  "It is a component: there is no Context<Toggle> and no `this` to hand back",
+  "Listeners only work on the bar",
+  "Toggles are clicked too often",
+  "cx.listener needs a window handle",
+]
+answer = 0
+
+[[quiz]]
+question = "A plain click closure gets `&mut App`. What can it still do?"
+choices = [
+  "Nothing: it has no view, so it cannot change anything",
+  "Only redraw the toggle",
+  "Change a global, such as Settings, which every watcher then hears about",
+  "Change the bar's fields directly",
+]
+answer = 2
+
+[[quiz]]
+question = "What does `+ 'static` in `Box<dyn Fn(bool, &mut Window, &mut App) + 'static>` promise?"
+choices = [
+  "The closure runs only once",
+  "The closure lives in a global",
+  "The closure is stored in a static variable",
+  "The closure borrows nothing short-lived, so it can be kept for as long as needed",
+]
+answer = 3

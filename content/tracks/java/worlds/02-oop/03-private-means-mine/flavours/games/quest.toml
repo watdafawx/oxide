@@ -1,0 +1,25 @@
+title = "Private means mine"
+summary = "Lock the stack count away so only ItemStack's own methods can change it."
+
+[[objectives]]
+test = "countFieldIsPrivate"
+label = "The count field is private"
+[[objectives]]
+test = "shrinkNeverGoesBelowZero"
+label = "shrink(n) removes items only when the stack has enough, and says whether it did"
+
+[[hints]]
+text = "Put `private` in front of the field line. In `shrink`, check `amount` against `count` with an `if` before you change anything."
+[[hints]]
+text = "`private int count;`. In `shrink`: `if (amount > count) { return false; }` then `count = count - amount;` and `return true;`."
+
+[[points]]
+after = 1
+prompt = "Which word keeps a field inside its class?"
+pick = ["public", "static", "private", "void"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Who may call a public method?"
+pick = ["Only the class itself", "Any code that has the object", "Only the test file", "Nobody"]
+answer = 1

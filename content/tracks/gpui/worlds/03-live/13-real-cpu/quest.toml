@@ -1,0 +1,21 @@
+title = "Real CPU"
+summary = "The first real sensor: your PC's CPU usage, through the sysinfo crate."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["sysinfo", "sensor"]
+
+[[objectives]]
+test = "cpu_usage_is_a_percentage"
+label = "CpuSensor reads a number between 0 and 100 on your PC"
+
+[[hints]]
+text = "`read` needs two lines: refresh the CPU numbers, then give back the overall usage."
+[[hints]]
+text = "`self.system.refresh_cpu_usage(); Some(self.system.global_cpu_usage() as f64)`"
+
+[[points]]
+after = 3
+prompt = "Why is the very first CPU reading 0?"
+pick = ["the CPU is idle at start", "usage is measured between two refreshes", "sysinfo needs admin", "Windows hides it"]
+answer = 1

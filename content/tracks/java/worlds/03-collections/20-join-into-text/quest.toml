@@ -1,0 +1,26 @@
+title = "Join into text"
+summary = "End a stream of Strings with joining: a separator, a prefix and a suffix."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["stream", "collectors", "joining"]
+
+[[objectives]]
+test = "bracketedJoinsWithCommas"
+label = "bracketed turns words into \"[a, b, c]\", and no words into \"[]\""
+
+[[hints]]
+text = "`joining` takes the separator, then the prefix, then the suffix."
+[[hints]]
+text = "`return words.stream().collect(joining(\", \", \"[\", \"]\"));`"
+
+[[points]]
+after = 1
+prompt = "Join with a separator, a prefix and a suffix."
+code = "words.stream().collect(___(\", \", \"[\", \"]\"));"
+blank = "joining"
+[[points]]
+after = 2
+prompt = "What does joining(\", \", \"[\", \"]\") give for no words?"
+pick = ["null", "An empty text", "\"[]\"", "An error"]
+answer = 2

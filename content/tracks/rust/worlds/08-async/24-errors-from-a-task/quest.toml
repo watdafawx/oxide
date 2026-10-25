@@ -1,0 +1,29 @@
+title = "Errors from a task"
+summary = "? inside a spawned block needs its error type spelled out, and a task's result is a Result inside a Result: res??."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["async", "errors", "joinset", "turbofish"]
+
+[[objectives]]
+test = "total_size_adds_every_episode"
+label = "total_size(vec![1, 2, 4]) adds the three sizes from their own tasks"
+[[objectives]]
+test = "a_broken_size_is_an_error"
+label = "A size that doesn't parse makes the total an Err that names the parse error"
+
+[[hints]]
+text = "Each spawned block is `async move { .. }`: await `size_text(id)`, `parse()` it with `?` into a `u64`, and end with `Ok::<u64, Error>(size)`. Then `while let Some(result) = set.join_next().await` and add `result??` to the total; finish with `Ok(total)`."
+[[hints]]
+text = "`set.spawn(async move { let text = size_text(id).await; let size: u64 = text.parse()?; Ok::<u64, Error>(size) });` and `while let Some(result) = set.join_next().await { total += result??; }`."
+
+[[points]]
+after = 2
+prompt = "Spell out the block's Ok and Err types."
+code = "set.spawn(async move {\n    let n: u32 = text.parse()?;\n    ___(n)\n});"
+blank = "Ok::<u32, Error>"
+[[points]]
+after = 3
+prompt = "join_next gave Result<Result<u64, Error>, JoinError>. How many ? get the u64 out?"
+pick = ["one", "none", "two", "three"]
+answer = 2

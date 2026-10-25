@@ -1,0 +1,29 @@
+title = "Frames on the wire"
+summary = "The Stats API sends JSON objects back to back with nothing between them. Split them, and keep a half frame for later."
+kind = "exercise"
+xp = 25
+minutes = 5
+tags = ["serde_json", "streams"]
+
+[[objectives]]
+test = "three_frames_from_one_read"
+label = "one read with three frames gives three values and the bytes they used"
+[[objectives]]
+test = "half_frame_waits"
+label = "the recorded match, read in 700-byte chunks, comes out whole and in order"
+
+[[hints]]
+text = "Before the loop, make the stream and an empty `Vec`. In the loop, save `let start = stream.byte_offset();`, then `match stream.next()` with four arms: a value, an `is_eof` error, any other error, `None`."
+[[hints]]
+text = "The arms: `Some(Ok(frame)) => frames.push(frame), Some(Err(e)) if e.is_eof() => return (frames, start), Some(Err(_)) => return (frames, bytes.len()), None => return (frames, stream.byte_offset()),`"
+
+[[points]]
+after = 1
+prompt = "A TCP read stops in the middle of a JSON object. Why?"
+pick = ["the game sent broken JSON", "TCP carries bytes, not whole messages", "the read buffer was too small for JSON", "Windows splits long lines"]
+answer = 1
+[[points]]
+after = 5
+prompt = "The last value is cut off. What does the error's is_eof() say?"
+pick = ["the JSON is invalid", "the socket closed", "it ran out of bytes before the value ended", "the value was empty"]
+answer = 2

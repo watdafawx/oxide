@@ -1,0 +1,29 @@
+title = "A thing that remembers"
+summary = "A counter object with a field that keeps its number between calls."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["classes", "objects", "fields"]
+
+[[objectives]]
+test = "startsAtZero"
+label = "A new Counter reports value() == 0"
+[[objectives]]
+test = "incrementAddsOne"
+label = "increment() adds one, and each Counter keeps its own count"
+
+[[hints]]
+text = "Both methods use the field `count` that sits at the top of the class. Replace the whole `throw` line in `value`."
+[[hints]]
+text = "`value` is `return count;`. `increment` is `count++;`."
+
+[[points]]
+after = 2
+prompt = "Which line builds a new counter object?"
+pick = ["Counter c;", "new Counter()", "Counter.count", "class Counter"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Call increment on the counter `door`."
+code = "___.increment();"
+blank = "door"

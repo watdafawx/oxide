@@ -1,0 +1,29 @@
+title = "Requests and JSON"
+summary = "What travels over HTTP when the launcher asks a mod site: a method and a path out, a status code and a body back. And JSON, the text format most bodies use."
+
+[[quiz]]
+question = "The mod site answers `404 Not Found`. What does that tell the downloader?"
+choices = [
+  "The request reached the server, but there is nothing at that path",
+  "The network is down, so the request never left the computer",
+  "The server crashed and asks you to try again later",
+]
+answer = 0
+
+[[quiz]]
+question = "One jar download got `503`, another got `404`. Which one is worth trying again?"
+choices = [
+  "The 404, because the file may appear in a second",
+  "Neither: an error status is final",
+  "The 503: a 5xx is a problem on the server's side and may pass",
+]
+answer = 2
+
+[[quiz]]
+question = "In the JSON `{\"title\": \"Sodium\", \"versions\": [5, 6]}`, what is `versions`?"
+choices = [
+  "An object with the fields 5 and 6",
+  "An array of two numbers",
+  "A string, because it is in double quotes",
+]
+answer = 1

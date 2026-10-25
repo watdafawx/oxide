@@ -1,0 +1,29 @@
+title = "anyhow and bail!"
+summary = "One error type for an app, and bail! for a quick failure."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["anyhow", "macro", "crates"]
+
+[[objectives]]
+test = "hours_parse_and_bad_text_fails"
+label = "parse_hours(\" 3 \") is Ok(3), and \"soon\" is an error"
+[[objectives]]
+test = "too_many_hours_bails"
+label = "parse_hours(\"30\") fails with \"30 hours is more than a day\""
+
+[[hints]]
+text = "Same shape as `parse_repeat` in the lesson: one `parse()?` line, then an `if` with `bail!`, then `Ok(n)`."
+[[hints]]
+text = "`let n: u32 = text.trim().parse()?; if n > 24 { bail!(\"{n} hours is more than a day\"); } Ok(n)`."
+
+[[points]]
+after = 1
+prompt = "anyhow::Result<u32> is short for…"
+pick = ["Result<u32, anyhow::Error>", "Option<u32>", "Result<u32, String>", "Box<u32>"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Return an error with this message right away."
+code = "___!(\"{n} hours is more than a day\");"
+blank = "bail"

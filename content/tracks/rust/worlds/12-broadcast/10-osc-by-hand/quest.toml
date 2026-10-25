@@ -1,0 +1,29 @@
+title = "OSC by hand"
+summary = "Notch and Resolume take cues as OSC packets over UDP. Build one byte by byte."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["bytes", "udp", "protocols"]
+
+[[objectives]]
+test = "osc_bytes_match_spec"
+label = "the OSC spec's own example, and a message with an int and a string, come out byte for byte"
+[[objectives]]
+test = "udp_packet_arrives"
+label = "send_osc delivers the packet over UDP"
+
+[[hints]]
+text = "`let mut out = Vec::new(); pad_str(&mut out, address);`. Tags: `let mut tags = String::from(\",\");`, a `for arg in args` loop that pushes `'i'`, `'f'` or `'s'`, then `pad_str(&mut out, &tags);`."
+[[hints]]
+text = "A second loop writes the values: `match arg { OscArg::Int(v) => out.extend_from_slice(&v.to_be_bytes()), OscArg::Float(v) => out.extend_from_slice(&v.to_be_bytes()), OscArg::Str(s) => pad_str(&mut out, s) }`, then give back `out`."
+
+[[points]]
+after = 1
+prompt = "A message has the arguments 3, 0.5 and \"Wren\". What are its type tags?"
+pick = [",ifs", "ifs", ",iis", ",s"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Why pad strings to a multiple of 4 bytes?"
+pick = ["UDP needs it", "to fit ASCII", "every OSC field starts on a 4-byte boundary", "for the checksum"]
+answer = 2

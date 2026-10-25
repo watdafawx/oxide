@@ -83,7 +83,7 @@ use crate::stat::ALL;
 
 /// GET /api/stats?key=...: the snapshot as JSON, for the right key only.
 pub async fn stats(State(state): State<WebState>, Query(param): Query<KeyParam>) -> Response {
-    // TODO: no key or a wrong key (keys_match) -> StatusCode::UNAUTHORIZED
+    // TODO: a missing or wrong key (check it with keys_match) gets 401 Unauthorized and nothing else
     let _ = &param;
     let snapshot = state.snapshot.lock().unwrap_or_else(|p| p.into_inner()).clone();
     Json(snapshot).into_response()

@@ -1,0 +1,25 @@
+title = "Old modpack saves still load"
+summary = "Add #[serde(default)] so a profile saved before a field existed still reads, with sensible values for the gaps."
+
+[[objectives]]
+test = "an_old_save_with_only_mod_count_still_loads"
+label = "from_json(r#\"{\"mod_count\": 120}\"#) gives a profile with 120 mods and defaults for the rest"
+[[objectives]]
+test = "missing_settings_use_their_defaults"
+label = "a save whose settings only mention auto_update still gets loader fabric and keep_versions 3"
+
+[[hints]]
+text = "Two structs, the same fix: each needs a `Default` (derive it on `ModpackProfile`; `LauncherSettings` already has one) and the attribute `#[serde(default)]` on the line above `pub struct ...`."
+[[hints]]
+text = "On `ModpackProfile`: `#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]` then `#[serde(default)]`. On `LauncherSettings`, add `#[serde(default)]` under its derive line."
+
+[[points]]
+after = 2
+prompt = "Where does #[serde(default)] take a missing field's value from?"
+pick = ["From the type's Default", "From the last save file", "It leaves the field empty", "From the first field of the struct"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Let a struct fill in missing fields."
+code = "#[derive(Default, Serialize, Deserialize)]\n___\nstruct Server { port: u16 }"
+blank = "#[serde(default)]"

@@ -1,0 +1,29 @@
+title = "Write one, get dozens"
+summary = "Your iterator already has map, filter and sum: use them."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["iterator", "adaptors", "default-methods"]
+
+[[objectives]]
+test = "evens_keeps_even_numbers"
+label = "evens(6) collects [6, 4, 2]"
+[[objectives]]
+test = "sum_of_squares_of_countdown"
+label = "sum_of_squares(3) is 14"
+
+[[hints]]
+text = "`Countdown::new(start)` is a normal iterator now: chain `filter` or `map` on it, then `collect` or `sum`."
+[[hints]]
+text = "`evens`: `Countdown::new(start).filter(|n| n % 2 == 0).collect()`. `sum_of_squares`: `Countdown::new(start).map(|n| n * n).sum()`."
+
+[[points]]
+after = 1
+prompt = "map, filter and sum are which kind of trait method?"
+pick = ["required", "default", "associated const", "private"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which method does `for x in thing` call first?"
+pick = ["next", "iter", "into_iter", "collect"]
+answer = 2

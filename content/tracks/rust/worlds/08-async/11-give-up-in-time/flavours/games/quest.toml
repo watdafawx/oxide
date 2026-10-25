@@ -1,0 +1,25 @@
+title = "Give up in time"
+summary = "tokio::time::timeout wraps a mod download with a deadline. When time runs out, the future is dropped."
+
+[[objectives]]
+test = "jar_with_deadline_keeps_a_fast_mirror"
+label = "jar_with_deadline(10, 500) is Some(\"done\")"
+[[objectives]]
+test = "jar_with_deadline_gives_up_on_a_dead_mirror"
+label = "jar_with_deadline(2000, 50) is None, after about 50 ms"
+
+[[hints]]
+text = "`timeout` takes a `Duration` and the future, and you await what it gives back. The answer is a `Result`; `.ok()` makes it the `Option` the function returns."
+[[hints]]
+text = "`timeout(Duration::from_millis(limit_ms), fetch_jar(work_ms)).await.ok()`."
+
+[[points]]
+after = 1
+prompt = "Give up after 50 ms."
+code = "let r = ___(Duration::from_millis(50), fetch_page(\"sodium\")).await;"
+blank = "timeout"
+[[points]]
+after = 2
+prompt = "The deadline passed. What happened to the wrapped future?"
+pick = ["it keeps running in the background", "it was dropped and stopped", "it finished with an error", "it was restarted"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "This one is the field"
+summary = "When a parameter has the field's name, this.owner picks the field."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["classes", "constructors", "this"]
+
+[[objectives]]
+test = "ownerIsStored"
+label = "new Account(\"Ann\", 500).owner() is Ann, not null"
+[[objectives]]
+test = "balanceIsStored"
+label = "new Account(\"Ann\", 500).balance() is 500, not 0"
+
+[[hints]]
+text = "Both lines in the constructor assign a parameter to itself. Put `this.` in front of the name on the left."
+[[hints]]
+text = "`this.owner = owner;` and `this.balance = balance;`."
+
+[[points]]
+after = 2
+prompt = "Inside the constructor, plain `owner` means..."
+pick = ["the field", "the parameter", "the class", "nothing"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Store the parameter `level` in the field `level`."
+code = "___ = level;"
+blank = "this.level"

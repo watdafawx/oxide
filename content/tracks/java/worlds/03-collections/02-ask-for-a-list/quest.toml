@@ -1,0 +1,27 @@
+title = "Ask for a List"
+summary = "Take any kind of list by asking for the List interface, not one class."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["list", "interface"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "longestWordFromAnyList"
+label = "longestWord finds the longest word in an ArrayList and in a List.of list"
+
+[[hints]]
+text = "Change the parameter type to `List<String>`. Then loop with `for (String w : words)` and keep a champion, as in the Basics world."
+[[hints]]
+text = "`String best = words.get(0); for (String w : words) { if (w.length() > best.length()) { best = w; } } return best;`"
+
+[[points]]
+after = 3
+prompt = "Which one is the interface?"
+pick = ["ArrayList", "LinkedList", "String", "List"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Accept any kind of list."
+code = "public static String longestWord(___<String> words)"
+blank = "List"

@@ -1,0 +1,16 @@
+title = "Crates and Cargo.toml"
+summary = "What a crate is, what each Cargo.toml section means, and what \"1.0\" allows."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["cargo", "semver", "crates"]
+
+[[quiz]]
+question = "Your todo list needs anyhow while it runs. Which Cargo.toml section lists it?"
+choices = ["[package]", "[dev-dependencies]", "[dependencies]"]
+answer = 2
+
+[[quiz]]
+question = "You write anyhow = \"1.0\". Which versions can Cargo pick?"
+choices = ["Only 1.0.0 itself, never any newer release", "1.0.0 up to, not including, 2.0.0", "Every version, even 2.x or 3.x, as long as it exists"]
+answer = 1

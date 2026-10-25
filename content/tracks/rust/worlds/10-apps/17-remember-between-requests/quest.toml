@@ -1,0 +1,29 @@
+title = "Remember between requests"
+summary = "Share one XP counter between every request with State, an Arc and an atomic, and answer 201 Created."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["axum", "state", "atomics", "status-codes"]
+
+[[objectives]]
+test = "award_answers_201_and_the_new_total"
+label = "POST /xp {\"amount\": 50} answers 201 Created with {\"xp\": 50}, then {\"xp\": 80} after 30 more"
+[[objectives]]
+test = "the_total_survives_between_requests"
+label = "GET /xp answers the total that the POSTs built up"
+
+[[hints]]
+text = "Both handlers get the parameter `State(state): State<AppState>` (before the `Json` one). `fetch_add` gives back the old value, so add the amount once more for the new total. `load` just reads."
+[[hints]]
+text = "In `award`: `let xp = state.xp.fetch_add(req.amount, Ordering::SeqCst) + req.amount; (StatusCode::CREATED, Json(XpTotal { xp }))`. In `current`: `Json(XpTotal { xp: state.xp.load(Ordering::SeqCst) })`."
+
+[[points]]
+after = 2
+prompt = "Why is the counter wrapped in an Arc?"
+pick = ["So every clone of the state shares one counter", "So the counter can be negative", "So it is written to disk", "So it can hold text"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Answer 201 with a JSON body."
+code = "(___, Json(XpTotal { xp }))"
+blank = "StatusCode::CREATED"

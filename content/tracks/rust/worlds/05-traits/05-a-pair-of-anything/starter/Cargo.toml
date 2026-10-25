@@ -1,0 +1,6 @@
+[package]
+name = "traits_a_pair_of_anything"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

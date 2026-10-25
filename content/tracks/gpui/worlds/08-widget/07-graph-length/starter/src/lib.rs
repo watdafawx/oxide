@@ -63,7 +63,7 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 /// How many readings a graph of `secs` seconds holds at one reading per `interval_ms`.
 pub fn history_points(secs: u32, interval_ms: u64) -> usize {
     let _ = (secs, interval_ms);
-    0 // TODO: seconds × 1000 / interval (never 0), as usize
+    0 // TODO: how many readings fit in `secs` seconds at one every `interval_ms`, as a usize
 
 }
 

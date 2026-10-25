@@ -1,0 +1,17 @@
+title = "What a method and a class are"
+summary = "Name the two words you have used since the first quest."
+
+[[quiz]]
+question = "What happens when code writes `shout(\"creeper\")`?"
+choices = ["Java defines a brand-new method named shout, with no steps yet", "Java runs the steps in `shout` with `\"creeper\"` and uses the result", "Java prints the word creeper in the server chat"]
+answer = 1
+
+[[quiz]]
+question = "In worlds 00 and 01, what was `public class Report { ... }` around your methods for?"
+choices = ["A box holding the methods, named like the file", "It made every method inside it run two times", "It sent the methods inside it to the server"]
+answer = 0
+
+[[quiz]]
+question = "Which of these is a call, not a method being written?"
+choices = ["`public static int stacks(int items) {`", "`return items / 64;`", "`stacks(130)`"]
+answer = 2

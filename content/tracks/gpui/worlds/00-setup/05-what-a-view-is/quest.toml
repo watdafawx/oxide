@@ -1,0 +1,21 @@
+title = "What a view is"
+summary = "What main.rs put in the window, and what GPUI asks it each time it draws."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["gpui", "view", "render"]
+
+[[quiz]]
+question = "In main.rs, what does `cx.new(|_| Empty)` do?"
+choices = ["Draws the window once", "Opens a second window", "Hands GPUI a struct to keep as the window's view"]
+answer = 2
+
+[[quiz]]
+question = "What does `render` give back?"
+choices = ["A description of this frame, which GPUI throws away after drawing", "The pixels of the window", "A new view to replace the old one"]
+answer = 0
+
+[[quiz]]
+question = "Inside `render`, what is `cx: &mut Context<Self>`?"
+choices = ["The window the view is drawn in", "The app, while you work on this one view", "A copy of the view's fields"]
+answer = 1

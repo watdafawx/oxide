@@ -118,14 +118,16 @@ taught here and go in `docs/tracks/gpui-terms.md`.
 
 | first quest | requires |
 |---|---|
-| `00-setup/01-what-gpui-is` | `rust/05-traits/12-boss-shape-renderer` (traits, closures, `impl Trait`) |
-| `03-live/01-state-in-a-view` | `02-views/12-boss-static-bar`, `rust/06-smart-pointers/11-boss-tree-editor`, `rust/08-async/11-boss-mod-downloader` |
-| `04-sensors/01-what-needs-admin` | `03-live/13-boss-live-bar`, `rust/07-concurrency/11-boss-parallel-file-hasher` |
-| `10-dashboard/09-web-server` | `10-dashboard/08-snapshot-json`, `rust/10-apps/06-axum-json-api` |
+| `00-setup/01-what-gpui-is` | `rust/05-traits/21-boss-shape-renderer` (traits, closures, `impl Trait`) |
+| `03-live/01-state-in-a-view` | `02-views/12-boss-static-bar`, `rust/06-smart-pointers/17-boss-tree-editor`, `rust/08-async/25-boss-mod-downloader` |
+| `04-sensors/01-what-needs-admin` | `03-live/13-boss-live-bar`, `rust/07-concurrency/24-boss-parallel-file-hasher` |
+| `10-dashboard/09-web-server` | `10-dashboard/08-snapshot-json`, `rust/10-apps/17-remember-between-requests` |
 
 Everything else: previous quest (default).
 
 ## 3. Worlds
+
+> Every world was rewritten in October 2026, and quest lists and ids changed. The tables below are the original plan; the current quests are in `docs/REWRITE-gpui-*.md`.
 
 Columns: **objectives** are test names (suffix-matched). **runs** from section 1. XP and minutes
 follow CONTENT.md sizing (exercise 2-8 min / 20-60 XP / 1-3 objectives, read 2-5 min / 15 XP,
@@ -295,7 +297,7 @@ GPUI 0.2.2 ships no text box, toggle or slider widgets; the learner builds the f
 | 09-styles | `WidgetStyle` to a `(bars, graphs)` pair | `minimal_draws_no_graphs` | 5 | 30 | exercise | visual |
 | 10-placement | `WinApi::set_layer`: desktop (`HWND_BOTTOM`), normal, always on top | `desktop_placement_sends_to_bottom` | 6 | 40 | exercise | fake |
 | 11-click-through | `WS_EX_LAYERED \| WS_EX_TRANSPARENT`: set with `\|`, clear with `& !`, other bits kept | `lock_sets_click_through_bits`, `unlock_clears_them` | 5 | 30 | exercise ⚡ | unit |
-| 12-boss-desktop-widget | `WidgetView::render` from scratch (header, groups, bars, graphs by style, core bars) and `apply_widget_window` | `opens_from_menu`, `groups_drawn`, `bars_match_values`, `style_switches`, `snaps_and_saves`, `placement_applied`, `lock_is_click_through` | 60 | 450 | boss | visual, fake, unit |
+| 15-boss-desktop-widget | `WidgetView::render` from scratch (header, groups, bars, graphs by style, core bars) and `apply_widget_window` | `opens_from_menu`, `groups_drawn`, `bars_match_values`, `style_switches`, `snaps_and_saves`, `placement_applied`, `lock_is_click_through` | 60 | 450 | boss | visual, fake, unit |
 
 ### World 09: Game overlay (`09-overlay`), project "Game overlay and FPS", 15 quests
 

@@ -1,0 +1,21 @@
+title = "Keep the UI thread free"
+summary = "One thread draws the bar. Slow work hops to a background thread and its result hops back."
+kind = "read"
+xp = 15
+minutes = 5
+tags = ["threads", "gpui", "async"]
+
+[[quiz]]
+question = "Why does a slow ping inside the bar's tick freeze the whole bar?"
+choices = ["Ping needs administrator, so Windows pauses the whole app", "It runs on the UI thread, which then cannot draw", "GPUI redraws the window once for every ping it sends"]
+answer = 1
+
+[[quiz]]
+question = "In the hop, where does the result get stored on the bar?"
+choices = ["Inside the background spawn, with this.update", "In read_with, before the work starts", "In this.update, back on the UI thread"]
+answer = 2
+
+[[quiz]]
+question = "What does `let Ok(path) = this.read_with(..) else { break };` do when the bar is gone?"
+choices = ["Runs the else block, which leaves the loop", "Panics with a message about a dropped bar", "Gives path an empty value and carries on"]
+answer = 0

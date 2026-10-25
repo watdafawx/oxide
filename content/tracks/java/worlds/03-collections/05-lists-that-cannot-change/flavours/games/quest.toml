@@ -1,0 +1,25 @@
+title = "Lists that cannot change"
+summary = "Lock the supported loaders with List.of, and snapshot the pack with List.copyOf."
+
+[[objectives]]
+test = "supportedLoadersAreReadOnly"
+label = "supportedLoaders returns fabric, forge, neoforge, quilt as a list that refuses changes"
+[[objectives]]
+test = "snapshotIgnoresLaterInstalls"
+label = "snapshot returns a read-only copy of the pack that does not follow later installs"
+
+[[hints]]
+text = "supportedLoaders: `return List.of(\"fabric\", \"forge\", \"neoforge\", \"quilt\");`."
+[[hints]]
+text = "snapshot: `return List.copyOf(pack);`. It copies the ids, so the copy no longer follows the live pack."
+
+[[points]]
+after = 2
+prompt = "What happens when you add to a List.of list?"
+pick = ["It grows like an ArrayList", "It stops with UnsupportedOperationException", "Nothing: the add is ignored", "It does not compile"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Take a read-only snapshot of the pack."
+code = "List<String> frozen = List.___(pack);"
+blank = "copyOf"

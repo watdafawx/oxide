@@ -1,0 +1,26 @@
+title = "A menu on top"
+summary = "While menu_at holds a point, draw the menu there, on top of every pill."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "menu", "deferred"]
+
+[[objectives]]
+test = "menu_draws_at_menu_at"
+label = "while menu_at holds a point, the menu is drawn with its corner at that point"
+
+[[hints]]
+text = "Build it from the inside out: `menu(cx)`, then `anchored().position(at).child(..)` around it, then `deferred(..)` around that, all inside `.when_some(this.ui.menu_at, |el, at| el.child(..))`."
+[[hints]]
+text = "`.when_some(this.ui.menu_at, |el, at| el.child(deferred(anchored().position(at).child(menu(cx)))))`"
+
+[[points]]
+after = 1
+prompt = "When does .when_some(option, |el, value| ..) run its closure?"
+pick = ["always", "only when the option is None", "on every click", "only when the option is Some, with the value inside"]
+answer = 3
+[[points]]
+after = 3
+prompt = "What does deferred(..) do to the menu?"
+pick = ["waits half a second", "paints it after everything else, so it is on top", "loads it later", "hides it until hovered"]
+answer = 1

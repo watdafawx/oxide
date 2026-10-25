@@ -1,0 +1,25 @@
+title = "Your error fits the box"
+summary = "Keep the std Error promise, with an empty impl, so ManifestError goes in a Box<dyn Error>."
+
+[[objectives]]
+test = "a_good_version_loads"
+label = "load_version(\" 7 \") is Ok(7)"
+[[objectives]]
+test = "manifest_error_travels_in_the_box"
+label = "load_version(\"99\") gives a boxed ManifestError::TooNew(99) saying \"version 99 is too new\""
+
+[[hints]]
+text = "The missing piece is one line, outside every other block, below `impl fmt::Display for ManifestError`."
+[[hints]]
+text = "`impl std::error::Error for ManifestError {}`"
+
+[[points]]
+after = 3
+prompt = "Keep the Error promise with no methods written."
+code = "impl std::error::Error for ManifestError ___"
+blank = "{}"
+[[points]]
+after = 4
+prompt = "Which two promises does Error ask for first?"
+pick = ["Clone and Copy", "From and Into", "Debug and Display", "PartialEq and Label"]
+answer = 2

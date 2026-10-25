@@ -1,0 +1,29 @@
+title = "A switch that does things"
+summary = "A switch statement: each arm changes the object instead of handing back a value."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["switch", "pattern-matching"]
+
+[[objectives]]
+test = "warmerAndCoolerMoveTheTarget"
+label = "Warmer(3) raises the target by 3, Cooler(5) lowers it by 5"
+[[objectives]]
+test = "resetGoesBackTo20AndIsCounted"
+label = "Reset sets the target back to 20 and adds one to resets"
+
+[[hints]]
+text = "`switch (adjust) { ... }` with no `return` in front. The Warmer and Cooler arms are one line each; the Reset arm is a block `{ ... }` with two lines."
+[[hints]]
+text = "`case Warmer w -> target += w.degrees(); case Cooler c -> target -= c.degrees(); case Reset r -> { target = 20; resets++; }`"
+
+[[points]]
+after = 1
+prompt = "What does a switch statement hand back?"
+pick = ["A value for each arm", "Nothing: its arms do things", "Always a boolean", "The last case"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Run two steps in one arm."
+code = "case Reset r -> ___ target = 20; resets++; }"
+blank = "{"

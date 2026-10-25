@@ -1,0 +1,29 @@
+title = "Off the runtime"
+summary = "Run the photo cutting from async code without freezing the live feed."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["tokio", "spawn_blocking"]
+
+[[objectives]]
+test = "feed_keeps_flowing_while_cutting"
+label = "a 300 ms blocking job runs while another task keeps ticking"
+[[objectives]]
+test = "cut_folder_from_async"
+label = "cut_folder runs through off_the_runtime and gives back its count"
+
+[[hints]]
+text = "`work` is already a closure, so pass it as it is: `tokio::task::spawn_blocking(work)`. The handle needs `.await`, and the `Result` it gives needs opening."
+[[hints]]
+text = "`tokio::task::spawn_blocking(work).await.expect(\"the work panicked\")`"
+
+[[points]]
+after = 1
+prompt = "What happens to other tasks while a task runs work that never .awaits?"
+pick = ["they run on other cores anyway", "tokio pauses the work after a while", "tasks waiting on the same runtime thread wait for it", "nothing changes"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Awaiting a spawn_blocking handle gives Err. What happened?"
+pick = ["the closure panicked", "the closure returned an error value", "the runtime is busy", "the thread pool is full"]
+answer = 0

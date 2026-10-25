@@ -1,5 +1,5 @@
 title = "Every mob has a describe()"
-summary = "Implement the Entity trait for a zombie and a creeper."
+summary = "Zombies and creepers need the same method: write a trait and implement it for both."
 
 [[objectives]]
 test = "zombie_describes_itself"
@@ -9,6 +9,17 @@ test = "creeper_describes_itself"
 label = "Creeper::describe() returns \"creeper (fuse 30)\""
 
 [[hints]]
-text = "Inside `impl Entity for Zombie { ... }` the method body can use `self.name`."
+text = "Inside `impl Entity for Zombie { ... }` the body can read the zombie's field as `self.name`."
 [[hints]]
-text = "Use `format!(\"{} the zombie\", self.name)`. For the creeper: `format!(\"creeper (fuse {})\", self.fuse)`."
+text = "`format!(\"{} the zombie\", self.name)`. For the creeper: `format!(\"creeper (fuse {})\", self.fuse)`."
+
+[[points]]
+after = 3
+prompt = "What does a trait list?"
+pick = ["fields and their types", "method signatures, without bodies", "the variants of an enum", "finished methods for one mob"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Make Skeleton keep the Entity promise."
+code = "___ Entity for Skeleton {"
+blank = "impl"

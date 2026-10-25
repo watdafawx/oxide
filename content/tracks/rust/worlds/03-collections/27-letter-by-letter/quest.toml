@@ -1,0 +1,29 @@
+title = "Letter by letter"
+summary = "chars() walks the letters of a text; len() counts bytes, which is not the same."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["strings", "chars", "utf-8"]
+
+[[objectives]]
+test = "letter_count_counts_letters_not_bytes"
+label = "letter_count(\"café\") gives 4, not 5"
+[[objectives]]
+test = "is_valid_code_checks_every_character"
+label = "is_valid_code is true only for codes made of A-Z, 0-9 and -"
+
+[[hints]]
+text = "`name.chars()` is an iterator of `char`s. `.count()` counts them. For the code, `.all(...)` asks a question about every `char`."
+[[hints]]
+text = "`name.chars().count()`. Code: `!code.is_empty() && code.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || c == '-')`."
+
+[[points]]
+after = 1
+prompt = "How many bytes is `\"café\"`?"
+pick = ["4", "5", "8", "1"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Walk the letters of `name`."
+code = "for c in name.___() {"
+blank = "chars"

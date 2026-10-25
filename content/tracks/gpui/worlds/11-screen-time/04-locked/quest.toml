@@ -10,12 +10,17 @@ test = "locked_pc_not_counted"
 label = "locked: nothing counted, full screen or not"
 
 [[hints]]
-text = "Ask `desk.locked()` in the same `if` as `away(..)`, with `||`."
+text = "Put `desk.locked() ||` in front of the `away(..)` call that is already in the `if`."
 [[hints]]
 text = "`if desk.locked() || away(desk.idle(), desk.fullscreen()) { return None; }`"
 
 [[points]]
 after = 2
-prompt = "Why can full screen not stand in for 'someone is watching' here?"
-pick = ["the game behind the lock screen still covers its monitor", "locking ends the game", "full screen turns off when locked", "it can"]
-answer = 0
+prompt = "Why can full screen not mean 'someone is watching' here?"
+pick = ["locking ends the game", "the game behind the lock still covers its monitor", "full screen turns off when locked", "it can"]
+answer = 1
+[[points]]
+after = 3
+prompt = "In a || b, when is b never looked at?"
+pick = ["when a is false", "when b is slow", "never: both always run", "when a is true"]
+answer = 3

@@ -1,0 +1,37 @@
+title = "Boss: The Update Report"
+summary = "Read the raw pack file, then answer with streams: mods per loader, the most downloaded, outdated mods per loader."
+
+[[objectives]]
+test = "parsesModLine"
+label = "parseMod cuts \"sodium,Sodium,fabric,9500,0.5.3\" into a Mod"
+[[objectives]]
+test = "countsModsPerLoader"
+label = "countsPerLoader counts how many mods each loader has"
+[[objectives]]
+test = "topModsRanked"
+label = "topDownloaded lists the n most downloaded mod names, most first, ties A to Z"
+[[objectives]]
+test = "outdatedPerLoaderSorted"
+label = "outdatedPerLoader counts outdated mods per loader, loaders in A to Z order"
+
+[[hints]]
+text = "parseMod: `String[] parts = line.split(\",\");` then `return new Mod(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), parts[4]);`."
+[[hints]]
+text = "countsPerLoader: `return mods.stream().collect(groupingBy(Mod::loader, counting()));`."
+[[hints]]
+text = "topDownloaded, step 1: copy the list and sort the copy: `List<Mod> ranked = new ArrayList<>(mods); ranked.sort(Comparator.comparingInt(Mod::downloads).reversed().thenComparing(Mod::name));`."
+[[hints]]
+text = "topDownloaded, step 2: `return ranked.stream().limit(n).map(Mod::name).toList();`."
+[[hints]]
+text = "outdatedPerLoader: `filter(m -> !m.version().equals(latest.get(m.id())))`, then `collect(groupingBy(Mod::loader, counting()))`, and wrap the result: `return new TreeMap<>(...);`."
+
+[[points]]
+after = 2
+prompt = "Turn the text \"9500\" into an int."
+code = "int downloads = Integer.___(parts[3]);"
+blank = "parseInt"
+[[points]]
+after = 5
+prompt = "Which map keeps its keys sorted?"
+pick = ["HashMap", "TreeMap", "LinkedHashMap", "Map.of"]
+answer = 1

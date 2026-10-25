@@ -84,7 +84,7 @@ use crate::stat::ALL;
 /// The cards the dashboard shows: every stat, except those switched off in the layout editor.
 pub fn visible_cards(hidden: &[StatKind]) -> Vec<StatKind> {
     let _ = hidden;
-    ALL.to_vec() // TODO: leave out the kinds in hidden
+    ALL.to_vec() // TODO: every kind except the ones listed in hidden
 
 }
 

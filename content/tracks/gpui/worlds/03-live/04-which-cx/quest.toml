@@ -1,0 +1,21 @@
+title = "Which cx is which"
+summary = "App, Context<T>, Window, AsyncApp: the same name cx, a different job each."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["gpui", "context"]
+
+[[quiz]]
+question = "In bar.update(cx, |bar, cx| ..), what is the inner cx?"
+choices = ["An App", "A Context<StatsBar>", "An AsyncApp"]
+answer = 1
+
+[[quiz]]
+question = "Why can a call through an AsyncApp fail?"
+choices = ["The app or the entity may be gone by the time the task gets to it", "Async code may never borrow anything", "It always runs on another thread"]
+answer = 0
+
+[[quiz]]
+question = "Which one stands for a single window?"
+choices = ["App", "TestAppContext", "Window"]
+answer = 2

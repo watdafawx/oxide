@@ -1,0 +1,29 @@
+title = "Your first macro"
+summary = "Write square!, a macro_rules! macro that works on whole numbers and decimals alike."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["macros", "macro_rules"]
+
+[[objectives]]
+test = "square_of_whole_numbers"
+label = "square!(4) is 16 and square!(1 + 2) is 9"
+[[objectives]]
+test = "square_of_decimals"
+label = "square!(1.5) is 2.25: the same macro works on f64"
+
+[[hints]]
+text = "Only the template (the part after `=>`) changes. `$x` pastes the captured expression; you need it on both sides of a `*`."
+[[hints]]
+text = "The arm becomes `($x:expr) => { $x * $x };`."
+
+[[points]]
+after = 2
+prompt = "Which pattern captures one expression?"
+pick = ["$x:ty", "$x:ident", "$x:expr", "$x:block"]
+answer = 2
+[[points]]
+after = 4
+prompt = "With the template $x * $x, what is square!(1 + 2)?"
+pick = ["5", "9", "6", "it does not compile"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "Glue it back together"
+summary = "join puts a list of text back into one String, with a separator in between."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["strings", "join"]
+
+[[objectives]]
+test = "shelf_label_joins_with_commas"
+label = "shelf_label turns [pen, mug, lamp] into \"pen, mug, lamp\""
+[[objectives]]
+test = "order_sheet_sorts_then_puts_one_per_line"
+label = "order_sheet sorts the names and puts one on each line"
+
+[[hints]]
+text = "`list.join(sep)` glues the items with `sep` between them. A line break in text is written `\"\\n\"`."
+[[hints]]
+text = "`names.join(\", \")`. Order sheet: `let mut names = names; names.sort(); names.join(\"\\n\")`."
+
+[[points]]
+after = 1
+prompt = "What is `[\"a\", \"b\"].join(\"+\")`?"
+pick = ["\"a+b+\"", "\"+a+b\"", "\"a+b\"", "\"ab\""]
+answer = 2
+[[points]]
+after = 2
+prompt = "One name per line."
+code = "let sheet = names.join(___);"
+blank = "\"\\n\""

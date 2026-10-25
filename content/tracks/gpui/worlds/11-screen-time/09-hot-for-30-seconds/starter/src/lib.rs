@@ -102,7 +102,7 @@ impl HotTimer {
     /// back under the limit starts the wait again.
     pub fn check(&mut self, reading: &Reading, limits: &Limits, now: Instant) -> Option<Alert> {
         let _ = (reading, limits, now);
-        None // TODO: since when over the limit; one alert after HOT_FOR; under the limit forgets
+        None // TODO: under the limit forgets the stat; over it, remember since when, and alert once after HOT_FOR
     }
 }
 

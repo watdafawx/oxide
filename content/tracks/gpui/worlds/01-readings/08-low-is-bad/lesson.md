@@ -2,10 +2,13 @@ A battery at 15 % should turn red, and one at 80 % should not. Your `is_warning`
 
 **A direction.** Each limit now says which side is bad. `WarnWhen` has two variants, `Above` and `Below`, and a `Limit` holds the number `at` and the direction `when`. Open `limits.rs` to see them; the battery's limit is 20, `Below`.
 
-**Ask the limit.** In the arm where both are there, decide by direction. Above means `v >= limit.at`, below means `v <= limit.at`:
+**Ask the limit.** In the arm where both are there, the answer now depends on `limit.when`. An arm's answer can itself be a `match`, with its own arms, and a comma after its closing brace. Writing a reading by its unit could look like this:
 
 ```rust
-match limit.when { WarnWhen::Above => v >= limit.at, WarnWhen::Below => v <= limit.at }
+Some(v) => match self.kind.unit() {
+    Unit::Celsius => format!("{v:.0}°C"),
+    _ => format_percent(v),
+},
 ```
 
 **Equal still warns.** A battery at exactly 20 % with a limit of 20 is already red, the same rule as 85 °C for the CPU: `<=`, not `<`.
@@ -14,5 +17,5 @@ match limit.when { WarnWhen::Above => v >= limit.at, WarnWhen::Below => v <= lim
 
 ## Your turn
 
-- In `is_warning`, replace `v >= limit.at` with the `match` on `limit.when`.
+- In `is_warning`, make the both-there arm decide by `limit.when`: `Above` warns at or over `limit.at`, `Below` warns at or under it.
 - Save. Press Run to see 15 % and 80 % batteries.

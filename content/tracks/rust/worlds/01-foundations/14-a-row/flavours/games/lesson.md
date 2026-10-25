@@ -18,6 +18,8 @@ let count = row.len();        // 3
 index out of bounds: the len is 3 but the index is 5
 ```
 
+**If this is new.** Programming 101 explains lists and indexes from zero: [A list](/quest/basics/06-collections/01-a-list).
+
 ## Your turn
 
 - In `row_total`, add the three slots by index.

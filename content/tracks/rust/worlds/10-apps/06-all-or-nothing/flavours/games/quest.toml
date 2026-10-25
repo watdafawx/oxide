@@ -1,0 +1,25 @@
+title = "A modpack, all or nothing"
+summary = "Install a whole modpack in one transaction, so one bad mod name leaves the table untouched."
+
+[[objectives]]
+test = "install_pack_inserts_every_mod"
+label = "install_pack inserts every mod and returns how many it added"
+[[objectives]]
+test = "a_blank_name_keeps_none_of_them"
+label = "if one insert fails, none of the pack's mods stay"
+
+[[hints]]
+text = "`let tx = conn.transaction()?;` starts it. Run each INSERT on `tx` instead of `conn`, in a `for` loop, with `?` after each. Then `tx.commit()?;` and return the count."
+[[hints]]
+text = "`for name in names { tx.execute(\"INSERT INTO mods (name, enabled) VALUES (?1, 1)\", params![name])?; }` then `tx.commit()?;` and `Ok(names.len())`."
+
+[[points]]
+after = 2
+prompt = "Which call makes the inserts stay?"
+pick = ["tx.execute()", "tx.commit()", "drop(tx)", "conn.prepare()"]
+answer = 1
+[[points]]
+after = 3
+prompt = "An insert fails and ? returns early. What happens to the inserts before it?"
+pick = ["They stay, the rest are skipped", "They are rolled back: dropping tx undoes them", "The program panics", "They are committed twice"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "A case with a condition"
+summary = "A when guard picks out one special circle before the plain circle case."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["pattern-matching", "switch"]
+
+[[objectives]]
+test = "describeNamesEveryShape"
+label = "Shapes.describe names a circle, a rectangle and a triangle"
+[[objectives]]
+test = "zeroCircleIsADot"
+label = "A Circle of radius 0 is \"a dot\""
+
+[[hints]]
+text = "Four cases: the guarded circle first, then the plain circle, then the other two shapes. No `default`."
+[[hints]]
+text = "`case Circle c when c.radius() == 0 -> \"a dot\";` then `case Circle c -> \"a circle\";`, `case Rectangle r -> \"a rectangle\";`, `case Triangle t -> \"a triangle\";`."
+
+[[points]]
+after = 1
+prompt = "Which word adds a condition to a case?"
+pick = ["if", "when", "where", "and"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Which case must come first?"
+pick = ["The plain Circle c", "The guarded Circle c when ...", "Either, Java sorts them", "Rectangle"]
+answer = 1

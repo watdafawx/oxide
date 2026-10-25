@@ -1,0 +1,21 @@
+title = "A long list"
+summary = "uniform_list builds only the Arrange rows you can see."
+kind = "exercise"
+xp = 45
+minutes = 7
+tags = ["gpui", "list", "performance"]
+
+[[objectives]]
+test = "only_visible_rows_are_built"
+label = "in a 140 px list of 11 rows, the first rows are built and row 10 is not"
+
+[[hints]]
+text = "Replace the `div().children(..)` with `uniform_list(\"arrange-list\", count, cx.processor(|this, range: Range<usize>, _, cx| { .. }))` and `.h(px(140.))`. `count` is the order's `len()`; inside, clone the order and map the range to rows."
+[[hints]]
+text = "`let count = cx.global::<Settings>().order.len(); uniform_list(\"arrange-list\", count, cx.processor(|this, range: Range<usize>, _, cx| { let order = cx.global::<Settings>().order.clone(); range.map(|i| arrange_row(i, order[i], i == this.selected, cx)).collect() })).h(px(140.))`"
+
+[[points]]
+after = 2
+prompt = "What does uniform_list ask its closure for?"
+pick = ["every row at once", "the rows in a range: only the visible ones", "the list's height", "one row per frame"]
+answer = 1

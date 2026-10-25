@@ -1,0 +1,29 @@
+title = "Two lines"
+summary = "Stack the pills in pairs for the compact layout: one waits on top until its partner arrives."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["option", "take"]
+
+[[objectives]]
+test = "two_line_pairs_stats"
+label = "four pills make two columns of two"
+[[objectives]]
+test = "a_divider_ends_a_pair"
+label = "a pill waiting at a divider, or at the end, gets a column alone"
+
+[[hints]]
+text = "Every use of the waiting pill starts with `waiting.take()`: `match waiting.take() { Some(top) => .., None => .. }` in the pill arm, `if let Some(top) = waiting.take()` in the divider arm and after the loop."
+[[hints]]
+text = "Pill arm: `Some(top) => columns.push(Column::Pills(top, Some(pill.clone()))),` and `None => waiting = Some(pill.clone()),`. Divider arm and after the loop: `columns.push(Column::Pills(top, None));` inside the `if let`."
+
+[[points]]
+after = 3
+prompt = "Why does Rust refuse to read `waiting` again after `match waiting { Some(top) => .. }`?"
+pick = ["waiting is not mut", "Its pill was moved out into top", "Option cannot be matched twice", "A loop cannot change variables"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Hand over the waiting pill and leave None behind."
+code = "match waiting.___ {"
+blank = "take()"

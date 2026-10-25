@@ -15,6 +15,8 @@ a.equalsIgnoreCase(b)     // true even when only the capitals differ
 
 **The rule.** Numbers and chars: `==`. Texts: `equals`. When your comparison of text misbehaves, check this first.
 
+**If this is new.** Programming 101 explains the same thing versus an equal-looking one from zero: [Same or alike](/quest/basics/07-how-the-computer-holds-things/03-same-or-alike).
+
 ## Your turn
 
 - In `sameMotd`, replace `==` so it compares the characters of the two texts.

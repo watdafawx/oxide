@@ -13,12 +13,12 @@ test = "network_and_ping_units"
 label = "NetDown and NetUp are BytesPerSec, Ping is Millis"
 
 [[hints]]
-text = "Add arms to the `match` in `unit`, above the `_` arm."
+text = "Five arms go above the `_` arm: two temperatures, two network speeds and ping. Pick each one's variant from the five in `Unit`."
 [[hints]]
 text = "`StatKind::CpuTemp => Unit::Celsius,`, the same for `GpuTemp`, `StatKind::NetDown => Unit::BytesPerSec,` and `NetUp`, then `StatKind::Ping => Unit::Millis,`. Delete `_ => Unit::Percent,`."
 
 [[points]]
-after = 2
+after = 4
 prompt = "Which unit fits a download speed?"
-pick = ["Bytes", "BytesPerSec", "Percent", "Millis"]
-answer = 1
+pick = ["Bytes", "Percent", "Millis", "BytesPerSec"]
+answer = 3

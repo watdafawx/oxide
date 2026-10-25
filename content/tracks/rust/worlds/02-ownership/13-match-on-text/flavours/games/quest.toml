@@ -1,0 +1,22 @@
+title = "Match on text"
+summary = "A role arrives as a String. Lend it as a &str with .as_str() and match it."
+
+[[objectives]]
+test = "permission_level_matches_role_text"
+label = "permission_level gives \"owner\" 3, \"op\" 2 and anyone else 1"
+
+[[hints]]
+text = "Three arms in a `match role.as_str() { ... }`; the last one is `_`."
+[[hints]]
+text = "`match role.as_str() { \"owner\" => 3, \"op\" => 2, _ => 1 }`."
+
+[[points]]
+after = 2
+prompt = "Lend the String as text a match can compare."
+code = "match role.___ {"
+blank = "as_str()"
+[[points]]
+after = 3
+prompt = "Does `.as_str()` move or copy the String?"
+pick = ["It moves it", "It copies the letters", "Neither: it only borrows"]
+answer = 2

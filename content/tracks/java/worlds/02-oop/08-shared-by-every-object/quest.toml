@@ -1,0 +1,29 @@
+title = "One number for the whole class"
+summary = "A static field: one counter shared by every ticket, so each gets its own id."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["static", "fields"]
+
+[[objectives]]
+test = "ticketTakesTheCounter"
+label = "A new Ticket takes its id from nextId, which then moves on"
+[[objectives]]
+test = "idsAreUniquePerTicket"
+label = "Every Ticket gets the next id: 1, 2, 3..."
+
+[[hints]]
+text = "In the constructor, copy `nextId` into `this.id`, then add one to `nextId`. Then put `static` on the `nextId` line."
+[[hints]]
+text = "`this.id = nextId;` then `nextId++;`, and `private static int nextId = 1;`."
+
+[[points]]
+after = 2
+prompt = "Which word gives one copy for the whole class?"
+pick = ["final", "private", "static", "new"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Read a static field from outside the class."
+code = "int top = ___.MAX_VALUE;"
+blank = "Integer"

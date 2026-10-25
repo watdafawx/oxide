@@ -1,0 +1,40 @@
+title = "Boss: chest ledger"
+summary = "Chests, sealed Event records, a not-enough-items rule that changes nothing, and an audit report."
+
+[[objectives]]
+test = "eventIsSealedToThreeKinds"
+label = "Event is sealed to exactly ItemPlaced, ItemTaken and ItemMoved"
+[[objectives]]
+test = "placingItemsRaisesCount"
+label = "Placing items raises the count and is recorded in the log"
+[[objectives]]
+test = "takingMoreThanStoredIsRejected"
+label = "Taking or moving more than the chest holds throws NotEnoughItemsException and changes nothing"
+[[objectives]]
+test = "movingItemsChangesBothChests"
+label = "ItemMoved lowers the source chest and raises the target chest"
+[[objectives]]
+test = "reportListsEventsInOrder"
+label = "report() lists every event in order, numbered, then the item total"
+
+[[hints]]
+text = "First objective: in `Event.java`, `public sealed interface Event permits ItemPlaced, ItemTaken, ItemMoved {}`. Now a switch over an event needs no `default`."
+[[hints]]
+text = "Start `apply` small: `switch (event) { case ItemPlaced p -> change(p.stack().item(), p.stack().count()); ... }` with an arm for each kind, then `record(event);` after the switch. Only the ItemPlaced arm matters for the second objective."
+[[hints]]
+text = "ItemTaken and ItemMoved both take items out. Give `Chest` a `private void take(ItemStack stack)` that throws `new NotEnoughItemsException(...)` when `count(stack.item()) < stack.count()`, and only then calls `change(stack.item(), -stack.count());`. A throw skips `record(event)` too, so a rejected event leaves no trace."
+[[hints]]
+text = "ItemMoved is a block arm: `case ItemMoved m -> { take(m.stack()); m.to().apply(new ItemPlaced(m.stack())); }`. Take first, so a refused move gives the target nothing."
+[[hints]]
+text = "`report()`: a `StringBuilder`, a counter from 1, and an enhanced `for` over `log`. A switch expression turns each event into `\"placed 64 x cobblestone\"`, `\"took 16 x cobblestone\"` or `\"moved 8 x cobblestone to Storage B\"`. Append `number + \". \" + text + \"\\n\"` per line, then `\"items: \" + total()`."
+
+[[points]]
+after = 3
+prompt = "Where does the not-enough-items check go?"
+pick = ["Before the count changes", "After the log is recorded", "In the test", "Inside total()"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Take 16 cobblestone out with the helper."
+code = "change(\"cobblestone\", ___);"
+blank = "-16"

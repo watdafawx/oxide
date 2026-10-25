@@ -64,7 +64,7 @@ use serde::{Deserialize, Serialize};
 
 /// Open the Settings window into `slot`, or bring the one already there to the front.
 pub fn open_settings_window(cx: &mut App, slot: &mut Option<WindowHandle<SettingsWindow>>) {
-    // TODO: if slot holds a handle and handle.update(..activate_window..) is_ok(), return
+    // TODO: if slot already holds a handle and bringing that window to the front works, stop here
     let bounds = Bounds::centered(None, size(px(640.), px(480.)), cx);
     let options = WindowOptions {
         window_bounds: Some(WindowBounds::Windowed(bounds)),

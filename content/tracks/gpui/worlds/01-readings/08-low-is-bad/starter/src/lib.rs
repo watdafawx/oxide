@@ -13,7 +13,7 @@ pub use stat::{ALL, StatKind, Unit};
 /// Should this reading be drawn in the warning colour?
 pub fn is_warning(reading: &Reading, limits: &Limits) -> bool {
     match (reading.value, limits.limit_for(reading.kind)) {
-        // TODO: Below limits warn when v <= limit.at. Match on limit.when.
+        // TODO: decide by limit.when: Above warns at or over limit.at, Below at or under it.
         (Some(v), Some(limit)) => v >= limit.at,
         _ => false,
     }

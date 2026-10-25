@@ -1,0 +1,27 @@
+title = "A struct that borrows"
+summary = "A short-lived view can borrow instead of copy. Give it a lifetime, 'a, so Rust can check it."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["structs", "lifetimes", "borrowing"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "view_borrows_the_title"
+label = "NoteView builds with a lifetime, and note.view() borrows the title instead of copying it"
+
+[[hints]]
+text = "The help under the first error shows the two edits to the struct. Then `view` builds a `NoteView` whose `title` is `&self.title`."
+[[hints]]
+text = "`pub struct NoteView<'a> { pub title: &'a str, pub pages: u32 }`, and in `view`: `NoteView { title: &self.title, pages: self.pages }`."
+
+[[points]]
+after = 2
+prompt = "Make the field a borrow that lives for 'a."
+code = "struct NoteView<'a> {\n    title: ___,\n}"
+blank = "&'a str"
+[[points]]
+after = 3
+prompt = "What does adding `'a` do to how long the title lives?"
+pick = ["It makes the title live longer", "It copies the title", "Nothing: it only lets the compiler check the borrow"]
+answer = 2

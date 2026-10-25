@@ -10,12 +10,17 @@ test = "busiest_bar_is_tallest"
 label = "hour 21 is drawn full height, hour 8 half, hour 22 a quarter; an empty day is flat"
 
 [[hints]]
-text = "Find the biggest hour; if it is 0 give back zeros; otherwise `hours.map(..)` each to its share of `tallest`."
+text = "`let busiest = ..` from `hours.iter().copied().max()`; an early `return [0.0; 24];` when it is 0; then `hours.map(|secs| ..)` with both numbers cast to `f32`."
 [[hints]]
 text = "`let busiest = hours.iter().copied().max().unwrap_or(0); if busiest == 0 { return [0.0; 24]; } hours.map(|secs| tallest * secs as f32 / busiest as f32)`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Why heights relative to the busiest hour, not to 3600 seconds?"
-pick = ["a light day still fills the chart and is easy to read", "3600 is not an hour", "to avoid dividing by zero", "GPUI needs it"]
-answer = 0
+pick = ["3600 is not an hour", "a light day still fills the chart", "to avoid dividing by zero", "GPUI needs it"]
+answer = 1
+[[points]]
+after = 4
+prompt = "What does an array's map give back?"
+pick = ["a Vec", "an iterator", "an Option", "an array of the same length"]
+answer = 3

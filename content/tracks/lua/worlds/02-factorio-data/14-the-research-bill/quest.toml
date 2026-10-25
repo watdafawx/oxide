@@ -1,0 +1,32 @@
+title = "The research bill"
+summary = "Say what kit-metallurgy costs: units, seconds per unit, and science packs per unit."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["technology", "science-packs"]
+
+[[objectives]]
+test = "unit_costs_red_science"
+label = "research costs 30 units of 15 s, each 1 automation-science-pack"
+
+[[objectives]]
+test = "tech_passes_the_field_check"
+label = "the technology passes the field check, and its pack is a real science pack"
+
+[[hints]]
+text = "Add one field, `unit`, a table with `count`, `time` and `ingredients`."
+
+[[hints]]
+text = "`unit = { count = 30, time = 15, ingredients = { { \"automation-science-pack\", 1 } } },`: the pack is a `{ name, amount }` pair with no `type`."
+
+[[points]]
+after = 2
+prompt = "30 units, each eating 2 packs: how many packs in total?"
+pick = ["15", "32", "60", "30"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Write one research ingredient."
+code = "ingredients = { ___ },"
+blank = "{ \"automation-science-pack\", 1 }"

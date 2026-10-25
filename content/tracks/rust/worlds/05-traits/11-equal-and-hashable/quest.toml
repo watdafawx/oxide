@@ -1,0 +1,29 @@
+title = "Keys must be truly equal"
+summary = "A HashSet key needs Eq and Hash, and why an f64 can't be one."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["eq", "hash", "derive", "hashset", "hashmap"]
+
+[[objectives]]
+test = "distinct_cells_counts_each_cell_once"
+label = "distinct_cells counts each grid cell once"
+[[objectives]]
+test = "paint_counts_tallies_each_cell"
+label = "paint_counts tallies how often each cell was painted"
+
+[[hints]]
+text = "Write `distinct_cells` first: collect the cells into a `HashSet<Cell>` and take its `len()`. The errors name the two traits to add to `Cell`'s derive line."
+[[hints]]
+text = "Derive line: `#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]`. `distinct_cells`: `cells.iter().copied().collect::<HashSet<Cell>>().len()`. `paint_counts`: `for c in strokes { *counts.entry(*c).or_insert(0) += 1; }`."
+
+[[points]]
+after = 2
+prompt = "What does a HashSet need to turn each key into a number?"
+pick = ["Display", "Default", "Ord", "Hash"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Why can't a struct with an f64 field derive Eq?"
+pick = ["f64 is too big", "NaN is not equal to itself", "f64 has no ==", "Eq only works on enums"]
+answer = 1

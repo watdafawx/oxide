@@ -10,15 +10,20 @@ test = "access_denied_means_needs_admin"
 label = "Windows error 5 from event tracing means NeedsAdmin; others keep their text"
 [[objectives]]
 test = "etw_starts_or_says_needs_admin"
-label = "on this PC, the present trace either starts or says it needs administrator"
+label = "on your PC, the present trace either starts or says it needs administrator"
 
 [[hints]]
-text = "`live_error` is a `match` on the error with a guard: the IoError case whose `raw_os_error()` is `Some(5)`."
+text = "Two arms. The first nests the three layers, `TraceError::EtwNativeError(EvntraceNativeError::IoError(e))`, with a guard on `e.raw_os_error()`. The second catches everything else in a name."
 [[hints]]
 text = "`match error { TraceError::EtwNativeError(EvntraceNativeError::IoError(e)) if e.raw_os_error() == Some(5) => LiveError::NeedsAdmin, other => LiveError::Failed(format!(\"{other:?}\")) }`"
 
 [[points]]
-after = 3
-prompt = "What does `if` after a match pattern do?"
-pick = ["the arm only matches when the condition also holds", "it runs the arm twice", "it is an error", "it negates the pattern"]
+after = 2
+prompt = "Why must on_present be Send + Sync + 'static?"
+pick = ["it is called from ETW's own thread", "GPUI needs it sorted", "it returns a value", "it runs only once"]
 answer = 0
+[[points]]
+after = 4
+prompt = "What does `if` after a match pattern do?"
+pick = ["it runs the arm twice", "it is an error", "the arm only matches when the condition also holds", "it negates the pattern"]
+answer = 2

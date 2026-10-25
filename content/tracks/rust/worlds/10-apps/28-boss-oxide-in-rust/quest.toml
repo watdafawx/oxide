@@ -1,0 +1,52 @@
+title = "Boss: Oxide in Rust"
+summary = "Port Oxide's home card, quest screen and level-up pop-up to egui, driven by a fake Api and tested without a window."
+kind = "boss"
+xp = 500
+minutes = 75
+tags = ["egui", "kittest", "serde", "traits", "boss"]
+
+[[objectives]]
+test = "xp_fraction_is_progress_through_level"
+label = "xp_fraction(&Profile) is xp_into_level / xp_for_next, between 0 and 1"
+[[objectives]]
+test = "home_shows_next_quest_card"
+label = "Home shows Oxide, Level 1, 40 / 100 XP and the next quest's card with a Start button"
+[[objectives]]
+test = "start_opens_the_quest_screen"
+label = "clicking Start calls Api::start_quest and shows 0/2 objectives"
+[[objectives]]
+test = "red_check_shows_zero_of_n"
+label = "Run checks with a red CheckResult keeps every objective unticked, with no toast"
+[[objectives]]
+test = "green_check_ticks_all_and_shows_xp_toast"
+label = "a green CheckResult ticks 2/2 and its Completion shows a +50 XP toast"
+[[objectives]]
+test = "level_up_shows_modal_until_continue"
+label = "a Completion that raises the level opens the Level up! modal; Continue closes it"
+[[objectives]]
+test = "escape_returns_home"
+label = "Esc on the quest screen goes back to Home and reloads it from the Api"
+
+[[hints]]
+text = "Go in test order. `xp_fraction` is quest 23 with a `Profile`; `passed_count` is `.iter().filter(..).count()` on `result.objectives`, comparing each `status` with `ObjectiveStatus::Passed`."
+[[hints]]
+text = "The state methods only change fields. `start`: `let detail = self.api.start_quest(id);` then `self.last = detail.last_check.clone(); self.detail = Some(detail); self.toast = None; self.screen = Screen::Quest;`. `go_home`: `self.home = self.api.home();`, the home screen, and `None` for detail, last and toast."
+[[hints]]
+text = "`run_checks`: `let id = match &self.detail { Some(d) => d.quest.id.clone(), None => return };` then `let outcome = self.api.run_checks(&id); self.last = Some(outcome.result);` and `if let Some(c) = outcome.completion { if c.xp_awarded > 0 { self.toast = Some(format!(\"+{} XP\", c.xp_awarded)); } if c.level_after > c.level_before { self.level_up = Some(c); } }`."
+[[hints]]
+text = "`home_ui`: `ui.heading(\"Oxide\")`, two `ui.label(format!(..))`, `ui.add(egui::ProgressBar::new(xp_fraction(&self.home.profile)))`, `ui.separator()`. Then `let mut start: Option<String> = None; match &self.home.next { Some(q) => { ..; if ui.button(\"Start\").clicked() { start = Some(q.id.clone()); } } None => { ui.label(\"All caught up\"); } }` and after it `if let Some(id) = start { self.start(&id); }`."
+[[hints]]
+text = "`quest_ui`: `let passed = match &self.last { Some(r) => passed_count(r), None => 0 };`. An objective is done when `self.last` is `Some(r)` and `r.objectives.iter().any(|o| o.test == obj.test && o.status == ObjectiveStatus::Passed)`. At the end: `let run = ui.button(\"Run checks\").clicked(); let back = ui.button(\"Back\").clicked(); let esc = self.level_up.is_none() && ui.input(|i| i.key_pressed(egui::Key::Escape));` then `if run { self.run_checks(); } if back || esc { self.go_home(); }`."
+[[hints]]
+text = "`level_up_modal` is quest 25: `let level = match &self.level_up { Some(c) => c.level_after, None => return };`, then the `Modal` with `ui.heading(\"Level up!\")`, `ui.label(format!(\"You reached level {level}\"))` and a Continue button that sets `close`, then `if close || response.should_close() { self.level_up = None; }`."
+
+[[points]]
+after = 3
+prompt = "Which method is the only one that may call the Api's start_quest?"
+pick = ["home_ui", "start", "quest_ui", "level_up_modal"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Read the Esc key this frame."
+code = "let esc = ui.input(|i| i.___(egui::Key::Escape));"
+blank = "key_pressed"

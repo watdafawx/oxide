@@ -75,6 +75,27 @@ construction; Lua core builds a Factorio recipe calculator before touching the r
 The track plans in `docs/tracks/*.md` keep their concept checklists; content sessions re-cut
 quests around the spine named in their brief.
 
+### Programming 101 (`basics`, runner lua, 2026-10-24)
+
+An optional track for people who have never programmed, proposed by the content audit
+(`docs/audit-2026-10-24/README.md`). It teaches once, in plain Lua, the ideas every language track
+assumes: what a program is, values, decisions, loops, functions, collections and memory. Every
+quest has `requires = []`, so nothing is locked and nothing in another track requires it; the
+folder name sorts it first in the track menu, and new profiles (empty `settings.track`) start
+there. Lessons explain the why of each idea and note how Rust and Java spell it. Term ledger:
+`docs/tracks/basics-terms.md`. Plain flavour only (no games flavour yet).
+
+| world | project | what grows quest by quest |
+|---|---|---|
+| 01 What a program is | Welcome screen for a bike shop | instructions in order (read), `print` two lines, interpreter vs compiler (read), the terminal (read), read an error (`prnt`), what a test is (`t.eq`, return) |
+| 02 Values and names | Cinema ticket machine | arithmetic and precedence, `local` variables, reassignment, an input, strings and `..`, types and `tonumber`, booleans and comparisons, comments |
+| 03 Decisions | Theme park ride gate | `if`, `else`, `elseif`, `==` vs `=` (a syntax error on purpose), `and`, `or`, `not` |
+| 04 Repetition | Running training plan | `while`, numeric `for` with a running total, steps and counting down, counter with an `if`, `break`, skipping a round (no `continue` in Lua), tracing a loop (read) |
+| 05 Functions | Pizza order calculator | define vs call, parameters vs arguments, return vs print, scope and globals, decomposition |
+| 06 Collections | Corner shop till | lists and `#`, `table.insert`, `ipairs` totals, min/max champion, maps and nil lookups, the dot and modules (`M` explained), `pairs` |
+| 07 How the computer holds things | Pixel painter | memory and references (read), shared tables and real copies, table identity vs contents, bits and bytes (read), hex colour codes, why it matters in Rust and Java (read) |
+| 08 Build something | Games-night league table | reading a manual entry, debugging by narrowing down, records in lists; boss: the league table (6 staged objectives, nothing new) |
+
 ## Track skeletons
 
 The planning sessions turn each into 8-12 quests per world with objectives, minutes and XP.
@@ -156,6 +177,7 @@ NeoForge + Fabric 1.21.1).
 | Lua + Factorio | `docs/tracks/lua.md` | 5 | 54 | 4,445 | embedded Lua, test harness, Factorio mock |
 | Java 25 + Boot 4 (delta) | `docs/tracks/java-25.md` | 5 | 33 | 2,995 | JDK 25 (Temurin 25.0.4), Boot 4.1.1, `track.toml` jdk |
 | NeoForge latest (delta) | `docs/tracks/neoforge-latest.md` | 12 | 69 | 7,260 | Minecraft 26.3 + NeoForge 26.3.0.94, JDK 25; re-cut each Minecraft release |
+| Programming 101 (optional) | `content/tracks/basics`, `docs/tracks/basics-terms.md` | 8 | 50 done | 1,905 | none (lua runner) |
 | Kinetik in Rust (GPUI) | `docs/tracks/gpui.md` | 13 | 158 | 10,380 | none (cargo runner); spikes R1-R3, R5 passed 2026-10-22 |
 
 Decisions on the planners' open questions:

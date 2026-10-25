@@ -1,0 +1,25 @@
+title = "Unpack it in the case"
+summary = "Nested record patterns take a BlockBroken and its BlockPos apart right in the case line."
+
+[[objectives]]
+test = "recordPatternReadsBlockCoordinates"
+label = "Chat.where gives \"10 64 -3\" for a block broken at (10, 64, -3)"
+[[objectives]]
+test = "otherEventsAreNowhere"
+label = "Chat.where gives \"nowhere\" for the other two events"
+
+[[hints]]
+text = "One case takes the BlockBroken apart, with a `BlockPos(int x, int y, int z)` pattern in the position's place. The other two cases hand back `\"nowhere\"`."
+[[hints]]
+text = "`case BlockBroken(String player, String block, BlockPos(int x, int y, int z)) -> x + \" \" + y + \" \" + z;` then `case PlayerJoined e -> \"nowhere\";` and `case ItemDropped e -> \"nowhere\";`."
+
+[[points]]
+after = 1
+prompt = "Unpack a Shop record into its two components."
+code = "case ___ -> item + \" for \" + price;"
+blank = "Shop(String item, int price)"
+[[points]]
+after = 2
+prompt = "Which names can the components get in the pattern?"
+pick = ["Any names you like", "Only the record's own names", "Only one letter each", "None, you must call accessors"]
+answer = 0

@@ -1,0 +1,25 @@
+title = "Count the belt"
+summary = "A function that calls itself adds up a whole belt."
+
+[[objectives]]
+test = "total_items_adds_every_segment"
+label = "total_items(&belt) adds the items on every segment"
+[[objectives]]
+test = "segment_count_counts_segments"
+label = "segment_count(&belt) counts the segments"
+
+[[hints]]
+text = "Match on the belt: `match belt { Belt::End => 0, Belt::Segment(items, rest) => ... }`. The `Segment` arm calls the same function on `rest`."
+[[hints]]
+text = "`Belt::Segment(items, rest) => items + total_items(rest)`. For the count: `Belt::Segment(_, rest) => 1 + segment_count(rest)`."
+
+[[points]]
+after = 2
+prompt = "What is a function that calls itself called?"
+pick = ["a loop", "a closure", "recursion", "an iterator"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Which arm answers without calling the function again?"
+pick = ["the `End` arm", "the `Segment` arm", "both arms", "neither arm"]
+answer = 0

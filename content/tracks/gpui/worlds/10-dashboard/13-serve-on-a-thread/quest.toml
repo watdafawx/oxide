@@ -1,0 +1,26 @@
+title = "Serve on a thread"
+summary = "Start the web server for real: its own thread, its own tokio runtime, listening on the address."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["axum", "tokio", "threads"]
+
+[[objectives]]
+test = "server_answers_on_localhost"
+label = "serve_dashboard answers GET /api/stats with the key on 127.0.0.1"
+
+[[hints]]
+text = "The thread and the runtime as in the read before this one. Inside `block_on`'s `async move` block: bind the listener with `.await?`, then `axum::serve(..)` with the listener and `router(state)`, awaited, as the last line."
+[[hints]]
+text = "`std::thread::spawn(move || { let runtime = tokio::runtime::Runtime::new()?; runtime.block_on(async move { let listener = tokio::net::TcpListener::bind(addr).await?; axum::serve(listener, router(state)).await }) })`"
+
+[[points]]
+after = 1
+prompt = "When does TcpListener::bind fail?"
+pick = ["when the key is wrong", "when the page is missing", "when the port is taken", "it never fails"]
+answer = 2
+[[points]]
+after = 2
+prompt = "When does axum::serve(..).await finish?"
+pick = ["only if the server fails", "after the first request", "after one second", "when the page loads"]
+answer = 0

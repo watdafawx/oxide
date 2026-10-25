@@ -1,0 +1,6 @@
+[package]
+name = "mastery_trailing_comma"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

@@ -1,0 +1,32 @@
+title = "Read a header"
+summary = "Build 16- and 32-bit reads on take, then read an 8-byte header field by field with ?."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["parsing", "bytes", "result"]
+
+[[objectives]]
+test = "cursor_reads_in_order"
+label = "u16_be and u32_be read big-endian numbers from the cursor"
+[[objectives]]
+test = "parse_header_reads_fields"
+label = "parse_header turns 8 bytes into a Header"
+[[objectives]]
+test = "parse_header_short_input_errors"
+label = "parse_header on fewer than 8 bytes is an Err, not a panic"
+
+[[hints]]
+text = "`u16_be`: `let b = self.take(2)?;` then build the array from `b[0]` and `b[1]` for `u16::from_be_bytes`. `u32_be` is the same with 4 bytes."
+[[hints]]
+text = "`parse_header`: `let mut c = Cursor::new(data);` then `Ok(Header { version: c.u8()?, flags: c.u8()?, id: c.u16_be()?, length: c.u32_be()? })`."
+
+[[points]]
+after = 1
+prompt = "Why is `b[1]` safe right after `self.take(2)?`?"
+pick = ["b is a Vec", "take gave exactly 2 bytes", "indexing never panics", "the cursor moved"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Leave early if the read fails."
+code = "Header { version: c.u8()___, ... }"
+blank = "?"

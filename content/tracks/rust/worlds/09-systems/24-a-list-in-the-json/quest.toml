@@ -1,0 +1,29 @@
+title = "A list inside the JSON"
+summary = "A Value is an enum: match on its shape to walk a JSON list, and treat a missing list and a wrong one differently."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["json", "serde_json", "match"]
+
+[[objectives]]
+test = "lists_sample_names"
+label = "sample_names gives the name of every entry in players.sample"
+[[objectives]]
+test = "no_sample_is_empty_and_wrong_shape_errors"
+label = "No sample (or null) is an empty list; a sample that is not a list is an Err"
+
+[[hints]]
+text = "`match &v[\"players\"][\"sample\"]` with three arms: `Value::Array(entries)`, `Value::Null` and `_`. In the first, loop over `entries` and push each `entry[\"name\"].as_str()` that is `Some`."
+[[hints]]
+text = "`Value::Array(entries) => { for entry in entries { if let Some(name) = entry[\"name\"].as_str() { names.push(name.to_string()); } } }`, `Value::Null => {}`, `_ => return Err(\"players.sample is not a list\".to_string())`, then `Ok(names)`."
+
+[[points]]
+after = 1
+prompt = "Which variant holds a JSON list?"
+pick = ["Value::Object", "Value::String", "Value::Array", "Value::Null"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Name the arm for a missing field."
+code = "Value::___ => {}"
+blank = "Null"

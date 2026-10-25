@@ -1,0 +1,25 @@
+title = "Count each drop"
+summary = "entry(key).or_insert(0) gives you the count for a key, creating it the first time."
+
+[[objectives]]
+test = "count_drops_tallies_each_item"
+label = "count_drops counts how often each item dropped"
+[[objectives]]
+test = "add_to_chest_raises_or_creates_the_count"
+label = "add_to_chest adds to an item's count, starting from 0 for a new one"
+
+[[hints]]
+text = "Inside the loop, `counts.entry(item.to_string()).or_insert(0)` is a `&mut u32` to that item's count. Put `*` in front and add to it."
+[[hints]]
+text = "`*counts.entry(item.to_string()).or_insert(0) += 1;` in the loop. In `add_to_chest`: `*chest.entry(item.to_string()).or_insert(0) += amount;`."
+
+[[points]]
+after = 2
+prompt = "What does `or_insert(0)` hand back?"
+pick = ["the old value", "a bool", "a &mut to the value in the map", "a copy of the map"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Add one to the count for `item`."
+code = "*counts.entry(item.to_string()).___(0) += 1;"
+blank = "or_insert"

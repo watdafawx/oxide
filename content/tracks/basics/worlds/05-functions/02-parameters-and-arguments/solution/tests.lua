@@ -1,0 +1,16 @@
+local t = require("oxide.test")
+local menu = require("menu")
+
+t.test("price_grows_with_toppings", function()
+  t.is_type(menu.pizza_price, "function", "M.pizza_price should be a function")
+  t.eq(menu.pizza_price(0), 7, "a plain pizza")
+  t.eq(menu.pizza_price(2), 10, "two toppings")
+  t.eq(menu.pizza_price(5), 14.5, "five toppings")
+end)
+
+t.test("order_price_counts_every_pizza", function()
+  t.is_type(menu.order_price, "function", "M.order_price should be a function")
+  t.eq(menu.order_price(3, 2), 30, "3 pizzas with 2 toppings each")
+  t.eq(menu.order_price(1, 0), 7, "one plain pizza")
+  t.eq(menu.order_price(2, 1), 17, "2 pizzas with 1 topping: the pizzas come first")
+end)

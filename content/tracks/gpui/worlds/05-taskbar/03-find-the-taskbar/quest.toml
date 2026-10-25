@@ -7,7 +7,7 @@ tags = ["win32", "unsafe"]
 
 [[objectives]]
 test = "taskbar_found_on_this_pc"
-label = "find_taskbar finds this PC's taskbar, with its tray inside it"
+label = "find_taskbar finds your PC's taskbar, with its tray inside it"
 
 [[hints]]
 text = "Two lookups inside the `unsafe` block, each with `.ok()?`: `FindWindowW` for the taskbar, then `FindWindowExW` for its tray child."
@@ -15,7 +15,12 @@ text = "Two lookups inside the `unsafe` block, each with `.ok()?`: `FindWindowW`
 text = "`let taskbar = FindWindowW(w!(\"Shell_TrayWnd\"), None).ok()?; let tray = FindWindowExW(Some(taskbar), None, w!(\"TrayNotifyWnd\"), None).ok()?;`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "What is Shell_TrayWnd?"
-pick = ["the window class of the main taskbar", "the clock", "the Start menu", "a GPUI window"]
-answer = 0
+pick = ["the clock", "the window class of the main taskbar", "the Start menu", "a GPUI window"]
+answer = 1
+[[points]]
+after = 2
+prompt = "What is an HWND?"
+pick = ["the window's pixels", "a copy of the window", "a number that names one window", "a window class"]
+answer = 2

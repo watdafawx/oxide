@@ -10,12 +10,17 @@ test = "default_binds_localhost"
 label = "not shared: 127.0.0.1; shared: 0.0.0.0; the port as set"
 
 [[hints]]
-text = "Pick the address with an `if`, then pair it with the port."
+text = "`let ip = if share_on_lan { .. } else { .. };`, then the lesson's `SocketAddr::from(..)` with `ip` and `port`."
 [[hints]]
 text = "`let ip = if share_on_lan { Ipv4Addr::UNSPECIFIED } else { Ipv4Addr::LOCALHOST }; SocketAddr::from((ip, port))`"
 
 [[points]]
+after = 1
+prompt = "In 127.0.0.1:8787, what is 8787?"
+pick = ["the PC's address", "the port", "the secret key", "a process id"]
+answer = 1
+[[points]]
 after = 2
-prompt = "Who can connect to a server bound to 127.0.0.1?"
-pick = ["only programs on this PC", "anyone on the network", "anyone on the internet", "nobody"]
-answer = 0
+prompt = "Who can connect to a server listening on 127.0.0.1?"
+pick = ["anyone on your Wi-Fi", "anyone on the internet", "nobody at all", "programs on this PC"]
+answer = 3

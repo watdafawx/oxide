@@ -1,0 +1,29 @@
+title = "Never glue values in"
+summary = "Insert a quest with ?1 placeholders and params!, so an apostrophe or a sneaky title can't break the SQL."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rusqlite", "sql", "sql-injection"]
+
+[[objectives]]
+test = "a_title_with_an_apostrophe_is_stored_as_typed"
+label = "add_quest stores \"Rust's traits\" and returns ids 1, 2, ..."
+[[objectives]]
+test = "a_title_that_looks_like_sql_is_only_text"
+label = "a title full of SQL is stored as plain text and deletes nothing"
+
+[[hints]]
+text = "The SQL text stays the same for every quest: put `?1` where the title goes and `?2` where the xp goes, with no quotes around them. The values go in the second argument of `execute` instead of `[]`."
+[[hints]]
+text = "Add `params` to the `use rusqlite::{..}` line, then `conn.execute(\"INSERT INTO quests (title, xp) VALUES (?1, ?2)\", params![title, xp])?;` and drop the `format!` line."
+
+[[points]]
+after = 2
+prompt = "Why does the title Rust's traits break the glued-in SQL?"
+pick = ["SQLite cannot store titles longer than ten letters", "The ' inside the title ends the SQL text early", "format! removes every apostrophe from its input", "TEXT columns refuse punctuation"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Fill the values in next to the SQL."
+code = "conn.execute(\"INSERT INTO quests (title, xp) VALUES (?1, ?2)\", ___)?;"
+blank = "params![title, xp]"

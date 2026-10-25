@@ -1,0 +1,22 @@
+title = "Instructions in order"
+summary = "A program is text the computer follows, line by line, exactly as written."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["program", "source code", "running"]
+requires = []
+
+[[quiz]]
+question = 'Line 1 of a program is `print("A")` and line 2 is `print("B")`. What shows up?'
+choices = ["B, then A", "A, then B", "A and B at the same moment"]
+answer = 1
+
+[[quiz]]
+question = "What is source code?"
+choices = ["what the program shows on the screen", "a secret key that unlocks the computer", "the instructions, written as text in a file"]
+answer = 2
+
+[[quiz]]
+question = "You type `prnit` where you meant `print`. What does the computer do?"
+choices = ["It treats it as a different word, one it does not know", "It guesses that you meant print", "It skips that line without a word"]
+answer = 0

@@ -13,12 +13,17 @@ test = "upload_shows_up_arrow"
 label = "a NetUp reading of 52000 shows ↑ 50.8 KB/s"
 
 [[hints]]
-text = "`format_speed` is one `format!` line that calls `format_bytes`."
+text = "`format_speed` is one `format!` line: `{arrow}`, a space, a `{}` filled by `format_bytes(..)`, then `/s`. The speed needs `as u64` on the way in."
 [[hints]]
 text = "`format!(\"{arrow} {}/s\", format_bytes(bytes_per_sec as u64))`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Which function already turns 3565158 into 3.4 MB?"
-pick = ["format_percent", "format_bytes", "format_speed", "text"]
-answer = 1
+pick = ["format_percent", "format_speed", "text", "format_bytes"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Turn the speed into whole bytes."
+code = "format_bytes(bytes_per_sec ___)"
+blank = "as u64"

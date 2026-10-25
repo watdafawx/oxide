@@ -1,0 +1,26 @@
+title = "Only the first one wins"
+summary = "compare_exchange checks and changes an atomic in one step, so exactly one thread can claim a job."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["atomics", "compare_exchange", "race-condition"]
+
+[[objectives]]
+test = "claim_report_has_exactly_one_winner"
+label = "claim_report: of many racing threads, exactly one gets true"
+
+[[hints]]
+text = "Ask the flag to go from `false` to `true` with `compare_exchange`. It gives `Ok` only to the thread that did the change; turn that into a `bool`."
+[[hints]]
+text = "`flag.compare_exchange(false, true, Ordering::SeqCst, Ordering::SeqCst).is_ok()`"
+
+[[points]]
+after = 1
+prompt = "Check the flag, then set it, as two separate steps. What kind of bug is that?"
+pick = ["a race condition", "a data race", "a deadlock", "a compile error"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Change the flag only if it is still false."
+code = "flag.___(false, true, Ordering::SeqCst, Ordering::SeqCst)"
+blank = "compare_exchange"

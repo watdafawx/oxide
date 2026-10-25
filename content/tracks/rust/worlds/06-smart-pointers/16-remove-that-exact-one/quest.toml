@@ -1,0 +1,29 @@
+title = "Remove that exact one"
+summary = "Rc::ptr_eq tells the same note from a look-alike, so detach removes only the one you mean."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["rc", "ptr-eq", "retain", "tree"]
+
+[[objectives]]
+test = "is_same_tells_look_alikes_apart"
+label = "is_same(&a, &b) is true for two handles to one note, false for two notes that look alike"
+[[objectives]]
+test = "detach_removes_only_that_note"
+label = "detach(&note) takes exactly that note out of its parent's children"
+
+[[hints]]
+text = "`is_same` is one call: `Rc::ptr_eq(a, b)`. For `detach`, first get the parent in its own statement: `let parent = note.borrow().parent.upgrade();`."
+[[hints]]
+text = "`if let Some(parent) = parent { parent.borrow_mut().children.retain(|c| !Rc::ptr_eq(c, note)); }`"
+
+[[points]]
+after = 1
+prompt = "Two separate notes both titled Milk. What does Rc::ptr_eq say?"
+pick = ["true, the titles match", "false, they are two different values", "it does not compile", "it panics"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Keep every child except this exact note."
+code = "children.retain(|c| !Rc::___(c, note));"
+blank = "ptr_eq"

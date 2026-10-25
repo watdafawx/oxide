@@ -1,0 +1,32 @@
+title = "Swap one word: rayon"
+summary = "The rayon crate turns .iter() into .par_iter() and splits the work over a pool of threads for you."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["rayon", "par_iter", "crates"]
+
+[[objectives]]
+test = "checksums_keep_the_input_order"
+label = "checksums: par_iter + map + collect, in the input order"
+[[objectives]]
+test = "total_size_adds_up_in_parallel"
+label = "total_size: par_iter + sum"
+[[objectives]]
+test = "count_big_takes_the_list"
+label = "count_big: into_par_iter + filter + count"
+
+[[hints]]
+text = "Write each one as the iterator chain you would write without threads, then change `iter()` to `par_iter()` and `into_iter()` to `into_par_iter()`. `use rayon::prelude::*;` is already at the top."
+[[hints]]
+text = "`sizes.par_iter().map(|size| size * 31).collect()`, `sizes.par_iter().sum()`, and `sizes.into_par_iter().filter(|size| *size > limit).count()`."
+
+[[points]]
+after = 2
+prompt = "Swap one word to run the chain on many threads."
+code = "let lengths: Vec<usize> = names.___().map(|n| n.len()).collect();"
+blank = "par_iter"
+[[points]]
+after = 4
+prompt = "Which one takes ownership of the Vec?"
+pick = ["par_iter", "par_iter_mut", "into_par_iter", "iter"]
+answer = 2

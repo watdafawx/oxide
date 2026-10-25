@@ -1,0 +1,25 @@
+title = "A switch that does things"
+summary = "A switch statement: each arm changes the player instead of handing back a value."
+
+[[objectives]]
+test = "healAndHurtMoveHealth"
+label = "Hurt(7) lowers health by 7, Heal(4) raises it by 4"
+[[objectives]]
+test = "respawnRestoresHealthAndIsCounted"
+label = "Respawn sets health back to 20 and adds one to respawns"
+
+[[hints]]
+text = "`switch (command) { ... }` with no `return` in front. The Heal and Hurt arms are one line each; the Respawn arm is a block `{ ... }` with two lines."
+[[hints]]
+text = "`case Heal h -> health += h.amount(); case Hurt h -> health -= h.amount(); case Respawn r -> { health = 20; respawns++; }`"
+
+[[points]]
+after = 1
+prompt = "What does a switch statement hand back?"
+pick = ["A value for each arm", "Nothing: its arms do things", "Always a boolean", "The last case"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Run two steps in one arm."
+code = "case Respawn r -> ___ health = 20; respawns++; }"
+blank = "{"

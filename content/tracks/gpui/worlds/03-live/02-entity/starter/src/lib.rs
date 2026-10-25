@@ -47,7 +47,7 @@ impl StatsBar {
 /// Hand a new bar to GPUI and get its handle back.
 pub fn new_bar(cx: &mut App, snapshot: Snapshot) -> Entity<StatsBar> {
     let _ = (cx, snapshot);
-    todo!("cx.new with a closure that makes StatsBar::new(snapshot)")
+    todo!("hand a StatsBar made from snapshot to GPUI, and give back its handle")
 }
 
 #[cfg(test)]

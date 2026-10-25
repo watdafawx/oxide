@@ -17,5 +17,5 @@ text = "`let c = self.disks.list().iter().find(|d| d.mount_point() == Path::new(
 [[points]]
 after = 3
 prompt = "What does find(..)? do when no disk is C:?"
-pick = ["the function gives back None", "it panics", "it picks the first disk", "it gives 0"]
-answer = 0
+pick = ["it panics", "it picks the first disk", "it gives 0", "the function gives back None"]
+answer = 3

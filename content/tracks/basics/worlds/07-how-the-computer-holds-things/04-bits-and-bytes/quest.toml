@@ -1,0 +1,22 @@
+title = "Bits and bytes"
+summary = "Everything is a row of on/off switches. Read the row, and sizes and number types make sense."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["bits", "bytes", "binary"]
+requires = []
+
+[[quiz]]
+question = "How many different values fit in one byte?"
+choices = ["8", "255", "256"]
+answer = 2
+
+[[quiz]]
+question = "What is the binary number `110`?"
+choices = ["6", "110", "3"]
+answer = 0
+
+[[quiz]]
+question = "Rust's `u8` is one byte. Can it hold 300?"
+choices = ["yes", "no: the largest value it can hold is 255", "only as a decimal"]
+answer = 1

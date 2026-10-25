@@ -1,8 +1,8 @@
 title = "The last ten seconds"
-summary = "Lows over the whole session drift; Kinetik's look at the last ten seconds."
+summary = "Lows over the whole session drift; Kinetik looks at the last ten seconds."
 kind = "exercise"
-xp = 40
-minutes = 6
+xp = 35
+minutes = 5
 tags = ["vecdeque"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "old_frames_are_dropped"
 label = "after the whole capture, the window holds the 1181 frames of the last 10 s"
 
 [[hints]]
-text = "Push the frame at the back, then pop from the front while the oldest is more than 10 s older than the new one."
+text = "`self.frames.push_back(frame);`, then a `while` whose condition is `self.frames.front().is_some_and(|old| old.time < frame.time - WINDOW_SECONDS)`."
 [[hints]]
 text = "`self.frames.push_back(frame); while self.frames.front().is_some_and(|old| old.time < frame.time - WINDOW_SECONDS) { self.frames.pop_front(); }`"
 
 [[points]]
-after = 2
-prompt = "Why a while loop and not one pop_front?"
-pick = ["one long hitch can make several old frames expire at once", "pop_front only works in loops", "to sort them", "VecDeque needs it"]
+after = 1
+prompt = "Why keep 10 seconds of frames rather than a fixed number of them?"
+pick = ["games draw frames at different speeds", "a number would not fit in memory", "VecDeque cannot count", "seconds sort faster"]
 answer = 0
+[[points]]
+after = 4
+prompt = "Why a while loop and not one pop_front?"
+pick = ["pop_front only works in loops", "to sort them", "one long hitch can make several old frames expire at once", "VecDeque needs it"]
+answer = 2

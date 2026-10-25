@@ -1,0 +1,26 @@
+title = "Grace period"
+summary = "Right after connecting, the game resends old events. Nothing fires for 2 seconds."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["duration", "option"]
+
+[[objectives]]
+test = "boot_burst_ignored"
+label = "nothing before a connection, nothing in its first 2 s, and a reconnect starts the wait again"
+
+[[hints]]
+text = "Call `is_some_and` on `self.connected_at`. The closure gets the connect time; compare how long ago that was with `GRACE`."
+[[hints]]
+text = "`self.connected_at.is_some_and(|at| now.saturating_sub(at) >= GRACE)`"
+
+[[points]]
+after = 3
+prompt = "What does is_some_and give for None?"
+pick = ["true", "it panics", "whatever the closure says", "false"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Why saturating_sub instead of plain minus?"
+pick = ["it is faster", "a Duration cannot go below zero, and minus would panic", "it rounds to seconds", "it is the same thing"]
+answer = 1

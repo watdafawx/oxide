@@ -1,0 +1,3 @@
+title = "Programming 101"
+blurb = "Never programmed before? Start here. What a program is, values, decisions, loops, functions, lists and memory, taught once in plain Lua, so every other track makes sense. Optional: every quest is open, skip what you know."
+runner = "lua"

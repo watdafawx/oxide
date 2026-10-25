@@ -13,12 +13,17 @@ test = "no_window_titles_saved"
 label = "the file holds program names only: no paths, no window titles"
 
 [[hints]]
-text = "`day_path`: `dir.join(..)` a name from `date.format(\"%Y-%m-%d\")`. `save_day`: make the folder, turn the day into JSON, write it."
+text = "`day_path` is the lesson's example with `\"%Y-%m-%d\"` and `.json`. `save_day` is three lines, each of the first two ending in `?`: `create_dir_all`, `to_string_pretty`, then `std::fs::write(day_path(..), ..)` as the last line."
 [[hints]]
-text = "`std::fs::create_dir_all(dir)?; let text = serde_json::to_string_pretty(day).map_err(std::io::Error::other)?; std::fs::write(day_path(dir, day.date), text)`"
+text = "`dir.join(format!(\"{}.json\", date.format(\"%Y-%m-%d\")))`, and `std::fs::create_dir_all(dir)?; let text = serde_json::to_string_pretty(day)?; std::fs::write(day_path(dir, day.date), text)`"
 
 [[points]]
-after = 2
+after = 1
 prompt = "Why name the files year-month-day?"
-pick = ["they sort by date as plain text", "Windows needs it", "it is shorter", "JSON needs it"]
+pick = ["Windows needs it", "it is shorter", "they sort by date as text", "JSON needs it"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Why can save_day use plain ? on to_string_pretty?"
+pick = ["its error converts into io::Error", "it never fails", "? ignores errors", "save_day returns a String"]
 answer = 0

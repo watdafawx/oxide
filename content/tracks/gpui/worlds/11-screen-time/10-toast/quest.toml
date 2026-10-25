@@ -7,15 +7,20 @@ tags = ["match", "notifications"]
 
 [[objectives]]
 test = "hot_gpu_toast_text"
-label = "GPU at 87 °C gives \"GPU is hot\" and \"87°C for 30 seconds or more.\""
+label = "GPU at 87 °C gives \"GPU is hot\" and \"87°C for 30 seconds or more.\"; busy CPU and low battery get \"CPU is busy\" and \"Battery is low\""
 
 [[hints]]
-text = "A `match` on `alert.kind` for the title, with `|` for kinds that share words; the value through `Reading::text`."
+text = "`let title = match alert.kind { .. };` with `CpuTemp | GpuTemp` for \"hot\", `CpuUsage | GpuUsage` for \"busy\", one arm each for Ping, Battery and DiskFree, and a last `kind =>` arm. Then `Reading { kind: alert.kind, value: Some(alert.value) }.text()` for the value."
 [[hints]]
-text = "`StatKind::CpuTemp | StatKind::GpuTemp => format!(\"{} is hot\", alert.kind.label()),` and so on; then `(title, format!(\"{now} for 30 seconds or more.\"))`"
+text = "`StatKind::CpuTemp | StatKind::GpuTemp => format!(\"{} is hot\", alert.kind.label()), StatKind::CpuUsage | StatKind::GpuUsage => format!(\"{} is busy\", alert.kind.label()), StatKind::Ping => \"Ping is high\".to_string(), StatKind::Battery => \"Battery is low\".to_string(), StatKind::DiskFree => \"C: is nearly full\".to_string(), kind => format!(\"{} warning\", kind.label()),` then `let now = Reading { kind: alert.kind, value: Some(alert.value) }.text(); (title, format!(\"{now} for 30 seconds or more.\"))`"
 
 [[points]]
-after = 2
-prompt = "Why does the app use PowerShell's app id for its toasts?"
-pick = ["Windows only shows toasts for registered app ids, and a portable exe has none", "it is faster", "PowerShell draws the toast", "for the icon"]
-answer = 0
+after = 3
+prompt = "In a match, what does a last arm `other => ..` match?"
+pick = ["nothing", "only the first kind", "a kind called other", "every kind left over"]
+answer = 3
+[[points]]
+after = 5
+prompt = "Why does Kinetik use PowerShell's app id for its toasts?"
+pick = ["it is faster", "PowerShell draws the toast", "Windows needs a registered app id", "for the icon"]
+answer = 2

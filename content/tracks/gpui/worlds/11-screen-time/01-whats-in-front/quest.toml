@@ -4,19 +4,24 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["win32", "strings"]
-requires = ["10-dashboard/12-boss-dashboard"]
+requires = ["10-dashboard/14-boss-dashboard"]
 
 [[objectives]]
 test = "exe_name_from_full_path"
 label = "C:\\Games\\Minecraft.Windows.exe gives minecraft.windows.exe; the fake desk's program is counted by name"
 
 [[hints]]
-text = "Split on both kinds of slash from the right, take the first piece, then lower-case it."
+text = "Cut at both slashes from the right with `rsplit(['\\\\', '/'])`, take the first piece with `.next()`, fall back to `path`, then `.to_lowercase()`."
 [[hints]]
 text = "`path.rsplit(['\\\\', '/']).next().unwrap_or(path).to_lowercase()`"
 
 [[points]]
 after = 3
 prompt = "Why lower-case the name?"
-pick = ["Windows file names ignore case, so Chrome.exe and chrome.exe are one program", "JSON needs lower case", "it sorts faster", "to hide the path"]
-answer = 0
+pick = ["JSON needs lower case", "it sorts faster", "Windows ignores case in file names", "to hide the path"]
+answer = 2
+[[points]]
+after = 4
+prompt = "What does \"a/b/c.exe\".rsplit(['/']).next() give?"
+pick = ["Some(\"a\")", "Some(\"c.exe\")", "None", "Some(\"b\")"]
+answer = 1

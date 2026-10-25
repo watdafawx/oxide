@@ -63,7 +63,7 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 /// Which parts a style draws: (usage bars, graphs).
 pub fn parts(style: WidgetStyle) -> (bool, bool) {
     let _ = style;
-    (true, true) // TODO: (bars, graphs) for each style; Minimal is (false, false)
+    (true, true) // TODO: for each of the four styles, whether it draws usage bars and whether it draws graphs
 
 }
 

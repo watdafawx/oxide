@@ -1,0 +1,29 @@
+title = "Which byte goes first?"
+summary = "A u32 is four bytes, and there are two orders to send them in. Write a number both ways and read it back."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["bytes", "endianness"]
+
+[[objectives]]
+test = "encodes_both_endians"
+label = "to_le / to_be return the 4 bytes of a u32 in the right order"
+[[objectives]]
+test = "decodes_from_arrays"
+label = "from_le / from_be turn 4 bytes back into the same u32"
+
+[[hints]]
+text = "Every integer type has methods for this: `to_le_bytes` and `to_be_bytes` one way, `u32::from_le_bytes` and `u32::from_be_bytes` the other."
+[[hints]]
+text = "`n.to_le_bytes()`, `n.to_be_bytes()`, `u32::from_le_bytes(bytes)`, `u32::from_be_bytes(bytes)`: one line each."
+
+[[points]]
+after = 2
+prompt = "Which byte order puts the small end first?"
+pick = ["big-endian", "network order", "little-endian", "mixed"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Get the bytes of `n`, big end first."
+code = "let bytes = n.___();"
+blank = "to_be_bytes"

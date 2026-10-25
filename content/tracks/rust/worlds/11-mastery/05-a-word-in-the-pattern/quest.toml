@@ -1,0 +1,26 @@
+title = "A word in the pattern"
+summary = "item!(\"apples\" => 3): tokens in a pattern that are not $captures must appear as written."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["macros", "macro_rules"]
+
+[[objectives]]
+test = "item_builds_from_name_and_count"
+label = "item!(\"apples\" => 3) is Item { name: \"apples\", count: 3 }"
+
+[[hints]]
+text = "The pattern already reads `$name`, then a literal `=>`, then `$count`. The template is a struct literal: `Item { name: ..., count: ... }` with the two captures."
+[[hints]]
+text = "`($name:expr => $count:expr) => { Item { name: $name, count: $count } };`"
+
+[[points]]
+after = 1
+prompt = "In ($a:expr ; $b:expr), what is the ;?"
+pick = ["a capture", "a token the call must contain", "the end of the arm", "a comment"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which of these may follow an expr capture in a pattern?"
+pick = ["at", "->", "=>", "with"]
+answer = 2

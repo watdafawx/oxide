@@ -1,0 +1,25 @@
+title = "The borrow checker is your friend"
+summary = "Three questions, six lines to trace. Say which line moves and which ones borrow."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["ownership", "borrowing", "borrow-checker"]
+
+[[quiz]]
+question = "In the lesson's trace, which line moves the String out of `b`?"
+choices = ["let c = &b;", "let both = format!(\"{c} {d}\");", "let e = b;"]
+answer = 2
+
+[[quiz]]
+question = "With `let mut s = String::new();`, which pair of lines builds?"
+choices = [
+  "let r1 = &mut s; let r2 = &mut s; r1.push_str(\"a\"); r2.push_str(\"b\");",
+  "let r = &mut s; let t = &s; r.push_str(\"a\"); let n = t.len();",
+  "let r1 = &s; let r2 = &s; let n = r1.len() + r2.len();",
+]
+answer = 2
+
+[[quiz]]
+question = "Why may a reference never outlive the value it points at?"
+choices = ["It would point at freed memory", "References are slower than owners", "The compiler can only count to one"]
+answer = 0

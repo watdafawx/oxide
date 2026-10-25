@@ -1,0 +1,25 @@
+title = "See what's in the hotbar"
+summary = "Print a whole hotbar for the debug log with {:?}, and meet the word trait."
+
+[[objectives]]
+test = "hotbar_log_shows_the_stacks"
+label = "hotbar_log(&[1, 16, 8]) gives back \"hotbar: [1, 16, 8]\""
+[[objectives]]
+test = "item_log_shows_the_names"
+label = "item_log(&[\"sword\", \"bread\"]) gives back \"items: [\\\"sword\\\", \\\"bread\\\"]\""
+
+[[hints]]
+text = "Both functions are one `format!` line. The only change from `{}` is the `:?` inside the braces."
+[[hints]]
+text = "`format!(\"hotbar: {:?}\", stacks)` and `format!(\"items: {:?}\", names)`."
+
+[[points]]
+after = 2
+prompt = "Display is the skill of printing for a player. What does Rust call a skill like that?"
+pick = ["a macro", "a trait", "a method", "a module"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Print the hotbar the programmer's way."
+code = "format!(\"{___}\", stacks)"
+blank = ":?"

@@ -1,0 +1,10 @@
+[package]
+name = "mastery_derive_generics"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+describe_macro = { package = "mastery_describe_generics", path = "describe_macro" }
+
+[workspace]
+members = ["describe_macro"]

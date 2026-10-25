@@ -1,0 +1,22 @@
+title = "Structs own their fields"
+summary = "A player record that is kept should own its name. Swap a borrowed &str field for a String."
+
+[[objectives]]
+test = "player_outlives_the_typed_name"
+label = "Player::new builds, and the player keeps their name after the typed text is gone"
+
+[[hints]]
+text = "Two lines change: the type of the `name` field, and the value `new` stores in it."
+[[hints]]
+text = "`pub name: String,` and, in `new`, `Player { name: name.to_string(), level: start_level }`."
+
+[[points]]
+after = 2
+prompt = "Why does a `&str` field need more information?"
+pick = ["Rust must know how long the borrowed text lives", "&str is too slow for structs", "Fields can only hold numbers"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Let the player own their name."
+code = "struct Player {\n    name: ___,\n}"
+blank = "String"

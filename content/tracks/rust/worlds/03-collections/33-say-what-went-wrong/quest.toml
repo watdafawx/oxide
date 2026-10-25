@@ -1,0 +1,29 @@
+title = "Say what went wrong"
+summary = "map_err turns a library's error into your own message, so ? can pass it on."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["result", "map_err", "errors"]
+
+[[objectives]]
+test = "parse_qty_names_the_bad_text"
+label = "parse_qty gives Ok(n), or Err(\"bad qty 'x'\") naming the text"
+[[objectives]]
+test = "parse_pair_says_which_field_failed"
+label = "parse_pair parses qty and price, and the error says which one was bad"
+
+[[hints]]
+text = "`.map_err(|_| format!(...))` after the `parse` replaces the error with your text and leaves an `Ok` alone. In `parse_pair`, put `?` after each `map_err`."
+[[hints]]
+text = "`text.trim().parse::<u32>().map_err(|_| format!(\"bad qty '{text}'\"))`. Pair: `let qty = ...map_err(...)?;`, the same for `price` with \"bad price\", then `Ok((qty, price))`."
+
+[[points]]
+after = 1
+prompt = "Why does `text.parse::<u32>()?` fail in a function that returns `Result<u32, String>`?"
+pick = ["parse cannot fail", "the error is a ParseIntError, not a String", "? only works on Option", "u32 cannot be parsed"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Replace the error with your own message."
+code = "text.parse::<u32>().___(|_| format!(\"bad qty '{text}'\"))"
+blank = "map_err"

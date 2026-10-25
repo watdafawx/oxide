@@ -1,0 +1,22 @@
+title = "Threads that borrow"
+summary = "thread::scope joins its workers before it returns, so they may borrow the jar sizes: no move, no Arc."
+
+[[objectives]]
+test = "parallel_sum_borrows_both_halves"
+label = "parallel_sum adds up two halves of the borrowed jar sizes on two scoped threads"
+
+[[hints]]
+text = "Cut the slice with `&sizes[..mid]` and `&sizes[mid..]`. Inside `thread::scope(|s| { ... })`, start each half with `s.spawn(|| ...)` and keep both handles; the scope's last expression is what `thread::scope` returns."
+[[hints]]
+text = "`thread::scope(|s| { let a = s.spawn(|| left.iter().sum::<u64>()); let b = s.spawn(|| right.iter().sum::<u64>()); a.join().unwrap() + b.join().unwrap() })`"
+
+[[points]]
+after = 1
+prompt = "thread::spawn on a borrowed slice fails because the closure must be what?"
+pick = ["'static", "mut", "Copy", "Sync"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Which call joins all its threads before it returns?"
+pick = ["thread::spawn", "thread::scope", "thread::sleep", "drop"]
+answer = 1

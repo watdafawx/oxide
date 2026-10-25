@@ -1,0 +1,53 @@
+title = "Boss: shape renderer"
+summary = "A Shape trait, three shapes, an ASCII canvas, generic helpers and a Scaled wrapper."
+kind = "boss"
+xp = 400
+minutes = 50
+tags = ["traits", "generics", "trait-objects", "dyn", "boss"]
+
+[[objectives]]
+test = "rect_area_and_name"
+label = "Rect: area() is w * h and name() is \"rect\""
+[[objectives]]
+test = "rect_contains_is_inclusive"
+label = "Rect::contains includes its edges"
+[[objectives]]
+test = "circle_is_a_shape"
+label = "Circle: area, bounds, name and contains"
+[[objectives]]
+test = "triangle_is_a_shape"
+label = "Triangle: area, bounds, name and contains"
+[[objectives]]
+test = "canvas_renders_shapes"
+label = "Canvas::render draws # where a shape contains the cell centre"
+[[objectives]]
+test = "totals_and_largest"
+label = "total_area and largest work for any T: Shape"
+[[objectives]]
+test = "sort_by_area_orders_shapes"
+label = "sort_by_area sorts smallest to largest"
+[[objectives]]
+test = "scaled_wraps_any_shape"
+label = "Scaled<S> is itself a Shape, even inside a Canvas"
+
+[[hints]]
+text = "Start with `Rect`: `area` and `name` are one line each, and `contains` is four comparisons joined with `&&`, edges included (`>=` and `<=`)."
+[[hints]]
+text = "Circle and Triangle: the doc comment above each struct is the formula. Name the distances first, `let dx = x - self.cx;`, and the test reads like the comment."
+[[hints]]
+text = "`render`: an outer loop over rows builds one `String` per row; an inner loop over columns pushes `'#'` or `'.'` depending on `shapes.iter().any(..)`. Collect the rows in a `Vec<String>` and `join` them with a newline."
+[[hints]]
+text = "The generic helpers are one chain each: `map(..).sum()`, `max_by` with `total_cmp`, and `sort_by` with `total_cmp`, as in the sorting quest."
+[[hints]]
+text = "`Scaled` asks `self.inner` for everything and adjusts it: the area by `factor * factor`, the bounds' `w` and `h` by `factor`, the name with `scaled ` in front, and `contains` with the mapping in its doc comment."
+
+[[points]]
+after = 3
+prompt = "The canvas takes a list of mixed shapes."
+code = "pub fn render(&self, shapes: &[___]) -> String {"
+blank = "Box<dyn Shape>"
+[[points]]
+after = 4
+prompt = "Which bound makes total_area generic over shapes?"
+pick = ["T = Shape", "Shape<T>", "T: Shape", "dyn Shape"]
+answer = 2

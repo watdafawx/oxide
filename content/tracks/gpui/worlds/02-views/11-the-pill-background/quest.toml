@@ -1,0 +1,29 @@
+title = "The see-through background"
+summary = "Kinetik's rounded, see-through pill: a colour with an alpha you control."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "colour"]
+
+[[objectives]]
+test = "opacity_50_sets_half_alpha"
+label = "pill_background(0.5) has alpha 0.5"
+[[objectives]]
+test = "full_opacity_is_solid"
+label = "pill_background(1.0) is the solid dark grey"
+
+[[hints]]
+text = "In `pill_background`, `colour` needs `mut`, and one line sets its alpha field to `opacity` before it is given back."
+[[hints]]
+text = "`let mut colour = rgb(0x202020);` then `colour.a = opacity;` then `colour`."
+
+[[points]]
+after = 1
+prompt = "Which Rgba field says how see-through a colour is?"
+pick = ["r", "a", "b", "g"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Room inside the bar, left and right, one step 2 on the scale."
+code = "div().___()"
+blank = "px_2"

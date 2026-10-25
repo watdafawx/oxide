@@ -1,0 +1,29 @@
+title = "thiserror: the impls, written for you"
+summary = "Derive Display, Error and From with a few attributes."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["thiserror", "attributes", "crates"]
+
+[[objectives]]
+test = "messages_come_from_the_attributes"
+label = "Empty prints \"no priority\", BadPriority prints \"priority is not a number: ...\""
+[[objectives]]
+test = "question_mark_converts_with_from"
+label = "parse_priority turns a ParseIntError into BadPriority with ?"
+
+[[hints]]
+text = "Replace each `#[error(\"TODO\")]` with the real message. Then write `#[from]` right before `ParseIntError` inside `BadPriority(...)`."
+[[hints]]
+text = "`#[error(\"priority is not a number: {0}\")] BadPriority(#[from] ParseIntError),`. In `parse_priority`: `let text = text.trim(); if text.is_empty() { return Err(TaskError::Empty); } let n: u32 = text.parse()?; if n > 5 { return Err(TaskError::TooHigh(n)); } Ok(n)`."
+
+[[points]]
+after = 3
+prompt = "Which attribute writes the Display message?"
+pick = ["#[from]", "#[derive(Debug)]", "#[test]", "#[error(\"...\")]"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Let ? convert a ParseIntError into this variant."
+code = "BadPriority(___ ParseIntError),"
+blank = "#[from]"

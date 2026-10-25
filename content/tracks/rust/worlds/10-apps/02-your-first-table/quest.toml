@@ -1,0 +1,26 @@
+title = "Your first table"
+summary = "Open a SQLite database in memory and create the quests table from Rust."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["rusqlite", "sqlite", "sql"]
+
+[[objectives]]
+test = "open_creates_the_quests_table"
+label = "open() gives a connection with an empty quests table: id, title, xp"
+
+[[hints]]
+text = "Two steps, each ending in `?`: `Connection::open_in_memory()`, then `conn.execute(...)` with the CREATE TABLE text from the doc comment and `[]`. Finish with `Ok(conn)`."
+[[hints]]
+text = "`let conn = Connection::open_in_memory()?;` then `conn.execute(\"CREATE TABLE quests (id INTEGER PRIMARY KEY, title TEXT NOT NULL, xp INTEGER NOT NULL)\", [])?;` then `Ok(conn)`."
+
+[[points]]
+after = 1
+prompt = "Which call makes a database that lives in memory?"
+pick = ["Connection::open", "Connection::new", "Connection::open_in_memory", "Connection::ram"]
+answer = 2
+[[points]]
+after = 2
+prompt = "This statement has no values to fill in. Finish the call."
+code = "conn.execute(\"CREATE TABLE days (n INTEGER)\", ___)?;"
+blank = "[]"

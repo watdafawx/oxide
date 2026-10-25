@@ -1,0 +1,22 @@
+title = "Clone the winner"
+summary = "Hold a reference while you search, and clone only the one you return."
+
+[[objectives]]
+test = "longest_name_clones_at_most_once"
+label = "longest_name clones at most one Name"
+
+[[hints]]
+text = "Let `best` be a `&Name`: drop the `.clone()` on `first()?` and inside the loop. Clone once, in the last line."
+[[hints]]
+text = "`let mut best = names.first()?;` ... `best = name;` ... `Some(best.clone())`"
+
+[[points]]
+after = 1
+prompt = "What does copying a &Name cost?"
+pick = ["a heap allocation", "a copy of the text", "nothing worth counting", "one clone"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Clone only the winner."
+code = "Some(best.___())"
+blank = "clone"

@@ -11,12 +11,17 @@ test = "dashboard_has_ten_cards"
 label = "the dashboard draws all ten stats as cards, several to a row"
 
 [[hints]]
-text = "Two calls on the outer `div()` in `render`, before `.gap_4()`."
+text = "Two calls on the outer `div()`, where the TODO is: one switches the grid on, one sets how many columns. `grid_cols` takes a `u16`, and `columns` is a `usize`."
 [[hints]]
 text = "`.grid().grid_cols(columns as u16)`"
 
 [[points]]
 after = 2
 prompt = "What does .grid_cols(4) do to twelve children?"
-pick = ["three rows of four", "one row of twelve", "four rows of three", "twelve rows"]
-answer = 0
+pick = ["one row of twelve", "four rows of three", "three rows of four", "twelve rows of one"]
+answer = 2
+[[points]]
+after = 5
+prompt = "How many pixels is gap_2?"
+pick = ["2", "8", "16", "4"]
+answer = 1

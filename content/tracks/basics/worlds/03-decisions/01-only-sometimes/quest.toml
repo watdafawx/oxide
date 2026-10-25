@@ -1,0 +1,33 @@
+title = "Only sometimes"
+summary = "Riders under 120 cm get a warning: a line that runs only when a condition holds."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["if", "conditions"]
+requires = []
+
+[[objectives]]
+test = "short_riders_are_stopped"
+label = 'gate_message(height) warns riders under 120 cm, and lets the rest on'
+
+[[objectives]]
+test = "children_pay_half"
+label = "fast_pass_price(age) is 10, or 5 for children under 12"
+
+[[hints]]
+text = "Put the special case inside an `if ... then ... end`, and leave the usual case on the lines after the `end`."
+
+[[hints]]
+text = 'In `gate_message`: `if height < 120 then return "Too short, sorry" end`, then `return "Enjoy the ride"`. In `fast_pass_price`, between the two lines: `if age < 12 then price = 5 end`.'
+
+[[points]]
+after = 1
+prompt = "When do the lines between `then` and `end` run?"
+pick = ["always", "never", "only when the condition is true", "only when it is false"]
+answer = 2
+
+[[points]]
+after = 2
+prompt = "With `bags = 1`, what does `bag_check` give back?"
+pick = ['"Too many bags"', '"Go ahead"', "both", "nil"]
+answer = 1

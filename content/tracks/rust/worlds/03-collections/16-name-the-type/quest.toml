@@ -1,0 +1,29 @@
+title = "Name the type in the chain"
+summary = "When nothing tells sum or collect what to build, say it with ::<u32> (the turbofish)."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["iterators", "turbofish", "type-inference"]
+
+[[objectives]]
+test = "average_price_divides_the_sum"
+label = "average_price gives the sum of the prices divided by how many there are"
+[[objectives]]
+test = "total_in_euros_turns_cents_into_euros"
+label = "total_in_euros adds the cents and gives the total in euros as an f64"
+
+[[hints]]
+text = "Name the type on the sum itself: `prices.iter().sum::<u32>()`. Then divide by `prices.len() as u32`."
+[[hints]]
+text = "`prices.iter().sum::<u32>() / prices.len() as u32` and `cents.iter().sum::<u32>() as f64 / 100.0`."
+
+[[points]]
+after = 2
+prompt = "Tell `sum` to build a u32."
+code = "prices.iter().sum::___()"
+blank = "<u32>"
+[[points]]
+after = 3
+prompt = "In `collect::<Vec<_>>()`, what does the `_` mean?"
+pick = ["an empty Vec", "you work out this part", "any number", "ignore the items"]
+answer = 1

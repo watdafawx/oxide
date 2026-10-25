@@ -1,0 +1,29 @@
+title = "Lend it"
+summary = "Pass a backpack with & so a function can look inside and you keep it."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["borrowing", "references"]
+
+[[objectives]]
+test = "count_items_counts"
+label = "count_items(&bag) gives back how many items are inside"
+[[objectives]]
+test = "total_chars_adds_lengths"
+label = "total_chars(&bag) adds up every item name's length, and the bag is still yours"
+
+[[hints]]
+text = "`bag` is a `&Backpack`, and you read through it as if it were the backpack: `bag.items` works. `count_items` is one line."
+[[hints]]
+text = "`bag.items.len()`. For `total_chars`: `let mut total = 0;`, then `for item in &bag.items { total += item.len(); }`, then `total`."
+
+[[points]]
+after = 1
+prompt = "Which expression lends `bag` without giving it away?"
+pick = ["bag", "bag.clone()", "&bag", "*bag"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Take a borrowed Backpack."
+code = "fn count(bag: ___) -> usize {"
+blank = "&Backpack"

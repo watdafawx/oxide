@@ -1,0 +1,28 @@
+title = "Tasks that talk"
+summary = "A tokio mpsc channel carries progress from many mod downloads to the launcher UI. Clone the sender, drop the last one."
+
+[[objectives]]
+test = "drain_log_collects_until_closed"
+label = "drain_log reads every progress line until the channel closes"
+[[objectives]]
+test = "gather_progress_hears_every_download"
+label = "gather_progress spawns one download task per id; each sends id * 10 (percent)"
+[[objectives]]
+test = "gather_progress_ends_with_no_downloads"
+label = "gather_progress finishes (does not hang) when there are no downloads"
+
+[[hints]]
+text = "`drain_log` is the `while let Some(line) = rx.recv().await` loop from the lesson. In `gather_progress`, each task needs its own `tx.clone()` moved into its `async move` block, and the receiving loop only ends once the original `tx` is gone too."
+[[hints]]
+text = "`for id in 0..downloads { let tx = tx.clone(); tokio::spawn(async move { tx.send(id * 10).await.unwrap(); }); }` then `drop(tx);`, then the `while let` loop into `out`, then `out.sort(); out`."
+
+[[points]]
+after = 2
+prompt = "Make a queue that holds 8 messages."
+code = "let (tx, mut rx) = mpsc::channel::<u32>(___);"
+blank = "8"
+[[points]]
+after = 4
+prompt = "Which forgotten call makes the receiver wait forever?"
+pick = ["tx.clone()", "rx.recv()", "send", "drop(tx)"]
+answer = 3

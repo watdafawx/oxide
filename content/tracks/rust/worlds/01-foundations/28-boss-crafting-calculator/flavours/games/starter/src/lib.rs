@@ -120,12 +120,14 @@ pub fn run(inputs: &[&str]) -> Vec<String> {
     // TODO: `let mut calc = Calculator::new();` and `let mut messages = Vec::new();`
     //       `for input in inputs`: `let line = input.trim();` then an if chain:
     //         line == "quit"              -> push "Bye! ..." (singular when the count is 1), then `break`
-    //         line.starts_with("need ")   -> match parse_need(line): Ok((count, item)) => push
-    //                                        "{count} {item} needs: {totals_line(&calc.raw_totals(&item, count))}",
+    //         line.starts_with("need ")   -> match parse_need(line): Ok((count, item)) => `let list = totals_line(&calc.raw_totals(&item, count));`
+    //                                        then push `format!("{count} {item} needs: {list}")`,
     //                                        Err(message) => push the message
-    //         else                        -> match parse_recipe(line): Ok(recipe) => push "Learned {recipe.output}"
+    //         else                        -> match parse_recipe(line): Ok(recipe) => push `format!("Learned {}", recipe.output)`
     //                                        then calc.add_recipe(recipe), Err(message) => push the message
     //       finish with `messages`
+    //       Note: inside `{}` in format! you can only put a plain name. For a field or a call,
+    //       write `{}` and pass it after the string, or store it in a `let` first.
     todo!()
 }
 

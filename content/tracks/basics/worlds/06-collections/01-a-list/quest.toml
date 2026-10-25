@@ -1,0 +1,33 @@
+title = "A list"
+summary = "A basket of prices under one name: slots, indexes and the count."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["lists", "tables", "index", "#"]
+requires = []
+
+[[objectives]]
+test = "first_and_count"
+label = "first_item(basket) and item_count(basket) give the first price and how many there are"
+
+[[objectives]]
+test = "second_to_last"
+label = "second_to_last(basket) gives the price just before the last one"
+
+[[hints]]
+text = "Slots count from 1, and `#basket` is both the count and the number of the last slot. The slot before the last is one less than that."
+
+[[hints]]
+text = "`return basket[1]`, `return #basket` and `return basket[#basket - 1]`."
+
+[[points]]
+after = 2
+prompt = "With `local basket = {2.5, 1, 4}`, what is `basket[2]`?"
+pick = ["2.5", "1", "4", "nil"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = 'What is `#{"a", "b", "c"}`?'
+pick = ['"c"', "1", "2", "3"]
+answer = 3

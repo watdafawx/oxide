@@ -1,0 +1,15 @@
+local t = require("oxide.test")
+local colours = require("colours")
+
+t.test("reads_a_hex_byte", function()
+  t.eq(colours.hex_byte("FF"), 255)
+  t.eq(colours.hex_byte("00"), 0)
+  t.eq(colours.hex_byte("88"), 136, "8 sixteens and 8 ones")
+  t.eq(colours.hex_byte("1E"), 30, "1 sixteen and 14 ones")
+end)
+
+t.test("splits_a_colour_code", function()
+  t.deep_eq(colours.to_rgb("#FF8800"), {255, 136, 0}, "orange")
+  t.deep_eq(colours.to_rgb("#000000"), {0, 0, 0}, "black")
+  t.deep_eq(colours.to_rgb("#1E90FF"), {30, 144, 255}, "a sky blue")
+end)

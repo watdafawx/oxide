@@ -1,0 +1,36 @@
+title = "Numbers and maths"
+summary = "Four tickets and a popcorn, split between friends: the machine's first sums."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["numbers", "arithmetic", "expressions"]
+requires = []
+
+[[objectives]]
+test = "group_total_is_40"
+label = "group_total() gives 40: four tickets at 9 and one popcorn at 4"
+
+[[objectives]]
+test = "each_friend_pays_10"
+label = "price_each() gives 10: that total split between the four friends"
+
+[[hints]]
+text = "Four tickets is `4 * 9`. The popcorn is added once, after that."
+
+[[hints]]
+text = "In `price_each`, the whole total has to be worked out before dividing. Without brackets, `/ 4` only divides the popcorn."
+
+[[hints]]
+text = "`return 4 * 9 + 4` in `group_total`, and `return (4 * 9 + 4) / 4` in `price_each`."
+
+[[points]]
+after = 2
+prompt = "Which sign multiplies?"
+pick = ["x", "×", "*", "^"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "What is `2 + 3 * 4`?"
+pick = ["20", "14", "24", "9"]
+answer = 1

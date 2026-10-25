@@ -1,0 +1,20 @@
+title = "Don't block the runtime"
+summary = "A task must give its thread back at every .await. What blocking is, and where CPU-heavy work like hashing jars goes instead."
+
+[[quiz]]
+question = "Inside an async fn you wait before retrying a mod download with `std::thread::sleep(Duration::from_secs(5))`. What goes wrong?"
+choices = [
+  "It blocks the worker thread, so every other download on that thread stalls for 5 seconds",
+  "It does not compile, because std::thread::sleep is not allowed in an async fn",
+  "Nothing: the runtime notices the sleep and swaps in another download",
+]
+answer = 0
+
+[[quiz]]
+question = "Each jar needs a SHA-1 hash that keeps the CPU busy for 2 seconds. Where should that work run?"
+choices = [
+  "Inside the async fn, with an .await after it so the runtime can switch",
+  "On a thread made for blocking work, such as tokio's spawn_blocking",
+  "Inside join! next to the downloads, so the two overlap",
+]
+answer = 1

@@ -1,0 +1,28 @@
+title = "Mod-prefixed item names"
+summary = "Item names usually come ready to use. Pay for a copy only when you must add the mod id."
+
+[[objectives]]
+test = "prefixed_name_is_borrowed"
+label = "A name that already has a mod id (\"krastorio:gear-wheel\") comes back as Cow::Borrowed (no copy)"
+[[objectives]]
+test = "bare_name_gets_mod_prefix"
+label = "A bare name gets the mod id in front: \"gear-wheel\" becomes \"krastorio:gear-wheel\""
+[[objectives]]
+test = "prefixed_bare_name_is_owned"
+label = "A name that needed the prefix comes back as Cow::Owned"
+
+[[hints]]
+text = "Check first with `name.contains(':')`. Only a bare name builds new text."
+[[hints]]
+text = "Already prefixed: `Cow::Borrowed(name)`. Bare: `Cow::Owned(format!(\"{mod_id}:{name}\"))`."
+
+[[points]]
+after = 1
+prompt = "What is the slow part of making a new String?"
+pick = ["printing it", "asking the heap for memory and copying the bytes", "checking its type", "dropping the old &str"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Get a String out of the Cow."
+code = "let owned = with_base(\"stone-brick\").___();"
+blank = "into_owned"

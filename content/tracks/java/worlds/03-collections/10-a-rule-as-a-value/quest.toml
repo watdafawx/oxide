@@ -1,0 +1,29 @@
+title = "A rule as a value"
+summary = "Write a yes/no rule as a lambda, keep it in a Predicate, and hand it to removeIf."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["lambda", "predicate"]
+
+[[objectives]]
+test = "longerThanBuildsTheRule"
+label = "longerThan(n) returns a Predicate that is true for words longer than n"
+[[objectives]]
+test = "dropLongRemovesMatchingWords"
+label = "dropLong returns a copy without the words longer than n, using removeIf"
+
+[[hints]]
+text = "longerThan: return a lambda, `w -> ...`, that compares `w.length()` with `n`. dropLong: copy the list, then `copy.removeIf(longerThan(n));`."
+[[hints]]
+text = "longerThan: `return w -> w.length() > n;`. dropLong: `List<String> copy = new ArrayList<>(words); copy.removeIf(longerThan(n)); return copy;`"
+
+[[points]]
+after = 2
+prompt = "Which side of the arrow is the parameter?"
+pick = ["The right", "The left", "Both", "Neither: lambdas take none"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Ask the rule about one word."
+code = "boolean tooLong = rule.___(\"bookshelf\");"
+blank = "test"

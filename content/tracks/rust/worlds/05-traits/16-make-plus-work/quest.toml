@@ -1,0 +1,29 @@
+title = "Make + work on your type"
+summary = "`a + b` is a trait method: implement Add and Neg for a 2D vector."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["operators", "add", "neg"]
+
+[[objectives]]
+test = "add_vectors"
+label = "Vec2 + Vec2 adds each part"
+[[objectives]]
+test = "negate_vector"
+label = "-Vec2 flips both parts"
+
+[[hints]]
+text = "Both methods build a new `Vec2` from the parts of `self` (and `other` for `add`). `type Output = Vec2;` is already set."
+[[hints]]
+text = "`add`: `Vec2 { x: self.x + other.x, y: self.y + other.y }`. `neg`: `Vec2 { x: -self.x, y: -self.y }`."
+
+[[points]]
+after = 1
+prompt = "Which trait gives your type `+`?"
+pick = ["Sum", "Plus", "Mul", "Add"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Say what `a + b` produces."
+code = "impl Add for Coins {\n    type ___ = Coins;"
+blank = "Output"

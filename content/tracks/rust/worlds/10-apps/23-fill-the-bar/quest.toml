@@ -1,0 +1,29 @@
+title = "Fill the XP bar"
+summary = "Turn XP into a fraction between 0 and 1 with as f32 and clamp, and draw it as an egui ProgressBar."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["egui", "f32", "clamp", "progress-bar"]
+
+[[objectives]]
+test = "fraction_is_progress_through_the_level"
+label = "xp_fraction(25, 100) is 0.25, never below 0 or above 1, and 0.0 when xp_for_next is 0"
+[[objectives]]
+test = "the_bar_screen_shows_text_and_bar"
+label = "XpBar's screen shows 40 / 100 XP and a progress bar"
+
+[[hints]]
+text = "`xp_fraction`: return `0.0` early when `xp_for_next == 0`; otherwise turn both numbers into `f32` with `as`, divide, and `.clamp(0.0, 1.0)`. In `ui`: a `ui.label(format!(..))`, then `ui.add(egui::ProgressBar::new(..))`."
+[[hints]]
+text = "`if xp_for_next == 0 { return 0.0; } (xp_into_level as f32 / xp_for_next as f32).clamp(0.0, 1.0)` and `ui.label(format!(\"{} / {} XP\", self.xp_into_level, self.xp_for_next)); ui.add(egui::ProgressBar::new(xp_fraction(self.xp_into_level, self.xp_for_next)));`"
+
+[[points]]
+after = 3
+prompt = "What is 2.5_f32.clamp(0.0, 1.0)?"
+pick = ["2.5", "0.0", "1.0", "a panic"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Draw a widget you built yourself."
+code = "ui.___(egui::ProgressBar::new(0.4));"
+blank = "add"

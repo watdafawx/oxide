@@ -1,0 +1,22 @@
+title = "Hot swap"
+summary = "drop(x) removes a machine before its scope ends, and frees what it borrowed."
+
+[[objectives]]
+test = "hot_swap_powers_down_before_placing"
+label = "hot_swap(log) leaves \"power down inserter-1\" then \"place new inserter\" in the log"
+
+[[hints]]
+text = "Make the inserter with `Inserter::new(\"inserter-1\", log)` and keep it in a variable. End it with `drop` before you touch `log` again."
+[[hints]]
+text = "`let old = Inserter::new(\"inserter-1\", log); drop(old); log.push(\"place new inserter\".to_string());`"
+
+[[points]]
+after = 1
+prompt = "Why can't you push onto `log` while the inserter is alive?"
+pick = ["the log is full", "the inserter still holds the &mut borrow of the log", "a Vec cannot hold text", "push needs a lifetime"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Remove the inserter right here."
+code = "___(old);"
+blank = "drop"

@@ -1,0 +1,6 @@
+[package]
+name = "err_paths_between_rooms"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

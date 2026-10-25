@@ -1,0 +1,29 @@
+title = "Teach it to print"
+summary = "Keep the Display promise so your error prints a message for people."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["trait", "display", "errors"]
+
+[[objectives]]
+test = "each_error_prints_a_message"
+label = "to_string() gives a clear message for Empty, NotANumber and TooHigh"
+[[objectives]]
+test = "explain_puts_the_error_in_a_sentence"
+label = "explain(\"high\") is \"skipped: 'high' is not a number\""
+
+[[hints]]
+text = "In `fmt`, one arm per variant, each a `write!(f, ...)` with no `;`. In `explain`, `match parse_priority(text) { Ok(n) => ..., Err(e) => ... }`."
+[[hints]]
+text = "Arms in `fmt`: `PriorityError::Empty => write!(f, \"no priority\"),`, `PriorityError::NotANumber(text) => write!(f, \"'{text}' is not a number\"),`, `PriorityError::TooHigh(n) => write!(f, \"{n} is above 5\"),`. In `explain`: `Ok(n) => format!(\"priority {n}\"), Err(e) => format!(\"skipped: {e}\"),`."
+
+[[points]]
+after = 1
+prompt = "Which standard trait is the message for people?"
+pick = ["Debug", "PartialEq", "Display", "Label"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Write the text into the formatter."
+code = "PriorityError::Empty => ___(f, \"no priority\"),"
+blank = "write!"

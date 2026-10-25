@@ -1,0 +1,29 @@
+title = "No data yet"
+summary = "The hover card's min, avg and max line, or no data yet: unpack an Option or leave early."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["option", "let-else"]
+
+[[objectives]]
+test = "hover_summary_from_history"
+label = "hover_summary writes min, avg and max in the stat's unit"
+[[objectives]]
+test = "empty_history_says_no_data_yet"
+label = "an empty history gives no data yet"
+
+[[hints]]
+text = "Two parts: `let Some(s) = history.summary() else { return .. };`, then one `format!` with three `{}`s. Each `{}` gets `Reading { kind, value: Some(..) }.text()` for `s.min`, `s.avg` or `s.max`."
+[[hints]]
+text = "`let Some(s) = history.summary() else { return \"no data yet\".to_string(); };` then `let text = |v: f64| Reading { kind, value: Some(v) }.text();` and `format!(\"min {} · avg {} · max {}\", text(s.min), text(s.avg), text(s.max))`."
+
+[[points]]
+after = 2
+prompt = "What must the else block of a let .. else do?"
+pick = ["Give s a default value", "Print an error", "Leave, with return or break", "Nothing: it may be empty"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Write the minimum as CPU text."
+code = "Reading { kind, value: ___ }.text()"
+blank = "Some(s.min)"

@@ -100,7 +100,7 @@ pub struct WebSnapshot {
 /// The bar's readings, every stat, for the web page.
 pub fn web_snapshot(bar: &StatsBar) -> WebSnapshot {
     let _ = bar;
-    todo!("a WebStat per kind in ALL, from its Reading: label, text, value, is_warning")
+    todo!("a WebStat for every kind in ALL, all taken from that kind's Reading")
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

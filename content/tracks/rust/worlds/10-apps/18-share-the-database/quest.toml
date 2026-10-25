@@ -1,0 +1,29 @@
+title = "One database behind the API"
+summary = "Share a rusqlite Connection between handlers with Arc<Mutex<..>>, and serve POST and GET /quests."
+kind = "exercise"
+xp = 55
+minutes = 8
+tags = ["axum", "rusqlite", "mutex", "state"]
+
+[[objectives]]
+test = "create_returns_201_and_the_row"
+label = "POST /quests stores the quest and answers 201 with its new id"
+[[objectives]]
+test = "list_returns_quests_in_order"
+label = "GET /quests answers every stored quest, oldest first"
+
+[[hints]]
+text = "Start each handler with `let conn = db.lock().unwrap();`, then use `conn` exactly like in the SQL quests. Put `.map_err(internal)?` after every rusqlite call, so a database error becomes a 500."
+[[hints]]
+text = "`create`: `conn.execute(\"INSERT INTO quests (title, xp) VALUES (?1, ?2)\", params![new.title, new.xp]).map_err(internal)?;` then `let id = conn.last_insert_rowid();` and `Ok((StatusCode::CREATED, Json(Quest { id, title: new.title, xp: new.xp })))`. `list`: `let mut stmt = conn.prepare(\"SELECT id, title, xp FROM quests ORDER BY id\").map_err(internal)?;` then `let quests = stmt.query_map([], |r| Ok(Quest { id: r.get(0)?, title: r.get(1)?, xp: r.get(2)? })).map_err(internal)?.collect::<Result<Vec<_>, _>>().map_err(internal)?;` and `Ok(Json(quests))`."
+
+[[points]]
+after = 2
+prompt = "What do handlers share the connection through?"
+pick = ["Rc<Connection>", "Arc<Mutex<Connection>>", "Box<Connection>", "a fresh Connection per request"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Turn a database error into a 500."
+code = "conn.execute(sql, params![id]).___(internal)?;"
+blank = "map_err"

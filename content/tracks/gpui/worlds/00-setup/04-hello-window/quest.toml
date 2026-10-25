@@ -10,17 +10,22 @@ test = "window_is_360_by_120"
 label = "bar_size() is 360 wide and 120 high"
 
 [[hints]]
-text = "Only `bar_size` in `lib.rs` changes. `main.rs` already opens the window with it."
+text = "Only `bar_size` in `lib.rs` changes; `main.rs` already opens the window with it. Change the two numbers, width first, and keep the dot after each."
 [[hints]]
 text = "`size(px(360.), px(120.))`"
 
 [[points]]
-after = 3
+after = 2
 prompt = "Which call opens a window?"
-pick = ["cx.open_window(..)", "Application::new()", "bar_size()", "cx.quit()"]
-answer = 0
+pick = ["Application::new()", "bar_size()", "cx.open_window(..)", "cx.quit()"]
+answer = 2
 [[points]]
-after = 4
-prompt = "Write a size 360 wide and 120 high."
-code = "size(___, px(120.))"
-blank = "px(360.)"
+after = 3
+prompt = "What does .detach() do with the subscription?"
+pick = ["Cancels it at once", "Lets it go without cancelling it", "Closes the window", "Quits the app"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Why is it px(200.) and not px(200)?"
+pick = ["px takes an f32, and 200 is an integer", "The dot rounds the number", "The dot means pixels", "Rust needs a dot after every number"]
+answer = 0

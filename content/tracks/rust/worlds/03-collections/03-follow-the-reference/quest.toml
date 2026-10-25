@@ -1,0 +1,29 @@
+title = "Follow the reference"
+summary = "A loop over &list hands you references; * gets the number they point at."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["references", "deref"]
+
+[[objectives]]
+test = "count_low_finds_short_shelves"
+label = "count_low counts the products with fewer than `limit` left"
+[[objectives]]
+test = "largest_finds_the_biggest_count"
+label = "largest gives back the biggest count, or 0 for an empty shelf"
+
+[[hints]]
+text = "Inside the loop, `n` is a `&u32`. Compare `*n`, not `n`: `if *n < limit { low += 1; }`."
+[[hints]]
+text = "In `largest`: `if *n > best { best = *n; }` inside `for n in counts`, then `best` on the last line."
+
+[[points]]
+after = 1
+prompt = "In `for n in &counts`, what is `n`?"
+pick = ["a u32", "a &u32, a reference to one count", "the whole list", "an index"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Compare the number the reference points at."
+code = "if ___n < 5 {"
+blank = "*"

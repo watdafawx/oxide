@@ -1,0 +1,28 @@
+title = "Power pole back-links"
+summary = "A pole owns its machines with Rc; each machine points back with a Weak."
+
+[[objectives]]
+test = "place_machine_links_both_ways"
+label = "place_machine(&pole, name) is in pole.machines, and its pole link finds the pole"
+[[objectives]]
+test = "pole_link_is_weak"
+label = "The pole's strong count stays 1; only its weak count goes up"
+[[objectives]]
+test = "pole_name_is_none_after_pole_removed"
+label = "pole_name gives None once the pole is gone (no unwrap)"
+
+[[hints]]
+text = "Build the machine with `pole: Rc::downgrade(pole)` inside `Rc::new`. Then `pole.machines.borrow_mut().push(Rc::clone(&machine));` and return `machine`."
+[[hints]]
+text = "`pole_name`: `match machine.pole.upgrade() { Some(p) => Some(p.name.clone()), None => None }`"
+
+[[points]]
+after = 1
+prompt = "Which way does Weak go here?"
+pick = ["pole to machine", "machine back to its pole", "both ways", "neither, they use Box"]
+answer = 1
+[[points]]
+after = 3
+prompt = "A machine not yet on any pole."
+code = "pole: ___,"
+blank = "Weak::new()"

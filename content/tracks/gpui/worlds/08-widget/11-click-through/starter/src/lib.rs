@@ -66,7 +66,7 @@ pub const CLICK_THROUGH: u32 = 0x0008_0000 | 0x0000_0020;
 /// A window's extended style with click-through switched on or off, every other bit kept.
 pub fn click_through_style(style: u32, on: bool) -> u32 {
     let _ = on;
-    style // TODO: with CLICK_THROUGH added (|) when on, removed (& !) when off; other bits kept
+    style // TODO: the CLICK_THROUGH bits switched on when `on`, off when not; every other bit kept as it is
 
 }
 

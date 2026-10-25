@@ -1,0 +1,6 @@
+[package]
+name = "traits_a_list_of_mixed_shapes"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

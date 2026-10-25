@@ -1,0 +1,29 @@
+title = "Maps: key to value"
+summary = "Look a value up by its key with a HashMap, with a fallback, and count with it."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["map", "hashmap"]
+
+[[objectives]]
+test = "priceOfFallsBackToZero"
+label = "priceOf returns the price of an item, or 0 when the shop does not list it"
+[[objectives]]
+test = "countWordsCountsEachWord"
+label = "countWords returns how often each word appears"
+
+[[hints]]
+text = "priceOf: `prices.getOrDefault(item, 0)`. countWords: a `Map<String, Integer>` and, for each word, put its old count plus one."
+[[hints]]
+text = "countWords: `Map<String, Integer> counts = new HashMap<>(); for (String w : words) { counts.put(w, counts.getOrDefault(w, 0) + 1); } return counts;`"
+
+[[points]]
+after = 3
+prompt = "What does get hand back for a key that is not in the map?"
+pick = ["0", "An empty string", "null", "It stops with an error"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Read a key with a fallback."
+code = "int n = stock.___(\"pear\", 0);"
+blank = "getOrDefault"

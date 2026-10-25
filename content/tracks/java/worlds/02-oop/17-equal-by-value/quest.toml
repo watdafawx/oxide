@@ -1,0 +1,29 @@
+title = "Equal by value"
+summary = "Override equals so two Money objects with the same amount count as the same."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["equals", "object"]
+
+[[objectives]]
+test = "equalsComparesFields"
+label = "Two Money objects with the same cents and currency are equal; different ones are not"
+[[objectives]]
+test = "notEqualToOtherThings"
+label = "Money is never equal to null or to a String"
+
+[[hints]]
+text = "First line: if `o` is not a Money, hand back false (`instanceof` with a name). Then compare `cents` with `==` and `currency` with `equals`."
+[[hints]]
+text = "`if (!(o instanceof Money other)) { return false; }` then `return cents == other.cents && currency.equals(other.currency);`"
+
+[[points]]
+after = 2
+prompt = "Which class does every class extend in the end?"
+pick = ["Object", "Main", "String", "Class"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Check the kind and name it in one go."
+code = "if (!(o ___ Point other)) {"
+blank = "instanceof"

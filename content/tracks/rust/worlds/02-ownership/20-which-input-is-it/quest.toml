@@ -1,0 +1,30 @@
+title = "Which input is it?"
+summary = "Two borrows in, one out: write the 'a that says the answer lives no longer than both."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["lifetimes"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "longer_returns_the_longer"
+label = "longer(a, b) builds and gives back the longer title"
+[[objectives]]
+test = "tie_returns_first"
+label = "On a tie, longer gives back the first one (a borrow of it, not a copy)"
+
+[[hints]]
+text = "Only the first line of `longer` changes. The help under the error shows the whole new line."
+[[hints]]
+text = "`pub fn longer<'a>(a: &'a str, b: &'a str) -> &'a str {`"
+
+[[points]]
+after = 2
+prompt = "Why does `first_word(text: &str) -> &str` need no `'a`?"
+pick = ["With one borrowed input, the answer must borrow from it", "Slices never need lifetimes", "It gives back a String"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Declare the lifetime."
+code = "fn longer<___>(a: &'a str, b: &'a str) -> &'a str {"
+blank = "'a"

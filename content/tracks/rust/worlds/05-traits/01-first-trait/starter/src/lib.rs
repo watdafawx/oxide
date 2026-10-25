@@ -2,24 +2,24 @@ pub trait Describe {
     fn describe(&self) -> String;
 }
 
-pub struct Dog {
-    pub name: String,
+pub struct Circle {
+    pub radius: u32,
 }
 
-pub struct Robot {
-    pub id: u32,
+pub struct Square {
+    pub side: u32,
 }
 
-impl Describe for Dog {
+impl Describe for Circle {
     fn describe(&self) -> String {
-        // TODO: return "<name> the dog", e.g. "Rex the dog"
+        // TODO: return the label "circle with radius <radius>", e.g. "circle with radius 2"
         todo!()
     }
 }
 
-impl Describe for Robot {
+impl Describe for Square {
     fn describe(&self) -> String {
-        // TODO: return "robot #<id>", e.g. "robot #7"
+        // TODO: return the label "square with side <side>", e.g. "square with side 3"
         todo!()
     }
 }
@@ -29,14 +29,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn dog_describes_itself() {
-        let d = Dog { name: "Rex".to_string() };
-        assert_eq!(d.describe(), "Rex the dog");
+    fn circle_describes_itself() {
+        assert_eq!(Circle { radius: 2 }.describe(), "circle with radius 2");
     }
 
     #[test]
-    fn robot_describes_itself() {
-        let r = Robot { id: 7 };
-        assert_eq!(r.describe(), "robot #7");
+    fn square_describes_itself() {
+        assert_eq!(Square { side: 3 }.describe(), "square with side 3");
     }
 }

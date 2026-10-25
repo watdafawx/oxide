@@ -1,0 +1,21 @@
+title = "Bits and bytes"
+summary = "Every reply from a server is a row of bytes. Read one byte as eight switches and binary numbers stop being scary."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["bits", "bytes", "binary"]
+
+[[quiz]]
+question = "What is the largest number one byte (`u8`) can hold?"
+choices = ["127", "255", "256", "8"]
+answer = 1
+
+[[quiz]]
+question = "How many bytes does a `u32` take?"
+choices = ["32", "8", "4"]
+answer = 2
+
+[[quiz]]
+question = "What is `0b0000_0110` in normal numbers?"
+choices = ["6", "110", "3"]
+answer = 0

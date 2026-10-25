@@ -1,0 +1,25 @@
+title = "Inserter handle"
+summary = "Deref makes a handle act like the machine it controls, and explains why &String works as &str."
+
+[[objectives]]
+test = "star_reads_the_machine_inside"
+label = "*InserterHandle::new(40) gives 40"
+[[objectives]]
+test = "handle_of_string_works_as_str"
+label = "A &InserterHandle<String> can be passed where a &str is expected"
+
+[[hints]]
+text = "`deref` returns a reference to the wrapped machine. `InserterHandle` is a tuple struct, so the machine is field `0`."
+[[hints]]
+text = "The whole body is `&self.0`."
+
+[[points]]
+after = 2
+prompt = "Say what an InserterHandle<String> points at."
+code = "type ___ = String;"
+blank = "Target"
+[[points]]
+after = 4
+prompt = "Why does a `&String` work where a `&str` is expected?"
+pick = ["Rust copies the text into a new str", "they are the same type", "String implements Deref with Target = str", "the compiler skips the type check"]
+answer = 2

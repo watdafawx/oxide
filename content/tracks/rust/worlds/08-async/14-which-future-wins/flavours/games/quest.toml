@@ -1,0 +1,29 @@
+title = "What a dropped future leaves behind"
+summary = "A dropped future stops at its next .await. Jars it half wrote stay, and spawned tasks keep running."
+
+[[quiz]]
+question = "The downloader races a slow jar download against the Cancel button with `select!`. Cancel is pressed first. What happens to the download?"
+choices = [
+  "select! waits for it to finish before it returns anything",
+  "It keeps running in the background after select! returns",
+  "It is dropped and stops at its next .await",
+]
+answer = 2
+
+[[quiz]]
+question = "The download was writing `sodium.jar.part` when its deadline passed. What is in the mods folder afterwards?"
+choices = [
+  "The half-written .part file, until your own code deletes it",
+  "Nothing: dropping a future undoes what it wrote",
+  "The finished jar, because tokio completes the write before it drops the future",
+]
+answer = 0
+
+[[quiz]]
+question = "You spawned a jar download with tokio::spawn and then dropped its JoinHandle. Is the download stopped?"
+choices = [
+  "Yes: dropping the handle drops the task",
+  "No: a spawned task keeps running until it ends or is told to stop",
+  "It pauses until someone creates a new handle",
+]
+answer = 1

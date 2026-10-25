@@ -1,0 +1,28 @@
+title = "What a mob drops"
+summary = "Each mob picks its own loot type: an associated type."
+
+[[objectives]]
+test = "zombie_loot_is_a_count"
+label = "Zombie::loot() returns rotten flesh as a u32 (2 + looting)"
+[[objectives]]
+test = "creeper_loot_is_an_item_name"
+label = "Creeper::loot() returns a String: \"gunpowder\", or \"head\" when charged"
+[[objectives]]
+test = "drop_line_prints_any_loot"
+label = "drop_line() prints \"drops: <loot>\" for any mob"
+
+[[hints]]
+text = "Each `loot` returns that impl's `Loot` type. `drop_line` can print `mob.loot()` because its `where` clause says `M::Loot: Display`."
+[[hints]]
+text = "Zombie: `2 + self.looting`. Creeper: `if self.charged { \"head\" } else { \"gunpowder\" }.to_string()`. `drop_line`: `format!(\"drops: {}\", mob.loot())`."
+
+[[points]]
+after = 2
+prompt = "Fill in the slot for this impl."
+code = "impl Mob for Zombie {\n    ___ Loot = u32;"
+blank = "type"
+[[points]]
+after = 3
+prompt = "With an associated type, how many Mob impls can Zombie have?"
+pick = ["one", "one per loot type", "as many as it likes", "none"]
+answer = 0

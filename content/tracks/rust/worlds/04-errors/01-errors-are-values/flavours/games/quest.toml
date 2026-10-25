@@ -1,0 +1,12 @@
+title = "Errors are values"
+summary = "Why Rust has no exceptions, and what the manifest loader does instead."
+
+[[quiz]]
+question = "A player's manifest says sodium@new where a version number belongs. In Rust, how does parse_version tell the launcher?"
+choices = ["It throws an exception that jumps to the nearest catch", "It returns an Err value that the launcher has to look at", "It quietly returns version 0 so the pack still loads"]
+answer = 1
+
+[[quiz]]
+question = "Why does Rust put the failure in the return type, like Result<u32, String>?"
+choices = ["So a caller cannot forget that the call can fail", "So the launcher runs faster than with exceptions", "So errors are shown to the player automatically"]
+answer = 0

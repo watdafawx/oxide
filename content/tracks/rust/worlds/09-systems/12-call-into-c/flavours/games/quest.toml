@@ -1,0 +1,22 @@
+title = "Aside: ask C how far from spawn"
+summary = "Operating systems speak C. Declare a C function in an extern block and call it from Rust."
+
+[[objectives]]
+test = "c_abs_gives_distance_from_spawn"
+label = "c_abs(n) calls the C abs function"
+
+[[hints]]
+text = "The declaration is already in the `extern` block. Call `abs(n)` like a Rust function, inside an `unsafe` block."
+[[hints]]
+text = "`unsafe { abs(n) }`, with a `// SAFETY:` comment above it. `c_int` is `i32` on every common computer, so `n` goes in and the answer comes out as they are."
+
+[[points]]
+after = 3
+prompt = "Mark the block that declares C functions."
+code = "unsafe extern \"___\" {"
+blank = "C"
+[[points]]
+after = 4
+prompt = "Why is every call to a declared C function unsafe?"
+pick = ["C is slower", "Rust cannot see the function's body", "C has no types", "it runs on another thread"]
+answer = 1

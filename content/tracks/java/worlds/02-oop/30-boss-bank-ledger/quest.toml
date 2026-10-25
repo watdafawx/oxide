@@ -1,0 +1,44 @@
+title = "Boss: bank ledger"
+summary = "Accounts, sealed Transaction records, an overdraft rule that changes nothing, and a statement."
+kind = "boss"
+xp = 400
+minutes = 60
+tags = ["boss", "records", "sealed", "pattern-matching"]
+
+[[objectives]]
+test = "transactionIsSealed"
+label = "Transaction is sealed to exactly Deposit, Withdraw and Transfer"
+[[objectives]]
+test = "depositIncreasesBalance"
+label = "Depositing raises the balance and is recorded in the history"
+[[objectives]]
+test = "overdraftRejected"
+label = "Withdrawing or transferring more than the balance throws OverdraftException and changes nothing"
+[[objectives]]
+test = "transferMovesMoneyBothWays"
+label = "A Transfer lowers the sender's balance and raises the receiver's"
+[[objectives]]
+test = "statementListsInOrder"
+label = "statement() lists every transaction in order, numbered, then the balance"
+
+[[hints]]
+text = "First objective: in `Transaction.java`, `public sealed interface Transaction permits Deposit, Withdraw, Transfer {}`. Now a switch over a transaction needs no `default`."
+[[hints]]
+text = "Start `apply` small: `switch (tx) { case Deposit d -> balance += d.cents(); ... }` with an arm for each kind, then `record(tx);` after the switch. Only the Deposit arm matters for the second objective."
+[[hints]]
+text = "Withdraw and Transfer both take money out. Give `Account` a `private void take(long cents)` that throws `new OverdraftException(...)` when `cents > balance`, and only then does `balance -= cents;`. A throw skips `record(tx)` too, so a rejected transaction leaves no trace."
+[[hints]]
+text = "Transfer is a block arm: `case Transfer t -> { take(t.cents()); t.to().apply(new Deposit(t.cents())); }`. Take first, so a refused transfer gives the receiver nothing."
+[[hints]]
+text = "`statement()`: a `StringBuilder`, a counter from 1, and an enhanced `for` over `history`. A switch expression turns each transaction into `\"deposit 100.00\"`, `\"withdraw 30.00\"` or `\"transfer 20.00 to Bob\"` with `money(...)`. Append `number + \". \" + text + \"\\n\"` per line, then `\"balance \" + money(balance)`."
+
+[[points]]
+after = 3
+prompt = "Where does the overdraft check go?"
+pick = ["Before balance changes", "After the history is recorded", "In the test", "Inside money()"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Take the cents off the balance."
+code = "balance ___ cents;"
+blank = "-="

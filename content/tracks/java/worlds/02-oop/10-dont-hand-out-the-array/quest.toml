@@ -1,0 +1,21 @@
+title = "Don't hand out the array"
+summary = "Private is not enough when a method hands out the field's array itself."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["encapsulation", "arrays"]
+
+[[quiz]]
+question = "`songs()` is `return songs;` and `songs` is a private `String[]`. What does `list.songs()[0] = \"x\";` do?"
+choices = ["It fails to compile, because the field is private", "It changes the first song inside the playlist", "It changes a copy, so the playlist is untouched"]
+answer = 1
+
+[[quiz]]
+question = "Which version of `songs()` keeps the playlist safe?"
+choices = ["`return songs.clone();`", "`return songs;` with the method made private", "`return this.songs;`"]
+answer = 0
+
+[[quiz]]
+question = "A getter hands back a private `int count`. Can a caller change the field through it?"
+choices = ["Yes, by assigning to what the getter handed back", "Yes, but only from inside a loop", "No: the caller gets a copy of the number"]
+answer = 2

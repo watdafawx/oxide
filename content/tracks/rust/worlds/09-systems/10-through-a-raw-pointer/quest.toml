@@ -1,0 +1,29 @@
+title = "Aside: through a raw pointer"
+summary = "A pointer is an address. Write through a *mut, read through a *const, and check for null first."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["unsafe", "raw-pointers", "aside"]
+
+[[objectives]]
+test = "writes_through_mut_pointer"
+label = "increment adds 1 through a *mut i32"
+[[objectives]]
+test = "null_pointer_gives_none"
+label = "read_or_none returns None for a null pointer and the value otherwise"
+
+[[hints]]
+text = "Following a pointer is `*ptr`, the same star as for references, but it has to sit inside `unsafe { ... }`. `ptr.is_null()` needs no unsafe."
+[[hints]]
+text = "`increment`: `unsafe { *ptr += 1; }`. `read_or_none`: `if ptr.is_null() { None } else { Some(unsafe { *ptr }) }`. Put a `// SAFETY:` comment above each block."
+
+[[points]]
+after = 3
+prompt = "Which step needs `unsafe`?"
+pick = ["making a raw pointer", "calling is_null", "following it with *", "printing it"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Check the pointer before following it."
+code = "if ptr.___() { return None; }"
+blank = "is_null"

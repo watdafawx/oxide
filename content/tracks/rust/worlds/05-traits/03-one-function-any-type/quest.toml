@@ -1,0 +1,29 @@
+title = "One function, any shape"
+summary = "Write a loop once for every type that implements your trait: a generic function."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["generics", "trait-bounds"]
+
+[[objectives]]
+test = "total_area_works_for_any_shape"
+label = "total_area adds up a row of circles and a row of squares"
+[[objectives]]
+test = "biggest_picks_the_largest_area"
+label = "biggest returns the shape with the largest area"
+
+[[hints]]
+text = "Both bodies loop over `shapes` and call `.area()` on each one. The bound `T: Shape` is what allows that call."
+[[hints]]
+text = "`total_area`: `shapes.iter().map(|s| s.area()).sum()`. `biggest`: start with `let mut best = &shapes[0];`, then `for s in shapes { if s.area() > best.area() { best = s; } }` and return `best`."
+
+[[points]]
+after = 2
+prompt = "In `fn total_area<T>(shapes: &[T])`, what is `T`?"
+pick = ["one value from the slice", "a trait", "a type each call fills in", "a variable that can change"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Allow `area()` on every T."
+code = "fn biggest<T___>(shapes: &[T]) -> &T {"
+blank = ": Shape"

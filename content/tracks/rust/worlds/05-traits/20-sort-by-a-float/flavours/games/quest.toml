@@ -1,0 +1,25 @@
+title = "Sort by a decimal"
+summary = "f64 is not Ord: compare mob speeds with total_cmp in max_by and sort_by."
+
+[[objectives]]
+test = "fastest_finds_the_quickest_mob"
+label = "fastest returns the mob with the highest speed"
+[[objectives]]
+test = "sort_by_speed_orders_mobs"
+label = "sort_by_speed sorts from slowest to fastest"
+
+[[hints]]
+text = "Both use a closure that gets two mobs, `|a, b|`, and returns their `Ordering`: compare `a.speed` with `b.speed` using `total_cmp`."
+[[hints]]
+text = "`mobs.iter().max_by(|a, b| a.speed.total_cmp(&b.speed))` and `mobs.sort_by(|a, b| a.speed.total_cmp(&b.speed));`."
+
+[[points]]
+after = 2
+prompt = "Why does `max_by_key(|m| m.speed)` refuse an f64?"
+pick = ["f64 is too big", "f64 is not Ord, because of NaN", "keys must be text", "max_by_key needs a Vec"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Pick the smallest by an f64 field."
+code = "players.iter().___(|a, b| a.health.total_cmp(&b.health))"
+blank = "min_by"

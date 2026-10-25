@@ -1,0 +1,32 @@
+title = "A table every file sees"
+summary = "Read the game's own items through the global data, and stop leaking globals of your own."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["globals", "data-raw"]
+
+[[objectives]]
+test = "reads_stack_sizes_from_data_raw"
+label = "stack_of(name) gives the stack size from the game's data.raw (iron-plate is 100)"
+
+[[objectives]]
+test = "total_stacks_leaves_no_globals"
+label = "total_stacks(names) adds the stack sizes up without creating a global"
+
+[[hints]]
+text = "Delete the `local data = ...` line at the top: it hides the game's table. Then `stack_of` can read `data.raw.item[name]`."
+
+[[hints]]
+text = "`stack_of` is `return data.raw.item[name].stack_size`. In `total_stacks`, write `local total = 0` instead of `total = 0`."
+
+[[points]]
+after = 2
+prompt = "What does a name get when it is first written without `local`?"
+pick = ["it becomes local to the file", "it is an error", "it becomes a global", "it is nil forever"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Read the iron plate's stack size from the game's table."
+code = "local size = ___.raw.item[\"iron-plate\"].stack_size"
+blank = "data"

@@ -1,0 +1,25 @@
+title = "Set once, never again"
+summary = "Mark the fields that must never change after the constructor with final."
+
+[[objectives]]
+test = "typeIsFinal"
+label = "The type field is final"
+[[objectives]]
+test = "hurtLowersHealth"
+label = "hurt(n) takes n from health, which stays changeable"
+
+[[hints]]
+text = "`final` goes after `private` on the type line only. Health has to change in `hurt`, so it cannot be final."
+[[hints]]
+text = "`private final String type;`. In `hurt`: `this.health = this.health - amount;`."
+
+[[points]]
+after = 1
+prompt = "Where may a final field get its value?"
+pick = ["In any method", "In the constructor", "Nowhere", "Only in a test"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which field should be final?"
+pick = ["Health that changes", "The mob's type", "A kill count", "A loop counter"]
+answer = 1

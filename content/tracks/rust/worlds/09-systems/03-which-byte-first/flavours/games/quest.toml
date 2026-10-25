@@ -1,0 +1,25 @@
+title = "Which byte of the protocol version comes first?"
+summary = "The protocol version is four bytes, and there are two orders to send them in. Write it both ways and read it back."
+
+[[objectives]]
+test = "protocol_encodes_both_byte_orders"
+label = "protocol_to_le / protocol_to_be return the 4 bytes of a u32 in the right order"
+[[objectives]]
+test = "protocol_decodes_from_arrays"
+label = "protocol_from_le / protocol_from_be turn 4 bytes back into the same version"
+
+[[hints]]
+text = "Every integer type has methods for this: `to_le_bytes` and `to_be_bytes` one way, `u32::from_le_bytes` and `u32::from_be_bytes` the other."
+[[hints]]
+text = "`n.to_le_bytes()`, `n.to_be_bytes()`, `u32::from_le_bytes(bytes)`, `u32::from_be_bytes(bytes)`: one line each."
+
+[[points]]
+after = 2
+prompt = "Which byte order puts the small end first?"
+pick = ["big-endian", "network order", "little-endian", "mixed"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Get the bytes of the version, big end first."
+code = "let bytes = protocol.___();"
+blank = "to_be_bytes"

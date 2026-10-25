@@ -1,0 +1,36 @@
+title = "Your first item"
+summary = "Add kit-alloy to data.raw with data:extend: a type, a name, an icon and a stack size."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["items", "data-extend"]
+
+[[objectives]]
+test = "item_is_registered"
+label = "data.raw.item[\"kit-alloy\"] exists and is an item"
+
+[[objectives]]
+test = "item_has_mandatory_fields"
+label = "the item passes the field check (it has an icon and a stack size)"
+
+[[objectives]]
+test = "stack_size_is_100"
+label = "a stack holds 100 kit-alloy"
+
+[[hints]]
+text = "Two fields are missing from the `kit-alloy` table: its picture and how many fit in a slot."
+
+[[hints]]
+text = "Add `icon = \"__base__/graphics/icons/iron-plate.png\",` and `stack_size = 100,` inside the table."
+
+[[points]]
+after = 2
+prompt = "Fill in the prototype's type."
+code = "{\n  type = ___,\n  name = \"kit-bolt\",\n  stack_size = 200,\n}"
+blank = "\"item\""
+
+[[points]]
+after = 4
+prompt = "Which field must be a whole number of at least 1?"
+pick = ["icon", "name", "stack_size", "type"]
+answer = 2

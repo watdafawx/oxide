@@ -1,0 +1,33 @@
+title = "Parameters and arguments"
+summary = "The slot in the definition and the value in the call: two words docs use all the time."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["parameters", "arguments", "functions"]
+requires = []
+
+[[objectives]]
+test = "price_grows_with_toppings"
+label = "pizza_price(toppings) is 7 plus 1.5 per topping"
+
+[[objectives]]
+test = "order_price_counts_every_pizza"
+label = "order_price(pizzas, toppings) is that price times the number of pizzas"
+
+[[hints]]
+text = "`pizza_price` has one parameter, `toppings`. `order_price` has two, in the order the objective names them: `pizzas` first, then `toppings`."
+
+[[hints]]
+text = "`function M.pizza_price(toppings) return 7 + toppings * 1.5 end` and `function M.order_price(pizzas, toppings) return pizzas * (7 + toppings * 1.5) end`."
+
+[[points]]
+after = 2
+prompt = "In the call `M.pizza_price(3)`, what is the 3?"
+pick = ["the parameter", "the argument", "the return value", "the function"]
+answer = 1
+
+[[points]]
+after = 3
+prompt = 'With `function M.drink_price(size, cans)`, what is `size` in the call `M.drink_price(4, "large")`?'
+pick = ['"large"', "nil", "4", "an error"]
+answer = 2

@@ -1,0 +1,29 @@
+title = "A pop-up on top"
+summary = "Show a Level up! box over the screen with egui::Modal, and close it with Continue."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["egui", "modal", "closures"]
+
+[[objectives]]
+test = "the_modal_shows_the_new_level"
+label = "with a level-up waiting, a modal shows Level up!, You reached level 3 and a Continue button"
+[[objectives]]
+test = "continue_closes_it"
+label = "clicking Continue closes the modal and clears level_up"
+
+[[hints]]
+text = "Make `let mut close = false;`, then `let response = egui::Modal::new(egui::Id::new(\"level_up\")).show(ctx, |ui| { .. });` with a heading, a label and a Continue button inside that sets `close = true`. After it, clear `self.level_up` when `close || response.should_close()`."
+[[hints]]
+text = "Inside the closure: `ui.heading(\"Level up!\"); ui.label(format!(\"You reached level {level}\")); if ui.button(\"Continue\").clicked() { close = true; }`. After: `if close || response.should_close() { self.level_up = None; }`."
+
+[[points]]
+after = 2
+prompt = "Where does the modal's content go?"
+pick = ["In a closure passed to show", "In a separate window struct", "In quest.toml", "After the modal returns"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Close the modal on Esc or a click outside, too."
+code = "if close || response.___() {\n    self.level_up = None;\n}"
+blank = "should_close"

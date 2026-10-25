@@ -1,0 +1,29 @@
+title = "Walk a map"
+summary = "Loop over every key and value pair with entrySet, and find the top scorer."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["map", "entry", "loops"]
+
+[[objectives]]
+test = "topScorerHasTheHighestScore"
+label = "topScorer returns the name with the highest score"
+[[objectives]]
+test = "passingListsEveryNameAtOrAboveMin"
+label = "passing returns every name whose score is at least min"
+
+[[hints]]
+text = "Loop with `for (Map.Entry<String, Integer> e : scores.entrySet())`. `e.getKey()` is the name, `e.getValue()` the score. For topScorer, keep a champion name and its score."
+[[hints]]
+text = "topScorer: `String best = null; int bestScore = Integer.MIN_VALUE;` then in the loop `if (e.getValue() > bestScore) { best = e.getKey(); bestScore = e.getValue(); }`. passing: `if (e.getValue() >= min) { out.add(e.getKey()); }`."
+
+[[points]]
+after = 2
+prompt = "Which method gives you every key and value pair?"
+pick = ["keySet", "values", "entrySet", "pairs"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Read the value out of one entry."
+code = "int score = e.___();"
+blank = "getValue"

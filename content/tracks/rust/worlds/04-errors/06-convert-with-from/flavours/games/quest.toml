@@ -1,0 +1,25 @@
+title = "Convert with From"
+summary = "Keep the From promise so ? turns a ParseIntError into a ManifestError."
+
+[[objectives]]
+test = "from_wraps_into_bad_version"
+label = "ManifestError::from(parse error) is BadVersion(parse error)"
+[[objectives]]
+test = "pack_fingerprint_stops_at_the_first_error"
+label = "pack_fingerprint adds every version and returns the first error"
+
+[[hints]]
+text = "`from` has one line: build the variant that holds a `ParseIntError`. In `pack_fingerprint`, start with `let mut total = 0;`."
+[[hints]]
+text = "`from`: `ManifestError::BadVersion(e)`. `pack_fingerprint`: `for version in versions { total += parse_version(version)?; }` then `Ok(total)`."
+
+[[points]]
+after = 1
+prompt = "On an Err, what does ? do?"
+pick = ["Panics with the message", "Returns the error from your function", "Skips to the next mod", "Turns it into 0"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Say a ParseIntError can become a ManifestError."
+code = "impl ___<ParseIntError> for ManifestError {"
+blank = "From"

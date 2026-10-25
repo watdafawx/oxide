@@ -1,12 +1,20 @@
-title = "Read: a Download that nobody awaits"
-summary = "A future does nothing until it is polled, and a blocking call freezes every other download."
+title = "Nothing happens until you await"
+summary = "A future does nothing until it is polled. What polling and waking mean, and the bug of a forgotten .await."
 
 [[quiz]]
-question = "You call `download(jar)` (an async fn), store the result in a variable, and never .await it. What happens?"
-choices = ["Nothing runs: the future is never polled", "The download still runs in the background, just a bit later", "The launcher panics when the variable goes out of scope"]
-answer = 0
+question = "You call `install_jar(3)` (an async fn), keep the result in a variable, and never .await it. What happens?"
+choices = [
+  "The jar is installed in the background, a little later",
+  "Nothing: the future is never polled, so its body never runs",
+  "The launcher panics when the variable goes out of scope",
+]
+answer = 1
 
 [[quiz]]
-question = "Inside an async fn that downloads a jar you call std::thread::sleep(Duration::from_secs(5)) to wait before a retry. What is the problem?"
-choices = ["It does not compile, because std::thread::sleep is not allowed in async fn", "It is fine: the runtime swaps downloads automatically while this one sleeps", "It blocks the thread, so other downloads on it freeze"]
+question = "A polled future reaches `.await` on a mod download that has no answer yet. What does it do?"
+choices = [
+  "It holds the thread and checks the network in a loop until the bytes arrive",
+  "It throws away its progress and starts again from its first line on the next poll",
+  "It answers \"not ready\" and is polled again once its waker says the answer arrived",
+]
 answer = 2

@@ -1,0 +1,26 @@
+title = "Who runs the future?"
+summary = "A runtime drives futures. Start tokio by hand, then see what #[tokio::main] writes for you."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["async", "tokio", "runtime", "attribute"]
+
+[[objectives]]
+test = "describe_now_runs_the_future_to_the_end"
+label = "describe_now(7) gives the status line from plain code, with its own runtime"
+
+[[hints]]
+text = "Two steps: `Runtime::new()` starts tokio (it returns a `Result`, so `.unwrap()` it), then `block_on` on that runtime runs a future and hands back its value."
+[[hints]]
+text = "`let rt = Runtime::new().unwrap();` then `rt.block_on(describe(id))` as the last line."
+
+[[points]]
+after = 1
+prompt = "Which call runs a future to the end from plain code?"
+pick = ["spawn", "block_on", "await", "join"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Let tokio start the program."
+code = "#[___]\nasync fn main() {\n    sync_feed().await;\n}"
+blank = "tokio::main"

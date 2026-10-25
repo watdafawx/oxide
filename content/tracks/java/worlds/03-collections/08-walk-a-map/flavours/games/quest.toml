@@ -1,0 +1,25 @@
+title = "Walk a map"
+summary = "Loop over every mod id and download count with entrySet, and find the most downloaded mod."
+
+[[objectives]]
+test = "mostDownloadedHasTheMostDownloads"
+label = "mostDownloaded returns the mod id with the most downloads"
+[[objectives]]
+test = "popularListsEveryIdAtOrAboveMin"
+label = "popular returns every mod id with at least min downloads"
+
+[[hints]]
+text = "Loop with `for (Map.Entry<String, Integer> e : downloads.entrySet())`. `e.getKey()` is the mod id, `e.getValue()` its downloads. For mostDownloaded, keep a champion id and its count."
+[[hints]]
+text = "mostDownloaded: `String best = null; int bestCount = Integer.MIN_VALUE;` then in the loop `if (e.getValue() > bestCount) { best = e.getKey(); bestCount = e.getValue(); }`. popular: `if (e.getValue() >= min) { out.add(e.getKey()); }`."
+
+[[points]]
+after = 2
+prompt = "Which method gives you every key and value pair?"
+pick = ["keySet", "values", "entrySet", "pairs"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Read the value out of one entry."
+code = "int downloads = e.___();"
+blank = "getValue"

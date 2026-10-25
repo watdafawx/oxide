@@ -1,0 +1,35 @@
+title = "Boss: the dashboard"
+summary = "The dashboard window drawn from scratch, with the web server from the last quest going live beside it."
+kind = "boss"
+xp = 400
+minutes = 45
+tags = ["boss", "gpui", "web"]
+
+[[objectives]]
+test = "window_cards_fit"
+label = "cards fill as many columns as the width allows"
+[[objectives]]
+test = "cards_show_now_avg_peak"
+label = "each card shows now, avg, peak, and a gauge for percentages"
+[[objectives]]
+test = "layout_editor_applies"
+label = "hidden cards are not drawn"
+[[objectives]]
+test = "theme_switches"
+label = "another theme still draws everything"
+[[objectives]]
+test = "web_json_matches_window"
+label = "the web JSON and the window show the same text"
+[[objectives]]
+test = "key_required"
+label = "the web API needs the key"
+[[objectives]]
+test = "server_answers_on_localhost"
+label = "serve_dashboard, from the last quest, answers on 127.0.0.1"
+
+[[hints]]
+text = "`render` in order: `cx.global::<Settings>().dashboard.clone()`, `window.viewport_size().width`, `columns_for`, the card width, `let t = theme(settings.theme);`; then `let bar = self.bar.read(cx);` and the cards from `visible_cards(&settings.hidden)`."
+[[hints]]
+text = "Each `Card`: `kind`, `numbers: card_numbers(bar, kind)`, `share: value.and_then(|v| bar_share(kind, v))` with `value` from `bar.snapshot.get(&kind).copied()`, the history line from the lesson with `kind`, `theme: t`, `text_size: card_text_size(card_width)`. Collect them into a `Vec<Card>`."
+[[hints]]
+text = "The outer `div`: `div().debug_selector(|| \"dashboard\".into()).size_full().p_4().bg(rgb(t.background)).grid().grid_cols(columns as u16).gap_4().children(cards)`"

@@ -1,0 +1,25 @@
+title = "Read every mod"
+summary = "Turn a SELECT with many rows into a Vec: prepare, query_map, collect."
+
+[[objectives]]
+test = "list_mods_returns_every_row_in_id_order"
+label = "list_mods() gives every row as an InstalledMod, oldest id first"
+[[objectives]]
+test = "a_to_z_sorts_names_alphabetically"
+label = "a_to_z() gives the mod names in alphabetical order"
+
+[[hints]]
+text = "Three steps: `let mut stmt = conn.prepare(sql)?;`, then `stmt.query_map([], |row| ...)?`, then `.collect()`. Inside the closure, each `row.get(n)?` reads one column; wrap the finished `InstalledMod` in `Ok(..)`."
+[[hints]]
+text = "`let mut stmt = conn.prepare(\"SELECT id, name, enabled FROM mods ORDER BY id\")?;` then `stmt.query_map([], |row| Ok(InstalledMod { id: row.get(0)?, name: row.get(1)?, enabled: row.get(2)? }))?.collect()`. For `a_to_z`: `\"SELECT name FROM mods ORDER BY name\"` and `|row| row.get(0)`."
+
+[[points]]
+after = 2
+prompt = "What does query_map hand back?"
+pick = ["A Vec of rows, ready to use", "One Result per row, one after the other", "Only the first row", "The number of rows"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Turn the rows into Result<Vec<_>>."
+code = "stmt.query_map([], |row| row.get(0))?.___()"
+blank = "collect"

@@ -1,0 +1,24 @@
+title = "Text size"
+summary = "The Appearance page's font size, kept between 8 and 24 pixels."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["gpui", "clamp"]
+
+[[objectives]]
+test = "font_size_is_clamped"
+label = "bar_text_size keeps 13 at 13, lifts 4 to 8, caps 40 at 24"
+[[objectives]]
+test = "bigger_font_makes_wider_label"
+label = "a 20-pixel bar draws wider labels than a 12-pixel one"
+
+[[hints]]
+text = "In `bar_text_size`, call `clamp` on `setting` with the smallest and largest size, inside the `px(..)`."
+[[hints]]
+text = "`px(setting.clamp(8.0, 24.0))`"
+
+[[points]]
+after = 2
+prompt = "What is 40.0_f32.clamp(8.0, 24.0)?"
+pick = ["40.0", "8.0", "24.0", "32.0"]
+answer = 2

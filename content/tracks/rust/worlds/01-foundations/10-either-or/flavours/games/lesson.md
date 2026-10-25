@@ -20,6 +20,8 @@ fn sword_damage(tier: u32) -> u32 {
 }
 ```
 
+**If this is new.** Programming 101 explains `if` and `else` from zero: [Only sometimes](/quest/basics/03-decisions/01-only-sometimes).
+
 ## Your turn
 
 - In `stack_limit`, return 1 for a tool and 64 otherwise.

@@ -1,0 +1,25 @@
+title = "Take it out"
+summary = "You can't move an item out of the middle of the stash. remove(i) hands it over and closes the gap."
+
+[[objectives]]
+test = "take_from_stash_hands_over_the_item"
+label = "take_from_stash(&mut stash, \"diamond\") gives back Some(\"diamond\") and the stash no longer has it"
+[[objectives]]
+test = "take_missing_item_gives_none"
+label = "take_from_stash of something that isn't there gives back None and changes nothing"
+
+[[hints]]
+text = "Walk the positions with `for i in 0..stash.len()`, compare `stash[i] == item`, and leave with `return` as soon as you find it."
+[[hints]]
+text = "`if stash[i] == item { return Some(stash.remove(i)); }` inside the loop, and `None` after it."
+
+[[points]]
+after = 2
+prompt = "What does `stash.remove(2)` give you?"
+pick = ["a borrow of item 2", "a copy of item 2", "item 2 itself, owned", "nothing"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Hand over the matching item."
+code = "if stash[i] == item {\n    return Some(stash.___(i));\n}"
+blank = "remove"

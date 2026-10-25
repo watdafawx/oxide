@@ -1,0 +1,29 @@
+title = "Text for the quest card"
+summary = "Turn quest rows into the lines the screen will draw, as plain functions. A quick win."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["strings", "formatting", "view-model"]
+
+[[objectives]]
+test = "quest_line_shows_a_checkbox"
+label = "quest_line gives \"[x] Loops\" for a finished quest and \"[ ] Loops\" for an open one"
+[[objectives]]
+test = "progress_summary_counts_finished_quests"
+label = "progress_summary gives \"2 of 3 quests done\""
+
+[[hints]]
+text = "`if done { .. } else { .. }` picks the mark, and `format!` joins it to the title. For the summary, count the pairs whose bool is true with `.iter().filter(..).count()`."
+[[hints]]
+text = "`let mark = if done { \"[x]\" } else { \"[ ]\" }; format!(\"{mark} {title}\")` and `let done = quests.iter().filter(|(_, d)| *d).count(); format!(\"{done} of {} quests done\", quests.len())`."
+
+[[points]]
+after = 1
+prompt = "Pick the mark with an if expression."
+code = "let mark = ___;"
+blank = "if done { \"[x]\" } else { \"[ ]\" }"
+[[points]]
+after = 2
+prompt = "In |(_, d)|, what does the _ do?"
+pick = ["Skips the first half of the pair", "Matches only empty titles", "Counts the pair twice", "Turns the title into a bool"]
+answer = 0

@@ -1,0 +1,21 @@
+title = "What a method and a class are"
+summary = "Name the two words you have used since the first quest."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["methods", "classes"]
+
+[[quiz]]
+question = "What happens when code writes `twice(\"hi\")`?"
+choices = ["Java defines a brand-new method named twice, with no steps yet", "Java runs the steps in `twice` with `\"hi\"` and uses the result", "Java prints the word hi on the screen two times"]
+answer = 1
+
+[[quiz]]
+question = "In worlds 00 and 01, what was `public class Badge { ... }` around your methods for?"
+choices = ["A box holding the methods, named like the file", "It made every method inside it run two times", "It turned the methods inside it into plain text"]
+answer = 0
+
+[[quiz]]
+question = "Which of these is a call, not a method being written?"
+choices = ["`public static int doubled(int n) {`", "`return n * 2;`", "`doubled(21)`"]
+answer = 2

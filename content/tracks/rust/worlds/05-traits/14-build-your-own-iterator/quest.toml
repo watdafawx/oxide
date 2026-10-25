@@ -1,0 +1,29 @@
+title = "Build your own iterator"
+summary = "Implement Iterator for a countdown: one method, next."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["iterator", "traits"]
+
+[[objectives]]
+test = "next_counts_down_then_stops"
+label = "next() gives 3, 2, 1, then None"
+[[objectives]]
+test = "countdown_collects_like_a_range"
+label = "Countdown::new(5).collect() is [5, 4, 3, 2, 1]"
+
+[[hints]]
+text = "`next` has two cases: at 0 there is nothing left, so `None`. Otherwise remember the current `n`, count `self.n` down by one, and hand back the remembered value."
+[[hints]]
+text = "`if self.n == 0 { None } else { let value = self.n; self.n -= 1; Some(value) }`."
+
+[[points]]
+after = 2
+prompt = "Name the element type."
+code = "impl Iterator for Up {\n    type ___ = u32;"
+blank = "Item"
+[[points]]
+after = 3
+prompt = "Why does next take &mut self?"
+pick = ["so it can return a reference", "the iterator changes where it is on every call", "all trait methods must", "so the caller can't use it"]
+answer = 1

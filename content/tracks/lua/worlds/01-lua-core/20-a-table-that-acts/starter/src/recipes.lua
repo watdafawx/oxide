@@ -12,7 +12,7 @@ function M.new(name, counts)
 
   -- "pancakes: 6 items"
   function recipe:describe()
-    -- TODO: self.name, ": ", self:total_items(), " items"
+    -- TODO: the name, a colon and space, the total from the other method, then " items"
     return nil
   end
 

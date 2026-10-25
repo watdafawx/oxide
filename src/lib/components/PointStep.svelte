@@ -7,9 +7,24 @@
   let wrong = $state<number[]>([]);
   let value = $state("");
   const isPick = $derived(point.pick.length > 0);
+  // Show choices in a shuffled order so the right answer isn't always in the same spot.
+  // Seeded by the prompt, so the order stays put while the learner retries.
+  const order = $derived(shuffled(point.pick.length, point.prompt));
   const parts = $derived(point.code ? point.code.split("___") : null);
   const blankOk = $derived(point.blank !== null && value === point.blank);
   $effect(() => { if (blankOk && !solved) onsolve(); });
+
+  function shuffled(n: number, seed: string): number[] {
+    let h = 2166136261;
+    for (let c = 0; c < seed.length; c++) h = Math.imul(h ^ seed.charCodeAt(c), 16777619);
+    const idx = Array.from({ length: n }, (_, i) => i);
+    for (let i = n - 1; i > 0; i--) {
+      h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0;
+      const j = h % (i + 1);
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    return idx;
+  }
 
   function choose(i: number) {
     if (solved) return;
@@ -22,7 +37,8 @@
   <p class="text-2xl leading-snug font-semibold">{@html renderInline(point.prompt, lang)}</p>
   {#if isPick}
     <div class="mt-5 flex flex-wrap gap-2">
-      {#each point.pick as tok, i}
+      {#each order as i (i)}
+        {@const tok = point.pick[i]}
         <button
           class="rounded-lg border px-4 py-1.5 font-mono text-xl {solved && i === point.answer ? 'border-ok bg-ok/10 text-ok' : wrong.includes(i) ? 'border-bad bg-bad/10 text-bad' : 'border-line bg-panel-2 hover:border-rust'}"
           onclick={() => choose(i)} data-testid="pick" data-state={solved && i === point.answer ? "right" : wrong.includes(i) ? "wrong" : ""}

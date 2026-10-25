@@ -1,0 +1,26 @@
+title = "Thirty seconds left"
+summary = "The feed only sends the clock. Fire \"overtime\" and \"30 seconds left\" once each, at the right moment."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["state-machine", "flags"]
+
+[[objectives]]
+test = "thirty_seconds_fires_once"
+label = "30 seconds left fires once as the clock passes 30, never in overtime; overtime fires once"
+
+[[hints]]
+text = "Overtime: `if game.overtime && !self.overtime { .. }`, then `self.overtime = game.overtime;`. The 30 seconds: an `if` for a clock above 30 (arm it), an `else if` for firing."
+[[hints]]
+text = "`if game.time_seconds > 30 { self.thirty_armed = true; } else if !game.overtime && self.thirty_armed { self.thirty_armed = false; moments.push(Moment::ThirtySecondsLeft); }`"
+
+[[points]]
+after = 1
+prompt = "Overtime has lasted 40 updates. How many times should Overtime fire?"
+pick = ["40", "once, when it starts", "never", "every 30 seconds"]
+answer = 1
+[[points]]
+after = 3
+prompt = "What stops \"30 seconds left\" firing on every update below 30?"
+pick = ["the clock only sends once", "the grace period", "the armed flag, cleared when it fires", "goal dedup"]
+answer = 2

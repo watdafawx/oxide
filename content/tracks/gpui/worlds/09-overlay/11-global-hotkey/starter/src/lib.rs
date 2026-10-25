@@ -75,7 +75,7 @@ use ferrisetw::{native::EvntraceNativeError, trace::TraceError};
 
 /// Ctrl+Shift+F10 shows or hides the overlay, even inside a game.
 pub fn overlay_hotkey() -> HotKey {
-    HotKey::new(None, Code::F10) // TODO: Control and Shift too
+    HotKey::new(None, Code::F10) // TODO: F10 with Control and Shift held
 
 }
 
@@ -93,7 +93,7 @@ pub enum HotkeyAction {
 
 /// A hotkey event to an action: only on the press, never on the release.
 pub fn hotkey_action(event: &GlobalHotKeyEvent) -> Option<HotkeyAction> {
-    // TODO: only a Pressed event counts
+    // TODO: a released key does nothing: only a press goes on
     if event.id == overlay_hotkey().id() {
         Some(HotkeyAction::ToggleOverlay)
     } else if event.id == benchmark_hotkey().id() {

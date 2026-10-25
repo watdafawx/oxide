@@ -1,0 +1,29 @@
+title = "Move a product"
+summary = "remove takes an item out and hands it back; insert puts one at a position."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["vec", "insert", "remove"]
+
+[[objectives]]
+test = "move_to_front_puts_the_product_first"
+label = "move_to_front takes the product at a position and puts it first"
+[[objectives]]
+test = "move_to_back_puts_the_product_last"
+label = "move_to_back takes the product at a position and puts it last"
+
+[[hints]]
+text = "`let product = shelf.remove(index);` takes it out and hands it to you. Then put it back where it belongs."
+[[hints]]
+text = "Front: `shelf.insert(0, product);`. Back: `shelf.push(product);`."
+
+[[points]]
+after = 1
+prompt = "What does `shelf.remove(1)` give you?"
+pick = ["nothing", "the new length", "the product that was at position 1", "a bool"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Put `lamp` at the very front."
+code = "shelf.___(0, lamp);"
+blank = "insert"

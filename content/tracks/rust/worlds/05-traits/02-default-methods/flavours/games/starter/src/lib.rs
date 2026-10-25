@@ -2,7 +2,7 @@ pub trait Entity {
     fn name(&self) -> String;
 
     fn is_hostile(&self) -> bool {
-        // TODO: mobs are peaceful unless they say otherwise: return false
+        // TODO: mobs are peaceful unless they say otherwise
         todo!()
     }
 
@@ -12,7 +12,7 @@ pub trait Entity {
     }
 
     fn alert(&self) -> String {
-        // TODO: return self.announce() in uppercase
+        // TODO: return this mob's announce() in uppercase
         todo!()
     }
 }
@@ -33,7 +33,7 @@ impl Entity for Zombie {
     }
 
     fn is_hostile(&self) -> bool {
-        // TODO: zombies are hostile: return true
+        // TODO: zombies are hostile
         todo!()
     }
 

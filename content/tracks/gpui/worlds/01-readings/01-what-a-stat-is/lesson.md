@@ -4,16 +4,18 @@ Kinetik Stats puts a strip of numbers on your taskbar: CPU, GPU, RAM, network, p
 
 **Short labels.** With icons switched off, Kinetik writes a short label instead, like `CPU` or `RAM`. Two kinds can share one: CPU usage and CPU temperature both say `CPU`, and the number next to it tells them apart.
 
-**One arm per kind.** `label` is a `match` on `self`. Three arms are written, and the `_` arm catches the rest with `?` for now:
+**One arm per kind.** `label` is a `match` on `self`. Three arms are written, and the `_` arm catches the rest with `?` for now. Each arm is a kind, an arrow, and the text:
 
 ```rust
-StatKind::GpuUsage => "GPU",
+StatKind::RamUsed => "RAM",
 ```
 
 **Then drop the catch-all.** Once all nine arms are there, delete `_ => "?"`. If a tenth kind is added later, the compiler then points at this `match` until the new kind gets a label too.
 
+**For the curious.** One arm can cover several kinds with `|`, read "or": `StatKind::CpuUsage | StatKind::CpuTemp => "CPU",`. Both ways compile to the same thing.
+
 ## Your turn
 
-- In `label`, add an arm for each missing kind: `GpuUsage` and `GpuTemp` say `"GPU"`, `NetDown` and `NetUp` say `"NET"`, `Ping` says `"PING"`, `Battery` says `"BAT"`.
+- In `label`, give each of the six missing kinds its label: both GPU kinds say `GPU`, both network kinds `NET`, ping `PING` and the battery `BAT`.
 - Delete the `_ => "?"` arm.
 - Save. Press Run to see every label.

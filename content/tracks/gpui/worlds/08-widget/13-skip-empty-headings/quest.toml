@@ -1,0 +1,29 @@
+title = "Skip empty headings"
+summary = "Each heading with its stats, in the fixed order, and no heading without any."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["iterator", "loop", "tuple"]
+
+[[objectives]]
+test = "stats_land_under_their_heading_in_heading_order"
+label = "RAM, CPU temperature, GPU and CPU usage come out as Processor, Graphics, Memory with their stats"
+[[objectives]]
+test = "empty_headings_are_skipped"
+label = "ping and battery give only Network and Battery; no stats, no headings"
+
+[[hints]]
+text = "Inside `for group in GROUPS { .. }`: `let mine: Vec<StatKind> = stats.iter().copied().filter(|kind| group_of(*kind) == group).collect();`, then `continue` if it is empty."
+[[hints]]
+text = "`let mut groups = Vec::new(); for group in GROUPS { let mine: Vec<StatKind> = stats.iter().copied().filter(|kind| group_of(*kind) == group).collect(); if mine.is_empty() { continue; } groups.push((group, mine)); } groups`"
+
+[[points]]
+after = 2
+prompt = "Why walk GROUPS rather than the stats?"
+pick = ["GROUPS is shorter", "stats cannot be looped over", "it is faster", "the headings then come out in the fixed order"]
+answer = 3
+[[points]]
+after = 3
+prompt = "What does continue do inside a for loop?"
+pick = ["skips to the next item", "ends the loop", "repeats the same item", "returns from the function"]
+answer = 0

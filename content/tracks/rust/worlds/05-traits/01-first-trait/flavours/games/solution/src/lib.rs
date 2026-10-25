@@ -34,7 +34,6 @@ mod tests {
 
     #[test]
     fn creeper_describes_itself() {
-        let c = Creeper { fuse: 30 };
-        assert_eq!(c.describe(), "creeper (fuse 30)");
+        assert_eq!(Creeper { fuse: 30 }.describe(), "creeper (fuse 30)");
     }
 }

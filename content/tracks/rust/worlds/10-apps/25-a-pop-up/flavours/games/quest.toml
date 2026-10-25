@@ -1,0 +1,25 @@
+title = "A pop-up on top"
+summary = "Show a Tier up! box over the screen with egui::Modal, and close it with Continue."
+
+[[objectives]]
+test = "the_modal_shows_the_new_tier"
+label = "with a tier-up waiting, a modal shows Tier up!, You reached tier 3 and a Continue button"
+[[objectives]]
+test = "continue_closes_it"
+label = "clicking Continue closes the modal and clears tier_up"
+
+[[hints]]
+text = "Make `let mut close = false;`, then `let response = egui::Modal::new(egui::Id::new(\"tier_up\")).show(ctx, |ui| { .. });` with a heading, a label and a Continue button inside that sets `close = true`. After it, clear `self.tier_up` when `close || response.should_close()`."
+[[hints]]
+text = "Inside the closure: `ui.heading(\"Tier up!\"); ui.label(format!(\"You reached tier {tier}\")); if ui.button(\"Continue\").clicked() { close = true; }`. After: `if close || response.should_close() { self.tier_up = None; }`."
+
+[[points]]
+after = 2
+prompt = "Where does the modal's content go?"
+pick = ["In a closure passed to show", "In a separate window struct", "In quest.toml", "After the modal returns"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Close the modal on Esc or a click outside, too."
+code = "if close || response.___() {\n    self.tier_up = None;\n}"
+blank = "should_close"

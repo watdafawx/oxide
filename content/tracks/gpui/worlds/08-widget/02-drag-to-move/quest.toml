@@ -10,12 +10,17 @@ test = "header_press_starts_move"
 label = "a left press on the header starts a window drag; a locked widget does not move"
 
 [[hints]]
-text = "Add `.on_mouse_down(MouseButton::Left, cx.listener(..))` to the header. Inside: return if locked, else count the move and call `(this.start_move)(window)`."
+text = "Chain `.on_mouse_down(MouseButton::Left, cx.listener(|this, _, window, cx| { .. }))` onto the header. Inside, check `cx.global::<Settings>().widget.locked` first."
 [[hints]]
 text = "`.on_mouse_down(MouseButton::Left, cx.listener(|this, _, window, cx| { if cx.global::<Settings>().widget.locked { return; } this.moves_started += 1; (this.start_move)(window); }))`"
 
 [[points]]
-after = 3
-prompt = "Why call start_move through a field instead of window.start_window_move() directly?"
-pick = ["tests swap it out: the test platform cannot move windows", "it is faster", "Windows needs a field", "to count presses"]
-answer = 0
+after = 2
+prompt = "Why start the drag from on_mouse_down and not on every mouse move?"
+pick = ["mouse moves have no window", "a move handler would start a new drag on every twitch", "on_mouse_down is faster", "Windows ignores moves"]
+answer = 1
+[[points]]
+after = 6
+prompt = "start_move is a field holding a function. How do you call it with window?"
+pick = ["this.start_move(window)", "this.start_move.call(window)", "start_move!(window)", "(this.start_move)(window)"]
+answer = 3

@@ -1,7 +1,7 @@
 local M = {}
 
 -- TODO: this table is public because it hangs on M.
--- Make it a `local recipes = {}` above `local M = {}` instead, and delete this line.
+-- Make it a local table named recipes, declared above M instead, and delete this line.
 M.recipes = {}
 
 -- store a recipe under its name

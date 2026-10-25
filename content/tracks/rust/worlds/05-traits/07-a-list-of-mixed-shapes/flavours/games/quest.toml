@@ -1,0 +1,25 @@
+title = "One mob list, every kind"
+summary = "One Vec that holds zombies and creepers for the tick loop: Box<dyn Entity>."
+
+[[objectives]]
+test = "spawn_wave_mixes_mob_types"
+label = "spawn_wave() returns a zombie and a creeper in one Vec"
+[[objectives]]
+test = "total_health_sums_boxed_mobs"
+label = "total_health adds up a slice of Box<dyn Entity>"
+
+[[hints]]
+text = "Wrap each mob in `Box::new(...)`. The return type `Vec<Box<dyn Entity>>` tells Rust to treat each box as a trait object."
+[[hints]]
+text = "`spawn_wave`: `vec![Box::new(Zombie { hp: 20 }), Box::new(Creeper { hp: 15, fuse: 30 })]`. `total_health`: `world.iter().map(|m| m.health()).sum()`."
+
+[[points]]
+after = 2
+prompt = "Why can't a Zombie and a Creeper sit in one plain Vec?"
+pick = ["Vec only holds numbers", "Creeper has no health", "the slots are one size and the two types differ", "Vec needs a trait"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Write the type of a list of any mobs."
+code = "let world: Vec<___> = Vec::new();"
+blank = "Box<dyn Entity>"

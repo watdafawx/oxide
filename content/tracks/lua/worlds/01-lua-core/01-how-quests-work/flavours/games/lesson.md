@@ -20,6 +20,10 @@ return M                      -- hand the table to whoever asks for the file
 
 **Lua 5.2.** Factorio embeds Lua 5.2, and so does Oxide, so what works here works in your mod. Tutorials online are often 5.1 or 5.4. If one disagrees with a quest, trust the quest.
 
+**If you are new to coding.** [Programming 101](/quest/basics/01-what-a-program-is/01-instructions-in-order) teaches the ideas every language shares, once and in plain words: variables, choices, loops, functions, lists. It is optional and uses Lua; skip it if you have programmed before.
+
+**If this is new.** Programming 101 explains tests and functions from zero: [What a test is](/quest/basics/01-what-a-program-is/06-what-a-test-is) and [Define and call](/quest/basics/05-functions/01-define-and-call).
+
 ## Your turn
 
 Answer the quiz, then start the next quest.

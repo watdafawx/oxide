@@ -1,0 +1,29 @@
+title = "One-number answers"
+summary = "sum adds up a chain; count says how many items came through."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["iterators", "sum", "count"]
+
+[[objectives]]
+test = "total_units_adds_every_count"
+label = "total_units adds up every count on the shelf"
+[[objectives]]
+test = "count_low_counts_with_a_chain"
+label = "count_low says how many counts are under `limit`"
+
+[[hints]]
+text = "Both are one chain ending in a consumer that gives one number: `.sum()` or `.count()`."
+[[hints]]
+text = "`counts.iter().sum()` and `counts.iter().copied().filter(|n| *n < limit).count()`."
+
+[[points]]
+after = 1
+prompt = "Which consumer adds the items up?"
+pick = ["count", "sum", "collect", "map"]
+answer = 1
+[[points]]
+after = 2
+prompt = "How many products cost over 1000?"
+code = "prices.iter().copied().filter(|p| *p > 1000).___()"
+blank = "count"

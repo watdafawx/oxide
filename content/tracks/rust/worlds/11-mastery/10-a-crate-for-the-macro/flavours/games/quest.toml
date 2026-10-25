@@ -1,0 +1,25 @@
+title = "A crate for the macro"
+summary = "Three kinds of proc macro, and why each lives in its own crate inside a workspace."
+
+[[quiz]]
+question = "Which kind of proc macro is written `#[derive(ChunkInfo)]` and adds an impl next to `struct Chunk`?"
+choices = ["A function-like macro", "A derive macro", "An attribute macro"]
+answer = 1
+
+[[quiz]]
+question = "Why must a proc macro like `#[count_loads]` live in its own crate (`proc-macro = true`)?"
+choices = [
+  "Cargo allows only one macro per crate and refuses a second one",
+  "The compiler must build it and run it while building your crate, so it cannot be part of that crate",
+  "Proc macros are slow, so Cargo keeps them in a separate crate to cache them",
+]
+answer = 1
+
+[[quiz]]
+question = "What do the crates of one workspace share?"
+choices = [
+  "One Cargo.lock and one target folder for the build output",
+  "One src/lib.rs that every crate edits",
+  "Nothing; a workspace is only a folder name",
+]
+answer = 0

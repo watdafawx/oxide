@@ -1,0 +1,25 @@
+title = "One item, three constructors"
+summary = "Short constructors that hand over to the full one with this(...), so the id and stack rules live in one place."
+
+[[objectives]]
+test = "airIsTheDefaultItem"
+label = "new Item() is \"air\" with a stack size of 64"
+[[objectives]]
+test = "shortConstructorReusesFullOne"
+label = "new Item(id) goes through the full constructor: lower-case trimmed id, stack size 64"
+
+[[hints]]
+text = "Replace the whole body of each short constructor with one `this(...)` line. `Item(String)` hands over to the two-parameter one; `Item()` can hand over to `Item(String)`."
+[[hints]]
+text = "`this(id, 64);` in `Item(String id)`, and `this(\"air\");` in `Item()`."
+
+[[points]]
+after = 2
+prompt = "Hand over to the full constructor."
+code = "public Potion(String effect) {\n    ___(effect, 180);\n}"
+blank = "this"
+[[points]]
+after = 3
+prompt = "Where must this(...) go?"
+pick = ["The first line of the constructor", "The last line", "Anywhere in a method", "Outside the class"]
+answer = 0

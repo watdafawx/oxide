@@ -1,0 +1,28 @@
+title = "Pass the error up"
+summary = "? after a Result gives you the value, or returns the error from your function right there."
+
+[[objectives]]
+test = "items_in_multiplies_two_parsed_numbers"
+label = "items_in(\"3\", \"64\") gives Ok(192)"
+[[objectives]]
+test = "items_in_passes_a_bad_number_up"
+label = "an argument that is not a number comes back as Err, not a crash"
+[[objectives]]
+test = "first_two_slots_uses_question_mark_on_option"
+label = "first_two_slots adds the first two stacks, or gives None if there are fewer"
+
+[[hints]]
+text = "Put `?` right after each `parse::<u32>()`. What is left after the `?` is the plain number, so the last line is `Ok(stacks * size)`."
+[[hints]]
+text = "`let stacks = stacks.parse::<u32>()?;`, the same for `size`, then `Ok(stacks * size)`. Option: `let a = hotbar.get(0)?; let b = hotbar.get(1)?; Some(a + b)`."
+
+[[points]]
+after = 2
+prompt = "What does `?` do with an `Err`?"
+pick = ["returns it from the function", "panics", "turns it into 0", "skips the line"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Give back the number, or pass the error up."
+code = "let stacks = stacks.parse::<u32>()___;"
+blank = "?"

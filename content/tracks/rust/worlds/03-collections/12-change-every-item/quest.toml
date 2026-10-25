@@ -1,0 +1,29 @@
+title = "Change every item"
+summary = "iter, map and collect: a whole new list from a rule, without a loop."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["iterators", "map", "collect"]
+
+[[objectives]]
+test = "with_discount_lowers_every_price"
+label = "with_discount takes `percent_off` percent off every price"
+[[objectives]]
+test = "sign_labels_are_in_capitals"
+label = "sign_labels gives back every product name in capitals"
+
+[[hints]]
+text = "Start from `prices.iter()`, change each price with `.map(...)`, and end with `.collect()`. The return type tells `collect` to build a `Vec<u32>`."
+[[hints]]
+text = "`prices.iter().map(|p| p - p * percent_off / 100).collect()` and `names.iter().map(|n| n.to_uppercase()).collect()`."
+
+[[points]]
+after = 1
+prompt = "What does `.iter()` give you?"
+pick = ["a copy of the list", "the first item", "the items one at a time", "the length"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Gather the changed prices into a new list."
+code = "let doubled: Vec<u32> = prices.iter().map(|p| p * 2).___;"
+blank = "collect()"

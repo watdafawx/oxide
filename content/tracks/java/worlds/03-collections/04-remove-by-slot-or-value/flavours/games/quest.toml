@@ -1,0 +1,25 @@
+title = "Remove by slot or by value"
+summary = "remove(1) on a List<Integer> means slot 1. Remove project id 1 instead."
+
+[[objectives]]
+test = "dropSlotRemovesThePosition"
+label = "dropSlot removes whatever mod sits at the given position"
+[[objectives]]
+test = "dropProjectRemovesTheId"
+label = "dropProject removes the project id itself, even when it is also a valid position"
+
+[[hints]]
+text = "The starter already copies the list. dropSlot: `copy.remove(slot);`. For dropProject, `copy.remove(projectId)` would be read as a position."
+[[hints]]
+text = "dropProject: `copy.remove(Integer.valueOf(projectId));` then `return copy;`."
+
+[[points]]
+after = 3
+prompt = "On a List<Integer>, what does ids.remove(1) take out?"
+pick = ["The value 1", "Every 1 in the list", "Nothing: it does not compile", "Whatever is in slot 1"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Remove project 238222, not slot 238222."
+code = "ids.remove(___(238222));"
+blank = "Integer.valueOf"

@@ -1,0 +1,53 @@
+title = "Boss: Mod downloader"
+summary = "Build the download engine of a mod manager: modpack manifest, parallel downloads, retries, progress, verify, cancel."
+
+[[objectives]]
+test = "entry_url_joins_base_and_path"
+label = "Entry::url(base) joins the server address and the file path"
+[[objectives]]
+test = "fetch_manifest_parses_entries"
+label = "fetch_manifest(base) downloads and parses manifest.json"
+[[objectives]]
+test = "download_one_writes_the_file"
+label = "download_one saves the file under dir (via a .part file, then rename)"
+[[objectives]]
+test = "retry_once_on_5xx"
+label = "download_with_retry retries a 5xx once, never retries a 404"
+[[objectives]]
+test = "download_all_fetches_everything_and_reports_progress"
+label = "download_all gets every file and sends (name, done, total) events"
+[[objectives]]
+test = "download_all_respects_max_concurrent"
+label = "Never more than max_concurrent downloads at the same time"
+[[objectives]]
+test = "verify_lists_mismatched_sizes"
+label = "verify lists files that are missing or have the wrong size"
+[[objectives]]
+test = "cancel_stops_midway_and_leaves_no_partials"
+label = "Cancelling stops download_all quickly and leaves no .part files"
+
+[[hints]]
+text = "Work in objective order; each stage uses the one before. `Entry::url` is one `format!`: `base.trim_end_matches('/')` followed by `self.path`."
+[[hints]]
+text = "`fetch_manifest` is quest 20 and 21 in one chain: `reqwest::get(format!(\"{}/manifest.json\", base.trim_end_matches('/'))).await?.error_for_status()?.json::<Vec<Entry>>().await?`, wrapped in `Ok(..)`. (`reqwest::get` is the one-request shortcut for `Client::new().get(..).send()`.)"
+[[hints]]
+text = "`download_one`: `let bytes = client.get(entry.url(base)).send().await?.error_for_status()?.bytes().await?;` then `let part = dir.join(format!(\"{}.part\", entry.name));`, `tokio::fs::write(&part, &bytes).await?;`, `tokio::fs::rename(&part, dir.join(&entry.name)).await?;` and `Ok(())`."
+[[hints]]
+text = "`download_with_retry` is a `match` with a guard (world 04): `match download_one(client, base, entry, dir).await { Err(e) if is_server_error(&e) => download_one(client, base, entry, dir).await, other => other }`."
+[[hints]]
+text = "`download_all`, part 1: `let client = reqwest::Client::new(); let semaphore = Arc::new(Semaphore::new(max_concurrent)); let total = entries.len(); let mut set = JoinSet::new();` Then for each entry clone the client and the `Arc`, and make owned copies `base.to_string()` and `dir.to_path_buf()` for the task, and `set.spawn(async move { let _permit = semaphore.acquire_owned().await?; download_with_retry(&client, &base, &entry, &dir).await?; Ok::<String, Error>(entry.name) });`."
+[[hints]]
+text = "`download_all`, part 2: `let mut done = 0; loop { tokio::select! { _ = token.cancelled() => { set.abort_all(); remove_partials(dir).await; return Err(\"cancelled\".into()); } next = set.join_next() => match next { None => return Ok(()), Some(result) => { let name = result??; done += 1; let _ = progress.send((name, done, total)).await; } } } }`."
+[[hints]]
+text = "`verify`: `let mut bad = Vec::new(); for entry in manifest { let complete = match std::fs::metadata(dir.join(&entry.name)) { Ok(meta) => meta.len() == entry.size, Err(_) => false }; if !complete { bad.push(entry.name.clone()); } } bad`."
+
+[[points]]
+after = 4
+prompt = "Which tool limits how many downloads run at once?"
+pick = ["JoinSet", "Mutex", "Semaphore", "timeout"]
+answer = 2
+[[points]]
+after = 5
+prompt = "Peel the task's two Results."
+code = "let name = result___;"
+blank = "??"

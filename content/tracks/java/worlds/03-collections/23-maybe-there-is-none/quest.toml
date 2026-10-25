@@ -1,0 +1,29 @@
+title = "Maybe there is none"
+summary = "max on an empty stream has no answer, so it hands back an Optional. Read it with map and orElse."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["stream", "optional", "max"]
+
+[[objectives]]
+test = "bestPlayerIsEmptyForNoPlayers"
+label = "bestPlayer returns an Optional: the highest scorer, or empty when there are no players"
+[[objectives]]
+test = "winnerNameFallsBackToNobody"
+label = "winnerName returns the best player's name, or \"nobody\" when there are none"
+
+[[hints]]
+text = "bestPlayer: `players.stream().max(Comparator.comparingInt(Player::score))`. winnerName: call `bestPlayer`, then `.map(Player::name)` and `.orElse(\"nobody\")`."
+[[hints]]
+text = "`return bestPlayer(players).map(Player::name).orElse(\"nobody\");`"
+
+[[points]]
+after = 2
+prompt = "What does max hand back for an empty stream?"
+pick = ["null", "0", "An empty Optional", "It stops with an error"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Unpack it, with a fallback."
+code = "String name = best.map(Player::name).___(\"nobody\");"
+blank = "orElse"

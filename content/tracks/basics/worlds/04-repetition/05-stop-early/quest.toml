@@ -1,0 +1,33 @@
+title = "Stop early"
+summary = "Find the first day your planned run goes past a distance, then stop looking."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["break", "loops", "search"]
+requires = []
+
+[[objectives]]
+test = "finds_the_first_day"
+label = "first_day_over(km) gives the first day whose planned run is longer than km"
+
+[[objectives]]
+test = "nil_when_no_day_matches"
+label = "first_day_over(km) gives nil when no day in the month gets there"
+
+[[hints]]
+text = "Loop over days 1 to 31. Inside, ask whether `planned_km(day)` is greater than `km`; if it is, remember the day and `break`."
+
+[[hints]]
+text = "`local found = nil`, then `for day = 1, 31 do if planned_km(day) > km then found = day break end end`, then `return found`. (Or `return day` right inside the if, and `return nil` after the loop.)"
+
+[[points]]
+after = 1
+prompt = "Where does Lua carry on after `break`?"
+pick = ["at the next round of the loop", "at the start of the function", "at the first line after the loop's end", "nowhere: the program stops"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "If no day matches, what does `found` hold after the loop?"
+pick = ["0", "31", "false", "nil"]
+answer = 3

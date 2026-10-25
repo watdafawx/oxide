@@ -1,0 +1,29 @@
+title = "Sort by a key"
+summary = "Tell Java what to compare with Comparator.comparing, and flip it with reversed."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["sort", "comparator"]
+
+[[objectives]]
+test = "byNameSortsAtoZ"
+label = "byName returns a new list of players sorted A to Z by name"
+[[objectives]]
+test = "byScoreDescendingPutsTheBestFirst"
+label = "byScoreDescending returns a new list with the highest score first"
+
+[[hints]]
+text = "Copy first: `List<Player> copy = new ArrayList<>(players);`. Then `copy.sort(Comparator.comparing(Player::name));` for names, or `comparingInt(Player::score)` for scores."
+[[hints]]
+text = "byScoreDescending: `copy.sort(Comparator.comparingInt(Player::score).reversed()); return copy;`"
+
+[[points]]
+after = 2
+prompt = "Which builds a comparator from an int key?"
+pick = ["thenComparing", "reversed", "naturalOrder", "comparingInt"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Highest score first."
+code = "copy.sort(Comparator.comparingInt(Player::score).___());"
+blank = "reversed"

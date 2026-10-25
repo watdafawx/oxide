@@ -1,0 +1,22 @@
+title = "Ask for a List"
+summary = "Take any kind of mod list by asking for the List interface, not one class."
+
+[[objectives]]
+test = "longestModIdFromAnyList"
+label = "longestId finds the longest mod id in an ArrayList and in a List.of list"
+
+[[hints]]
+text = "Change the parameter type to `List<String>`. Then loop with `for (String id : ids)` and keep a champion, as in the Basics world."
+[[hints]]
+text = "`String best = ids.get(0); for (String id : ids) { if (id.length() > best.length()) { best = id; } } return best;`"
+
+[[points]]
+after = 3
+prompt = "Which one is the interface?"
+pick = ["ArrayList", "LinkedList", "String", "List"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Accept any kind of list."
+code = "public static String longestId(___<String> ids)"
+blank = "List"

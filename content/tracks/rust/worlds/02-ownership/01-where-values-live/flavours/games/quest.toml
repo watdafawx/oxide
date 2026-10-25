@@ -1,0 +1,17 @@
+title = "Where values live"
+summary = "Stack, heap, and who cleans up after a chat line. A short read before the server console."
+
+[[quiz]]
+question = "A `String` holds the chat line \"<Steve> hi\". Where are the letters?"
+choices = ["On the stack, right next to the variable", "On the heap; the variable holds their address", "Inside the compiler, until the server stops"]
+answer = 1
+
+[[quiz]]
+question = "Why can a player's `u32` level live on the stack?"
+choices = ["It never changes", "Numbers are too small for the heap", "Its size is always 4 bytes, known before the program runs"]
+answer = 2
+
+[[quiz]]
+question = "What does Rust use instead of a garbage collector?"
+choices = ["Every heap value has one owner, and it is freed when that owner goes away", "You call `free` yourself, as in C", "It never frees memory until the server stops"]
+answer = 0

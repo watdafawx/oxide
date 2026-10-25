@@ -1,0 +1,31 @@
+title = "Seven bits at a time"
+summary = "A VarInt stores small numbers in one byte and big ones in up to five. Write the encoder."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["varint", "bits", "protocol"]
+
+[[objectives]]
+test = "encodes_known_values"
+label = "encode_varint gives the exact bytes of the protocol's table for 0, 127, 128, 300 and more"
+[[objectives]]
+test = "negative_numbers_take_five_bytes"
+label = "-1 and i32::MIN take exactly five bytes"
+
+[[hints]]
+text = "Start with `let mut v = value as u32;` and an empty `Vec`. In a `loop`: cut the low 7 bits into a byte with `& 0x7f` and `as u8`, then `v >>= 7`."
+[[hints]]
+text = "Still in the loop: if `v != 0`, more follows, so `byte |= 0x80`. Push the byte. If `v == 0`, return the `Vec`."
+[[hints]]
+text = "`let mut byte = (v & 0x7f) as u8; v >>= 7; if v != 0 { byte |= 0x80; } out.push(byte); if v == 0 { return out; }` inside `loop { }`."
+
+[[points]]
+after = 2
+prompt = "Which bit of a VarInt byte means \"more bytes follow\"?"
+pick = ["0x7f", "0x01", "0xff", "0x80"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Keep only the lowest 7 bits."
+code = "let low = v & ___;"
+blank = "0x7f"

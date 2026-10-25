@@ -1,0 +1,36 @@
+title = "A recipe"
+summary = "Make kit-alloy craftable: 2 iron plates and 1 copper plate in, 1 kit-alloy out, in 2 seconds."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["recipes", "factorio-2.0"]
+
+[[objectives]]
+test = "recipe_ingredients_are_item_tables"
+label = "ingredients are {type, name, amount} tables: 2 iron-plate and 1 copper-plate"
+
+[[objectives]]
+test = "recipe_result_is_the_item"
+label = "results gives one kit-alloy"
+
+[[objectives]]
+test = "crafting_time_is_two_seconds"
+label = "energy_required is 2 and the whole recipe passes the field check"
+
+[[hints]]
+text = "Fill both empty lists with entry tables, one per item, and add `energy_required` for the time."
+
+[[hints]]
+text = "`ingredients = { { type = \"item\", name = \"iron-plate\", amount = 2 }, { type = \"item\", name = \"copper-plate\", amount = 1 } }`, `results = { { type = \"item\", name = \"kit-alloy\", amount = 1 } }` and `energy_required = 2`."
+
+[[points]]
+after = 2
+prompt = "Which field says how many?"
+pick = ["count", "qty", "amount", "number"]
+answer = 2
+
+[[points]]
+after = 2
+prompt = "Mark the entry as an item."
+code = "{ ___, name = \"iron-plate\", amount = 3 },"
+blank = "type = \"item\""

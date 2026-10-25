@@ -1,0 +1,53 @@
+title = "Boss: CSV stats"
+summary = "Read a stock file as CSV text and answer the owner's questions with iterator chains."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["iterators", "btreemap", "strings", "result", "boss"]
+
+[[objectives]]
+test = "row_total_multiplies_price_by_qty"
+label = "Row::total is price times qty"
+[[objectives]]
+test = "parse_line_reads_fields_and_rejects_bad_ones"
+label = "parse_line reads one line into a Row, or says what is wrong"
+[[objectives]]
+test = "parse_rows_skips_header_and_blanks"
+label = "parse_rows skips the header and blank lines and returns every Row"
+[[objectives]]
+test = "parse_rows_reports_line_number"
+label = "parse_rows fails with \"line N: ...\" for the first bad line"
+[[objectives]]
+test = "total_by_category_sums_per_category"
+label = "total_by_category sums price * qty per category, sorted by name"
+[[objectives]]
+test = "top_n_picks_biggest_totals"
+label = "top_n returns the n rows with the largest price * qty, biggest first"
+[[objectives]]
+test = "cheapest_in_filters_a_category"
+label = "cheapest_in returns the lowest-priced row of a category, or None"
+[[objectives]]
+test = "report_aligns_columns"
+label = "report prints a header, one aligned line per row, and a footer"
+
+[[hints]]
+text = "Start small: `Row::total` is `self.price * self.qty as f64`. Then `parse_line`: `line.split(',').map(|f| f.trim()).collect()` into a `Vec<&str>` gives the fields. Check `fields.len()` first and `return Err(...)` if it is not 4."
+[[hints]]
+text = "Parsing a field: `fields[2].parse().map_err(|_| format!(\"bad price '{}'\", fields[2]))?`. The type of the `price` field in `Row` tells `parse` to build an `f64`."
+[[hints]]
+text = "`parse_rows`: `csv.lines().enumerate().skip(1)` gives `(index, line)` pairs without the header. `.filter(|(_, line)| !line.trim().is_empty())`, then `.map(|(i, line)| parse_line(line).map_err(|e| format!(\"line {}: {e}\", i + 1)))`, then `.collect()`."
+[[hints]]
+text = "`total_by_category`: a `BTreeMap` and `*totals.entry(row.category.clone()).or_insert(0.0) += row.total();`. `top_n`: `let mut sorted: Vec<&Row> = rows.iter().collect();`, `sorted.sort_by(|a, b| b.total().total_cmp(&a.total()));`, then `sorted.into_iter().take(n).collect()`."
+[[hints]]
+text = "`cheapest_in`: `rows.iter().filter(|r| r.category == category).min_by(|a, b| a.price.total_cmp(&b.price))`. `report`: `let mut lines = vec![header];`, a `for` loop that pushes `format!(\"{:<10} {:<9} {:>8.2} {:>4}\", ...)` per row, push the footer, then `lines.join(\"\\n\")`."
+
+[[points]]
+after = 2
+prompt = "Which call rewrites an error into your own message?"
+pick = ["unwrap_or", "map_err", "expect", "filter_map"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Walk the text one line at a time."
+code = "for line in csv.___() {"
+blank = "lines"

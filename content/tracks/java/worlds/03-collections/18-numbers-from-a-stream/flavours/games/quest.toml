@@ -1,0 +1,25 @@
+title = "Numbers from a stream"
+summary = "End a stream with one number: mapToInt then sum, or count."
+
+[[objectives]]
+test = "totalDownloadsAddsEveryCount"
+label = "totalDownloads adds up the downloads of all mods"
+[[objectives]]
+test = "countOnCountsTheLoadersMods"
+label = "countOn counts the mods that use the given loader"
+
+[[hints]]
+text = "totalDownloads: `.mapToInt(Mod::downloads)` then `.sum()`. countOn: `.filter(...)` then `.count()`, which hands back a `long`."
+[[hints]]
+text = "`return mods.stream().mapToInt(Mod::downloads).sum();` and `return mods.stream().filter(m -> m.loader().equals(loader)).count();`"
+
+[[points]]
+after = 2
+prompt = "Turn each mod into an int, ready to add up."
+code = "int total = mods.stream().___(Mod::downloads).sum();"
+blank = "mapToInt"
+[[points]]
+after = 3
+prompt = "What type does count() hand back?"
+pick = ["long", "int", "Integer", "double"]
+answer = 0

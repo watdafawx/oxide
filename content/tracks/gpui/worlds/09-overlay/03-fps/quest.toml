@@ -10,12 +10,17 @@ test = "average_of_16_6_ms_is_60_fps"
 label = "16.6 ms frames are 60.24 FPS; the capture averages 118.06"
 
 [[hints]]
-text = "Sum the frame times, turn milliseconds into seconds, divide the count by that."
+text = "`let total: f64 = ms.iter().sum();`, then an `if` that gives `0.0` for a zero total, and otherwise the count (`ms.len() as f64`) over `total / 1000.0`."
 [[hints]]
 text = "`let total: f64 = ms.iter().sum(); if total == 0.0 { 0.0 } else { ms.len() as f64 / (total / 1000.0) }`"
 
 [[points]]
 after = 2
+prompt = "Why write ms.len() as f64?"
+pick = ["to round it", "len() can be negative", "as f64 makes it faster", "Rust does not divide a usize by an f64"]
+answer = 3
+[[points]]
+after = 3
 prompt = "Why not average 1000 / ms over every frame?"
-pick = ["fast frames would count as much as slow ones; frames over time weighs them right", "it is slower", "it divides by zero", "it is the same"]
-answer = 0
+pick = ["it is slower", "fast frames would count as much as slow ones", "it divides by zero", "it is the same"]
+answer = 1

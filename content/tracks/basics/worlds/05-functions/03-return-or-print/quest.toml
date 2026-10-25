@@ -1,0 +1,33 @@
+title = "Return or print"
+summary = "The fee shows up on screen, yet the order total crashes. The oldest beginner bug."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["return", "print", "functions"]
+requires = []
+
+[[objectives]]
+test = "fee_is_returned_not_printed"
+label = "delivery_fee(km) gives back 2, plus 1 per km after the first 3"
+
+[[objectives]]
+test = "total_adds_the_fee"
+label = "order_total(food, km) gives back the food price plus the delivery fee"
+
+[[hints]]
+text = "In `delivery_fee`, the value is worked out correctly; it is just never handed back. In `order_total`, call `M.delivery_fee(km)` and use what it gives back."
+
+[[hints]]
+text = "Replace `print(fee)` with `return fee`. In `order_total`: `return food + M.delivery_fee(km)`."
+
+[[points]]
+after = 2
+prompt = "A function prints 3 but has no `return`. What does the code that called it get?"
+pick = ["nil", "3", '"3"', "an error"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Which one can a test check?"
+pick = ["what the function prints", "what the function returns", "both equally", "neither"]
+answer = 1

@@ -1,0 +1,33 @@
+title = "Changing through a shared reference"
+summary = "Why Rust forbids it, and how RefCell allows it by checking while the program runs."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["refcell", "cell", "interior-mutability"]
+
+[[quiz]]
+question = "Why does Rust normally refuse a change through a plain `&` reference?"
+choices = [
+  "A `&` is a copy of the value, so the change would be lost",
+  "Someone else may be reading it, and a change can leave that reader pointing at freed memory",
+  "Changes through references are slow, so they need `mut` on the type",
+]
+answer = 1
+
+[[quiz]]
+question = "A RefCell already has a live borrow_mut(). You call borrow_mut() on it again. What happens?"
+choices = [
+  "It does not compile, because the borrow checker sees two &mut borrows of the same cell",
+  "The second call waits until the first one ends, like a lock would",
+  "The program panics with \"already borrowed\" (try_borrow_mut would give Err)",
+]
+answer = 2
+
+[[quiz]]
+question = "When is Cell<T> enough instead of RefCell<T>?"
+choices = [
+  "For a small Copy value you only get and set, like a counter",
+  "For a Vec you want to push onto through a shared reference",
+  "Whenever the value is shared between threads",
+]
+answer = 0

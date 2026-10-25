@@ -1,0 +1,34 @@
+title = "The booth"
+summary = "Where the HUD server sits in a broadcast, and the words the crew uses: scorebug, stinger, OSC, Companion."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["broadcast", "overview"]
+requires = ["10-apps/28-boss-oxide-in-rust"]
+
+[[quiz]]
+question = "The goal just went in and a two-second animation of the scorer's name fills the screen. What is that called?"
+choices = [
+  "the scorebug",
+  "a stinger",
+  "a browser source",
+]
+answer = 1
+
+[[quiz]]
+question = "How does a cue from hud-server reach Notch or Resolume?"
+choices = [
+  "as a JSON frame on the game's TCP port 49123",
+  "as a press on a Stream Deck button",
+  "as an OSC packet, sent over UDP",
+]
+answer = 2
+
+[[quiz]]
+question = "What is an OBS browser source?"
+choices = [
+  "a web page shown as one layer of the stream",
+  "the plugin that sends the game's events",
+  "the file that says which cue sends what",
+]
+answer = 0

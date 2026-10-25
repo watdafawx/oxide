@@ -1,0 +1,30 @@
+title = "A room for code"
+summary = "mod makes a module; everything inside is private until you write pub."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["mod", "pub", "privacy"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "room_left_is_open_to_callers"
+label = "store::room_left can be called from outside the store"
+[[objectives]]
+test = "can_add_asks_the_store"
+label = "can_add is true while the store has room"
+
+[[hints]]
+text = "The build error points at `room_left`: it needs one word in front of its `fn`. Then `can_add` is one comparison."
+[[hints]]
+text = "`pub fn room_left(count: u32) -> u32 {` and, in `can_add`, `store::room_left(count) > 0`."
+
+[[points]]
+after = 2
+prompt = "Items in a module are… until you say otherwise."
+pick = ["public", "private", "copied", "deleted"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Let code outside the module call it."
+code = "___ fn minutes(hours: u32) -> u32 {"
+blank = "pub"

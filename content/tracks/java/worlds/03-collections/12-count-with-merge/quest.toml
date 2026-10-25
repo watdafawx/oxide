@@ -1,0 +1,29 @@
+title = "Count with merge"
+summary = "Add to a map's value in one call: merge puts the first value, then combines with Integer::sum."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["map", "merge", "method-reference"]
+
+[[objectives]]
+test = "salesPerItemCountsEachSale"
+label = "salesPerItem returns how many sales each item had"
+[[objectives]]
+test = "takingsPerItemAddsTheAmounts"
+label = "takingsPerItem adds up the amount of every sale per item"
+
+[[hints]]
+text = "Both: a new `HashMap`, and for each sale one `merge` call. Count: the value to merge is `1`. Takings: the value is `s.amount()`. The combine rule is `Integer::sum` in both."
+[[hints]]
+text = "`for (Sale s : sales) { totals.merge(s.item(), s.amount(), Integer::sum); }` (and `1` instead of `s.amount()` for the count)."
+
+[[points]]
+after = 2
+prompt = "What does merge do when the key is missing?"
+pick = ["Throws an error", "Puts 0", "Does nothing", "Puts the given value"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Add the new amount to the old one."
+code = "totals.merge(\"tea\", 4, ___);"
+blank = "Integer::sum"

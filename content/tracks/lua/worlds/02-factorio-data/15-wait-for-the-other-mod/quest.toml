@@ -1,0 +1,32 @@
+title = "Wait for the other mod"
+summary = "Move every kit item into the Kit Mod's own row, including the ones an add-on mod adds after you."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["stages", "data-updates", "load-order"]
+
+[[objectives]]
+test = "addon_item_joins_kit_parts"
+label = "kit-extras' kit-spring ends up in the kit-parts row"
+
+[[objectives]]
+test = "own_items_join_and_vanilla_stays"
+label = "kit-alloy is in kit-parts too, and every vanilla item keeps its row"
+
+[[hints]]
+text = "The loop is right; it runs too early. Move it from `data.lua` into `data-updates.lua`, and keep the subgroup and the item in `data.lua`."
+
+[[hints]]
+text = "Cut the whole `for name, item in pairs(data.raw.item) do ... end` block out of `mod/data.lua` and paste it into `mod/data-updates.lua`."
+
+[[points]]
+after = 2
+prompt = "kit-extras depends on kit-mod. Whose data.lua runs first?"
+pick = ["kit-extras", "kit-mod", "whichever is newer"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Which file runs once every mod's data.lua is done?"
+pick = ["data.lua", "info.json", "data-updates.lua", "control.lua"]
+answer = 2

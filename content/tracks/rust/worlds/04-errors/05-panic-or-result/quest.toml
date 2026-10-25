@@ -1,0 +1,16 @@
+title = "Panic or Result?"
+summary = "When to crash on purpose, and when to hand the problem back."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["panic", "unwrap", "expect"]
+
+[[quiz]]
+question = "The user asks the todo list to open a file that does not exist. What should the loading function do?"
+choices = ["Call panic!, because the list cannot work without its file", "Call unwrap() and hope the file is there", "Return Err so the caller decides what to do"]
+answer = 2
+
+[[quiz]]
+question = "When is expect(\"reason\") the right call?"
+choices = ["On a value that cannot fail, like a number you wrote into the code yourself, saying why", "On a priority the user typed, to get a clearer message", "Instead of returning Err in any function, to save typing"]
+answer = 0

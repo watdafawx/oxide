@@ -1,0 +1,15 @@
+title = "Zombies only, or every mob?"
+summary = "Generics make one copy per mob type; dyn looks the method up while the game runs. Know which to pick."
+
+[[quiz]]
+question = "You call `fn health_of<T: Entity>(m: &T)` with a Zombie and with a Creeper. What does the compiler build?"
+choices = ["One function that looks `health` up in a table on every call", "Nothing: one generic function can only take one mob type", "Two copies of `health_of`, one per mob type, each calling its own `health` directly"]
+answer = 2
+[[quiz]]
+question = "The tick loop needs one list holding a Zombie, a Creeper and a Villager. What do you need?"
+choices = ["Vec<Box<dyn Entity>>", "Vec<T> where T: Entity", "Vec<Entity>"]
+answer = 0
+[[quiz]]
+question = "Why is there no `dyn Clone`?"
+choices = ["Clone is not a trait", "`clone` returns `Self`, and a trait object has forgotten what `Self` is", "Box cannot hold anything that can be cloned"]
+answer = 1

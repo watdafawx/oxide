@@ -1,0 +1,29 @@
+title = "JSON into a struct"
+summary = "serde's derive(Deserialize) writes the code that reads JSON into your own struct, and checks every field."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["serde", "json", "reqwest", "derive"]
+
+[[objectives]]
+test = "fetch_feed_reads_every_episode"
+label = "fetch_feed reads the server's JSON list into Vec<Episode> (extra fields are skipped)"
+[[objectives]]
+test = "a_missing_field_is_an_error"
+label = "An episode without a size is an Err, not a made-up 0"
+
+[[hints]]
+text = "Add `Deserialize` to the `#[derive(..)]` list above `Episode` (the `use serde::Deserialize;` is already there). In `fetch_feed`, the request part is the last quest's; then `.json::<Vec<Episode>>().await` reads the list."
+[[hints]]
+text = "`#[derive(Debug, PartialEq, Deserialize)]`, and in `fetch_feed`: `let response = client.get(url).send().await?.error_for_status()?; response.json::<Vec<Episode>>().await`."
+
+[[points]]
+after = 1
+prompt = "Let serde read this struct from JSON."
+code = "#[derive(Debug, ___)]\npub struct Show {\n    pub name: String,\n}"
+blank = "Deserialize"
+[[points]]
+after = 3
+prompt = "The JSON has a field the struct doesn't. What happens by default?"
+pick = ["parsing fails", "it is skipped", "it panics", "it becomes a String"]
+answer = 1

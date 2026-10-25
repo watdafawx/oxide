@@ -1,0 +1,10 @@
+[package]
+name = "mastery_name_per_function"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+counted_macro = { package = "mastery_counted_names", path = "counted_macro" }
+
+[workspace]
+members = ["counted_macro"]

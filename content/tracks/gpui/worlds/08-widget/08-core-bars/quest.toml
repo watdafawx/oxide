@@ -2,7 +2,7 @@ title = "Core bars"
 summary = "A small bar per processor thread, wrapping onto rows like words in a paragraph."
 kind = "exercise"
 xp = 40
-minutes = 6
+minutes = 7
 tags = ["gpui", "layout"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "sixteen_threads_sixteen_bars"
 label = "16 threads draw 16 bars that wrap onto more than one row"
 
 [[hints]]
-text = "After `.debug_selector(..)`: `.flex().flex_wrap().gap_1()`, then `.children(..)` with one small bar per core."
+text = "After `.debug_selector(..)`: `.flex().flex_wrap().gap_1()`, then `.children(cores.iter().enumerate().map(|(i, usage)| ..))`. Each bar: `.debug_selector(move || format!(\"core-{i}\"))`, `.w(px(28.)).h(px(20.))`, `.flex().items_end()`, a dark `.bg(..)`, and one child."
 [[hints]]
 text = "`.flex().flex_wrap().gap_1().children(cores.iter().enumerate().map(|(i, usage)| div().debug_selector(move || format!(\"core-{i}\")).w(px(28.)).h(px(20.)).flex().items_end().bg(rgb(0x2a2a2a)).child(div().w_full().h(relative(usage / 100.0)).bg(rgb(0x5ab0ff)))))`"
 
 [[points]]
 after = 2
 prompt = "What does .flex_wrap() do when the children do not fit on one row?"
-pick = ["starts a new row", "shrinks them", "hides the rest", "scrolls"]
+pick = ["shrinks them", "starts a new row", "hides the rest", "scrolls"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Which call puts a bar's fill at the bottom of its box?"
+pick = [".items_end()", ".flex_wrap()", ".w_full()", ".gap_1()"]
 answer = 0

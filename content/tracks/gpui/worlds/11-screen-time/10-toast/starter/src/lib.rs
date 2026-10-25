@@ -100,7 +100,7 @@ use std::time::{Duration, Instant};
 /// The toast's title and text for an alert.
 pub fn toast_text(alert: &Alert) -> (String, String) {
     let _ = alert;
-    todo!("a title for the kind, and the value now plus \"for 30 seconds or more.\"")
+    todo!("a title for the kind, and the value now plus \" for 30 seconds or more.\"")
 }
 
 /// Every sensor this PC has so far; the rest of the bar is scripted.

@@ -1,0 +1,25 @@
+title = "Method references"
+summary = "A Function turns a mod into its name. When a lambda only calls one method, name the method instead."
+
+[[objectives]]
+test = "nameByLambdaGivesTheName"
+label = "nameByLambda returns a Function, written as a lambda, from a mod to its name"
+[[objectives]]
+test = "nameByReferenceMatchesTheLambda"
+label = "nameByReference returns the same Function written as a method reference"
+
+[[hints]]
+text = "nameByLambda: `return mod -> mod.name();`."
+[[hints]]
+text = "nameByReference: `return Mod::name;`. Same Function, because the lambda only called `name()` on its parameter."
+
+[[points]]
+after = 1
+prompt = "Which method runs a Function on one value?"
+pick = ["test", "run", "apply", "get"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Write mod -> mod.loader() as a method reference."
+code = "Function<Mod, String> loader = ___;"
+blank = "Mod::loader"

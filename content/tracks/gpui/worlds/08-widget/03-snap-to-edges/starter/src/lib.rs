@@ -63,7 +63,7 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 /// Within `margin` pixels of an edge of the work area, the widget jumps flush to it.
 pub fn snap_to_edges(window: Rect, work: Rect, margin: i32) -> Rect {
     let _ = (work, margin);
-    window // TODO: left or right edge, then top or bottom edge, within margin; keep the size
+    window // TODO: snap to the left or right edge, then to the top or bottom edge, within margin; keep the size
 
 }
 

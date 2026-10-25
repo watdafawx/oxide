@@ -1,0 +1,21 @@
+title = "Numbers that sit still"
+summary = "9% and 13% are different widths: give the value box a minimum width so the bar stops twitching."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["gpui", "size"]
+
+[[objectives]]
+test = "value_box_width_does_not_jump"
+label = "value-CpuUsage is as wide at 9% as at 13%"
+
+[[hints]]
+text = "One more link on the value's box in `PillView::render`, next to its `.debug_selector(..)`: the minimum-width call, with a `px(..)` length."
+[[hints]]
+text = "`.min_w(px(48.))`"
+
+[[points]]
+after = 2
+prompt = "A box has .min_w(px(48.)) and holds 30 pixels of text. How wide is it?"
+pick = ["30 pixels", "78 pixels", "48 pixels", "it depends on the font"]
+answer = 2

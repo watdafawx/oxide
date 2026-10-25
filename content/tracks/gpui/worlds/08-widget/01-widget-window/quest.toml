@@ -4,19 +4,24 @@ kind = "exercise"
 xp = 25
 minutes = 4
 tags = ["gpui", "window"]
-requires = ["07-settings/16-boss-settings"]
+requires = ["07-settings/17-boss-settings"]
 
 [[objectives]]
 test = "widget_toggle_opens_window"
 label = "toggle_widget_window opens the widget, and a second toggle closes it"
 
 [[hints]]
-text = "At the top: if `slot.take()` gives a handle and removing its window works, return."
+text = "Start from the Settings version in the lesson: `slot.take()` in place of `slot`, and `window.remove_window()` in place of `window.activate_window()`."
 [[hints]]
 text = "`if let Some(handle) = slot.take() && handle.update(cx, |_, window, _| window.remove_window()).is_ok() { return; }`"
 
 [[points]]
 after = 3
-prompt = "What does slot.take() leave behind?"
-pick = ["None", "a copy of the handle", "the window", "nothing changes"]
+prompt = "What does slot.take() leave behind in the slot?"
+pick = ["a copy of the handle", "the closed window", "None", "nothing changes"]
+answer = 2
+[[points]]
+after = 4
+prompt = "In handle.update(cx, |_, window, _| ..), what is the middle input?"
+pick = ["the window itself", "the view", "the click event", "the bar"]
 answer = 0

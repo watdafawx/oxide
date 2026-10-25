@@ -64,8 +64,8 @@ use gpui::{App, Context, Div, Entity, IntoElement, MouseButton, PathBuilder, Ren
 pub fn core_bars(cores: &[f32]) -> Div {
     div()
         .debug_selector(|| "cores".into())
-        // TODO: a wrapping flex row (.flex().flex_wrap().gap_1()) with one 28x20 bar per core,
-        // named core-<i>, filled from the bottom by its usage
+        // TODO: a flex row that wraps onto new rows, with a small gap, holding one 28 x 20 bar per core,
+        // named core-<i>, filled from the bottom as high as that core's usage
 
 }
 

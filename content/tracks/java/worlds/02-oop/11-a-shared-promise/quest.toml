@@ -1,0 +1,29 @@
+title = "One promise, two shapes"
+summary = "An interface lists what every Shape can do; Circle and Rectangle keep the promise."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["interfaces"]
+
+[[objectives]]
+test = "circleKeepsThePromise"
+label = "A Circle is named \"Circle\" and its area is pi * r * r"
+[[objectives]]
+test = "rectangleKeepsThePromise"
+label = "A Rectangle is named \"Rectangle\" and its area is width * height"
+
+[[hints]]
+text = "Each method in `Circle` and `Rectangle` is one `return` line that uses the class's own fields. Replace each `throw` line."
+[[hints]]
+text = "Circle: `return \"Circle\";` and `return Math.PI * radius * radius;`. Rectangle: `return \"Rectangle\";` and `return width * height;`."
+
+[[points]]
+after = 2
+prompt = "Which word makes a class keep an interface's promise?"
+pick = ["extends", "implements", "interface", "static"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Can a variable of type Shape hold a Circle?"
+pick = ["Yes, a Circle is a Shape", "No, the types differ", "Only if it is static", "Only inside Circle"]
+answer = 0

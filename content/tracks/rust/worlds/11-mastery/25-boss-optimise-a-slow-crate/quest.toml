@@ -1,0 +1,56 @@
+title = "Boss: Optimise a slow crate"
+summary = "A correct but slow text index. Keep its API and tests, then beat the allocation and operation caps."
+kind = "boss"
+xp = 500
+minutes = 75
+tags = ["performance", "allocation", "hashmap", "boss"]
+
+[[objectives]]
+test = "search_finds_lines_once_each"
+label = "search(word) lists each matching line once (already green: don't break it)"
+[[objectives]]
+test = "words_ignore_case_and_punctuation"
+label = "Words are runs of letters and digits, matched ignoring case"
+[[objectives]]
+test = "top_words_orders_by_count_then_alphabet"
+label = "top_words(n) sorts by count, then alphabetically"
+[[objectives]]
+test = "search_ops_are_capped"
+label = "One search takes at most 20 comparison ops"
+[[objectives]]
+test = "build_ops_are_capped"
+label = "build takes at most 2 comparison ops per word"
+[[objectives]]
+test = "build_allocations_are_capped"
+label = "Building a 2,000-line index makes at most 3,000 allocations"
+[[objectives]]
+test = "top_words_allocations_are_capped"
+label = "top_words(10) makes at most 14 allocations"
+[[objectives]]
+test = "big_document_stays_under_the_op_budget"
+label = "50,000 lines: build, 20 searches and top_words stay under the op budget"
+
+[[hints]]
+text = "Run the tests first: three already pass, so you know the behaviour you must keep. Then go in order: the op caps (the data structure), the allocation caps (the buffers), the big document last."
+[[hints]]
+text = "The slow part is `entries: Vec<(Word, Vec<usize>)>`, which is searched with a linear scan for every single word. Replace it with a `HashMap<String, ...>` and the op caps drop."
+[[hints]]
+text = "Store per word both the line list and an occurrence count. In `build`, keep one `String` buffer: `buf.clear(); buf.extend(token.chars().flat_map(char::to_lowercase));`."
+[[hints]]
+text = "Look up with `map.get_mut(buf.as_str())` (no allocation) and only `insert(buf.clone(), ...)` for a new word. Push a line number only if it is not already the last one."
+[[hints]]
+text = "`top_words`: collect `Vec<(&String, usize)>` of references, `sort_unstable_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)))`, then `take(n)` and clone just those. `sort_unstable` does not allocate a scratch buffer, `sort` does."
+[[hints]]
+text = "Still over the big-document budget? Look for a `clone()` or `to_string()` per token in `build`, or a `Vec<String>` you sort instead of references."
+
+[[points]]
+after = 2
+prompt = "Which type is the comparison meter?"
+pick = ["Index", "Counter", "Word", "Vec"]
+answer = 2
+
+[[points]]
+after = 5
+prompt = "Find a known key without making a String."
+code = "if let Some(entry) = words.get_mut(buf.___()) {"
+blank = "as_str"

@@ -13,12 +13,17 @@ test = "thirty_seconds_alerts_once"
 label = "a minute over the limit gives exactly one alert"
 
 [[hints]]
-text = "Under the limit: forget the stat in both sets and give back `None`. Over: remember since when (`entry(..).or_insert(now)`), and alert when 30 s have passed and `alerted.insert` says it is new."
+text = "Three parts: `if !is_warning(reading, limits) { .. return None; }` with two `remove(&kind)` calls; `let since = *self.over_since.entry(kind).or_insert(now);`; then `if now.duration_since(since) >= HOT_FOR && self.alerted.insert(kind)` giving back the alert, and `None` at the end."
 [[hints]]
-text = "`let since = *self.over_since.entry(kind).or_insert(now); if now.duration_since(since) >= HOT_FOR && self.alerted.insert(kind) { return reading.value.map(|value| Alert { kind, value }); } None`"
+text = "`let kind = reading.kind; if !is_warning(reading, limits) { self.over_since.remove(&kind); self.alerted.remove(&kind); return None; } let since = *self.over_since.entry(kind).or_insert(now); if now.duration_since(since) >= HOT_FOR && self.alerted.insert(kind) { return reading.value.map(|value| Alert { kind, value }); } None`"
 
 [[points]]
-after = 3
+after = 2
+prompt = "GPU goes over at 10:00:00 and is still over at 10:00:05. What does over_since hold for it?"
+pick = ["10:00:05", "10:00:00", "both times", "nothing yet"]
+answer = 1
+[[points]]
+after = 4
 prompt = "What does HashSet::insert give back?"
-pick = ["true if the value was not there yet", "the old value", "the set's length", "nothing"]
-answer = 0
+pick = ["the value it replaced", "how many values it holds", "true if the value was new", "nothing at all"]
+answer = 2

@@ -1,18 +1,21 @@
-Kinetik's dashboard has four themes: Modern, plus Terminal, Amber terminal and Yellow terminal looks. The setting is a `DashTheme` in `Settings`; drawing needs actual colours.
+Kinetik's dashboard has four looks: Modern, plus Terminal, Amber terminal and Yellow terminal. The setting is a `DashTheme` in `Settings`, one word per look. Drawing needs actual colours, so something has to turn the word into them.
 
-**One struct per look.** `Theme` holds a background, a card colour, text, an accent for gauges and graphs, and whether to use a monospace font. `render` and `Card` read only from it.
+**One struct per look.** `Theme` holds five things: a background, a card colour, the text colour, an accent for gauges and graphs, and whether to use a monospace font. `render` and `Card` read only from a `Theme`, never from the setting itself.
 
-**One arm per choice.** `theme(choice)` turns the setting into colours: a `match` with four arms, each a whole `Theme`:
+**One arm per choice.** `theme(choice)` is a `match` with four arms, and each arm builds a whole `Theme`. The Terminal look is green on black:
 
 ```rust
-DashTheme::Amber => Theme { background: 0x0d0800, card: 0x140c00, text: 0xffb000, accent: 0xffb000, monospace: true },
+DashTheme::Terminal => Theme { background: 0x000000, card: 0x0a0f0a, text: 0x33ff66, accent: 0x33ff66, monospace: true },
 ```
 
-**Terminal looks.** The terminal themes copy old monochrome monitors: near-black backgrounds, one bright colour for everything, and Consolas so numbers line up like on a terminal.
+**The other three.** Amber: background `0x0d0800`, card `0x140c00`, text and accent `0xffb000`, monospace. Yellow: background `0x0b0b00`, card `0x141400`, text and accent `0xffee33`, monospace. Modern: background `0x15171c`, card `0x22252d`, text `0xf2f2f2`, accent `0x5ab0ff`, not monospace.
 
-**Live switch.** The dashboard watches the Settings global, so changing the theme redraws it at once, like the bar's live preview.
+**Why terminal looks.** The terminal themes copy old monochrome monitors: a near-black background, one bright colour for everything, and Consolas, so the numbers line up in columns like on a terminal.
+
+**Live switch.** The dashboard watches the Settings global, so changing the theme redraws it at once, like the bar's live preview. A fifth look later is one more arm, and nothing in `render` changes.
 
 ## Your turn
 
-- In `theme`, `match` on `choice` and give back the four themes: Modern, Terminal (green `0x33ff66`), Amber (`0xffb000`), Yellow (`0xffee33`).
-- Save. Switch the theme in the settings file and press Run.
+- In `theme`, `match` on `choice` with one arm per look.
+- Build each arm's `Theme` from the colours above. Save.
+- Switch `theme` in the settings file and press Run.

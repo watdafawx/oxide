@@ -7,7 +7,7 @@ tags = ["result", "match", "parse"]
 
 [[objectives]]
 test = "a_number_is_read"
-label = "describe_quantity(\" 12 \") gives back \"12 boxes\""
+label = "describe_quantity(\" 7 \") gives back \"7 boxes\""
 [[objectives]]
 test = "junk_is_reported"
 label = "describe_quantity(\"pizza\") gives back \"'pizza' is not a quantity\""

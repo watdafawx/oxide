@@ -1,0 +1,25 @@
+title = "Follow the arrow"
+summary = "A reference points at a player's xp. `*` gets you the number itself."
+
+[[objectives]]
+test = "add_xp_changes_the_callers_xp"
+label = "add_xp(&mut xp, 50) adds 50 to the caller's xp"
+[[objectives]]
+test = "count_at_least_counts_high_levels"
+label = "count_at_least(&board, 30) counts the players at level 30 or higher"
+
+[[hints]]
+text = "Both functions hold references to numbers, so both need a `*` in front: once to add to the number, once to compare it."
+[[hints]]
+text = "`*xp += n;`. In `count_at_least`: `let mut count = 0; for l in &board.levels { if *l >= level { count += 1; } } count`."
+
+[[points]]
+after = 2
+prompt = "Add one to the number `level` points at."
+code = "fn level_up(level: &mut u32) {\n    ___ += 1;\n}"
+blank = "*level"
+[[points]]
+after = 4
+prompt = "Why does `roster.players.len()` work on a `&Roster` with no `*`?"
+pick = ["Rosters are Copy", "The dot follows the reference for you", "len makes a copy of the roster"]
+answer = 1

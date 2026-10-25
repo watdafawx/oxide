@@ -1,0 +1,36 @@
+title = "Item and entity"
+summary = "Define the kit-crate chest: the item that places it, and the entity that gives it back."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["entity", "container", "place_result"]
+
+[[objectives]]
+test = "entity_is_defined"
+label = "a container named kit-crate with 48 slots, an icon and the placeable-neutral flag"
+
+[[objectives]]
+test = "item_places_the_entity"
+label = "the kit-crate item has place_result = \"kit-crate\""
+
+[[objectives]]
+test = "minable_returns_the_item"
+label = "mining takes 0.2 s and gives back the kit-crate item"
+
+[[hints]]
+text = "The item needs one line, `place_result`. The container needs `icon`, `flags`, `inventory_size` and `minable`."
+
+[[hints]]
+text = "Item: `place_result = \"kit-crate\",`. Container: `icon = \"__base__/graphics/icons/wooden-chest.png\",`, `flags = { \"placeable-neutral\", \"player-creation\" },`, `inventory_size = 48,` and `minable = { mining_time = 0.2, result = \"kit-crate\" },`."
+
+[[points]]
+after = 2
+prompt = "Which item field names the entity it puts down?"
+pick = ["minable", "flags", "place_result", "result"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "Give the item back when the chest is mined."
+code = "minable = { mining_time = 0.5, result = ___ },"
+blank = "\"kit-bin\""

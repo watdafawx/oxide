@@ -1,0 +1,17 @@
+title = "Bits and bytes of a server reply"
+summary = "A Minecraft server answers your launcher in bytes. Read one byte as eight switches and binary stops being scary."
+
+[[quiz]]
+question = "A server sends one byte (`u8`) for something. What is the largest number it can be?"
+choices = ["127", "255", "256", "8"]
+answer = 1
+
+[[quiz]]
+question = "The protocol version is a `u32`. How many bytes does it take on the wire?"
+choices = ["32", "8", "4"]
+answer = 2
+
+[[quiz]]
+question = "What is `0b0000_0110` in normal numbers?"
+choices = ["6", "110", "3"]
+answer = 0

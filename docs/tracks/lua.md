@@ -185,7 +185,9 @@ will use this when..." hooks.
 | 11-coroutines | `create/resume/yield/wrap/status`, generators, producer-consumer. Callout: **Factorio has no coroutines**; here as a language idea and for the boss | `generator_yields_in_order`, `passes_values_both_ways`, `round_robin_runs_tasks` | 12 | 70 | exercise |
 | 12-boss-expression-evaluator | tokenizer (coroutine/generator) → recursive-descent parser → evaluator with variables and error messages | `tokenizes_numbers_and_operators`, `respects_precedence`, `handles_parentheses_and_unary_minus`, `reads_variables_from_environment`, `reports_syntax_error_with_position`, `rejects_division_by_zero` | 60 | 400 | boss |
 
-### World 2 — Factorio data stage (`02-factorio-data`) — `requires` 01-lua-core/10-modules-and-errors
+### World 2 — Factorio data stage (`02-factorio-data`) — `requires` 01-lua-core/23-catch-the-error
+
+Rewritten into 18 quests; see `docs/REWRITE-lua-02.md` for the current list. The table below is the original plan.
 
 Mock: data stage + settings stage. Each starter has a `mod/` folder; `tests.lua` calls
 `mock.load_mod("mod")` and asserts on `data.raw`.
@@ -206,7 +208,7 @@ Mock: data stage + settings stage. Each starter has a `mod/` folder; `tests.lua`
 
 The boss lesson ends with an optional manual "load it in Factorio" step; the quiz for it lives in the capstone.
 
-### World 3 — Factorio control stage (`03-factorio-control`) — `requires` 02-factorio-data/07-technologies
+### World 3 — Factorio control stage (`03-factorio-control`) — `requires` 02-factorio-data/14-the-research-bill
 
 | slug | idea | objectives (tests) | min | XP | kind |
 |---|---|---|---|---|---|

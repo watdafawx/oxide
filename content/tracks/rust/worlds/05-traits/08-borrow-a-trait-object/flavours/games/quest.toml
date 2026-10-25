@@ -1,0 +1,25 @@
+title = "Look, don't box"
+summary = "A function that only reads a mob takes &dyn Entity."
+
+[[objectives]]
+test = "describe_takes_a_loose_mob"
+label = "describe(&zombie) returns \"zombie with 20 hp\""
+[[objectives]]
+test = "describe_takes_mobs_from_the_world"
+label = "describe works on every Box<dyn Entity> in the world list"
+
+[[hints]]
+text = "`mob` is a `&dyn Entity`, so you can call `mob.name()` and `mob.health()` on it."
+[[hints]]
+text = "`format!(\"{} with {} hp\", mob.name(), mob.health())`."
+
+[[points]]
+after = 1
+prompt = "Borrow any mob, type forgotten."
+code = "fn label(m: ___) -> String {"
+blank = "&dyn Entity"
+[[points]]
+after = 4
+prompt = "The world must own its mobs. Which type?"
+pick = ["&dyn Entity", "Vec<Box<dyn Entity>>", "Vec<&Entity>", "Entity"]
+answer = 1

@@ -1,0 +1,25 @@
+title = "Rc for threads: Arc"
+summary = "Rc cannot cross threads. Arc lets every hash worker own the same jar list."
+
+[[objectives]]
+test = "name_lengths_on_workers_read_one_shared_list"
+label = "name_lengths_on_workers compiles with Arc, and each worker reads one jar name from the shared list"
+[[objectives]]
+test = "share_hands_out_the_same_jar_list"
+label = "share_jars returns another owner of the same jar list, not a copy"
+
+[[hints]]
+text = "Every `Rc` in this file becomes `Arc`, and the `use` line changes from `std::rc::Rc` to `std::sync::Arc`. Nothing else in `name_lengths_on_workers` changes."
+[[hints]]
+text = "In `share_jars`: `Arc::clone(list)`."
+
+[[points]]
+after = 2
+prompt = "Why may an Rc not go to another thread?"
+pick = ["it lives on the heap", "it is too big", "it has no Drop", "its counter is a plain number two threads could race on"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Make another owner for the next worker."
+code = "let mine = ___(&jars);"
+blank = "Arc::clone"

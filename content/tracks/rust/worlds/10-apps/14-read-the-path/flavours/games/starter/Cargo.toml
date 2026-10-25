@@ -1,0 +1,15 @@
+[package]
+name = "app_read_the_path"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8", default-features = false, features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }
+tower = { version = "0.5", features = ["util"] }
+
+[workspace]

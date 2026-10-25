@@ -1,0 +1,26 @@
+title = "Children from a list"
+summary = "The pills come from the model now: one child per pill, however many there are."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["gpui", "iterator"]
+
+[[objectives]]
+test = "one_element_per_pill"
+label = "every pill of the default bar is drawn"
+
+[[hints]]
+text = "Replace the single `.child(pill_element(&self.pills[0]))` in `render` with `.children(..)`, fed by an iterator over `self.pills` that maps each pill through `pill_element`."
+[[hints]]
+text = "`.children(self.pills.iter().map(pill_element))`"
+
+[[points]]
+after = 2
+prompt = "Which call adds every element an iterator gives?"
+pick = [".child(..)", ".flex_row()", ".collect()", ".children(..)"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Turn every divider into an element."
+code = ".children(self.dividers.iter().___(divider_element))"
+blank = "map"

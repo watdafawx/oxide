@@ -1,0 +1,26 @@
+title = "When a task panics"
+summary = "A panic stays inside its task. Awaiting the handle gives Err, and the program carries on."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["async", "spawn", "panic", "JoinError"]
+
+[[objectives]]
+test = "part_size_survives_a_panic"
+label = "part_size(9000, 3) is Some(3000), and part_size(9000, 0) is None instead of a crash"
+
+[[hints]]
+text = "Spawn the division in an `async move` block, then await the handle. Awaiting gives a `Result`, and `.ok()` from world 03 turns it into an `Option`."
+[[hints]]
+text = "`let handle = tokio::spawn(async move { total / parts });` then `handle.await.ok()`."
+
+[[points]]
+after = 2
+prompt = "A spawned task panics. What does awaiting its handle give?"
+pick = ["Ok(0)", "a crash of the whole program", "Err(JoinError)", "None"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Turn the Result into an Option."
+code = "let cover = handle.await.___();"
+blank = "ok"

@@ -16,18 +16,15 @@ test = "parrot_overrides_greet"
 label = "Parrot overrides greet() with its own line"
 
 [[hints]]
-text = "In a default body you can call the trait's other methods: `self.name()`."
+text = "A default body is an ordinary method body inside the trait. It can call `self.name()` even though each type writes `name` itself."
 [[hints]]
-text = "`shout` is `self.greet().to_uppercase()`. It calls whichever `greet` the type ended up with."
-[[hints]]
-text = "Parrot: `format!(\"Squawk! {} wants a cracker!\", self.name())`."
+text = "`greet`: `format!(\"Hello, {}!\", self.name())`. `shout`: `self.greet().to_uppercase()`. Parrot: `format!(\"Squawk! {} wants a cracker!\", self.name())`."
 
 [[points]]
 after = 1
-prompt = "Which method can Bob skip writing?"
-pick = ["name", "speak", "both", "neither"]
-answer = 1
-
+prompt = "A trait method that already has a body is..."
+pick = ["required", "private", "a default", "an override"]
+answer = 2
 [[points]]
 after = 2
 prompt = "Call the trait's other method."

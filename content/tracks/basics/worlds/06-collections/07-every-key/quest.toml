@@ -1,0 +1,33 @@
+title = "Every key"
+summary = "At closing time, count the stock and work out what it is worth: loop over a map."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["maps", "pairs", "loops"]
+requires = []
+
+[[objectives]]
+test = "counts_every_item_in_stock"
+label = "items_in_stock(stock) adds up the counts of every product"
+
+[[objectives]]
+test = "values_the_stock"
+label = "stock_value(stock, prices) adds count times price for every product"
+
+[[hints]]
+text = "`for item, count in pairs(stock) do` visits every product. In `stock_value`, the same `item` looks up its price in the other table."
+
+[[hints]]
+text = "`total = total + count` for the first, and `total = total + count * prices[item]` for the second, inside the `pairs` loop."
+
+[[points]]
+after = 2
+prompt = "In what order does `pairs` visit the keys?"
+pick = ["alphabetical", "the order they were added", "no promised order", "smallest value first"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "What does `ipairs` visit in `{milk = 2, eggs = 6}`?"
+pick = ["both keys", "nothing", "only milk", "an error"]
+answer = 1

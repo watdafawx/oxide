@@ -1,0 +1,53 @@
+title = "Boss: text adventure"
+summary = "Rooms, a player, an inventory: borrow the game to look, borrow it mutably to act, and never clone a room."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["ownership", "borrowing", "structs", "boss"]
+
+[[objectives]]
+test = "room_name_borrows_from_world"
+label = "World::room_name(i) lends out the room's name as a &str"
+[[objectives]]
+test = "describe_shows_room_and_exits"
+label = "describe() shows the room, its description and exits"
+[[objectives]]
+test = "describe_lists_items_when_present"
+label = "describe() adds the items only when the room has some"
+[[objectives]]
+test = "go_moves_the_player"
+label = "go(\"north\") moves the player and gives back the new room's name"
+[[objectives]]
+test = "go_blocked_keeps_player_in_place"
+label = "go with no such exit gives back Err and the player stays"
+[[objectives]]
+test = "take_moves_item_to_inventory"
+label = "take(\"lamp\") removes the item from the room and adds it to the inventory"
+[[objectives]]
+test = "take_missing_item_is_an_error"
+label = "take of something that isn't here gives back Err and changes nothing"
+[[objectives]]
+test = "run_plays_a_whole_script"
+label = "run(&[...]) plays commands on a fresh game and gives back one line per command"
+
+[[hints]]
+text = "Start with `room_name`: lend out `&self.rooms[i].name`. Read-only methods take `&self`, methods that change the game take `&mut self`."
+[[hints]]
+text = "describe: `let here = &self.world.rooms[self.player.room];`, push each `&exit.0` into a `Vec<&str>`, then `format!(\"{}: {} [exits: {}]\", here.name, here.description, exits.join(\", \"))`. Add the items with `push_str` inside `if !here.items.is_empty()`."
+[[hints]]
+text = "go: loop over `&here.exits`; when `exit.0 == dir`, keep `Some(exit.1)` in a `let mut target = None;`. After the loop, `match target`: set `self.player.room = i;` and give back `Ok(self.world.room_name(i))`."
+[[hints]]
+text = "take: the loop from \"Take it out\" over `here.items`, with `let here = &mut self.world.rooms[self.player.room];`. Push the removed String with `self.player.inventory.push(taken);` and `return Ok(());`."
+[[hints]]
+text = "run: `for line in script`, then `let (cmd, arg) = match line.split_once(' ') { Some(parts) => parts, None => (*line, \"\") };` and a `match cmd` with arms `\"look\"`, `\"go\"`, `\"take\"` and `_`."
+
+[[points]]
+after = 3
+prompt = "Which `self` lets `go` change the game?"
+pick = ["&self", "self", "&mut self", "mut"]
+answer = 2
+[[points]]
+after = 6
+prompt = "Glue the names together with a separator."
+code = "let text = names.___(\", \");"
+blank = "join"

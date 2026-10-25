@@ -1,0 +1,33 @@
+title = "An input"
+summary = "One function that prices any number of tickets, with the number handed in."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["inputs", "functions"]
+requires = []
+
+[[objectives]]
+test = "prices_any_number_of_tickets"
+label = "ticket_cost(tickets) gives 9 per ticket, for any number"
+
+[[objectives]]
+test = "prices_tickets_and_popcorn"
+label = "order_cost(tickets, boxes) adds 4 per popcorn box"
+
+[[hints]]
+text = "Inside the function, the input's name stands for whatever number the test handed in. Use it where the number of tickets goes."
+
+[[hints]]
+text = "`return tickets * 9` in `ticket_cost`, and `return tickets * 9 + boxes * 4` in `order_cost`."
+
+[[points]]
+after = 2
+prompt = "With `function M.ticket_cost(tickets)`, what is `tickets` while `ticket_cost(5)` runs?"
+pick = ["the word tickets", "9", "5", "nil"]
+answer = 2
+
+[[points]]
+after = 4
+prompt = "With `function M.total(tickets, boxes)`, the call is `total(3, 1)`. What is `boxes`?"
+pick = ["1", "3", "4", "nil"]
+answer = 0

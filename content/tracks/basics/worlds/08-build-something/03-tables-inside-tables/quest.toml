@@ -1,0 +1,33 @@
+title = "Tables inside tables"
+summary = "One table per team, and a list that holds the teams."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["records", "nested tables", "lists"]
+requires = []
+
+[[objectives]]
+test = "a_win_is_recorded"
+label = "record_win(team) adds one to the team's wins"
+
+[[objectives]]
+test = "finds_the_team_with_most_wins"
+label = "most_wins(teams) gives the name of the team with the most wins"
+
+[[hints]]
+text = "`team.wins` reads and stores the field. For `most_wins`, keep a champion team that starts as `teams[1]`, and compare the `wins` of each team with it."
+
+[[hints]]
+text = "`team.wins = team.wins + 1`. Then `local best = teams[1]`, `for _, team in ipairs(teams) do if team.wins > best.wins then best = team end end`, `return best.name`."
+
+[[points]]
+after = 2
+prompt = 'With `team = {name = "Owls", wins = 2}`, what is `team.wins`?'
+pick = ['"wins"', '"Owls"', "2", "nil"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "What does `teams[1].name` read?"
+pick = ["the first team's name", "the name of the list", "every name", "an error"]
+answer = 0

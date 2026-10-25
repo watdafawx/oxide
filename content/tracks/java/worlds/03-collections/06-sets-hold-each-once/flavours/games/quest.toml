@@ -1,0 +1,25 @@
+title = "Sets hold each once"
+summary = "Drop repeated enchantments with a HashSet, and spot the first repeat with what add hands back."
+
+[[objectives]]
+test = "distinctDropsRepeatedEnchantments"
+label = "distinct returns every enchantment id once"
+[[objectives]]
+test = "firstRepeatFindsTheEarliestDuplicate"
+label = "firstRepeat returns the first id seen a second time, or null when none repeats"
+
+[[hints]]
+text = "distinct: a set built from the list keeps one of each: `new HashSet<>(ids)`. firstRepeat: add each id to an empty set and look at what `add` returns."
+[[hints]]
+text = "firstRepeat: `Set<String> seen = new HashSet<>(); for (String id : ids) { if (!seen.add(id)) { return id; } } return null;`"
+
+[[points]]
+after = 2
+prompt = "What does adding a value that is already in the set do?"
+pick = ["Nothing, and add returns false", "Adds a second copy", "Throws an error", "Replaces the old one and returns true"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Keep one of each enchantment."
+code = "Set<String> unique = new ___<>(ids);"
+blank = "HashSet"

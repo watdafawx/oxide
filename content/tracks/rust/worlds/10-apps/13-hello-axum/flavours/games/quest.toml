@@ -1,0 +1,28 @@
+title = "The mod server's first route"
+summary = "Answer GET /status with a handler and a Router, and see the 404 and 405 you get for free."
+
+[[objectives]]
+test = "status_is_200_online"
+label = "GET /status answers 200 with the body online"
+[[objectives]]
+test = "post_to_status_is_405"
+label = "POST /status is refused with 405 Method Not Allowed"
+[[objectives]]
+test = "unknown_path_is_404"
+label = "any other path is 404 Not Found"
+
+[[hints]]
+text = "The handler only returns the text: its body is the string literal. `app` builds a `Router` with one `.route(path, get(handler))`."
+[[hints]]
+text = "`async fn status() -> &'static str { \"online\" }` and `Router::new().route(\"/status\", get(status))`."
+
+[[points]]
+after = 2
+prompt = "What does a handler that returns the text \"online\" send back?"
+pick = ["A 404 with an empty body", "A JSON object {\"online\": true}", "A 200 response whose body is online", "Nothing until you call send"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Match the path to the handler."
+code = "Router::new().___(\"/motd\", get(motd))"
+blank = "route"

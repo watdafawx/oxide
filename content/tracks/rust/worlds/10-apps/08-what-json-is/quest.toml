@@ -1,0 +1,21 @@
+title = "What JSON is"
+summary = "The text format programs use to hand data to each other: objects, arrays, strings, numbers, true, false and null."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["json", "serde"]
+
+[[quiz]]
+question = "Which of these is valid JSON for a profile with 120 XP and no last-active day?"
+choices = ["{xp: 120, last_active: None}", "{\"xp\": 120, \"last_active\": null}", "{'xp': 120, 'last_active': ''}"]
+answer = 1
+
+[[quiz]]
+question = "Oxide's engine is Rust and its screen is JavaScript. Why do they trade JSON text instead of the Rust struct itself?"
+choices = ["A struct's bytes in memory mean nothing to another program; text in an agreed format does", "JSON is faster to work with than a struct inside the same program", "Rust structs cannot be passed to functions in other files"]
+answer = 0
+
+[[quiz]]
+question = "What does deserialize mean?"
+choices = ["Turn a Rust value into JSON text", "Check that JSON text has no typos", "Read JSON text back into a Rust value"]
+answer = 2

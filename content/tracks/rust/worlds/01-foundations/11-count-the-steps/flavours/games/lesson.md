@@ -16,6 +16,8 @@ total        // 2 + 4 + 6 = 12
 
 **An empty range.** `1..=0` has nothing in it, so the loop never runs and the total stays 0. That is exactly right for zero steps.
 
+**If this is new.** Programming 101 explains counting loops from zero: [Count with for](/quest/basics/04-repetition/02-count-with-for).
+
 ## Your turn
 
 - In `staircase_blocks`, loop `step` from 1 through `steps` and add each `step` to the total.

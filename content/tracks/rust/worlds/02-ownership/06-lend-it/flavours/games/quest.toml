@@ -1,0 +1,25 @@
+title = "Lend it"
+summary = "Pass the player list with & so the list command can look and the server keeps it."
+
+[[objectives]]
+test = "count_players_counts_online_names"
+label = "count_players(&roster) gives back how many players are online"
+[[objectives]]
+test = "total_chars_sums_name_lengths"
+label = "total_chars(&roster) adds up every player name's length, and the server keeps the roster"
+
+[[hints]]
+text = "`roster` is a `&Roster`, and you read through it as if it were the roster: `roster.players` works. `count_players` is one line."
+[[hints]]
+text = "`roster.players.len()`. For `total_chars`: `let mut total = 0;`, then `for name in &roster.players { total += name.len(); }`, then `total`."
+
+[[points]]
+after = 1
+prompt = "Which expression lends `roster` without giving it away?"
+pick = ["roster", "roster.clone()", "&roster", "*roster"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Take a borrowed Roster."
+code = "fn count(roster: ___) -> usize {"
+blank = "&Roster"

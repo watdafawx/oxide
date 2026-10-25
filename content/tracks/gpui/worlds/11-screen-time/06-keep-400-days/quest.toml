@@ -1,8 +1,8 @@
 title = "Keep 400 days"
 summary = "Delete day files more than 400 days old, and nothing else in the folder."
 kind = "exercise"
-xp = 25
-minutes = 4
+xp = 45
+minutes = 7
 tags = ["files", "dates"]
 
 [[objectives]]
@@ -10,12 +10,17 @@ test = "day_401_is_deleted"
 label = "400 days back stays, 401 days back goes, notes.txt stays"
 
 [[hints]]
-text = "Inside the loop: the path, its stem parsed as a date, then one `if` with `&&` and `let Some(date) = date` that removes the file."
+text = "Two `let`s and an `if`: `let path = entry?.path();`, then `let date = path.file_stem().and_then(..).and_then(..);` with `to_str` and `parse_from_str(..).ok()`, then the extension, `let Some(date) = date` and the age joined with `&&`."
 [[hints]]
-text = "`if path.extension().is_some_and(|ext| ext == \"json\") && let Some(date) = date && (today - date).num_days() > KEEP_DAYS { std::fs::remove_file(&path)?; deleted += 1; }`"
+text = "`let path = entry?.path(); let date = path.file_stem().and_then(|stem| stem.to_str()).and_then(|stem| NaiveDate::parse_from_str(stem, \"%Y-%m-%d\").ok()); if path.extension().is_some_and(|ext| ext == \"json\") && let Some(date) = date && (today - date).num_days() > KEEP_DAYS { std::fs::remove_file(&path)?; deleted += 1; }`"
 
 [[points]]
 after = 2
-prompt = "Why parse the name instead of using the file's modified time?"
-pick = ["copying or restoring a file changes its modified time, the name never does", "modified times are slow", "Windows has no modified time", "it is shorter"]
-answer = 0
+prompt = "Why call .to_str() after file_stem()?"
+pick = ["it drops the .json", "it lower-cases the name", "an OsStr may not be UTF-8", "file_stem gives bytes"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Why read the date from the name, not the modified time?"
+pick = ["modified times are slow to read on Windows", "copying changes the modified time", "Windows keeps no modified time for json", "names are shorter to compare"]
+answer = 1

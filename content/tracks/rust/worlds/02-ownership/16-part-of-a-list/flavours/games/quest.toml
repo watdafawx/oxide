@@ -1,0 +1,25 @@
+title = "Part of a list"
+summary = "Slices work on the chat log too: borrow the body or the newest three lines, without copying."
+
+[[objectives]]
+test = "trim_edges_drops_header_and_footer"
+label = "trim_edges drops the header and footer of a log dump (empty for 2 lines or fewer)"
+[[objectives]]
+test = "recent_lines_keeps_last_three"
+label = "recent_lines gives back the last 3 chat lines (or all of them if there are fewer)"
+
+[[hints]]
+text = "`trim_edges` needs an `if lines.len() <= 2` with `&[]` in one branch. `recent_lines` works out where to start, then slices to the end."
+[[hints]]
+text = "`&lines[1..lines.len() - 1]` in the other branch. `let start = log.len().saturating_sub(3);` then `&log[start..]`."
+
+[[points]]
+after = 2
+prompt = "Take any borrowed list of chat lines."
+code = "fn count_caps(log: ___) -> usize {"
+blank = "&[String]"
+[[points]]
+after = 3
+prompt = "What should `trim_edges` give back for a dump of 2 lines?"
+pick = ["a panic", "None", "an empty slice, &[]", "the whole dump"]
+answer = 2

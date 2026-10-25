@@ -1,0 +1,6 @@
+[package]
+name = "mastery_clone_winner"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

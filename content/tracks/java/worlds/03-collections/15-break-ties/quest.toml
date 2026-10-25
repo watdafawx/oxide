@@ -1,0 +1,26 @@
+title = "Break ties"
+summary = "Add a second key with thenComparing, and put reversed where it belongs."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["sort", "comparator"]
+
+[[objectives]]
+test = "byScoreThenNameBreaksTiesAtoZ"
+label = "byScoreThenName puts the highest score first, and equal scores A to Z by name"
+
+[[hints]]
+text = "Start from the score comparator you wrote last quest, `Comparator.comparingInt(Player::score).reversed()`, and add `.thenComparing(...)` after it."
+[[hints]]
+text = "`copy.sort(Comparator.comparingInt(Player::score).reversed().thenComparing(Player::name)); return copy;`"
+
+[[points]]
+after = 1
+prompt = "Which call adds a tie-break?"
+pick = ["reversed", "comparing", "thenComparing", "sort"]
+answer = 2
+[[points]]
+after = 2
+prompt = "In comparing(A).thenComparing(B).reversed(), what does reversed flip?"
+pick = ["Only B", "Only A", "Both A and B", "Nothing"]
+answer = 2

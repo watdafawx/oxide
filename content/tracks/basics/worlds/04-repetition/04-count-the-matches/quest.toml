@@ -1,0 +1,33 @@
+title = "Count the matches"
+summary = "Every 7th day is a rest day. How many running days are in a month?"
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["loops", "counter", "if"]
+requires = []
+
+[[objectives]]
+test = "a_week_has_six_running_days"
+label = "running_days(7) is 6, and running_days(0) is 0"
+
+[[objectives]]
+test = "a_month_has_26_running_days"
+label = "running_days(30) is 26"
+
+[[hints]]
+text = "A counter starts at 0 before the loop. Inside the loop, an `if` asks the helper whether this day is a rest day, and counts the day only when it is not."
+
+[[hints]]
+text = "`for day = 1, days do if not is_rest_day(day) then count = count + 1 end end`, then `return count`."
+
+[[points]]
+after = 1
+prompt = "A counter goes up by how much each time?"
+pick = ["by the value", "by 1", "by 2", "it doubles"]
+answer = 1
+
+[[points]]
+after = 2
+prompt = "A loop runs over 7 days with an `if` inside. How often is the condition checked?"
+pick = ["once", "only on the matching days", "never", "7 times"]
+answer = 3

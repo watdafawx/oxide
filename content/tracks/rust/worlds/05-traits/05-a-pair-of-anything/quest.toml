@@ -1,0 +1,29 @@
+title = "A pair of anything"
+summary = "Put a type parameter on a struct, and meet Self and methods that take self by value."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["generics", "structs", "self"]
+
+[[objectives]]
+test = "pair_holds_two_of_anything"
+label = "Pair::new builds a pair of numbers or of names"
+[[objectives]]
+test = "swap_crosses_the_fields_over"
+label = "swap() gives back a pair with first and second crossed"
+
+[[hints]]
+text = "`new` returns `Self`, which is `Pair<T>` here: build it with a struct literal. `swap` takes `self`, so it may move both fields into the new pair."
+[[hints]]
+text = "`new`: `Pair { first, second }`. `swap`: `Pair { first: self.second, second: self.first }`."
+
+[[points]]
+after = 2
+prompt = "Which line declares T for the methods?"
+pick = ["impl Pair<T>", "impl T", "impl<T> Pair<T>", "impl::<T> Pair"]
+answer = 2
+[[points]]
+after = 4
+prompt = "After `let q = p.swap();`, can you still use `p`?"
+pick = ["No, swap took p by value", "Yes, swap only borrowed it", "Only its first field", "Only if T is a number"]
+answer = 0

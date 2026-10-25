@@ -1,0 +1,26 @@
+title = "Why it is missing"
+summary = "A reason for every --: needs administrator, not on this PC, or no answer."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["enum", "match"]
+
+[[objectives]]
+test = "cpu_temp_without_admin_says_why"
+label = "WMI access denied means NeedsAdmin, and the hover card says \"needs administrator\""
+
+[[hints]]
+text = "`missing_from_wmi` compares `hres` with `WBEM_E_ACCESS_DENIED`."
+[[hints]]
+text = "`if hres == WBEM_E_ACCESS_DENIED { Missing::NeedsAdmin } else { Missing::NoDevice }`"
+
+[[points]]
+after = 2
+prompt = "A desktop has no battery. Which Missing fits?"
+pick = ["NeedsAdmin", "Timeout", "NoDevice", "None of them"]
+answer = 2
+[[points]]
+after = 3
+prompt = "What does the top bit of an HRESULT say?"
+pick = ["the call failed", "it needs administrator", "the code is from WMI", "the number is in hex"]
+answer = 0

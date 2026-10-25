@@ -1,0 +1,25 @@
+title = "Cut a line"
+summary = "split cuts text at a separator into an array; a limit keeps the rest of the line in one piece."
+
+[[objectives]]
+test = "loadersCutsAtCommas"
+label = "loaders cuts \"fabric,forge,quilt\" at its commas into a list"
+[[objectives]]
+test = "changelogKeepsItsSpaces"
+label = "changelogOf returns the third part of an update line, spaces and all"
+
+[[hints]]
+text = "loaders: `line.split(\",\")` gives a `String[]`; `List.of(...)` turns it into a list. changelogOf: `split` at spaces with a limit of 3, then the part at index 2."
+[[hints]]
+text = "`return List.of(line.split(\",\"));` and `return line.split(\" \", 3)[2];`"
+
+[[points]]
+after = 1
+prompt = "What type does split hand back?"
+pick = ["List<String>", "String[]", "Set<String>", "String"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Cut into at most 3 parts."
+code = "String[] parts = line.split(\" \", ___);"
+blank = "3"

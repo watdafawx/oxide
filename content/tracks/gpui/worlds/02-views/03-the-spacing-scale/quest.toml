@@ -1,0 +1,21 @@
+title = "The spacing scale"
+summary = "gap_2 is a step, px(32.) is pixels, and px_2() is padding: three things that look alike."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["gpui", "spacing"]
+
+[[quiz]]
+question = "What does .px_2() do to a box?"
+choices = ["Makes the box 2 pixels wide", "Gives it about 8 pixels of room inside, left and right", "Turns the number 2 into a length"]
+answer = 1
+
+[[quiz]]
+question = "Which call makes a box exactly 32 pixels high, whatever the base text size?"
+choices = [".h(px(32.))", ".h_32()", ".py_2()"]
+answer = 0
+
+[[quiz]]
+question = "Why are gaps and padding steps on a scale, not bare pixel counts?"
+choices = ["GPUI does not allow pixels in a gap", "Steps are faster to draw", "A few steps keep every space in the app consistent, and they grow with the base text size"]
+answer = 2

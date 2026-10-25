@@ -1,0 +1,25 @@
+title = "Copy your own type"
+summary = "A block position moves by default. Derive Clone and Copy to say it may be copied."
+
+[[objectives]]
+test = "spawn_and_home_returns_pos_twice"
+label = "spawn_and_home(pos) gives back (pos, pos): BlockPos is Copy"
+[[objectives]]
+test = "backup_gives_two_equal_players"
+label = "backup(player) gives back two equal player records: Player is Clone"
+
+[[hints]]
+text = "Only the two `#[derive(...)]` lines change. The functions are already right once the types have the abilities they use."
+[[hints]]
+text = "`#[derive(Debug, PartialEq, Clone, Copy)]` above `BlockPos`, and `#[derive(Debug, PartialEq, Clone)]` above `Player`."
+
+[[points]]
+after = 3
+prompt = "What is a line like `#[derive(Debug)]` above a struct?"
+pick = ["a comment", "a test", "an attribute: a note to the compiler", "a console command"]
+answer = 2
+[[points]]
+after = 5
+prompt = "Let `ChunkPos` be copied silently, like a number."
+code = "#[derive(Debug, ___)]\nstruct ChunkPos { x: i32, z: i32 }"
+blank = "Clone, Copy"

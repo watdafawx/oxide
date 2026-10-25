@@ -1,0 +1,26 @@
+title = "A whole stock list"
+summary = "stock![\"apples\" => 3, \"pears\" => 2]: repeat a pair, and call item! once per pair."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["macros", "macro_rules", "repetition"]
+
+[[objectives]]
+test = "stock_builds_every_item"
+label = "stock![\"apples\" => 3, \"pears\" => 2,] is a Vec of both Items, in order"
+
+[[hints]]
+text = "The pattern is already right. In the template, build a `vec![ ]` whose repetition holds one `item!` call per pair; call it through `$crate::` so it works anywhere."
+[[hints]]
+text = "`vec![$( $crate::item!($name => $count) ),*]`"
+
+[[points]]
+after = 1
+prompt = "In $( $name:expr => $count:expr ),*, how many captures does one round take?"
+pick = ["one", "two", "three", "it depends on the call"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Call your own macro from a template, from any crate."
+code = "vec![$( ___!($name => $count) ),*]"
+blank = "$crate::item"

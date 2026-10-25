@@ -12,20 +12,17 @@ test = "zombie_overrides_announce"
 label = "Zombie overrides announce() and is_hostile()"
 
 [[hints]]
-text = "In a default body you can call the other methods of the trait: `self.name()`."
+text = "A default body is an ordinary method body inside the trait. It can call `self.name()` even though each mob writes `name` itself."
 [[hints]]
-text = "`alert` is `self.announce().to_uppercase()`. It calls whichever `announce` the mob ended up with."
-[[hints]]
-text = "Zombie: `format!(\"{} groans at you!\", self.name())`, and `is_hostile` returns `true`."
+text = "`is_hostile`: `false`. `announce`: `format!(\"A wild {} appears!\", self.name())`. `alert`: `self.announce().to_uppercase()`. Zombie: `true` and `format!(\"{} groans at you!\", self.name())`."
 
 [[points]]
 after = 1
-prompt = "Which method must every type write?"
-pick = ["name", "is_hostile", "label", "none"]
-answer = 0
-
+prompt = "A trait method that already has a body is..."
+pick = ["required", "private", "a default", "an override"]
+answer = 2
 [[points]]
-after = 1
+after = 2
 prompt = "Call the trait's other method."
 code = "format!(\"[{}]\", self.___())"
 blank = "name"

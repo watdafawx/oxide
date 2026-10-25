@@ -1,0 +1,25 @@
+title = "At most N at once"
+summary = "A Semaphore hands out N permits. Each mod download task waits for one, and gives it back when it is dropped."
+
+[[objectives]]
+test = "every_jar_is_downloaded"
+label = "download_jars_limited(6, 2, ..) downloads all 6 jars"
+[[objectives]]
+test = "never_more_jars_than_the_limit"
+label = "Never more than 2 at the same time, but still 2 side by side"
+
+[[hints]]
+text = "Start from quest 07's spawn-then-await loops. Before them, `Arc::new(Semaphore::new(limit))`. Each task gets an `Arc::clone` of it and of the tracker, and its first line takes a permit with `acquire_owned().await` into a *named* variable, so it stays alive while `fake_download` runs."
+[[hints]]
+text = "Inside the loop: `let permits = Arc::clone(&permits); let tracker = Arc::clone(&tracker); handles.push(tokio::spawn(async move { let _permit = permits.acquire_owned().await.unwrap(); fake_download(&tracker).await; }));`."
+
+[[points]]
+after = 2
+prompt = "Allow three downloads at a time."
+code = "let permits = Arc::new(Semaphore::new(___));"
+blank = "3"
+[[points]]
+after = 4
+prompt = "Which line keeps the permit until the end of the block?"
+pick = ["let _ = sem.acquire_owned().await.unwrap();", "let _permit = sem.acquire_owned().await;", "sem.acquire_owned().await.unwrap();", "drop(sem.acquire_owned());"]
+answer = 1

@@ -10,12 +10,17 @@ test = "amber_theme_text_is_amber"
 label = "Amber has amber text and accent and a monospace font; Modern is not monospace"
 
 [[hints]]
-text = "A `match` on `choice` with four arms, each a `Theme { .. }` with its five fields."
+text = "Copy the Terminal arm three times inside `match choice { .. }`, then change the variant name and the colours of each copy. Only Modern has `monospace: false`."
 [[hints]]
-text = "Amber: `Theme { background: 0x0d0800, card: 0x140c00, text: 0xffb000, accent: 0xffb000, monospace: true }`; Terminal green `0x33ff66`, Yellow `0xffee33`, Modern `0xf2f2f2` text with a `0x5ab0ff` accent and no monospace."
+text = "Amber is `DashTheme::Amber => Theme { background: 0x0d0800, card: 0x140c00, text: 0xffb000, accent: 0xffb000, monospace: true },`; Yellow the same shape with `0x0b0b00`, `0x141400`, `0xffee33`; Modern `Theme { background: 0x15171c, card: 0x22252d, text: 0xf2f2f2, accent: 0x5ab0ff, monospace: false }`."
 
 [[points]]
 after = 2
-prompt = "Why keep the colours in a Theme struct instead of in render?"
-pick = ["render asks one place, and a new theme is one more arm", "structs draw faster", "render cannot use numbers", "for serde"]
-answer = 0
+prompt = "What does each arm of theme's match give back?"
+pick = ["one colour", "a whole Theme", "a DashTheme", "a Settings"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Why keep the colours in a Theme instead of inside render?"
+pick = ["structs draw faster", "serde needs it", "a new look is one more arm", "render cannot use numbers"]
+answer = 2

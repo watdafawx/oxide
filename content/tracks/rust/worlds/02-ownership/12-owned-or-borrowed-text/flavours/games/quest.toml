@@ -1,0 +1,25 @@
+title = "Owned or borrowed text"
+summary = "Chat lines: String owns its letters, &str borrows them. Read with &str, keep with String."
+
+[[objectives]]
+test = "welcome_takes_literals_and_strings"
+label = "welcome works with a literal AND with a borrowed String"
+[[objectives]]
+test = "chat_line_outlives_typed_text"
+label = "chat_line gives back a String that lives on after the typed text is gone"
+
+[[hints]]
+text = "`welcome` builds new text from the borrowed name with `format!`. `chat_line` turns borrowed text into a `String` with one method you have used since the crafting calculator."
+[[hints]]
+text = "`format!(\"Welcome, {name}!\")` and `text.to_string()`."
+
+[[points]]
+after = 2
+prompt = "What type is the literal \"Steve\"?"
+pick = ["String", "char", "&str", "Vec<char>"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Take a player name you only read."
+code = "fn welcome(name: ___) -> String {"
+blank = "&str"

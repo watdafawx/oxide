@@ -1,0 +1,29 @@
+title = "Echo until the client hangs up"
+summary = "The server's side: read whatever arrives, write it back, and stop when a read gives 0 bytes."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["tcp", "io", "loop"]
+
+[[objectives]]
+test = "handle_echoes_until_eof"
+label = "handle(stream) writes back everything it reads until the client closes"
+[[objectives]]
+test = "echoes_more_than_one_buffer"
+label = "A message bigger than the buffer is echoed whole"
+
+[[hints]]
+text = "Inside a `loop`, `stream.read(&mut buf)?` gives the number of bytes that arrived. When it is 0, `return Ok(())`. Otherwise write back only `&buf[..n]`."
+[[hints]]
+text = "`loop { let n = stream.read(&mut buf)?; if n == 0 { return Ok(()); } stream.write_all(&buf[..n])?; }`."
+
+[[points]]
+after = 2
+prompt = "What does a read of `Ok(0)` mean?"
+pick = ["try again later", "the buffer is full", "the other side closed", "an error"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Send back only the bytes that arrived."
+code = "stream.write_all(&buf[___])?;"
+blank = "..n"

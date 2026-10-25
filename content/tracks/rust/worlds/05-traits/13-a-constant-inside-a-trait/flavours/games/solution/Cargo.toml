@@ -1,0 +1,6 @@
+[package]
+name = "traits_a_constant_inside_a_trait"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

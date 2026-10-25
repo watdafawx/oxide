@@ -1,0 +1,29 @@
+title = "Decimals compare differently"
+summary = "f64 has no single natural order, so compare decimals with total_cmp."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["f64", "total_cmp", "sort_by", "min_by"]
+
+[[objectives]]
+test = "sorted_prices_go_low_to_high"
+label = "sorted_prices sorts decimal prices from lowest to highest"
+[[objectives]]
+test = "cheapest_picks_the_lowest_price"
+label = "cheapest gives the item with the lowest decimal price, or None"
+
+[[hints]]
+text = "`sort_by` and `min_by` both take a closure that compares two items. For decimals, the comparison is `x.total_cmp(&y)`."
+[[hints]]
+text = "`prices.sort_by(|a, b| a.total_cmp(b));` (a and b are already references) and `items.iter().min_by(|a, b| a.price.total_cmp(&b.price))`."
+
+[[points]]
+after = 2
+prompt = "Why can't `f64` be sorted with plain `sort()`?"
+pick = ["decimals are too slow", "NaN is not bigger, smaller or equal to anything", "f64 is not Copy", "sort only works on text"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Compare two decimal prices."
+code = "items.iter().min_by(|a, b| a.price.___(&b.price))"
+blank = "total_cmp"

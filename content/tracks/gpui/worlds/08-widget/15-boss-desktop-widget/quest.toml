@@ -1,0 +1,37 @@
+title = "Boss: the desktop widget"
+summary = "Draw the whole widget from the bar's readings, and apply its placement and lock to its window."
+kind = "boss"
+xp = 450
+minutes = 60
+tags = ["boss", "gpui", "win32"]
+
+[[objectives]]
+test = "opens_from_menu"
+label = "ToggleWidget from the bar opens and closes the widget"
+[[objectives]]
+test = "groups_drawn"
+label = "the header, then headings with their stats"
+[[objectives]]
+test = "bars_match_values"
+label = "usage bars are as full as their values; core bars drawn"
+[[objectives]]
+test = "style_switches"
+label = "Graphs and Bars styles draw only their part"
+[[objectives]]
+test = "snaps_and_saves"
+label = "a snapped position is where the widget reopens"
+[[objectives]]
+test = "placement_applied"
+label = "apply_widget_window sets the layer from Placement"
+[[objectives]]
+test = "lock_is_click_through"
+label = "and click-through from the lock"
+
+[[hints]]
+text = "The frame of `render`: `let content = { let bar = self.bar.read(cx); let (show_bars, show_graphs) = parts(cx.global::<Settings>().widget.style); let mut groups = Vec::new(); /* one column per heading */ groups };` then `div().debug_selector(|| \"widget\".into()).size_full().flex().flex_col().gap_2().p_2().rounded(px(10.)).bg(rgba(0x1e1e1ef2)).text_color(rgb(0xffffff)).text_sm().child(widget_header(cx)).children(content).when(!self.cores.is_empty(), |el| el.child(core_bars(&self.cores)))`."
+[[hints]]
+text = "The headings, inside the block: `for (group, kinds) in grouped(&bar_stats(&bar.order)) { let mut column = div().flex().flex_col().gap_1().child(div().debug_selector(move || format!(\"heading-{group:?}\")).text_xs().child(format!(\"{group:?}\"))); for kind in kinds { column = column.child(row(kind)); } groups.push(column); }`"
+[[hints]]
+text = "The row closure, before the loop: `let row = |kind: StatKind| { let text = bar.text_of(kind).unwrap_or(\"--\".to_string()); let mut el = div().debug_selector(move || format!(\"row-{kind:?}\")).flex().flex_col().gap_1().child(div().flex().justify_between().child(kind.label()).child(text)); /* bar and graph */ el };`"
+[[hints]]
+text = "Bar and graph: `if show_bars && let Some(value) = bar.snapshot.get(&kind) && let Some(share) = bar_share(kind, *value) { el = el.child(usage_bar(kind, share)); }` and `if show_graphs && let Some(history) = bar.histories.get(&kind) { let values: Vec<f64> = history.values().collect(); if !values.is_empty() { el = el.child(widget_graph(kind, values)); } }`. For the window: `apply_placement(api, hwnd, settings.placement); api.set_click_through(hwnd, settings.locked);`"

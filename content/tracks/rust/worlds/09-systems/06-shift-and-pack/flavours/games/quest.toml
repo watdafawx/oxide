@@ -1,0 +1,25 @@
+title = "Pack a MOTD colour"
+summary = "Shift bytes left and right with << and >> to pack red, green and blue into one u32 and take them out again."
+
+[[objectives]]
+test = "motd_color_packs_into_u32"
+label = "pack_color(0xff, 0xaa, 0x00) is 0x00FF_AA00, gold"
+[[objectives]]
+test = "motd_color_unpacks_from_u32"
+label = "unpack_color takes red, green and blue back out"
+
+[[hints]]
+text = "Packing: widen each byte with `u32::from`, shift red left by 16 and green by 8, and join the three with `|`. Unpacking: shift right by the same amounts and cut each with `as u8`."
+[[hints]]
+text = "`(u32::from(r) << 16) | (u32::from(g) << 8) | u32::from(b)` and `((color >> 16) as u8, (color >> 8) as u8, color as u8)`."
+
+[[points]]
+after = 1
+prompt = "What is `1 << 3`?"
+pick = ["3", "4", "8", "13"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Keep only the green byte."
+code = "let green = (color >> 8) ___ u8;"
+blank = "as"

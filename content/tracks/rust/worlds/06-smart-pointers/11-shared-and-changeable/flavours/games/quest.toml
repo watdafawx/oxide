@@ -1,0 +1,28 @@
+title = "Assemblers feeding assemblers"
+summary = "Stack Rc and RefCell: a line of machines you can retune through any handle."
+
+[[objectives]]
+test = "new_assembler_feeds_nothing"
+label = "new_assembler(rate) makes a shared assembler with that rate and nothing downstream"
+[[objectives]]
+test = "connect_appends_to_feeds"
+label = "connect(&source, target) appends the target to source.feeds"
+[[objectives]]
+test = "retune_through_any_handle_shows_up"
+label = "A rate change made through your own handle shows up inside the line"
+
+[[hints]]
+text = "`new_assembler`: build the `Assembler` with `feeds: Vec::new()`, then wrap it: `Rc::new(RefCell::new(...))`."
+[[hints]]
+text = "`connect`: `source.borrow_mut().feeds.push(target);` The `Rc` you were given moves into the `Vec`."
+
+[[points]]
+after = 1
+prompt = "Which type has several owners and can still be changed?"
+pick = ["Rc<T>", "RefCell<T>", "Box<T>", "Rc<RefCell<T>>"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Reach through both layers to write the field."
+code = "handle.___().fuel = 40;"
+blank = "borrow_mut"

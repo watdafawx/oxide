@@ -1,2 +1,3 @@
 title = "OOP"
-blurb = "Objects, interfaces, records and sealed types: the entity and item model every mod is built on."
+blurb = "Classes, objects, interfaces, records and sealed types, one idea at a time, ending with a ledger that refuses bad transactions. Games story: the item, mob and storage-chest model every mod is built on."
+project = "Storage chest with an audit log"

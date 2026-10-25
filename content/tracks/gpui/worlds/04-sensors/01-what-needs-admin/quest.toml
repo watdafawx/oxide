@@ -4,17 +4,17 @@ kind = "read"
 xp = 15
 minutes = 4
 tags = ["sensors", "windows"]
-requires = ["03-live/13-boss-live-bar", "rust/07-concurrency/11-boss-parallel-file-hasher"]
+requires = ["03-live/16-boss-live-bar", "rust/07-concurrency/24-boss-parallel-file-hasher"]
 
 [[quiz]]
 question = "Why does Kinetik show --°C for CPU temperature on many desktops?"
-choices = ["Windows only gives it to administrators or through a driver", "The CPU is too cold to measure", "sysinfo cannot read numbers"]
-answer = 0
+choices = ["A desktop CPU idles too cold for its sensor to give a number", "sysinfo can only read processors made for laptops", "Windows hands it out only through admin or a driver"]
+answer = 2
 
 [[quiz]]
 question = "Which reading needs no administrator rights at all?"
-choices = ["NVIDIA GPU temperature through nvml.dll", "The FPS of a game", "RAM temperature"]
-answer = 0
+choices = ["The FPS of a game", "NVIDIA GPU temperature through nvml.dll", "CPU temperature through the PawnIO driver"]
+answer = 1
 
 [[quiz]]
 question = "What should the bar show for a number it is not allowed to read?"

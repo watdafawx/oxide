@@ -20,6 +20,8 @@ int[] day = new int[24];          // 24 zeros
 
 **Out of range.** Ask for an index that does not exist, like `values[3]` in an array of three, and the program stops with an `ArrayIndexOutOfBoundsException`.
 
+**If this is new.** Programming 101 explains lists and indexes from zero: [A list](/quest/basics/06-collections/01-a-list).
+
 ## Your turn
 
 - In `firstSample`, return the first value of `samples`.

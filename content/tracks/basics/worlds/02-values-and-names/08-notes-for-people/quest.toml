@@ -1,0 +1,33 @@
+title = "Notes for people"
+summary = "Comments: notes Lua skips, and a way to switch lines off and on."
+kind = "exercise"
+xp = 20
+minutes = 2
+tags = ["comments"]
+requires = []
+
+[[objectives]]
+test = "staff_pay_7"
+label = "staff_price() gives 7: the discount line is on, the wrong line is off"
+
+[[objectives]]
+test = "matinee_costs_6"
+label = "matinee_price() gives 6: the matinee price is switched on"
+
+[[hints]]
+text = "In `staff_price`, one line needs `--` added in front, and the other needs its `--` taken away."
+
+[[hints]]
+text = "Line `price = price + 2` gets `--` in front; `-- price = price - 2` loses its `-- `. In `matinee_price`, delete the `--[[` line and the `]]` line so `price = 6` runs."
+
+[[points]]
+after = 1
+prompt = "What does Lua do with the line `-- total = 0`?"
+pick = ["sets total to 0", "skips it", "shows an error", "prints it"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Which comment is the most useful?"
+pick = ["-- add 2", "-- price", "-- line 4", "-- booking fee for phone orders"]
+answer = 3

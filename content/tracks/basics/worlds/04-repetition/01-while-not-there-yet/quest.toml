@@ -1,0 +1,33 @@
+title = "While not there yet"
+summary = "Add 1.5 km a week: how many weeks until you can run the goal? A loop finds out."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["while", "loops"]
+requires = []
+
+[[objectives]]
+test = "counts_the_weeks_to_the_goal"
+label = "weeks_until(goal) counts the weeks from 2 km, adding 1.5 km a week"
+
+[[objectives]]
+test = "already_there_takes_no_weeks"
+label = "weeks_until(goal) is 0 when 2 km already reaches the goal"
+
+[[hints]]
+text = "Two names before the loop: the distance, starting at 2, and the weeks, starting at 0. The loop keeps going while the distance is below the goal."
+
+[[hints]]
+text = "Inside `while km < goal do`, two lines: `km = km + 1.5` and `weeks = weeks + 1`. After the loop's `end`, `return weeks`."
+
+[[points]]
+after = 2
+prompt = "When does a `while` loop stop?"
+pick = ["after 10 rounds", "when its condition becomes false", "when it reaches the end line once", "never"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "If the condition is already false at the start, how often does the inside run?"
+pick = ["once", "twice", "forever", "not at all"]
+answer = 3

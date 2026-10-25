@@ -1,0 +1,26 @@
+title = "Write the hop"
+summary = "Out to a worker with background_executor().spawn, wait with .await, back with this.update."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["threads", "gpui", "async"]
+
+[[objectives]]
+test = "bar_shows_reads_from_the_background"
+label = "every tick, the reads made on a worker reach the bar: 42% after two ticks"
+
+[[hints]]
+text = "Two statements after the TODOs: `let reads = cx.background_executor().spawn(async move { .. }).await;`, then `if this.update(..).is_err() { break; }`."
+[[hints]]
+text = "`let reads = cx.background_executor().spawn(async move { read_sensors(&sensors, &wanted) }).await;` then `if this.update(cx, |bar, cx| bar.apply(reads, cx)).is_err() { break; }`. Delete the `let _ = (sensors, wanted);` line."
+
+[[points]]
+after = 2
+prompt = "Why `async move` on the background block?"
+pick = ["so it runs faster", "so sensors and wanted go with it to the worker", "so it can call this.update", "move is required by every async block"]
+answer = 1
+[[points]]
+after = 3
+prompt = "What does .await on the Task pause?"
+pick = ["the whole app", "the UI thread", "the worker thread", "only this foreground task"]
+answer = 3

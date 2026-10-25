@@ -1,0 +1,18 @@
+local t = require("oxide.test")
+local entry = require("entry")
+
+t.test("free_for_toddlers_or_pass_holders", function()
+  t.eq(entry.free_entry(2, false), true, "a toddler")
+  t.eq(entry.free_entry(30, true), true, "a season pass")
+  t.eq(entry.free_entry(3, true), true, "a toddler with a pass")
+  t.eq(entry.free_entry(30, false), false, "an adult without a pass pays")
+  t.eq(entry.free_entry(4, false), false, "4 is no longer under 4")
+end)
+
+t.test("closed_outside_opening_hours", function()
+  t.eq(entry.is_closed(7), true, "too early")
+  t.eq(entry.is_closed(20), true, "too late")
+  t.eq(entry.is_closed(12), false, "midday")
+  t.eq(entry.is_closed(9), false, "opens at 9")
+  t.eq(entry.is_closed(18), true, "closed from 18")
+end)

@@ -15,6 +15,8 @@ java StatusBot         # the JVM runs StatusBot.class
 
 **The slow first time.** The first build downloads Gradle and the test libraries, about 140 MB. That takes roughly 90 seconds, once. After that a run takes a few seconds.
 
+**If you are new to coding.** [Programming 101](/quest/basics/01-what-a-program-is/01-instructions-in-order) teaches the ideas every language shares, once and in plain words: variables, choices, loops, functions, lists. It is optional and uses Lua; skip it if you have programmed before.
+
 ## Your turn
 
 Answer the three questions below.

@@ -1,0 +1,27 @@
+title = "Off the UI thread"
+summary = "Sensors read on a background thread so a slow ping never freezes the bar. The compiler insists on Send."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["send", "threads", "gpui"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "readings_arrive_from_the_background"
+label = "sensors read in the background still reach the bar every tick"
+
+[[hints]]
+text = "Read the compiler error: it is about `dyn Sensor` and threads. The fix is on the trait line in `sensor.rs`."
+[[hints]]
+text = "`pub trait Sensor: Send {`"
+
+[[points]]
+after = 2
+prompt = "Why can the compiler not tell that a dyn Sensor is Send?"
+pick = ["Send only exists for structs", "any sensor type, even one written later, could be behind it", "trait objects can never cross threads", "the sensors are in a Mutex"]
+answer = 1
+[[points]]
+after = 3
+prompt = "What does `trait Sensor: Send` promise?"
+pick = ["sensors are read in order", "sensors never fail", "every sensor may be moved to another thread", "sensors are cheap"]
+answer = 2

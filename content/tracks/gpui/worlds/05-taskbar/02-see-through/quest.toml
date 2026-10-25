@@ -10,12 +10,12 @@ test = "bar_background_is_transparent"
 label = "the bar window's background is Transparent"
 
 [[hints]]
-text = "One more field in `bar_window_options`."
+text = "One field in `bar_window_options`: `window_background`, with the other variant of the same enum."
 [[hints]]
 text = "`window_background: WindowBackgroundAppearance::Transparent,`"
 
 [[points]]
 after = 2
 prompt = "With a Transparent window, what shows where the view draws nothing?"
-pick = ["whatever is behind the window", "white", "black", "the desktop wallpaper only"]
-answer = 0
+pick = ["white", "black", "whatever is behind the window", "the desktop wallpaper only"]
+answer = 2

@@ -1,0 +1,22 @@
+title = "How Factorio is built"
+summary = "Items, entities, recipes, technologies and science packs: the pieces a mod adds more of."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["factorio", "game-model"]
+requires = ["01-lua-core/23-catch-the-error"]
+
+[[quiz]]
+question = "You place a chest on the ground. What is the chest standing there?"
+choices = ["an item", "an entity", "a recipe"]
+answer = 1
+
+[[quiz]]
+question = "A recipe is locked at the start of a game. What usually unlocks it?"
+choices = ["finishing a technology", "crafting it by hand once", "placing a lab next to it"]
+answer = 0
+
+[[quiz]]
+question = "What does a lab use up while it researches?"
+choices = ["iron plates", "electricity only", "science packs"]
+answer = 2

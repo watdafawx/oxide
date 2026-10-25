@@ -1,0 +1,29 @@
+title = "A macro that calls itself"
+summary = "max!(3, 9, 2): peel off the first argument and call max! on the rest."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["macros", "macro_rules", "recursion"]
+
+[[objectives]]
+test = "max_of_two"
+label = "max!(3, 9) is 9"
+[[objectives]]
+test = "max_of_many"
+label = "max!(1, 2, 3, 4, 8, 7, 6) is 8"
+
+[[hints]]
+text = "Only the second arm's template changes. It is the larger of `$x` and the max of the rest; the rest is `max!` called on `$($rest),+`, through `$crate::`."
+[[hints]]
+text = "`::std::cmp::max($x, $crate::max!($($rest),+))`"
+
+[[points]]
+after = 2
+prompt = "Which arm must come first?"
+pick = ["the one with the most arguments", "the one with a single argument", "either, order never matters", "the one using $crate"]
+answer = 1
+[[points]]
+after = 3
+prompt = "How many max! expansions does max!(3, 9, 2) make in all?"
+pick = ["one", "two", "four", "three"]
+answer = 3

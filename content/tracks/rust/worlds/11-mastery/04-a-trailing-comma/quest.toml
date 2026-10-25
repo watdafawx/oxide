@@ -1,0 +1,27 @@
+title = "A comma at the end"
+summary = "Lists written one per line end with a comma. Let strings! accept it with $(,)?."
+kind = "exercise"
+xp = 20
+minutes = 3
+tags = ["macros", "macro_rules", "repetition"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "strings_accepts_a_trailing_comma"
+label = "strings![\"the\", \"quick\",] builds the list (the starter does not compile until it does)"
+
+[[hints]]
+text = "Add an optional comma at the end of the pattern, after the repetition: a repetition of just `,` that may appear zero times or once."
+[[hints]]
+text = "The pattern becomes `($($s:expr),* $(,)?)`."
+
+[[points]]
+after = 1
+prompt = "After the last comma, what does the pattern expect?"
+pick = ["another expression", "a closing bracket", "a semicolon", "nothing, it is fine"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Accept one optional comma at the end."
+code = "($($s:expr),* ___) => {"
+blank = "$(,)?"

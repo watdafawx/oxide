@@ -1,0 +1,24 @@
+title = "Labels, or not"
+summary = "Kinetik can hide the labels: add the label box only when they are on."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "when"]
+
+[[objectives]]
+test = "text_mode_draws_label"
+label = "with LabelMode::Text, label-CpuUsage is drawn"
+[[objectives]]
+test = "off_mode_draws_no_label"
+label = "with LabelMode::Off, no label is drawn, the value still is"
+
+[[hints]]
+text = "In `PillView::render`, the label's `.child(..)` moves inside a `.when(self.show_label, |el| ..)`: the closure takes `el` and gives back `el` with that child added."
+[[hints]]
+text = "`.when(self.show_label, |el| el.child(div().debug_selector(move || format!(\"label-{kind:?}\")).child(label)))`"
+
+[[points]]
+after = 2
+prompt = "What does .when(false, |el| el.child(x)) add?"
+pick = ["x", "an empty box", "nothing", "a compile error"]
+answer = 2

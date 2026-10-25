@@ -1,8 +1,8 @@
 title = "Nobody there"
 summary = "Five minutes without a key press means nobody is using the PC, unless a video or game fills the screen."
 kind = "exercise"
-xp = 45
-minutes = 7
+xp = 30
+minutes = 5
 tags = ["win32", "duration"]
 
 [[objectives]]
@@ -13,12 +13,17 @@ test = "fullscreen_video_still_counts"
 label = "6 minutes idle with a full-screen window: still counted"
 
 [[hints]]
-text = "Two conditions joined with `&&`: idle at least `IDLE_LIMIT`, and not full screen."
+text = "One line, two conditions joined with `&&`: `idle` compared with `IDLE_LIMIT`, and `fullscreen` with a `!` in front."
 [[hints]]
 text = "`idle >= IDLE_LIMIT && !fullscreen`"
 
 [[points]]
-after = 3
+after = 2
 prompt = "Why does a full-screen window keep counting while idle?"
-pick = ["you watch a film or a cutscene without touching anything", "full-screen windows cannot be idle", "games move the mouse", "Windows resets the idle time"]
+pick = ["games move the mouse", "Windows resets the idle time", "full-screen windows are never idle", "you may be watching a film"]
+answer = 3
+[[points]]
+after = 4
+prompt = "idle is 6 minutes and fullscreen is true. What does away give?"
+pick = ["false", "true", "it panics", "None"]
 answer = 0

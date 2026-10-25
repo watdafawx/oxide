@@ -1,0 +1,25 @@
+title = "Maps: key to value"
+summary = "Look up a mod's latest version by its id with a HashMap, with a fallback, and count with it."
+
+[[objectives]]
+test = "latestVersionFallsBackToUnknown"
+label = "latestVersion returns the newest version for a mod id, or \"unknown\" when the list does not have it"
+[[objectives]]
+test = "countPerLoaderCountsEachLoader"
+label = "countPerLoader returns how many mods use each loader"
+
+[[hints]]
+text = "latestVersion: `latest.getOrDefault(id, \"unknown\")`. countPerLoader: a `Map<String, Integer>` and, for each loader, put its old count plus one."
+[[hints]]
+text = "countPerLoader: `Map<String, Integer> counts = new HashMap<>(); for (String l : loaders) { counts.put(l, counts.getOrDefault(l, 0) + 1); } return counts;`"
+
+[[points]]
+after = 3
+prompt = "What does get hand back for a key that is not in the map?"
+pick = ["0", "An empty string", "null", "It stops with an error"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Read a key with a fallback."
+code = "String v = latest.___(\"quark\", \"unknown\");"
+blank = "getOrDefault"

@@ -1,0 +1,32 @@
+title = "A taste of no_std"
+summary = "A fixed-size ring buffer that uses only core: no heap, no Vec, no operating system."
+kind = "exercise"
+xp = 55
+minutes = 8
+tags = ["no_std", "const-generics", "embedded"]
+
+[[objectives]]
+test = "push_and_pop_in_order"
+label = "pop returns items first in, first out"
+[[objectives]]
+test = "push_to_full_returns_err"
+label = "push on a full buffer gives the value back as Err"
+[[objectives]]
+test = "wraps_around_the_end"
+label = "Indices wrap, so the buffer can be reused forever"
+
+[[hints]]
+text = "`head` is where the oldest item sits and `len` is how many are stored, so the next free slot is `(self.head + self.len) % N`. After a pop, `head` moves on by one, also `% N`."
+[[hints]]
+text = "`push`: `if self.is_full() { return Err(value); }` then `self.buf[(self.head + self.len) % N] = value; self.len += 1; Ok(())`. `pop`: `if self.is_empty() { return None; }` then `let value = self.buf[self.head]; self.head = (self.head + 1) % N; self.len -= 1; Some(value)`."
+
+[[points]]
+after = 1
+prompt = "What replaces std:: for items that exist in both?"
+pick = ["alloc::", "sys::", "core::", "lib::"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Fix the size in the type."
+code = "pub struct RingBuffer<T, const N: ___> {"
+blank = "usize"

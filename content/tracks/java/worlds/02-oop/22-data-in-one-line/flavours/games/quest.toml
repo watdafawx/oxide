@@ -1,0 +1,25 @@
+title = "BlockPos in one line"
+summary = "A record: list the fields, and Java writes the constructor, accessors, equals, hashCode and toString."
+
+[[objectives]]
+test = "blockPosIsARecord"
+label = "BlockPos is a record with x(), y() and z()"
+[[objectives]]
+test = "blockPosEqualsByValue"
+label = "Two positions with the same fields are equal, and toString shows the fields"
+
+[[hints]]
+text = "Delete the whole class, comment included, and write one line in its place: `record`, the name, and the three components in brackets, then `{}`."
+[[hints]]
+text = "`public record BlockPos(int x, int y, int z) {}`"
+
+[[points]]
+after = 1
+prompt = "Declare the record's components."
+code = "public record ChunkPos(___) {}"
+blank = "int x, int z"
+[[points]]
+after = 3
+prompt = "What is the accessor for the component y called?"
+pick = ["getY()", "y()", "y", "Y.get()"]
+answer = 1

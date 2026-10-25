@@ -1,0 +1,29 @@
+title = "Look it up by name"
+summary = "A HashMap finds a price by product name; use brings it in from the standard library."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["hashmap", "use"]
+
+[[objectives]]
+test = "price_list_holds_three_prices"
+label = "price_list maps pen to 150, mug to 400 and lamp to 2500"
+[[objectives]]
+test = "price_of_finds_known_products"
+label = "price_of gives Some(price) for a known product and None otherwise"
+
+[[hints]]
+text = "In `price_list`: `let mut prices = HashMap::new();`, then one `prices.insert(\"pen\".to_string(), 150);` per product, then `prices`."
+[[hints]]
+text = "`price_of` is the same shape as `get` on a Vec: `prices.get(product).copied()`."
+
+[[points]]
+after = 1
+prompt = "Bring HashMap into this file."
+code = "___ std::collections::HashMap;"
+blank = "use"
+[[points]]
+after = 2
+prompt = "In `HashMap<String, u32>`, what is the key?"
+pick = ["the u32", "the String", "both", "neither"]
+answer = 1

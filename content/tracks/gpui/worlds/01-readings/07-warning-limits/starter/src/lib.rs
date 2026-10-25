@@ -41,8 +41,8 @@ impl Limits {
 /// Should this reading be drawn in the warning colour?
 pub fn is_warning(reading: &Reading, limits: &Limits) -> bool {
     let _ = (reading, limits);
-    false // TODO: match on (reading.value, limits.limit_for(reading.kind)):
-          // both Some -> value >= limit, anything else -> false
+    false // TODO: a warning needs both a value and a limit, and the value at or past the limit.
+          // Anything else, such as no value or no limit, is not a warning.
 }
 
 #[cfg(test)]

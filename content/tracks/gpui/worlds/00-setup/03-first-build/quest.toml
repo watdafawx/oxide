@@ -10,7 +10,7 @@ test = "gpui_is_in_dependencies"
 label = "Cargo.toml lists gpui =0.2.2 with test-support under [dependencies]"
 
 [[hints]]
-text = "The line goes in `Cargo.toml`, on the empty line under `[dependencies]`, not in `lib.rs`."
+text = "The line goes in `Cargo.toml`, in place of the TODO comment under `[dependencies]`, not in `lib.rs`. It has the same shape as the `sysinfo` line in the lesson."
 [[hints]]
 text = "Paste exactly: `gpui = { version = \"=0.2.2\", features = [\"test-support\"] }`"
 

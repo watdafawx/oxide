@@ -1,0 +1,33 @@
+title = "Not"
+summary = "Flip a yes into a no: the last piece of the gate's logic."
+kind = "exercise"
+xp = 30
+minutes = 3
+tags = ["not", "logic"]
+requires = []
+
+[[objectives]]
+test = "open_when_not_full"
+label = "can_enter(full) is true when the park is not full"
+
+[[objectives]]
+test = "closed_unless_staff_and_weather_are_ok"
+label = "ride_closed(staff_ok, weather_ok) is true unless both are ok"
+
+[[hints]]
+text = "`not` goes in front of what it flips. For `ride_closed`, the ride is open when both are ok; closed is the opposite of that."
+
+[[hints]]
+text = "`return not full` and `return not (staff_ok and weather_ok)`."
+
+[[points]]
+after = 1
+prompt = "What is `not false`?"
+pick = ["false", "true", "nil", "0"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "How do Rust and Java write `and`?"
+pick = ["&", "and", "||", "&&"]
+answer = 3

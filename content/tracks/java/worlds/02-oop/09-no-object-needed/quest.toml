@@ -1,0 +1,29 @@
+title = "No object needed"
+summary = "A static method called on the class, and why every method you wrote before was public static."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["static", "factory"]
+
+[[objectives]]
+test = "staticFactoryBuildsTicket"
+label = "Ticket.of(\"  Fix login \") returns a Ticket titled \"Fix login\""
+[[objectives]]
+test = "constructorIsPrivate"
+label = "The constructor is private, so Ticket.of is the only way to build one"
+
+[[hints]]
+text = "`of` builds a ticket with `new` and hands it back; it can trim the title on the way. Then change `public` to `private` on the constructor line."
+[[hints]]
+text = "`return new Ticket(title.trim());` in `of`, and `private Ticket(String title) {`."
+
+[[points]]
+after = 1
+prompt = "How do you call the static method `of` on Ticket?"
+pick = ["Ticket.of(\"x\")", "new of(\"x\")", "of.Ticket(\"x\")", "ticket->of(\"x\")"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Why is main static?"
+pick = ["It runs faster", "When the program starts, no object exists yet", "It returns a number", "The checker needs it"]
+answer = 1

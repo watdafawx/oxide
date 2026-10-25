@@ -1,0 +1,25 @@
+title = "Remember between requests"
+summary = "Share one download counter between every request with State, an Arc and an atomic, and answer 201 Created."
+
+[[objectives]]
+test = "download_answers_201_and_the_new_total"
+label = "POST /downloads {\"mb\": 120} answers 201 Created with {\"downloaded_mb\": 120}, then 150 after 30 more"
+[[objectives]]
+test = "the_total_survives_between_requests"
+label = "GET /downloads answers the total that the POSTs built up"
+
+[[hints]]
+text = "Both handlers get the parameter `State(state): State<AppState>` (before the `Json` one). `fetch_add` gives back the old value, so add the megabytes once more for the new total. `load` just reads."
+[[hints]]
+text = "In `record_download`: `let downloaded_mb = state.downloaded_mb.fetch_add(req.mb, Ordering::SeqCst) + req.mb; (StatusCode::CREATED, Json(Downloads { downloaded_mb }))`. In `downloads`: `Json(Downloads { downloaded_mb: state.downloaded_mb.load(Ordering::SeqCst) })`."
+
+[[points]]
+after = 2
+prompt = "Why is the counter wrapped in an Arc?"
+pick = ["So every clone of the state shares one counter", "So the counter can be negative", "So it is written to disk", "So it can hold text"]
+answer = 0
+[[points]]
+after = 4
+prompt = "Answer 201 with a JSON body."
+code = "(___, Json(Downloads { downloaded_mb }))"
+blank = "StatusCode::CREATED"

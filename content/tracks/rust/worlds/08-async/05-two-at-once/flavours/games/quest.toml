@@ -1,0 +1,28 @@
+title = "Two at once"
+summary = "Two awaits in a row wait in a row. tokio::join! lets both mod server waits overlap."
+
+[[objectives]]
+test = "in_turn_returns_both_jar_sizes"
+label = "jar_sizes_in_turn asks for one jar size, then the other (about 600 ms)"
+[[objectives]]
+test = "together_returns_both_jar_sizes"
+label = "jar_sizes_together returns both sizes, in the order asked"
+[[objectives]]
+test = "together_overlaps_the_mod_server_waits"
+label = "Both waits overlap: about 300 ms, not 600 ms"
+
+[[hints]]
+text = "`jar_sizes_in_turn` is two `let` lines with `.await` and a tuple `(first, second)`. `jar_sizes_together` passes both futures, without `.await`, to `tokio::join!`, which hands back the tuple itself."
+[[hints]]
+text = "`let first = jar_size(a).await; let second = jar_size(b).await; (first, second)` and then `tokio::join!(jar_size(a), jar_size(b))` as the whole body of `jar_sizes_together`."
+
+[[points]]
+after = 1
+prompt = "Two awaits in a row take how long, if each waits 300 ms?"
+pick = ["about 300 ms", "about 600 ms", "about 150 ms", "no time at all"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Wait for both at the same time."
+code = "let (page, icon) = tokio::___!(fetch_page(\"sodium\"), fetch_icon(\"sodium\"));"
+blank = "join"

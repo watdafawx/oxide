@@ -1,0 +1,29 @@
+title = "Biggest first"
+summary = "sort_by takes a rule that compares two items: a.qty.cmp(&b.qty), swapped for biggest first."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["vec", "sort_by", "ordering"]
+
+[[objectives]]
+test = "most_first_sorts_by_qty_descending"
+label = "most_first sorts the stock lines from the most units to the fewest"
+[[objectives]]
+test = "by_name_sorts_a_to_z"
+label = "by_name sorts the stock lines by name, a to z"
+
+[[hints]]
+text = "`lines.sort_by(|a, b| ...)`: the closure compares two lines. `x.cmp(&y)` gives the answer for smallest first; swap the sides for biggest first."
+[[hints]]
+text = "`lines.sort_by(|a, b| b.qty.cmp(&a.qty));` and `lines.sort_by(|a, b| a.name.cmp(&b.name));`."
+
+[[points]]
+after = 3
+prompt = "What does `3.cmp(&5)` give?"
+pick = ["Ordering::Greater", "Ordering::Less", "true", "-2"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Sort the lines with the most units first."
+code = "lines.sort_by(|a, b| ___.qty.cmp(&a.qty));"
+blank = "b"

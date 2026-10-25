@@ -1,17 +1,22 @@
-**Why now:** before the downloader gets real HTTP, two mistakes cost beginners hours: forgetting to `.await` a download, and blocking the runtime while "waiting". Both come from how futures work.
+A bug report: "sodium.jar never installs, and there is no error". The launcher calls the install function, so why did nothing happen? The answer is how futures run, and it is the same rule that makes a thousand idle downloads cost almost nothing.
 
-An `async fn` call builds a **future**: a paused piece of work. It starts only when something **polls** it, and `.await` is what polls.
+**Calling builds, awaiting runs.** `let pending = install_jar(3);` runs none of the function's body. It builds a future and stops. Only when something awaits it (or spawns it, quest 07) does its first line run. A future is **lazy**: it waits to be asked.
+
+**What poll means.** The runtime drives a future by **polling** it: calling it with "go as far as you can". The future runs until it reaches an `.await` on something that isn't ready, answers "not ready", and returns. The runtime moves on to another task.
+
+**Being woken.** With each poll the future also gets a **waker**, a handle that means "poll me again". When the answer arrives, the network code calls the waker and the runtime polls that future once more. It carries on right after the `.await` where it paused. Nobody checks in a loop, so waiting costs nothing.
 
 ```rust
-async fn download(jar: &str) -> usize { jar.len() }
-
-let pending = download("sodium.jar"); // nothing has happened yet
-// pending is just a value; drop it and the download never runs
-let size = pending.await;             // NOW it runs
+async fn sync_modpack() {
+    install_jar(1);       // warning: unused implementer of `Future` that must be used
+    install_jar(2).await; // this one runs
+}
 ```
 
-- The compiler warns: `unused implementor of Future that must be used`. Listen to it.
-- `tokio::spawn` is the one call that starts work **without** an `.await`: it hands the future to the runtime.
-- Async tasks share a few threads. Each task must **give the thread back** at every `.await`.
-- `std::thread::sleep`, a blocking file read or a heavy loop does not give it back. Every other task on that thread waits. Use `tokio::time::sleep`, async I/O, or `spawn_blocking` for CPU work.
-- Rule of thumb: if a call can take longer than a few milliseconds and has no `.await`, it does not belong in async code.
+**A forgotten await is silent.** The future from `install_jar(1)` is dropped at the `;` and its body never runs. There is no error and no panic, only the warning above. When something async "never happens", look for a missing `.await` first.
+
+**For the curious: a state machine.** The compiler turns each async fn into a struct that holds its local variables plus a number saying which `.await` it is paused at. That is why a task is small: it is exactly as big as what it must remember. Being lazy also makes cancelling cheap, since dropping that struct stops the work (quest 11).
+
+## Your turn
+
+- Answer the two questions. No code this time.

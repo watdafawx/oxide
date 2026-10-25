@@ -1,0 +1,21 @@
+title = "Sixteen hex digits"
+summary = "{:x} prints a number in hex, and {:016x} pads it with zeros to a fixed 16 digits."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["format", "hex"]
+
+[[objectives]]
+test = "hex_line_pads_to_sixteen_digits"
+label = "hex_line prints the hash as 16 lowercase hex digits, two spaces, then the path"
+
+[[hints]]
+text = "Inside the braces, `x` means hex, `16` is the width, and a `0` in front of the width pads with zeros instead of spaces."
+[[hints]]
+text = "`format!(\"{hash:016x}  {}\", path.display())`"
+
+[[points]]
+after = 2
+prompt = "Print 16 lowercase hex digits, zero padded."
+code = "format!(\"{hash:___}\")"
+blank = "016x"

@@ -1,0 +1,29 @@
+title = "Change each item"
+summary = "Turn every item into something else with map, and keep only the first few with limit."
+kind = "exercise"
+xp = 45
+minutes = 5
+tags = ["stream", "map", "limit"]
+
+[[objectives]]
+test = "namesTurnsPlayersIntoNames"
+label = "names turns every player into their name, in order"
+[[objectives]]
+test = "podiumKeepsTheFirstThreeNames"
+label = "podium returns the names of the first three players, or fewer when there are fewer"
+
+[[hints]]
+text = "names: `players.stream().map(Player::name).toList()`. podium: the same pipeline with `.limit(3)` before the `map`."
+[[hints]]
+text = "`return players.stream().limit(3).map(Player::name).toList();`"
+
+[[points]]
+after = 1
+prompt = "Which step turns every item into something else?"
+pick = ["map", "filter", "limit", "toList"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Keep the first five."
+code = "players.stream().___(5).toList();"
+blank = "limit"

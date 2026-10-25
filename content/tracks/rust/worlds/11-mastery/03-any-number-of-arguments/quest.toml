@@ -1,0 +1,29 @@
+title = "Any number of arguments"
+summary = "Repetition: strings![\"a\", \"b\", ...] turns every argument into a String."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["macros", "macro_rules", "repetition"]
+
+[[objectives]]
+test = "strings_converts_each_argument"
+label = "strings![\"a\", \"b\"] gives vec![\"a\".to_string(), \"b\".to_string()]"
+[[objectives]]
+test = "strings_takes_any_count"
+label = "strings! works with one argument and with five"
+
+[[hints]]
+text = "The pattern is already right. In the template, build a `vec![...]` and put a repetition inside it: `$( ... ),*` with `$s.to_string()` in the middle."
+[[hints]]
+text = "`($($s:expr),*) => { vec![$($s.to_string()),*] };`"
+
+[[points]]
+after = 2
+prompt = "Which pattern matches zero or more comma-separated expressions?"
+pick = ["$x:expr*", "$( $x:expr ),+", "$($x:expr)?", "$( $x:expr ),*"]
+answer = 3
+[[points]]
+after = 3
+prompt = "How many times does the template's $( ... ),* repeat for strings![\"a\", \"b\", \"c\"]?"
+pick = ["once", "three times", "twice", "it depends on the text"]
+answer = 1

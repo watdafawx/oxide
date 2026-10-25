@@ -1,0 +1,29 @@
+title = "Numbers from a stream"
+summary = "End a stream with one number: mapToInt then sum, or count."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["stream", "mapToInt", "count"]
+
+[[objectives]]
+test = "totalLettersAddsEveryLength"
+label = "totalLetters adds up the lengths of all words"
+[[objectives]]
+test = "countLongerCountsTheLongWords"
+label = "countLonger counts the words longer than n"
+
+[[hints]]
+text = "totalLetters: `.mapToInt(String::length)` then `.sum()`. countLonger: `.filter(...)` then `.count()`, which hands back a `long`."
+[[hints]]
+text = "`return words.stream().mapToInt(String::length).sum();` and `return words.stream().filter(w -> w.length() > n).count();`"
+
+[[points]]
+after = 2
+prompt = "Turn each word into an int, ready to add up."
+code = "int letters = words.stream().___(String::length).sum();"
+blank = "mapToInt"
+[[points]]
+after = 3
+prompt = "What type does count() hand back?"
+pick = ["long", "int", "Integer", "double"]
+answer = 0

@@ -1,0 +1,25 @@
+title = "Reserve once"
+summary = "Why a growing Vec allocates again and again, and how with_capacity and join ask for the room once."
+
+[[objectives]]
+test = "chunk_areas_allocate_once"
+label = "chunk_areas(100) makes at most 1 allocation"
+[[objectives]]
+test = "join_block_names_allocates_once"
+label = "join_block_names makes at most 1 allocation"
+
+[[hints]]
+text = "`chunk_areas` knows its length before the loop: create the Vec with room for `n` items. `join_block_names` can be one call on the slice: the method that puts a separator between the names."
+[[hints]]
+text = "`let mut out = Vec::with_capacity(n);` and `names.join(\" \")`."
+
+[[points]]
+after = 1
+prompt = "A full Vec with room for 8 gets a 9th push. What happens?"
+pick = ["it panics", "it moves to a new block of room for 16, copying the 8", "it allocates room for exactly 1 more", "the 9th item is dropped"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Reserve room for n items up front."
+code = "let mut out = Vec::___(n);"
+blank = "with_capacity"

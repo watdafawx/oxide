@@ -22,6 +22,8 @@ end
 
 **Return ends it.** `return` inside a branch leaves the function right there. That is why each branch can hand back its own answer with no extra variable.
 
+**If this is new.** Programming 101 explains `if` and `else` from zero: [Only sometimes](/quest/basics/03-decisions/01-only-sometimes).
+
 ## Your turn
 
 - In `eggs_for`, write an `if` for `"pancakes"` that returns 3.

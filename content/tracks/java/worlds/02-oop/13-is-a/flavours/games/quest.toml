@@ -1,0 +1,25 @@
+title = "A Zombie is a Mob"
+summary = "extends: Zombie starts from everything Mob has and replaces only its sound."
+
+[[objectives]]
+test = "zombieGroansInsteadOfSilence"
+label = "A Zombie's ambientSound() is \"Rrrgh\", and it still has Mob's health()"
+[[objectives]]
+test = "parentCodeUsesTheZombiesSound"
+label = "Mob's speak() on a Zombie says \"Bob says Rrrgh\""
+
+[[hints]]
+text = "Add a method to `Zombie` with exactly the same first line as `ambientSound()` in `Mob`, with `@Override` above it."
+[[hints]]
+text = "`@Override public String ambientSound() { return \"Rrrgh\"; }` inside `Zombie`."
+
+[[points]]
+after = 1
+prompt = "Which word means \"is a\"?"
+pick = ["implements", "extends", "static", "this"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Mob's speak() calls ambientSound() on a Zombie. Whose sound runs?"
+pick = ["Mob's \"silence\"", "Zombie's \"Rrrgh\"", "Both, one after the other", "Neither, it is an error"]
+answer = 1

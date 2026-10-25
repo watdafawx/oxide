@@ -1,0 +1,25 @@
+title = "One chest page at a time"
+summary = "take(n) keeps the first n items; skip(n) passes over them. Together they make pages."
+
+[[objectives]]
+test = "first_items_takes_n"
+label = "first_items gives back the first `n` items, or all of them if there are fewer"
+[[objectives]]
+test = "chest_page_skips_then_takes"
+label = "chest_page gives back page number `page` (from 0) of `size` items"
+
+[[hints]]
+text = "Both are a chain over `items.iter()` ending in `.map(|item| item.clone()).collect()`. `take(n)` keeps the first n; `skip(k)` jumps over k first."
+[[hints]]
+text = "`items.iter().take(n).map(|item| item.clone()).collect()`. Page: `.skip(page * size).take(size)` in the same place."
+
+[[points]]
+after = 1
+prompt = "`take(3)` on a list of 2 items gives..."
+pick = ["the 2 items", "a panic", "3 items, one empty", "nothing"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Page 2 with 27 slots per page starts after how many items?"
+code = "items.iter().skip(___).take(27)"
+blank = "54"

@@ -1,0 +1,25 @@
+title = "Commands the launcher page can call"
+summary = "Wrap plain functions in #[tauri::command], register them with manage and generate_handler!, and call them through a mock app."
+
+[[objectives]]
+test = "add_download_answers_through_the_mock_app"
+label = "invoke(\"add_download\", { amount: 250 }) answers {\"mb\": 250, \"tier\": 3}"
+[[objectives]]
+test = "install_mod_answers_and_rejects_repeats"
+label = "invoke(\"install_mod\", { id }) answers the installed ids, and rejects the same id twice"
+
+[[hints]]
+text = "Each command is a private `fn` with `#[tauri::command]` above it, a `state: tauri::State<'_, Mutex<AppState>>` parameter plus the argument, and one line that locks the state and calls the `_inner` function. In `build_app`, chain `.manage(..)` and `.invoke_handler(tauri::generate_handler![..])` on `builder`."
+[[hints]]
+text = "`#[tauri::command] fn add_download(state: tauri::State<'_, Mutex<AppState>>, amount: u32) -> PackStats { add_download_inner(&mut state.lock().unwrap(), amount) }`, the same shape for `install_mod(.., id: String) -> Result<Vec<String>, String>`, and `builder.manage(Mutex::new(AppState::default())).invoke_handler(tauri::generate_handler![add_download, install_mod])`."
+
+[[points]]
+after = 2
+prompt = "Which attribute makes a Rust fn callable from the page?"
+pick = ["#[derive(Command)]", "#[tauri::command]", "#[invoke]", "#[export]"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Register the shared state once."
+code = "builder.___(Mutex::new(AppState::default()))"
+blank = "manage"

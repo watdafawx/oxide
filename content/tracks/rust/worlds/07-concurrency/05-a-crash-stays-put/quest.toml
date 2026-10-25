@@ -1,0 +1,21 @@
+title = "A crash stays put"
+summary = "A panic ends only its own thread. join reports it as an Err you can handle."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["threads", "panic", "join"]
+
+[[objectives]]
+test = "average_size_survives_an_empty_folder"
+label = "average_size returns None when the thread panics on zero files"
+
+[[hints]]
+text = "Spawn a thread that computes `total_bytes / file_count`, join it, and turn the `Result` from `join` into an `Option`."
+[[hints]]
+text = "`thread::spawn(move || total_bytes / file_count).join().ok()`"
+
+[[points]]
+after = 2
+prompt = "A thread divided by zero. What does join hand back?"
+pick = ["Ok(0)", "None", "Err(..)", "the main thread crashes"]
+answer = 2

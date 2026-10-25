@@ -1,0 +1,8 @@
+[package]
+name = "app_card_text"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[workspace]

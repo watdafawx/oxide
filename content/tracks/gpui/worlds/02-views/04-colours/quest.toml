@@ -1,0 +1,29 @@
+title = "Colours"
+summary = "A dark bar, white values, and Kinetik's warning red for a hot CPU."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["gpui", "colour"]
+
+[[objectives]]
+test = "warning_colour_is_kinetik_red"
+label = "value_colour(true) is rgb(0xff5c5c)"
+[[objectives]]
+test = "normal_colour_is_white"
+label = "value_colour(false) is rgb(0xffffff)"
+
+[[hints]]
+text = "`value_colour` is one `if` on `warning`, with an `rgb(..)` in each branch: Kinetik's red first, white in the `else`."
+[[hints]]
+text = "`if warning { rgb(0xff5c5c) } else { rgb(0xffffff) }`"
+
+[[points]]
+after = 1
+prompt = "In rgb(0xff5c5c), which two digits are the red part?"
+pick = ["5c (the first)", "0x", "5c (the last)", "ff"]
+answer = 3
+[[points]]
+after = 3
+prompt = "A pill box has .text_color(red) and holds the text CPU 88°C. What colour is the text?"
+pick = ["the window's default", "red", "white", "black"]
+answer = 1

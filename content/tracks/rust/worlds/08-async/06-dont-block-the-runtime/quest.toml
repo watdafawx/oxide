@@ -1,0 +1,24 @@
+title = "Don't block the runtime"
+summary = "A task must give its thread back at every .await. What blocking is, and where CPU-heavy work goes instead."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["async", "blocking", "spawn_blocking"]
+
+[[quiz]]
+question = "Inside an async fn you wait before a retry with `std::thread::sleep(Duration::from_secs(5))`. What goes wrong?"
+choices = [
+  "It blocks the worker thread, so every other task on that thread stalls for 5 seconds",
+  "It does not compile, because std::thread::sleep is not allowed in an async fn",
+  "Nothing: the runtime notices the sleep and swaps in another task",
+]
+answer = 0
+
+[[quiz]]
+question = "Each episode needs a checksum that keeps the CPU busy for 2 seconds. Where should that work run?"
+choices = [
+  "Inside the async fn, with an .await after it so the runtime can switch",
+  "On a thread made for blocking work, such as tokio's spawn_blocking",
+  "Inside join! next to the downloads, so the two overlap",
+]
+answer = 1

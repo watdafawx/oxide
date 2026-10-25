@@ -1,0 +1,25 @@
+title = "A rule as a value"
+summary = "Write \"is this mod outdated?\" as a lambda, keep it in a Predicate, and hand it to removeIf."
+
+[[objectives]]
+test = "isOutdatedBuildsTheRule"
+label = "isOutdated(latest) returns a Predicate that is true for mods not on their latest version"
+[[objectives]]
+test = "upToDateRemovesOutdatedMods"
+label = "upToDate returns a copy without the outdated mods, using removeIf"
+
+[[hints]]
+text = "isOutdated: return a lambda, `mod -> ...`, that is true when `mod.version()` does not equal `latest.get(mod.id())`. upToDate: copy the list, then `copy.removeIf(isOutdated(latest));`."
+[[hints]]
+text = "isOutdated: `return mod -> !mod.version().equals(latest.get(mod.id()));`. upToDate: `List<Mod> copy = new ArrayList<>(mods); copy.removeIf(isOutdated(latest)); return copy;`"
+
+[[points]]
+after = 2
+prompt = "Which side of the arrow is the parameter?"
+pick = ["The right", "The left", "Both", "Neither: lambdas take none"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Ask the rule about one mod."
+code = "boolean old = rule.___(sodium);"
+blank = "test"

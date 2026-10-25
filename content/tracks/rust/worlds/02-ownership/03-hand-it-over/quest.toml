@@ -1,0 +1,27 @@
+title = "Hand it over"
+summary = "Give a String to someone else and your name for it stops working. That is a move."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["ownership", "move"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "file_note_keeps_text_and_length"
+label = "file_note(\"buy milk\") builds a Note with that text and 8 letters"
+
+[[hints]]
+text = "The struct literal moves `words` into the `text` field, then calls `words.len()` on a value that has already moved. Ask for the length first."
+[[hints]]
+text = "`let count = words.len();` on its own line, then `Note { text: words, letters: count }`."
+
+[[points]]
+after = 3
+prompt = "After `let b = a;` with a `String`, who owns the text?"
+pick = ["a", "both", "nobody", "b"]
+answer = 3
+[[points]]
+after = 5
+prompt = "Use it before it moves."
+code = "let words = String::from(\"buy milk\");\nlet count = ___;\nlet note = Note { text: words, letters: count };"
+blank = "words.len()"

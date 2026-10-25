@@ -1,0 +1,32 @@
+title = "Aside: text that C can read"
+summary = "C marks the end of text with a zero byte. Hand a Rust string to C with CString and read one back with CStr."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["ffi", "cstring", "aside"]
+
+[[objectives]]
+test = "strlen_wrapper_counts_bytes"
+label = "c_strlen(&str) returns the length C's strlen counts"
+[[objectives]]
+test = "strlen_rejects_interior_nul"
+label = "c_strlen returns None for a text containing a NUL byte"
+[[objectives]]
+test = "cstr_converts_back_to_string"
+label = "from_c reads a C string pointer into a Rust String"
+
+[[hints]]
+text = "`CString::new(s)` gives a `Result`; `.ok()?` turns its error into an early `None`. Keep the `CString` in a variable and pass `c.as_ptr()` to `strlen` inside `unsafe`. For `from_c`, `CStr::from_ptr(ptr)` borrows the C text."
+[[hints]]
+text = "`let c = CString::new(s).ok()?; Some(unsafe { strlen(c.as_ptr()) })` and `unsafe { CStr::from_ptr(ptr) }.to_string_lossy().into_owned()`."
+
+[[points]]
+after = 1
+prompt = "How does C know where a text ends?"
+pick = ["it stores the length first", "a zero byte at the end", "a newline", "it doesn't"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Which type is the owned, NUL-terminated copy?"
+pick = ["CStr", "String", "CString", "c_char"]
+answer = 2

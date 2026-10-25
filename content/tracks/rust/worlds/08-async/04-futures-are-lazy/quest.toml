@@ -1,16 +1,24 @@
-title = "Futures are lazy"
-summary = "Nothing runs until something polls it. Two-minute read."
+title = "Nothing happens until you await"
+summary = "A future does nothing until it is polled. What polling and waking mean, and the bug of a forgotten .await."
 kind = "read"
 xp = 15
 minutes = 3
-tags = ["async", "futures", "blocking"]
+tags = ["async", "futures", "poll"]
 
 [[quiz]]
-question = "You call an async fn, store the result in a variable, and never .await it. What happens?"
-choices = ["Nothing runs: the future is never polled", "The work still runs in the background, just a bit later", "The program panics when the variable goes out of scope"]
-answer = 0
+question = "You call `save_episode(3)` (an async fn), keep the result in a variable, and never .await it. What happens?"
+choices = [
+  "The episode is saved in the background, a little later",
+  "Nothing: the future is never polled, so its body never runs",
+  "The program panics when the variable goes out of scope",
+]
+answer = 1
 
 [[quiz]]
-question = "Inside an async fn you call std::thread::sleep(Duration::from_secs(5)). What is the problem?"
-choices = ["It does not compile, because std::thread::sleep is not allowed in async fn", "It is fine: the runtime swaps tasks automatically while this one sleeps", "It blocks the thread, so other tasks on it stall"]
+question = "A polled future reaches `.await` on a download that has no answer yet. What does it do?"
+choices = [
+  "It holds the thread and checks the network in a loop until the bytes arrive",
+  "It throws away its progress and starts again from its first line on the next poll",
+  "It answers \"not ready\" and is polled again once its waker says the answer arrived",
+]
 answer = 2

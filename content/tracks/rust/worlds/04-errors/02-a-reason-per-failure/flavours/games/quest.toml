@@ -1,0 +1,25 @@
+title = "A reason per failure"
+summary = "An enum with one variant for each way a mod version can be wrong."
+
+[[objectives]]
+test = "a_good_version_is_ok"
+label = "parse_version(\" 7 \") is Ok(7)"
+[[objectives]]
+test = "each_failure_has_its_own_variant"
+label = "Empty text, a word and a 99 give MissingVersion, BadVersion and TooNew"
+
+[[hints]]
+text = "Trim first, then three checks in order: empty, not a number, above `NEWEST`. Each failing check is `return Err(ManifestError::...)`."
+[[hints]]
+text = "`let text = text.trim(); if text.is_empty() { return Err(ManifestError::MissingVersion); }` then `let v = match text.parse::<u32>() { Ok(v) => v, Err(_) => return Err(ManifestError::BadVersion(text.to_string())) };` then `if v > NEWEST { return Err(ManifestError::TooNew(v)); }` and `Ok(v)`."
+
+[[points]]
+after = 2
+prompt = "What does each kind of failure get in the error enum?"
+pick = ["Its own function", "Its own variant", "Its own String", "Its own file"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Leave the function with the error right here."
+code = "___ Err(LoaderError::NoName);"
+blank = "return"

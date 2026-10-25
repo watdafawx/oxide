@@ -1,0 +1,4 @@
+[
+  {"on": "goal", "output": {"kind": "companion", "page": 1, "row": 0, "column": 3}},
+  {"on": "overtime", "output": {"kind": "dmx", "channel": 4}}
+]

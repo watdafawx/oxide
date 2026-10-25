@@ -10,12 +10,17 @@ test = "recording_writes_one_row_per_tick"
 label = "three ticks while recording add three rows after the header; ticks while stopped add none"
 
 [[hints]]
-text = "Return when not recording; otherwise push one `format!` row with the tick number and four cells, and count the tick."
+text = "Return at once when not recording. Then `let cell = |v: Option<f64>| ..;` (map, then unwrap_or_default) and `let get = |kind: StatKind| snapshot.get(&kind).copied();`, one `format!` with five `{}`, `push` it, and add 1 to `ticks`."
 [[hints]]
 text = "`if !self.recording { return; } let cell = |v: Option<f64>| v.map(|v| format!(\"{v:.1}\")).unwrap_or_default(); let get = |kind: StatKind| snapshot.get(&kind).copied(); self.rows.push(format!(\"{},{},{},{},{}\", self.ticks, cell(get(StatKind::CpuUsage)), cell(get(StatKind::GpuUsage)), cell(get(StatKind::GpuTemp)), cell(fps))); self.ticks += 1;`"
 
 [[points]]
 after = 2
 prompt = "What does a tick add while not recording?"
-pick = ["nothing", "an empty row", "the header again", "a zero row"]
-answer = 0
+pick = ["an empty row", "the header again", "nothing", "a zero row"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Why keep cell as a closure in a let?"
+pick = ["closures run faster than format!", "the same two steps are needed four times in one row", "format! cannot take an Option", "tests need a closure"]
+answer = 1

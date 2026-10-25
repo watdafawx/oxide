@@ -1,0 +1,29 @@
+title = "Read one answer back"
+summary = "Ask SQLite a question with one answer: a quest's title by id, and how many quests are worth enough XP."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["rusqlite", "sql", "select"]
+
+[[objectives]]
+test = "title_of_finds_the_row"
+label = "title_of(id) gives that quest's title, and an Err for an id that isn't there"
+[[objectives]]
+test = "count_worth_at_least_counts_matching_rows"
+label = "count_worth_at_least(50) counts the quests worth 50 XP or more"
+
+[[hints]]
+text = "Both are one `conn.query_row(sql, params![..], |row| row.get(0))`. The first selects `title` with `WHERE id = ?1`; the second selects `COUNT(*)` with `WHERE xp >= ?1`."
+[[hints]]
+text = "`conn.query_row(\"SELECT title FROM quests WHERE id = ?1\", params![id], |row| row.get(0))` and `conn.query_row(\"SELECT COUNT(*) FROM quests WHERE xp >= ?1\", params![min_xp], |row| row.get(0))`."
+
+[[points]]
+after = 2
+prompt = "Which column does row.get(0) read?"
+pick = ["The last column of the row", "The id, whatever you selected", "The first column you selected", "None: columns count from 1"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Count the rows."
+code = "conn.query_row(\"SELECT ___ FROM quests\", [], |row| row.get(0))"
+blank = "COUNT(*)"

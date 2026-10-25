@@ -1,0 +1,29 @@
+title = "Refuse a bad value"
+summary = "A compact constructor checks a record's values, and throw stops a bad one at the door."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["records", "throw"]
+
+[[objectives]]
+test = "negativeGramsAreRejected"
+label = "new Parcel(label, -1) throws IllegalArgumentException; 0 grams is fine"
+[[objectives]]
+test = "labelIsTrimmed"
+label = "new Parcel(\"  books \", 1200).label() is \"books\""
+
+[[hints]]
+text = "Inside the record's braces, write `public Parcel { ... }` with no brackets after the name. In it, an `if` that throws for `grams < 0`, then give `label` its trimmed value."
+[[hints]]
+text = "`public Parcel { if (grams < 0) { throw new IllegalArgumentException(\"grams must not be negative: \" + grams); } label = label.trim(); }`"
+
+[[points]]
+after = 1
+prompt = "What does a compact constructor leave out?"
+pick = ["Its name", "The brackets with the parameters", "Its braces", "The word public"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Stop with an error."
+code = "___ new IllegalArgumentException(\"too heavy\");"
+blank = "throw"

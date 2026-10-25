@@ -1,0 +1,25 @@
+title = "Research path"
+summary = "while let follows prerequisite links up until there are none: everything you must research first."
+
+[[objectives]]
+test = "research_path_lists_start_down_to_tech"
+label = "research_path(&tech) lists the names from the starting tech down to this one"
+[[objectives]]
+test = "needs_finds_prerequisites_above"
+label = "needs(&tech, name) is true only when some tech above it has that name"
+
+[[hints]]
+text = "Start with `let mut current = Some(Rc::clone(tech));` and loop `while let Some(t) = current { ... }`. In the body, push the name, then `current = t.borrow().prerequisite.upgrade();`. Reverse at the end."
+[[hints]]
+text = "`needs` starts one step up: `let mut current = tech.borrow().prerequisite.upgrade();`. In the loop, `if t.borrow().name == name { return true; }` before stepping up; after the loop, `false`."
+
+[[points]]
+after = 1
+prompt = "When does `while let Some(t) = current` stop?"
+pick = ["after one round", "when current is None", "when t unlocks nothing", "never"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Walking up gives Fast inserter, Logistics, Automation. What flips it to start at Automation?"
+code = "path.___();"
+blank = "reverse"

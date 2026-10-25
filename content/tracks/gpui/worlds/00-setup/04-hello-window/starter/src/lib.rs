@@ -9,7 +9,7 @@ pub fn app_title() -> String {
 
 /// How big Kinetik's first window is.
 pub fn bar_size() -> Size<Pixels> {
-    size(px(800.), px(600.)) // TODO: 360 wide, 120 high
+    size(px(800.), px(600.)) // TODO: Kinetik's window is 360 wide and 120 high
 }
 
 #[cfg(test)]

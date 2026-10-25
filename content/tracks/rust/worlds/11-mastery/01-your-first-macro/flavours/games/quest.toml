@@ -1,0 +1,25 @@
+title = "A macro for chunk areas"
+summary = "Write chunk_area!, a macro_rules! macro that works on whole blocks and half slabs alike."
+
+[[objectives]]
+test = "area_of_whole_blocks"
+label = "chunk_area!(16) is 256 and chunk_area!(8 + 8) is 256"
+[[objectives]]
+test = "area_of_half_slabs"
+label = "chunk_area!(0.5) is 0.25: the same macro works on f64"
+
+[[hints]]
+text = "Only the template (the part after `=>`) changes. `$x` pastes the captured expression; you need it on both sides of a `*`."
+[[hints]]
+text = "The arm becomes `($x:expr) => { $x * $x };`."
+
+[[points]]
+after = 2
+prompt = "Which pattern captures one expression?"
+pick = ["$x:ty", "$x:ident", "$x:expr", "$x:block"]
+answer = 2
+[[points]]
+after = 4
+prompt = "With the template $x * $x, what is chunk_area!(8 + 8)?"
+pick = ["80", "256", "24", "it does not compile"]
+answer = 1

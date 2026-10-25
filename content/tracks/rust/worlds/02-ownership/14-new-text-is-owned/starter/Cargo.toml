@@ -1,0 +1,6 @@
+[package]
+name = "own_new_text_is_owned"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

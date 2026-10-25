@@ -1,0 +1,29 @@
+title = "Convert with From"
+summary = "Keep the From promise so ? turns a ParseIntError into your error."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["from", "trait", "question-mark"]
+
+[[objectives]]
+test = "from_wraps_the_parse_error"
+label = "TaskError::from(parse error) is BadPriority(parse error)"
+[[objectives]]
+test = "total_priority_stops_at_the_first_error"
+label = "total_priority adds every line and returns the first error"
+
+[[hints]]
+text = "`from` has one line: build the variant that holds a `ParseIntError`. In `total_priority`, start with `let mut total = 0;`."
+[[hints]]
+text = "`from`: `TaskError::BadPriority(e)`. `total_priority`: `for line in lines { total += parse_priority(line)?; }` then `Ok(total)`."
+
+[[points]]
+after = 1
+prompt = "On an Err, what does ? do?"
+pick = ["Panics with the message", "Returns the error from your function", "Skips to the next line", "Turns it into 0"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Say a ParseIntError can become a TaskError."
+code = "impl ___<ParseIntError> for TaskError {"
+blank = "From"

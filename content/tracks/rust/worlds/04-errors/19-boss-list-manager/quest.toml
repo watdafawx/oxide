@@ -1,0 +1,61 @@
+title = "Boss: a todo list that remembers"
+summary = "A todo list saved to a file, with typed errors inside and anyhow outside."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["thiserror", "anyhow", "files", "result", "boss"]
+
+[[objectives]]
+test = "new_store_is_empty"
+label = "Store::new() starts with no todos"
+[[objectives]]
+test = "add_assigns_increasing_ids"
+label = "add returns ids 1, 2, ... and stores the todos"
+[[objectives]]
+test = "toggle_flips_done_and_reports_missing_ids"
+label = "toggle flips done, unknown id gives TodoError::NotFound"
+[[objectives]]
+test = "parse_command_understands_all_three"
+label = "parse_command reads add, done and list"
+[[objectives]]
+test = "parse_command_rejects_nonsense"
+label = "Bad input gives TodoError::BadCommand"
+[[objectives]]
+test = "save_then_load_round_trips"
+label = "save writes a file that load reads back identically"
+[[objectives]]
+test = "load_missing_file_gives_empty_store"
+label = "load tolerates a file that does not exist yet"
+[[objectives]]
+test = "run_executes_commands"
+label = "run adds, completes and lists, and errors keep their TodoError"
+
+[[hints]]
+text = "`new` is `Store { todos: Vec::new() }`. In `add`, find the highest id with a loop: `let mut highest = 0; for todo in &self.todos { if todo.id > highest { highest = todo.id; } }`, then push a `Todo` with id `highest + 1`."
+[[hints]]
+text = "`toggle`: `for todo in &mut self.todos { if todo.id == id { todo.done = !todo.done; return Ok(()); } }` and after the loop `Err(TodoError::NotFound(id))`."
+[[hints]]
+text = "`parse_command`: `let (verb, rest) = split_verb(input); let bad = TodoError::BadCommand(input.trim().to_string());` then `match verb { \"add\" => ..., \"done\" => ..., \"list\" => Ok(Command::List), _ => Err(bad) }`."
+[[hints]]
+text = "`\"add\"`: `if rest.is_empty() { Err(bad) } else { Ok(Command::Add(rest.to_string())) }`. `\"done\"`: `match rest.parse::<u32>() { Ok(id) => Ok(Command::Done(id)), Err(_) => Err(bad) }`."
+[[hints]]
+text = "`save`: build `text` with `text.push_str(&format_line(todo)); text.push('\\n');` for every todo, then `fs::write(path, text).with_context(|| format!(\"could not write {}\", path.display()))`."
+[[hints]]
+text = "`load`: `let text = match fs::read_to_string(path) { Ok(text) => text, Err(e) if e.kind() == io::ErrorKind::NotFound => return Ok(Store::new()), Err(e) => return Err(e).with_context(|| format!(\"could not read {}\", path.display())) };`."
+[[hints]]
+text = "Still in `load`: `let mut store = Store::new(); for (i, line) in text.lines().enumerate() { store.todos.push(parse_line(line).with_context(|| format!(\"line {}\", i + 1))?); } Ok(store)`."
+[[hints]]
+text = "`run`: `match cmd { Command::Add(text) => Ok(format!(\"added {}\", store.add(&text))), Command::Done(id) => { store.toggle(id)?; Ok(format!(\"done {id}\")) } Command::List => ... }`."
+[[hints]]
+text = "`Command::List`: an empty store gives `\"nothing to do\"`. Otherwise `let mut lines = Vec::new();` and for each todo push `format!(\"[{}] {} {}\", mark, todo.id, todo.text)`, where `mark` is `if todo.done { 'x' } else { ' ' }`; return `Ok(lines.join(\"\\n\"))`."
+
+[[points]]
+after = 1
+prompt = "Which error type do the tests match on?"
+pick = ["anyhow::Error", "io::Error", "TodoError", "String"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Add a condition to the arm."
+code = "Err(e) ___ e.kind() == io::ErrorKind::NotFound => return Ok(Store::new()),"
+blank = "if"

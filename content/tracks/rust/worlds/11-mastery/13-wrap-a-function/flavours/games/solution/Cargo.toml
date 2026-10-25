@@ -1,0 +1,10 @@
+[package]
+name = "mastery_wrap_function"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+count_loads_macro = { package = "mastery_counted_macro", path = "count_loads_macro" }
+
+[workspace]
+members = ["count_loads_macro"]

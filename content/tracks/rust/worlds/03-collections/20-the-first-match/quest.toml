@@ -1,0 +1,29 @@
+title = "The first match"
+summary = "find gives the first item a rule likes; any and all answer yes or no."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["iterators", "find", "any", "all"]
+
+[[objectives]]
+test = "first_affordable_finds_the_first_cheap_price"
+label = "first_affordable gives the first price at or under `max`, or None"
+[[objectives]]
+test = "any_sold_out_checks_for_a_zero"
+label = "any_sold_out says whether any count is 0"
+
+[[hints]]
+text = "`find` gives an `Option`; copy the numbers first so it is an `Option<u32>`. `any` gives a `bool`."
+[[hints]]
+text = "`prices.iter().copied().find(|p| *p <= max)` and `counts.iter().any(|n| *n == 0)`."
+
+[[points]]
+after = 1
+prompt = "What does `find` give when nothing matches?"
+pick = ["0", "false", "None", "a panic"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Is any price over 1000?"
+code = "prices.iter().___(|p| *p > 1000)"
+blank = "any"

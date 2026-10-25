@@ -1,0 +1,32 @@
+title = "Where it shows"
+summary = "Put kit-alloy in a row of the crafting menu with subgroup, and at the end of that row with order."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["items", "subgroup", "order", "quick-win"]
+
+[[objectives]]
+test = "item_is_in_the_intermediate_row"
+label = "kit-alloy's subgroup is the vanilla intermediate-product row"
+
+[[objectives]]
+test = "item_sorts_after_vanilla"
+label = "its order string sorts after every vanilla item in that row"
+
+[[hints]]
+text = "Add two fields to `kit-alloy`: `subgroup`, the row's name, and `order`, a string that sorts late."
+
+[[hints]]
+text = "`subgroup = \"intermediate-product\",` and `order = \"z[kit-alloy]\",`."
+
+[[points]]
+after = 1
+prompt = "What do modders call a row inside a crafting-menu tab?"
+pick = ["an item group", "a subgroup", "a stack", "an order"]
+answer = 1
+
+[[points]]
+after = 4
+prompt = "Which order string sorts first?"
+pick = ["\"c[iron-gear-wheel]\"", "\"z[kit-alloy]\"", "\"a[copper-cable]\""]
+answer = 2

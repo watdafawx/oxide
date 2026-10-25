@@ -1,0 +1,33 @@
+title = "Either will do"
+summary = "Toddlers and season-pass holders get in free: join conditions with or."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["or", "logic"]
+requires = []
+
+[[objectives]]
+test = "free_for_toddlers_or_pass_holders"
+label = "free_entry(age, has_pass) is true under 4, or with a season pass"
+
+[[objectives]]
+test = "closed_outside_opening_hours"
+label = "is_closed(hour) is true before 9 and from 18 on"
+
+[[hints]]
+text = "Each side of `or` must be a complete condition. For `is_closed`, there are two ways to be closed: too early and too late."
+
+[[hints]]
+text = "`return age < 4 or has_pass` and `return hour < 9 or hour >= 18`."
+
+[[points]]
+after = 1
+prompt = "What is `false or true`?"
+pick = ["false", "nil", "true", "an error"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = 'Why is `day == "Saturday" or "Sunday"` wrong?'
+pick = ["`or` needs brackets", 'the right side is just the text "Sunday", which counts as yes', "Sunday is misspelled", "it is fine"]
+answer = 1

@@ -1,0 +1,52 @@
+title = "Boss: Tree editor"
+summary = "Build the engine of an outliner: add, move, remove and render a tree of notes."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["rc", "refcell", "weak", "hashmap", "boss"]
+
+[[objectives]]
+test = "new_doc_has_root_title"
+label = "text(0) is the root's title; unknown ids give None"
+[[objectives]]
+test = "add_returns_fresh_ids"
+label = "add(parent, text) returns a new id each time, None for an unknown parent"
+[[objectives]]
+test = "path_lists_ancestors"
+label = "path(id) lists texts from the root down to the node"
+[[objectives]]
+test = "render_indents_children"
+label = "render() prints the tree, two spaces of indent per level"
+[[objectives]]
+test = "remove_deletes_subtree"
+label = "remove(id) deletes the node and everything below it (never the root)"
+[[objectives]]
+test = "move_node_reparents"
+label = "move_node(id, new_parent) re-attaches the node and its subtree"
+[[objectives]]
+test = "move_refuses_cycles"
+label = "move_node refuses to move a node under itself or its descendants"
+
+[[hints]]
+text = "Start with `text`: `match self.nodes.get(&id) { Some(n) => Some(n.borrow().text.clone()), None => None }`. Then `add`: `let parent_node = self.nodes.get(&parent)?;` returns `None` early for an unknown parent."
+[[hints]]
+text = "Still in `add`: take `self.next_id` and add 1 to it, build the `Node` with `parent: Rc::downgrade(parent_node)`, push an `Rc::clone` of the new node onto the parent's `children`, and `insert` it into `self.nodes`."
+[[hints]]
+text = "`path` is quest 15's breadcrumb, starting from `let mut current = self.nodes.get(&id).cloned();`. An unknown id starts at `None`, so the loop never runs and the Vec stays empty."
+[[hints]]
+text = "`render`: a helper `fn render_node(node: &NodeRef, depth: usize, out: &mut String)` borrows the node, writes `\"  \".repeat(depth)`, the text and `'\\n'`, then calls itself for each child with `depth + 1`. Start it with `render_node(&self.nodes[&ROOT], 0, &mut out)`."
+[[hints]]
+text = "`remove`: `if id == ROOT { return false; }`, then `let node = match self.nodes.get(&id) { Some(n) => Rc::clone(n), None => return false };`. Detach it as in quest 16, collect it and every node below it with a recursive helper, then `self.nodes.retain(|_, n| !doomed.iter().any(|d| Rc::ptr_eq(d, n)));`."
+[[hints]]
+text = "`move_node`: walk up from `Some(Rc::clone(target))` like quest 15 and `return false` if `Rc::ptr_eq(&n, &node)`. Then detach the node, `node.borrow_mut().parent = Rc::downgrade(&target);` and push an `Rc::clone(&node)` onto `target`'s children."
+
+[[points]]
+after = 1
+prompt = "Which type points up to the parent?"
+pick = ["Rc", "Weak", "Box", "Cow"]
+answer = 1
+[[points]]
+after = 9
+prompt = "Keep every child except this exact node."
+code = "children.retain(|c| !Rc::___(c, &node))"
+blank = "ptr_eq"

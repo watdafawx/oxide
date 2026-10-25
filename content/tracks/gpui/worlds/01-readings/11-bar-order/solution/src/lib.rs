@@ -51,18 +51,33 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_order_starts_with_cpu() {
+    fn default_order_has_three_line_dividers() {
         let order = default_order();
-        assert_eq!(order.first(), Some(&Slot::Stat(StatKind::CpuUsage)));
-        assert_eq!(order.get(1), Some(&Slot::Stat(StatKind::CpuTemp)));
+        assert_eq!(order.len(), 11, "eight stats and three dividers");
+        let lines = order.iter().filter(|s| **s == Slot::Divider(DividerStyle::Line)).count();
+        assert_eq!(lines, 3);
     }
 
     #[test]
-    fn default_order_has_three_line_dividers() {
-        let order = default_order();
-        assert_eq!(order.len(), 11);
-        let lines = order.iter().filter(|s| **s == Slot::Divider(DividerStyle::Line)).count();
-        assert_eq!(lines, 3);
-        assert_eq!(order.last(), Some(&Slot::Stat(StatKind::Ping)));
+    fn dividers_sit_between_the_groups() {
+        let line = Slot::Divider(DividerStyle::Line);
+        let stat = Slot::Stat;
+        assert_eq!(
+            default_order(),
+            vec![
+                stat(StatKind::CpuUsage),
+                stat(StatKind::CpuTemp),
+                line,
+                stat(StatKind::GpuUsage),
+                stat(StatKind::GpuTemp),
+                line,
+                stat(StatKind::RamUsed),
+                line,
+                stat(StatKind::NetDown),
+                stat(StatKind::NetUp),
+                stat(StatKind::Ping),
+            ],
+            "a Line divider after the CPU pair, after the GPU pair and after RAM"
+        );
     }
 }

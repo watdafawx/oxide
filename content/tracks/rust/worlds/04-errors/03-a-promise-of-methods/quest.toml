@@ -1,0 +1,30 @@
+title = "A promise of methods"
+summary = "A trait is a promised set of methods; impl Trait for Type keeps the promise."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["trait", "impl"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "empty_priority_is_labelled"
+label = "Empty.label() is \"no priority\""
+[[objectives]]
+test = "labels_show_what_was_typed"
+label = "NotANumber and TooHigh labels show the text and the number"
+
+[[hints]]
+text = "Write a whole new block under the enum: `impl Label for PriorityError { fn label(&self) -> String { match self { ... } } }`, shaped like the `Status` one."
+[[hints]]
+text = "The arms: `PriorityError::Empty => \"no priority\".to_string(),`, `PriorityError::NotANumber(text) => format!(\"'{text}' is not a number\"),`, `PriorityError::TooHigh(n) => format!(\"{n} is above 5\"),`."
+
+[[points]]
+after = 1
+prompt = "A named list of methods a type can promise to have is a…"
+pick = ["struct", "module", "trait", "variant"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Keep the Label promise for Status."
+code = "impl Label ___ Status {"
+blank = "for"

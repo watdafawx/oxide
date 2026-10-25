@@ -1,0 +1,22 @@
+title = "Many senders, one receiver"
+summary = "Clone the Sender once per hash worker, and drop the original so the channel can close."
+
+[[objectives]]
+test = "hash_workers_all_report_and_the_channel_closes"
+label = "hash_workers gets one report from every worker, and the channel closes after the last one"
+
+[[hints]]
+text = "Inside the loop, `let tx = tx.clone();` gives this worker its own Sender to move in. After the loop, the original `tx` is still alive in your function: drop it."
+[[hints]]
+text = "`for id in 0..workers { let tx = tx.clone(); thread::spawn(move || tx.send(id * 10).unwrap()); } drop(tx); rx`"
+
+[[points]]
+after = 1
+prompt = "What does mpsc stand for?"
+pick = ["many producers, single consumer", "main process, sub channel", "move, send, poll, close", "multi-thread pipe system"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Close the channel from this side."
+code = "___(tx);"
+blank = "drop"

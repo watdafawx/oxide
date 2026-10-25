@@ -101,7 +101,7 @@ impl Day {
     /// Count one sample: `app` was in front at `at`.
     pub fn add(&mut self, app: &str, at: NaiveDateTime) {
         let _ = app;
-        // TODO: add SAMPLE_SECS to this program's seconds, and to the seconds of at's hour (at.hour())
+        // TODO: add SAMPLE_SECS to this program's seconds, and to the seconds of the hour it was used in
         let second = at.num_seconds_from_midnight();
         self.first.get_or_insert(second);
         self.last = Some(second);

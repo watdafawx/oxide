@@ -1,0 +1,25 @@
+title = "Change every drop"
+summary = "iter, map and collect: a whole new list from a rule, without a loop."
+
+[[objectives]]
+test = "doubled_drops_double_every_count"
+label = "doubled_drops doubles every drop count"
+[[objectives]]
+test = "drop_names_list_every_item"
+label = "drop_names gives back the item name of every loot table entry"
+
+[[hints]]
+text = "Start from `drops.iter()`, change each count with `.map(...)`, and end with `.collect()`. The return type tells `collect` to build a `Vec<u32>`."
+[[hints]]
+text = "`drops.iter().map(|n| n * 2).collect()` and `table.iter().map(|d| d.item.clone()).collect()`."
+
+[[points]]
+after = 1
+prompt = "What does `.iter()` give you?"
+pick = ["the items one at a time", "a copy of the list", "the first item", "the length"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Gather the changed weights into a new list."
+code = "let heavy: Vec<u32> = weights.iter().map(|w| w * 2).___;"
+blank = "collect()"

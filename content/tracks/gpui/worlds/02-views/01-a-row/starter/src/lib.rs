@@ -32,7 +32,7 @@ impl Render for StatsBar {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .debug_selector(|| "bar".into())
-            // TODO: .flex() and .flex_row() put the pills side by side, .gap_2() spaces them
+            // TODO: lay the pills out left to right, with a small gap between them
             .child(div().debug_selector(|| "pill-cpu".into()).child("CPU 13%"))
             .child(div().debug_selector(|| "pill-ram".into()).child("RAM 8.0 GB"))
     }

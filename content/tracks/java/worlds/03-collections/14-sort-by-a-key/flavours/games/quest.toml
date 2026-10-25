@@ -1,0 +1,25 @@
+title = "Sort by a key"
+summary = "Tell Java what to compare with Comparator.comparing, and flip it with reversed."
+
+[[objectives]]
+test = "byNameSortsModsAtoZ"
+label = "byName returns a new list of mods sorted A to Z by name"
+[[objectives]]
+test = "byDownloadsDescendingPutsTheMostPopularFirst"
+label = "byDownloadsDescending returns a new list with the most downloaded mod first"
+
+[[hints]]
+text = "Copy first: `List<Mod> copy = new ArrayList<>(mods);`. Then `copy.sort(Comparator.comparing(Mod::name));` for names, or `comparingInt(Mod::downloads)` for downloads."
+[[hints]]
+text = "byDownloadsDescending: `copy.sort(Comparator.comparingInt(Mod::downloads).reversed()); return copy;`"
+
+[[points]]
+after = 2
+prompt = "Which builds a comparator from an int key?"
+pick = ["thenComparing", "reversed", "naturalOrder", "comparingInt"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Most downloads first."
+code = "copy.sort(Comparator.comparingInt(Mod::downloads).___());"
+blank = "reversed"

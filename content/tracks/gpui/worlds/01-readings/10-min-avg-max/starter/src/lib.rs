@@ -24,16 +24,12 @@ pub struct Summary {
 impl History {
     /// None while there are no readings yet.
     pub fn summary(&self) -> Option<Summary> {
-        if self.is_empty() {
-            return None;
-        }
+        // TODO: an empty history has no summary.
         let min = f64::MAX;
         let max = f64::MIN;
         let total = 0.0;
-        // TODO: for each v in self.values(): min = min.min(v), max = max.max(v), total += v
-        // (they need `mut`). Then Some(Summary { min, avg: total / self.len() as f64, max })
-        let _ = (min, max, total);
-        None
+        // TODO: walk self.values() once, keeping the smallest, the biggest and the sum.
+        Some(Summary { min, avg: total / self.len() as f64, max })
     }
 }
 

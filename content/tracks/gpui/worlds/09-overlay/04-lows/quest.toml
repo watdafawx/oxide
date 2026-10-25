@@ -10,15 +10,20 @@ test = "one_percent_low_of_capture"
 label = "the capture's 1% low is 64.31 FPS"
 [[objectives]]
 test = "point_one_percent_low_of_capture"
-label = "its 0.1% low is 22.22 FPS"
+label = "its 0.1% low is 22.22 FPS, and a 2-frame run still has one"
 
 [[hints]]
-text = "Copy, sort slowest first with `total_cmp`, take the slowest `share` of them (at least one), average, and turn that into FPS."
+text = "Sort slowest first with `sort_by(|a, b| b.total_cmp(a))`. Then `let n = ((ms.len() as f64 * share).round() as usize).max(1);` and average `slowest[..n]`."
 [[hints]]
-text = "`let mut slowest = ms.to_vec(); slowest.sort_by(|a, b| b.total_cmp(a)); let n = ((ms.len() as f64 * share).round() as usize).max(1); let average = slowest[..n].iter().sum::<f64>() / n as f64; 1000.0 / average`"
+text = "`if ms.is_empty() { return 0.0; } let mut slowest = ms.to_vec(); slowest.sort_by(|a, b| b.total_cmp(a)); let n = ((ms.len() as f64 * share).round() as usize).max(1); let average = slowest[..n].iter().sum::<f64>() / n as f64; 1000.0 / average`"
 
 [[points]]
 after = 3
-prompt = "Why sort_by(|a, b| b.total_cmp(a)) and not sort()?"
-pick = ["f64 has no plain ordering (NaN); total_cmp gives one, and b-first sorts slowest first", "sort() is too slow", "sort() only works on strings", "to remove duplicates"]
-answer = 0
+prompt = "Which closure sorts the slowest (biggest) frame times first?"
+pick = ["|a, b| a.total_cmp(b)", "|a, b| b.total_cmp(a)", "|a, b| a < b", "|a| a.total_cmp(a)"]
+answer = 1
+[[points]]
+after = 5
+prompt = "What is [8.0, 9.0, 30.0][..2]?"
+pick = ["[30.0]", "[9.0, 30.0]", "[8.0, 9.0]", "[8.0, 9.0, 30.0]"]
+answer = 2

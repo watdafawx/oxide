@@ -1,0 +1,25 @@
+title = "A constant inside a trait"
+summary = "Every mob type has a fixed id: an associated const."
+
+[[objectives]]
+test = "mobs_set_their_ids"
+label = "Each mob sets its own ID"
+[[objectives]]
+test = "spawn_line_uses_id_and_loot"
+label = "spawn_line() prints \"<ID>: <loot>\""
+
+[[hints]]
+text = "Set each `ID` to its text in the `impl`. In `spawn_line`, read the constant from the type, `M::ID`, not from `mob`."
+[[hints]]
+text = "`const ID: &str = \"minecraft:zombie\";` and `\"minecraft:creeper\"`. `spawn_line`: `format!(\"{}: {}\", M::ID, mob.loot())`."
+
+[[points]]
+after = 2
+prompt = "How do you read the const on Pig?"
+pick = ["Pig.ID", "Pig::ID", "Pig->ID", "ID(Pig)"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Declare the constant every Block must set."
+code = "trait Block {\n    ___ HARDNESS: u32;\n}"
+blank = "const"

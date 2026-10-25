@@ -1,0 +1,25 @@
+title = "Keep what matches"
+summary = "retain takes a rule and throws out every item the rule says no to."
+
+[[objectives]]
+test = "trash_small_stacks_keeps_the_big_ones"
+label = "trash_small_stacks removes every stack smaller than `min`"
+[[objectives]]
+test = "drop_junk_removes_one_item"
+label = "drop_junk removes every stack with the given item name"
+
+[[hints]]
+text = "`retain` hands your closure a reference to each item, so compare with `*n` for numbers. Keep is `true`."
+[[hints]]
+text = "`stacks.retain(|n| *n >= min);` and `items.retain(|i| i != junk);`."
+
+[[points]]
+after = 1
+prompt = "When the rule says `false` for an item, `retain`..."
+pick = ["keeps it", "panics", "moves it to the end", "throws it out"]
+answer = 3
+[[points]]
+after = 2
+prompt = "Keep only the stacks above 10."
+code = "stacks.retain(|n| ___ > 10);"
+blank = "*n"

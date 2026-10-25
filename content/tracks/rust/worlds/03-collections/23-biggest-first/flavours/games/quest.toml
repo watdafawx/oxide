@@ -1,0 +1,25 @@
+title = "Biggest stack first"
+summary = "sort_by takes a rule that compares two items: a.count.cmp(&b.count), swapped for biggest first."
+
+[[objectives]]
+test = "biggest_first_sorts_by_count_descending"
+label = "biggest_first sorts the stacks from the most items to the fewest"
+[[objectives]]
+test = "by_name_sorts_a_to_z"
+label = "by_name sorts the stacks by item name, a to z"
+
+[[hints]]
+text = "`stacks.sort_by(|a, b| ...)`: the closure compares two stacks. `x.cmp(&y)` gives the answer for smallest first; swap the sides for biggest first."
+[[hints]]
+text = "`stacks.sort_by(|a, b| b.count.cmp(&a.count));` and `stacks.sort_by(|a, b| a.name.cmp(&b.name));`."
+
+[[points]]
+after = 3
+prompt = "What does `3.cmp(&5)` give?"
+pick = ["true", "Ordering::Greater", "-2", "Ordering::Less"]
+answer = 3
+[[points]]
+after = 4
+prompt = "Sort the stacks with the most items first."
+code = "stacks.sort_by(|a, b| ___.count.cmp(&a.count));"
+blank = "b"

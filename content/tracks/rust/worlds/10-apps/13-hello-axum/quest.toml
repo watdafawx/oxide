@@ -1,0 +1,32 @@
+title = "Hello, axum"
+summary = "Answer GET /health with a handler and a Router, and see the 404 and 405 you get for free."
+kind = "exercise"
+xp = 40
+minutes = 6
+tags = ["axum", "http", "router"]
+
+[[objectives]]
+test = "health_is_200_ok"
+label = "GET /health answers 200 with the body ok"
+[[objectives]]
+test = "post_to_health_is_405"
+label = "POST /health is refused with 405 Method Not Allowed"
+[[objectives]]
+test = "unknown_path_is_404"
+label = "any other path is 404 Not Found"
+
+[[hints]]
+text = "The handler only returns the text: its body is the string literal. `app` builds a `Router` with one `.route(path, get(handler))`."
+[[hints]]
+text = "`async fn health() -> &'static str { \"ok\" }` and `Router::new().route(\"/health\", get(health))`."
+
+[[points]]
+after = 2
+prompt = "What does a handler that returns the text \"ok\" send back?"
+pick = ["A 404 with an empty body", "A JSON object {\"ok\": true}", "A 200 response whose body is ok", "Nothing until you call send"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Match the path to the handler."
+code = "Router::new().___(\"/version\", get(version))"
+blank = "route"

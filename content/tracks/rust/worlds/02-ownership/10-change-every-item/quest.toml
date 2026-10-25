@@ -1,0 +1,29 @@
+title = "Change every item"
+summary = "for x in &mut list lends each item so you can change it in place."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["borrowing", "mutable", "loops"]
+
+[[objectives]]
+test = "double_all_doubles_every_count"
+label = "double_all doubles every count in the basket"
+[[objectives]]
+test = "mark_all_tags_every_label"
+label = "mark_all adds \" (new)\" to the end of every label"
+
+[[hints]]
+text = "Two loops over `&mut basket.counts` and `&mut basket.labels`. Each `c` is a `&mut u32`, so it needs a `*`; each `label` is a `&mut String`, so methods work directly."
+[[hints]]
+text = "`for c in &mut basket.counts { *c *= 2; }` and `for label in &mut basket.labels { label.push_str(\" (new)\"); }`."
+
+[[points]]
+after = 2
+prompt = "Add one to every number in the list."
+code = "for n in &mut counts {\n    ___ += 1;\n}"
+blank = "*n"
+[[points]]
+after = 4
+prompt = "After `for x in list { }` with no `&`, can you still use `list`?"
+pick = ["Yes, loops only look", "No, the loop took the whole list"]
+answer = 1

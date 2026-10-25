@@ -44,6 +44,6 @@ code = "let mut recipes: Vec<Recipe> = ___;"
 blank = "Vec::new()"
 [[points]]
 after = 6
-prompt = "Which word stops a recursive function from calling itself forever?"
+prompt = "What stops a recursive function from calling itself forever?"
 pick = ["an arm that does not call itself", "mut", "as", "unwrap"]
 answer = 0

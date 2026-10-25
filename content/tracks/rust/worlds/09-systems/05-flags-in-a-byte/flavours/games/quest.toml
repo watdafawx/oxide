@@ -1,0 +1,28 @@
+title = "Server rules in one byte"
+summary = "Turn whitelist, PvP and hardcore bits on, off and test them with |, & and !, and give each bit a name with const."
+
+[[objectives]]
+test = "rules_turn_on_and_get_tested"
+label = "HARDCORE is the third bit, and enable_rule / rule_enabled turn rules on and test them"
+[[objectives]]
+test = "disable_rule_leaves_the_rest"
+label = "disable_rule turns only the given rule bits off"
+[[objectives]]
+test = "counts_enabled_rules"
+label = "count_enabled_rules returns how many bits are 1"
+
+[[hints]]
+text = "Each function is one operator: `|` to turn on, `&` with `!` to turn off, `&` and a comparison to test. `HARDCORE` is the bit worth 4."
+[[hints]]
+text = "`HARDCORE: u8 = 0b0000_0100`, `rules | rule`, `rules & rule == rule`, `rules & !rule`, `rules.count_ones()`."
+
+[[points]]
+after = 3
+prompt = "Which operator turns a rule on?"
+pick = ["&", "|", "!", "<<"]
+answer = 1
+[[points]]
+after = 5
+prompt = "Turn PvP off and keep the other rules."
+code = "rules & ___PVP"
+blank = "!"

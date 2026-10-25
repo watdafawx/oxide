@@ -1,2 +1,2 @@
 title = "Async"
-blurb = "Futures, tokio, channels, streams and HTTP: write programs that wait on many things at once."
+blurb = "Why waiting is not working: futures, tokio, tasks, channels, cancellation and HTTP, until one program downloads many files at once."

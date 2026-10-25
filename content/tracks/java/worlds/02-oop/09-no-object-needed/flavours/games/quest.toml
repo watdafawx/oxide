@@ -1,0 +1,25 @@
+title = "No object needed"
+summary = "A static method called on the class, and why every method you wrote before was public static."
+
+[[objectives]]
+test = "spawnBuildsNamedMob"
+label = "Mob.spawn(\" Zombie \") returns a Mob of kind \"zombie\""
+[[objectives]]
+test = "constructorIsPrivate"
+label = "The constructor is private, so Mob.spawn is the only way to build one"
+
+[[hints]]
+text = "`spawn` builds a mob with `new` and hands it back; it can clean the kind on the way. Then change `public` to `private` on the constructor line."
+[[hints]]
+text = "`return new Mob(kind.trim().toLowerCase());` in `spawn`, and `private Mob(String kind) {`."
+
+[[points]]
+after = 1
+prompt = "How do you call the static method `spawn` on Mob?"
+pick = ["Mob.spawn(\"x\")", "new spawn(\"x\")", "spawn.Mob(\"x\")", "mob->spawn(\"x\")"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Why is main static?"
+pick = ["It runs faster", "When the program starts, no object exists yet", "It returns a number", "The checker needs it"]
+answer = 1

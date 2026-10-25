@@ -1,0 +1,6 @@
+[package]
+name = "coll_follow_the_reference"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]

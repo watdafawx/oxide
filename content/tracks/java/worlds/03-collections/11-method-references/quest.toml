@@ -1,0 +1,29 @@
+title = "Method references"
+summary = "A Function turns one value into another. When a lambda only calls one method, name the method instead."
+kind = "exercise"
+xp = 35
+minutes = 4
+tags = ["lambda", "function", "method-reference"]
+
+[[objectives]]
+test = "lengthByLambdaGivesTheLength"
+label = "lengthByLambda returns a Function, written as a lambda, from a word to its length"
+[[objectives]]
+test = "lengthByReferenceMatchesTheLambda"
+label = "lengthByReference returns the same Function written as a method reference"
+
+[[hints]]
+text = "lengthByLambda: `return w -> w.length();`."
+[[hints]]
+text = "lengthByReference: `return String::length;`. Same Function, because the lambda only called `length` on its parameter."
+
+[[points]]
+after = 1
+prompt = "Which method runs a Function on one value?"
+pick = ["test", "run", "apply", "get"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Write w -> w.toUpperCase() as a method reference."
+code = "Function<String, String> shout = ___;"
+blank = "String::toUpperCase"

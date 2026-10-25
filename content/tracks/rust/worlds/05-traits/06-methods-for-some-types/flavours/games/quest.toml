@@ -1,0 +1,25 @@
+title = "Methods for some items only"
+summary = "A bounded impl block gives methods only to hands whose items can do the job."
+
+[[objectives]]
+test = "best_picks_the_better_item"
+label = "best() returns a reference to the better item"
+[[objectives]]
+test = "describe_best_formats_text"
+label = "describe_best() prints \"Best item: <x>\""
+
+[[hints]]
+text = "`best` lives in the `PartialOrd` block, so `>=` works on the items. `describe_best` lives in the block that needs both traits, so it can call `best` and print the result."
+[[hints]]
+text = "`best`: `if self.main_hand >= self.off_hand { &self.main_hand } else { &self.off_hand }`. `describe_best`: `format!(\"Best item: {}\", self.best())`."
+
+[[points]]
+after = 2
+prompt = "Only hands whose items can be printed get this method."
+code = "impl<T: ___> Hands<T> {"
+blank = "Display"
+[[points]]
+after = 4
+prompt = "Where does `.to_string()` on any printable value come from?"
+pick = ["every type writes its own", "a blanket impl of ToString for every Display type", "the String struct", "derive(Debug)"]
+answer = 1

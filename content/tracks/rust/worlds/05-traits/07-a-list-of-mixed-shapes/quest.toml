@@ -1,0 +1,29 @@
+title = "A list of mixed shapes"
+summary = "One Vec that holds circles and rects: Box<dyn Shape>."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["trait-objects", "dyn", "box"]
+
+[[objectives]]
+test = "make_shapes_mixes_types"
+label = "make_shapes() returns a circle and a rect in one Vec"
+[[objectives]]
+test = "total_area_sums_boxed_shapes"
+label = "total_area adds up a slice of Box<dyn Shape>"
+
+[[hints]]
+text = "Wrap each shape in `Box::new(...)`. The return type `Vec<Box<dyn Shape>>` tells Rust to treat each box as a trait object."
+[[hints]]
+text = "`make_shapes`: `vec![Box::new(Circle { r: 1.0 }), Box::new(Rect { w: 2.0, h: 3.0 })]`. `total_area`: `shapes.iter().map(|s| s.area()).sum()`."
+
+[[points]]
+after = 2
+prompt = "Why can't a Circle and a Rect sit in one plain Vec?"
+pick = ["Vec only holds numbers", "Rect has no area", "the slots are one size and the two types differ", "Vec needs a trait"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Write the type of a list of any shapes."
+code = "let canvas: Vec<___> = Vec::new();"
+blank = "Box<dyn Shape>"

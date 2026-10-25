@@ -1,0 +1,16 @@
+title = "Iterators are lazy"
+summary = "Why .map() alone does nothing, and what makes a chain run."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["iterators", "lazy"]
+
+[[quiz]]
+question = "What does `prices.iter().map(|p| p * 2);` do on its own, with nothing after it?"
+choices = ["It doubles every price in `prices`", "It returns a new Vec with the doubled prices", "Nothing yet: it only describes the work"]
+answer = 2
+
+[[quiz]]
+question = "Which part of `prices.iter().map(|p| p * 2).collect()` makes the work happen?"
+choices = [".iter()", ".collect()", ".map(|p| p * 2)"]
+answer = 1

@@ -1,0 +1,15 @@
+local t = require("oxide.test")
+local park = require("park")
+
+t.test("children_and_adults", function()
+  t.eq(park.ticket_price(6), 5, "a 6-year-old")
+  t.eq(park.ticket_price(11), 5, "11 is still under 12")
+  t.eq(park.ticket_price(12), 10, "12 pays the adult price")
+  t.eq(park.ticket_price(40), 10)
+end)
+
+t.test("seniors_pay_6", function()
+  t.eq(park.ticket_price(70), 6)
+  t.eq(park.ticket_price(65), 6, "exactly 65 counts")
+  t.eq(park.ticket_price(64), 10, "64 is not a senior yet")
+end)

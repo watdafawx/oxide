@@ -1,0 +1,29 @@
+title = "A fingerprint of bytes"
+summary = "FNV-1a hashes bytes with XOR and a multiply that wraps around. Hex literals write its big numbers."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["hash", "bytes", "hex", "xor", "wrapping"]
+
+[[objectives]]
+test = "fnv1a_of_nothing_is_the_start_value"
+label = "fnv1a of no bytes is the start value"
+[[objectives]]
+test = "fnv1a_matches_the_published_values"
+label = "fnv1a gives the published FNV-1a values for \"a\" and \"foobar\""
+
+[[hints]]
+text = "Start a `mut` hash at `FNV_OFFSET`. Loop over the bytes; each `byte` is a `&u8`, so widen it with `u64::from(*byte)`. XOR it in with `^=`, then multiply by `FNV_PRIME` with `wrapping_mul`."
+[[hints]]
+text = "`let mut hash = FNV_OFFSET; for byte in data { hash ^= u64::from(*byte); hash = hash.wrapping_mul(FNV_PRIME); } hash`"
+
+[[points]]
+after = 1
+prompt = "What is 0xff in decimal?"
+pick = ["15", "100", "255", "256"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Multiply, and wrap around instead of panicking on overflow."
+code = "hash = hash.___(FNV_PRIME);"
+blank = "wrapping_mul"

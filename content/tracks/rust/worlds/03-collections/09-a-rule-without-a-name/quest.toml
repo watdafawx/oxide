@@ -1,0 +1,29 @@
+title = "A rule without a name"
+summary = "A closure is a small function you write in place, and it can use the names around it."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["closures"]
+
+[[objectives]]
+test = "with_tax_adds_the_percent_to_every_price"
+label = "with_tax adds `percent` percent to every price"
+[[objectives]]
+test = "top_up_amounts_fill_each_shelf_to_the_target"
+label = "top_up_amounts says how many of each product to order to reach `target`"
+
+[[hints]]
+text = "Above the loop, write the rule once: `let add_tax = |p: u32| p + p * percent / 100;`. In the loop, push `add_tax(*p)`."
+[[hints]]
+text = "For `top_up_amounts`: `let top_up = |n: u32| target.saturating_sub(n);`, then push `top_up(*n)` for each count."
+
+[[points]]
+after = 2
+prompt = "Which one is a closure?"
+pick = ["fn tax(p: u32) -> u32", "|p: u32| p + 1", "p => p + 1", "(p) -> p + 1"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Write the rule that adds `bonus` to a number."
+code = "let with_bonus = ___ n + bonus;"
+blank = "|n: u32|"

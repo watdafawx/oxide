@@ -1,0 +1,17 @@
+title = "The terminal"
+summary = "The text window where programmers type commands, and what tutorials mean by them."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["terminal", "command", "path"]
+requires = []
+
+[[quiz]]
+question = "A tutorial shows `$ cargo run`. What do you type?"
+choices = ["$ cargo run", "cargo run", "run cargo $"]
+answer = 1
+
+[[quiz]]
+question = "What does the path `src/main.lua` mean?"
+choices = ["a website called src", "two separate files, src and main.lua", "the file main.lua inside the folder src"]
+answer = 2

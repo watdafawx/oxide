@@ -1,0 +1,30 @@
+title = "Rc for threads: Arc"
+summary = "Rc cannot cross threads. Arc is the same idea with a counter that threads can share."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["arc", "rc", "shared-ownership", "threads"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "lengths_on_threads_read_one_shared_list"
+label = "lengths_on_threads compiles with Arc, and each thread reads one name from the shared list"
+[[objectives]]
+test = "share_hands_out_the_same_list"
+label = "share returns another owner of the same list, not a copy"
+
+[[hints]]
+text = "Every `Rc` in this file becomes `Arc`, and the `use` line changes from `std::rc::Rc` to `std::sync::Arc`. Nothing else in `lengths_on_threads` changes."
+[[hints]]
+text = "In `share`: `Arc::clone(list)`."
+
+[[points]]
+after = 2
+prompt = "Why may an Rc not go to another thread?"
+pick = ["it lives on the heap", "it is too big", "it has no Drop", "its counter is a plain number two threads could race on"]
+answer = 3
+[[points]]
+after = 3
+prompt = "Make another owner for the next thread."
+code = "let mine = ___(&shared);"
+blank = "Arc::clone"

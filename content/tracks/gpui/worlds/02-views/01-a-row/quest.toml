@@ -10,12 +10,17 @@ test = "ram_pill_is_right_of_cpu_pill"
 label = "the RAM pill sits to the right of the CPU pill, on the same line"
 
 [[hints]]
-text = "Add three calls to the outer `div()` in `render`, after `.debug_selector(..)`."
+text = "Three more links on the outer `div()` in `render`, right after its `.debug_selector(..)`: switch flex on, pick the direction that runs across, then the gap."
 [[hints]]
 text = "`.flex().flex_row().gap_2()`"
 
 [[points]]
 after = 2
 prompt = "Which pair of calls lays children out left to right?"
-pick = [".flex().flex_row()", ".flex().flex_col()", ".gap_2()", ".child().child()"]
-answer = 0
+pick = [".flex().flex_col()", ".gap_2()", ".flex().flex_row()", ".child().child()"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Which spacing step is about 8 pixels?"
+pick = ["gap_8()", "gap_2()", "gap_1()", "gap_32()"]
+answer = 1

@@ -1,0 +1,26 @@
+title = "Borrow, don't copy"
+summary = "split_whitespace hands out &str slices for free. Count them without building a String or a Vec."
+kind = "exercise"
+xp = 25
+minutes = 3
+tags = ["performance", "str", "iterators"]
+
+[[objectives]]
+test = "count_long_words_does_not_allocate"
+label = "count_long_words makes 0 allocations"
+
+[[hints]]
+text = "Drop the `map(String::from)` and the `collect`: chain `filter` and `count` straight onto `text.split_whitespace()`."
+[[hints]]
+text = "`text.split_whitespace().filter(|w| w.len() >= min_len).count()`"
+
+[[points]]
+after = 1
+prompt = "What does split_whitespace hand out?"
+pick = ["new Strings", "&str slices of the original text", "chars", "a Vec"]
+answer = 1
+[[points]]
+after = 2
+prompt = "Which step of an iterator chain allocates a Vec?"
+pick = ["filter", "map", "count", "collect"]
+answer = 3

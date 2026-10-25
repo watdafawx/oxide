@@ -1,0 +1,25 @@
+title = "One loop for every kind"
+summary = "Add up a mixed wave's damage without ever asking which mob is which."
+
+[[objectives]]
+test = "waveSumsAMixedNight"
+label = "Wave.totalDamage adds up a mix of zombies and skeletons"
+[[objectives]]
+test = "waveCountsAMobItHasNeverSeen"
+label = "Wave.totalDamage also counts a mob written after it"
+
+[[hints]]
+text = "A running total and an enhanced `for` over `mobs`, calling `attackDamage()` on each one. No question about the kind."
+[[hints]]
+text = "`int sum = 0; for (Mob mob : mobs) { sum += mob.attackDamage(); } return sum;`"
+
+[[points]]
+after = 1
+prompt = "Can one Mob[] hold a Zombie and a Skeleton?"
+pick = ["Yes, both are Mobs", "No, an array holds one class", "Only if they are static", "Only with two arrays"]
+answer = 0
+[[points]]
+after = 2
+prompt = "Which attackDamage runs for a Skeleton in the array?"
+pick = ["Mob's, which has no body", "Skeleton's", "Zombie's", "The first one written"]
+answer = 1

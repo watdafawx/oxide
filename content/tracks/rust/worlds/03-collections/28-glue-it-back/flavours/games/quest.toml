@@ -1,0 +1,25 @@
+title = "Glue it back together"
+summary = "join puts a list of text back into one String, with a separator in between."
+
+[[objectives]]
+test = "chest_summary_joins_with_commas"
+label = "chest_summary turns [torch, bow, arrow] into \"torch, bow, arrow\""
+[[objectives]]
+test = "modlist_file_sorts_then_puts_one_per_line"
+label = "modlist_file sorts the mod names and puts one on each line"
+
+[[hints]]
+text = "`list.join(sep)` glues the items with `sep` between them. A line break in text is written `\"\\n\"`."
+[[hints]]
+text = "`items.join(\", \")`. Mod list: `let mut mods = mods; mods.sort(); mods.join(\"\\n\")`."
+
+[[points]]
+after = 1
+prompt = "What is `[\"a\", \"b\"].join(\"+\")`?"
+pick = ["\"a+b\"", "\"a+b+\"", "\"+a+b\"", "\"ab\""]
+answer = 0
+[[points]]
+after = 2
+prompt = "One mod per line."
+code = "let file = mods.join(___);"
+blank = "\"\\n\""

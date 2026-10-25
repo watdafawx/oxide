@@ -1,0 +1,29 @@
+title = "A shelf by number"
+summary = "Positions are usize; .get asks safely and answers with an Option."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["vec", "usize", "get", "option"]
+
+[[objectives]]
+test = "count_on_shelf_is_none_past_the_end"
+label = "count_on_shelf gives Some(count) for a real shelf and None past the end"
+[[objectives]]
+test = "count_or_zero_falls_back"
+label = "count_or_zero gives the count, or 0 past the end"
+
+[[hints]]
+text = "`counts.get(shelf)` gives an `Option<&u32>`. Add `.copied()` to turn it into the `Option<u32>` the function returns."
+[[hints]]
+text = "`counts.get(shelf).copied()`, and in `count_or_zero` add `.unwrap_or(0)` after that."
+
+[[points]]
+after = 1
+prompt = "Which type does Rust use for positions and lengths?"
+pick = ["u32", "i32", "usize", "u8"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Ask for shelf 9 without risking a crash."
+code = "let maybe = counts.___(9);"
+blank = "get"

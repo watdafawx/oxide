@@ -1,0 +1,33 @@
+title = "A name for a value"
+summary = "Write the ticket price once, give it a name, use the name everywhere."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["variables", "local"]
+requires = []
+
+[[objectives]]
+test = "order_costs_35"
+label = "order_total() gives 35: 3 tickets and 2 popcorns"
+
+[[objectives]]
+test = "late_show_order_costs_18"
+label = "late_show_total() gives 18 at the late-show price of 7"
+
+[[hints]]
+text = "`local price = 9` stores the ticket price; `popcorn` works the same way. Then the `return` line uses the two names instead of the numbers."
+
+[[hints]]
+text = "In `order_total`: `local price = 9`, `local popcorn = 4`, `return price * 3 + popcorn * 2`. In `late_show_total`, only the first line changes: `local price = 7`."
+
+[[points]]
+after = 1
+prompt = "After `local price = 9`, what is `price * 2`?"
+pick = ["18", "price2", "an error", "92"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "Which one is a valid name?"
+pick = ["ticket price", "2tickets", "ticket-price", "ticket_price"]
+answer = 3

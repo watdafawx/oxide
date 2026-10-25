@@ -1,0 +1,25 @@
+title = "Refuse a bad position"
+summary = "A compact constructor checks a record's values, and throw stops a bad one at the door."
+
+[[objectives]]
+test = "yOutsideTheWorldIsRejected"
+label = "A y outside -64..319 throws IllegalArgumentException"
+[[objectives]]
+test = "beyondTheBorderIsRejected"
+label = "An x or z beyond 30,000,000 either way throws IllegalArgumentException"
+
+[[hints]]
+text = "Inside the record's braces, write `public BlockPos { ... }` with no brackets after the name. In it, one `if` per rule that throws."
+[[hints]]
+text = "`if (y < -64 || y > 319) { throw new IllegalArgumentException(\"y is outside the world: \" + y); }`, and the same shape for `x` and `z` against `30_000_000`."
+
+[[points]]
+after = 1
+prompt = "What does a compact constructor leave out?"
+pick = ["Its name", "The brackets with the parameters", "Its braces", "The word public"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Stop with an error."
+code = "___ new IllegalArgumentException(\"too high\");"
+blank = "throw"

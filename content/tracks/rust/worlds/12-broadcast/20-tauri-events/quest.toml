@@ -1,0 +1,26 @@
+title = "Tauri events"
+summary = "Rust tells the pages about every moment as it happens, with a Tauri event."
+kind = "exercise"
+xp = 30
+minutes = 4
+tags = ["tauri", "events"]
+
+[[objectives]]
+test = "moment_event_emitted_once"
+label = "publish_moment sends one moment event with its cue and detail"
+
+[[hints]]
+text = "Build the payload with the moment's own methods: `MomentPayload { cue: moment.cue(), detail: moment.detail() }`, and hand it to `app.emit`."
+[[hints]]
+text = "`app.emit(\"moment\", MomentPayload { cue: moment.cue(), detail: moment.detail() })`"
+
+[[points]]
+after = 1
+prompt = "The server just saw a hat-trick. What tells the pages?"
+pick = ["a command the page calls every second", "an event: Rust pushes it when it happens", "either, they are the same thing", "a new window"]
+answer = 1
+[[points]]
+after = 4
+prompt = "No page is listening yet. What does emit give back?"
+pick = ["an error: nobody got it", "it waits for a page", "a panic", "Ok: the event simply reaches nobody"]
+answer = 3

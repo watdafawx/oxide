@@ -1,0 +1,21 @@
+title = "Tables, rows and SQL"
+summary = "What a database is, why Oxide keeps its progress in one, and the five SQL statements."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["sql", "sqlite", "database"]
+
+[[quiz]]
+question = "Which SQL statement reads rows back out of the quests table?"
+choices = ["INSERT INTO quests ...", "SELECT ... FROM quests", "CREATE TABLE quests ..."]
+answer = 1
+
+[[quiz]]
+question = "Two quests are both called \"Loops\". How does Oxide point at exactly one of them?"
+choices = ["By its id, the INTEGER PRIMARY KEY the database handed out", "By its title, because SQLite refuses two equal titles", "By its position in the file, counting from the top"]
+answer = 0
+
+[[quiz]]
+question = "What does `SELECT title FROM quests WHERE xp > 30 ORDER BY xp DESC` give back?"
+choices = ["Every title, with the xp column removed from the table", "The titles of quests worth more than 30 XP, biggest first", "The first quest worth more than 30 XP, and nothing else"]
+answer = 1

@@ -1,0 +1,29 @@
+title = "Typing an address"
+summary = "A small text box for the ping address: click to focus, type to add, Backspace to remove."
+kind = "exercise"
+xp = 50
+minutes = 7
+tags = ["gpui", "keyboard", "focus"]
+
+[[objectives]]
+test = "typing_sets_ping_address"
+label = "clearing the box and typing 8.8.8.8 sets the ping address"
+[[objectives]]
+test = "backspace_removes_last_char"
+label = "one Backspace on 1.1.1.1 leaves 1.1.1."
+
+[[hints]]
+text = "Add `.on_key_down(cx.listener(|_, event: &KeyDownEvent, _, cx| { .. }))` to the box. Inside, `let key = &event.keystroke;`, then `Settings::update_global`: if `key.key == \"backspace\"` pop a character, else if `key.key_char` is `Some(typed)` push it; then notify."
+[[hints]]
+text = "`.on_key_down(cx.listener(|_, event: &KeyDownEvent, _, cx| { let key = &event.keystroke; Settings::update_global(cx, |s, _| { if key.key == \"backspace\" { s.ping_address.pop(); } else if let Some(typed) = &key.key_char { s.ping_address.push_str(typed); } }); cx.notify(); }))`"
+
+[[points]]
+after = 1
+prompt = "Which keys reach the box's on_key_down?"
+pick = ["every key on the computer", "only letters", "keys pressed while the box has focus", "keys pressed over the box"]
+answer = 2
+[[points]]
+after = 2
+prompt = "Shift is pressed alone. What is its key_char?"
+pick = ["None: Shift types nothing", "\"shift\"", "an empty string", "the next letter"]
+answer = 0

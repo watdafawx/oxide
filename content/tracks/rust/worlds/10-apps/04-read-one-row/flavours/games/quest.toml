@@ -1,0 +1,25 @@
+title = "Read one answer about your mods"
+summary = "Ask SQLite a question with one answer: a mod's name by id, and how many mods are enabled."
+
+[[objectives]]
+test = "name_of_finds_the_row"
+label = "name_of(id) gives that mod's name, and an Err for an id that isn't there"
+[[objectives]]
+test = "count_by_state_counts_matching_rows"
+label = "count_by_state(true) counts the enabled mods, count_by_state(false) the disabled ones"
+
+[[hints]]
+text = "Both are one `conn.query_row(sql, params![..], |row| row.get(0))`. The first selects `name` with `WHERE id = ?1`; the second selects `COUNT(*)` with `WHERE enabled = ?1`."
+[[hints]]
+text = "`conn.query_row(\"SELECT name FROM mods WHERE id = ?1\", params![id], |row| row.get(0))` and `conn.query_row(\"SELECT COUNT(*) FROM mods WHERE enabled = ?1\", params![enabled], |row| row.get(0))`."
+
+[[points]]
+after = 2
+prompt = "Which column does row.get(0) read?"
+pick = ["The last column of the row", "The id, whatever you selected", "The first column you selected", "None: columns count from 1"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Count the rows."
+code = "conn.query_row(\"SELECT ___ FROM mods\", [], |row| row.get(0))"
+blank = "COUNT(*)"

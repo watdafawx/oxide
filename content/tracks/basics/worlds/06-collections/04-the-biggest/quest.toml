@@ -1,0 +1,36 @@
+title = "The biggest"
+summary = "The receipt shows the dearest and the cheapest item: keep a champion as you walk the list."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["lists", "max", "min", "loops"]
+requires = []
+
+[[objectives]]
+test = "finds_the_most_expensive"
+label = "most_expensive(basket) gives the highest price"
+
+[[objectives]]
+test = "finds_the_cheapest"
+label = "cheapest(basket) gives the lowest price, and nil for an empty basket"
+
+[[hints]]
+text = "Start the champion at `basket[1]`, not at 0. Then loop and replace the champion whenever an item beats it."
+
+[[hints]]
+text = "Cheapest is the same loop with `<` instead of `>`. An empty basket's `basket[1]` is already nil, and the loop then runs zero times."
+
+[[hints]]
+text = "`local lowest = basket[1]`, then `for _, price in ipairs(basket) do if price < lowest then lowest = price end end`, then `return lowest`."
+
+[[points]]
+after = 2
+prompt = "Why start the champion at `basket[1]` and not at 0?"
+pick = ["Lua needs it", "it is faster", "it is a real item, so it can never be a made-up answer", "0 is not allowed in lists"]
+answer = 2
+
+[[points]]
+after = 3
+prompt = "To find the smallest instead of the biggest, what changes?"
+pick = ["the `>` becomes `<`", "the loop runs backwards", "the champion starts at 0", "nothing"]
+answer = 0

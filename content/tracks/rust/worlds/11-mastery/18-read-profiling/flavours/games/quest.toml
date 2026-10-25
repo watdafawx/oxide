@@ -1,0 +1,25 @@
+title = "Measure before you optimise"
+summary = "Release builds, flamegraphs, and why a scan inside a loop is the first thing to look for in the chunk indexer."
+
+[[quiz]]
+question = "What does a flamegraph (from samply, cargo-flamegraph or perf) of the chunk indexer show you?"
+choices = [
+  "How much memory each variable uses at the moment it was sampled",
+  "Which functions the time goes in, as stacked bars where width is time",
+  "Which lines the compiler rejected, with each error message",
+]
+answer = 1
+
+[[quiz]]
+question = "The chunk indexer feels slow. What do you do first?"
+choices = [
+  "Rewrite the hot loop with unsafe so the compiler skips bounds checks",
+  "Add #[inline(always)] to every function",
+  "Measure a release build with a profiler to find where the time goes",
+]
+answer = 2
+
+[[quiz]]
+question = "build scans a list of every block name seen so far, once per block. The world doubles in size. Roughly how much more work?"
+choices = ["About four times as much", "Twice as much", "The same, a scan is cheap"]
+answer = 0

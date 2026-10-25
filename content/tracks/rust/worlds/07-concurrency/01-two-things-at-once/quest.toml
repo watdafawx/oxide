@@ -1,0 +1,33 @@
+title = "Two things at once"
+summary = "What a thread is, why a computer can run several, and why their output comes in a different order each run."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["threads", "cores"]
+
+[[quiz]]
+question = "Two threads each print one line. In which order do the lines appear?"
+choices = [
+  "Always in the order the threads were started",
+  "It can change from run to run, because the system decides when each thread runs",
+  "Alphabetical, because the terminal sorts them",
+]
+answer = 1
+
+[[quiz]]
+question = "Your computer has 8 cores. What does that let threads do?"
+choices = [
+  "Up to 8 threads can run at the very same moment",
+  "A program may start at most 8 threads",
+  "Each thread runs 8 times faster",
+]
+answer = 0
+
+[[quiz]]
+question = "Which job gains most from being split over several threads?"
+choices = [
+  "Adding two numbers once",
+  "Printing one line",
+  "Hashing 500 files, one after another",
+]
+answer = 2

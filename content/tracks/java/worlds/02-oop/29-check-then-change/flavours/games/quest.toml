@@ -1,0 +1,25 @@
+title = "Check, then change"
+summary = "Throw before you touch anything, so a refused gift leaves both players as they were."
+
+[[objectives]]
+test = "overspendingThrowsAndChangesNothing"
+label = "spendLevels(more than there is) throws NotEnoughLevelsException and changes nothing"
+[[objectives]]
+test = "refusedGiftChangesNeitherPlayer"
+label = "A refused giveLevels leaves both players unchanged; an allowed one moves the levels"
+
+[[hints]]
+text = "In `spendLevels`, an `if` that throws comes before the subtraction. In `giveLevels`, swap the two lines so `spendLevels` runs, and maybe throws, before `to` gets anything."
+[[hints]]
+text = "`if (amount > levels) { throw new NotEnoughLevelsException(name + \" has \" + levels + \" levels, not \" + amount); }`. In `giveLevels`: `spendLevels(amount);` then `to.levels += amount;`."
+
+[[points]]
+after = 2
+prompt = "Which class does your own exception extend?"
+pick = ["Object", "RuntimeException", "String", "Player"]
+answer = 1
+[[points]]
+after = 4
+prompt = "In giveLevels, which line goes first?"
+pick = ["to.levels += amount;", "spendLevels(amount);", "Either, the result is the same", "return;"]
+answer = 1

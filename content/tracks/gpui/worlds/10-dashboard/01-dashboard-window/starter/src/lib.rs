@@ -109,7 +109,7 @@ impl Render for DashboardView {
             .size_full()
             .p_4()
             .bg(rgb(t.background))
-            // TODO: lay the cards out as a grid of `columns` columns: .grid().grid_cols(..)
+            // TODO: lay the cards out as a grid with `columns` columns
             .gap_4()
             .children(cards)
     }

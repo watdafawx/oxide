@@ -1,0 +1,27 @@
+title = "Structs own their fields"
+summary = "A struct that keeps text should own it. Swap a borrowed &str field for a String."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["structs", "ownership"]
+starter_fails_to_compile = true
+
+[[objectives]]
+test = "note_outlives_the_typed_text"
+label = "Note::new builds, and the note keeps its title after the typed text is gone"
+
+[[hints]]
+text = "Two lines change: the type of the `title` field, and the value `new` stores in it."
+[[hints]]
+text = "`pub title: String,` and, in `new`, `Note { title: title.to_string(), pages: page_count }`."
+
+[[points]]
+after = 2
+prompt = "Why does a `&str` field need more information?"
+pick = ["Rust must know how long the borrowed text lives", "&str is too slow for structs", "Fields can only hold numbers"]
+answer = 0
+[[points]]
+after = 3
+prompt = "Let the note own its title."
+code = "struct Note {\n    title: ___,\n}"
+blank = "String"

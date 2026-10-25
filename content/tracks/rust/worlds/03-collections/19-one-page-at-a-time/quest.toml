@@ -1,0 +1,29 @@
+title = "One page at a time"
+summary = "take(n) keeps the first n items; skip(n) passes over them. Together they make pages."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["iterators", "take", "skip"]
+
+[[objectives]]
+test = "first_lines_takes_n"
+label = "first_lines gives back the first `n` names, or all of them if there are fewer"
+[[objectives]]
+test = "page_skips_then_takes"
+label = "page gives back page number `page` (from 0) of `size` names"
+
+[[hints]]
+text = "Both are a chain over `names.iter()` ending in `.map(|name| name.clone()).collect()`. `take(n)` keeps the first n; `skip(k)` jumps over k first."
+[[hints]]
+text = "`names.iter().take(n).map(|name| name.clone()).collect()`. Page: `.skip(page * size).take(size)` in the same place."
+
+[[points]]
+after = 1
+prompt = "`take(3)` on a list of 2 items gives..."
+pick = ["a panic", "3 items, one empty", "the 2 items", "nothing"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Page 2 with 10 lines per page starts after how many lines?"
+code = "names.iter().skip(___).take(10)"
+blank = "20"

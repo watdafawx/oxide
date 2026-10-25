@@ -1,0 +1,29 @@
+title = "Every file in a folder"
+summary = "fs::read_dir lists one folder; a function that calls itself on each subfolder lists them all."
+kind = "exercise"
+xp = 50
+minutes = 8
+tags = ["files", "read_dir", "recursion", "pathbuf"]
+
+[[objectives]]
+test = "walk_lists_every_file_sorted"
+label = "walk lists every file at any depth, not the folders, sorted by path"
+[[objectives]]
+test = "walk_of_a_missing_folder_is_empty"
+label = "A folder that cannot be read gives an empty list"
+
+[[hints]]
+text = "`match fs::read_dir(dir) { Ok(entries) => entries, Err(_) => return Vec::new() }` gets the entries. Loop over them with `if let Ok(entry) = entry`, and for each `entry.path()` either push it or call `walk` on it and push everything that comes back."
+[[hints]]
+text = "`if path.is_dir() { for file in walk(&path) { files.push(file); } } else { files.push(path); }` and `files.sort();` before you return."
+
+[[points]]
+after = 2
+prompt = "What does entry.path() hand back?"
+pick = ["a &str", "the file's bytes", "a PathBuf", "a DirEntry"]
+answer = 2
+[[points]]
+after = 4
+prompt = "Which method says whether a path is a folder?"
+code = "if path.___() {"
+blank = "is_dir"

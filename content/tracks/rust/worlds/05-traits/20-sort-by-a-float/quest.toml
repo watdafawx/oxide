@@ -1,0 +1,29 @@
+title = "Sort by a decimal"
+summary = "f64 is not Ord: compare decimals with total_cmp in max_by and sort_by."
+kind = "exercise"
+xp = 40
+minutes = 5
+tags = ["ord", "sorting", "f64"]
+
+[[objectives]]
+test = "most_opaque_finds_the_top_layer"
+label = "most_opaque returns the layer with the highest opacity"
+[[objectives]]
+test = "sort_by_opacity_orders_layers"
+label = "sort_by_opacity sorts from most see-through to most solid"
+
+[[hints]]
+text = "Both use a closure that gets two layers, `|a, b|`, and returns their `Ordering`: compare `a.opacity` with `b.opacity` using `total_cmp`."
+[[hints]]
+text = "`layers.iter().max_by(|a, b| a.opacity.total_cmp(&b.opacity))` and `layers.sort_by(|a, b| a.opacity.total_cmp(&b.opacity));`."
+
+[[points]]
+after = 2
+prompt = "Why does `max_by_key(|l| l.opacity)` refuse an f64?"
+pick = ["f64 is too big", "f64 is not Ord, because of NaN", "keys must be text", "max_by_key needs a Vec"]
+answer = 1
+[[points]]
+after = 4
+prompt = "Pick the smallest by an f64 field."
+code = "notes.iter().___(|a, b| a.score.total_cmp(&b.score))"
+blank = "min_by"

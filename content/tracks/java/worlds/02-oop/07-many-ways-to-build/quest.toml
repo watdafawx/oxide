@@ -1,0 +1,29 @@
+title = "Many ways to build one"
+summary = "Short constructors that hand over to the full one with this(...), so the rules live in one place."
+kind = "exercise"
+xp = 45
+minutes = 6
+tags = ["constructors", "overloading", "this"]
+
+[[objectives]]
+test = "defaultConstructorSetsDefaults"
+label = "new Reminder() is \"Untitled\" for 10 minutes"
+[[objectives]]
+test = "chainedConstructorReusesFirst"
+label = "new Reminder(text) goes through the full constructor: trimmed text, 10 minutes"
+
+[[hints]]
+text = "Replace the whole body of each short constructor with one `this(...)` line. `Reminder(String)` hands over to the two-parameter one; `Reminder()` can hand over to `Reminder(String)`."
+[[hints]]
+text = "`this(text, 10);` in `Reminder(String text)`, and `this(\"Untitled\");` in `Reminder()`."
+
+[[points]]
+after = 2
+prompt = "Hand over to the full constructor."
+code = "public Timer(String name) {\n    ___(name, 60);\n}"
+blank = "this"
+[[points]]
+after = 3
+prompt = "Where must this(...) go?"
+pick = ["The first line of the constructor", "The last line", "Anywhere in a method", "Outside the class"]
+answer = 0

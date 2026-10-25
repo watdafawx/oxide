@@ -1,0 +1,29 @@
+title = "Keep some"
+summary = "filter lets through only the items a rule says yes to."
+kind = "exercise"
+xp = 50
+minutes = 6
+tags = ["iterators", "filter", "copied"]
+
+[[objectives]]
+test = "cheap_prices_keeps_prices_up_to_max"
+label = "cheap_prices gives back the prices at or under `max`"
+[[objectives]]
+test = "affordable_keeps_products_up_to_max"
+label = "affordable gives back the products whose price is at or under `max`"
+
+[[hints]]
+text = "Numbers: `.copied()` right after `.iter()` makes the items plain `u32`s, so the filter closure gets a `&u32` and needs one `*`."
+[[hints]]
+text = "`prices.iter().copied().filter(|p| *p <= max).collect()` and `products.iter().filter(|p| p.price <= max).collect()`."
+
+[[points]]
+after = 2
+prompt = "After `.iter()` on a `&[u32]`, what does a `filter` closure get?"
+pick = ["a u32", "a &u32", "a &&u32", "a Vec"]
+answer = 2
+[[points]]
+after = 3
+prompt = "Make the items plain numbers before filtering."
+code = "prices.iter().___().filter(|p| *p > 100)"
+blank = "copied"

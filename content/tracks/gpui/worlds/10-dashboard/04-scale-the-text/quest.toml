@@ -10,12 +10,17 @@ test = "small_cards_shrink_text"
 label = "a 320 px card gets 32 px text, 200 px gets 20, 100 px stays at 14"
 
 [[hints]]
-text = "A tenth of the width, clamped to 14..=32, as `px`."
+text = "Take the plain number out with `f32::from(..)`, divide by 10, clamp it, and wrap the answer in `px(..)` to make it a length again."
 [[hints]]
 text = "`px((f32::from(card_width) / 10.0).clamp(14.0, 32.0))`"
 
 [[points]]
-after = 2
+after = 1
+prompt = "Why subtract 32 px before dividing by the columns?"
+pick = ["for the gaps between cards", "p_4 padding, both sides", "cards have a 32 px border", "the title takes 32 px"]
+answer = 1
+[[points]]
+after = 3
 prompt = "Why clamp the low end at 14?"
-pick = ["smaller text is hard to read across a room", "GPUI cannot draw smaller", "14 is the default", "to save space"]
-answer = 0
+pick = ["GPUI cannot draw any smaller", "14 is the default size", "it saves space", "too small to read from a chair"]
+answer = 3

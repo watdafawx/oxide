@@ -1,0 +1,21 @@
+title = "Keys to reorder"
+summary = "Alt+Up and Alt+Down move the selected row, through key bindings that only apply in the Arrange list."
+kind = "exercise"
+xp = 35
+minutes = 5
+tags = ["gpui", "keybinding", "actions"]
+
+[[objectives]]
+test = "alt_up_moves_selected_row"
+label = "with row 3 selected, Alt+Up moves it to row 2"
+
+[[hints]]
+text = "`bind_settings_keys` is one `cx.bind_keys([..])` with two `KeyBinding::new(keys, action, context)`s; the keys are written `\"alt-up\"` and `\"alt-down\"`."
+[[hints]]
+text = "`cx.bind_keys([KeyBinding::new(\"alt-up\", MoveUp, Some(\"ArrangeList\")), KeyBinding::new(\"alt-down\", MoveDown, Some(\"ArrangeList\"))]);`"
+
+[[points]]
+after = 2
+prompt = "What does Some(\"ArrangeList\") in a KeyBinding do?"
+pick = ["names the action", "the keys only act inside an element with that key_context", "opens the Arrange page", "nothing on Windows"]
+answer = 1

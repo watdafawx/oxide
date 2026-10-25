@@ -1,0 +1,25 @@
+title = "Chest behind a shared handle"
+summary = "Count swings and fill a chest through a shared reference, with RefCell."
+
+[[objectives]]
+test = "swing_counts_through_shared_ref"
+label = "Inserter::swing(&self) adds 1 to the swing count, though self is not mut"
+[[objectives]]
+test = "put_in_chest_pushes_item"
+label = "put_in_chest(&RefCell<Vec<String>>, item) pushes the item into the chest"
+
+[[hints]]
+text = "Both changes go through `borrow_mut()`. A number needs `*` in front to be changed; a method like `push` does not."
+[[hints]]
+text = "`*self.swings.borrow_mut() += 1;` and `chest.borrow_mut().push(item.to_string());`"
+
+[[points]]
+after = 2
+prompt = "Which method gives write access to a RefCell?"
+pick = ["borrow", "borrow_mut", "try_borrow", "unwrap"]
+answer = 1
+[[points]]
+after = 3
+prompt = "Reach the number inside the RefMut."
+code = "___self.swings.borrow_mut() += 1;"
+blank = "*"
