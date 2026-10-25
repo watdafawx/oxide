@@ -1,0 +1,29 @@
+title = "A click in egui"
+summary = "A CPU button that sorts the list: in egui, the click is an if."
+kind = "exercise"
+xp = 30
+minutes = 5
+tags = ["egui", "kittest", "immediate-mode"]
+
+[[objectives]]
+test = "clicking_cpu_puts_busiest_first"
+label = "clicking CPU sorts game.exe (40%) above chrome.exe (12.5%) and explorer.exe (0.5%)"
+
+[[hints]]
+text = "Replace the TODO at the top of `TaskList::ui` with a button and an `if`."
+[[hints]]
+text = "`ui.button(\"CPU\")` draws it; `.clicked()` says whether it was clicked."
+[[hints]]
+text = "`if ui.button(\"CPU\").clicked() { self.sort_by_cpu(); }`"
+
+[[points]]
+after = 2
+prompt = "What does the button call hand back?"
+pick = ["what happened to the button", "a listener", "a new button", "nothing"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Ask the button whether it was clicked."
+code = "if ui.button(\"CPU\").___ {"
+blank = "clicked()"

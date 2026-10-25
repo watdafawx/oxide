@@ -1,0 +1,16 @@
+title = "The numbers"
+summary = "The same task manager built four ways and measured on one PC: memory, CPU at rest, first window, size."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["ui", "performance"]
+
+[[quiz]]
+question = "The egui build set aside about 480 MB of private memory, then under 130 MB after one change. What changed?"
+choices = ["Its renderer: wgpu became glow", "The table started drawing only the rows you can see", "The release build turned on stripping of debug symbols"]
+answer = 0
+
+[[quiz]]
+question = "With no window at all, just reading 330 processes once a second cost about 8% of one core. What does that tell you?"
+choices = ["egui and GPUI spend most of their CPU on drawing", "Reading processes is most of the cost", "The list must be read 60 times a second to look smooth"]
+answer = 1

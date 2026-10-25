@@ -1,0 +1,16 @@
+title = "The web route: Tauri"
+summary = "A web page for the screen, Rust behind it: what that buys and what it costs a task manager."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["tauri", "web", "ui"]
+
+[[quiz]]
+question = "In a Tauri task manager, how does the process list get from Rust to the screen?"
+choices = ["A Rust command answers with JSON", "Rust paints the rows straight into the page's pixels", "The page reads the Windows process list by itself"]
+answer = 0
+
+[[quiz]]
+question = "You write the task manager's page in Leptos and ship it with Tauri. What shows the page on screen?"
+choices = ["GPUI, through the graphics card", "The web view, WebView2", "Node.js, bundled into the exe"]
+answer = 1

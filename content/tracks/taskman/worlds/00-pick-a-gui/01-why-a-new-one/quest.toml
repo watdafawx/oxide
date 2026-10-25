@@ -1,0 +1,17 @@
+title = "A faster task manager"
+summary = "What you will build, and the first choice it needs: how to draw the window."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["ui", "egui", "gpui", "tauri"]
+requires = ["rust/05-traits/21-boss-shape-renderer"]
+
+[[quiz]]
+question = "What does every GUI library in this world have to give the task manager?"
+choices = ["300 rows, updated every second, light on CPU", "A separate web page for every single process", "Admin rights to read the whole process list"]
+answer = 0
+
+[[quiz]]
+question = "Which of the three routes draws the window with HTML and CSS?"
+choices = ["egui", "GPUI", "Tauri"]
+answer = 2

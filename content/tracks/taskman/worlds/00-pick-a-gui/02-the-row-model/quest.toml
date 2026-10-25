@@ -1,0 +1,32 @@
+title = "The row, without a GUI"
+summary = "Turn a process into the three texts its row shows. No GUI library yet."
+kind = "exercise"
+xp = 25
+minutes = 4
+tags = ["ui", "view-model"]
+
+[[objectives]]
+test = "cpu_text_has_one_decimal"
+label = "a process at 12.46% CPU shows 12.5%"
+[[objectives]]
+test = "memory_text_is_whole_megabytes"
+label = "536,870,912 bytes shows 512 MB"
+
+[[hints]]
+text = "Both go in `ProcessRow::from_process`. The name is done; `cpu` and `memory` are the TODOs."
+[[hints]]
+text = "CPU: `format!(\"{:.1}%\", process.cpu)`. Memory: divide `process.memory_bytes` by `1_048_576` inside `format!`."
+[[hints]]
+text = "`memory: format!(\"{} MB\", process.memory_bytes / 1_048_576),`"
+
+[[points]]
+after = 3
+prompt = "Which format spec gives one decimal place?"
+pick = ["{:.1}", "{:1}", "{.1:}", "{1.}"]
+answer = 0
+
+[[points]]
+after = 4
+prompt = "What does 536_870_912 / 1_048_576 give for a u64?"
+pick = ["512", "512.0", "536", "0.5"]
+answer = 0

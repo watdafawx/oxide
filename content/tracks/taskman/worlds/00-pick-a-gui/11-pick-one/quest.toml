@@ -1,0 +1,16 @@
+title = "Pick one"
+summary = "When each route wins, and why this task manager goes on in GPUI."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["ui", "egui", "gpui", "tauri"]
+
+[[quiz]]
+question = "You need a debug panel inside your game by tonight: sliders, a few numbers, a button. Which route fits best?"
+choices = ["GPUI, for its built-in keyboard actions", "egui, one function and ready widgets", "Tauri, so a designer can style it in CSS"]
+answer = 1
+
+[[quiz]]
+question = "Why does this track build the rest of the task manager in GPUI?"
+choices = ["It showed its first window the fastest", "Keyboard actions built in, and the least memory", "It has the most ready-made widgets"]
+answer = 1

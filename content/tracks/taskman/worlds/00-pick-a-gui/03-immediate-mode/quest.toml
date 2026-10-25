@@ -1,0 +1,16 @@
+title = "egui: draw it all, every time"
+summary = "How egui works: one function draws the window, clicks come back as answers."
+kind = "read"
+xp = 15
+minutes = 3
+tags = ["egui", "immediate-mode"]
+
+[[quiz]]
+question = "In egui, how does your code find out a button was clicked?"
+choices = ["It registers a listener that egui calls later", "`.clicked()` on the button's answer", "It reads a click event from an event channel"]
+answer = 1
+
+[[quiz]]
+question = "The task manager's numbers change once a second and nobody touches the mouse. How often does egui run your drawing function?"
+choices = ["About once a second", "60 times a second, whether anything changed or not", "Only when the window is resized or moved"]
+answer = 0

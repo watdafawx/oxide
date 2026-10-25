@@ -1,0 +1,14 @@
+[package]
+name = "egui_glow_tm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = { version = "0.37", default-features = false, features = ["accesskit", "clipboard", "default_fonts", "glow", "system_fonts"] }
+egui_extras = "0.37"
+sysinfo = "0.39.6"
+
+[profile.release]
+strip = true
+
+[workspace]

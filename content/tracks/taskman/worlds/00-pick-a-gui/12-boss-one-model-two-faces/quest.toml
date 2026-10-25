@@ -1,0 +1,47 @@
+title = "Boss: one model, two faces"
+summary = "Sort by any column and search by name, once, in a model with no GUI; then draw it in egui and in GPUI."
+kind = "boss"
+xp = 350
+minutes = 45
+tags = ["egui", "gpui", "view-model", "boss"]
+
+[[objectives]]
+test = "memory_sort_is_biggest_first"
+label = "model: SortBy::Memory puts game.exe (3072 MB) first"
+[[objectives]]
+test = "name_sort_ignores_case"
+label = "model: SortBy::Name sorts A to Z in any case (Zoom.exe last)"
+[[objectives]]
+test = "filter_matches_any_case"
+label = "model: filter CHROME keeps chrome.exe and Chrome Helper.exe"
+[[objectives]]
+test = "egui_memory_button_sorts_by_memory"
+label = "egui: the Memory button sorts the drawn rows by memory"
+[[objectives]]
+test = "egui_shows_only_matching_rows"
+label = "egui: with filter chrome, game.exe is not drawn"
+[[objectives]]
+test = "gpui_memory_header_sorts_by_memory"
+label = "GPUI: clicking the Memory header sorts by memory"
+[[objectives]]
+test = "gpui_draws_one_row_per_visible_process"
+label = "GPUI: with filter chrome, exactly row-0 and row-1 are drawn"
+
+[[hints]]
+text = "Work top to bottom, `model.rs` first. Each TODO there is one line: two `sort_by_key` calls and one `.filter(..)` before `.collect()`."
+[[hints]]
+text = "Start in `model.rs`. `Memory` sorts by a key like `Name` does, flipped so the biggest comes first: `std::cmp::Reverse(..)` around the key flips the order. `shown.sort_by_key(|p| std::cmp::Reverse(p.memory_bytes))`."
+[[hints]]
+text = "`Name`: `shown.sort_by_key(|p| p.name.to_lowercase())`. The filter: lowercase `self.filter` once, then `.filter(|p| p.name.to_lowercase().contains(&needle))` before `.collect()`."
+[[hints]]
+text = "egui: copy the `CPU` button's `if` twice for `Memory` and `Name`, and loop over `list.visible()`, calling `row_ui(ui, &row)`."
+[[hints]]
+text = """GPUI: `.child(header("Memory", SortBy::Memory, cx))` and the same for `Name`. Then the rows:
+
+```rust
+let rows = self.list.visible().into_iter().enumerate().map(|(i, row)| {
+    div().debug_selector(move || format!("row-{i}")).flex().gap_4()
+        .child(row.name).child(row.cpu).child(row.memory)
+});
+div().flex().flex_col().child(headers).children(rows)
+```"""

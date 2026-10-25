@@ -1,0 +1,4 @@
+title = "Task manager app"
+blurb = "Build a task manager that opens instantly and stays light, in Rust: pick the GUI, list every process, sort, search, end tasks."
+runner = "cargo"
+parent = "rust"

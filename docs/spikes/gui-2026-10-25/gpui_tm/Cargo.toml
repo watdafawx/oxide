@@ -1,0 +1,13 @@
+[package]
+name = "gpui_tm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gpui = "=0.2.2"
+sysinfo = "0.39.6"
+
+[profile.release]
+strip = true
+
+[workspace]

@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body{background:#1e1e1e;color:#ddd;font:13px system-ui;margin:0}
+#wrap{height:100vh;overflow:auto}
+table{border-collapse:collapse;width:100%}td,th{padding:0 8px;height:18px;text-align:left;white-space:nowrap}
+</style></head><body><div id="wrap"><div id="count"></div><table><thead><tr><th>Name</th><th>PID</th><th>CPU</th><th>Memory</th></tr></thead><tbody id="rows"></tbody></table></div>
+<script>
+async function tick() {
+  const rows = await window.__TAURI__.core.invoke('processes');
+  document.getElementById('count').textContent = rows.length + ' processes';
+  document.getElementById('rows').innerHTML = rows.map(r =>
+    `<tr><td>${r.name}</td><td>${r.pid}</td><td>${r.cpu.toFixed(1)}%</td><td>${Math.floor(r.mem/1048576)} MB</td></tr>`).join('');
+}
+tick(); setInterval(tick, 1000);
+</script></body></html>

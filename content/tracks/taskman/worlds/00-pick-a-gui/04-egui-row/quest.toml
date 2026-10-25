@@ -1,0 +1,32 @@
+title = "The row in egui"
+summary = "Draw one process row with egui: three labels side by side, found by a test."
+kind = "exercise"
+xp = 40
+minutes = 8
+tags = ["egui", "kittest"]
+
+[[objectives]]
+test = "row_shows_name_cpu_and_memory"
+label = "the row shows chrome.exe, 12.5% and 512 MB"
+[[objectives]]
+test = "cells_sit_side_by_side"
+label = "the three labels sit on one line, left to right"
+
+[[hints]]
+text = "Everything goes inside the `ui.horizontal(|ui| { .. })` closure in `row_ui`, after the name label."
+[[hints]]
+text = "One `ui.label(..)` per text, in order: name, CPU, memory."
+[[hints]]
+text = "`ui.label(row.cpu.as_str());` then `ui.label(row.memory.as_str());`"
+
+[[points]]
+after = 2
+prompt = "Which call puts the widgets inside it on one line?"
+pick = ["ui.horizontal", "ui.label", "ui.button", "ui.run"]
+answer = 0
+
+[[points]]
+after = 3
+prompt = "Lend the row's name to the label as a &str."
+code = "ui.label(row.name.___);"
+blank = "as_str()"

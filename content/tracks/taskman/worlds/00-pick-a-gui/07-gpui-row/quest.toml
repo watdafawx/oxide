@@ -1,0 +1,32 @@
+title = "The row in GPUI"
+summary = "Draw the same process row as a GPUI view: three boxes, side by side."
+kind = "exercise"
+xp = 45
+minutes = 8
+tags = ["gpui", "views"]
+
+[[objectives]]
+test = "row_draws_all_three_cells"
+label = "boxes named cell-name, cell-cpu and cell-memory are drawn"
+[[objectives]]
+test = "cells_sit_left_to_right"
+label = "the three cells sit on one line, left to right"
+
+[[hints]]
+text = "The cells go after the name cell in `render`, each one a `div()` with a `debug_selector` and a `.child(..)`."
+[[hints]]
+text = "`.flex().gap_4()` goes right after the outer `div()`."
+[[hints]]
+text = "`.child(div().debug_selector(|| \"cell-cpu\".into()).child(self.row.cpu.clone()))`, and the same with `cell-memory` and `self.row.memory`."
+
+[[points]]
+after = 3
+prompt = "Name the box so a test can find it."
+code = "div().___(|| \"cell-cpu\".into())"
+blank = "debug_selector"
+
+[[points]]
+after = 4
+prompt = "Which call puts a box's children side by side?"
+pick = [".flex()", ".child()", ".gap_4()", ".id()"]
+answer = 0

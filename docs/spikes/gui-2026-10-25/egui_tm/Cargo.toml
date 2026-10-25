@@ -1,0 +1,14 @@
+[package]
+name = "egui_tm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = "0.37"
+egui_extras = "0.37"
+sysinfo = "0.39.6"
+
+[profile.release]
+strip = true
+
+[workspace]

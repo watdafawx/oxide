@@ -1,0 +1,16 @@
+title = "GPUI: views that GPUI keeps"
+summary = "How GPUI works: a view is a struct GPUI keeps, it describes itself, and it says when it changed."
+kind = "read"
+xp = 15
+minutes = 4
+tags = ["gpui"]
+
+[[quiz]]
+question = "A GPUI view changed one of its fields. What makes the window show the new value?"
+choices = ["Nothing: GPUI redraws 60 times a second anyway", "The view calls `cx.notify()`", "The view repaints only its changed pixels itself"]
+answer = 1
+
+[[quiz]]
+question = "In GPUI, how does a click reach your code?"
+choices = ["`.clicked()` returns true in the next frame", "A closure given to `.on_click(..)`", "The view polls the mouse position every frame"]
+answer = 1

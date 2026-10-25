@@ -1,0 +1,14 @@
+egui_tm.exe: window after 444 ms, processes 1, working set 242 MB, private 478 MB, idle CPU 8.13% of one core over 30s
+egui_glow_tm.exe: window after 332 ms, processes 1, working set 139 MB, private 128 MB, idle CPU 6.20% of one core over 30s
+gpui_tm.exe: window after 884 ms, processes 1, working set 62 MB, private 76 MB, idle CPU 9.58% of one core over 30s
+tauri_tm.exe: window after 334 ms, processes 7, working set 440 MB, private 253 MB, idle CPU 17.71% of one core over 30s
+egui_tm.exe: window after 229 ms, processes 1, working set 242 MB, private 478 MB, idle CPU 8.07% of one core over 30s
+egui_glow_tm.exe: window after 247 ms, processes 1, working set 79 MB, private 74 MB, idle CPU 5.57% of one core over 30s
+gpui_tm.exe: window after 712 ms, processes 1, working set 64 MB, private 75 MB, idle CPU 10.68% of one core over 30s
+tauri_tm.exe: window after 245 ms, processes 7, working set 433 MB, private 242 MB, idle CPU 17.08% of one core over 30s
+baseline_tm.exe: window after 15009 ms, processes 1, working set 11 MB, private 2 MB, idle CPU 7.76% of one core over 30s
+baseline_tm.exe: window after 15035 ms, processes 1, working set 10 MB, private 2 MB, idle CPU 7.55% of one core over 30s
+egui_tm.exe: window after 354 ms, processes 1, working set 241 MB, private 478 MB, idle CPU 9.58% of one core over 30s
+egui_glow_tm.exe: window after 226 ms, processes 1, working set 79 MB, private 74 MB, idle CPU 5.94% of one core over 30s
+gpui_tm.exe: window after 705 ms, processes 1, working set 61 MB, private 74 MB, idle CPU 9.43% of one core over 30s
+tauri_tm.exe: window after 209 ms, processes 7, working set 428 MB, private 242 MB, idle CPU 17.60% of one core over 30s

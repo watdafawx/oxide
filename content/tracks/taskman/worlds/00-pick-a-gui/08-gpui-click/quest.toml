@@ -1,0 +1,34 @@
+title = "A click in GPUI"
+summary = "The CPU sort the GPUI way: a click callback, and cx.notify() whenever the view changes."
+kind = "exercise"
+xp = 35
+minutes = 7
+tags = ["gpui", "events"]
+
+[[objectives]]
+test = "clicking_cpu_puts_busiest_first"
+label = "clicking the CPU header sorts game.exe (40%) to the top"
+[[objectives]]
+test = "new_numbers_redraw_the_list"
+label = "set_processes asks GPUI to draw the list again"
+
+[[hints]]
+text = "Add `.on_click(..)` to the `header` box in `render`. The TODO marks the spot."
+[[hints]]
+text = "The closure is `cx.listener(|list, _, _, cx| { .. })`; inside, sort and then notify."
+[[hints]]
+text = "`.on_click(cx.listener(|list, _, _, cx| { list.sort_by_cpu(); cx.notify(); }))`"
+[[hints]]
+text = "In `set_processes`, after the new list is stored: `cx.notify();`"
+
+[[points]]
+after = 3
+prompt = "Which call tells GPUI the view changed?"
+pick = ["cx.notify()", "cx.listener()", "on_click", "render"]
+answer = 0
+
+[[points]]
+after = 2
+prompt = "Wrap the closure so it gets the view back."
+code = ".on_click(cx.___(|list, _, _, cx| { .. }))"
+blank = "listener"
